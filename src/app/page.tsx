@@ -1,28 +1,45 @@
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--background)] font-[family-name:var(--font-playfair)]">
+      {/* Skip to main content - Accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-[var(--primary)] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+      >
+        Aller au contenu principal
+      </a>
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--warm-white)]/95 backdrop-blur-sm shadow-sm">
+      <nav 
+        className="fixed top-0 left-0 right-0 z-50 bg-[var(--warm-white)]/95 backdrop-blur-sm shadow-sm"
+        role="navigation"
+        aria-label="Navigation principale"
+      >
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-[var(--primary)]">
+          <a 
+            href="#" 
+            className="text-2xl font-bold text-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 rounded-lg"
+            aria-label="Gecko Cabane - Accueil"
+          >
             🦎 Gecko Cabane
           </a>
-          <div className="hidden md:flex gap-8 text-[var(--warm-gray)] font-[family-name:var(--font-lora)]">
-            <a href="#about" className="hover:text-[var(--primary)] transition-colors">À Propos</a>
-            <a href="#cuisine" className="hover:text-[var(--primary)] transition-colors">Cuisine</a>
-            <a href="#hours" className="hover:text-[var(--primary)] transition-colors">Horaires</a>
-            <a href="#contact" className="hover:text-[var(--primary)] transition-colors">Contact</a>
+          <div className="hidden md:flex gap-8 text-[var(--warm-gray)] font-[family-name:var(--font-lora)]" role="menubar">
+            <a href="#about" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">À Propos</a>
+            <a href="#cuisine" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Cuisine</a>
+            <a href="#hours" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Horaires</a>
+            <a href="#contact" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Contact</a>
           </div>
           <a 
             href="#contact" 
-            className="bg-[var(--primary)] text-white px-5 py-2 rounded-full hover:bg-[var(--primary-dark)] transition-colors font-[family-name:var(--font-lora)] text-sm"
+            className="bg-[var(--primary)] text-white px-5 py-2 rounded-full hover:bg-[var(--primary-dark)] transition-colors font-[family-name:var(--font-lora)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
+            aria-label="Réserver une table"
           >
             Réserver
           </a>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      <main id="main-content">
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--jungle-dark)] via-[var(--primary)] to-[var(--accent)] pt-20 overflow-hidden">
         {/* Jungle decorations */}
         <div className="absolute inset-0 overflow-hidden">
@@ -55,7 +72,8 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="#cuisine" 
-              className="bg-[var(--warm-gold)] text-white px-8 py-4 rounded-full hover:bg-[var(--bamboo)] transition-all hover:scale-105 font-[family-name:var(--font-lora)] shadow-lg"
+              className="bg-[var(--warm-gold)] text-white px-8 py-4 rounded-full hover:bg-[var(--bamboo)] transition-all hover:scale-105 font-[family-name:var(--font-lora)] shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--primary)]"
+              aria-label="Découvrir notre carte et nos spécialités"
             >
               🍽️ Découvrir notre cuisine
             </a>
@@ -334,7 +352,8 @@ export default function Home() {
                 href="https://maps.google.com/?q=1/36-37+Soi+Ruamjit+Maharat+Road+Krabi+Town+81000+Thailand"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-8 bg-white text-[var(--primary)] px-6 py-3 rounded-full font-semibold hover:bg-[var(--accent-light)] transition-colors"
+                className="inline-block mt-8 bg-white text-[var(--primary)] px-6 py-3 rounded-full font-semibold hover:bg-[var(--accent-light)] transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+                aria-label="Voir notre emplacement sur Google Maps (ouvre dans un nouvel onglet)"
               >
                 Voir sur Google Maps →
               </a>
@@ -343,8 +362,14 @@ export default function Home() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white py-12 px-6 relative overflow-hidden">
+      <footer 
+        className="bg-gradient-to-br from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white py-12 px-6 relative overflow-hidden"
+        role="contentinfo"
+        aria-label="Informations du restaurant"
+      >
         {/* Decorative jungle elements */}
         <div className="absolute top-0 left-0 right-0 text-4xl opacity-10 flex justify-center gap-4">
           🌿🍃🌴🍃🌿🍃🌴🍃🌿
