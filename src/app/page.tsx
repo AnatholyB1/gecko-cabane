@@ -1,3 +1,7 @@
+import HoursDisplay from '@/components/HoursDisplay'
+import AnnouncementBanner from '@/components/AnnouncementBanner'
+import MenuDisplay from '@/components/MenuDisplay'
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--background)] font-[family-name:var(--font-playfair)]">
@@ -25,7 +29,7 @@ export default function Home() {
           </a>
           <div className="hidden md:flex gap-8 text-[var(--warm-gray)] font-[family-name:var(--font-lora)]" role="menubar">
             <a href="#about" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">À Propos</a>
-            <a href="#cuisine" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Cuisine</a>
+            <a href="#menu" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Menu</a>
             <a href="#hours" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Horaires</a>
             <a href="#contact" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Contact</a>
           </div>
@@ -38,6 +42,11 @@ export default function Home() {
           </a>
         </div>
       </nav>
+
+      {/* Announcement Banner - below nav */}
+      <div className="fixed top-[72px] left-0 right-0 z-40">
+        <AnnouncementBanner />
+      </div>
 
       <main id="main-content">
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--jungle-dark)] via-[var(--primary)] to-[var(--accent)] pt-20 overflow-hidden">
@@ -191,6 +200,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Menu Section */}
+      <section id="menu" className="py-24 px-6 bg-[var(--warm-white)] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-10 right-10 text-8xl opacity-10">🍽️</div>
+        <div className="absolute bottom-10 left-10 text-8xl opacity-10">🌿</div>
+        
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] text-center mb-6">
+            📜 Notre Carte
+          </h2>
+          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
+          <p className="text-xl text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-12 max-w-2xl mx-auto text-center">
+            Découvrez nos créations culinaires, une fusion unique de saveurs françaises et thaïlandaises
+          </p>
+          
+          <MenuDisplay />
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-24 px-6 bg-gradient-to-br from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white relative overflow-hidden">
         {/* Jungle pattern overlay */}
@@ -242,41 +270,7 @@ export default function Home() {
           </h2>
           <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-12"></div>
           
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border-t-4 border-[var(--tropical)]">
-            <div className="grid gap-4">
-              {[
-                { day: "Lundi", hours: "11:00 - 23:00", open: true },
-                { day: "Mardi", hours: "Fermé", open: false },
-                { day: "Mercredi", hours: "11:00 - 23:00", open: true },
-                { day: "Jeudi", hours: "11:00 - 23:00", open: true },
-                { day: "Vendredi", hours: "11:00 - 23:00", open: true },
-                { day: "Samedi", hours: "11:00 - 23:00", open: true },
-                { day: "Dimanche", hours: "11:00 - 23:00", open: true },
-              ].map((item, i) => (
-                <div 
-                  key={i} 
-                  className={`flex justify-between items-center p-4 rounded-xl ${
-                    item.open 
-                      ? "bg-[var(--accent-light)]/50" 
-                      : "bg-red-50"
-                  }`}
-                >
-                  <span className="font-semibold text-[var(--primary-dark)]">{item.day}</span>
-                  <span className={`font-[family-name:var(--font-lora)] ${
-                    item.open ? "text-[var(--warm-green)]" : "text-red-500"
-                  }`}>
-                    {item.hours}
-                  </span>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-8 p-4 bg-[var(--warm-gold)]/20 rounded-xl text-center">
-              <p className="text-[var(--primary-dark)] font-[family-name:var(--font-lora)]">
-                ⏰ Dernière commande en cuisine : <strong>22h00</strong>
-              </p>
-            </div>
-          </div>
+          <HoursDisplay />
         </div>
       </section>
 
