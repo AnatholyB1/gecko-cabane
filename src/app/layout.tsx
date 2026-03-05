@@ -21,6 +21,12 @@ export const metadata: Metadata = {
     template: "%s | Gecko Cabane Restaurant",
   },
   description: "Restaurant gastronomique Franco-Thaï à Krabi, Thaïlande. Chef Jariya vous accueille dans un cadre intime de 40 places pour une cuisine fusion française et thaïlandaise. Options végétariennes et sans gluten disponibles.",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   keywords: [
     "restaurant Krabi",
     "cuisine franco-thaï",
