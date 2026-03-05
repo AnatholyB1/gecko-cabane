@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Lora } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -143,13 +144,15 @@ const jsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  
   return (
-    <html lang="fr">
+    <html lang={locale}>
       <head>
         <script
           type="application/ld+json"

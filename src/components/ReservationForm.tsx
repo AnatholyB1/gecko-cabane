@@ -1,22 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-
-const OCCASIONS = [
-  { value: '', label: 'Sélectionnez (optionnel)' },
-  { value: 'Anniversaire', label: '🎂 Anniversaire' },
-  { value: 'Dîner romantique', label: '💕 Dîner romantique' },
-  { value: 'Repas d\'affaires', label: '💼 Repas d\'affaires' },
-  { value: 'Célébration', label: '🎉 Célébration' },
-  { value: 'Autre', label: '✨ Autre' }
-]
-
-const TIME_SLOTS = [
-  '11:30', '12:00', '12:30', '13:00', '13:30',
-  '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30'
-]
+import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 export default function ReservationForm() {
+  const t = useTranslations('reservationForm')
+  
+  const OCCASIONS = [
+    { value: '', label: t('selectOptional') },
+    { value: 'Anniversaire', label: t('birthday') },
+    { value: 'Dîner romantique', label: t('romanticDinner') },
+    { value: 'Repas d\'affaires', label: t('businessMeal') },
+    { value: 'Célébration', label: t('celebration') },
+    { value: 'Autre', label: t('other') }
+  ]
+
+  const TIME_SLOTS = [
+    '11:30', '12:00', '12:30', '13:00', '13:30',
+    '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30'
+  ]
+
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -74,19 +77,19 @@ export default function ReservationForm() {
       <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
         <div className="text-6xl mb-4">✅</div>
         <h3 className="text-2xl font-bold text-[var(--primary-dark)] mb-4">
-          Demande envoyée !
+          {t('successTitle')}
         </h3>
         <p className="text-[var(--warm-gray)] mb-6">
-          Merci pour votre demande de réservation. Nous vous contacterons rapidement pour confirmer.
+          {t('successMessage')}
         </p>
         <p className="text-sm text-[var(--primary)]">
-          📞 Pour les groupes de plus de 10 personnes, veuillez nous appeler directement.
+          {t('successNote')}
         </p>
         <button
           onClick={() => setSuccess(false)}
           className="mt-6 bg-[var(--primary)] text-white px-6 py-2 rounded-full hover:bg-[var(--primary-dark)] transition-colors"
         >
-          Nouvelle réservation
+          {t('newReservation')}
         </button>
       </div>
     )
@@ -95,7 +98,7 @@ export default function ReservationForm() {
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-8">
       <h3 className="text-2xl font-bold text-[var(--primary-dark)] mb-6 text-center">
-        🦎 Réserver une table
+        🦎 {t('title')}
       </h3>
       
       {error && (
@@ -108,7 +111,7 @@ export default function ReservationForm() {
         {/* Name */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Nom complet *
+            {t('fullName')}
           </label>
           <input
             type="text"
@@ -123,7 +126,7 @@ export default function ReservationForm() {
         {/* Phone */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Téléphone *
+            {t('phone')}
           </label>
           <input
             type="tel"
@@ -138,7 +141,7 @@ export default function ReservationForm() {
         {/* Email */}
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Email (optionnel)
+            {t('email')}
           </label>
           <input
             type="email"
@@ -152,7 +155,7 @@ export default function ReservationForm() {
         {/* Date */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Date *
+            {t('date')}
           </label>
           <input
             type="date"
@@ -167,7 +170,7 @@ export default function ReservationForm() {
         {/* Time */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Heure *
+            {t('time')}
           </label>
           <select
             required
@@ -175,13 +178,13 @@ export default function ReservationForm() {
             onChange={(e) => setForm(f => ({ ...f, reservation_time: e.target.value }))}
             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
           >
-            <option value="">Choisir une heure</option>
-            <optgroup label="Déjeuner">
+            <option value="">{t('selectTime')}</option>
+            <optgroup label={t('lunch')}>
               {TIME_SLOTS.filter(t => t < '15:00').map(time => (
                 <option key={time} value={time}>{time}</option>
               ))}
             </optgroup>
-            <optgroup label="Dîner">
+            <optgroup label={t('dinnerLabel')}>
               {TIME_SLOTS.filter(t => t >= '15:00').map(time => (
                 <option key={time} value={time}>{time}</option>
               ))}
@@ -192,7 +195,7 @@ export default function ReservationForm() {
         {/* Party Size */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Nombre de personnes *
+            {t('partySize')}
           </label>
           <div className="flex items-center gap-3">
             <button
@@ -215,7 +218,7 @@ export default function ReservationForm() {
           </div>
           {form.party_size > 10 && (
             <p className="text-amber-600 text-sm mt-2">
-              ⚠️ Pour les grands groupes, nous vous contacterons pour confirmer la disponibilité.
+              {t('largeGroupWarning')}
             </p>
           )}
         </div>
@@ -223,7 +226,7 @@ export default function ReservationForm() {
         {/* Occasion */}
         <div>
           <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
-            Occasion
+            {t('occasion')}
           </label>
           <select
             value={form.occasion}
@@ -246,15 +249,15 @@ export default function ReservationForm() {
         {loading ? (
           <span className="flex items-center justify-center gap-2">
             <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></span>
-            Envoi en cours...
+            {t('sending')}
           </span>
         ) : (
-          '📅 Envoyer ma demande de réservation'
+          t('submit')
         )}
       </button>
 
       <p className="text-center text-sm text-[var(--warm-gray)] mt-4">
-        * Champs obligatoires. La réservation sera confirmée par téléphone.
+        {t('required')}
       </p>
     </form>
   )

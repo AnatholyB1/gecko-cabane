@@ -1,11 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
 import type { OpeningHours, SpecialHours } from '@/types/database'
 
-const DAY_ORDER = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
-
 export default function HoursDisplay() {
+  const t = useTranslations('hours')
+  const locale = useLocale()
+  
+  const DAY_NAMES = [
+    t('monday'), t('tuesday'), t('wednesday'), 
+    t('thursday'), t('friday'), t('saturday'), t('sunday')
+  ]
+
   const [hours, setHours] = useState<OpeningHours[]>([])
   const [specialHours, setSpecialHours] = useState<SpecialHours[]>([])
   const [loading, setLoading] = useState(true)
@@ -57,6 +64,13 @@ export default function HoursDisplay() {
     // Convert "HH:MM:SS" to "HH:MM"
     return time.slice(0, 5)
   }
+  
+  function getDayName(dayOfWeek: number): string {
+    // dayOfWeek: 0 = Sunday, 1 = Monday, etc.
+    // DAY_NAMES: 0 = Monday, 1 = Tuesday, etc.
+    if (dayOfWeek === 0) return DAY_NAMES[6] // Sunday
+    return DAY_NAMES[dayOfWeek - 1]
+  }
 
   if (loading) {
     return (
@@ -72,13 +86,13 @@ export default function HoursDisplay() {
 
   // Fallback to static hours if database is empty
   const displayHours = hours.length > 0 ? hours : [
-    { day_of_week: 1, day_name: 'Lundi', is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 2, day_name: 'Mardi', is_open: false, open_time: null, close_time: null },
-    { day_of_week: 3, day_name: 'Mercredi', is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 4, day_name: 'Jeudi', is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 5, day_name: 'Vendredi', is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 6, day_name: 'Samedi', is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 0, day_name: 'Dimanche', is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 1, day_name: DAY_NAMES[0], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 2, day_name: DAY_NAMES[1], is_open: false, open_time: null, close_time: null },
+    { day_of_week: 3, day_name: DAY_NAMES[2], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 4, day_name: DAY_NAMES[3], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 5, day_name: DAY_NAMES[4], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 6, day_name: DAY_NAMES[5], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 0, day_name: DAY_NAMES[6], is_open: true, open_time: '11:00', close_time: '23:00' },
   ] as OpeningHours[]
 
   return (
@@ -94,14 +108,14 @@ export default function HoursDisplay() {
             }`}
           >
             <span className="font-semibold text-[var(--primary-dark)]">
-              {item.day_name || DAY_ORDER[item.day_of_week === 0 ? 6 : item.day_of_week - 1]}
+              {item.day_name || getDayName(item.day_of_week)}
             </span>
             <span className={`font-[family-name:var(--font-lora)] ${
               item.is_open ? "text-[var(--warm-green)]" : "text-red-500"
             }`}>
               {item.is_open 
                 ? `${formatTime(item.open_time)} - ${formatTime(item.close_time)}` 
-                : 'Fermé'}
+                : t('closed')}
             </span>
           </div>
         ))}
@@ -111,7 +125,7 @@ export default function HoursDisplay() {
       {specialHours.length > 0 && (
         <div className="mt-8 p-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl">
           <h4 className="font-bold text-xl text-amber-800 mb-4 flex items-center gap-2">
-            <span>📅</span> Horaires spéciaux à venir
+            <span>📅</span> {t('specialHours')}
           </h4>
           <div className="space-y-4">
             {specialHours.map((sh) => (
@@ -126,7 +140,7 @@ export default function HoursDisplay() {
                 <div className="flex flex-wrap justify-between items-start gap-2">
                   <div>
                     <p className="font-semibold text-[var(--primary-dark)]">
-                      {new Date(sh.date).toLocaleDateString('fr-FR', { 
+                      {new Date(sh.date).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', { 
                         weekday: 'long', 
                         day: 'numeric', 
                         month: 'long',
@@ -146,7 +160,7 @@ export default function HoursDisplay() {
                   }`}>
                     {sh.is_open 
                       ? `${formatTime(sh.open_time)} - ${formatTime(sh.close_time)}` 
-                      : 'Fermé'}
+                      : t('closed')}
                   </span>
                 </div>
                 {sh.note && (
@@ -162,7 +176,7 @@ export default function HoursDisplay() {
       
       <div className="mt-8 p-4 bg-[var(--warm-gold)]/20 rounded-xl text-center">
         <p className="text-[var(--primary-dark)] font-[family-name:var(--font-lora)]">
-          ⏰ Dernière commande en cuisine : <strong>22h00</strong>
+          ⏰ {t('lastOrder')} : <strong>22h00</strong>
         </p>
       </div>
     </div>
