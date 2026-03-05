@@ -135,3 +135,34 @@ export interface ApiResponse<T> {
   data?: T
   error?: string
 }
+
+// Reservation types
+export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+
+export interface Reservation {
+  id: number
+  customer_name: string
+  customer_email: string | null
+  customer_phone: string
+  reservation_date: string // Format: "YYYY-MM-DD"
+  reservation_time: string // Format: "HH:MM"
+  party_size: number
+  occasion: string | null
+  status: ReservationStatus
+  admin_notes: string | null
+  created_at: string
+  updated_at: string
+  confirmed_at: string | null
+  cancelled_at: string | null
+}
+
+export interface ReservationFormData {
+  customer_name: string
+  customer_email: string
+  customer_phone: string
+  reservation_date: string
+  reservation_time: string
+  party_size: number
+  occasion: string
+}
+

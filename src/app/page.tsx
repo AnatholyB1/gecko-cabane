@@ -1,6 +1,7 @@
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuDisplay from '@/components/MenuDisplay'
+import ReservationForm from '@/components/ReservationForm'
 
 export default function Home() {
   return (
@@ -31,10 +32,11 @@ export default function Home() {
             <a href="#about" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">À Propos</a>
             <a href="#menu" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Menu</a>
             <a href="#hours" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Horaires</a>
+            <a href="#reservation" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Réservation</a>
             <a href="#contact" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">Contact</a>
           </div>
           <a 
-            href="#contact" 
+            href="#reservation" 
             className="bg-[var(--primary)] text-white px-5 py-2 rounded-full hover:bg-[var(--primary-dark)] transition-colors font-[family-name:var(--font-lora)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
             aria-label="Réserver une table"
           >
@@ -271,6 +273,26 @@ export default function Home() {
           <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-12"></div>
           
           <HoursDisplay />
+        </div>
+      </section>
+
+      {/* Reservation Section */}
+      <section id="reservation" className="py-24 px-6 bg-gradient-to-br from-[var(--primary)] via-[var(--jungle-dark)] to-[var(--primary-dark)] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-10 left-10 text-8xl opacity-10">🌿</div>
+        <div className="absolute bottom-10 right-10 text-8xl opacity-10">🍃</div>
+        <div className="absolute top-1/2 left-1/4 text-6xl opacity-10">🦎</div>
+        
+        <div className="max-w-2xl mx-auto relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-6">
+            📅 Réservation
+          </h2>
+          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
+          <p className="text-center text-[var(--accent-light)] font-[family-name:var(--font-lora)] mb-10">
+            Réservez votre table pour vivre une expérience culinaire unique dans la jungle de Krabi
+          </p>
+          
+          <ReservationForm />
         </div>
       </section>
 

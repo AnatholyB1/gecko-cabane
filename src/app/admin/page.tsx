@@ -49,13 +49,12 @@ export default async function AdminPage() {
 
         {/* Dashboard Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--tropical)]">
+          <Link href="/admin/reservations" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--tropical)] hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">📅</div>
             <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Réservations</h3>
             <p className="text-[var(--warm-gray)] text-sm mb-4">Gérer les réservations du restaurant</p>
-            <span className="text-3xl font-bold text-[var(--tropical)]">0</span>
-            <span className="text-[var(--warm-gray)] ml-2">aujourd&apos;hui</span>
-          </div>
+            <span className="text-sm text-[var(--tropical)] font-medium">Gérer →</span>
+          </Link>
 
           <Link href="/admin/menu" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--warm-gold)] hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">🍽️</div>
@@ -83,10 +82,13 @@ export default async function AdminPage() {
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <h3 className="text-xl font-bold text-[var(--primary-dark)] mb-6">⚡ Actions rapides</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left">
-              <span className="text-2xl">➕</span>
-              <span className="text-[var(--primary-dark)] font-medium">Nouvelle réservation</span>
-            </button>
+            <Link 
+              href="/admin/reservations"
+              className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
+            >
+              <span className="text-2xl">📅</span>
+              <span className="text-[var(--primary-dark)] font-medium">Voir réservations</span>
+            </Link>
             <Link 
               href="/admin/menu"
               className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
