@@ -141,6 +141,14 @@
     "lastOrder": "Dernière commande en cuisine",
     "loading": "Chargement..."
   },
+  "social": {
+    "title": "Ils nous adorent",
+    "description": "Rejoignez notre communauté et découvrez pourquoi nos clients reviennent encore et encore",
+    "tripAdvisorText": "Découvrez les avis de nos clients sur TripAdvisor et partagez votre expérience",
+    "facebookText": "Suivez-nous pour les dernières nouvelles, événements spéciaux et photos de nos créations",
+    "readReviews": "Lire les avis",
+    "followUs": "Nous suivre"
+  },
   "language": {
     "fr": "Français",
     "en": "English",

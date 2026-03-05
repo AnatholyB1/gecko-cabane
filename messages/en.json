@@ -141,6 +141,14 @@
     "lastOrder": "Last kitchen order",
     "loading": "Loading..."
   },
+  "social": {
+    "title": "They Love Us",
+    "description": "Join our community and discover why our guests keep coming back for more",
+    "tripAdvisorText": "Read reviews from our guests on TripAdvisor and share your experience",
+    "facebookText": "Follow us for the latest news, special events and photos of our creations",
+    "readReviews": "Read reviews",
+    "followUs": "Follow us"
+  },
   "language": {
     "fr": "Français",
     "en": "English",
