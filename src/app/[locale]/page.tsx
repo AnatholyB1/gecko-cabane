@@ -281,6 +281,72 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Social & Reviews Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-[var(--background)] to-[var(--accent-light)] relative overflow-hidden">
+        <div className="absolute top-10 right-10 text-6xl opacity-10">🌿</div>
+        <div className="absolute bottom-10 left-10 text-6xl opacity-10">🍃</div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] mb-6">
+            ⭐ {t('social.title')}
+          </h2>
+          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
+          <p className="text-xl text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-12 max-w-2xl mx-auto">
+            {t('social.description')}
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* TripAdvisor */}
+            <a 
+              href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border-b-4 border-[#00af87]"
+            >
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="#00af87">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <span className="text-2xl font-bold text-[#00af87]">TripAdvisor</span>
+              </div>
+              <div className="flex justify-center gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-2xl">⭐</span>
+                ))}
+              </div>
+              <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-4">
+                {t('social.tripAdvisorText')}
+              </p>
+              <span className="inline-flex items-center gap-2 text-[#00af87] font-semibold group-hover:gap-3 transition-all">
+                {t('social.readReviews')} →
+              </span>
+            </a>
+
+            {/* Facebook */}
+            <a 
+              href="https://www.facebook.com/GeckoCabaneRestaurant/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border-b-4 border-[#1877f2]"
+            >
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="#1877f2">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span className="text-2xl font-bold text-[#1877f2]">Facebook</span>
+              </div>
+              <div className="text-4xl mb-4">👍</div>
+              <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-4">
+                {t('social.facebookText')}
+              </p>
+              <span className="inline-flex items-center gap-2 text-[#1877f2] font-semibold group-hover:gap-3 transition-all">
+                {t('social.followUs')} →
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Reservation Section */}
       <section id="reservation" className="py-24 px-6 bg-gradient-to-br from-[var(--primary)] via-[var(--jungle-dark)] to-[var(--primary-dark)] relative overflow-hidden">
         {/* Decorative elements */}
