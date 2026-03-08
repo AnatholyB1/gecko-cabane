@@ -71,8 +71,22 @@ async function handleSupabaseAuth(request: NextRequest, pathOverride?: string) {
     }
   )
 
-  // Get user session
-  const { data: { user } } = await supabase.auth.getUser()
+  // Get user session - validate with Supabase server
+  // If getUser() fails due to a network/server error (not a 401), fall back to
+  // getSession() to avoid false logouts caused by cold starts or transient failures.
+  let user = null
+  const { data: { user: validatedUser }, error: getUserError } = await supabase.auth.getUser()
+  if (validatedUser) {
+    user = validatedUser
+  } else if (getUserError) {
+    // Only treat as unauthenticated for explicit 401 (invalid/expired token with no refresh).
+    // For network errors or 5xx, fall back to the locally-stored session to prevent false logouts.
+    const isAuthFailure = 'status' in getUserError && (getUserError as { status: number }).status === 401
+    if (!isAuthFailure) {
+      const { data: { session } } = await supabase.auth.getSession()
+      user = session?.user ?? null
+    }
+  }
 
   const pathname = pathOverride || request.nextUrl.pathname
   
