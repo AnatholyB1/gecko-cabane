@@ -49,28 +49,28 @@ export default async function AdminPage() {
 
         {/* Dashboard Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Link href="/admin/reservations" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--tropical)] hover:shadow-xl transition-shadow">
+          <Link prefetch={false} href="/admin/reservations" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--tropical)] hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">📅</div>
             <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Réservations</h3>
             <p className="text-[var(--warm-gray)] text-sm mb-4">Gérer les réservations du restaurant</p>
             <span className="text-sm text-[var(--tropical)] font-medium">Gérer →</span>
           </Link>
 
-          <Link href="/admin/menu" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--warm-gold)] hover:shadow-xl transition-shadow">
+          <Link prefetch={false} href="/admin/menu" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--warm-gold)] hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">🍽️</div>
             <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Menu</h3>
             <p className="text-[var(--warm-gray)] text-sm mb-4">Gérer la carte du restaurant</p>
             <span className="text-sm text-[var(--warm-gold)] font-medium">Gérer →</span>
           </Link>
 
-          <Link href="/admin/hours" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--primary)] hover:shadow-xl transition-shadow">
+          <Link prefetch={false} href="/admin/hours" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--primary)] hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">🕐</div>
             <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Horaires</h3>
             <p className="text-[var(--warm-gray)] text-sm mb-4">Modifier les horaires d&apos;ouverture</p>
             <span className="text-sm text-[var(--tropical)] font-medium">Gérer →</span>
           </Link>
 
-          <Link href="/admin/announcement" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-amber-400 hover:shadow-xl transition-shadow">
+          <Link prefetch={false} href="/admin/announcement" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-amber-400 hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">📢</div>
             <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Annonce</h3>
             <p className="text-[var(--warm-gray)] text-sm mb-4">Publier une annonce sur le site</p>
@@ -83,6 +83,7 @@ export default async function AdminPage() {
           <h3 className="text-xl font-bold text-[var(--primary-dark)] mb-6">⚡ Actions rapides</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link 
+              prefetch={false}
               href="/admin/reservations"
               className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
             >
@@ -90,6 +91,7 @@ export default async function AdminPage() {
               <span className="text-[var(--primary-dark)] font-medium">Voir réservations</span>
             </Link>
             <Link 
+              prefetch={false}
               href="/admin/menu"
               className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
             >
@@ -97,6 +99,7 @@ export default async function AdminPage() {
               <span className="text-[var(--primary-dark)] font-medium">Modifier le menu</span>
             </Link>
             <Link 
+              prefetch={false}
               href="/admin/hours"
               className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
             >
@@ -104,6 +107,7 @@ export default async function AdminPage() {
               <span className="text-[var(--primary-dark)] font-medium">Gérer les horaires</span>
             </Link>
             <Link 
+              prefetch={false}
               href="/admin/announcement"
               className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
             >
