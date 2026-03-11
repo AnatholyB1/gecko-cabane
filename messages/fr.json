@@ -123,7 +123,13 @@
     "lastOrder": "Dernière commande : 22h",
     "contactTitle": "Contact",
     "rights": "Tous droits réservés.",
-    "createdBy": "Créé par"
+    "createdBy": "Créé par",
+    "legalTitle": "Mentions légales",
+    "legalBusiness": "Enregistrement : DBD Thaïlande",
+    "legalVat": "N° TVA : Exonéré (PP.30)",
+    "legalAlcohol": "Licence alcool : Excise Dept.",
+    "legalPdpa": "Données personnelles protégées (PDPA BE 2562)",
+    "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : contact@gecko-cabane.com."
   },
   "hours": {
     "monday": "Lundi",

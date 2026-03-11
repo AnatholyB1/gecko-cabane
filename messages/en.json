@@ -123,7 +123,13 @@
     "lastOrder": "Last order: 10pm",
     "contactTitle": "Contact",
     "rights": "All rights reserved.",
-    "createdBy": "Created by"
+    "createdBy": "Created by",
+    "legalTitle": "Legal notices",
+    "legalBusiness": "Registration: DBD Thailand",
+    "legalVat": "VAT No.: Exempt (PP.30)",
+    "legalAlcohol": "Alcohol licence: Excise Dept.",
+    "legalPdpa": "Personal data protected (PDPA BE 2562)",
+    "legalNotice": "Gecko Cabane is a food service establishment registered in Thailand under the Business Registration Act. The sale and consumption of alcohol are subject to Thai excise law (Excise Act B.E. 2560). Personal data collected through this website is processed in accordance with the Thailand Personal Data Protection Act (PDPA B.E. 2562). In accordance with the Thai Consumer Protection Act (B.E. 2522), all prices include applicable taxes. For any enquiries: contact@gecko-cabane.com."
   },
   "hours": {
     "monday": "Monday",

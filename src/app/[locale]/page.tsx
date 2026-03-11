@@ -461,41 +461,66 @@ export default async function Home() {
         </div>
         
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          {/* Main footer grid */}
+          <div className="grid md:grid-cols-4 gap-8 mb-10">
+            {/* Brand */}
             <div>
               <h3 className="text-2xl font-bold mb-4">🦎 Gecko Cabane</h3>
-              <p className="font-[family-name:var(--font-lora)] opacity-80">
+              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed">
                 {t('footer.subtitle')}<br />
                 🌿 {t('footer.location')}
               </p>
             </div>
+
+            {/* Hours */}
             <div>
               <h4 className="font-bold mb-4">⏰ {t('footer.hoursTitle')}</h4>
-              <p className="font-[family-name:var(--font-lora)] opacity-80">
+              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed">
                 {t('footer.openHours')}<br />
                 {t('footer.closedDay')}<br />
                 {t('footer.lastOrder')}
               </p>
             </div>
+
+            {/* Contact */}
             <div>
               <h4 className="font-bold mb-4">📍 {t('footer.contactTitle')}</h4>
-              <p className="font-[family-name:var(--font-lora)] opacity-80 mb-2">
+              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed mb-2">
                 1/36-37 Soi Ruamjit<br />
                 Maharat Road, Krabi Town 81000<br />
                 {t('contactSection.thailand')} 🇹🇭
               </p>
-              <a href="tel:+66819585945" className="font-[family-name:var(--font-lora)] opacity-90 hover:opacity-100 transition-opacity flex items-center gap-2">
+              <a href="tel:+66819585945" className="font-[family-name:var(--font-lora)] opacity-90 hover:opacity-100 transition-opacity flex items-center gap-2 text-sm">
                 📱 +66 81 958 5945
               </a>
             </div>
+
+            {/* Mentions légales */}
+            <div>
+              <h4 className="font-bold mb-4">⚖️ {t('footer.legalTitle')}</h4>
+              <ul className="font-[family-name:var(--font-lora)] opacity-80 text-sm space-y-1 leading-relaxed">
+                <li>{t('footer.legalBusiness')}</li>
+                <li>{t('footer.legalVat')}</li>
+                <li>{t('footer.legalAlcohol')}</li>
+                <li className="mt-2">{t('footer.legalPdpa')}</li>
+              </ul>
+            </div>
           </div>
-          
-          <div className="border-t border-white/20 pt-8 text-center">
-            <p className="font-[family-name:var(--font-lora)] opacity-60 text-sm">
+
+          {/* Legal notice block */}
+          <div className="border-t border-white/10 pt-6 mb-6">
+            <p className="font-[family-name:var(--font-lora)] opacity-50 text-xs leading-relaxed">
+              {t('footer.legalNotice')}
+            </p>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="font-[family-name:var(--font-lora)] opacity-60 text-sm text-center md:text-left">
               © 2026 Gecko Cabane Restaurant 🦎 {t('footer.rights')}
             </p>
-            <p className="text-2xl mt-4 opacity-30">🌿🦎🌿</p>
-            <p className="font-[family-name:var(--font-lora)] opacity-40 text-xs mt-4">
+            <p className="text-xl opacity-20">🌿🦎🌿</p>
+            <p className="font-[family-name:var(--font-lora)] opacity-40 text-xs text-center md:text-right">
               {t('footer.createdBy')}{" "}
               <a 
                 href="https://selenium-studio.com" 
@@ -504,6 +529,15 @@ export default async function Home() {
                 className="hover:opacity-100 underline transition-opacity"
               >
                 selenium-studio.com
+              </a>
+              {" & "}
+              <a 
+                href="https://anatholy-bricon.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:opacity-100 underline transition-opacity"
+              >
+                anatholy-bricon.com
               </a>
             </p>
           </div>
