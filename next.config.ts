@@ -26,12 +26,13 @@ export default withSentryConfig(withNextIntl(nextConfig), {
   // Note: the /monitoring path is excluded from the Next.js middleware matcher.
   tunnelRoute: "/monitoring",
 
-  // Disable the Sentry logger statements tree-shaking so that Sentry.logger.*
-  // calls are preserved in the bundle (required for structured logs feature).
-  disableLogger: false,
-
   webpack: {
     // Enables automatic instrumentation of Vercel Cron Monitors.
     automaticVercelMonitors: true,
+    // Keep Sentry.logger.* calls in the bundle (required for structured logs).
+    // Replaces the deprecated `disableLogger: false` option.
+    treeshake: {
+      removeDebugLogging: false,
+    },
   },
 });

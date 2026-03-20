@@ -74,6 +74,9 @@
   "reservationForm": {
     "title": "Réservation",
     "subtitle": "Réservez votre table pour vivre une expérience culinaire unique dans la jungle de Krabi",
+    "comingSoonBadge": "Bientôt disponible",
+    "comingSoonTitle": "La réservation en ligne arrive très bientôt !",
+    "comingSoonText": "Notre système de réservation en ligne sera disponible d'ici une semaine. En attendant, contactez-nous directement par téléphone ou WhatsApp.",
     "fullName": "Nom complet *",
     "phone": "Téléphone *",
     "email": "Email (optionnel)",
@@ -97,7 +100,20 @@
     "successTitle": "Demande envoyée !",
     "successMessage": "Merci pour votre demande de réservation. Nous vous contacterons rapidement pour confirmer.",
     "successNote": "📞 Pour les groupes de plus de 10 personnes, veuillez nous appeler directement.",
-    "newReservation": "Nouvelle réservation"
+    "newReservation": "Nouvelle réservation",
+    "otpSend": "Envoyer le code",
+    "otpResend": "Renvoyer",
+    "otpVerify": "Vérifier",
+    "otpVerified": "Vérifié",
+    "otpSentTo": "Code envoyé par SMS au",
+    "otpExpiry": "Le code expire dans 10 minutes.",
+    "otpFormat": "Le code doit contenir 6 chiffres.",
+    "otpInvalidPhone": "Format invalide. Exemple : +66812345678 ou 0812345678",
+    "otpSendError": "Impossible d'envoyer le SMS. Veuillez réessayer.",
+    "otpCheckError": "Erreur de vérification. Veuillez réessayer.",
+    "otpRequired": "Veuillez vérifier votre numéro de téléphone pour continuer.",
+    "countryLabel": "Indicatif pays",
+    "otpChange": "(Changer)"
   },
   "contactSection": {
     "title": "Nous Trouver",

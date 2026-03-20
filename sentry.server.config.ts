@@ -3,7 +3,6 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 
@@ -16,23 +15,13 @@ Sentry.init({
   environment: process.env.NODE_ENV ?? "development",
 
   // ----------------------------------------------------------------
-  // Integrations
-  // ----------------------------------------------------------------
-  integrations: [
-    // Node.js continuous profiling
-    nodeProfilingIntegration(),
-  ],
-
-  // ----------------------------------------------------------------
   // Tracing
   // ----------------------------------------------------------------
   tracesSampleRate: IS_PROD ? 0.2 : 1.0,
 
-  // ----------------------------------------------------------------
-  // Profiling
-  // ----------------------------------------------------------------
-  // profilesSampleRate is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
+  // NOTE: Node.js CPU profiling (@sentry/profiling-node) requires a native binary.
+  // Prebuilt binaries are available up to ABI 137 (Node 22). Node 25 (ABI 141)
+  // is experimental and not yet supported — profiling is disabled until then.
 
   // ----------------------------------------------------------------
   // Logs  (structured server-side logging)

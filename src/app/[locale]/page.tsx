@@ -363,7 +363,26 @@ export default async function Home() {
             {t('reservationForm.subtitle')}
           </p>
           
-          <ReservationForm />
+          {/* Coming-soon overlay */}
+          <div className="relative">
+            {/* Banner */}
+            <div className="mb-6 rounded-2xl overflow-hidden shadow-lg">
+              <div className="bg-amber-400 px-5 py-3 flex items-center justify-center gap-2">
+                <span className="text-lg">🔨</span>
+                <span className="font-bold text-amber-900 text-sm uppercase tracking-wider">{t('reservationForm.comingSoonBadge')}</span>
+                <span className="text-lg">🔨</span>
+              </div>
+              <div className="bg-amber-50 px-6 py-4 text-center border-x-2 border-b-2 border-amber-400 rounded-b-2xl">
+                <p className="font-bold text-amber-900 text-lg mb-1">{t('reservationForm.comingSoonTitle')}</p>
+                <p className="text-amber-800 text-sm">{t('reservationForm.comingSoonText')}</p>
+              </div>
+            </div>
+
+            {/* Form — visible but not interactive */}
+            <div className="pointer-events-none select-none opacity-50 blur-[1px]" aria-hidden="true">
+              <ReservationForm />
+            </div>
+          </div>
         </div>
       </section>
 

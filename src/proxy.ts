@@ -11,7 +11,7 @@ const intlMiddleware = createIntlMiddleware({
   localePrefix: 'always' // Always show locale prefix for consistent routing
 })
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   
   // Skip middleware entirely for Sentry tunnel and example page

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import type { Reservation, ReservationStatus } from '@/types/database'
+import type { Reservation, ReservationStatus, RestaurantTable, ConfigAvailability } from '@/types/database'
 
 const STATUS_LABELS: Record<ReservationStatus, { label: string; color: string; bg: string }> = {
   pending: { label: 'En attente', color: 'text-amber-700', bg: 'bg-amber-100' },
@@ -34,6 +34,15 @@ export default function AdminReservationsPage() {
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [adminNotes, setAdminNotes] = useState('')
+
+  // Table assignment modal
+  const [assignModal, setAssignModal]           = useState<Reservation | null>(null)
+  const [assignments, setAssignments]           = useState<Record<number, { config_id: number; config_name: string; table_names: string; blocked_until: string }>>({})
+  const [allTables, setAllTables]               = useState<RestaurantTable[]>([])
+  const [availableConfigs, setAvailableConfigs] = useState<ConfigAvailability[]>([])
+  const [loadingAssignModal, setLoadingAssignModal] = useState(false)
+  const [selectedConfigId, setSelectedConfigId] = useState<number | null>(null)
+  const [clickedTableId, setClickedTableId]     = useState<number | null>(null)
 
   const fetchReservations = useCallback(async () => {
     setLoading(true)
@@ -70,6 +79,90 @@ export default function AdminReservationsPage() {
   useEffect(() => {
     fetchReservations()
   }, [fetchReservations])
+
+  // Load tables once (for the floor plan)
+  useEffect(() => {
+    fetch('/api/tables').then(r => r.json()).then(d => { if (d.data) setAllTables(d.data) })
+  }, [])
+
+  // Refresh assignments whenever reservations are reloaded
+  useEffect(() => {
+    if (reservations.length === 0) return
+    fetchAssignmentsForVisible()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reservations])
+
+  // Fetch assignments for the visible reservation dates
+  async function fetchAssignmentsForVisible() {
+    const dates = [...new Set(reservations.map(r => r.reservation_date))]
+    const results: typeof assignments = {}
+    await Promise.all(
+      dates.map(async (date) => {
+        const res  = await fetch(`/api/tables/assignments?date=${date}`)
+        const data = await res.json()
+        for (const a of data.data ?? []) {
+          if (!a.reservation_id) continue
+          const cfg    = a.table_configurations ?? a.configuration ?? {}
+          const tables = (cfg.table_configuration_tables ?? []).map((tp: { tables: { name: string } }) => tp.tables?.name).filter(Boolean)
+          results[a.reservation_id] = {
+            config_id:    a.table_configuration_id,
+            config_name:  cfg.name ?? '?',
+            table_names:  tables.join(', '),
+            blocked_until: a.blocked_until,
+          }
+        }
+      })
+    )
+    setAssignments(results)
+  }
+
+  async function openAssignModal(reservation: Reservation) {
+    setAssignModal(reservation)
+    setSelectedConfigId(null)
+    setClickedTableId(null)
+    setLoadingAssignModal(true)
+    try {
+      const datetime = `${reservation.reservation_date}T${reservation.reservation_time}`
+      const res = await fetch(
+        `/api/tables/assignments?datetime=${encodeURIComponent(datetime)}&party_size=${reservation.party_size}&exclude_reservation_id=${reservation.id}`
+      )
+      const data = await res.json()
+      setAvailableConfigs(data.data ?? [])
+    } finally {
+      setLoadingAssignModal(false)
+    }
+  }
+
+  async function assignTable(reservationId: number, configId: number) {
+    const res  = await fetch('/api/tables/assignments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reservation_id: reservationId, table_configuration_id: configId }),
+    })
+    const data = await res.json()
+    if (!res.ok) { setMessage({ type: 'error', text: data.error }); return }
+    setMessage({ type: 'success', text: 'Table assignée' })
+    setAssignModal(null)
+    fetchReservations()
+  }
+
+  async function unassignTable(reservationId: number) {
+    if (!confirm('Retirer l\'assignation de cette table ?')) return
+    await fetch(`/api/tables/assignments?reservation_id=${reservationId}`, { method: 'DELETE' })
+    setMessage({ type: 'success', text: 'Assignation retirée' })
+    setAssignModal(null)
+    fetchReservations()
+  }
+
+  function getTableStatus(tableId: number): 'available' | 'blocked' | 'current' | 'no-config' {
+    const tableCfgs = availableConfigs.filter(ca =>
+      (ca.configuration.tables ?? []).some(t => t.id === tableId)
+    )
+    if (tableCfgs.length === 0) return 'no-config'
+    if (tableCfgs.some(ca => ca.assigned_to_current)) return 'current'
+    if (tableCfgs.some(ca => ca.available)) return 'available'
+    return 'blocked'
+  }
 
   async function updateStatus(id: number, newStatus: ReservationStatus) {
     try {
@@ -354,6 +447,16 @@ export default function AdminReservationsPage() {
                       👁️ Détails
                     </button>
                     <button
+                      onClick={() => openAssignModal(reservation)}
+                      className={`px-3 py-1 rounded-lg text-sm ${
+                        assignments[reservation.id]
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                          : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
+                      }`}
+                    >
+                      🗺️ {assignments[reservation.id] ? assignments[reservation.id].config_name : 'Placer'}
+                    </button>
+                    <button
                       onClick={() => deleteReservation(reservation.id)}
                       className="px-3 py-1 text-red-500 hover:text-red-700 text-sm"
                     >
@@ -363,16 +466,27 @@ export default function AdminReservationsPage() {
                 </div>
 
                 {/* Extra Info */}
-                {(reservation.occasion || reservation.admin_notes) && (
-                  <div className="mt-3 pt-3 border-t border-gray-100 text-sm">
+                {(reservation.occasion || reservation.admin_notes || assignments[reservation.id]) && (
+                  <div className="mt-3 pt-3 border-t border-gray-100 text-sm flex flex-wrap gap-2 items-center">
                     {reservation.occasion && (
-                      <span className="inline-block mr-3 px-2 py-0.5 bg-purple-100 text-purple-700 rounded">
+                      <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded">
                         🎉 {reservation.occasion}
                       </span>
                     )}
                     {reservation.admin_notes && (
-                      <span className="block mt-1 text-amber-700 italic">
-                        📋 Note: {reservation.admin_notes}
+                      <span className="text-amber-700 italic">
+                        📋 {reservation.admin_notes}
+                      </span>
+                    )}
+                    {assignments[reservation.id] && (
+                      <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded flex items-center gap-1">
+                        🪑 {assignments[reservation.id].config_name}
+                        {assignments[reservation.id].table_names && (
+                          <span className="opacity-75">· {assignments[reservation.id].table_names}</span>
+                        )}
+                        <span className="opacity-60 text-xs">
+                          → {new Date(assignments[reservation.id].blocked_until).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
                       </span>
                     )}
                   </div>
@@ -383,7 +497,203 @@ export default function AdminReservationsPage() {
         )}
       </main>
 
-      {/* Modal */}
+      {/* ----------------------------------------------------------------
+       * Table assignment modal
+       * ---------------------------------------------------------------- */}
+      {assignModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="p-5 border-b border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-xl font-bold text-[var(--primary-dark)]">🗺️ Placer sur le plan</h2>
+                  <p className="text-sm text-[var(--warm-gray)] mt-0.5">
+                    {assignModal.customer_name} · {assignModal.party_size} pers. ·{' '}
+                    {formatDate(assignModal.reservation_date)} à {formatTime(assignModal.reservation_time)}
+                  </p>
+                </div>
+                <button onClick={() => setAssignModal(null)} className="text-2xl text-gray-400 hover:text-gray-600">✕</button>
+              </div>
+            </div>
+
+            <div className="p-5">
+              {loadingAssignModal ? (
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]" />
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-[1fr_280px] gap-5">
+
+                  {/* Floor plan */}
+                  <div>
+                    <p className="text-xs text-[var(--warm-gray)] mb-2">
+                      🟢 Disponible &nbsp; 🔴 Bloquée &nbsp; ⬛ Aucune config
+                    </p>
+                    <div
+                      className="relative w-full bg-amber-50 border-2 border-amber-200 rounded-xl overflow-hidden select-none"
+                      style={{ aspectRatio: '4/3' }}
+                    >
+                      <div
+                        className="absolute inset-0 opacity-10"
+                        style={{
+                          backgroundImage:
+                            'repeating-linear-gradient(#b45309 0 1px,transparent 1px 100%),repeating-linear-gradient(90deg,#b45309 0 1px,transparent 1px 100%)',
+                          backgroundSize: '10% 12.5%',
+                        }}
+                      />
+                      {allTables.filter(t => t.is_active).map(table => {
+                        const status = getTableStatus(table.id)
+                        const isRound = table.shape === 'round'
+                        const tableCfgs = availableConfigs.filter(ca =>
+                          (ca.configuration.tables ?? []).some(t => t.id === table.id)
+                        )
+                        const colorClass =
+                          status === 'available' ? 'bg-green-500 hover:bg-green-600 cursor-pointer' :
+                          status === 'blocked'   ? 'bg-red-400 cursor-not-allowed' :
+                          status === 'current'   ? 'bg-blue-500 hover:bg-blue-600 cursor-pointer' :
+                                                   'bg-gray-300 cursor-default'
+                        return (
+                          <div
+                            key={table.id}
+                            title={tableCfgs.map(ca => `${ca.configuration.name} (${ca.available ? 'libre' : 'bloquée'})`).join(' | ')}
+                            style={{
+                              position: 'absolute',
+                              left: `${table.position_x - table.width / 2}%`,
+                              top:  `${table.position_y - table.height / 2}%`,
+                              width:  `${table.width}%`,
+                              height: `${table.height}%`,
+                            }}
+                            className={`flex flex-col items-center justify-center text-white font-semibold shadow-md transition-all text-[10px] ${
+                              isRound ? 'rounded-full' : 'rounded-xl'
+                            } ${colorClass} ${
+                              clickedTableId === table.id ? 'ring-2 ring-yellow-400 ring-offset-1' : ''
+                            }`}
+                            onClick={() => {
+                              if (status === 'no-config' || status === 'blocked') return
+                              setClickedTableId(prev => prev === table.id ? null : table.id)
+                            }}
+                          >
+                            <span className="truncate max-w-[90%] text-center leading-tight">{table.name}</span>
+                            <span className="opacity-70" style={{ fontSize: '9px' }}>{table.seats}p</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    {/* Clicked table configs */}
+                    {clickedTableId && (() => {
+                      const tableCfgs = availableConfigs.filter(ca =>
+                        (ca.configuration.tables ?? []).some(t => t.id === clickedTableId)
+                      )
+                      if (tableCfgs.length === 0) return null
+                      return (
+                        <div className="mt-3 p-3 bg-amber-50 rounded-xl border border-amber-200">
+                          <p className="text-xs font-semibold text-[var(--primary-dark)] mb-2">Configurations pour cette table :</p>
+                          <div className="flex flex-wrap gap-2">
+                            {tableCfgs.map(ca => (
+                              <button
+                                key={ca.configuration.id}
+                                disabled={!ca.available && !ca.assigned_to_current}
+                                onClick={() => setSelectedConfigId(ca.configuration.id)}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                                  selectedConfigId === ca.configuration.id
+                                    ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
+                                    : ca.available
+                                    ? 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200'
+                                    : ca.assigned_to_current
+                                    ? 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200'
+                                    : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                                }`}
+                              >
+                                {ca.configuration.name}
+                                <span className="text-xs ml-1 opacity-70">
+                                  ({ca.configuration.min_capacity}–{ca.configuration.max_capacity}p)
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })()}
+                  </div>
+
+                  {/* Config list */}
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold text-[var(--warm-gray)] uppercase tracking-wide mb-3">Toutes les configurations</p>
+
+                    {/* Current assignment */}
+                    {assignments[assignModal.id] && (
+                      <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-3">
+                        <div className="text-xs text-blue-700 font-semibold mb-1">Table actuelle</div>
+                        <div className="text-sm font-bold text-blue-800">{assignments[assignModal.id].config_name}</div>
+                        <div className="text-xs text-blue-600">{assignments[assignModal.id].table_names}</div>
+                        <button
+                          onClick={() => unassignTable(assignModal.id)}
+                          className="mt-2 text-xs text-red-500 hover:text-red-700"
+                        >
+                          ✕ Retirer l&apos;assignation
+                        </button>
+                      </div>
+                    )}
+
+                    {availableConfigs.length === 0 ? (
+                      <div className="text-center py-6 text-[var(--warm-gray)] text-sm">
+                        Aucune configuration active.<br />
+                        <Link href="/admin/tables" className="text-[var(--primary)] underline mt-1 inline-block">Créer des configurations →</Link>
+                      </div>
+                    ) : (
+                      availableConfigs.map(ca => (
+                        <button
+                          key={ca.configuration.id}
+                          disabled={!ca.available && !ca.assigned_to_current}
+                          onClick={() => ca.available || ca.assigned_to_current ? setSelectedConfigId(ca.configuration.id) : null}
+                          className={`w-full p-3 rounded-xl border text-left transition-colors ${
+                            selectedConfigId === ca.configuration.id
+                              ? 'border-[var(--primary)] bg-[var(--accent-light)]'
+                              : ca.assigned_to_current
+                              ? 'border-blue-300 bg-blue-50 hover:bg-blue-100'
+                              : ca.available
+                              ? 'border-green-200 bg-green-50 hover:bg-green-100'
+                              : 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
+                          }`}
+                        >
+                          <div className="flex justify-between items-start">
+                            <span className="font-semibold text-sm">{ca.configuration.name}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${
+                              ca.assigned_to_current ? 'bg-blue-200 text-blue-700' :
+                              ca.available           ? 'bg-green-200 text-green-700' :
+                                                       'bg-red-100 text-red-500'
+                            }`}>
+                              {ca.assigned_to_current ? 'Actuel' : ca.available ? 'Libre' : 'Bloquée'}
+                            </span>
+                          </div>
+                          <div className="text-xs text-[var(--warm-gray)] mt-0.5">
+                            {ca.configuration.min_capacity === ca.configuration.max_capacity
+                              ? `${ca.configuration.max_capacity} pers.`
+                              : `${ca.configuration.min_capacity}–${ca.configuration.max_capacity} pers.`}
+                            {' · '}{(ca.configuration.tables ?? []).map(t => t.name).join(', ')}
+                          </div>
+                        </button>
+                      ))
+                    )}
+
+                    {selectedConfigId && (
+                      <button
+                        onClick={() => assignTable(assignModal.id, selectedConfigId)}
+                        className="w-full py-3 mt-2 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] transition-colors"
+                      >
+                        ✓ Confirmer l&apos;assignation
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Details modal */}
       {showModal && selectedReservation && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">

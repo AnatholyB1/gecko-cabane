@@ -76,6 +76,20 @@ export default async function AdminPage() {
             <p className="text-[var(--warm-gray)] text-sm mb-4">Publier une annonce sur le site</p>
             <span className="text-sm text-amber-600 font-medium">Gérer →</span>
           </Link>
+
+          <Link prefetch={false} href="/admin/tables" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-[var(--moss)] hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">🗺️</div>
+            <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Plan de salle</h3>
+            <p className="text-[var(--warm-gray)] text-sm mb-4">Gérer les tables et assigner les réservations</p>
+            <span className="text-sm text-[var(--moss)] font-medium">Gérer →</span>
+          </Link>
+
+          <Link prefetch={false} href="/admin/settings" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-gray-400 hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">⚙️</div>
+            <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-2">Paramètres</h3>
+            <p className="text-[var(--warm-gray)] text-sm mb-4">Durée de blocage, couverts max…</p>
+            <span className="text-sm text-gray-500 font-medium">Configurer →</span>
+          </Link>
         </div>
 
         {/* Quick Actions */}
@@ -113,6 +127,22 @@ export default async function AdminPage() {
             >
               <span className="text-2xl">📢</span>
               <span className="text-[var(--primary-dark)] font-medium">Annonce</span>
+            </Link>
+            <Link 
+              prefetch={false}
+              href="/admin/tables"
+              className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
+            >
+              <span className="text-2xl">🗺️</span>
+              <span className="text-[var(--primary-dark)] font-medium">Plan de salle</span>
+            </Link>
+            <Link 
+              prefetch={false}
+              href="/admin/settings"
+              className="flex items-center gap-3 p-4 bg-[var(--accent-light)] rounded-xl hover:bg-[var(--accent-light)]/70 transition-colors text-left"
+            >
+              <span className="text-2xl">⚙️</span>
+              <span className="text-[var(--primary-dark)] font-medium">Paramètres</span>
             </Link>
           </div>
         </div>

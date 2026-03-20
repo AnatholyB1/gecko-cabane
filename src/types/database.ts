@@ -166,3 +166,96 @@ export interface ReservationFormData {
   occasion: string
 }
 
+// ---------------------------------------------------------------------------
+// Floor plan — physical tables
+// ---------------------------------------------------------------------------
+
+export type TableShape = 'square' | 'round' | 'rectangle'
+
+export interface RestaurantTable {
+  id: number
+  name: string
+  seats: number
+  /** Center position — 0 to 100 as % of the floor plan container width */
+  position_x: number
+  /** Center position — 0 to 100 as % of the floor plan container height */
+  position_y: number
+  /** Width as % of container */
+  width: number
+  /** Height as % of container */
+  height: number
+  shape: TableShape
+  is_active: boolean
+  display_order: number
+  created_at: string
+  updated_at: string
+}
+
+// ---------------------------------------------------------------------------
+// Table configurations
+// ---------------------------------------------------------------------------
+
+export interface TableConfiguration {
+  id: number
+  name: string
+  min_capacity: number
+  max_capacity: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  /** Populated via JOIN */
+  tables?: RestaurantTable[]
+}
+
+export interface TableConfigurationFormData {
+  name: string
+  min_capacity: number
+  max_capacity: number
+  table_ids: number[]
+}
+
+// ---------------------------------------------------------------------------
+// Table assignments (reservation ↔ configuration)
+// ---------------------------------------------------------------------------
+
+export interface TableAssignment {
+  id: number
+  reservation_id: number
+  table_configuration_id: number
+  /** ISO timestamp — table is blocked until this moment */
+  blocked_until: string
+  created_at: string
+}
+
+export interface TableAssignmentWithDetails extends TableAssignment {
+  configuration: TableConfiguration & { tables: RestaurantTable[] }
+  reservation: Reservation
+}
+
+/** Per-configuration availability result returned by GET /api/tables/assignments */
+export interface ConfigAvailability {
+  configuration: TableConfiguration & { tables: RestaurantTable[] }
+  available: boolean
+  /** True if this configuration is already assigned to the target reservation */
+  assigned_to_current: boolean
+}
+
+// ---------------------------------------------------------------------------
+// Restaurant settings
+// ---------------------------------------------------------------------------
+
+export interface RestaurantSetting {
+  key: string
+  value: string
+  description: string | null
+  updated_at: string
+}
+
+export interface PhoneVerification {
+  id: number
+  phone: string
+  verified_token: string
+  token_expires_at: string
+  created_at: string
+}
+

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
+import { createClient, createAdminClient } from '@/utils/supabase/server'
+import { validateReservationFields, isPartySizeValid, isReservationDateValid } from '@/utils/validation'
 
 // GET: Fetch reservations (admin only, or by phone for customers)
 export async function GET(request: NextRequest) {
@@ -79,28 +80,67 @@ export async function POST(request: NextRequest) {
       reservation_date, 
       reservation_time, 
       party_size,
-      occasion 
+      occasion,
+      phone_verification_token
     } = body
     
     // Validation
-    if (!customer_name || !customer_phone || !reservation_date || !reservation_time || !party_size) {
-      return NextResponse.json({ 
-        error: 'Veuillez remplir tous les champs obligatoires' 
-      }, { status: 400 })
+    const fieldError = validateReservationFields(body)
+    if (fieldError) {
+      return NextResponse.json({ error: fieldError }, { status: 400 })
     }
+
+    // Validate phone verification token
+    if (!phone_verification_token) {
+      return NextResponse.json(
+        { error: 'Veuillez vérifier votre numéro de téléphone avant de soumettre.' },
+        { status: 400 }
+      )
+    }
+
+    const adminSupabase = createAdminClient()
+    const { data: verif, error: verifError } = await adminSupabase
+      .from('phone_verifications')
+      .select('id, phone, token_expires_at')
+      .eq('verified_token', phone_verification_token)
+      .single()
+
+    if (verifError || !verif) {
+      return NextResponse.json(
+        { error: 'Code de vérification invalide. Veuillez vérifier à nouveau votre numéro.' },
+        { status: 400 }
+      )
+    }
+
+    if (new Date(verif.token_expires_at) < new Date()) {
+      return NextResponse.json(
+        { error: 'Le code de vérification a expiré. Veuillez vérifier à nouveau votre numéro.' },
+        { status: 400 }
+      )
+    }
+
+    if (verif.phone !== customer_phone) {
+      return NextResponse.json(
+        { error: 'Le numéro de téléphone ne correspond pas à la vérification.' },
+        { status: 400 }
+      )
+    }
+
+    // Consume the token (single-use)
+    await adminSupabase
+      .from('phone_verifications')
+      .update({ verified_token: null, token_expires_at: null })
+      .eq('id', verif.id)
     
     // Validate party size
-    if (party_size < 1 || party_size > 50) {
+    if (!isPartySizeValid(party_size)) {
       return NextResponse.json({ 
         error: 'Le nombre de personnes doit être entre 1 et 50' 
       }, { status: 400 })
     }
     
     // Validate date is not in the past
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const resDate = new Date(reservation_date)
-    if (resDate < today) {
+    if (!isReservationDateValid(reservation_date)) {
       return NextResponse.json({ 
         error: 'La date de réservation ne peut pas être dans le passé' 
       }, { status: 400 })
