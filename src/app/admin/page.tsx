@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { logoutAction } from './actions'
 
 export default async function AdminPage() {
   const supabase = await createClient()
@@ -25,12 +26,14 @@ export default async function AdminPage() {
           </div>
           <div className="flex items-center gap-6">
             <span className="text-sm opacity-80">{user.email}</span>
-            <Link
-              href="/api/auth/logout"
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
-            >
-              Déconnexion
-            </Link>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors cursor-pointer"
+              >
+                Déconnexion
+              </button>
+            </form>
           </div>
         </div>
       </header>

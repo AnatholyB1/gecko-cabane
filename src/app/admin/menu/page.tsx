@@ -188,12 +188,14 @@ export default function MenuAdminPage() {
             >
               ← Retour
             </Link>
-            <Link
-              href="/api/auth/logout"
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
-            >
-              Déconnexion
-            </Link>
+            <form action="/api/auth/logout" method="POST">
+              <button
+                type="submit"
+                className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors cursor-pointer"
+              >
+                Déconnexion
+              </button>
+            </form>
           </div>
         </div>
       </header>
