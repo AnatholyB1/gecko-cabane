@@ -159,5 +159,21 @@
     "fr": "Français",
     "en": "English",
     "switchTo": "Changer vers {language}"
+  },
+  "errors": {
+    "notFound": {
+      "code": "404",
+      "title": "Page introuvable",
+      "subtitle": "Cette page n'existe pas ou a été déplacée. Revenez à l'accueil pour continuer votre expérience.",
+      "backHome": "Retour à l'accueil",
+      "goMenu": "Voir notre menu"
+    },
+    "error": {
+      "code": "500",
+      "title": "Une erreur s'est produite",
+      "subtitle": "Quelque chose s'est mal passé de notre côté. Veuillez réessayer ou revenez à l'accueil.",
+      "retry": "Réessayer",
+      "backHome": "Retour à l'accueil"
+    }
   }
 }

@@ -159,5 +159,21 @@
     "fr": "Français",
     "en": "English",
     "switchTo": "Switch to {language}"
+  },
+  "errors": {
+    "notFound": {
+      "code": "404",
+      "title": "Page not found",
+      "subtitle": "This page doesn't exist or has been moved. Return to the home page to continue your experience.",
+      "backHome": "Back to home",
+      "goMenu": "View our menu"
+    },
+    "error": {
+      "code": "500",
+      "title": "Something went wrong",
+      "subtitle": "Something went wrong on our end. Please try again or return to the home page.",
+      "retry": "Try again",
+      "backHome": "Back to home"
+    }
   }
 }

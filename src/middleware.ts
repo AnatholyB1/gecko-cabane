@@ -14,6 +14,13 @@ const intlMiddleware = createIntlMiddleware({
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   
+  // Skip middleware entirely for Sentry tunnel and example page
+  // tunnelRoute "/monitoring" must not be intercepted by i18n or auth
+  // (see next.config.ts tunnelRoute comment)
+  if (pathname === '/monitoring' || pathname.startsWith('/monitoring/') || pathname.startsWith('/sentry-example-page')) {
+    return NextResponse.next()
+  }
+
   // Skip i18n for API routes and admin routes
   const isApiRoute = pathname.startsWith('/api')
   const isAdminRoute = pathname.startsWith('/admin') || pathname.match(/^\/(fr|en)\/admin/)
@@ -122,7 +129,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - monitoring (Sentry tunnel route — must not be intercepted)
+     * - sentry-example-page (Sentry test page)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|monitoring|sentry-example-page|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
