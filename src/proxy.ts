@@ -86,9 +86,12 @@ async function handleSupabaseAuth(request: NextRequest, pathOverride?: string) {
   if (validatedUser) {
     user = validatedUser
   } else if (getUserError) {
-    // Only treat as unauthenticated for explicit 401 (invalid/expired token with no refresh).
-    // For network errors or 5xx, fall back to the locally-stored session to prevent false logouts.
-    const isAuthFailure = 'status' in getUserError && (getUserError as { status: number }).status === 401
+    // Treat all 4xx as real auth failures (401 = bad JWT, 400 = invalid/consumed refresh token).
+    // Only fall back to the local session for network errors or 5xx (cold starts, transient failures).
+    const isAuthFailure = 'status' in getUserError &&
+      typeof (getUserError as { status: unknown }).status === 'number' &&
+      (getUserError as { status: number }).status >= 400 &&
+      (getUserError as { status: number }).status < 500
     if (!isAuthFailure) {
       const { data: { session } } = await supabase.auth.getSession()
       user = session?.user ?? null
