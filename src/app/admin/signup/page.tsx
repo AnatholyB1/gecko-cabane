@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { signupAction } from './actions'
 
 export default async function SignupPage({
   searchParams,
@@ -32,7 +33,7 @@ export default async function SignupPage({
           </div>
         )}
 
-        <form action="/api/auth/signup" method="POST" className="space-y-6">
+        <form action={signupAction} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
               Email

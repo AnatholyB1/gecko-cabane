@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { loginAction } from './actions'
 
 export default async function LoginPage({
   searchParams,
@@ -39,7 +40,7 @@ export default async function LoginPage({
           </div>
         )}
 
-        <form action="/api/auth/login" method="POST" className="space-y-6">
+        <form action={loginAction} className="space-y-6">
           {params.redirect && (
             <input type="hidden" name="redirect" value={params.redirect} />
           )}
