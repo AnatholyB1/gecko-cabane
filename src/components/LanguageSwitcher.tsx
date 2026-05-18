@@ -14,18 +14,23 @@ export default function LanguageSwitcher() {
   const pathWithoutLocale = pathname.replace(/^\/(fr|en)/, '') || '/'
 
   return (
-    <div className="flex items-center gap-1 text-sm">
+    <div className="flex items-center gap-0" style={{ fontFamily: 'var(--font-raleway)', fontWeight: 300 }}>
       {locales.map((loc, index) => (
         <span key={loc} className="flex items-center">
-          {index > 0 && <span className="text-[var(--warm-gray)] mx-1">|</span>}
+          {index > 0 && (
+            <span style={{ color: 'var(--gc-gold)', opacity: 0.4, margin: '0 6px', fontSize: '10px' }}>|</span>
+          )}
           <Link
             href={pathWithoutLocale}
             locale={loc}
-            className={`px-2 py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-1 ${
-              locale === loc
-                ? 'font-bold text-[var(--primary)]'
-                : 'text-[var(--warm-gray)] hover:text-[var(--primary)]'
-            }`}
+            className="transition-all focus:outline-none"
+            style={{
+              fontSize: '11px',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: locale === loc ? 'var(--gc-gold)' : 'rgba(250,240,230,0.45)',
+              fontWeight: locale === loc ? 400 : 300,
+            }}
             aria-label={t('switchTo', { language: t(loc) })}
             aria-current={locale === loc ? 'true' : undefined}
           >

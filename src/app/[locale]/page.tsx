@@ -74,12 +74,21 @@ export default async function Home() {
 
         {/* ═══ HERO ═══ */}
         <section className="relative min-h-screen flex items-center justify-center bg-gc-void pt-[72px] overflow-hidden">
+          {/* Hero background image */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hero-bg.jpg"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            style={{ opacity: 0.28 }}
+          />
           {/* Noise */}
           <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
-          {/* Vignette */}
+          {/* Vignette forte pour lisibilité du texte */}
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%)' }}
+            style={{ background: 'radial-gradient(ellipse 85% 85% at 50% 50%, rgba(13,31,23,0.45) 30%, rgba(13,31,23,0.88) 100%)' }}
             aria-hidden="true"
           />
           {/* Botanical right */}
@@ -310,6 +319,67 @@ export default async function Home() {
               </p>
             </div>
             <MenuDisplay />
+          </div>
+        </section>
+
+        {/* ═══ GALERIE PLATS ═══ */}
+        <section id="galerie" className="py-24 px-6 bg-gc-void relative overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-14">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--gc-gold)' }}>
+                Nos Créations
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-ivory"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)', letterSpacing: '0.03em' }}
+              >
+                La Table du Chef Jariya
+              </h2>
+              <GcDivider className="mt-4" />
+            </div>
+
+            {/* Grille 2×2 desktop, 1 col mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                { src: '/food-curry.png', alt: 'Curry rouge gastronomique Franco-Thaï', caption: 'Curry Rouge · Lait de Coco & Kaffir' },
+                { src: '/food-carpaccio.png', alt: 'Carpaccio de thon au sésame et gingembre', caption: 'Carpaccio de Thon · Sésame & Gingembre' },
+                { src: '/food-dessert.png', alt: 'Panna cotta jasmin et coulis de fruit de la passion', caption: 'Panna Cotta Jasmin · Fruit de la Passion' },
+                { src: '/food-seabass.png', alt: 'Bar grillé à la citronnelle et beurre blanc', caption: 'Bar de Mer · Citronnelle & Beurre Blanc' },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="group relative overflow-hidden"
+                  style={{ border: '1px solid rgba(198,155,60,0.12)' }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  {/* Caption overlay */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 px-5 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                    style={{ background: 'linear-gradient(to top, rgba(13,31,23,0.95) 60%, transparent)' }}
+                  >
+                    <p
+                      className="font-cormorant italic text-center"
+                      style={{ fontSize: '16px', color: 'var(--gc-ivory)', letterSpacing: '0.04em' }}
+                    >
+                      {item.caption}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-10">
+              <p className="font-cormorant italic text-gc-ivory/50 text-[15px]">
+                Cuisine Franco-Thaï gastronomique · Chef Jariya · Krabi, Thaïlande
+              </p>
+            </div>
           </div>
         </section>
 

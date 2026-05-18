@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-80 -180 160 360" width="120" height="270" fill="none" stroke="#C69B3C" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Corps principal -->
+  <ellipse cx="0" cy="0" rx="32" ry="68" stroke-width="2.5"/>
+
+  <!-- Tête -->
+  <ellipse cx="0" cy="-82" rx="26" ry="22" stroke-width="2.5"/>
+
+  <!-- Museau légèrement arrondi -->
+  <path d="M -14 -92 Q 0 -108 14 -92" stroke-width="2"/>
+
+  <!-- Oeil gauche -->
+  <circle cx="-12" cy="-85" r="5" stroke-width="2"/>
+  <circle cx="-12" cy="-85" r="2" fill="#C69B3C" stroke="none"/>
+
+  <!-- Oeil droit -->
+  <circle cx="12" cy="-85" r="5" stroke-width="2"/>
+  <circle cx="12" cy="-85" r="2" fill="#C69B3C" stroke="none"/>
+
+  <!-- Narines -->
+  <circle cx="-5" cy="-100" r="1.5" fill="#C69B3C" stroke="none"/>
+  <circle cx="5" cy="-100" r="1.5" fill="#C69B3C" stroke="none"/>
+
+  <!-- Langue bifide -->
+  <path d="M 0 -106 L -3 -118 M 0 -106 L 3 -118" stroke-width="1.5"/>
+
+  <!-- Colonne vertébrale décorative -->
+  <path d="M 0 -60 Q 4 -40 0 -20 Q -4 0 0 20 Q 4 40 0 60" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Écailles — rangée centrale -->
+  <path d="M -4 -50 L 0 -56 L 4 -50" stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 -35 L 0 -41 L 4 -35" stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 -20 L 0 -26 L 4 -20" stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 -5  L 0 -11 L 4 -5"  stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 10  L 0 4   L 4 10"  stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 25  L 0 19  L 4 25"  stroke-width="1.2" opacity="0.6"/>
+  <path d="M -4 40  L 0 34  L 4 40"  stroke-width="1.2" opacity="0.6"/>
+
+  <!-- Patte avant gauche -->
+  <path d="M -32 -28 Q -52 -20 -62 -8" stroke-width="2.2"/>
+  <path d="M -62 -8 L -72 -14 M -62 -8 L -70 -3 M -62 -8 L -68 5" stroke-width="1.5"/>
+
+  <!-- Patte avant droite -->
+  <path d="M 32 -28 Q 52 -20 62 -8" stroke-width="2.2"/>
+  <path d="M 62 -8 L 72 -14 M 62 -8 L 70 -3 M 62 -8 L 68 5" stroke-width="1.5"/>
+
+  <!-- Patte arrière gauche -->
+  <path d="M -30 30 Q -55 42 -65 58" stroke-width="2.2"/>
+  <path d="M -65 58 L -74 52 M -65 58 L -72 62 M -65 58 L -68 70" stroke-width="1.5"/>
+
+  <!-- Patte arrière droite -->
+  <path d="M 30 30 Q 55 42 65 58" stroke-width="2.2"/>
+  <path d="M 65 58 L 74 52 M 65 58 L 72 62 M 65 58 L 68 70" stroke-width="1.5"/>
+
+  <!-- Queue — courbe naturelle spiralée -->
+  <path d="M 0 68 Q -12 90 -8 112 Q -4 135 8 150 Q 18 162 14 172 Q 10 180 4 178" stroke-width="2.2"/>
+
+  <!-- Anneaux décoratifs sur la queue -->
+  <path d="M -9 96  Q 0 91  9 96"  stroke-width="1" opacity="0.5"/>
+  <path d="M -5 118 Q 5 113 12 118" stroke-width="1" opacity="0.5"/>
+  <path d="M 2 140  Q 12 135 16 140" stroke-width="1" opacity="0.45"/>
+  <path d="M 8 160  Q 14 156 14 160" stroke-width="1" opacity="0.4"/>
+
+  <!-- Détails Art Nouveau — motif floral au bas -->
+  <path d="M -20 165 Q -30 155 -20 148 Q -10 155 -20 165 Z" stroke-width="1.2" opacity="0.35"/>
+  <path d="M 20 165 Q 30 155 20 148 Q 10 155 20 165 Z" stroke-width="1.2" opacity="0.35"/>
+</svg>
