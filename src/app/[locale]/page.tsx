@@ -1,49 +1,62 @@
+// src/app/[locale]/page.tsx
 import { getTranslations } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuDisplay from '@/components/MenuDisplay'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import GcDivider from '@/components/ui/GcDivider'
 
 export default async function Home() {
   const t = await getTranslations()
 
   return (
-    <div className="min-h-screen bg-[var(--background)] font-[family-name:var(--font-playfair)]">
-      {/* Skip to main content - Accessibility */}
-      <a 
-        href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-[var(--primary)] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+    <div className="min-h-screen bg-gc-void font-cormorant">
+      {/* Skip to main content */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gc-gold focus:text-gc-void focus:px-4 focus:py-2 focus:font-cinzel focus:text-[12px] focus:tracking-[0.1em]"
       >
         {t('common.skipToContent')}
       </a>
 
-      {/* Navigation */}
-      <nav 
-        className="fixed top-0 left-0 right-0 z-50 bg-[var(--warm-white)]/95 backdrop-blur-sm shadow-sm"
+      {/* ═══ NAVIGATION ═══ */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 bg-gc-void border-b border-gc-gold/10"
         role="navigation"
         aria-label={t('common.mainNav')}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a 
-            href="#" 
-            className="text-2xl font-bold text-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 rounded-lg"
+        <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex justify-between items-center">
+          <a
+            href="#"
+            className="font-cinzel-decorative font-bold text-gc-gold text-xl tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
             aria-label="Gecko Cabane - Accueil"
           >
-            🦎 Gecko Cabane
+            GECKO CABANE
           </a>
-          <div className="hidden md:flex gap-8 text-[var(--warm-gray)] font-[family-name:var(--font-lora)]" role="menubar">
-            <a href="#about" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">{t('common.about')}</a>
-            <a href="#menu" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">{t('common.menu')}</a>
-            <a href="#hours" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">{t('common.hours')}</a>
-            <a href="#reservation" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">{t('common.reservation')}</a>
-            <a href="#contact" className="hover:text-[var(--primary)] transition-colors focus:outline-none focus:text-[var(--primary)] focus:underline" role="menuitem">{t('common.contact')}</a>
+          <div className="hidden md:flex gap-8 font-raleway font-light text-[13px] tracking-[0.2em] uppercase" role="menubar">
+            {[
+              { href: '#about', key: 'common.about' },
+              { href: '#menu', key: 'common.menu' },
+              { href: '#hours', key: 'common.hours' },
+              { href: '#reservation', key: 'common.reservation' },
+              { href: '#contact', key: 'common.contact' },
+            ].map(({ href, key }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                role="menuitem"
+              >
+                {t(key as Parameters<typeof t>[0])}
+              </a>
+            ))}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <LanguageSwitcher />
-            <a 
-              href="#reservation" 
-              className="bg-[var(--primary)] text-white px-5 py-2 rounded-full hover:bg-[var(--primary-dark)] transition-colors font-[family-name:var(--font-lora)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
+            <a
+              href="#reservation"
+              className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-5 py-2.5 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
               aria-label={t('common.bookTable')}
             >
               {t('common.book')}
@@ -52,472 +65,561 @@ export default async function Home() {
         </div>
       </nav>
 
-      {/* Announcement Banner - below nav */}
+      {/* Announcement Banner */}
       <div className="fixed top-[72px] left-0 right-0 z-40">
         <AnnouncementBanner />
       </div>
 
       <main id="main-content">
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--jungle-dark)] via-[var(--primary)] to-[var(--accent)] pt-20 overflow-hidden">
-        {/* Jungle decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Floating leaves and light effects */}
-          <div className="absolute top-20 left-10 w-40 h-40 bg-[var(--leaf-green)] rounded-full blur-3xl opacity-30"></div>
-          <div className="absolute bottom-40 right-20 w-56 h-56 bg-[var(--moss)] rounded-full blur-3xl opacity-25"></div>
-          <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-[var(--tropical)] rounded-full blur-2xl opacity-30"></div>
-          <div className="absolute top-10 right-10 w-24 h-24 bg-[var(--warm-gold)] rounded-full blur-2xl opacity-20"></div>
-          
-          {/* Decorative leaves */}
-          <div className="absolute top-20 left-0 text-6xl md:text-8xl opacity-20 transform -rotate-45">🌿</div>
-          <div className="absolute top-40 right-5 text-5xl md:text-7xl opacity-20 transform rotate-12">🍃</div>
-          <div className="absolute bottom-32 left-10 text-5xl md:text-7xl opacity-20 transform rotate-45">🌿</div>
-          <div className="absolute bottom-20 right-20 text-4xl md:text-6xl opacity-20 transform -rotate-12">🍃</div>
-          <div className="absolute top-1/3 right-1/4 text-4xl opacity-15">🌴</div>
-          <div className="absolute bottom-1/3 left-1/4 text-5xl opacity-15">🌴</div>
-        </div>
-        
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <div className="text-7xl md:text-8xl mb-6 drop-shadow-lg">🦎</div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-            Gecko Cabane
-          </h1>
-          <p className="text-xl md:text-2xl text-[var(--accent-light)] mb-4 font-[family-name:var(--font-lora)]">
-            {t('hero.subtitle')}
-          </p>
-          <p className="text-lg text-[var(--moss)] mb-8 font-[family-name:var(--font-lora)] italic">
-            🌿 {t('hero.tagline')} 🌿
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#cuisine" 
-              className="bg-[var(--warm-gold)] text-white px-8 py-4 rounded-full hover:bg-[var(--bamboo)] transition-all hover:scale-105 font-[family-name:var(--font-lora)] shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--primary)]"
-              aria-label={t('hero.discoverAriaLabel')}
-            >
-              🍽️ {t('hero.discoverButton')}
-            </a>
-            <a 
-              href="#contact" 
-              className="border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-[var(--primary-dark)] transition-all hover:scale-105 font-[family-name:var(--font-lora)] backdrop-blur-sm"
-            >
-              📍 {t('hero.findUsButton')}
-            </a>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-        
-        {/* Bottom jungle border */}
-        <div className="absolute bottom-0 left-0 right-0 text-4xl md:text-6xl flex justify-center gap-2 opacity-30">
-          🌿🍃🌴🍃🌿🍃🌴🍃🌿
-        </div>
-      </section>
 
-      {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-[var(--warm-white)] relative overflow-hidden">
-        {/* Decorative leaves */}
-        <div className="absolute top-10 right-10 text-6xl opacity-10">🌿</div>
-        <div className="absolute bottom-10 left-10 text-6xl opacity-10">🍃</div>
-        
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] mb-6">
-                🌿 {t('about.title')}
-              </h2>
-              <div className="w-24 h-1 bg-[var(--warm-gold)] mb-8"></div>
-              <p className="text-lg text-[var(--warm-gray)] font-[family-name:var(--font-lora)] leading-relaxed mb-6">
-                {t.rich('about.description1', {
-                  chef: (chunks) => <span className="text-[var(--tropical)] font-semibold">{chunks}</span>
-                })}
-              </p>
-              <p className="text-lg text-[var(--warm-gray)] font-[family-name:var(--font-lora)] leading-relaxed mb-6">
-                {t.rich('about.description2', {
-                  seats: (chunks) => <span className="text-[var(--primary)] font-semibold">{chunks}</span>
-                })}
-              </p>
-              <div className="flex items-center gap-4 p-4 bg-[var(--accent-light)] rounded-lg">
-                <span className="text-3xl">⚠️</span>
-                <p className="text-[var(--primary-dark)] font-[family-name:var(--font-lora)]">
-                  <strong>{t('about.important')}:</strong> {t('about.kitchenClose')}
-                </p>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="bg-gradient-to-br from-[var(--tropical)] to-[var(--jungle-dark)] rounded-3xl p-8 text-white shadow-2xl">
-                <div className="text-6xl mb-4">👩‍🍳</div>
-                <h3 className="text-2xl font-bold mb-4">{t('about.chefName')} 🦎</h3>
-                <p className="font-[family-name:var(--font-lora)] opacity-90">
-                  {t('about.chefQuote')}
-                </p>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[var(--leaf-green)] rounded-full opacity-40"></div>
-              <div className="absolute -top-2 -left-2 text-4xl opacity-30">🌿</div>
-            </div>
+        {/* ═══ HERO ═══ */}
+        <section className="relative min-h-screen flex items-center justify-center bg-gc-void pt-[72px] overflow-hidden">
+          {/* Noise */}
+          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+          {/* Vignette */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%)' }}
+            aria-hidden="true"
+          />
+          {/* Botanical right */}
+          <div className="absolute bottom-0 right-0 w-72 h-[440px] opacity-[0.07] gc-botanical pointer-events-none select-none" aria-hidden="true">
+            <img src="/botanical-heliconia.svg" alt="" className="w-full h-full object-contain object-bottom" />
           </div>
-        </div>
-      </section>
-
-      {/* Cuisine Section */}
-      <section id="cuisine" className="py-24 px-6 bg-[var(--background)] relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 text-8xl opacity-5">🌿</div>
-        <div className="absolute bottom-0 right-0 text-8xl opacity-5">🍃</div>
-        
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] mb-6">
-            🌽 {t('cuisine.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
-          <p className="text-xl text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-16 max-w-2xl mx-auto">
-            {t('cuisine.description')}
-          </p>
-          
-          <div className="grid md:grid-cols-4 gap-8 mb-16">
-            {[
-              { emoji: "🧑‍🍳", titleKey: "french", descKey: "frenchDesc" },
-              { emoji: "🌶️", titleKey: "thai", descKey: "thaiDesc" },
-              { emoji: "✨", titleKey: "fusion", descKey: "fusionDesc" },
-              { emoji: "🥗", titleKey: "healthy", descKey: "healthyDesc" },
-            ].map((item, i) => (
-              <div key={i} className="bg-[var(--warm-white)] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 border-b-4 border-[var(--tropical)]">
-                <div className="text-5xl mb-4">{item.emoji}</div>
-                <h3 className="text-xl font-bold text-[var(--primary-dark)] mb-2">{t(`cuisine.${item.titleKey}`)}</h3>
-                <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)]">{t(`cuisine.${item.descKey}`)}</p>
-              </div>
-            ))}
+          {/* Botanical left */}
+          <div className="absolute top-20 left-0 w-56 h-80 opacity-[0.05] gc-botanical-slow pointer-events-none select-none" aria-hidden="true">
+            <img src="/botanical-palm.svg" alt="" className="w-full h-full object-contain" />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { emoji: "🍽️", titleKey: "dinner", descKey: "dinnerDesc" },
-              { emoji: "🥐", titleKey: "brunch", descKey: "brunchDesc" },
-              { emoji: "🍷", titleKey: "drinks", descKey: "drinksDesc" },
-            ].map((item, i) => (
-              <div key={i} className="bg-gradient-to-br from-[var(--accent-light)] to-[var(--warm-white)] p-6 rounded-xl">
-                <div className="text-4xl mb-3">{item.emoji}</div>
-                <h3 className="text-lg font-bold text-[var(--primary-dark)] mb-1">{t(`cuisine.${item.titleKey}`)}</h3>
-                <p className="text-sm text-[var(--warm-gray)] font-[family-name:var(--font-lora)]">{t(`cuisine.${item.descKey}`)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Menu Section */}
-      <section id="menu" className="py-24 px-6 bg-[var(--warm-white)] relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-10 right-10 text-8xl opacity-10">🍽️</div>
-        <div className="absolute bottom-10 left-10 text-8xl opacity-10">🌿</div>
-        
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] text-center mb-6">
-            📜 {t('menuSection.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
-          <p className="text-xl text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-12 max-w-2xl mx-auto text-center">
-            {t('menuSection.description')}
-          </p>
-          
-          <MenuDisplay />
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 px-6 bg-gradient-to-br from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white relative overflow-hidden">
-        {/* Jungle pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-6xl">🌿</div>
-          <div className="absolute top-20 right-20 text-5xl">🍃</div>
-          <div className="absolute bottom-10 left-1/4 text-6xl">🌴</div>
-          <div className="absolute bottom-20 right-10 text-5xl">🌿</div>
-        </div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
-            🦎 {t('services.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-16"></div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {[
-              { emoji: "🍺", labelKey: "fullBar" },
-              { emoji: "🍷", labelKey: "beersWines" },
-              { emoji: "💳", labelKey: "cardsAccepted" },
-              { emoji: "👶", labelKey: "highChairs" },
-              { emoji: "📅", labelKey: "reservations" },
-              { emoji: "🍸", labelKey: "alcoholServed" },
-              { emoji: "🛎️", labelKey: "tableService" },
-              { emoji: "🅿️", labelKey: "streetParking" },
-              { emoji: "📶", labelKey: "freeWifi" },
-              { emoji: "🥬", labelKey: "vegetarian" },
-              { emoji: "🌾", labelKey: "glutenFree" },
-            ].map((item, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-sm p-4 rounded-xl text-center hover:bg-white/20 transition-colors">
-                <div className="text-3xl mb-2">{item.emoji}</div>
-                <p className="text-sm font-[family-name:var(--font-lora)]">{t(`services.${item.labelKey}`)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Hours Section */}
-      <section id="hours" className="py-24 px-6 bg-[var(--warm-white)] relative overflow-hidden">
-        {/* Decorative leaves */}
-        <div className="absolute top-0 left-0 text-9xl opacity-5">🌿</div>
-        <div className="absolute bottom-0 right-0 text-9xl opacity-5">🍃</div>
-        
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] text-center mb-6">
-            ⏰ {t('hoursSection.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-12"></div>
-          
-          <HoursDisplay />
-        </div>
-      </section>
-
-      {/* Social & Reviews Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-[var(--background)] to-[var(--accent-light)] relative overflow-hidden">
-        <div className="absolute top-10 right-10 text-6xl opacity-10">🌿</div>
-        <div className="absolute bottom-10 left-10 text-6xl opacity-10">🍃</div>
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] mb-6">
-            ⭐ {t('social.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
-          <p className="text-xl text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-12 max-w-2xl mx-auto">
-            {t('social.description')}
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* TripAdvisor */}
-            <a 
-              href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border-b-4 border-[#00af87]"
-            >
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="#00af87">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                </svg>
-                <span className="text-2xl font-bold text-[#00af87]">TripAdvisor</span>
-              </div>
-              <div className="flex justify-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-2xl">⭐</span>
-                ))}
-              </div>
-              <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-4">
-                {t('social.tripAdvisorText')}
-              </p>
-              <span className="inline-flex items-center gap-2 text-[#00af87] font-semibold group-hover:gap-3 transition-all">
-                {t('social.readReviews')} →
-              </span>
-            </a>
-
-            {/* Facebook */}
-            <a 
-              href="https://www.facebook.com/GeckoCabaneRestaurant/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border-b-4 border-[#1877f2]"
-            >
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="#1877f2">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span className="text-2xl font-bold text-[#1877f2]">Facebook</span>
-              </div>
-              <div className="text-4xl mb-4">👍</div>
-              <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-4">
-                {t('social.facebookText')}
-              </p>
-              <span className="inline-flex items-center gap-2 text-[#1877f2] font-semibold group-hover:gap-3 transition-all">
-                {t('social.followUs')} →
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Reservation Section */}
-      <section id="reservation" className="py-24 px-6 bg-gradient-to-br from-[var(--primary)] via-[var(--jungle-dark)] to-[var(--primary-dark)] relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-10 left-10 text-8xl opacity-10">🌿</div>
-        <div className="absolute bottom-10 right-10 text-8xl opacity-10">🍃</div>
-        <div className="absolute top-1/2 left-1/4 text-6xl opacity-10">🦎</div>
-        
-        <div className="max-w-2xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-6">
-            📅 {t('reservationForm.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-8"></div>
-          <p className="text-center text-[var(--accent-light)] font-[family-name:var(--font-lora)] mb-10">
-            {t('reservationForm.subtitle')}
-          </p>
-          
-          {/* Coming-soon overlay */}
-          <div className="relative">
-            {/* Banner */}
-            <div className="mb-6 rounded-2xl overflow-hidden shadow-lg">
-              <div className="bg-amber-400 px-5 py-3 flex items-center justify-center gap-2">
-                <span className="text-lg">🔨</span>
-                <span className="font-bold text-amber-900 text-sm uppercase tracking-wider">{t('reservationForm.comingSoonBadge')}</span>
-                <span className="text-lg">🔨</span>
-              </div>
-              <div className="bg-amber-50 px-6 py-4 text-center border-x-2 border-b-2 border-amber-400 rounded-b-2xl">
-                <p className="font-bold text-amber-900 text-lg mb-1">{t('reservationForm.comingSoonTitle')}</p>
-                <p className="text-amber-800 text-sm">{t('reservationForm.comingSoonText')}</p>
-              </div>
-            </div>
-
-            {/* Form — visible but not interactive */}
-            <div className="pointer-events-none select-none opacity-50 blur-[1px]" aria-hidden="true">
-              <ReservationForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-gradient-to-br from-[var(--accent-light)] via-[var(--background)] to-[var(--warm-white)] relative overflow-hidden">
-        {/* Decorative jungle elements */}
-        <div className="absolute top-10 left-5 text-7xl opacity-10">🌿</div>
-        <div className="absolute bottom-10 right-5 text-7xl opacity-10">🌴</div>
-        <div className="absolute top-1/2 right-10 text-5xl opacity-10">🍃</div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--primary-dark)] text-center mb-6">
-            📍 {t('contactSection.title')}
-          </h2>
-          <div className="w-24 h-1 bg-[var(--warm-gold)] mx-auto mb-12"></div>
-          
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-white rounded-3xl shadow-xl p-8 border-l-4 border-[var(--tropical)]">
-              <h3 className="text-2xl font-bold text-[var(--primary-dark)] mb-6">🌿 {t('contactSection.addressTitle')}</h3>
-              <p className="text-lg text-[var(--warm-gray)] font-[family-name:var(--font-lora)] mb-6 leading-relaxed">
-                1/36-37 Soi Ruamjit<br />
-                Maharat Road<br />
-                Krabi Town 81000<br />
-                {t('contactSection.thailand')}
-              </p>
-              
-              <div className="border-t border-[var(--accent-light)] pt-6 mt-6">
-                <h4 className="font-bold text-[var(--primary-dark)] mb-4">📞 {t('contactSection.reservationTitle')}</h4>
-                <a 
-                  href="tel:+66819585945" 
-                  className="inline-flex items-center gap-2 text-[var(--tropical)] font-semibold text-lg hover:text-[var(--primary-dark)] transition-colors mb-4"
-                >
-                  <span>📱</span> +66 81 958 5945
-                </a>
-                <p className="text-[var(--warm-gray)] font-[family-name:var(--font-lora)] text-sm">
-                  {t('contactSection.groupInfo')}
-                </p>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-br from-[var(--tropical)] to-[var(--jungle-dark)] rounded-3xl shadow-xl p-8 text-white relative overflow-hidden">
-              {/* Decorative leaf */}
-              <div className="absolute top-2 right-2 text-4xl opacity-20">🌿</div>
-              <div className="absolute bottom-2 left-2 text-3xl opacity-20">🍃</div>
-              
-              <h3 className="text-2xl font-bold mb-6">🦎 {t('contactSection.welcomeTitle')}</h3>
-              <p className="font-[family-name:var(--font-lora)] opacity-90 mb-8 leading-relaxed">
-                {t('contactSection.welcomeText')}
-              </p>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">👥</span>
-                  <span className="font-[family-name:var(--font-lora)]">{t('contactSection.maxSeats')}</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">👩‍🍳</span>
-                  <span className="font-[family-name:var(--font-lora)]">{t('contactSection.chefTeam')}</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">🍽️</span>
-                  <span className="font-[family-name:var(--font-lora)]">{t('contactSection.cuisineType')}</span>
-                </div>
-                <a href="tel:+66819585945" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                  <span className="text-2xl">📱</span>
-                  <span className="font-[family-name:var(--font-lora)] font-semibold">+66 81 958 5945</span>
-                </a>
-              </div>
-              
-              <a 
-                href="https://maps.google.com/?q=1/36-37+Soi+Ruamjit+Maharat+Road+Krabi+Town+81000+Thailand"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-8 bg-white text-[var(--primary)] px-6 py-3 rounded-full font-semibold hover:bg-[var(--accent-light)] transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-                aria-label={t('contactSection.viewMapAriaLabel')}
+          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <GcDivider />
+            <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
+                style={{ fontSize: 'clamp(40px, 8vw, 96px)' }}>
+              GECKO CABANE
+            </h1>
+            <GcDivider />
+            <p className="font-cormorant italic font-light text-gc-ivory/90 mt-7 mb-2 tracking-wide"
+               style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}>
+              {t('hero.subtitle')}
+            </p>
+            <p className="font-raleway font-light text-[13px] tracking-[0.3em] uppercase text-gc-gold/55 mb-10">
+              Krabi Town · Thaïlande
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="#menu"
+                className="font-cinzel text-[13px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-8 py-4 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+                aria-label={t('hero.discoverAriaLabel')}
               >
-                {t('contactSection.viewOnMap')} →
+                {t('hero.discoverButton')}
+              </a>
+              <a
+                href="#contact"
+                className="font-raleway font-light text-[13px] tracking-[0.15em] uppercase text-gc-ivory/75 border border-gc-ivory/30 px-8 py-4 hover:border-gc-ivory/70 transition-all"
+              >
+                {t('hero.findUsButton')}
               </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      </main>
+          {/* Scroll indicator */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
+            <div className="w-px h-12 bg-gc-gold/50 gc-scroll-line" />
+          </div>
+        </section>
 
-      {/* Footer */}
-      <footer 
-        className="bg-gradient-to-br from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white py-12 px-6 relative overflow-hidden"
-        role="contentinfo"
-        aria-label={t('footer.restaurantInfo')}
-      >
-        {/* Decorative jungle elements */}
-        <div className="absolute top-0 left-0 right-0 text-4xl opacity-10 flex justify-center gap-4">
-          🌿🍃🌴🍃🌿🍃🌴🍃🌿
-        </div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          {/* Main footer grid */}
-          <div className="grid md:grid-cols-4 gap-8 mb-10">
-            {/* Brand */}
-            <div>
-              <h3 className="text-2xl font-bold mb-4">🦎 Gecko Cabane</h3>
-              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed">
-                {t('footer.subtitle')}<br />
-                🌿 {t('footer.location')}
+        {/* ═══ SIGNATURE ═══ */}
+        <section className="relative bg-gc-jungle py-16 px-6 overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none opacity-50" aria-hidden="true" />
+          <div className="max-w-[720px] mx-auto text-center relative z-10">
+            <GcDivider />
+            <blockquote className="font-cormorant italic font-light text-gc-ivory leading-relaxed mt-6 mb-6"
+                        style={{ fontSize: 'clamp(18px, 2.5vw, 26px)' }}>
+              &ldquo;{t('about.chefQuote')}&rdquo;
+            </blockquote>
+            <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65">
+              — {t('about.chefName')}
+            </p>
+            <GcDivider className="mt-6" />
+          </div>
+        </section>
+
+        {/* ═══ ABOUT ═══ */}
+        <section id="about" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+                  Notre Histoire
+                </p>
+                <h2
+                  className="font-cinzel font-normal text-gc-text-dark leading-tight mb-6"
+                  style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+                >
+                  {t('about.title')}
+                </h2>
+                <div className="w-12 h-px bg-gc-gold mb-8" />
+                <p className="font-cormorant text-[17px] text-gc-text-mid leading-[1.85] mb-5">
+                  {t.rich('about.description1', {
+                    chef: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
+                  })}
+                </p>
+                <p className="font-cormorant text-[17px] text-gc-text-mid leading-[1.85] mb-8">
+                  {t.rich('about.description2', {
+                    seats: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
+                  })}
+                </p>
+                <div className="flex items-start gap-4 p-5 border-l-[3px] border-gc-gold bg-gc-gold/5">
+                  <svg className="w-5 h-5 text-gc-brass mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                  </svg>
+                  <p className="font-cormorant text-[16px] text-gc-text-dark leading-relaxed">
+                    <strong>{t('about.important')} :</strong> {t('about.kitchenClose')}
+                  </p>
+                </div>
+              </div>
+              <div className="relative">
+                <div className="bg-gc-void p-8 relative">
+                  <div className="absolute inset-0 border border-gc-gold/20" />
+                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold" />
+                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold" />
+                  <div className="relative z-10 text-center py-8">
+                    <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-5">
+                      Chef de cuisine
+                    </p>
+                    <div className="w-20 h-px bg-gc-gold/30 mx-auto mb-5" />
+                    <h3 className="font-cinzel font-normal text-gc-ivory text-2xl tracking-wide mb-5">
+                      {t('about.chefName')}
+                    </h3>
+                    <p className="font-cormorant italic text-[17px] text-gc-ivory/75 leading-relaxed">
+                      {t('about.chefQuote')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ CUISINE ═══ */}
+        <section id="cuisine" className="py-24 px-6 bg-gc-void relative overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-16">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-4">
+                Notre Cuisine
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-ivory mb-4"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+              >
+                {t('cuisine.title')}
+              </h2>
+              <GcDivider />
+              <p className="font-cormorant italic text-[18px] text-gc-ivory/65 max-w-2xl mx-auto mt-6">
+                {t('cuisine.description')}
               </p>
             </div>
 
-            {/* Hours */}
+            <div className="grid md:grid-cols-4 gap-6 mb-16">
+              {[
+                {
+                  icon: (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 21H9m6 0a2 2 0 0 0 2-2v-2.25H7V19a2 2 0 0 0 2 2h6Zm-7.5-7.5h9" />
+                    </svg>
+                  ),
+                  titleKey: 'french', descKey: 'frenchDesc',
+                },
+                {
+                  icon: (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z" />
+                    </svg>
+                  ),
+                  titleKey: 'thai', descKey: 'thaiDesc',
+                },
+                {
+                  icon: (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
+                    </svg>
+                  ),
+                  titleKey: 'fusion', descKey: 'fusionDesc',
+                },
+                {
+                  icon: (
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                    </svg>
+                  ),
+                  titleKey: 'healthy', descKey: 'healthyDesc',
+                },
+              ].map((item, i) => (
+                <div key={i} className="gc-card-pilier group">
+                  <div className="text-gc-gold mb-5 group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <h3 className="font-cinzel font-normal text-[17px] text-gc-ivory mb-3 tracking-wide">
+                    {t(`cuisine.${item.titleKey}` as Parameters<typeof t>[0])}
+                  </h3>
+                  <p className="font-cormorant text-[15px] text-gc-ivory/60 leading-relaxed">
+                    {t(`cuisine.${item.descKey}` as Parameters<typeof t>[0])}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-5">
+              {[
+                { titleKey: 'dinner', descKey: 'dinnerDesc' },
+                { titleKey: 'brunch', descKey: 'brunchDesc' },
+                { titleKey: 'drinks', descKey: 'drinksDesc' },
+              ].map((item, i) => (
+                <div key={i} className="border border-gc-gold/20 p-7 text-center hover:border-gc-gold/50 transition-colors">
+                  <h3 className="font-cinzel font-normal text-[14px] text-gc-ivory tracking-widest uppercase mb-3">
+                    {t(`cuisine.${item.titleKey}` as Parameters<typeof t>[0])}
+                  </h3>
+                  <div className="w-8 h-px bg-gc-gold/35 mx-auto mb-3" />
+                  <p className="font-cormorant italic text-[15px] text-gc-ivory/55">
+                    {t(`cuisine.${item.descKey}` as Parameters<typeof t>[0])}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ MENU ═══ */}
+        <section id="menu" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="text-center mb-12">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+                La Carte
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-text-dark mb-4"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+              >
+                {t('menuSection.title')}
+              </h2>
+              <GcDivider dark />
+              <p className="font-cormorant italic text-[18px] text-gc-text-mid max-w-2xl mx-auto mt-6">
+                {t('menuSection.description')}
+              </p>
+            </div>
+            <MenuDisplay />
+          </div>
+        </section>
+
+        {/* ═══ SERVICES ═══ */}
+        <section className="py-20 px-6 bg-gc-jungle relative overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none opacity-50" aria-hidden="true" />
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-12">
+              <h2
+                className="font-cinzel font-normal text-gc-ivory tracking-wide"
+                style={{ fontSize: 'clamp(20px, 2.5vw, 32px)' }}
+              >
+                {t('services.title')}
+              </h2>
+              <GcDivider className="mt-4" />
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {[
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0H3" /></svg>,
+                  labelKey: 'freeWifi',
+                },
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" /></svg>,
+                  labelKey: 'cardsAccepted',
+                },
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>,
+                  labelKey: 'reservations',
+                },
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" /></svg>,
+                  labelKey: 'tableService',
+                },
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" /></svg>,
+                  labelKey: 'streetParking',
+                },
+                {
+                  icon: <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1} className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>,
+                  labelKey: 'vegetarian',
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col items-center gap-3 p-5 border border-gc-ivory/10 hover:border-gc-gold/30 transition-colors text-center">
+                  <div className="text-gc-gold">{item.icon}</div>
+                  <p className="font-raleway font-light text-[11px] tracking-[0.1em] uppercase text-gc-ivory/65">
+                    {t(`services.${item.labelKey}` as Parameters<typeof t>[0])}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ HOURS ═══ */}
+        <section id="hours" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
+          <div className="max-w-[720px] mx-auto">
+            <div className="text-center mb-12">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+                Horaires
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-text-dark mb-4"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+              >
+                {t('hoursSection.title')}
+              </h2>
+              <GcDivider dark />
+            </div>
+            <HoursDisplay />
+          </div>
+        </section>
+
+        {/* ═══ SOCIAL ═══ */}
+        <section className="py-20 px-6 bg-gc-void relative overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+          <div className="max-w-[860px] mx-auto text-center relative z-10">
+            <h2
+              className="font-cinzel font-normal text-gc-ivory mb-4"
+              style={{ fontSize: 'clamp(20px, 2.5vw, 32px)' }}
+            >
+              {t('social.title')}
+            </h2>
+            <GcDivider className="mb-8" />
+            <p className="font-cormorant italic text-[18px] text-gc-ivory/65 mb-12 max-w-xl mx-auto">
+              {t('social.description')}
+            </p>
+            <div className="grid md:grid-cols-2 gap-5">
+              <a
+                href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
+              >
+                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">TripAdvisor</p>
+                <div className="flex gap-0.5 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-4 h-4 fill-gc-gold text-gc-gold" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
+                  {t('social.tripAdvisorText')}
+                </p>
+                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
+                  {t('social.readReviews')} →
+                </span>
+              </a>
+
+              <a
+                href="https://www.facebook.com/GeckoCabaneRestaurant/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
+              >
+                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">Facebook</p>
+                <svg className="w-8 h-8 fill-gc-gold opacity-50 mb-4" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
+                  {t('social.facebookText')}
+                </p>
+                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
+                  {t('social.followUs')} →
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ RESERVATION ═══ */}
+        <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
+          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+          <div className="absolute bottom-0 left-0 w-48 h-72 opacity-[0.05] pointer-events-none" aria-hidden="true">
+            <img src="/botanical-lotus.svg" alt="" className="w-full h-full object-contain" />
+          </div>
+          <div className="max-w-[600px] mx-auto relative z-10">
+            <div className="text-center mb-10">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-4">
+                Réservation
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-ivory mb-4"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+              >
+                {t('reservationForm.title')}
+              </h2>
+              <GcDivider />
+              <p className="font-cormorant italic text-[17px] text-gc-ivory/65 mt-6">
+                {t('reservationForm.subtitle')}
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* Coming soon notice */}
+              <div className="mb-6 border border-gc-gold/40 p-5 text-center">
+                <p className="font-cinzel text-[12px] tracking-[0.2em] uppercase text-gc-gold mb-2">
+                  {t('reservationForm.comingSoonTitle')}
+                </p>
+                <p className="font-cormorant italic text-[15px] text-gc-ivory/55">
+                  {t('reservationForm.comingSoonText')}
+                </p>
+              </div>
+              {/* Disabled form preview */}
+              <div className="pointer-events-none select-none opacity-40 blur-[2px]" aria-hidden="true">
+                <ReservationForm />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ CONTACT ═══ */}
+        <section id="contact" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="text-center mb-12">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+                Nous trouver
+              </p>
+              <h2
+                className="font-cinzel font-normal text-gc-text-dark mb-4"
+                style={{ fontSize: 'clamp(26px, 3.5vw, 42px)' }}
+              >
+                {t('contactSection.title')}
+              </h2>
+              <GcDivider dark />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="font-cinzel font-normal text-[18px] text-gc-text-dark tracking-wide mb-5">
+                  {t('contactSection.addressTitle')}
+                </h3>
+                <div className="w-8 h-px bg-gc-gold mb-6" />
+                <address className="font-cormorant not-italic text-[17px] text-gc-text-mid leading-[2.1] mb-8">
+                  1/36-37 Soi Ruamjit<br />
+                  Maharat Road<br />
+                  Krabi Town 81000<br />
+                  {t('contactSection.thailand')}
+                </address>
+                <div className="border-t border-gc-aged pt-6">
+                  <h4 className="font-cinzel font-normal text-[13px] tracking-[0.15em] uppercase text-gc-text-dark mb-4">
+                    {t('contactSection.reservationTitle')}
+                  </h4>
+                  <a
+                    href="tel:+66819585945"
+                    className="font-cormorant text-[22px] text-gc-brass hover:text-gc-text-dark transition-colors block mb-3"
+                  >
+                    +66 81 958 5945
+                  </a>
+                  <p className="font-cormorant italic text-[15px] text-gc-text-mid">
+                    {t('contactSection.groupInfo')}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gc-void p-10 relative">
+                <div className="absolute inset-0 border border-gc-gold/20" />
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold" />
+                <div className="relative z-10">
+                  <h3 className="font-cinzel font-normal text-[18px] text-gc-ivory tracking-wide mb-5">
+                    {t('contactSection.welcomeTitle')}
+                  </h3>
+                  <div className="w-8 h-px bg-gc-gold mb-6" />
+                  <p className="font-cormorant text-[16px] text-gc-ivory/75 leading-[1.85] mb-8">
+                    {t('contactSection.welcomeText')}
+                  </p>
+                  <div className="space-y-3 mb-8">
+                    {[
+                      t('contactSection.maxSeats'),
+                      t('contactSection.chefTeam'),
+                      t('contactSection.cuisineType'),
+                    ].map((label, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="w-px h-4 bg-gc-gold/50 shrink-0" />
+                        <span className="font-cormorant text-[15px] text-gc-ivory/65">{label}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-3">
+                      <div className="w-px h-4 bg-gc-gold/50 shrink-0" />
+                      <a href="tel:+66819585945" className="font-cormorant text-[15px] text-gc-ivory hover:text-gc-gold transition-colors">
+                        +66 81 958 5945
+                      </a>
+                    </div>
+                  </div>
+                  <a
+                    href="https://maps.google.com/?q=1/36-37+Soi+Ruamjit+Maharat+Road+Krabi+Town+81000+Thailand"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all inline-block focus:outline-none focus:ring-1 focus:ring-gc-gold"
+                    aria-label={t('contactSection.viewMapAriaLabel')}
+                  >
+                    {t('contactSection.viewOnMap')} →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      {/* ═══ FOOTER ═══ */}
+      <footer
+        className="bg-gc-void border-t border-gc-gold/15 py-16 px-6 relative overflow-hidden"
+        role="contentinfo"
+        aria-label={t('footer.restaurantInfo')}
+      >
+        <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
-              <h4 className="font-bold mb-4">⏰ {t('footer.hoursTitle')}</h4>
-              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed">
+              <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em] mb-1">
+                GECKO CABANE
+              </p>
+              <GcDivider className="!text-left !mx-0 mb-4 text-[10px]" />
+              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-relaxed">
+                {t('footer.subtitle')}<br />
+                {t('footer.location')}
+              </p>
+            </div>
+            <div>
+              <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
+                {t('footer.hoursTitle')}
+              </h4>
+              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85]">
                 {t('footer.openHours')}<br />
                 {t('footer.closedDay')}<br />
                 {t('footer.lastOrder')}
               </p>
             </div>
-
-            {/* Contact */}
             <div>
-              <h4 className="font-bold mb-4">📍 {t('footer.contactTitle')}</h4>
-              <p className="font-[family-name:var(--font-lora)] opacity-80 text-sm leading-relaxed mb-2">
+              <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
+                {t('footer.contactTitle')}
+              </h4>
+              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85] mb-2">
                 1/36-37 Soi Ruamjit<br />
                 Maharat Road, Krabi Town 81000<br />
-                {t('contactSection.thailand')} 🇹🇭
+                {t('contactSection.thailand')}
               </p>
-              <a href="tel:+66819585945" className="font-[family-name:var(--font-lora)] opacity-90 hover:opacity-100 transition-opacity flex items-center gap-2 text-sm">
-                📱 +66 81 958 5945
+              <a href="tel:+66819585945" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors">
+                +66 81 958 5945
               </a>
             </div>
-
-            {/* Mentions légales */}
             <div>
-              <h4 className="font-bold mb-4">⚖️ {t('footer.legalTitle')}</h4>
-              <ul className="font-[family-name:var(--font-lora)] opacity-80 text-sm space-y-1 leading-relaxed">
+              <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
+                {t('footer.legalTitle')}
+              </h4>
+              <ul className="font-cormorant text-[13px] text-gc-ivory/35 space-y-1.5 leading-relaxed">
                 <li>{t('footer.legalBusiness')}</li>
                 <li>{t('footer.legalVat')}</li>
                 <li>{t('footer.legalAlcohol')}</li>
@@ -525,39 +627,23 @@ export default async function Home() {
               </ul>
             </div>
           </div>
-
-          {/* Legal notice block */}
-          <div className="border-t border-white/10 pt-6 mb-6">
-            <p className="font-[family-name:var(--font-lora)] opacity-50 text-xs leading-relaxed">
+          <div className="border-t border-gc-gold/10 pt-5 mb-4">
+            <p className="font-cormorant text-[12px] text-gc-ivory/25 leading-relaxed">
               {t('footer.legalNotice')}
             </p>
           </div>
-
-          {/* Bottom bar */}
-          <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-[family-name:var(--font-lora)] opacity-60 text-sm text-center md:text-left">
-              © 2026 Gecko Cabane Restaurant 🦎 {t('footer.rights')}
+          <div className="border-t border-gc-gold/10 pt-5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="font-cormorant text-[13px] text-gc-ivory/35">
+              © 2026 Gecko Cabane Restaurant
             </p>
-            <p className="text-xl opacity-20">🌿🦎🌿</p>
-            <p className="font-[family-name:var(--font-lora)] opacity-40 text-xs text-center md:text-right">
-              {t('footer.createdBy')}{" "}
-              <a 
-                href="https://selenium-studio.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:opacity-100 underline transition-opacity"
-              >
-                selenium-studio.com
-              </a>
-              {" & "}
-              <a 
-                href="https://anatholy-bricon.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:opacity-100 underline transition-opacity"
-              >
-                anatholy-bricon.com
-              </a>
+            <GcDivider className="hidden md:block" />
+            <p className="font-cormorant text-[12px] text-gc-ivory/25 text-center md:text-right">
+              {t('footer.createdBy')}{' '}
+              <a href="https://selenium-studio.com" target="_blank" rel="noopener noreferrer"
+                 className="hover:text-gc-gold/60 underline transition-colors">selenium-studio.com</a>
+              {' & '}
+              <a href="https://anatholy-bricon.com" target="_blank" rel="noopener noreferrer"
+                 className="hover:text-gc-gold/60 underline transition-colors">anatholy-bricon.com</a>
             </p>
           </div>
         </div>
