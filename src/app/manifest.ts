@@ -12,7 +12,8 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: 'fr',
     icons: [
       { src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-      { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
+      { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+      { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'maskable' },
     ],
   }
 }
