@@ -74,12 +74,10 @@ export default function HoursDisplay() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border-t-4 border-[var(--tropical)]">
-        <div className="animate-pulse space-y-4">
-          {[...Array(7)].map((_, i) => (
-            <div key={i} className="h-14 bg-gray-100 rounded-xl"></div>
-          ))}
-        </div>
+      <div className="space-y-3">
+        {[...Array(7)].map((_, i) => (
+          <div key={i} className="h-10 bg-gc-aged/30 animate-pulse" />
+        ))}
       </div>
     )
   }
@@ -96,87 +94,75 @@ export default function HoursDisplay() {
   ] as OpeningHours[]
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border-t-4 border-[var(--tropical)]">
-      <div className="grid gap-4">
+    <div>
+      <div className="divide-y divide-gc-aged/50">
         {displayHours.map((item, i) => (
-          <div 
-            key={i} 
-            className={`flex justify-between items-center p-4 rounded-xl ${
-              item.is_open 
-                ? "bg-[var(--accent-light)]/50" 
-                : "bg-red-50"
-            }`}
+          <div
+            key={i}
+            className="flex justify-between items-center py-4"
           >
-            <span className="font-semibold text-[var(--primary-dark)]">
+            <span className="font-cinzel font-normal text-[14px] tracking-[0.1em] uppercase text-gc-text-dark">
               {item.day_name || getDayName(item.day_of_week)}
             </span>
-            <span className={`font-[family-name:var(--font-lora)] ${
-              item.is_open ? "text-[var(--warm-green)]" : "text-red-500"
+            <span className={`font-cormorant text-[17px] ${
+              item.is_open ? 'text-gc-text-dark' : 'text-gc-copper italic'
             }`}>
-              {item.is_open 
-                ? `${formatTime(item.open_time)} - ${formatTime(item.close_time)}` 
+              {item.is_open
+                ? `${formatTime(item.open_time)} — ${formatTime(item.close_time)}`
                 : t('closed')}
             </span>
           </div>
         ))}
       </div>
-      
+
       {/* Special Hours Section */}
       {specialHours.length > 0 && (
-        <div className="mt-8 p-6 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl">
-          <h4 className="font-bold text-xl text-amber-800 mb-4 flex items-center gap-2">
-            <span>📅</span> {t('specialHours')}
+        <div className="mt-8 space-y-3">
+          <h4 className="font-cinzel font-normal text-[13px] tracking-[0.2em] uppercase text-gc-brass mb-4">
+            {t('specialHours')}
           </h4>
-          <div className="space-y-4">
-            {specialHours.map((sh) => (
-              <div 
-                key={sh.id} 
-                className={`p-4 rounded-xl ${
-                  sh.is_open 
-                    ? 'bg-white border border-green-200' 
-                    : 'bg-red-50 border border-red-200'
-                }`}
-              >
-                <div className="flex flex-wrap justify-between items-start gap-2">
-                  <div>
-                    <p className="font-semibold text-[var(--primary-dark)]">
-                      {new Date(sh.date).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', { 
-                        weekday: 'long', 
-                        day: 'numeric', 
-                        month: 'long',
-                        year: 'numeric'
-                      })}
-                    </p>
-                    {sh.title && (
-                      <p className="text-amber-700 font-medium mt-1">
-                        🎉 {sh.title}
-                      </p>
-                    )}
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    sh.is_open 
-                      ? 'bg-green-100 text-green-700' 
-                      : 'bg-red-100 text-red-600'
-                  }`}>
-                    {sh.is_open 
-                      ? `${formatTime(sh.open_time)} - ${formatTime(sh.close_time)}` 
-                      : t('closed')}
-                  </span>
-                </div>
-                {sh.note && (
-                  <p className="mt-3 text-[var(--warm-gray)] text-sm italic border-t border-gray-100 pt-3">
-                    💬 {sh.note}
+          {specialHours.map((sh) => (
+            <div
+              key={sh.id}
+              className="border-l-2 border-gc-gold pl-4 py-2"
+            >
+              <div className="flex flex-wrap justify-between items-start gap-2">
+                <div>
+                  <p className="font-cinzel font-normal text-[13px] tracking-wide text-gc-text-dark">
+                    {new Date(sh.date).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
                   </p>
-                )}
+                  {sh.title && (
+                    <p className="font-cormorant italic text-[15px] text-gc-brass mt-1">
+                      {sh.title}
+                    </p>
+                  )}
+                </div>
+                <span className={`font-cormorant text-[16px] ${
+                  sh.is_open ? 'text-gc-text-dark' : 'text-gc-copper italic'
+                }`}>
+                  {sh.is_open
+                    ? `${formatTime(sh.open_time)} — ${formatTime(sh.close_time)}`
+                    : t('closed')}
+                </span>
               </div>
-            ))}
-          </div>
+              {sh.note && (
+                <p className="font-cormorant italic text-[14px] text-gc-text-mid mt-2">
+                  {sh.note}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
       )}
-      
-      <div className="mt-8 p-4 bg-[var(--warm-gold)]/20 rounded-xl text-center">
-        <p className="text-[var(--primary-dark)] font-[family-name:var(--font-lora)]">
-          ⏰ {t('lastOrder')} : <strong>22h00</strong>
+
+      <div className="mt-8 pt-5 border-t border-gc-aged text-center">
+        <p className="font-cormorant italic text-[16px] text-gc-text-mid">
+          {t('lastOrder')} : <span className="font-cinzel not-italic text-gc-text-dark">22h00</span>
         </p>
       </div>
     </div>
