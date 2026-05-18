@@ -1,101 +1,130 @@
 @import "tailwindcss";
 
+/* ── Tokens couleurs ───────────────────────────────────── */
 :root {
-  --background: #F5F9F4;
-  --foreground: #1A2E1A;
-  --primary: #2D5A3D;
-  --primary-dark: #1E3D2A;
-  --accent: #6B8E5A;
-  --accent-light: #D4E5C9;
-  --warm-white: #FAFDF8;
-  --warm-gray: #4A5D4A;
-  --warm-gold: #A67C52;
-  --warm-green: #3D7A4A;
-  --leaf-green: #4CAF50;
-  --moss: #7BA05B;
-  --jungle-dark: #1B4332;
-  --bamboo: #8B9556;
-  --tropical: #2E7D32;
+  --gc-void:        #0D1F17;
+  --gc-jungle:      #0C3C2D;
+  --gc-moss:        #1A4A35;
+  --gc-gold:        #C69B3C;
+  --gc-brass:       #B8860B;
+  --gc-copper:      #8C5A3C;
+  --gc-ivory:       #FAF0E6;
+  --gc-parchment:   #F5EEDA;
+  --gc-aged:        #E8DCC8;
+  --gc-celadon:     #8FA882;
+  --gc-text-dark:   #1A0E00;
+  --gc-text-mid:    #5C4A3A;
 }
 
+/* ── Tailwind v4 theme ─────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-dark: var(--primary-dark);
-  --color-accent: var(--accent);
-  --color-accent-light: var(--accent-light);
-  --color-warm-white: var(--warm-white);
-  --color-warm-gray: var(--warm-gray);
-  --color-warm-gold: var(--warm-gold);
-  --color-warm-green: var(--warm-green);
-  --font-sans: var(--font-playfair);
-  --font-mono: var(--font-lora);
+  --color-gc-void:        var(--gc-void);
+  --color-gc-jungle:      var(--gc-jungle);
+  --color-gc-moss:        var(--gc-moss);
+  --color-gc-gold:        var(--gc-gold);
+  --color-gc-brass:       var(--gc-brass);
+  --color-gc-copper:      var(--gc-copper);
+  --color-gc-ivory:       var(--gc-ivory);
+  --color-gc-parchment:   var(--gc-parchment);
+  --color-gc-aged:        var(--gc-aged);
+  --color-gc-celadon:     var(--gc-celadon);
+  --color-gc-text-dark:   var(--gc-text-dark);
+  --color-gc-text-mid:    var(--gc-text-mid);
+  --font-cinzel:            var(--font-cinzel);
+  --font-cinzel-decorative: var(--font-cinzel-decorative);
+  --font-cormorant:         var(--font-cormorant);
+  --font-raleway:           var(--font-raleway);
 }
 
+/* ── Base ──────────────────────────────────────────────── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), serif;
+  background: var(--gc-void);
+  color: var(--gc-ivory);
+  font-family: var(--font-cormorant), Georgia, serif;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for warm feeling */
-::-webkit-scrollbar {
-  width: 8px;
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--gc-void); }
+::-webkit-scrollbar-thumb { background: var(--gc-gold); opacity: 0.4; }
+::-webkit-scrollbar-thumb:hover { background: var(--gc-brass); }
+
+/* ── Animations ────────────────────────────────────────── */
+@keyframes gc-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes gc-float-slow {
+  0%, 100% { transform: translateY(0) rotate(180deg); }
+  50%       { transform: translateY(-5px) rotate(180deg); }
+}
+@keyframes gc-scroll-pulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.5); transform-origin: top; }
+  50%       { opacity: 0.9;  transform: scaleY(1);   transform-origin: top; }
+}
+@keyframes gc-reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-::-webkit-scrollbar-track {
-  background: var(--accent-light);
+/* ── Utility classes ───────────────────────────────────── */
+.gc-botanical {
+  animation: gc-float 6s ease-in-out infinite;
+}
+.gc-botanical-slow {
+  animation: gc-float-slow 8s ease-in-out infinite;
+}
+.gc-scroll-line {
+  animation: gc-scroll-pulse 2s ease-in-out infinite;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-radius: 4px;
+/* Noise texture overlay (apply to an absolute positioned div) */
+.gc-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+/* Card pilier cuisine */
+.gc-card-pilier {
+  background-color: var(--gc-jungle);
+  border: 1px solid rgba(198, 155, 60, 0.2);
+  border-top: 2px solid var(--gc-gold);
+  padding: 32px;
+  transition: background-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+.gc-card-pilier:hover {
+  background-color: var(--gc-moss);
+  box-shadow: 0 20px 60px rgba(198, 155, 60, 0.08);
+  transform: translateY(-4px);
 }
 
-/* Accessibility utilities */
+/* ── Accessibility ─────────────────────────────────────── */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
 }
-
 .focus-visible-ring:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 1px solid var(--gc-gold);
   outline-offset: 2px;
 }
 
-/* Reduce motion for users who prefer it */
+/* ── Reduce motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --primary: #1A5530;
-    --primary-dark: #0D2818;
-    --accent: #4A7040;
   }
 }
