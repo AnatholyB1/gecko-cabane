@@ -1,18 +1,35 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Lora } from "next/font/google";
+import { Cinzel, Cinzel_Decorative, Cormorant_Garamond, Raleway } from "next/font/google";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
+  display: "swap",
 });
 
-const lora = Lora({
-  variable: "--font-lora",
+const cinzelDecorative = Cinzel_Decorative({
+  variable: "--font-cinzel-decorative",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["700"],
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const raleway = Raleway({
+  variable: "--font-raleway",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -166,7 +183,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${playfair.variable} ${lora.variable} antialiased`}
+        className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable} antialiased`}
       >
         {children}
       </body>
