@@ -119,6 +119,43 @@ html {
   outline-offset: 2px;
 }
 
+/* ── Form elements on dark background ─────────────────── */
+/* Select */
+select {
+  background-color: var(--gc-void);
+  color: var(--gc-ivory);
+  color-scheme: dark;
+}
+select option {
+  background-color: var(--gc-jungle);
+  color: var(--gc-ivory);
+}
+select optgroup {
+  background-color: var(--gc-void);
+  color: var(--gc-gold);
+}
+/* Date/time inputs */
+input[type="date"],
+input[type="time"] {
+  color-scheme: dark;
+  background-color: transparent;
+  color: var(--gc-ivory);
+}
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(1) saturate(2) hue-rotate(5deg);
+  opacity: 0.6;
+  cursor: pointer;
+}
+/* Focus ring accessible */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 1px solid var(--gc-gold);
+  outline-offset: 2px;
+}
+
 /* ── Reduce motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

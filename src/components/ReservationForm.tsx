@@ -267,12 +267,14 @@ export default function ReservationForm() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Name */}
         <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-name" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('fullName')}
           </label>
           <input
+            id="res-name"
             type="text"
             required
+            autoComplete="name"
             value={form.customer_name}
             onChange={(e) => setForm(f => ({ ...f, customer_name: e.target.value }))}
             className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory placeholder:text-gc-ivory/30 py-2 transition-colors"
@@ -282,17 +284,18 @@ export default function ReservationForm() {
 
         {/* Phone with country selector */}
         <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-phone" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('phone')}
           </label>
 
           {/* Country selector */}
           <select
+            id="res-country"
             value={selectedCountryCode}
             onChange={(e) => handleCountryChange(e.target.value)}
             disabled={phoneVerifState === 'verified'}
             aria-label={t('countryLabel')}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[15px] text-gc-ivory py-2 mb-2 disabled:opacity-50 transition-colors"
+            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[15px] text-gc-ivory py-2 mb-2 disabled:opacity-50 transition-colors"
           >
             {COUNTRIES.map(c => (
               <option key={c.code} value={c.code} className="bg-gc-void text-gc-ivory">
@@ -307,8 +310,10 @@ export default function ReservationForm() {
               {selectedCountry.flag} {selectedCountry.dialCode}
             </span>
             <input
+              id="res-phone"
               type="tel"
               required
+              autoComplete="tel"
               value={localPhone}
               onChange={(e) => handleLocalPhoneChange(e.target.value)}
               disabled={phoneVerifState === 'verified'}
@@ -396,11 +401,13 @@ export default function ReservationForm() {
 
         {/* Email */}
         <div className="md:col-span-2 space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-email" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('email')}
           </label>
           <input
+            id="res-email"
             type="email"
+            autoComplete="email"
             value={form.customer_email}
             onChange={(e) => setForm(f => ({ ...f, customer_email: e.target.value }))}
             className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory placeholder:text-gc-ivory/30 py-2 transition-colors"
@@ -410,31 +417,31 @@ export default function ReservationForm() {
 
         {/* Date */}
         <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-date" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('date')}
           </label>
           <input
+            id="res-date"
             type="date"
             required
             min={today}
             value={form.reservation_date}
             onChange={(e) => setForm(f => ({ ...f, reservation_date: e.target.value }))}
-            aria-label={t('date')}
             className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
           />
         </div>
 
         {/* Time */}
         <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-time" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('time')}
           </label>
           <select
+            id="res-time"
             required
             value={form.reservation_time}
             onChange={(e) => setForm(f => ({ ...f, reservation_time: e.target.value }))}
-            aria-label={t('time')}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
+            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
           >
             <option value="" className="bg-gc-void">{t('selectTime')}</option>
             <optgroup label={t('lunch')}>
@@ -483,14 +490,14 @@ export default function ReservationForm() {
 
         {/* Occasion */}
         <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
+          <label htmlFor="res-occasion" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
             {t('occasion')}
           </label>
           <select
+            id="res-occasion"
             value={form.occasion}
             onChange={(e) => setForm(f => ({ ...f, occasion: e.target.value }))}
-            aria-label={t('occasion')}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
+            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
           >
             {OCCASIONS.map(occ => (
               <option key={occ.value} value={occ.value} className="bg-gc-void">{occ.label}</option>
