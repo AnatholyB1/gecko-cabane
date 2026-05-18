@@ -101,6 +101,11 @@ export default async function Home() {
           </div>
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            {/* Gecko décoratif au-dessus du titre */}
+            <div className="flex justify-center mb-2" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/gecko-decorative.svg" alt="" className="gc-botanical" style={{ height: '72px', opacity: 0.75 }} />
+            </div>
             <GcDivider />
             <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
                 style={{ fontSize: 'clamp(40px, 8vw, 96px)' }}>
@@ -188,19 +193,33 @@ export default async function Home() {
                 </div>
               </div>
               <div className="relative">
-                <div className="bg-gc-void p-8 relative">
-                  <div className="absolute inset-0 border border-gc-gold/20" />
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold" />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold" />
-                  <div className="relative z-10 text-center py-8">
-                    <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-5">
+                <div className="bg-gc-void relative overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
+                  {/* Coins décoratifs */}
+                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold z-10" />
+                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold z-10" />
+
+                  {/* Photo de la cheffe */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/chef-jariya.jpg"
+                    alt="Chef Jariya — Gecko Cabane, Krabi"
+                    className="w-full object-cover"
+                    style={{ aspectRatio: '3/4', filter: 'sepia(0.3) contrast(1.05)', objectPosition: 'center top' }}
+                  />
+
+                  {/* Caption overlay */}
+                  <div
+                    className="relative z-10 text-center px-8 py-6"
+                    style={{ background: 'linear-gradient(to bottom, transparent, rgba(13,31,23,0.97))' }}
+                  >
+                    <div className="w-20 h-px bg-gc-gold/30 mx-auto mb-4" />
+                    <p className="font-raleway font-light text-[10px] tracking-[0.3em] uppercase text-gc-gold/65 mb-2">
                       Chef de cuisine
                     </p>
-                    <div className="w-20 h-px bg-gc-gold/30 mx-auto mb-5" />
-                    <h3 className="font-cinzel font-normal text-gc-ivory text-2xl tracking-wide mb-5">
+                    <h3 className="font-cinzel font-normal text-gc-ivory text-xl tracking-wide mb-3">
                       {t('about.chefName')}
                     </h3>
-                    <p className="font-cormorant italic text-[17px] text-gc-ivory/75 leading-relaxed">
+                    <p className="font-cormorant italic text-[16px] text-gc-ivory/70 leading-relaxed">
                       {t('about.chefQuote')}
                     </p>
                   </div>
@@ -534,21 +553,7 @@ export default async function Home() {
               </p>
             </div>
 
-            <div className="relative">
-              {/* Coming soon notice */}
-              <div className="mb-6 border border-gc-gold/40 p-5 text-center">
-                <p className="font-cinzel text-[12px] tracking-[0.2em] uppercase text-gc-gold mb-2">
-                  {t('reservationForm.comingSoonTitle')}
-                </p>
-                <p className="font-cormorant italic text-[15px] text-gc-ivory/55">
-                  {t('reservationForm.comingSoonText')}
-                </p>
-              </div>
-              {/* Disabled form preview */}
-              <div className="pointer-events-none select-none opacity-40 blur-[2px]" aria-hidden="true">
-                <ReservationForm />
-              </div>
-            </div>
+            <ReservationForm />
           </div>
         </section>
 
@@ -653,9 +658,13 @@ export default async function Home() {
         <div className="max-w-[1200px] mx-auto relative z-10">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
-              <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em] mb-1">
-                GECKO CABANE
-              </p>
+              <div className="flex items-center gap-3 mb-1">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/gecko-decorative.svg" alt="" aria-hidden="true" style={{ height: '36px', opacity: 0.7 }} />
+                <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em]">
+                  GECKO CABANE
+                </p>
+              </div>
               <GcDivider className="!text-left !mx-0 mb-4 text-[10px]" />
               <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-relaxed">
                 {t('footer.subtitle')}<br />
