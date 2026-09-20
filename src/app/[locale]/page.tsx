@@ -575,6 +575,16 @@ export default async function Home() {
 
             <div className="grid md:grid-cols-2 gap-12">
               <div>
+                <div className="relative mb-6 overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/exterior-sign.jpg"
+                    alt="Enseigne du restaurant Gecko Cabane de nuit, Krabi"
+                    className="w-full object-cover"
+                    style={{ aspectRatio: '4/5', objectPosition: 'top center' }}
+                    loading="lazy"
+                  />
+                </div>
                 <h3 className="font-cinzel font-normal text-[18px] text-gc-text-dark tracking-wide mb-5">
                   {t('contactSection.addressTitle')}
                 </h3>
@@ -601,7 +611,19 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="bg-gc-void p-10 relative">
+              <div className="bg-gc-void p-10 relative overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/exterior-entrance.jpg"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(160deg, rgba(13,31,23,0.94) 15%, rgba(13,31,23,0.85) 45%, rgba(13,31,23,0.75) 100%)' }}
+                  aria-hidden="true"
+                />
                 <div className="absolute inset-0 border border-gc-gold/20" />
                 <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold" />
                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold" />
