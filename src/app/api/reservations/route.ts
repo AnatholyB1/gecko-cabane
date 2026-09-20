@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createAdminClient } from '@/utils/supabase/server'
 import { validateReservationFields, isPartySizeValid, isReservationDateValid } from '@/utils/validation'
+import {
+  getResendClient,
+  RESEND_FROM_EMAIL,
+  RESTAURANT_NOTIFICATION_EMAIL,
+  customerPendingEmail,
+  restaurantNotificationEmail,
+  customerStatusEmail,
+} from '@/utils/resend'
 
 // GET: Fetch reservations (admin only, or by phone for customers)
 export async function GET(request: NextRequest) {
@@ -194,7 +202,42 @@ export async function POST(request: NextRequest) {
         console.error('Webhook error:', webhookError)
       }
     }
-    
+
+    // Send confirmation-pending / notification emails via Resend (best-effort)
+    const resend = getResendClient()
+    if (resend && data) {
+      const details = {
+        customer_name: data.customer_name,
+        customer_email: data.customer_email,
+        customer_phone: data.customer_phone,
+        reservation_date: data.reservation_date,
+        reservation_time: data.reservation_time,
+        party_size: data.party_size,
+        occasion: data.occasion,
+      }
+
+      const sends: Promise<unknown>[] = []
+
+      if (data.customer_email) {
+        const { subject, html } = customerPendingEmail(details)
+        sends.push(
+          resend.emails.send({ from: RESEND_FROM_EMAIL, to: data.customer_email, subject, html })
+        )
+      }
+
+      if (RESTAURANT_NOTIFICATION_EMAIL) {
+        const { subject, html } = restaurantNotificationEmail(details)
+        sends.push(
+          resend.emails.send({ from: RESEND_FROM_EMAIL, to: RESTAURANT_NOTIFICATION_EMAIL, subject, html })
+        )
+      }
+
+      const results = await Promise.allSettled(sends)
+      results.forEach((r) => {
+        if (r.status === 'rejected') console.error('Resend send error:', r.reason)
+      })
+    }
+
     return NextResponse.json({ data })
     
   } catch (error) {
@@ -270,8 +313,30 @@ export async function PUT(request: NextRequest) {
           console.error('Validation webhook error:', webhookError)
         }
       }
+
+      // Notify the customer by email via Resend (best-effort)
+      const resend = getResendClient()
+      if (resend && data.customer_email) {
+        const { subject, html } = customerStatusEmail(
+          {
+            customer_name: data.customer_name,
+            customer_email: data.customer_email,
+            customer_phone: data.customer_phone,
+            reservation_date: data.reservation_date,
+            reservation_time: data.reservation_time,
+            party_size: data.party_size,
+            occasion: data.occasion,
+          },
+          updates.status
+        )
+        try {
+          await resend.emails.send({ from: RESEND_FROM_EMAIL, to: data.customer_email, subject, html })
+        } catch (resendError) {
+          console.error('Resend status email error:', resendError)
+        }
+      }
     }
-    
+
     return NextResponse.json({ data })
     
   } catch (error) {

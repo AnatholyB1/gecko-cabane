@@ -134,6 +134,16 @@ select optgroup {
   background-color: var(--gc-void);
   color: var(--gc-gold);
 }
+/* Select on a light card (e.g. reservation form) — override the dark theme above */
+select.gc-select-light {
+  background-color: var(--gc-ivory);
+  color: var(--gc-text-dark);
+  color-scheme: light;
+}
+select.gc-select-light option {
+  background-color: var(--gc-ivory);
+  color: var(--gc-text-dark);
+}
 /* Date/time inputs */
 input[type="date"],
 input[type="time"] {

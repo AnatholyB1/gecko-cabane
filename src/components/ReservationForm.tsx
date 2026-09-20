@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
@@ -48,9 +48,19 @@ const COUNTRIES: Country[] = [
   { code: 'ZA', dialCode: '+27',  name: 'Afrique du Sud / South Africa',   flag: '🇿🇦' },
 ]
 
+// Shared input style: dark, high-contrast text on the neutral card background.
+const inputClass =
+  'w-full bg-transparent border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
+
+const selectClass =
+  'gc-select-light w-full border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[16px] text-gc-text-dark py-2 px-1 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
+
+const primaryButtonClass =
+  'font-cinzel text-[12px] tracking-[0.1em] uppercase whitespace-nowrap bg-gc-jungle text-gc-ivory border border-gc-jungle hover:bg-gc-void hover:border-gc-void transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle focus:ring-offset-2 focus:ring-offset-gc-parchment disabled:opacity-40 disabled:cursor-not-allowed'
+
 export default function ReservationForm() {
   const t = useTranslations('reservationForm')
-  
+
   const OCCASIONS = [
     { value: '', label: t('selectOptional') },
     { value: 'Anniversaire', label: t('birthday') },
@@ -76,7 +86,7 @@ export default function ReservationForm() {
   const [otpCode, setOtpCode] = useState('')
   const [otpError, setOtpError] = useState<string | null>(null)
   const [verificationToken, setVerificationToken] = useState<string | null>(null)
-  
+
   const [form, setForm] = useState({
     customer_name: '',
     customer_email: '',
@@ -190,7 +200,7 @@ export default function ReservationForm() {
     }
     setError(null)
     setLoading(true)
-    
+
     try {
       const response = await fetch('/api/reservations', {
         method: 'POST',
@@ -201,9 +211,9 @@ export default function ReservationForm() {
           phone_verification_token: verificationToken
         })
       })
-      
+
       const data = await response.json()
-      
+
       if (response.ok) {
         setSuccess(true)
         setForm({
@@ -227,29 +237,6 @@ export default function ReservationForm() {
     }
   }
 
-  if (success) {
-    return (
-      <div className="border border-gc-gold/30 p-10 text-center">
-        <div className="w-10 h-px bg-gc-gold mx-auto mb-6" />
-        <h3 className="font-cinzel font-normal text-[20px] text-gc-ivory tracking-wide mb-4">
-          {t('successTitle')}
-        </h3>
-        <p className="font-cormorant text-[17px] text-gc-ivory/70 mb-6 leading-relaxed">
-          {t('successMessage')}
-        </p>
-        <p className="font-cormorant italic text-[15px] text-gc-gold/70 mb-8">
-          {t('successNote')}
-        </p>
-        <button
-          onClick={() => setSuccess(false)}
-          className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all"
-        >
-          {t('newReservation')}
-        </button>
-      </div>
-    )
-  }
-
   const sendDisabled =
     phoneVerifState === 'sending' ||
     phoneVerifState === 'sent' ||
@@ -257,280 +244,307 @@ export default function ReservationForm() {
     !phoneIsValid
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="border-l-2 border-gc-copper p-4 bg-gc-copper/5">
-          <p className="font-cormorant text-[16px] text-gc-ivory/80">{error}</p>
-        </div>
-      )}
+    <div className="relative bg-gc-parchment border border-gc-aged p-8 sm:p-10 shadow-sm">
+      {/* Coins décoratifs */}
+      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold pointer-events-none" aria-hidden="true" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold pointer-events-none" aria-hidden="true" />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Name */}
-        <div className="space-y-2">
-          <label htmlFor="res-name" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('fullName')}
-          </label>
-          <input
-            id="res-name"
-            type="text"
-            required
-            autoComplete="name"
-            value={form.customer_name}
-            onChange={(e) => setForm(f => ({ ...f, customer_name: e.target.value }))}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory placeholder:text-gc-ivory/30 py-2 transition-colors"
-            placeholder="Jean Dupont"
-          />
-        </div>
-
-        {/* Phone with country selector */}
-        <div className="space-y-2">
-          <label htmlFor="res-phone" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('phone')}
-          </label>
-
-          {/* Country selector */}
-          <select
-            id="res-country"
-            value={selectedCountryCode}
-            onChange={(e) => handleCountryChange(e.target.value)}
-            disabled={phoneVerifState === 'verified'}
-            aria-label={t('countryLabel')}
-            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[15px] text-gc-ivory py-2 mb-2 disabled:opacity-50 transition-colors"
-          >
-            {COUNTRIES.map(c => (
-              <option key={c.code} value={c.code} className="bg-gc-void text-gc-ivory">
-                {c.flag} {c.name} ({c.dialCode})
-              </option>
-            ))}
-          </select>
-
-          {/* Dial code badge + input + action */}
-          <div className="flex items-stretch gap-0">
-            <span className="font-cormorant text-[15px] text-gc-ivory/50 border-b border-gc-gold/30 pb-2 pr-2 shrink-0 select-none">
-              {selectedCountry.flag} {selectedCountry.dialCode}
-            </span>
-            <input
-              id="res-phone"
-              type="tel"
-              required
-              autoComplete="tel"
-              value={localPhone}
-              onChange={(e) => handleLocalPhoneChange(e.target.value)}
-              disabled={phoneVerifState === 'verified'}
-              placeholder="812345678"
-              className={[
-                'flex-1 bg-transparent border-0 border-b outline-none font-cormorant text-[17px] text-gc-ivory placeholder:text-gc-ivory/30 py-2 pl-2 transition-colors disabled:opacity-50',
-                localPhone && !phoneIsValid ? 'border-gc-copper' : phoneIsValid ? 'border-gc-celadon' : 'border-gc-gold/30 focus:border-gc-gold',
-              ].join(' ')}
-            />
-            {phoneVerifState !== 'verified' && (
-              <button
-                type="button"
-                onClick={sendOtp}
-                disabled={sendDisabled}
-                className="shrink-0 font-cinzel text-[11px] tracking-[0.1em] uppercase text-gc-gold border-b border-gc-gold px-3 py-2 hover:text-gc-void hover:bg-gc-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                {phoneVerifState === 'sending' ? (
-                  <span className="w-12 inline-flex justify-center">
-                    <span className="w-3 h-3 border border-gc-gold border-t-transparent rounded-full animate-spin" />
-                  </span>
-                ) : (
-                  <span className="w-12 inline-block text-center">
-                    {phoneVerifState === 'sent' ? t('otpResend') : t('otpSend')}
-                  </span>
-                )}
-              </button>
-            )}
-            {phoneVerifState === 'verified' && (
-              <button
-                type="button"
-                onClick={resetVerification}
-                className="shrink-0 font-cinzel text-[11px] tracking-[0.1em] uppercase text-gc-celadon border-b border-gc-celadon px-3 py-2 hover:opacity-70 transition-opacity"
-              >
-                {t('otpVerified')}
-              </button>
-            )}
-          </div>
-
-          {/* Phone validation hint */}
-          {localPhone && !phoneIsValid && phoneVerifState === 'idle' && (
-            <p className="font-cormorant italic text-[14px] text-gc-copper">{t('otpInvalidPhone')}</p>
-          )}
-
-          {/* OTP input block */}
-          {(phoneVerifState === 'sent' || phoneVerifState === 'verifying') && (
-            <div className="mt-3 p-4 border border-gc-gold/20">
-              <p className="font-cormorant text-[15px] text-gc-ivory/70 mb-3">
-                {t('otpSentTo')} <strong className="text-gc-gold">{fullPhone}</strong>
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="\d{6}"
-                  maxLength={6}
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
-                  placeholder="000000"
-                  aria-label="Code OTP"
-                  className="flex-1 bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[20px] text-gc-ivory text-center tracking-[0.5em] py-2 transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={checkOtp}
-                  disabled={phoneVerifState === 'verifying' || otpCode.length < 6}
-                  className="shrink-0 font-cinzel text-[11px] tracking-[0.1em] uppercase text-gc-gold border border-gc-gold px-4 py-2 hover:bg-gc-gold hover:text-gc-void transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  {phoneVerifState === 'verifying' ? (
-                    <span className="w-3 h-3 border border-gc-gold border-t-transparent rounded-full animate-spin inline-block" />
-                  ) : t('otpVerify')}
-                </button>
-              </div>
-              {otpError && (
-                <p className="mt-2 font-cormorant italic text-[14px] text-gc-copper">{otpError}</p>
-              )}
-              <p className="mt-2 font-cormorant italic text-[13px] text-gc-ivory/40">{t('otpExpiry')}</p>
-            </div>
-          )}
-
-          {/* Error in idle state */}
-          {phoneVerifState === 'idle' && otpError && (
-            <p className="font-cormorant italic text-[14px] text-gc-copper">{otpError}</p>
-          )}
-        </div>
-
-        {/* Email */}
-        <div className="md:col-span-2 space-y-2">
-          <label htmlFor="res-email" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('email')}
-          </label>
-          <input
-            id="res-email"
-            type="email"
-            autoComplete="email"
-            value={form.customer_email}
-            onChange={(e) => setForm(f => ({ ...f, customer_email: e.target.value }))}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory placeholder:text-gc-ivory/30 py-2 transition-colors"
-            placeholder="jean@example.com"
-          />
-        </div>
-
-        {/* Date */}
-        <div className="space-y-2">
-          <label htmlFor="res-date" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('date')}
-          </label>
-          <input
-            id="res-date"
-            type="date"
-            required
-            min={today}
-            value={form.reservation_date}
-            onChange={(e) => setForm(f => ({ ...f, reservation_date: e.target.value }))}
-            className="w-full bg-transparent border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
-          />
-        </div>
-
-        {/* Time */}
-        <div className="space-y-2">
-          <label htmlFor="res-time" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('time')}
-          </label>
-          <select
-            id="res-time"
-            required
-            value={form.reservation_time}
-            onChange={(e) => setForm(f => ({ ...f, reservation_time: e.target.value }))}
-            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
-          >
-            <option value="" className="bg-gc-void">{t('selectTime')}</option>
-            <optgroup label={t('lunch')}>
-              {TIME_SLOTS.filter(t => t < '15:00').map(time => (
-                <option key={time} value={time} className="bg-gc-void">{time}</option>
-              ))}
-            </optgroup>
-            <optgroup label={t('dinnerLabel')}>
-              {TIME_SLOTS.filter(t => t >= '15:00').map(time => (
-                <option key={time} value={time} className="bg-gc-void">{time}</option>
-              ))}
-            </optgroup>
-          </select>
-        </div>
-
-        {/* Party Size */}
-        <div className="space-y-2">
-          <label className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('partySize')}
-          </label>
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setForm(f => ({ ...f, party_size: Math.max(1, f.party_size - 1) }))}
-              className="font-cinzel text-[18px] text-gc-gold border border-gc-gold/40 w-9 h-9 flex items-center justify-center hover:bg-gc-gold hover:text-gc-void transition-all"
-            >
-              −
-            </button>
-            <span className="font-cinzel text-[22px] text-gc-ivory w-10 text-center">
-              {form.party_size}
-            </span>
-            <button
-              type="button"
-              onClick={() => setForm(f => ({ ...f, party_size: Math.min(20, f.party_size + 1) }))}
-              className="font-cinzel text-[18px] text-gc-gold border border-gc-gold/40 w-9 h-9 flex items-center justify-center hover:bg-gc-gold hover:text-gc-void transition-all"
-            >
-              +
-            </button>
-          </div>
-          {form.party_size > 10 && (
-            <p className="font-cormorant italic text-[14px] text-gc-gold/70">
-              {t('largeGroupWarning')}
+      <div className="relative z-10">
+        {success ? (
+          <div className="text-center py-2">
+            <div className="w-10 h-px bg-gc-jungle mx-auto mb-6" />
+            <h3 className="font-cinzel font-normal text-[20px] text-gc-text-dark tracking-wide mb-4">
+              {t('successTitle')}
+            </h3>
+            <p className="font-cormorant text-[17px] text-gc-text-mid mb-6 leading-relaxed">
+              {t('successMessage')}
             </p>
-          )}
-        </div>
-
-        {/* Occasion */}
-        <div className="space-y-2">
-          <label htmlFor="res-occasion" className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold block">
-            {t('occasion')}
-          </label>
-          <select
-            id="res-occasion"
-            value={form.occasion}
-            onChange={(e) => setForm(f => ({ ...f, occasion: e.target.value }))}
-            className="w-full border-0 border-b border-gc-gold/30 focus:border-gc-gold outline-none font-cormorant text-[17px] text-gc-ivory py-2 transition-colors"
-          >
-            {OCCASIONS.map(occ => (
-              <option key={occ.value} value={occ.value} className="bg-gc-void">{occ.label}</option>
-            ))}
-          </select>
-        </div>
-
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading || phoneVerifState !== 'verified'}
-        className="w-full mt-6 font-cinzel text-[13px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold py-4 hover:bg-gc-gold hover:text-gc-void transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-      >
-        {loading ? (
-          <>
-            <span className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
-            {t('sending')}
-          </>
+            <p className="font-cormorant italic text-[15px] text-gc-brass mb-8">
+              {t('successNote')}
+            </p>
+            <button
+              onClick={() => setSuccess(false)}
+              className={`px-6 py-3 ${primaryButtonClass}`}
+            >
+              {t('newReservation')}
+            </button>
+          </div>
         ) : (
-          t('submit')
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="border-l-2 border-gc-copper p-4 bg-gc-copper/10">
+                <p className="font-cormorant text-[16px] text-gc-text-dark">{error}</p>
+              </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <label htmlFor="res-name" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('fullName')}
+                </label>
+                <input
+                  id="res-name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={form.customer_name}
+                  onChange={(e) => setForm(f => ({ ...f, customer_name: e.target.value }))}
+                  className={inputClass}
+                  placeholder="Jean Dupont"
+                />
+              </div>
+
+              {/* Phone with country selector */}
+              <div className="space-y-2">
+                <label htmlFor="res-phone" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('phone')}
+                </label>
+
+                {/* Country selector */}
+                <select
+                  id="res-country"
+                  value={selectedCountryCode}
+                  onChange={(e) => handleCountryChange(e.target.value)}
+                  disabled={phoneVerifState === 'verified'}
+                  aria-label={t('countryLabel')}
+                  className={`${selectClass} mb-2`}
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code} className="bg-gc-ivory text-gc-text-dark">
+                      {c.flag} {c.name} ({c.dialCode})
+                    </option>
+                  ))}
+                </select>
+
+                {/* Dial code badge + input + action */}
+                <div className="flex flex-wrap items-stretch gap-y-2">
+                  <span className="font-cormorant text-[15px] text-gc-text-mid border-b-2 border-gc-text-mid/35 pb-2 pr-2 shrink-0 select-none">
+                    {selectedCountry.flag} {selectedCountry.dialCode}
+                  </span>
+                  <input
+                    id="res-phone"
+                    type="tel"
+                    required
+                    autoComplete="tel"
+                    value={localPhone}
+                    onChange={(e) => handleLocalPhoneChange(e.target.value)}
+                    disabled={phoneVerifState === 'verified'}
+                    placeholder="812345678"
+                    className={[
+                      'flex-1 min-w-[120px] bg-transparent border-0 border-b-2 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 pl-2 transition-colors disabled:opacity-50 focus:ring-2 focus:ring-gc-jungle/25',
+                      localPhone && !phoneIsValid ? 'border-gc-copper' : phoneIsValid ? 'border-gc-jungle' : 'border-gc-text-mid/35 focus:border-gc-jungle',
+                    ].join(' ')}
+                  />
+                  {phoneVerifState !== 'verified' && (
+                    <button
+                      type="button"
+                      onClick={sendOtp}
+                      disabled={sendDisabled}
+                      className={`shrink-0 ml-2 px-4 py-2 flex items-center justify-center ${primaryButtonClass}`}
+                    >
+                      {phoneVerifState === 'sending' ? (
+                        <span className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        phoneVerifState === 'sent' ? t('otpResend') : t('otpSend')
+                      )}
+                    </button>
+                  )}
+                  {phoneVerifState === 'verified' && (
+                    <button
+                      type="button"
+                      onClick={resetVerification}
+                      className="shrink-0 font-cinzel text-[11px] tracking-[0.1em] uppercase text-gc-jungle border-b-2 border-gc-jungle px-3 py-2 hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-gc-jungle"
+                    >
+                      {t('otpVerified')}
+                    </button>
+                  )}
+                </div>
+
+                {/* Phone validation hint */}
+                {localPhone && !phoneIsValid && phoneVerifState === 'idle' && (
+                  <p className="font-cormorant italic text-[14px] text-gc-copper">{t('otpInvalidPhone')}</p>
+                )}
+
+                {/* OTP input block */}
+                {(phoneVerifState === 'sent' || phoneVerifState === 'verifying') && (
+                  <div className="mt-3 p-4 border border-gc-text-mid/25 bg-gc-ivory/60">
+                    <p className="font-cormorant text-[15px] text-gc-text-mid mb-3">
+                      {t('otpSentTo')} <strong className="text-gc-text-dark">{fullPhone}</strong>
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="\d{6}"
+                        maxLength={6}
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                        placeholder="000000"
+                        aria-label="Code OTP"
+                        className="flex-1 bg-transparent border-0 border-b-2 border-gc-text-mid/35 focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 outline-none font-cormorant text-[20px] text-gc-text-dark text-center tracking-[0.5em] py-2 transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={checkOtp}
+                        disabled={phoneVerifState === 'verifying' || otpCode.length < 6}
+                        className={`shrink-0 px-4 py-2 ${primaryButtonClass}`}
+                      >
+                        {phoneVerifState === 'verifying' ? (
+                          <span className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin inline-block" />
+                        ) : t('otpVerify')}
+                      </button>
+                    </div>
+                    {otpError && (
+                      <p className="mt-2 font-cormorant italic text-[14px] text-gc-copper">{otpError}</p>
+                    )}
+                    <p className="mt-2 font-cormorant italic text-[13px] text-gc-text-mid">{t('otpExpiry')}</p>
+                  </div>
+                )}
+
+                {/* Error in idle state */}
+                {phoneVerifState === 'idle' && otpError && (
+                  <p className="font-cormorant italic text-[14px] text-gc-copper">{otpError}</p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="md:col-span-2 space-y-2">
+                <label htmlFor="res-email" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('email')}
+                </label>
+                <input
+                  id="res-email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.customer_email}
+                  onChange={(e) => setForm(f => ({ ...f, customer_email: e.target.value }))}
+                  className={inputClass}
+                  placeholder="jean@example.com"
+                />
+              </div>
+
+              {/* Date */}
+              <div className="space-y-2">
+                <label htmlFor="res-date" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('date')}
+                </label>
+                <input
+                  id="res-date"
+                  type="date"
+                  required
+                  min={today}
+                  value={form.reservation_date}
+                  onChange={(e) => setForm(f => ({ ...f, reservation_date: e.target.value }))}
+                  className={inputClass}
+                />
+              </div>
+
+              {/* Time */}
+              <div className="space-y-2">
+                <label htmlFor="res-time" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('time')}
+                </label>
+                <select
+                  id="res-time"
+                  required
+                  value={form.reservation_time}
+                  onChange={(e) => setForm(f => ({ ...f, reservation_time: e.target.value }))}
+                  className={selectClass}
+                >
+                  <option value="" className="bg-gc-ivory text-gc-text-dark">{t('selectTime')}</option>
+                  <optgroup label={t('lunch')}>
+                    {TIME_SLOTS.filter(t => t < '15:00').map(time => (
+                      <option key={time} value={time} className="bg-gc-ivory text-gc-text-dark">{time}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label={t('dinnerLabel')}>
+                    {TIME_SLOTS.filter(t => t >= '15:00').map(time => (
+                      <option key={time} value={time} className="bg-gc-ivory text-gc-text-dark">{time}</option>
+                    ))}
+                  </optgroup>
+                </select>
+              </div>
+
+              {/* Party Size */}
+              <div className="space-y-2">
+                <label className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('partySize')}
+                </label>
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setForm(f => ({ ...f, party_size: Math.max(1, f.party_size - 1) }))}
+                    aria-label="-1"
+                    className="font-cinzel text-[18px] text-gc-text-dark border-2 border-gc-text-mid/40 w-9 h-9 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
+                  >
+                    −
+                  </button>
+                  <span className="font-cinzel text-[22px] text-gc-text-dark w-10 text-center" aria-live="polite">
+                    {form.party_size}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setForm(f => ({ ...f, party_size: Math.min(20, f.party_size + 1) }))}
+                    aria-label="+1"
+                    className="font-cinzel text-[18px] text-gc-text-dark border-2 border-gc-text-mid/40 w-9 h-9 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
+                  >
+                    +
+                  </button>
+                </div>
+                {form.party_size > 10 && (
+                  <p className="font-cormorant italic text-[14px] text-gc-copper">
+                    {t('largeGroupWarning')}
+                  </p>
+                )}
+              </div>
+
+              {/* Occasion */}
+              <div className="space-y-2">
+                <label htmlFor="res-occasion" className="font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block">
+                  {t('occasion')}
+                </label>
+                <select
+                  id="res-occasion"
+                  value={form.occasion}
+                  onChange={(e) => setForm(f => ({ ...f, occasion: e.target.value }))}
+                  className={selectClass}
+                >
+                  {OCCASIONS.map(occ => (
+                    <option key={occ.value} value={occ.value} className="bg-gc-ivory text-gc-text-dark">{occ.label}</option>
+                  ))}
+                </select>
+              </div>
+
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || phoneVerifState !== 'verified'}
+              className={`w-full mt-6 py-4 flex items-center justify-center gap-3 ${primaryButtonClass}`}
+            >
+              {loading ? (
+                <>
+                  <span className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
+                  {t('sending')}
+                </>
+              ) : (
+                t('submit')
+              )}
+            </button>
+
+            {phoneVerifState !== 'verified' && (
+              <p className="text-center font-cormorant italic text-[14px] text-gc-text-mid mt-3">
+                {t('otpRequired')}
+              </p>
+            )}
+
+            <p className="text-center font-cormorant italic text-[14px] text-gc-text-mid/80 mt-4">
+              {t('required')}
+            </p>
+          </form>
         )}
-      </button>
-
-      {phoneVerifState !== 'verified' && (
-        <p className="text-center font-cormorant italic text-[14px] text-gc-gold/60 mt-3">
-          {t('otpRequired')}
-        </p>
-      )}
-
-      <p className="text-center font-cormorant italic text-[14px] text-gc-ivory/35 mt-4">
-        {t('required')}
-      </p>
-    </form>
+      </div>
+    </div>
   )
 }
