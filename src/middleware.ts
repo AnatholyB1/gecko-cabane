@@ -100,10 +100,11 @@ export const config = {
      * - _next/static  (static chunks)
      * - _next/image   (image optimisation)
      * - favicon.ico
+     * - manifest.webmanifest (PWA manifest — served at the root, not per-locale)
      * - monitoring    (Sentry tunnel – must bypass middleware)
      * - sentry-example-page
      * - image assets  (svg, png, jpg, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|monitoring|sentry-example-page|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|monitoring|sentry-example-page|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
