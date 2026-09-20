@@ -119,8 +119,8 @@ function FloorPlan({
                 'flex flex-col items-center justify-center text-white font-semibold shadow-md transition-all',
                 isRound ? 'rounded-full' : 'rounded-xl',
                 isSelected
-                  ? 'ring-4 ring-yellow-400 ring-offset-1 bg-[var(--primary-dark)]'
-                  : 'bg-[var(--primary)] hover:brightness-110',
+                  ? 'ring-4 ring-yellow-400 ring-offset-1 bg-(--primary-dark)'
+                  : 'bg-(--primary) hover:brightness-110',
                 isDragging ? 'opacity-75 scale-105' : '',
               ].join(' ')}
               onPointerDown={(e) => onPointerDown(e, table)}
@@ -161,12 +161,12 @@ interface TableFormProps {
 function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew }: TableFormProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-      <h3 className="font-bold text-[var(--primary-dark)]">
+      <h3 className="font-bold text-(--primary-dark)">
         {isNew ? '➕ Nouvelle table' : `✏️ Modifier — ${value.name}`}
       </h3>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[var(--warm-gray)]">Nom</label>
+          <label className="text-xs text-(--warm-gray)">Nom</label>
           <input
             className="w-full px-3 py-1.5 border rounded-lg text-sm mt-0.5"
             value={value.name ?? ''}
@@ -175,7 +175,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
           />
         </div>
         <div>
-          <label className="text-xs text-[var(--warm-gray)]">Places</label>
+          <label className="text-xs text-(--warm-gray)">Places</label>
           <input
             type="number"
             min={1}
@@ -188,7 +188,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
       </div>
 
       <div>
-        <label className="text-xs text-[var(--warm-gray)]">Forme</label>
+        <label className="text-xs text-(--warm-gray)">Forme</label>
         <div className="flex gap-2 mt-1">
           {(['square', 'round', 'rectangle'] as const).map((s) => (
             <button
@@ -199,7 +199,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
               }}
               className={`flex-1 py-1.5 text-xs rounded-lg border transition-colors ${
                 value.shape === s
-                  ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
+                  ? 'bg-(--primary) text-white border-(--primary)'
                   : 'hover:bg-gray-100 border-gray-200'
               }`}
             >
@@ -211,7 +211,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[var(--warm-gray)]">Largeur (%)</label>
+          <label className="text-xs text-(--warm-gray)">Largeur (%)</label>
           <input
             type="number"
             min={4}
@@ -223,7 +223,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
           />
         </div>
         <div>
-          <label className="text-xs text-[var(--warm-gray)]">Hauteur (%)</label>
+          <label className="text-xs text-(--warm-gray)">Hauteur (%)</label>
           <input
             type="number"
             min={4}
@@ -240,7 +240,7 @@ function TableForm({ value, onChange, onSave, onDelete, onCancel, saving, isNew 
         <button
           onClick={onSave}
           disabled={saving}
-          className="flex-1 py-2 bg-[var(--primary)] text-white rounded-lg text-sm hover:bg-[var(--primary-dark)] disabled:opacity-50"
+          className="flex-1 py-2 bg-(--primary) text-white rounded-lg text-sm hover:bg-(--primary-dark) disabled:opacity-50"
         >
           {saving ? '…' : isNew ? 'Créer' : 'Enregistrer'}
         </button>
@@ -338,19 +338,19 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
 
       <button
         onClick={startNew}
-        className="w-full py-2 bg-[var(--primary)] text-white rounded-xl text-sm font-medium hover:bg-[var(--primary-dark)]"
+        className="w-full py-2 bg-(--primary) text-white rounded-xl text-sm font-medium hover:bg-(--primary-dark)"
       >
         ➕ Nouvelle configuration
       </button>
 
       {/* Inline form */}
       {editingId !== null && (
-        <div className="bg-white border-2 border-[var(--accent)] rounded-xl p-4 space-y-3">
-          <h3 className="font-bold text-[var(--primary-dark)]">
+        <div className="bg-white border-2 border-(--accent) rounded-xl p-4 space-y-3">
+          <h3 className="font-bold text-(--primary-dark)">
             {editingId === 'new' ? 'Nouvelle configuration' : 'Modifier'}
           </h3>
           <div>
-            <label className="text-xs text-[var(--warm-gray)]">Nom</label>
+            <label className="text-xs text-(--warm-gray)">Nom</label>
             <input
               className="w-full px-3 py-1.5 border rounded-lg text-sm mt-0.5"
               value={form.name}
@@ -360,7 +360,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-[var(--warm-gray)]">Min personnes</label>
+              <label className="text-xs text-(--warm-gray)">Min personnes</label>
               <input
                 type="number"
                 min={1}
@@ -370,7 +370,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
               />
             </div>
             <div>
-              <label className="text-xs text-[var(--warm-gray)]">Max personnes</label>
+              <label className="text-xs text-(--warm-gray)">Max personnes</label>
               <input
                 type="number"
                 min={1}
@@ -381,7 +381,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
             </div>
           </div>
           <div>
-            <label className="text-xs text-[var(--warm-gray)] block mb-1">
+            <label className="text-xs text-(--warm-gray) block mb-1">
               Tables comprises ({form.table_ids.length} sélectionnée{form.table_ids.length > 1 ? 's' : ''})
             </label>
             <div className="flex flex-wrap gap-2">
@@ -391,7 +391,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
                   onClick={() => toggleTable(t.id)}
                   className={`px-3 py-1 text-xs rounded-full border transition-colors ${
                     form.table_ids.includes(t.id)
-                      ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
+                      ? 'bg-(--primary) text-white border-(--primary)'
                       : 'hover:bg-gray-100 border-gray-200'
                   }`}
                 >
@@ -404,7 +404,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
             <button
               onClick={save}
               disabled={saving}
-              className="flex-1 py-2 bg-[var(--primary)] text-white rounded-lg text-sm hover:bg-[var(--primary-dark)] disabled:opacity-50"
+              className="flex-1 py-2 bg-(--primary) text-white rounded-lg text-sm hover:bg-(--primary-dark) disabled:opacity-50"
             >
               {saving ? '…' : editingId === 'new' ? 'Créer' : 'Enregistrer'}
             </button>
@@ -417,7 +417,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
 
       {/* Configurations list */}
       {configurations.length === 0 ? (
-        <div className="text-center py-8 text-[var(--warm-gray)] text-sm">
+        <div className="text-center py-8 text-(--warm-gray) text-sm">
           Aucune configuration — créez-en une pour assigner des réservations
         </div>
       ) : (
@@ -426,8 +426,8 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
             <div key={cfg.id} className="bg-white rounded-xl border border-gray-200 p-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <div className="font-semibold text-[var(--primary-dark)]">{cfg.name}</div>
-                  <div className="text-sm text-[var(--warm-gray)] mt-0.5">
+                  <div className="font-semibold text-(--primary-dark)">{cfg.name}</div>
+                  <div className="text-sm text-(--warm-gray) mt-0.5">
                     {cfg.min_capacity === cfg.max_capacity
                       ? `${cfg.max_capacity} personne${cfg.max_capacity > 1 ? 's' : ''}`
                       : `${cfg.min_capacity}–${cfg.max_capacity} personnes`}
@@ -436,7 +436,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
                     {(cfg.tables ?? []).map((t) => (
                       <span
                         key={t.id}
-                        className="px-2 py-0.5 text-xs bg-[var(--accent-light)] text-[var(--primary-dark)] rounded-full"
+                        className="px-2 py-0.5 text-xs bg-(--accent-light) text-(--primary-dark) rounded-full"
                       >
                         {t.name}
                       </span>
@@ -446,7 +446,7 @@ function ConfigManager({ configurations, tables, onRefresh }: ConfigManagerProps
                 <div className="flex gap-2 ml-4">
                   <button
                     onClick={() => startEdit(cfg)}
-                    className="px-3 py-1 text-sm text-[var(--primary)] hover:bg-[var(--accent-light)] rounded-lg"
+                    className="px-3 py-1 text-sm text-(--primary) hover:bg-(--accent-light) rounded-lg"
                   >
                     ✏️
                   </button>
@@ -621,12 +621,12 @@ export default function AdminTablesPage() {
   // -------------------------------------------------------------------------
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Header */}
-      <header className="bg-[var(--primary)] text-white py-5 px-6 shadow-lg">
+      <header className="bg-(--primary) text-white py-5 px-6 shadow-lg">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div>
-            <Link href="/admin" className="text-[var(--accent-light)] hover:text-white mb-1 inline-block text-sm">
+            <Link href="/admin" className="text-(--accent-light) hover:text-white mb-1 inline-block text-sm">
               ← Retour au tableau de bord
             </Link>
             <h1 className="text-3xl font-bold">🗺️ Plan de salle</h1>
@@ -661,8 +661,8 @@ export default function AdminTablesPage() {
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeTab === tab
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'hover:bg-gray-100 text-[var(--warm-gray)]'
+                  ? 'bg-(--primary) text-white'
+                  : 'hover:bg-gray-100 text-(--warm-gray)'
               }`}
             >
               {tab === 'plan' ? '🗺️ Plan de salle' : '⚙️ Configurations'}
@@ -672,7 +672,7 @@ export default function AdminTablesPage() {
 
         {loading ? (
           <div className="text-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-(--primary) mx-auto" />
           </div>
         ) : activeTab === 'plan' ? (
           /* ----------------------------------------------------------------
@@ -684,13 +684,13 @@ export default function AdminTablesPage() {
               <div className="bg-white rounded-xl shadow-md p-4">
                 {/* Legend */}
                 <div className="flex justify-between items-center mb-3">
-                  <div className="flex gap-3 text-xs text-[var(--warm-gray)]">
+                  <div className="flex gap-3 text-xs text-(--warm-gray)">
                     <span>🟢 Glisser pour repositionner</span>
                     <span>🖱️ Cliquer pour modifier</span>
                   </div>
                   <button
                     onClick={startNewTable}
-                    className="px-4 py-1.5 bg-[var(--primary)] text-white rounded-lg text-sm hover:bg-[var(--primary-dark)]"
+                    className="px-4 py-1.5 bg-(--primary) text-white rounded-lg text-sm hover:bg-(--primary-dark)"
                   >
                     ➕ Ajouter une table
                   </button>
@@ -709,7 +709,7 @@ export default function AdminTablesPage() {
                 />
 
                 {/* Summary */}
-                <div className="mt-3 flex gap-4 text-xs text-[var(--warm-gray)]">
+                <div className="mt-3 flex gap-4 text-xs text-(--warm-gray)">
                   <span>{tables.filter((t) => t.is_active).length} tables</span>
                   <span>
                     {tables.filter((t) => t.is_active).reduce((s, t) => s + t.seats, 0)} couverts totaux
@@ -720,7 +720,7 @@ export default function AdminTablesPage() {
 
               {/* Tables grid */}
               <div className="bg-white rounded-xl shadow-md p-4">
-                <h3 className="font-semibold text-[var(--primary-dark)] mb-3 text-sm">Liste des tables</h3>
+                <h3 className="font-semibold text-(--primary-dark) mb-3 text-sm">Liste des tables</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                   {tables.map((t) => (
                     <button
@@ -728,12 +728,12 @@ export default function AdminTablesPage() {
                       onClick={() => handleTableClick(t)}
                       className={`p-2 rounded-lg border text-left text-xs transition-colors ${
                         selectedTable?.id === t.id
-                          ? 'border-[var(--primary)] bg-[var(--accent-light)]'
-                          : 'border-gray-200 hover:border-[var(--primary)]'
+                          ? 'border-(--primary) bg-(--accent-light)'
+                          : 'border-gray-200 hover:border-(--primary)'
                       }`}
                     >
                       <div className="font-semibold">{t.name}</div>
-                      <div className="text-[var(--warm-gray)]">
+                      <div className="text-(--warm-gray)">
                         {t.shape} · {t.seats}p
                       </div>
                     </button>
@@ -755,7 +755,7 @@ export default function AdminTablesPage() {
                   isNew={isNewTable}
                 />
               ) : (
-                <div className="bg-white border-2 border-dashed border-gray-200 rounded-xl p-6 text-center text-[var(--warm-gray)] text-sm">
+                <div className="bg-white border-2 border-dashed border-gray-200 rounded-xl p-6 text-center text-(--warm-gray) text-sm">
                   Cliquez sur une table pour la modifier
                 </div>
               )}
@@ -763,7 +763,7 @@ export default function AdminTablesPage() {
               {/* Quick stats per table */}
               {tables.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm space-y-2">
-                  <h4 className="font-semibold text-[var(--primary-dark)]">Configurations par table</h4>
+                  <h4 className="font-semibold text-(--primary-dark)">Configurations par table</h4>
                   {tables
                     .filter((t) => t.is_active)
                     .map((t) => {

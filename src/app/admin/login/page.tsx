@@ -18,12 +18,12 @@ export default async function LoginPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[var(--jungle-dark)] via-[var(--primary)] to-[var(--accent)] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-(--jungle-dark) via-(--primary) to-(--accent) flex items-center justify-center p-6">
       <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="text-5xl mb-4">🦎</div>
-          <h1 className="text-3xl font-bold text-[var(--primary-dark)]">Connexion Admin</h1>
-          <p className="text-[var(--warm-gray)] mt-2">Gecko Cabane Restaurant</p>
+          <h1 className="text-3xl font-bold text-(--primary-dark)">Connexion Admin</h1>
+          <p className="text-(--warm-gray) mt-2">Gecko Cabane Restaurant</p>
         </div>
 
         {/* Error Message */}
@@ -45,7 +45,7 @@ export default async function LoginPage({
             <input type="hidden" name="redirect" value={params.redirect} />
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-(--primary-dark) mb-2">
               Email
             </label>
             <input
@@ -53,13 +53,13 @@ export default async function LoginPage({
               name="email"
               type="email"
               required
-              className="w-full px-4 py-3 border border-[var(--accent-light)] rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 border border-(--accent-light) rounded-xl focus:ring-2 focus:ring-(--primary) focus:border-transparent outline-none transition-all"
               placeholder="admin@gecko-cabane.com"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-(--primary-dark) mb-2">
               Mot de passe
             </label>
             <input
@@ -67,30 +67,30 @@ export default async function LoginPage({
               name="password"
               type="password"
               required
-              className="w-full px-4 py-3 border border-[var(--accent-light)] rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 border border-(--accent-light) rounded-xl focus:ring-2 focus:ring-(--primary) focus:border-transparent outline-none transition-all"
               placeholder="••••••••"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[var(--primary)] text-white py-3 rounded-xl font-semibold hover:bg-[var(--primary-dark)] transition-colors focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
+            className="w-full bg-(--primary) text-white py-3 rounded-xl font-semibold hover:bg-(--primary-dark) transition-colors focus:ring-2 focus:ring-(--primary) focus:ring-offset-2"
           >
             Se connecter
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-[var(--warm-gray)]">
+          <p className="text-(--warm-gray)">
             Pas encore de compte ?{' '}
-            <Link href="/admin/signup" className="text-[var(--primary)] font-semibold hover:underline">
+            <Link href="/admin/signup" className="text-(--primary) font-semibold hover:underline">
               S&apos;inscrire
             </Link>
           </p>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[var(--accent-light)] text-center">
-          <Link href="/" className="text-[var(--warm-gray)] hover:text-[var(--primary)] transition-colors">
+        <div className="mt-8 pt-6 border-t border-(--accent-light) text-center">
+          <Link href="/" className="text-(--warm-gray) hover:text-(--primary) transition-colors">
             ← Retour au site
           </Link>
         </div>

@@ -170,19 +170,19 @@ export default function HoursAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <div className="min-h-screen bg-(--background) flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
-          <p className="mt-4 text-[var(--warm-gray)]">Chargement...</p>
+          <p className="mt-4 text-(--warm-gray)">Chargement...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Admin Header */}
-      <header className="bg-gradient-to-r from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white shadow-lg">
+      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-3xl">🦎</span>
@@ -225,7 +225,7 @@ export default function HoursAdminPage() {
 
         {/* Regular Hours */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-[var(--primary-dark)] mb-6 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-(--primary-dark) mb-6 flex items-center gap-3">
             <span>🕐</span> Horaires d&apos;ouverture
           </h2>
           
@@ -237,9 +237,9 @@ export default function HoursAdminPage() {
               return (
                 <div 
                   key={day.value}
-                  className="flex flex-wrap items-center gap-4 p-4 bg-[var(--background)] rounded-xl"
+                  className="flex flex-wrap items-center gap-4 p-4 bg-(--background) rounded-xl"
                 >
-                  <div className="w-28 font-medium text-[var(--primary-dark)]">
+                  <div className="w-28 font-medium text-(--primary-dark)">
                     {day.label}
                   </div>
                   
@@ -248,7 +248,7 @@ export default function HoursAdminPage() {
                       type="checkbox"
                       checked={hourData.is_open}
                       onChange={(e) => updateHour(day.value, 'is_open', e.target.checked)}
-                      className="w-5 h-5 rounded accent-[var(--tropical)]"
+                      className="w-5 h-5 rounded accent-(--tropical)"
                     />
                     <span className={hourData.is_open ? 'text-green-600' : 'text-red-500'}>
                       {hourData.is_open ? 'Ouvert' : 'Fermé'}
@@ -261,14 +261,14 @@ export default function HoursAdminPage() {
                         type="time"
                         value={hourData.open_time || '11:00'}
                         onChange={(e) => updateHour(day.value, 'open_time', e.target.value)}
-                        className="px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                        className="px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                       />
-                      <span className="text-[var(--warm-gray)]">à</span>
+                      <span className="text-(--warm-gray)">à</span>
                       <input
                         type="time"
                         value={hourData.close_time || '23:00'}
                         onChange={(e) => updateHour(day.value, 'close_time', e.target.value)}
-                        className="px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                        className="px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                       />
                     </div>
                   )}
@@ -280,7 +280,7 @@ export default function HoursAdminPage() {
           <button
             onClick={saveHours}
             disabled={saving}
-            className="mt-6 w-full bg-gradient-to-r from-[var(--tropical)] to-[var(--primary)] text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-6 w-full bg-gradient-to-r from-(--tropical) to-(--primary) text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? 'Enregistrement...' : '💾 Enregistrer les horaires'}
           </button>
@@ -289,43 +289,43 @@ export default function HoursAdminPage() {
         {/* Special Hours */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-[var(--primary-dark)] flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-(--primary-dark) flex items-center gap-3">
               <span>📅</span> Horaires spéciaux
             </h2>
             <button
               onClick={() => setShowSpecialForm(!showSpecialForm)}
-              className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary)] transition-colors"
+              className="bg-(--tropical) text-white px-4 py-2 rounded-lg hover:bg-(--primary) transition-colors"
             >
               {showSpecialForm ? '✕ Annuler' : '+ Ajouter'}
             </button>
           </div>
           
-          <p className="text-[var(--warm-gray)] mb-6">
+          <p className="text-(--warm-gray) mb-6">
             Ajoutez des horaires spéciaux pour les jours fériés, événements ou fermetures exceptionnelles.
           </p>
 
           {/* Add Special Hours Form */}
           {showSpecialForm && (
-            <div className="bg-[var(--accent-light)] p-6 rounded-xl mb-6">
-              <h3 className="font-semibold text-[var(--primary-dark)] mb-4">Nouvel horaire spécial</h3>
+            <div className="bg-(--accent-light) p-6 rounded-xl mb-6">
+              <h3 className="font-semibold text-(--primary-dark) mb-4">Nouvel horaire spécial</h3>
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">Date</label>
+                  <label className="block text-sm font-medium text-(--primary-dark) mb-1">Date</label>
                   <input
                     type="date"
                     value={specialForm.date}
                     onChange={(e) => setSpecialForm(prev => ({ ...prev, date: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">Titre (optionnel)</label>
+                  <label className="block text-sm font-medium text-(--primary-dark) mb-1">Titre (optionnel)</label>
                   <input
                     type="text"
                     placeholder="ex: Nouvel An, Fermeture annuelle..."
                     value={specialForm.title}
                     onChange={(e) => setSpecialForm(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                   />
                 </div>
                 <div>
@@ -334,7 +334,7 @@ export default function HoursAdminPage() {
                       type="checkbox"
                       checked={specialForm.is_open}
                       onChange={(e) => setSpecialForm(prev => ({ ...prev, is_open: e.target.checked }))}
-                      className="w-5 h-5 rounded accent-[var(--tropical)]"
+                      className="w-5 h-5 rounded accent-(--tropical)"
                     />
                     <span className={specialForm.is_open ? 'text-green-600 font-medium' : 'text-red-500 font-medium'}>
                       {specialForm.is_open ? 'Ouvert' : 'Fermé'}
@@ -347,24 +347,24 @@ export default function HoursAdminPage() {
                       type="time"
                       value={specialForm.open_time}
                       onChange={(e) => setSpecialForm(prev => ({ ...prev, open_time: e.target.value }))}
-                      className="px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                      className="px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                     />
-                    <span className="text-[var(--warm-gray)]">à</span>
+                    <span className="text-(--warm-gray)">à</span>
                     <input
                       type="time"
                       value={specialForm.close_time}
                       onChange={(e) => setSpecialForm(prev => ({ ...prev, close_time: e.target.value }))}
-                      className="px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                      className="px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                     />
                   </div>
                 )}
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">Note (optionnel)</label>
+                  <label className="block text-sm font-medium text-(--primary-dark) mb-1">Note (optionnel)</label>
                   <textarea
                     placeholder="Informations supplémentaires..."
                     value={specialForm.note}
                     onChange={(e) => setSpecialForm(prev => ({ ...prev, note: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none resize-none"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none resize-none"
                     rows={2}
                   />
                 </div>
@@ -372,7 +372,7 @@ export default function HoursAdminPage() {
               <button
                 onClick={addSpecialHours}
                 disabled={saving}
-                className="mt-4 bg-[var(--tropical)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary)] transition-colors disabled:opacity-50"
+                className="mt-4 bg-(--tropical) text-white px-6 py-2 rounded-lg hover:bg-(--primary) transition-colors disabled:opacity-50"
               >
                 {saving ? 'Ajout...' : '✓ Ajouter'}
               </button>
@@ -381,7 +381,7 @@ export default function HoursAdminPage() {
 
           {/* List of Special Hours */}
           {specialHours.length === 0 ? (
-            <p className="text-center text-[var(--warm-gray)] py-8">
+            <p className="text-center text-(--warm-gray) py-8">
               Aucun horaire spécial programmé
             </p>
           ) : (
@@ -395,7 +395,7 @@ export default function HoursAdminPage() {
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-[var(--primary-dark)]">
+                      <span className="font-semibold text-(--primary-dark)">
                         {new Date(sh.date).toLocaleDateString('fr-FR', { 
                           weekday: 'long', 
                           year: 'numeric', 
@@ -417,7 +417,7 @@ export default function HoursAdminPage() {
                       ) : (
                         <span className="text-red-500">Fermé</span>
                       )}
-                      {sh.note && <span className="ml-2 text-[var(--warm-gray)]">• {sh.note}</span>}
+                      {sh.note && <span className="ml-2 text-(--warm-gray)">• {sh.note}</span>}
                     </div>
                   </div>
                   <button

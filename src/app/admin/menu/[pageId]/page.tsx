@@ -329,10 +329,10 @@ export default function MenuEditorPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <div className="min-h-screen bg-(--background) flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
-          <p className="mt-4 text-[var(--warm-gray)]">Chargement...</p>
+          <p className="mt-4 text-(--warm-gray)">Chargement...</p>
         </div>
       </div>
     )
@@ -341,9 +341,9 @@ export default function MenuEditorPage() {
   if (!page) return null
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Header */}
-      <header className="bg-gradient-to-r from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white shadow-lg">
+      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-3xl">🦎</span>
@@ -374,13 +374,13 @@ export default function MenuEditorPage() {
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-2xl font-bold text-[var(--primary-dark)]">{page.name}</h2>
-              {page.description && <p className="text-[var(--warm-gray)]">{page.description}</p>}
-              <p className="text-sm text-[var(--warm-gray)] mt-1">/{page.slug}</p>
+              <h2 className="text-2xl font-bold text-(--primary-dark)">{page.name}</h2>
+              {page.description && <p className="text-(--warm-gray)">{page.description}</p>}
+              <p className="text-sm text-(--warm-gray) mt-1">/{page.slug}</p>
             </div>
             <button
               onClick={() => setEditingPage(!editingPage)}
-              className="text-[var(--tropical)] hover:underline"
+              className="text-(--tropical) hover:underline"
             >
               {editingPage ? 'Annuler' : '✏️ Modifier'}
             </button>
@@ -393,26 +393,26 @@ export default function MenuEditorPage() {
                 placeholder="Nom"
                 value={pageForm.name}
                 onChange={(e) => setPageForm(p => ({ ...p, name: e.target.value }))}
-                className="px-4 py-2 rounded-lg border focus:border-[var(--tropical)] focus:outline-none"
+                className="px-4 py-2 rounded-lg border focus:border-(--tropical) focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Slug"
                 value={pageForm.slug}
                 onChange={(e) => setPageForm(p => ({ ...p, slug: e.target.value }))}
-                className="px-4 py-2 rounded-lg border focus:border-[var(--tropical)] focus:outline-none"
+                className="px-4 py-2 rounded-lg border focus:border-(--tropical) focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Description"
                 value={pageForm.description}
                 onChange={(e) => setPageForm(p => ({ ...p, description: e.target.value }))}
-                className="md:col-span-2 px-4 py-2 rounded-lg border focus:border-[var(--tropical)] focus:outline-none"
+                className="md:col-span-2 px-4 py-2 rounded-lg border focus:border-(--tropical) focus:outline-none"
               />
               <button
                 onClick={updatePage}
                 disabled={saving}
-                className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg disabled:opacity-50"
+                className="bg-(--tropical) text-white px-4 py-2 rounded-lg disabled:opacity-50"
               >
                 {saving ? 'Enregistrement...' : 'Enregistrer'}
               </button>
@@ -422,14 +422,14 @@ export default function MenuEditorPage() {
 
         {/* Add Category Button */}
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold text-[var(--primary-dark)]">📂 Catégories</h3>
+          <h3 className="text-xl font-bold text-(--primary-dark)">📂 Catégories</h3>
           <button
             onClick={() => {
               setShowCategoryForm(!showCategoryForm)
               setEditingCategory(null)
               setCategoryForm({ name: '', description: '' })
             }}
-            className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary)]"
+            className="bg-(--tropical) text-white px-4 py-2 rounded-lg hover:bg-(--primary)"
           >
             {showCategoryForm ? '✕ Annuler' : '+ Catégorie'}
           </button>
@@ -445,20 +445,20 @@ export default function MenuEditorPage() {
                 placeholder="Nom (ex: Entrées, Plats, Desserts)"
                 value={categoryForm.name}
                 onChange={(e) => setCategoryForm(p => ({ ...p, name: e.target.value }))}
-                className="px-4 py-2 rounded-lg border focus:border-[var(--tropical)] focus:outline-none"
+                className="px-4 py-2 rounded-lg border focus:border-(--tropical) focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Description (optionnel)"
                 value={categoryForm.description}
                 onChange={(e) => setCategoryForm(p => ({ ...p, description: e.target.value }))}
-                className="px-4 py-2 rounded-lg border focus:border-[var(--tropical)] focus:outline-none"
+                className="px-4 py-2 rounded-lg border focus:border-(--tropical) focus:outline-none"
               />
             </div>
             <button
               onClick={saveCategory}
               disabled={saving}
-              className="mt-4 bg-[var(--tropical)] text-white px-6 py-2 rounded-lg disabled:opacity-50"
+              className="mt-4 bg-(--tropical) text-white px-6 py-2 rounded-lg disabled:opacity-50"
             >
               {saving ? 'Enregistrement...' : (editingCategory ? 'Mettre à jour' : 'Créer')}
             </button>
@@ -469,7 +469,7 @@ export default function MenuEditorPage() {
         {(!page.categories || page.categories.length === 0) ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
             <div className="text-6xl mb-4">📂</div>
-            <p className="text-[var(--warm-gray)]">Aucune catégorie. Ajoutez-en une pour commencer!</p>
+            <p className="text-(--warm-gray)">Aucune catégorie. Ajoutez-en une pour commencer!</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -486,12 +486,12 @@ export default function MenuEditorPage() {
                 className="bg-white rounded-2xl shadow-lg overflow-hidden"
               >
                 {/* Category Header */}
-                <div className="bg-gradient-to-r from-[var(--accent-light)] to-white p-4 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-(--accent-light) to-white p-4 flex justify-between items-center">
                   <div className="flex items-center gap-3">
                     <span className="cursor-grab text-xl">⠿</span>
                     <div>
-                      <h4 className="font-bold text-[var(--primary-dark)]">{category.name}</h4>
-                      {category.description && <p className="text-sm text-[var(--warm-gray)]">{category.description}</p>}
+                      <h4 className="font-bold text-(--primary-dark)">{category.name}</h4>
+                      {category.description && <p className="text-sm text-(--warm-gray)">{category.description}</p>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -501,7 +501,7 @@ export default function MenuEditorPage() {
                         setEditingItem(null)
                         resetItemForm()
                       }}
-                      className="bg-[var(--tropical)] text-white px-3 py-1 rounded-lg text-sm"
+                      className="bg-(--tropical) text-white px-3 py-1 rounded-lg text-sm"
                     >
                       + Plat
                     </button>
@@ -511,7 +511,7 @@ export default function MenuEditorPage() {
                         setCategoryForm({ name: category.name, description: category.description || '' })
                         setShowCategoryForm(true)
                       }}
-                      className="text-[var(--tropical)] p-1"
+                      className="text-(--tropical) p-1"
                     >
                       ✏️
                     </button>
@@ -560,7 +560,7 @@ export default function MenuEditorPage() {
                       {/* Image upload section */}
                       <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-wrap gap-3 items-center">
-                          <label className="flex items-center gap-2 bg-[var(--accent-light)] hover:bg-[var(--moss)]/20 text-[var(--primary-dark)] px-4 py-2 rounded-lg cursor-pointer transition-colors">
+                          <label className="flex items-center gap-2 bg-(--accent-light) hover:bg-(--moss)/20 text-(--primary-dark) px-4 py-2 rounded-lg cursor-pointer transition-colors">
                             <span>📷</span>
                             <span>{uploading ? 'Upload en cours...' : 'Uploader une image'}</span>
                             <input
@@ -571,7 +571,7 @@ export default function MenuEditorPage() {
                               className="hidden"
                             />
                           </label>
-                          <span className="text-[var(--warm-gray)] text-sm">ou</span>
+                          <span className="text-(--warm-gray) text-sm">ou</span>
                           <input
                             type="text"
                             placeholder="Coller une URL d'image"
@@ -599,7 +599,7 @@ export default function MenuEditorPage() {
                                 (e.target as HTMLImageElement).style.display = 'none'
                               }}
                             />
-                            <span className="text-xs text-[var(--warm-gray)] truncate max-w-xs">
+                            <span className="text-xs text-(--warm-gray) truncate max-w-xs">
                               {itemForm.image_url}
                             </span>
                           </div>
@@ -644,7 +644,7 @@ export default function MenuEditorPage() {
                       <button
                         onClick={() => saveItem(category.id)}
                         disabled={saving}
-                        className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg disabled:opacity-50"
+                        className="bg-(--tropical) text-white px-4 py-2 rounded-lg disabled:opacity-50"
                       >
                         {saving ? 'Enregistrement...' : (editingItem ? 'Mettre à jour' : 'Ajouter')}
                       </button>
@@ -666,7 +666,7 @@ export default function MenuEditorPage() {
                 {/* Items List */}
                 <div className="p-4">
                   {(!category.items || category.items.length === 0) ? (
-                    <p className="text-center text-[var(--warm-gray)] py-4">Aucun plat dans cette catégorie</p>
+                    <p className="text-center text-(--warm-gray) py-4">Aucun plat dans cette catégorie</p>
                   ) : (
                     <div className="space-y-2">
                       {category.items.map((item, itemIndex) => (
@@ -697,27 +697,27 @@ export default function MenuEditorPage() {
                           )}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-[var(--primary-dark)]">{item.name}</span>
+                              <span className="font-medium text-(--primary-dark)">{item.name}</span>
                               {item.is_vegetarian && <span title="Végétarien">🌱</span>}
                               {item.is_spicy && <span title="Épicé">🌶️</span>}
                               {!item.is_available && <span className="text-xs bg-red-200 text-red-700 px-2 rounded">Indisponible</span>}
                             </div>
                             {item.description && (
-                              <p className="text-sm text-[var(--warm-gray)] truncate">{item.description}</p>
+                              <p className="text-sm text-(--warm-gray) truncate">{item.description}</p>
                             )}
                           </div>
                           <div className="text-right">
                             {item.price_label ? (
-                              <span className="font-semibold text-[var(--tropical)]">{item.price_label}</span>
+                              <span className="font-semibold text-(--tropical)">{item.price_label}</span>
                             ) : item.price ? (
-                              <span className="font-semibold text-[var(--tropical)]">{item.price}€</span>
+                              <span className="font-semibold text-(--tropical)">{item.price}€</span>
                             ) : null}
                           </div>
                           <div className="flex gap-1">
                             <button onClick={() => toggleItemAvailable(item)} className="p-1" title="Disponibilité">
                               {item.is_available ? '✓' : '✗'}
                             </button>
-                            <button onClick={() => startEditItem(item)} className="p-1 text-[var(--tropical)]">✏️</button>
+                            <button onClick={() => startEditItem(item)} className="p-1 text-(--tropical)">✏️</button>
                             <button onClick={() => deleteItem(item)} className="p-1 text-red-500">🗑️</button>
                           </div>
                         </div>

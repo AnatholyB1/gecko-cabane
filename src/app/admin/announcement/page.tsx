@@ -95,19 +95,19 @@ export default function AnnouncementAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <div className="min-h-screen bg-(--background) flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
-          <p className="mt-4 text-[var(--warm-gray)]">Chargement...</p>
+          <p className="mt-4 text-(--warm-gray)">Chargement...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Admin Header */}
-      <header className="bg-gradient-to-r from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white shadow-lg">
+      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-3xl">🦎</span>
@@ -150,16 +150,16 @@ export default function AnnouncementAdminPage() {
 
         {/* Announcement Form */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-[var(--primary-dark)] mb-6 flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-(--primary-dark) mb-6 flex items-center gap-3">
             <span>📢</span> Annonce du restaurant
           </h2>
           
           <div className="space-y-6">
             {/* Active Toggle */}
-            <div className="flex items-center justify-between p-4 bg-[var(--background)] rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-(--background) rounded-xl">
               <div>
-                <p className="font-medium text-[var(--primary-dark)]">Afficher l&apos;annonce</p>
-                <p className="text-sm text-[var(--warm-gray)]">L&apos;annonce sera visible sur la page d&apos;accueil</p>
+                <p className="font-medium text-(--primary-dark)">Afficher l&apos;annonce</p>
+                <p className="text-sm text-(--warm-gray)">L&apos;annonce sera visible sur la page d&apos;accueil</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -174,7 +174,7 @@ export default function AnnouncementAdminPage() {
 
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+              <label className="block text-sm font-medium text-(--primary-dark) mb-2">
                 Titre (optionnel)
               </label>
               <input
@@ -182,13 +182,13 @@ export default function AnnouncementAdminPage() {
                 placeholder="ex: Fermeture exceptionnelle, Menu spécial, Événement..."
                 value={form.title}
                 onChange={(e) => setForm(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-(--tropical) focus:outline-none"
               />
             </div>
 
             {/* Content */}
             <div>
-              <label className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+              <label className="block text-sm font-medium text-(--primary-dark) mb-2">
                 Contenu de l&apos;annonce *
               </label>
               <textarea
@@ -196,13 +196,13 @@ export default function AnnouncementAdminPage() {
                 value={form.content}
                 onChange={(e) => setForm(prev => ({ ...prev, content: e.target.value }))}
                 rows={4}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--tropical)] focus:outline-none resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-(--tropical) focus:outline-none resize-none"
               />
             </div>
 
             {/* Color Selection */}
             <div>
-              <label className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+              <label className="block text-sm font-medium text-(--primary-dark) mb-2">
                 Couleur de fond
               </label>
               <div className="flex flex-wrap gap-3">
@@ -213,7 +213,7 @@ export default function AnnouncementAdminPage() {
                     onClick={() => setForm(prev => ({ ...prev, bg_color: color.value as typeof form.bg_color }))}
                     className={`px-4 py-2 rounded-lg border-2 transition-all ${
                       form.bg_color === color.value 
-                        ? `${color.preview} ring-2 ring-offset-2 ring-[var(--tropical)]` 
+                        ? `${color.preview} ring-2 ring-offset-2 ring-(--tropical)` 
                         : `${color.preview} opacity-60 hover:opacity-100`
                     }`}
                   >
@@ -226,25 +226,25 @@ export default function AnnouncementAdminPage() {
             {/* Date Range */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+                <label className="block text-sm font-medium text-(--primary-dark) mb-2">
                   Date de début (optionnel)
                 </label>
                 <input
                   type="date"
                   value={form.start_date}
                   onChange={(e) => setForm(prev => ({ ...prev, start_date: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-(--tropical) focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--primary-dark)] mb-2">
+                <label className="block text-sm font-medium text-(--primary-dark) mb-2">
                   Date de fin (optionnel)
                 </label>
                 <input
                   type="date"
                   value={form.end_date}
                   onChange={(e) => setForm(prev => ({ ...prev, end_date: e.target.value }))}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-(--tropical) focus:outline-none"
                 />
               </div>
             </div>
@@ -252,7 +252,7 @@ export default function AnnouncementAdminPage() {
             <button
               onClick={saveAnnouncement}
               disabled={saving || !form.content.trim()}
-              className="w-full bg-gradient-to-r from-[var(--tropical)] to-[var(--primary)] text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-(--tropical) to-(--primary) text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? 'Enregistrement...' : '💾 Enregistrer l\'annonce'}
             </button>
@@ -262,7 +262,7 @@ export default function AnnouncementAdminPage() {
         {/* Preview */}
         {form.content && (
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h3 className="text-xl font-bold text-[var(--primary-dark)] mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-(--primary-dark) mb-4 flex items-center gap-2">
               <span>👁️</span> Aperçu
             </h3>
             <div className={`p-6 rounded-2xl border-2 ${getPreviewClasses()}`}>

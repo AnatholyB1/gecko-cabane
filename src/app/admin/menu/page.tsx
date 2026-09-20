@@ -160,19 +160,19 @@ export default function MenuAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <div className="min-h-screen bg-(--background) flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
-          <p className="mt-4 text-[var(--warm-gray)]">Chargement...</p>
+          <p className="mt-4 text-(--warm-gray)">Chargement...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Admin Header */}
-      <header className="bg-gradient-to-r from-[var(--jungle-dark)] to-[var(--primary-dark)] text-white shadow-lg">
+      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-3xl">🦎</span>
@@ -215,12 +215,12 @@ export default function MenuAdminPage() {
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-[var(--primary-dark)] flex items-center gap-3">
+          <h2 className="text-2xl font-bold text-(--primary-dark) flex items-center gap-3">
             <span>🍽️</span> Pages de menu
           </h2>
           <button
             onClick={() => setShowNewForm(!showNewForm)}
-            className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary)] transition-colors"
+            className="bg-(--tropical) text-white px-4 py-2 rounded-lg hover:bg-(--primary) transition-colors"
           >
             {showNewForm ? '✕ Annuler' : '+ Nouvelle page'}
           </button>
@@ -229,10 +229,10 @@ export default function MenuAdminPage() {
         {/* New Page Form */}
         {showNewForm && (
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-            <h3 className="font-semibold text-[var(--primary-dark)] mb-4">Nouvelle page de menu</h3>
+            <h3 className="font-semibold text-(--primary-dark) mb-4">Nouvelle page de menu</h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
+                <label className="block text-sm font-medium text-(--primary-dark) mb-1">
                   Nom de la page *
                 </label>
                 <input
@@ -246,11 +246,11 @@ export default function MenuAdminPage() {
                       slug: generateSlug(e.target.value)
                     }))
                   }}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
+                <label className="block text-sm font-medium text-(--primary-dark) mb-1">
                   Slug (URL)
                 </label>
                 <input
@@ -258,11 +258,11 @@ export default function MenuAdminPage() {
                   placeholder="carte-du-midi"
                   value={newPage.slug}
                   onChange={(e) => setNewPage(prev => ({ ...prev, slug: e.target.value }))}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-[var(--primary-dark)] mb-1">
+                <label className="block text-sm font-medium text-(--primary-dark) mb-1">
                   Description (optionnel)
                 </label>
                 <input
@@ -270,14 +270,14 @@ export default function MenuAdminPage() {
                   placeholder="Description de la page..."
                   value={newPage.description}
                   onChange={(e) => setNewPage(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-[var(--tropical)] focus:outline-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-(--tropical) focus:outline-none"
                 />
               </div>
             </div>
             <button
               onClick={createPage}
               disabled={saving}
-              className="mt-4 bg-[var(--tropical)] text-white px-6 py-2 rounded-lg hover:bg-[var(--primary)] transition-colors disabled:opacity-50"
+              className="mt-4 bg-(--tropical) text-white px-6 py-2 rounded-lg hover:bg-(--primary) transition-colors disabled:opacity-50"
             >
               {saving ? 'Création...' : '✓ Créer la page'}
             </button>
@@ -288,8 +288,8 @@ export default function MenuAdminPage() {
         {pages.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
             <div className="text-6xl mb-4">📋</div>
-            <p className="text-[var(--warm-gray)] mb-4">Aucune page de menu</p>
-            <p className="text-sm text-[var(--warm-gray)]">
+            <p className="text-(--warm-gray) mb-4">Aucune page de menu</p>
+            <p className="text-sm text-(--warm-gray)">
               Créez votre première page de menu pour commencer
             </p>
           </div>
@@ -306,20 +306,20 @@ export default function MenuAdminPage() {
                   reorderPages(dragIndex, index)
                 }}
                 className={`bg-white rounded-2xl shadow-lg p-6 border-l-4 ${
-                  page.is_active ? 'border-[var(--tropical)]' : 'border-gray-300'
+                  page.is_active ? 'border-(--tropical)' : 'border-gray-300'
                 } cursor-move hover:shadow-xl transition-shadow`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <span className="text-2xl cursor-grab">⠿</span>
                     <div>
-                      <h3 className="font-bold text-[var(--primary-dark)] text-lg">
+                      <h3 className="font-bold text-(--primary-dark) text-lg">
                         {page.name}
                       </h3>
                       {page.description && (
-                        <p className="text-sm text-[var(--warm-gray)]">{page.description}</p>
+                        <p className="text-sm text-(--warm-gray)">{page.description}</p>
                       )}
-                      <p className="text-xs text-[var(--warm-gray)] mt-1">
+                      <p className="text-xs text-(--warm-gray) mt-1">
                         /{page.slug} • {page.categories?.length || 0} catégories
                       </p>
                     </div>
@@ -337,7 +337,7 @@ export default function MenuAdminPage() {
                     </button>
                     <Link
                       href={`/admin/menu/${page.id}`}
-                      className="bg-[var(--tropical)] text-white px-4 py-2 rounded-lg hover:bg-[var(--primary)] transition-colors"
+                      className="bg-(--tropical) text-white px-4 py-2 rounded-lg hover:bg-(--primary) transition-colors"
                     >
                       Éditer
                     </Link>

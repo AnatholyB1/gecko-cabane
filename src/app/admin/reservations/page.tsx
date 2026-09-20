@@ -242,12 +242,12 @@ export default function AdminReservationsPage() {
   const totalGuests = reservations.filter(r => r.status !== 'cancelled').reduce((sum, r) => sum + r.party_size, 0)
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen bg-(--background)">
       {/* Header */}
-      <header className="bg-[var(--primary)] text-white py-6 px-6 shadow-lg">
+      <header className="bg-(--primary) text-white py-6 px-6 shadow-lg">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div>
-            <Link href="/admin" className="text-[var(--accent-light)] hover:text-white mb-2 inline-block">
+            <Link href="/admin" className="text-(--accent-light) hover:text-white mb-2 inline-block">
               ← Retour au tableau de bord
             </Link>
             <h1 className="text-3xl font-bold">📅 Réservations</h1>
@@ -267,16 +267,16 @@ export default function AdminReservationsPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-xl p-4 shadow-md text-center">
-            <div className="text-3xl font-bold text-[var(--primary)]">{todayCount}</div>
-            <div className="text-sm text-[var(--warm-gray)]">Réservations</div>
+            <div className="text-3xl font-bold text-(--primary)">{todayCount}</div>
+            <div className="text-sm text-(--warm-gray)">Réservations</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-md text-center">
             <div className="text-3xl font-bold text-amber-600">{pendingCount}</div>
-            <div className="text-sm text-[var(--warm-gray)]">En attente</div>
+            <div className="text-sm text-(--warm-gray)">En attente</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-md text-center">
-            <div className="text-3xl font-bold text-[var(--tropical)]">{totalGuests}</div>
-            <div className="text-sm text-[var(--warm-gray)]">Couverts</div>
+            <div className="text-3xl font-bold text-(--tropical)">{totalGuests}</div>
+            <div className="text-sm text-(--warm-gray)">Couverts</div>
           </div>
         </div>
 
@@ -289,7 +289,7 @@ export default function AdminReservationsPage() {
                 <button
                   key={mode}
                   onClick={() => setViewMode(mode)}
-                  className={`px-4 py-2 text-sm ${viewMode === mode ? 'bg-[var(--primary)] text-white' : 'bg-white hover:bg-gray-100'}`}
+                  className={`px-4 py-2 text-sm ${viewMode === mode ? 'bg-(--primary) text-white' : 'bg-white hover:bg-gray-100'}`}
                 >
                   {mode === 'day' ? 'Jour' : mode === 'week' ? 'Semaine' : 'Tout'}
                 </button>
@@ -327,7 +327,7 @@ export default function AdminReservationsPage() {
                 </button>
                 <button
                   onClick={() => setFilterDate(new Date().toISOString().split('T')[0])}
-                  className="px-3 py-1 text-sm bg-[var(--accent-light)] rounded-lg hover:bg-[var(--moss)]/30"
+                  className="px-3 py-1 text-sm bg-(--accent-light) rounded-lg hover:bg-(--moss)/30"
                 >
                   Aujourd'hui
                 </button>
@@ -353,12 +353,12 @@ export default function AdminReservationsPage() {
         {/* Reservations List */}
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-(--primary) mx-auto"></div>
           </div>
         ) : reservations.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-md">
             <div className="text-6xl mb-4">📭</div>
-            <p className="text-[var(--warm-gray)]">Aucune réservation pour cette période</p>
+            <p className="text-(--warm-gray)">Aucune réservation pour cette période</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -377,17 +377,17 @@ export default function AdminReservationsPage() {
                   {/* Main Info */}
                   <div className="flex-1 min-w-[200px]">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xl font-bold text-[var(--primary-dark)]">
+                      <span className="text-xl font-bold text-(--primary-dark)">
                         {formatTime(reservation.reservation_time)}
                       </span>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${STATUS_LABELS[reservation.status].bg} ${STATUS_LABELS[reservation.status].color}`}>
                         {STATUS_LABELS[reservation.status].label}
                       </span>
                     </div>
-                    <div className="text-lg font-semibold text-[var(--primary-dark)]">
+                    <div className="text-lg font-semibold text-(--primary-dark)">
                       {reservation.customer_name}
                     </div>
-                    <div className="text-sm text-[var(--warm-gray)] mt-1">
+                    <div className="text-sm text-(--warm-gray) mt-1">
                       📞 {reservation.customer_phone}
                       {reservation.customer_email && ` • ✉️ ${reservation.customer_email}`}
                     </div>
@@ -395,12 +395,12 @@ export default function AdminReservationsPage() {
 
                   {/* Party & Date */}
                   <div className="text-center px-4">
-                    <div className="text-2xl font-bold text-[var(--tropical)]">
+                    <div className="text-2xl font-bold text-(--tropical)">
                       {reservation.party_size}
                     </div>
-                    <div className="text-xs text-[var(--warm-gray)]">personnes</div>
+                    <div className="text-xs text-(--warm-gray)">personnes</div>
                     {viewMode !== 'day' && (
-                      <div className="text-sm text-[var(--primary)] mt-1">
+                      <div className="text-sm text-(--primary) mt-1">
                         {formatDate(reservation.reservation_date)}
                       </div>
                     )}
@@ -442,7 +442,7 @@ export default function AdminReservationsPage() {
                     )}
                     <button
                       onClick={() => openModal(reservation)}
-                      className="px-3 py-1 bg-[var(--accent-light)] text-[var(--primary-dark)] rounded-lg text-sm hover:bg-[var(--moss)]/30"
+                      className="px-3 py-1 bg-(--accent-light) text-(--primary-dark) rounded-lg text-sm hover:bg-(--moss)/30"
                     >
                       👁️ Détails
                     </button>
@@ -506,8 +506,8 @@ export default function AdminReservationsPage() {
             <div className="p-5 border-b border-gray-100">
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-xl font-bold text-[var(--primary-dark)]">🗺️ Placer sur le plan</h2>
-                  <p className="text-sm text-[var(--warm-gray)] mt-0.5">
+                  <h2 className="text-xl font-bold text-(--primary-dark)">🗺️ Placer sur le plan</h2>
+                  <p className="text-sm text-(--warm-gray) mt-0.5">
                     {assignModal.customer_name} · {assignModal.party_size} pers. ·{' '}
                     {formatDate(assignModal.reservation_date)} à {formatTime(assignModal.reservation_time)}
                   </p>
@@ -519,14 +519,14 @@ export default function AdminReservationsPage() {
             <div className="p-5">
               {loadingAssignModal ? (
                 <div className="flex justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]" />
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-(--primary)" />
                 </div>
               ) : (
                 <div className="grid md:grid-cols-[1fr_280px] gap-5">
 
                   {/* Floor plan */}
                   <div>
-                    <p className="text-xs text-[var(--warm-gray)] mb-2">
+                    <p className="text-xs text-(--warm-gray) mb-2">
                       🟢 Disponible &nbsp; 🔴 Bloquée &nbsp; ⬛ Aucune config
                     </p>
                     <div
@@ -588,7 +588,7 @@ export default function AdminReservationsPage() {
                       if (tableCfgs.length === 0) return null
                       return (
                         <div className="mt-3 p-3 bg-amber-50 rounded-xl border border-amber-200">
-                          <p className="text-xs font-semibold text-[var(--primary-dark)] mb-2">Configurations pour cette table :</p>
+                          <p className="text-xs font-semibold text-(--primary-dark) mb-2">Configurations pour cette table :</p>
                           <div className="flex flex-wrap gap-2">
                             {tableCfgs.map(ca => (
                               <button
@@ -597,7 +597,7 @@ export default function AdminReservationsPage() {
                                 onClick={() => setSelectedConfigId(ca.configuration.id)}
                                 className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
                                   selectedConfigId === ca.configuration.id
-                                    ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
+                                    ? 'bg-(--primary) text-white border-(--primary)'
                                     : ca.available
                                     ? 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200'
                                     : ca.assigned_to_current
@@ -619,7 +619,7 @@ export default function AdminReservationsPage() {
 
                   {/* Config list */}
                   <div className="space-y-2">
-                    <p className="text-xs font-semibold text-[var(--warm-gray)] uppercase tracking-wide mb-3">Toutes les configurations</p>
+                    <p className="text-xs font-semibold text-(--warm-gray) uppercase tracking-wide mb-3">Toutes les configurations</p>
 
                     {/* Current assignment */}
                     {assignments[assignModal.id] && (
@@ -637,9 +637,9 @@ export default function AdminReservationsPage() {
                     )}
 
                     {availableConfigs.length === 0 ? (
-                      <div className="text-center py-6 text-[var(--warm-gray)] text-sm">
+                      <div className="text-center py-6 text-(--warm-gray) text-sm">
                         Aucune configuration active.<br />
-                        <Link href="/admin/tables" className="text-[var(--primary)] underline mt-1 inline-block">Créer des configurations →</Link>
+                        <Link href="/admin/tables" className="text-(--primary) underline mt-1 inline-block">Créer des configurations →</Link>
                       </div>
                     ) : (
                       availableConfigs.map(ca => (
@@ -649,7 +649,7 @@ export default function AdminReservationsPage() {
                           onClick={() => ca.available || ca.assigned_to_current ? setSelectedConfigId(ca.configuration.id) : null}
                           className={`w-full p-3 rounded-xl border text-left transition-colors ${
                             selectedConfigId === ca.configuration.id
-                              ? 'border-[var(--primary)] bg-[var(--accent-light)]'
+                              ? 'border-(--primary) bg-(--accent-light)'
                               : ca.assigned_to_current
                               ? 'border-blue-300 bg-blue-50 hover:bg-blue-100'
                               : ca.available
@@ -667,7 +667,7 @@ export default function AdminReservationsPage() {
                               {ca.assigned_to_current ? 'Actuel' : ca.available ? 'Libre' : 'Bloquée'}
                             </span>
                           </div>
-                          <div className="text-xs text-[var(--warm-gray)] mt-0.5">
+                          <div className="text-xs text-(--warm-gray) mt-0.5">
                             {ca.configuration.min_capacity === ca.configuration.max_capacity
                               ? `${ca.configuration.max_capacity} pers.`
                               : `${ca.configuration.min_capacity}–${ca.configuration.max_capacity} pers.`}
@@ -680,7 +680,7 @@ export default function AdminReservationsPage() {
                     {selectedConfigId && (
                       <button
                         onClick={() => assignTable(assignModal.id, selectedConfigId)}
-                        className="w-full py-3 mt-2 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] transition-colors"
+                        className="w-full py-3 mt-2 bg-(--primary) text-white rounded-xl font-medium hover:bg-(--primary-dark) transition-colors"
                       >
                         ✓ Confirmer l&apos;assignation
                       </button>
@@ -699,7 +699,7 @@ export default function AdminReservationsPage() {
           <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-start mb-6">
-                <h2 className="text-2xl font-bold text-[var(--primary-dark)]">
+                <h2 className="text-2xl font-bold text-(--primary-dark)">
                   Détails de la réservation
                 </h2>
                 <button onClick={() => setShowModal(false)} className="text-2xl">✕</button>
@@ -708,33 +708,33 @@ export default function AdminReservationsPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Client</div>
+                    <div className="text-sm text-(--warm-gray)">Client</div>
                     <div className="font-semibold">{selectedReservation.customer_name}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Téléphone</div>
+                    <div className="text-sm text-(--warm-gray)">Téléphone</div>
                     <div className="font-semibold">{selectedReservation.customer_phone}</div>
                   </div>
                   {selectedReservation.customer_email && (
                     <div className="col-span-2">
-                      <div className="text-sm text-[var(--warm-gray)]">Email</div>
+                      <div className="text-sm text-(--warm-gray)">Email</div>
                       <div className="font-semibold">{selectedReservation.customer_email}</div>
                     </div>
                   )}
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Date</div>
+                    <div className="text-sm text-(--warm-gray)">Date</div>
                     <div className="font-semibold">{formatDate(selectedReservation.reservation_date)}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Heure</div>
+                    <div className="text-sm text-(--warm-gray)">Heure</div>
                     <div className="font-semibold">{formatTime(selectedReservation.reservation_time)}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Personnes</div>
+                    <div className="text-sm text-(--warm-gray)">Personnes</div>
                     <div className="font-semibold">{selectedReservation.party_size}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Statut</div>
+                    <div className="text-sm text-(--warm-gray)">Statut</div>
                     <div className={`font-semibold ${STATUS_LABELS[selectedReservation.status].color}`}>
                       {STATUS_LABELS[selectedReservation.status].label}
                     </div>
@@ -743,13 +743,13 @@ export default function AdminReservationsPage() {
 
                 {selectedReservation.occasion && (
                   <div>
-                    <div className="text-sm text-[var(--warm-gray)]">Occasion</div>
+                    <div className="text-sm text-(--warm-gray)">Occasion</div>
                     <div className="font-semibold">{selectedReservation.occasion}</div>
                   </div>
                 )}
 
                 <div>
-                  <label className="text-sm text-[var(--warm-gray)]">Notes admin</label>
+                  <label className="text-sm text-(--warm-gray)">Notes admin</label>
                   <textarea
                     value={adminNotes}
                     onChange={(e) => setAdminNotes(e.target.value)}
@@ -759,7 +759,7 @@ export default function AdminReservationsPage() {
                   />
                 </div>
 
-                <div className="text-xs text-[var(--warm-gray)]">
+                <div className="text-xs text-(--warm-gray)">
                   Créée le {new Date(selectedReservation.created_at).toLocaleString('fr-FR')}
                   {selectedReservation.confirmed_at && (
                     <span> • Confirmée le {new Date(selectedReservation.confirmed_at).toLocaleString('fr-FR')}</span>
@@ -770,7 +770,7 @@ export default function AdminReservationsPage() {
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={saveNotes}
-                  className="flex-1 bg-[var(--primary)] text-white py-2 rounded-lg"
+                  className="flex-1 bg-(--primary) text-white py-2 rounded-lg"
                 >
                   Enregistrer
                 </button>

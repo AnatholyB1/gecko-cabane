@@ -70,10 +70,10 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
-      <header className="bg-[var(--primary)] text-white py-5 px-6 shadow-lg">
+    <div className="min-h-screen bg-(--background)">
+      <header className="bg-(--primary) text-white py-5 px-6 shadow-lg">
         <div className="max-w-4xl mx-auto">
-          <Link href="/admin" className="text-[var(--accent-light)] hover:text-white mb-1 inline-block text-sm">
+          <Link href="/admin" className="text-(--accent-light) hover:text-white mb-1 inline-block text-sm">
             ← Retour au tableau de bord
           </Link>
           <h1 className="text-3xl font-bold">⚙️ Paramètres du restaurant</h1>
@@ -94,14 +94,14 @@ export default function AdminSettingsPage() {
 
         {loading ? (
           <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-(--primary) mx-auto" />
           </div>
         ) : (
           <div className="space-y-6">
             {/* Table/reservation settings */}
             <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-              <div className="bg-[var(--accent-light)] px-6 py-4 border-b border-amber-100">
-                <h2 className="text-lg font-bold text-[var(--primary-dark)]">🗺️ Gestion des tables</h2>
+              <div className="bg-(--accent-light) px-6 py-4 border-b border-amber-100">
+                <h2 className="text-lg font-bold text-(--primary-dark)">🗺️ Gestion des tables</h2>
               </div>
               <div className="p-6 space-y-6">
                 {settings
@@ -113,10 +113,10 @@ export default function AdminSettingsPage() {
                     return (
                       <div key={s.key} className="flex flex-col sm:flex-row sm:items-center gap-4">
                         <div className="flex-1">
-                          <label className="font-semibold text-[var(--primary-dark)] text-sm">
+                          <label className="font-semibold text-(--primary-dark) text-sm">
                             {meta.label}
                           </label>
-                          <p className="text-xs text-[var(--warm-gray)] mt-0.5">{meta.description}</p>
+                          <p className="text-xs text-(--warm-gray) mt-0.5">{meta.description}</p>
                           {s.description && (
                             <p className="text-xs text-gray-400 italic mt-0.5">{s.description}</p>
                           )}
@@ -129,7 +129,7 @@ export default function AdminSettingsPage() {
                             step={meta.unit === 'minutes' ? 15 : 1}
                             value={val}
                             onChange={(e) => setValues((v) => ({ ...v, [s.key]: e.target.value }))}
-                            className="w-32 accent-[var(--primary)]"
+                            className="w-32 accent-(--primary)"
                           />
                           <div className="flex items-center gap-1">
                             <input
@@ -140,7 +140,7 @@ export default function AdminSettingsPage() {
                               onChange={(e) => setValues((v) => ({ ...v, [s.key]: e.target.value }))}
                               className="w-20 px-2 py-1 border rounded-lg text-sm text-center font-mono"
                             />
-                            <span className="text-xs text-[var(--warm-gray)] w-16">{meta.unit}</span>
+                            <span className="text-xs text-(--warm-gray) w-16">{meta.unit}</span>
                           </div>
                         </div>
                       </div>
@@ -161,7 +161,7 @@ export default function AdminSettingsPage() {
             <button
               onClick={save}
               disabled={saving}
-              className="px-8 py-3 bg-[var(--primary)] text-white rounded-xl font-medium hover:bg-[var(--primary-dark)] disabled:opacity-50 transition-colors"
+              className="px-8 py-3 bg-(--primary) text-white rounded-xl font-medium hover:bg-(--primary-dark) disabled:opacity-50 transition-colors"
             >
               {saving ? 'Enregistrement…' : '💾 Enregistrer les paramètres'}
             </button>
