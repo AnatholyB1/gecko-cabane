@@ -104,7 +104,7 @@ export default async function Home() {
             {/* Gecko décoratif au-dessus du titre */}
             <div className="flex justify-center mb-2" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/gecko-decorative.svg" alt="" className="gc-botanical" style={{ height: '72px', opacity: 0.75 }} />
+              <img src="/gecko-mark.png" alt="" className="gc-botanical" style={{ height: '72px', opacity: 0.75 }} />
             </div>
             <GcDivider />
             <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
@@ -660,7 +660,7 @@ export default async function Home() {
             <div>
               <div className="flex items-center gap-3 mb-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/gecko-decorative.svg" alt="" aria-hidden="true" style={{ height: '36px', opacity: 0.7 }} />
+                <img src="/gecko-mark.png" alt="" aria-hidden="true" style={{ height: '36px', opacity: 0.7 }} />
                 <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em]">
                   GECKO CABANE
                 </p>
