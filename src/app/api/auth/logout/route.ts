@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
+// Force Turbopack build-cache invalidation when NEXT_PUBLIC_SUPABASE_* env
+// vars change on Vercel (see src/utils/supabase/server.ts for details).
 function buildLogoutResponse(
   request: Request,
   pendingCookies: { name: string; value: string; options: Record<string, unknown> }[]

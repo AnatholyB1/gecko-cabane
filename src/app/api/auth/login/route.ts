@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
+// Force Turbopack build-cache invalidation when NEXT_PUBLIC_SUPABASE_* env
+// vars change on Vercel (see src/utils/supabase/server.ts for details).
 export async function POST(request: Request) {
   const formData = await request.formData()
   const email = formData.get('email') as string
