@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const menuPageId = searchParams.get('menuPageId')
     
     let query = supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .select('*, items:menu_items(*)')
       .order('display_order', { ascending: true })
     
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     
     // Get max display_order for this menu page
     const { data: maxOrder } = await supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .select('display_order')
       .eq('menu_page_id', menu_page_id)
       .order('display_order', { ascending: false })
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
     const newOrder = (maxOrder?.display_order || 0) + 1
     
     const { data, error } = await supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .insert({
         menu_page_id,
         name,
@@ -103,7 +103,7 @@ export async function PUT(request: Request) {
     }
     
     const { data, error } = await supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .update({
         name,
         description: description || null,
@@ -141,7 +141,7 @@ export async function DELETE(request: Request) {
     }
     
     const { error } = await supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .delete()
       .eq('id', parseInt(id))
     

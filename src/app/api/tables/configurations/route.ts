@@ -7,7 +7,7 @@ export async function GET() {
     const supabase = await createClient()
 
     const { data: configs, error: cfgErr } = await supabase
-      .from('table_configurations')
+      .from('gecko_table_configurations')
       .select('*')
       .order('id', { ascending: true })
 
@@ -15,7 +15,7 @@ export async function GET() {
 
     // Fetch junction rows + tables for each config
     const { data: junctions, error: juncErr } = await supabase
-      .from('table_configuration_tables')
+      .from('gecko_table_configuration_tables')
       .select('table_configuration_id, table_id, tables(*)')
 
     if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     }
 
     const { data: cfg, error: cfgErr } = await supabase
-      .from('table_configurations')
+      .from('gecko_table_configurations')
       .insert({ name: name.trim(), min_capacity, max_capacity })
       .select()
       .single()
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       table_configuration_id: cfg.id,
       table_id: tid,
     }))
-    const { error: juncErr } = await supabase.from('table_configuration_tables').insert(junctions)
+    const { error: juncErr } = await supabase.from('gecko_table_configuration_tables').insert(junctions)
     if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
 
     return NextResponse.json({ data: cfg }, { status: 201 })

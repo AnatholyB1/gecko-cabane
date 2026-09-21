@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = await createClient()
     
     const { data, error } = await supabase
-      .from('announcement')
+      .from('gecko_announcement')
       .select('*')
       .eq('id', 1)
       .single()
@@ -49,7 +49,7 @@ export async function PUT(request: Request) {
     const { title, content, is_active, bg_color, start_date, end_date } = body
     
     const { data, error } = await supabase
-      .from('announcement')
+      .from('gecko_announcement')
       .upsert({
         id: 1,
         title: title || null,

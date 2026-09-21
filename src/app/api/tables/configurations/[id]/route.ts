@@ -25,7 +25,7 @@ export async function PUT(request: Request, { params }: Params) {
 
     if (Object.keys(update).length > 0) {
       const { error } = await supabase
-        .from('table_configurations')
+        .from('gecko_table_configurations')
         .update(update)
         .eq('id', cfgId)
       if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -33,13 +33,13 @@ export async function PUT(request: Request, { params }: Params) {
 
     // Replace junction rows when table_ids provided
     if (Array.isArray(table_ids)) {
-      await supabase.from('table_configuration_tables').delete().eq('table_configuration_id', cfgId)
+      await supabase.from('gecko_table_configuration_tables').delete().eq('table_configuration_id', cfgId)
       if (table_ids.length > 0) {
         const junctions = (table_ids as number[]).map((tid) => ({
           table_configuration_id: cfgId,
           table_id: tid,
         }))
-        const { error: juncErr } = await supabase.from('table_configuration_tables').insert(junctions)
+        const { error: juncErr } = await supabase.from('gecko_table_configuration_tables').insert(junctions)
         if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
       }
     }
@@ -60,7 +60,7 @@ export async function DELETE(_request: Request, { params }: Params) {
     const cfgId = parseInt(id, 10)
     if (isNaN(cfgId)) return NextResponse.json({ error: 'ID invalide' }, { status: 400 })
 
-    const { error } = await supabase.from('table_configurations').delete().eq('id', cfgId)
+    const { error } = await supabase.from('gecko_table_configurations').delete().eq('id', cfgId)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
   } catch {

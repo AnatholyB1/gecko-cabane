@@ -21,15 +21,19 @@ export async function GET(request: NextRequest) {
   const startDate = searchParams.get('startDate')
   const endDate = searchParams.get('endDate')
   
-  // If phone is provided, allow public to check their reservation
+  // If phone is provided, allow public to check their reservation.
+  // gecko_reservations has no public SELECT policy (customer PII), so this
+  // uses the service-role client — safe because the phone filter below runs
+  // in trusted server code, not as an open query a client could widen.
   if (phone) {
-    const { data, error } = await supabase
-      .from('reservations')
+    const adminSupabase = createAdminClient()
+    const { data, error } = await adminSupabase
+      .from('gecko_reservations')
       .select('*')
       .eq('customer_phone', phone)
       .order('reservation_date', { ascending: false })
       .limit(5)
-    
+
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
@@ -44,7 +48,7 @@ export async function GET(request: NextRequest) {
   
   // Build query
   let query = supabase
-    .from('reservations')
+    .from('gecko_reservations')
     .select('*')
     .order('reservation_date', { ascending: true })
     .order('reservation_time', { ascending: true })
@@ -108,7 +112,7 @@ export async function POST(request: NextRequest) {
 
     const adminSupabase = createAdminClient()
     const { data: verif, error: verifError } = await adminSupabase
-      .from('phone_verifications')
+      .from('gecko_phone_verifications')
       .select('id, phone, token_expires_at')
       .eq('verified_token', phone_verification_token)
       .single()
@@ -136,7 +140,7 @@ export async function POST(request: NextRequest) {
 
     // Consume the token (single-use)
     await adminSupabase
-      .from('phone_verifications')
+      .from('gecko_phone_verifications')
       .update({ verified_token: null, token_expires_at: null })
       .eq('id', verif.id)
     
@@ -154,9 +158,12 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
     
-    // Insert reservation
-    const { data, error } = await supabase
-      .from('reservations')
+    // Insert reservation. gecko_reservations has no anon INSERT policy —
+    // the phone-verification check above is the real gate, so the write
+    // goes through the service-role client (same trust boundary as the
+    // phone_verifications consumption above), not the anon session client.
+    const { data, error } = await adminSupabase
+      .from('gecko_reservations')
       .insert({
         customer_name,
         customer_email: customer_email || null,
@@ -273,7 +280,7 @@ export async function PUT(request: NextRequest) {
     }
     
     const { data, error } = await supabase
-      .from('reservations')
+      .from('gecko_reservations')
       .update(updates)
       .eq('id', id)
       .select()
@@ -363,7 +370,7 @@ export async function DELETE(request: NextRequest) {
   }
   
   const { error } = await supabase
-    .from('reservations')
+    .from('gecko_reservations')
     .delete()
     .eq('id', id)
   

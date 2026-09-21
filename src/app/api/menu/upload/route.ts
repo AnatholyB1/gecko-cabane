@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     
     // Upload to Supabase Storage
     const { data, error } = await supabase.storage
-      .from('menu-images')
+      .from('gecko-menu-images')
       .upload(filename, buffer, {
         contentType: file.type,
         upsert: false
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     
     // Get public URL
     const { data: { publicUrl } } = supabase.storage
-      .from('menu-images')
+      .from('gecko-menu-images')
       .getPublicUrl(data.path)
     
     return NextResponse.json({ 
@@ -86,7 +86,7 @@ export async function DELETE(request: NextRequest) {
     }
     
     const { error } = await supabase.storage
-      .from('menu-images')
+      .from('gecko-menu-images')
       .remove([path])
     
     if (error) {

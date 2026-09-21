@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
       // Fetch all active configurations + their tables
       const { data: configRows, error: cfgErr } = await supabase
-        .from('table_configurations')
+        .from('gecko_table_configurations')
         .select('*')
         .eq('is_active', true)
         .order('id')
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
       if (cfgErr) return NextResponse.json({ error: cfgErr.message }, { status: 500 })
 
       const { data: junctions, error: juncErr } = await supabase
-        .from('table_configuration_tables')
+        .from('gecko_table_configuration_tables')
         .select('table_configuration_id, table_id, tables(*)')
 
       if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
       // A table is blocked if it belongs to a config with an active assignment where:
       //   reservation_datetime <= checkDatetime < blocked_until
       const { data: activeAssignments, error: asgErr } = await supabase
-        .from('table_assignments')
+        .from('gecko_table_assignments')
         .select('table_configuration_id, blocked_until, reservation_id, reservations(reservation_date, reservation_time)')
         .gt('blocked_until', checkDatetime.toISOString())
 
@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { data: assignments, error: asgErr } = await supabase
-      .from('table_assignments')
+      .from('gecko_table_assignments')
       .select(`
         *,
         reservations(*),
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
 
     // Fetch the reservation to get its datetime
     const { data: reservation, error: resErr } = await supabase
-      .from('reservations')
+      .from('gecko_reservations')
       .select('reservation_date, reservation_time')
       .eq('id', reservation_id)
       .single()
@@ -186,7 +186,7 @@ export async function POST(request: Request) {
 
     // Read block duration from settings
     const { data: setting } = await supabase
-      .from('restaurant_settings')
+      .from('gecko_restaurant_settings')
       .select('value')
       .eq('key', 'table_block_duration_minutes')
       .single()
@@ -198,7 +198,7 @@ export async function POST(request: Request) {
 
     // Upsert (replace existing assignment for this reservation)
     const { data, error } = await supabase
-      .from('table_assignments')
+      .from('gecko_table_assignments')
       .upsert(
         { reservation_id, table_configuration_id, blocked_until: blockedUntil.toISOString() },
         { onConflict: 'reservation_id' }
@@ -226,7 +226,7 @@ export async function DELETE(request: NextRequest) {
     const id            = searchParams.get('id')
     const reservationId = searchParams.get('reservation_id')
 
-    let q = supabase.from('table_assignments').delete()
+    let q = supabase.from('gecko_table_assignments').delete()
     if (id)            q = q.eq('id', parseInt(id, 10))
     else if (reservationId) q = q.eq('reservation_id', parseInt(reservationId, 10))
     else return NextResponse.json({ error: 'id ou reservation_id requis' }, { status: 400 })

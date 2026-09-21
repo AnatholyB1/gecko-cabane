@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient, isGeckoAdmin } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export async function loginAction(formData: FormData) {
@@ -14,6 +14,13 @@ export async function loginAction(formData: FormData) {
 
   if (error) {
     redirect(`/admin/login?error=${encodeURIComponent(error.message)}`)
+  }
+
+  // This Supabase project is shared with another app — a valid account
+  // does not by itself grant gecko-cabane admin access.
+  if (!(await isGeckoAdmin(supabase))) {
+    await supabase.auth.signOut()
+    redirect(`/admin/login?error=${encodeURIComponent("Ce compte n'a pas accès à l'administration Gecko Cabane.")}`)
   }
 
   redirect(redirectTo || '/admin')

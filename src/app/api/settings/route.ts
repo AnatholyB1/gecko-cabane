@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const supabase = await createClient()
     const { data, error } = await supabase
-      .from('restaurant_settings')
+      .from('gecko_restaurant_settings')
       .select('*')
       .order('key')
 
@@ -42,7 +42,7 @@ export async function PUT(request: Request) {
         continue
       }
       const { error } = await supabase
-        .from('restaurant_settings')
+        .from('gecko_restaurant_settings')
         .update({ value: String(numVal) })
         .eq('key', key)
       if (error) errors.push(error.message)

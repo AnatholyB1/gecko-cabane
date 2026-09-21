@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const supabase = await createClient()
     const { data, error } = await supabase
-      .from('tables')
+      .from('gecko_tables')
       .select('*')
       .order('display_order', { ascending: true })
       .order('id', { ascending: true })
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await supabase
-      .from('tables')
+      .from('gecko_tables')
       .insert({
         name: name.trim(),
         seats,

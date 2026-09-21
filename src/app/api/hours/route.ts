@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = await createClient()
     
     const { data, error } = await supabase
-      .from('opening_hours')
+      .from('gecko_opening_hours')
       .select('*')
       .order('day_of_week', { ascending: true })
     
@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
     // Update each day's hours
     for (const hour of hours) {
       const { error } = await supabase
-        .from('opening_hours')
+        .from('gecko_opening_hours')
         .update({
           is_open: hour.is_open,
           open_time: hour.is_open ? hour.open_time : null,

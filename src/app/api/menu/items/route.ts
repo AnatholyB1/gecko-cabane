@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const categoryId = searchParams.get('categoryId')
     
     let query = supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .select('*')
       .order('display_order', { ascending: true })
     
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     
     // Get max display_order for this category
     const { data: maxOrder } = await supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .select('display_order')
       .eq('category_id', category_id)
       .order('display_order', { ascending: false })
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     const newOrder = (maxOrder?.display_order || 0) + 1
     
     const { data, error } = await supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .insert({
         category_id,
         name,
@@ -142,7 +142,7 @@ export async function PUT(request: Request) {
     if (allergens !== undefined) updateData.allergens = allergens || null
     
     const { data, error } = await supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -176,7 +176,7 @@ export async function DELETE(request: Request) {
     }
     
     const { error } = await supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .delete()
       .eq('id', parseInt(id))
     

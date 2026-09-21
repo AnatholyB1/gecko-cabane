@@ -41,3 +41,18 @@ export function createAdminClient() {
     { auth: { autoRefreshToken: false, persistSession: false } }
   )
 }
+
+/**
+ * Checks gecko_admins membership for the currently authenticated user.
+ * This Supabase project is shared with the portfolio app — being logged in
+ * only proves the user has SOME account in the shared auth pool, not that
+ * they're a gecko-cabane admin. gecko_admins is the actual access boundary
+ * (also enforced independently by RLS via gecko_is_admin() on every table).
+ */
+export async function isGeckoAdmin(
+  supabase: Awaited<ReturnType<typeof createClient>>
+): Promise<boolean> {
+  const { data, error } = await supabase.rpc('gecko_is_admin')
+  if (error) return false
+  return data === true
+}

@@ -80,15 +80,6 @@ export default async function LoginPage({
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-(--warm-gray)">
-            Pas encore de compte ?{' '}
-            <Link href="/admin/signup" className="text-(--primary) font-semibold hover:underline">
-              S&apos;inscrire
-            </Link>
-          </p>
-        </div>
-
         <div className="mt-8 pt-6 border-t border-(--accent-light) text-center">
           <Link href="/" className="text-(--warm-gray) hover:text-(--primary) transition-colors">
             ← Retour au site

@@ -6,7 +6,7 @@ export async function GET() {
     const supabase = await createClient()
     
     const { data, error } = await supabase
-      .from('special_hours')
+      .from('gecko_special_hours')
       .select('*')
       .order('date', { ascending: true })
     
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     }
     
     const { data, error } = await supabase
-      .from('special_hours')
+      .from('gecko_special_hours')
       .upsert({
         date,
         title: title || null,
@@ -79,7 +79,7 @@ export async function DELETE(request: Request) {
     }
     
     const { error } = await supabase
-      .from('special_hours')
+      .from('gecko_special_hours')
       .delete()
       .eq('id', parseInt(id))
     

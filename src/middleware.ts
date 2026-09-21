@@ -77,6 +77,19 @@ export async function middleware(request: NextRequest) {
     return withCookies(NextResponse.redirect(loginUrl))
   }
 
+  // Authenticated but not a gecko-cabane admin (this Supabase project is
+  // shared with another app — a valid account alone isn't enough) →
+  // sign out and bounce to login with an explanation.
+  if (isAdminRoute && !isAuthPage && user) {
+    const { data: isAdmin, error } = await supabase.rpc('gecko_is_admin')
+    if (error || isAdmin !== true) {
+      await supabase.auth.signOut()
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('error', "Ce compte n'a pas accès à l'administration Gecko Cabane.")
+      return withCookies(NextResponse.redirect(loginUrl))
+    }
+  }
+
   // Authenticated user hitting login/signup → bounce to dashboard
   if (isAuthPage && user) {
     return withCookies(NextResponse.redirect(new URL('/admin', request.url)))

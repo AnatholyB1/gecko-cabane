@@ -24,7 +24,7 @@ export default function MenuDisplay() {
     
     // Fetch active menu pages with categories and items
     const { data: pages, error: pagesError } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .select('*')
       .eq('is_active', true)
       .order('display_order', { ascending: true })
@@ -37,7 +37,7 @@ export default function MenuDisplay() {
     // Fetch all categories for active pages
     const pageIds = pages.map(p => p.id)
     const { data: categories } = await supabase
-      .from('menu_categories')
+      .from('gecko_menu_categories')
       .select('*')
       .in('menu_page_id', pageIds)
       .order('display_order', { ascending: true })
@@ -45,7 +45,7 @@ export default function MenuDisplay() {
     // Fetch all items for those categories
     const categoryIds = categories?.map(c => c.id) || []
     const { data: items } = await supabase
-      .from('menu_items')
+      .from('gecko_menu_items')
       .select('*')
       .in('category_id', categoryIds)
       .eq('is_available', true)

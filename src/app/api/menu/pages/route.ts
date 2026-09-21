@@ -7,7 +7,7 @@ export async function GET() {
     const supabase = await createClient()
     
     const { data, error } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .select(`
         *,
         categories:menu_categories(
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     
     // Get max display_order
     const { data: maxOrder } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .select('display_order')
       .order('display_order', { ascending: false })
       .limit(1)
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     const newOrder = (maxOrder?.display_order || 0) + 1
     
     const { data, error } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .insert({
         name,
         slug,
@@ -105,7 +105,7 @@ export async function PUT(request: Request) {
     }
     
     const { data, error } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .update({
         name,
         slug,
@@ -145,7 +145,7 @@ export async function DELETE(request: Request) {
     }
     
     const { error } = await supabase
-      .from('menu_pages')
+      .from('gecko_menu_pages')
       .delete()
       .eq('id', parseInt(id))
     

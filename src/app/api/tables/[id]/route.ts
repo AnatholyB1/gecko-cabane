@@ -29,7 +29,7 @@ export async function PUT(request: Request, { params }: Params) {
     }
 
     const { data, error } = await supabase
-      .from('tables')
+      .from('gecko_tables')
       .update(update)
       .eq('id', tableId)
       .select()
@@ -52,7 +52,7 @@ export async function DELETE(_request: Request, { params }: Params) {
     const tableId = parseInt(id, 10)
     if (isNaN(tableId)) return NextResponse.json({ error: 'ID invalide' }, { status: 400 })
 
-    const { error } = await supabase.from('tables').delete().eq('id', tableId)
+    const { error } = await supabase.from('gecko_tables').delete().eq('id', tableId)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
   } catch {

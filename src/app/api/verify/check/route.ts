@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient()
     const { error: insertError } = await supabase
-      .from('phone_verifications')
+      .from('gecko_phone_verifications')
       .insert({ phone, verified_token: verifiedToken, token_expires_at: tokenExpiresAt })
 
     if (insertError) {
