@@ -11,9 +11,13 @@ export async function GET() {
       .order('day_of_week', { ascending: true })
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({
+        error: error.message,
+        debugUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        debugKeyTail: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(-12),
+      }, { status: 500 })
     }
-    
+
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
