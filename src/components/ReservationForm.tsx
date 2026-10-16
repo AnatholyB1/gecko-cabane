@@ -13,42 +13,41 @@ import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
 interface Country {
   code: CountryCode
   dialCode: string
-  name: string
   flag: string
 }
 
 // Most common nationalities at Krabi, ordered by frequency
 const COUNTRIES: Country[] = [
-  { code: 'TH', dialCode: '+66',  name: 'Thaïlande / Thailand',           flag: '🇹🇭' },
-  { code: 'FR', dialCode: '+33',  name: 'France',                          flag: '🇫🇷' },
-  { code: 'GB', dialCode: '+44',  name: 'Royaume-Uni / UK',                flag: '🇬🇧' },
-  { code: 'DE', dialCode: '+49',  name: 'Allemagne / Germany',             flag: '🇩🇪' },
-  { code: 'US', dialCode: '+1',   name: 'États-Unis / USA',                flag: '🇺🇸' },
-  { code: 'CA', dialCode: '+1',   name: 'Canada',                          flag: '🇨🇦' },
-  { code: 'AU', dialCode: '+61',  name: 'Australie / Australia',           flag: '🇦🇺' },
-  { code: 'NZ', dialCode: '+64',  name: 'Nouvelle-Zélande / New Zealand',  flag: '🇳🇿' },
-  { code: 'SG', dialCode: '+65',  name: 'Singapour / Singapore',           flag: '🇸🇬' },
-  { code: 'MY', dialCode: '+60',  name: 'Malaisie / Malaysia',             flag: '🇲🇾' },
-  { code: 'CN', dialCode: '+86',  name: 'Chine / China',                   flag: '🇨🇳' },
-  { code: 'JP', dialCode: '+81',  name: 'Japon / Japan',                   flag: '🇯🇵' },
-  { code: 'KR', dialCode: '+82',  name: 'Corée du Sud / South Korea',      flag: '🇰🇷' },
-  { code: 'IN', dialCode: '+91',  name: 'Inde / India',                    flag: '🇮🇳' },
-  { code: 'RU', dialCode: '+7',   name: 'Russie / Russia',                 flag: '🇷🇺' },
-  { code: 'SE', dialCode: '+46',  name: 'Suède / Sweden',                  flag: '🇸🇪' },
-  { code: 'NO', dialCode: '+47',  name: 'Norvège / Norway',                flag: '🇳🇴' },
-  { code: 'DK', dialCode: '+45',  name: 'Danemark / Denmark',              flag: '🇩🇰' },
-  { code: 'FI', dialCode: '+358', name: 'Finlande / Finland',              flag: '🇫🇮' },
-  { code: 'NL', dialCode: '+31',  name: 'Pays-Bas / Netherlands',          flag: '🇳🇱' },
-  { code: 'BE', dialCode: '+32',  name: 'Belgique / Belgium',              flag: '🇧🇪' },
-  { code: 'CH', dialCode: '+41',  name: 'Suisse / Switzerland',            flag: '🇨🇭' },
-  { code: 'ES', dialCode: '+34',  name: 'Espagne / Spain',                 flag: '🇪🇸' },
-  { code: 'IT', dialCode: '+39',  name: 'Italie / Italy',                  flag: '🇮🇹' },
-  { code: 'PT', dialCode: '+351', name: 'Portugal',                        flag: '🇵🇹' },
-  { code: 'PL', dialCode: '+48',  name: 'Pologne / Poland',                flag: '🇵🇱' },
-  { code: 'VN', dialCode: '+84',  name: 'Vietnam',                         flag: '🇻🇳' },
-  { code: 'AE', dialCode: '+971', name: 'Émirats arabes unis / UAE',       flag: '🇦🇪' },
-  { code: 'IL', dialCode: '+972', name: 'Israël / Israel',                 flag: '🇮🇱' },
-  { code: 'ZA', dialCode: '+27',  name: 'Afrique du Sud / South Africa',   flag: '🇿🇦' },
+  { code: 'TH', dialCode: '+66',  flag: '🇹🇭' },
+  { code: 'FR', dialCode: '+33',  flag: '🇫🇷' },
+  { code: 'GB', dialCode: '+44',  flag: '🇬🇧' },
+  { code: 'DE', dialCode: '+49',  flag: '🇩🇪' },
+  { code: 'US', dialCode: '+1',   flag: '🇺🇸' },
+  { code: 'CA', dialCode: '+1',   flag: '🇨🇦' },
+  { code: 'AU', dialCode: '+61',  flag: '🇦🇺' },
+  { code: 'NZ', dialCode: '+64',  flag: '🇳🇿' },
+  { code: 'SG', dialCode: '+65',  flag: '🇸🇬' },
+  { code: 'MY', dialCode: '+60',  flag: '🇲🇾' },
+  { code: 'CN', dialCode: '+86',  flag: '🇨🇳' },
+  { code: 'JP', dialCode: '+81',  flag: '🇯🇵' },
+  { code: 'KR', dialCode: '+82',  flag: '🇰🇷' },
+  { code: 'IN', dialCode: '+91',  flag: '🇮🇳' },
+  { code: 'RU', dialCode: '+7',   flag: '🇷🇺' },
+  { code: 'SE', dialCode: '+46',  flag: '🇸🇪' },
+  { code: 'NO', dialCode: '+47',  flag: '🇳🇴' },
+  { code: 'DK', dialCode: '+45',  flag: '🇩🇰' },
+  { code: 'FI', dialCode: '+358', flag: '🇫🇮' },
+  { code: 'NL', dialCode: '+31',  flag: '🇳🇱' },
+  { code: 'BE', dialCode: '+32',  flag: '🇧🇪' },
+  { code: 'CH', dialCode: '+41',  flag: '🇨🇭' },
+  { code: 'ES', dialCode: '+34',  flag: '🇪🇸' },
+  { code: 'IT', dialCode: '+39',  flag: '🇮🇹' },
+  { code: 'PT', dialCode: '+351', flag: '🇵🇹' },
+  { code: 'PL', dialCode: '+48',  flag: '🇵🇱' },
+  { code: 'VN', dialCode: '+84',  flag: '🇻🇳' },
+  { code: 'AE', dialCode: '+971', flag: '🇦🇪' },
+  { code: 'IL', dialCode: '+972', flag: '🇮🇱' },
+  { code: 'ZA', dialCode: '+27',  flag: '🇿🇦' },
 ]
 
 // Shared input style: dark, high-contrast text on the neutral card background.
@@ -99,13 +98,15 @@ export default function ReservationForm() {
   const t = useTranslations('reservationForm')
   const tw = useTranslations('whatsapp')
   const locale = useLocale()
+  const regionNames = new Intl.DisplayNames([locale], { type: 'region' })
+  const countryName = (code: string) => regionNames.of(code) ?? code
 
   const OCCASIONS = [
     { value: '', label: t('selectOptional') },
     { value: 'Anniversaire', label: t('birthday') },
-    { value: 'Dîner romantique', label: t('romanticDinner') },
+    { value: 'Dîner romantique', label: t('romanticDinner') }, // i18n-ignore: stored enum value sent to API/email
     { value: 'Repas d\'affaires', label: t('businessMeal') },
-    { value: 'Célébration', label: t('celebration') },
+    { value: 'Célébration', label: t('celebration') }, // i18n-ignore: stored enum value sent to API/email
     { value: 'Autre', label: t('other') }
   ]
 
@@ -312,7 +313,7 @@ export default function ReservationForm() {
                   value={form.customer_name}
                   onChange={(e) => setForm(f => ({ ...f, customer_name: e.target.value }))}
                   className={inputClass}
-                  placeholder="Jean Dupont"
+                  placeholder={t('namePlaceholder')}
                 />
               </div>
 
@@ -331,7 +332,7 @@ export default function ReservationForm() {
                 >
                   {COUNTRIES.map(c => (
                     <option key={c.code} value={c.code} className="bg-gc-ivory text-gc-text-dark">
-                      {c.flag} {c.name} ({c.dialCode})
+                      {c.flag} {countryName(c.code)} ({c.dialCode})
                     </option>
                   ))}
                 </select>
@@ -383,7 +384,7 @@ export default function ReservationForm() {
                   aria-invalid={emailShowError}
                   aria-describedby={emailShowError ? 'res-email-hint' : undefined}
                   className={`${inputClass} ${emailShowError ? 'border-gc-copper' : ''}`}
-                  placeholder="jean@example.com"
+                  placeholder={t('emailPlaceholder')}
                 />
                 {emailShowError && (
                   <p id="res-email-hint" className={hintClass}>{t('emailInvalid')}</p>
