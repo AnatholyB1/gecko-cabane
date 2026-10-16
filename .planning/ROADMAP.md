@@ -55,7 +55,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 01-09-PLAN.md — [BLOCKING] Scratch-DB proof + push 008/009 to production [checkpoint]
+- [x] 01-09-PLAN.md — [BLOCKING] Scratch-DB proof + push 008/009 to production [checkpoint]
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 8/11 | In Progress|  |
+| 1. Réservation sûre et sans friction | 9/11 | In Progress|  |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |

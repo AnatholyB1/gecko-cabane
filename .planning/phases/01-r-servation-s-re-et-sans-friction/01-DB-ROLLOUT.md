@@ -1,8 +1,8 @@
 # 01-DB-ROLLOUT - Evidence log (plan 01-09, Tasks 1-2)
 
 Date: 2026-10-16
-Status: PARTIAL. Task 1 resolved, Task 2 complete (all checks green). **Task 3 (production push) NOT executed.**
-**prod approval: given (push 008+009, repair 001-006 reverted if present, 007 applied). Push BLOCKED at dry-run, see "Production push".**
+Status: COMPLETE. Tasks 1-3 done (Task 3 via psql + migration repair, see "Production push").
+prod approval: given; 008+009 applied to prod.
 
 Scratch database: Supabase preview branch `phase1-scratch`, project ref `ztsncmtzzoghgbsnwhhk` (parent prod ref `ubxllsvanurkwkohzxau`). Disposable; the branch will be deleted. Connection string lives only in the gitignored `.env.local` (`SCRATCH_DB_URL`). Nothing in this file contains credentials.
 
@@ -93,30 +93,39 @@ Caveat: anon got "permission denied" (not an empty set) on the tables on this sc
 
 `node_modules/.bin/vitest run tests/migrations.test.ts`: 1 file, 6 tests passed. (`npx vitest` fails in this shell with "Missing script"; the local binary was used.)
 
-## Remaining (Task 3, not run)
+## Remaining (superseded, Task 3 later run)
 
 Awaiting owner approval ("prod approved"). Planned steps unchanged: list migration history, repair 001-006 as reverted if present, repair 007 as applied, `db push --dry-run` must list exactly 008 and 009, then push and verify read-only. Plan 01-10 (code deploy) stays blocked until then.
 
-## Production push (2026-10-16) - STOPPED at dry-run, nothing pushed
+## Production push (2026-10-16) - DONE via psql + migration repair
 
-Target: prod project ref `ubxllsvanurkwkohzxau` (via POSTGRES_URL_NON_POOLING, pooler host, never printed).
+Target: prod project ref `ubxllsvanurkwkohzxau` (POSTGRES_URL_NON_POOLING from `.env.local`, quotes and `supa=` param stripped, never printed).
 
-### History before
-`supabase migration list` showed local 007, 008, 009 with empty remote, plus **26 remote-only versions** (timestamp format, none of 001-006): 20260425125140, 20260521095243, 20260524220307, 20260920083556, 20260921010000, 20260921202340, 20260921202354, 20260921203728, 20260921211036, 20260921211109, 20260921214241, 20261002000000, 20261003000000, 20261003010000, 20261003020000, 20261004000000, 20261005000000, 20261006000000, 20261007000000, 20261007010000, 20261008000000, 20261009000000, 20261010000000, 20261011000000, 20261015174122, 20261015174138. These likely belong to the shared "portfolio" app and/or earlier dashboard-applied gecko changes.
+### Why not `db push`
+`supabase migration list` showed 26 remote-only (foreign, shared project) versions; `db push --dry-run` failed with `LegacyDbPushMissingLocalError` and suggested reverting them. That would rewrite another app's history, outside the approval. 001-006 were not present remotely; 007 was repaired as applied earlier (not executed). Foreign versions: untouched.
 
-### Actions taken (history table only)
-- 001-006: not present remotely, no repair needed.
-- `migration repair --status applied 007`: done (007 not executed).
+### Alternative mechanism (owner-approved in session)
+- Pre-checks: `git log 7959b55..HEAD` for 008/009 is empty (files identical to the scratch-tested ones). Grep for drop/delete/truncate: only `on delete set null` (FK), a comment, `drop policy if exists` on the new consents policy, and a cleanup `delete` inside `gecko_rate_limit_hit` on its own new table. Additive.
+- `psql "$DB_URL" -v ON_ERROR_STOP=1 -1 -f supabase/migrations/008_reservation_booking.sql`: exit 0 (single transaction).
+- Same for `009_rate_limits.sql`: exit 0.
+- `supabase migration repair --db-url ... --status applied 008 009`: "Migration history repaired". History now has 007, 008, 009 + the 26 foreign versions (29 total).
 
-### Dry-run
-`supabase db push --dry-run` did NOT list 008/009. It failed with `LegacyDbPushMissingLocalError: Remote migration versions not found in local migrations directory`, suggesting `repair --status reverted` on the 26 versions above. Per the hard stop, no push was performed.
+### Read-only verification on prod
+| check | result |
+|-------|--------|
+| `gecko_reservations.locale` | exists, default `'fr'::text` |
+| relrowsecurity | true on gecko_marketing_consents, gecko_rate_limits, gecko_reservations |
+| functions | gecko_create_reservation, gecko_rate_limit_hit exist |
+| `has_function_privilege` execute | anon = false, authenticated = false, service_role = true (both functions) |
+| rate-limit check in `begin; ... rollback;` (3 hits, limit 2) | true, true, false; 0 rows left after rollback |
+| `select count(*) from gecko_reservations` | 8 (count only, no rows read, no writes) |
 
-### Why stopped
-Reverting those 26 versions would rewrite migration history belonging to another app in the shared project, which is outside the approval (only 001-006 / 007). No schema, data, env or deploy change was made. Production schema still lacks 008/009; plan 01-10 remains blocked.
+### Finding to follow up (not fixed here)
+anon table grants (Supabase default privileges):
+- gecko_marketing_consents: INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
+- gecko_rate_limits: same full set
+- gecko_reservations: TRUNCATE, REFERENCES, TRIGGER only
 
-### Options for the owner
-1. Approve applying 008 and 009 by `psql -f` (each is idempotent, verified on scratch) plus `migration repair --status applied 008 009`, bypassing `db push`.
-2. Approve reverting the 26 foreign versions (not recommended on a shared project).
-3. Pull remote history into local placeholder files (`db pull`-style) so push is happy.
+RLS is enabled with no anon policy, so anon reads/writes return nothing/are denied. However TRUNCATE is not subject to RLS; PostgREST does not expose TRUNCATE so this is not reachable through the API, but it is unnecessary privilege. Recommended follow-up migration: `revoke all on public.gecko_marketing_consents, public.gecko_rate_limits from anon, authenticated;` (the service-role/security-definer paths and the admin read policy via `gecko_is_admin` should be checked before revoking from `authenticated`, since the admin consents policy needs SELECT for authenticated). Nothing was changed on prod for this.
 
-Prod verification (locale column, RLS, anon execute privilege): not run, nothing to verify yet.
+Plan 01-10 (code deploy) is unblocked from the database side.
