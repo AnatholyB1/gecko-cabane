@@ -69,7 +69,13 @@ Commit 5cc02f1 pushed, production Ready (no fonts failure). Live /fr and /en: on
 
 ## Search Console / Bing
 
-Filled by 02-08.
+Recorded 2026-10-17 (02-08).
+
+- **GSC property:** `geckocabanerestaurant.com` was NOT in the owner's GSC account (`list_sites` showed only ziko-app.com, sevalys.com, anatholy-bricon.com). A Domain property `sc-domain:geckocabanerestaurant.com` was added in the owner's signed-in Chrome (anatholyb@gmail.com). The TXT token was taken from the GSC UI and added with `vercel dns add geckocabanerestaurant.com '@' TXT 'google-site-verification=DCDagtDI5tcxh6LLIow4zcURviQCt-plVbvxt_Lb0T4'` (record rec_39f12c48391ef92fb6e840c1; the token is not secret). dns.google confirmed the TXT; GSC reported "Ownership verified" via Domain name provider. **Do not remove this DNS record.**
+- **Sitemap: NOT confirmed submitted.** `mcp__gsc__submit_sitemap` has read-only scope (403 expected). Three attempts in the GSC UI (typing `sitemap.xml` + Submit/Enter) did not register: the "Submitted sitemaps" table stayed empty after reload and `mcp__gsc__list_sitemaps` returned `{}`. Owner TODO (10 s): GSC > Sitemaps > type `sitemap.xml` > Submit (or re-ask Claude later). Google also discovers it via robots.txt.
+- **Bing Webmaster: not done.** Owner TODO: Bing Webmaster Tools > "Import from Google Search Console" (needs the owner's Bing sign-in). IndexNow optional.
+- **Rich Results Test: not run by Claude.** Owner TODO: search.google.com/test/rich-results on https://geckocabanerestaurant.com/fr and /en. Live JSON-LD was probed and is structurally valid (Restaurant, geo 5 decimals, hours 12-22 no Tuesday, 4 sameAs, no aggregateRating/hasMenu).
+- **SEO-07 status:** Partial.
 
 ## Known limitations
 

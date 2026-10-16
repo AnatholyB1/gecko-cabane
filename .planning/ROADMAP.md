@@ -9,7 +9,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 ## Phases
 
 - [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
-- [ ] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing
+- [x] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (completed 2026-10-16)
 - [ ] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
 - [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
 - [ ] **Phase 5: Conversion et mesure** - Preuve sociale, histoire du couple, accès, LINE, paiement, performance mobile, suivi des clics d'avis
@@ -81,7 +81,7 @@ Plans:
   4. Chaque page déclare hreflang fr, en et x-default (pas de `de` tant que `/de` n'est pas publié) ; `sitemap.xml` liste toutes les pages publiées et `robots.txt` le déclare
   5. Le domaine est vérifié dans Google Search Console et Bing Webmaster avec le sitemap soumis
 
-**Plans:** 7/8 plans executed
+**Plans:** 8/8 plans complete
 
 Plans:
 **Wave 1**
@@ -108,7 +108,7 @@ Plans:
 
 **Wave 6** *(blocked on Wave 5 completion)*
 
-- [ ] 02-08-PLAN.md — GSC domain verification via Vercel DNS TXT, sitemap submission, Bing import, traceability notes (wave 6, checkpoints)
+- [x] 02-08-PLAN.md — GSC domain verification via Vercel DNS TXT, sitemap submission, Bing import, traceability notes (wave 6, checkpoints)
 
 ### Phase 3: Carte HTML et pages d'atterrissage clés
 
@@ -216,7 +216,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
-| 2. Fondations SEO techniques | 7/8 | In Progress|  |
+| 2. Fondations SEO techniques | 8/8 | Complete   | 2026-10-16 |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
