@@ -73,7 +73,7 @@ function req(body: unknown, raw = false) {
 const valid = {
   customer_name: 'Jane Doe',
   customer_email: 'Jane@Example.COM',
-  customer_phone: '07700 900123',
+  customer_phone: '07911 123456',
   phone_country: 'GB',
   reservation_date: '2026-10-24',
   reservation_time: '19:00',
@@ -103,7 +103,7 @@ describe('POST /api/reservations', () => {
     const [name, args] = rpc.mock.calls[0]
     expect(name).toBe('gecko_create_reservation')
     expect(args).toMatchObject({
-      p_phone: '+447700900123',
+      p_phone: '+447911123456',
       p_locale: 'en',
       p_marketing_consent: false,
       p_consent_version: MARKETING_CONSENT_VERSION,

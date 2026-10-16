@@ -134,6 +134,7 @@ export interface MenuItemFormData {
 export interface ApiResponse<T> {
   data?: T
   error?: string
+  code?: string
 }
 
 // Reservation types
@@ -154,6 +155,19 @@ export interface Reservation {
   updated_at: string
   confirmed_at: string | null
   cancelled_at: string | null
+  locale: 'fr' | 'en' | 'de' | 'sv'
+}
+
+export interface MarketingConsent {
+  id: number
+  email: string
+  consent: boolean
+  locale: string
+  source: string
+  consent_text_version: string
+  consented_at: string
+  reservation_id: number | null
+  created_at: string
 }
 
 export interface ReservationFormData {
@@ -164,6 +178,11 @@ export interface ReservationFormData {
   reservation_time: string
   party_size: number
   occasion: string
+  phone_country?: string
+  locale: 'fr' | 'en'
+  marketing_consent: boolean
+  company_url?: string
+  form_started_at?: number
 }
 
 // ---------------------------------------------------------------------------
