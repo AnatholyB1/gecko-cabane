@@ -30,7 +30,20 @@ created: 2026-10-16
 
 ## Per-Task Verification Map
 
-Filled by the planner from `02-RESEARCH.md` §Validation Architecture (seo helper unit tests, schema without aggregateRating, sitemap/robots shape, middleware matcher excludes sitemap/robots/opengraph-image, meta namespace parity, no hard-coded French literals, no `gecko-cabane.com`).
+| Plan/Task | Requirement | Automated command |
+|-----------|-------------|-------------------|
+| 02-01 T1 | SEO-01, SEO-05 | `node_modules/.bin/vitest run tests/seo-metadata.test.ts` |
+| 02-01 T2 | SEO-02, SEO-03 | `node_modules/.bin/vitest run tests/seo-jsonld.test.ts` |
+| 02-02 T1 | SEO-04 | `node_modules/.bin/vitest run tests/i18n.test.ts` |
+| 02-02 T2 | SEO-04 | `node_modules/.bin/vitest run tests/i18n-hardcoded.test.ts tests/reservation-form.test.ts` |
+| 02-03 T1 | SEO-06 | `node_modules/.bin/vitest run tests/seo-sitemap-robots.test.ts` |
+| 02-03 T2 | SEO-06, SEO-05, SEO-01 | `node_modules/.bin/vitest run tests/middleware-matcher.test.ts tests/admin-routes-guarded.test.ts` |
+| 02-04 T1-T2 | SEO-04 | `node_modules/.bin/vitest run tests/i18n-hardcoded.test.ts tests/i18n.test.ts` |
+| 02-05 T1-T3 | SEO-01, SEO-04, SEO-05 | `node_modules/.bin/vitest run` (seo-pages, seo-no-legacy-domain) |
+| 02-06 T1-T3 | SEO-02, SEO-03, SEO-04 | `node_modules/.bin/vitest run tests/seo-jsonld-wiring.test.ts tests/seo-jsonld.test.ts` + `npm run build` |
+| 02-07 T1 | SEO-01, SEO-06 (live) | curl status checks (308 /, 301 www, 200 sitemap) |
+| 02-07 T2 | SEO-02 (RRT) | manual (owner) |
+| 02-08 T2/T4 | SEO-07 | `curl dns.google/resolve ... TXT` + `mcp__gsc__list_sitemaps` |
 
 ## Wave 0 Requirements
 

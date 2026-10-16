@@ -81,7 +81,17 @@ Plans:
   4. Chaque page déclare hreflang fr, en et x-default (pas de `de` tant que `/de` n'est pas publié) ; `sitemap.xml` liste toutes les pages publiées et `robots.txt` le déclare
   5. Le domaine est vérifié dans Google Search Console et Bing Webmaster avec le sitemap soumis
 
-**Plans**: TBD
+**Plans:** 8 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Pure SEO helper src/utils/seo.ts (canonical/hreflang/OG builder, Restaurant JSON-LD, hours mapper) + unit tests (wave 1)
+- [ ] 02-02-PLAN.md — i18n of components and locale error/404 pages + hard-coded French guard test (wave 1)
+- [ ] 02-03-PLAN.md — sitemap.ts, robots.ts, middleware matcher/options fix, / -> /fr 308 (wave 2)
+- [ ] 02-04-PLAN.md — i18n of home page literals (Our Story, The Menu, ...) + footer hours fix (wave 2)
+- [ ] 02-05-PLAN.md — Per-locale generateMetadata, slim root layout, gecko-cabane.com removal, admin noindex (wave 3)
+- [ ] 02-06-PLAN.md — Restaurant JSON-LD Server Component from DB hours, cache invalidation, per-locale OG image, verified sameAs (wave 4)
+- [ ] 02-07-PLAN.md — Deploy, www 301, live probes, owner Rich Results / geo / sameAs check (wave 5, checkpoint)
+- [ ] 02-08-PLAN.md — GSC domain verification via Vercel DNS TXT, sitemap submission, Bing import, traceability notes (wave 6, checkpoints)
 
 ### Phase 3: Carte HTML et pages d'atterrissage clés
 
