@@ -7,6 +7,9 @@
 
 import { describe, it, expect } from 'vitest'
 import {
+  parsePhone,
+  phoneCountryForLocale,
+  isEmailValid,
   normalizePhone,
   isE164Phone,
   validateReservationFields,
@@ -14,32 +17,57 @@ import {
   isReservationDateValid,
   isOtpCode,
 } from '../src/utils/validation'
+import { bangkokNow } from '../src/utils/reservation-rules'
 
 // ---------------------------------------------------------------------------
-// normalizePhone
+// parsePhone / normalizePhone
 // ---------------------------------------------------------------------------
+
+describe('parsePhone', () => {
+  it('parses national numbers with their country', () => {
+    expect(parsePhone('0812345678', 'TH')).toBe('+66812345678')
+    expect(parsePhone('06 12 34 56 78', 'FR')).toBe('+33612345678')
+    expect(parsePhone('07911 123456', 'GB')).toBe('+447911123456')
+  })
+
+  it('parses international numbers without a country', () => {
+    expect(parsePhone('+49 151 12345678')).toBe('+4915112345678')
+    expect(parsePhone('+66 81 234 5678')).toBe('+66812345678')
+  })
+
+  it('rejects invalid numbers', () => {
+    expect(parsePhone('12345', 'FR')).toBeNull()
+    expect(parsePhone('abc')).toBeNull()
+    expect(parsePhone('')).toBeNull()
+  })
+})
+
+describe('phoneCountryForLocale', () => {
+  it('maps locales to default countries', () => {
+    expect(phoneCountryForLocale('fr')).toBe('FR')
+    expect(phoneCountryForLocale('en')).toBe('GB')
+    expect(phoneCountryForLocale('de')).toBe('TH')
+  })
+})
 
 describe('normalizePhone', () => {
-  it('converts Thai local format (08x) to E.164', () => {
+  it('converts Thai local format to E.164 by default', () => {
     expect(normalizePhone('0812345678')).toBe('+66812345678')
     expect(normalizePhone('0912345678')).toBe('+66912345678')
-    expect(normalizePhone('0612345678')).toBe('+66612345678')
   })
 
   it('strips spaces and formatting characters', () => {
     expect(normalizePhone('+66 81 234 5678')).toBe('+66812345678')
     expect(normalizePhone('+33-6-12-34-56-78')).toBe('+33612345678')
-    expect(normalizePhone('+1 (415) 555-1234')).toBe('+14155551234')
+    expect(normalizePhone('+1 415 555 2671')).toBe('+14155552671')
   })
 
   it('passes through a valid E.164 number unchanged', () => {
     expect(normalizePhone('+33612345678')).toBe('+33612345678')
-    expect(normalizePhone('+6681234567')).toBe('+6681234567')
   })
 
-  it('does not convert Thai numbers starting with 05x (non-mobile)', () => {
-    // 053… is a landline — should NOT get +66 prefix automatically
-    expect(normalizePhone('0531234567')).toBe('0531234567')
+  it('returns the trimmed input when the number is invalid', () => {
+    expect(normalizePhone(' 12345 ')).toBe('12345')
   })
 })
 
@@ -51,25 +79,20 @@ describe('isE164Phone', () => {
   it('accepts valid E.164 numbers', () => {
     expect(isE164Phone('+66812345678')).toBe(true)
     expect(isE164Phone('+33612345678')).toBe(true)
-    expect(isE164Phone('+15551234567')).toBe(true)
-    expect(isE164Phone('+4412345678')).toBe(true)   // 10 digits (min viable)
+    expect(isE164Phone('+14155552671')).toBe(true)
   })
 
   it('rejects missing leading +', () => {
     expect(isE164Phone('66812345678')).toBe(false)
-    expect(isE164Phone('0812345678')).toBe(false)
+    expect(isE164Phone('0612345678')).toBe(false)
   })
 
-  it('rejects numbers that are too short', () => {
-    expect(isE164Phone('+123456')).toBe(false)   // 6 digits — below 8
-    expect(isE164Phone('+1234567')).toBe(false)  // 7 digits — below 8
+  it('rejects too short / too long numbers', () => {
+    expect(isE164Phone('+123456')).toBe(false)
+    expect(isE164Phone('+12345678901234567')).toBe(false)
   })
 
-  it('rejects numbers that are too long', () => {
-    expect(isE164Phone('+12345678901234567')).toBe(false) // 17 digits — above 15
-  })
-
-  it('rejects non-digit characters after +', () => {
+  it('rejects formatting characters', () => {
     expect(isE164Phone('+66 812345678')).toBe(false)
     expect(isE164Phone('+66-812345678')).toBe(false)
   })
@@ -89,6 +112,7 @@ describe('validateReservationFields', () => {
     customer_phone: '+66812345678',
     reservation_date: '2026-12-01',
     reservation_time: '19:00',
+    customer_email: 'jean@example.com',
     party_size: 2,
   }
 
@@ -113,6 +137,13 @@ describe('validateReservationFields', () => {
     expect(validateReservationFields({ ...valid, reservation_time: '' })).not.toBeNull()
   })
 
+  it('returns a French error when customer_email is missing', () => {
+    const { customer_email: _omit, ...noEmail } = valid
+    void _omit
+    expect(validateReservationFields(noEmail)).toMatch(/obligatoires/)
+    expect(validateReservationFields({ ...valid, customer_email: '' })).not.toBeNull()
+  })
+
   it('returns an error when party_size is missing', () => {
     expect(validateReservationFields({ ...valid, party_size: 0 })).not.toBeNull()
     expect(validateReservationFields({ ...valid, party_size: undefined })).not.toBeNull()
@@ -127,7 +158,7 @@ describe('isPartySizeValid', () => {
   it('accepts valid party sizes', () => {
     expect(isPartySizeValid(1)).toBe(true)
     expect(isPartySizeValid(10)).toBe(true)
-    expect(isPartySizeValid(50)).toBe(true)
+    expect(isPartySizeValid(40)).toBe(true)
   })
 
   it('rejects 0 and negative numbers', () => {
@@ -135,8 +166,8 @@ describe('isPartySizeValid', () => {
     expect(isPartySizeValid(-1)).toBe(false)
   })
 
-  it('rejects sizes above 50', () => {
-    expect(isPartySizeValid(51)).toBe(false)
+  it('rejects sizes above 40', () => {
+    expect(isPartySizeValid(41)).toBe(false)
     expect(isPartySizeValid(100)).toBe(false)
   })
 
@@ -151,10 +182,21 @@ describe('isPartySizeValid', () => {
 // isReservationDateValid
 // ---------------------------------------------------------------------------
 
+describe('isEmailValid', () => {
+  it('accepts normal emails', () => {
+    expect(isEmailValid('jean@example.com')).toBe(true)
+  })
+  it('rejects malformed emails', () => {
+    expect(isEmailValid('abc')).toBe(false)
+    expect(isEmailValid('a@b')).toBe(false)
+    expect(isEmailValid('')).toBe(false)
+    expect(isEmailValid('a'.repeat(250) + '@x.com')).toBe(false)
+  })
+})
+
 describe('isReservationDateValid', () => {
-  it('accepts today', () => {
-    const today = new Date().toISOString().split('T')[0]
-    expect(isReservationDateValid(today)).toBe(true)
+  it('accepts today (Krabi time)', () => {
+    expect(isReservationDateValid(bangkokNow().date)).toBe(true)
   })
 
   it('accepts a future date', () => {
