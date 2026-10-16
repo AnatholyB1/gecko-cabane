@@ -593,23 +593,29 @@ Search the web for confirmation before submission (WebSearch/WebFetch), but trea
 | A10 | Canonical TripAdvisor `.com` URL for the same listing ids is equivalent to the `.be` URL | sameAs | Low; owner validates |
 | A11 | `footer.openHours` "11h-23h" is wrong and the real hours are 12:00-22:00 (from D-05) | Pitfall 6 | Medium: owner must confirm before the visible text is changed |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Geo precision (D-06 vs Google guideline)**
    - Known: D-06 locks 8.0615 / 98.9157 (4 decimals); Google says "precision must be at least 5 decimal places".
    - Unclear: whether Rich Results validation warns; exact pin of the restaurant.
    - Recommendation: keep D-06 values in code (locked), but ask the owner to read 5-6 decimals from the Google Business Profile pin; change the constant if different. Test asserts the constants so the change is one line.
+   - RESOLVED: keep D-06 values (8.0615 / 98.9157) in code; owner confirms the pin in the 02-07 owner checkpoint -> plan 02-07
 2. **Footer visible hours text**
    - Known: `footer.openHours` says 11h-23h (both languages); real hours 12h-22h per D-05.
    - Recommendation: planner includes a task to correct the message (or generate from DB in the footer) after owner confirms.
+   - RESOLVED: set footer text to 12h-22h in plan 02-04 (pending owner confirmation, recorded in 02-04 SUMMARY); owner confirms in the 02-07 checkpoint -> plans 02-04, 02-07
 3. **`gecko-cabane-restaurant.vercel.app` duplicate host**
    - Known: serves the same content (redirect null); absolute canonicals mitigate duplication.
    - Recommendation: optional PATCH to redirect it (301) to the apex; check owner does not rely on it for previews (previews use per-deployment URLs). Low priority; ask owner.
+   - RESOLVED: leave the vercel.app host as is (absolute canonicals mitigate); listed under known limitations in 02-LAUNCH.md -> plan 02-06 / 02-07
 4. **`www` redirect code: 301 vs 308**
    - D-02 says 301; API supports both. Use 301 as decided.
+   - RESOLVED: www -> apex 301, root `/` -> `/fr` 308 per D-02 -> plan 02-07 (Task 1 configures www 301 and probes both codes)
 5. **GSC property pre-existing?**
    - Unknown whether `sc-domain:geckocabanerestaurant.com` already exists in the owner's GSC; `mcp__gsc__list_sites` first. If present and verified, skip TXT.
+   - RESOLVED: pre-check with `mcp__gsc__list_sites` in 02-07 Task 1 / 02-08 before any TXT record -> plans 02-07, 02-08
 6. **Manifest `lang`/`description`** stay French or neutral: discretion; recommend leave as is.
+   - RESOLVED: leave the manifest as is (no plan change) -> no plan
 
 ## Environment Availability
 
