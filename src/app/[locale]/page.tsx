@@ -1,4 +1,5 @@
 // src/app/[locale]/page.tsx
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
@@ -6,6 +7,20 @@ import MenuDisplay from '@/components/MenuDisplay'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
+import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: raw } = await params
+  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
+  const t = await getTranslations({ locale, namespace: 'meta' })
+  // Absolute title so the layout template is not appended (D-11).
+  return buildPageMetadata({
+    locale,
+    title: t('homeTitle'),
+    description: t('homeDescription'),
+    absoluteTitle: true,
+  })
+}
 
 export default async function Home() {
   const t = await getTranslations()
