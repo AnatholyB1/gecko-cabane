@@ -23,3 +23,9 @@ describe('MCP route table names', () => {
     expect(source).toMatch(/\.from\("gecko_reservations"\)\s*\.select\("party_size"\)/)
   })
 })
+
+describe('MCP route transport', () => {
+  it('uses plain JSON responses (SSE stream was closed before being read)', () => {
+    expect(source).toMatch(/enableJsonResponse:\s*true/)
+  })
+})

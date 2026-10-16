@@ -226,6 +226,10 @@ function buildMcpServer() {
 async function handleMcpRequest(request: Request): Promise<Response> {
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined, // stateless mode — no session cookies needed
+    // Plain JSON responses: with the default SSE stream the `finally` below
+    // closes the server before the client has read the stream, so every call
+    // returned an empty 200 body.
+    enableJsonResponse: true,
   })
 
   const server = buildMcpServer()
