@@ -28,6 +28,7 @@ const GUARDED_ROUTE_FILES = [
   'src/app/api/tables/assignments/route.ts',
   'src/app/api/tables/configurations/route.ts',
   'src/app/api/tables/configurations/[id]/route.ts',
+  'src/app/api/reservations/route.ts',
 ]
 
 function read(file: string): string {
@@ -63,6 +64,20 @@ describe('admin routes are guarded by requireAdmin()', () => {
     const body = src.slice(start, next === -1 ? undefined : next)
     expect(start).toBeGreaterThanOrEqual(0)
     expect(body.includes('requireAdmin()'), 'GET in tables/assignments must call requireAdmin()').toBe(true)
+  })
+
+  it('reservations route: GET, PUT, DELETE call requireAdmin(); POST does not', () => {
+    const src = read('src/app/api/reservations/route.ts')
+    const handler = (verb: string) => {
+      const start = src.indexOf(`export async function ${verb}`)
+      expect(start, `${verb} handler missing`).toBeGreaterThanOrEqual(0)
+      const next = src.indexOf('export async function', start + 1)
+      return src.slice(start, next === -1 ? undefined : next)
+    }
+    for (const verb of ['GET', 'PUT', 'DELETE']) {
+      expect(handler(verb).includes('requireAdmin()'), `${verb} must call requireAdmin()`).toBe(true)
+    }
+    expect(handler('POST').includes('requireAdmin()'), 'POST is public').toBe(false)
   })
 
   it('no route returns raw Supabase error.message to the client', () => {
