@@ -361,10 +361,10 @@ export default async function Home() {
             {/* Grille 2×2 desktop, 1 col mobile */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { src: '/food-curry.png', alt: 'Curry rouge gastronomique Franco-Thaï', caption: 'Curry Rouge · Lait de Coco & Kaffir' },
-                { src: '/food-carpaccio.png', alt: 'Carpaccio de thon au sésame et gingembre', caption: 'Carpaccio de Thon · Sésame & Gingembre' },
-                { src: '/food-dessert.png', alt: 'Panna cotta jasmin et coulis de fruit de la passion', caption: 'Panna Cotta Jasmin · Fruit de la Passion' },
-                { src: '/food-seabass.png', alt: 'Bar grillé à la citronnelle et beurre blanc', caption: 'Bar de Mer · Citronnelle & Beurre Blanc' },
+                { src: '/food-massaman.jpg', alt: "Souris d'agneau au curry Massaman et riz", caption: "Souris d'Agneau · Curry Massaman", pos: '50% 55%' },
+                { src: '/food-bourguignon.jpg', alt: 'Bœuf bourguignon, purée et pain de campagne', caption: 'Bœuf Bourguignon · Purée Maison', pos: '50% 50%' },
+                { src: '/food-poulet-creme.jpg', alt: 'Suprême de poulet label rouge sauce crème', caption: 'Suprême de Poulet · Sauce Crème', pos: '50% 50%' },
+                { src: '/food-veloute.jpg', alt: 'Velouté de potiron à la crème', caption: 'Velouté de Potiron · Crème', pos: '50% 62%' },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -376,6 +376,7 @@ export default async function Home() {
                     src={item.src}
                     alt={item.alt}
                     className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ objectPosition: item.pos }}
                     loading="lazy"
                   />
                   {/* Caption overlay */}
