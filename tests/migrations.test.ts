@@ -88,4 +88,17 @@ describe('supabase migrations', () => {
     }
     expect(sql).toContain('gecko-menu-images')
   })
+
+  it('012 drops only gecko_phone_verifications, without cascade', () => {
+    const sql = read('012_drop_phone_verifications.sql').replace(/--.*$/gm, '')
+    expect(sql).toMatch(/drop table if exists public\.gecko_phone_verifications;/i)
+    expect(sql.match(/\bdrop\b/gi)).toHaveLength(1)
+    expect(sql).not.toMatch(/cascade/i)
+  })
+
+  it('011 revokes anon DML on consents and keeps authenticated select', () => {
+    const sql = read('011_revoke_anon_consents_dml.sql').replace(/--.*$/gm, '')
+    expect(sql).toMatch(/revoke\s+insert,\s*update,\s*delete,\s*select\s+on\s+public\.gecko_marketing_consents\s+from\s+anon;/i)
+    expect(sql).not.toMatch(/authenticated/i)
+  })
 })
