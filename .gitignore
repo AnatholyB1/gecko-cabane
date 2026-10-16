@@ -43,3 +43,7 @@ next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# local dev artifacts
+.dev-server.log
+supabase/.temp/
