@@ -59,7 +59,7 @@ Plans:
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
-- [ ] 01-10-PLAN.md — Owner approvals, Vercel env, deploy, smoke tests, human <60 s check [checkpoint]
+- [x] 01-10-PLAN.md — Owner approvals, Vercel env, deploy, smoke tests, human <60 s check [checkpoint]
 
 **Wave 6** *(blocked on Wave 5 completion)*
 
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 9/11 | In Progress|  |
+| 1. Réservation sûre et sans friction | 10/11 | In Progress|  |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
