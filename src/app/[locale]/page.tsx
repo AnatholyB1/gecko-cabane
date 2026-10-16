@@ -7,6 +7,7 @@ import MenuDisplay from '@/components/MenuDisplay'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
+import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -22,11 +23,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   })
 }
 
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const t = await getTranslations()
 
   return (
     <div className="min-h-screen bg-gc-void font-cormorant">
+      <RestaurantJsonLd locale={locale as SeoLocale} />
       {/* Skip to main content */}
       <a
         href="#main-content"

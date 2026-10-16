@@ -8,7 +8,22 @@ export const size = {
 }
 export const contentType = 'image/png'
 
-export default async function Image() {
+const COPY = {
+  fr: {
+    tagline: 'Restaurant Franco-Thaï', // i18n-ignore: OG image copy, edge runtime without next-intl
+    place: '🌿 Krabi, Thaïlande 🌿', // i18n-ignore: OG image copy, edge runtime without next-intl
+    style: '🍽️ Gastronomique', // i18n-ignore: OG image copy, edge runtime without next-intl
+  },
+  en: {
+    tagline: 'French-Thai Restaurant', // i18n-ignore: OG image copy, edge runtime without next-intl
+    place: '🌿 Krabi, Thailand 🌿', // i18n-ignore: OG image copy, edge runtime without next-intl
+    style: '🍽️ Fine dining', // i18n-ignore: OG image copy, edge runtime without next-intl
+  },
+}
+
+export default async function Image({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const copy = COPY[locale === 'en' ? 'en' : 'fr']
   return new ImageResponse(
     (
       <div
@@ -50,7 +65,7 @@ export default async function Image() {
             margin: '20px 0 10px 0',
           }}
         >
-          Restaurant Franco-Thaï
+          {copy.tagline}
         </p>
         <p
           style={{
@@ -59,7 +74,7 @@ export default async function Image() {
             margin: 0,
           }}
         >
-          🌿 Krabi, Thaïlande 🌿
+          {copy.place}
         </p>
         
         {/* Bottom tagline */}
@@ -75,7 +90,7 @@ export default async function Image() {
             fontSize: 20,
           }}
         >
-          <span>🍽️ Gastronomique</span>
+          <span>{copy.style}</span>
           <span>•</span>
           <span>👩‍🍳 Chef Jariya</span>
           <span>•</span>

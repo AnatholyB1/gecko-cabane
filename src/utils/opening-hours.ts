@@ -6,7 +6,7 @@ export const OPENING_HOURS_TAG = 'opening-hours'
 
 /**
  * Opening hours for the JSON-LD schema, cached 1 h under the 'opening-hours' tag.
- * Uses the anon key + public-read RLS (migration 007): never utils/supabase/server
+ * Uses the anon key + public-read RLS (migration 007): never the cookie-bound server client
  * inside a cache scope (it reads cookies()) and never the service role for a public read.
  * Throws on error so failures are not cached.
  */
