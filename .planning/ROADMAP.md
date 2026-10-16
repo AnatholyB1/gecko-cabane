@@ -46,7 +46,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-06-PLAN.md — Booking API without SMS: migration 008 (capacity RPC, consents, locale), admin-only GET/PUT/DELETE, server-only webhooks (RESA-01/02, SEC-01/05)
+- [x] 01-06-PLAN.md — Booking API without SMS: migration 008 (capacity RPC, consents, locale), admin-only GET/PUT/DELETE, server-only webhooks (RESA-01/02, SEC-01/05)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 5/11 | In Progress|  |
+| 1. Réservation sûre et sans friction | 6/11 | In Progress|  |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |

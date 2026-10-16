@@ -1,0 +1,1 @@
+- Pre-existing lint errors (7 errors) in src/app/[locale]/page.tsx, admin/*, global-error.tsx, not-found.tsx, MenuDisplay.tsx; not caused by 01-06 (found in plan 01-06).
