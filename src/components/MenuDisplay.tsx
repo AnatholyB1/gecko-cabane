@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Leaf, Flame } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/utils/supabase/client'
 import { MenuPage, MenuCategory, MenuItem } from '@/types/database'
 
@@ -12,6 +13,7 @@ type MenuPageWithContent = MenuPage & {
 }
 
 export default function MenuDisplay() {
+  const t = useTranslations('menuSection')
   const [menuPages, setMenuPages] = useState<MenuPageWithContent[]>([])
   const [activeTab, setActiveTab] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
@@ -111,10 +113,10 @@ export default function MenuDisplay() {
       {/* Legend */}
       <div className="flex justify-center gap-6 mb-8 font-raleway text-[12px] tracking-[0.05em] text-gc-text-mid">
         <span className="inline-flex items-center gap-2">
-          <Leaf size={16} strokeWidth={1.75} className="text-gc-celadon" aria-hidden="true" /> Végétarien
+          <Leaf size={16} strokeWidth={1.75} className="text-gc-celadon" aria-hidden="true" /> {t('vegetarian')}
         </span>
         <span className="inline-flex items-center gap-2">
-          <Flame size={16} strokeWidth={1.75} className="text-gc-copper" aria-hidden="true" /> Épicé
+          <Flame size={16} strokeWidth={1.75} className="text-gc-copper" aria-hidden="true" /> {t('spicy')}
         </span>
       </div>
 
@@ -157,9 +159,9 @@ export default function MenuDisplay() {
                         strokeWidth={1.75}
                         className="text-gc-celadon self-center shrink-0"
                         role="img"
-                        aria-label="Végétarien"
+                        aria-label={t('vegetarian')}
                       >
-                        <title>Végétarien</title>
+                        <title>{t('vegetarian')}</title>
                       </Leaf>
                     )}
                     {item.is_spicy && (
@@ -168,9 +170,9 @@ export default function MenuDisplay() {
                         strokeWidth={1.75}
                         className="text-gc-copper self-center shrink-0"
                         role="img"
-                        aria-label="Épicé"
+                        aria-label={t('spicy')}
                       >
-                        <title>Épicé</title>
+                        <title>{t('spicy')}</title>
                       </Flame>
                     )}
                   </div>
@@ -203,7 +205,7 @@ export default function MenuDisplay() {
 
           {(!category.items || category.items.length === 0) && (
             <p className="text-center font-cormorant italic text-[16px] text-gc-text-mid">
-              Ce menu est en cours de préparation
+              {t('preparing')}
             </p>
           )}
         </div>
@@ -211,7 +213,7 @@ export default function MenuDisplay() {
 
       {(!activePage?.categories || activePage.categories.length === 0) && (
         <p className="text-center font-cormorant italic text-[17px] text-gc-text-mid">
-          La carte est en cours de préparation
+          {t('menuPreparing')}
         </p>
       )}
     </div>

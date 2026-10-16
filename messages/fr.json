@@ -52,7 +52,8 @@
     "vegetarian": "Végétarien",
     "spicy": "Épicé",
     "noItems": "Aucun plat disponible dans cette catégorie",
-    "preparing": "Ce menu est en cours de préparation"
+    "preparing": "Ce menu est en cours de préparation",
+    "menuPreparing": "La carte est en cours de préparation"
   },
   "services": {
     "title": "Nos Services",
@@ -114,7 +115,9 @@
     "slotFull": "Ce créneau est complet. Choisissez un autre horaire ou écrivez-nous sur WhatsApp.",
     "datePast": "Ce créneau est déjà passé. Choisissez une date ou une heure ultérieure.",
     "partySizeDecrease": "Moins de couverts",
-    "partySizeIncrease": "Plus de couverts"
+    "partySizeIncrease": "Plus de couverts",
+    "namePlaceholder": "Jean Dupont",
+    "emailPlaceholder": "jean@exemple.fr"
   },
   "contactSection": {
     "title": "Nous Trouver",
@@ -183,14 +186,16 @@
       "title": "Page introuvable",
       "subtitle": "Cette page n'existe pas ou a été déplacée. Revenez à l'accueil pour continuer votre expérience.",
       "backHome": "Retour à l'accueil",
-      "goMenu": "Voir notre menu"
+      "goMenu": "Voir notre menu",
+      "signature": "🦎 Gecko Cabane — Krabi, Thaïlande"
     },
     "error": {
       "code": "500",
       "title": "Une erreur s'est produite",
       "subtitle": "Quelque chose s'est mal passé de notre côté. Veuillez réessayer ou revenez à l'accueil.",
       "retry": "Réessayer",
-      "backHome": "Retour à l'accueil"
+      "backHome": "Retour à l'accueil",
+      "signature": "🦎 Gecko Cabane — Krabi, Thaïlande"
     }
   },
   "whatsapp": {
@@ -255,5 +260,10 @@
       "emailLabel": "Email",
       "phoneLabel": "Téléphone / WhatsApp"
     }
+  },
+  "announcement": {
+    "from": "Du {date}",
+    "to": "au {date}",
+    "close": "Fermer l'annonce"
   }
 }

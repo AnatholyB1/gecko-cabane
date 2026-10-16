@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
 import type { Announcement } from '@/types/database'
 
 // Colonial palette — toutes variantes mappées sur gc-jungle + bordure or
@@ -13,6 +14,9 @@ const BG_CLASSES: Record<string, string> = {
 }
 
 export default function AnnouncementBanner() {
+  const t = useTranslations('announcement')
+  const locale = useLocale()
+  const dateLocale = locale === 'en' ? 'en-GB' : 'fr-FR'
   const [announcement, setAnnouncement] = useState<Announcement | null>(null)
   const [visible, setVisible] = useState(true)
   const [loading, setLoading] = useState(true)
@@ -81,16 +85,16 @@ export default function AnnouncementBanner() {
             className="mt-2"
             style={{ fontFamily: 'var(--font-raleway)', fontSize: '11px', color: 'var(--gc-gold)', opacity: 0.7, letterSpacing: '0.1em' }}
           >
-            {announcement.start_date && `Du ${new Date(announcement.start_date).toLocaleDateString('fr-FR')}`}
+            {announcement.start_date && t('from', { date: new Date(announcement.start_date).toLocaleDateString(dateLocale) })}
             {announcement.start_date && announcement.end_date && ' '}
-            {announcement.end_date && `au ${new Date(announcement.end_date).toLocaleDateString('fr-FR')}`}
+            {announcement.end_date && t('to', { date: new Date(announcement.end_date).toLocaleDateString(dateLocale) })}
           </p>
         )}
       </div>
       <button
         onClick={() => setVisible(false)}
         className="absolute top-1/2 -translate-y-1/2 right-4 transition-opacity hover:opacity-60"
-        aria-label="Fermer l'annonce"
+        aria-label={t('close')}
         style={{ fontFamily: 'var(--font-cinzel)', fontSize: '14px', color: 'var(--gc-gold)' }}
       >
         ✕

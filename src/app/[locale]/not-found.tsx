@@ -49,7 +49,7 @@ export default async function NotFound() {
         </div>
 
         <p className="mt-12 text-sm text-warm-gray opacity-50 font-(family-name:--font-lora)">
-          🦎 Gecko Cabane — Krabi, Thaïlande
+          {t('signature')}
         </p>
       </div>
     </div>
