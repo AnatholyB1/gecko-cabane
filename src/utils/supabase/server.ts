@@ -37,7 +37,7 @@ export async function createClient() {
 
 /**
  * Service-role client that bypasses RLS.
- * Use ONLY in server-side API routes for sensitive operations (e.g. OTP verification).
+ * Use ONLY in server-side API routes for sensitive operations (e.g. reservation RPC, rate limiting).
  * Never expose SUPABASE_SERVICE_ROLE_KEY to the client bundle.
  */
 export function createAdminClient() {
