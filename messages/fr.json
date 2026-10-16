@@ -196,5 +196,63 @@
     "ariaLabel": "Nous écrire sur WhatsApp",
     "label": "Une question ? Écrivez-nous",
     "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
+  },
+  "privacy": {
+    "metaTitle": "Politique de confidentialité | Gecko Cabane",
+    "metaDescription": "Comment Gecko Cabane, restaurant franco-thaï à Krabi, collecte et protège vos données personnelles (PDPA B.E. 2562 et RGPD).",
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 16 octobre 2026",
+    "back": "Retour à l'accueil",
+    "who": {
+      "title": "Qui sommes-nous",
+      "body": "Gecko Cabane, restaurant franco-thaï, Maharat Road, Krabi Town, Thaïlande. Nous sommes responsables des données que vous nous confiez via ce site."
+    },
+    "data": {
+      "title": "Données que nous collectons",
+      "body": "Lorsque vous demandez une réservation, nous collectons :",
+      "item1": "votre nom ;",
+      "item2": "votre numéro de téléphone ;",
+      "item3": "votre adresse email ;",
+      "item4": "les détails de la réservation : date, heure, nombre de couverts et occasion éventuelle ;",
+      "item5": "si vous cochez la case, votre consentement à recevoir nos actualités, avec la date, la source et la version du texte de consentement ;",
+      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours."
+    },
+    "purpose": {
+      "title": "Pourquoi nous les utilisons",
+      "body": "Vos données servent à :",
+      "item1": "traiter et confirmer votre réservation ;",
+      "item2": "vous contacter à propos de cette réservation ;",
+      "item3": "vous envoyer notre newsletter, uniquement si vous avez coché la case de consentement. Nous ne vendons jamais vos données."
+    },
+    "rights": {
+      "title": "Base légale et vos droits",
+      "body": "Nous traitons votre réservation pour exécuter votre demande, et la newsletter sur la base de votre consentement. Conformément au Personal Data Protection Act thaïlandais (PDPA B.E. 2562) et au RGPD, vous disposez des droits suivants :",
+      "item1": "droit d'accès à vos données ;",
+      "item2": "droit de rectification ;",
+      "item3": "droit à l'effacement ;",
+      "item4": "droit d'opposition au traitement ;",
+      "item5": "droit de retirer votre consentement à tout moment, sans justification ;",
+      "item6": "droit de déposer une plainte auprès de l'autorité de protection des données compétente."
+    },
+    "retention": {
+      "title": "Durée de conservation",
+      "body": "Nous conservons vos données uniquement le temps nécessaire :",
+      "item1": "données de réservation : 24 mois après votre visite ;",
+      "item2": "consentement à la newsletter : jusqu'à son retrait ;",
+      "item3": "empreintes techniques anti-abus : 2 jours."
+    },
+    "sharing": {
+      "title": "Partage des données",
+      "body": "Vos données ne sont jamais vendues. Elles sont traitées par des prestataires, par catégorie :",
+      "item1": "hébergement du site ;",
+      "item2": "hébergement de la base de données ;",
+      "item3": "envoi des emails transactionnels."
+    },
+    "contact": {
+      "title": "Exercer vos droits et vous désinscrire",
+      "body": "Pour exercer vos droits ou retirer votre consentement, écrivez-nous à contact@gecko-cabane.com ou sur WhatsApp au +66 81 958 5945. Chaque newsletter contiendra un lien de désinscription.",
+      "emailLabel": "Email",
+      "phoneLabel": "Téléphone / WhatsApp"
+    }
   }
 }

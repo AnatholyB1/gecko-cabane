@@ -196,5 +196,63 @@
     "ariaLabel": "Chat with us on WhatsApp",
     "label": "Questions? Chat with us",
     "prefill": "Hello Gecko Cabane, I would like to book a table."
+  },
+  "privacy": {
+    "metaTitle": "Privacy policy | Gecko Cabane",
+    "metaDescription": "How Gecko Cabane, a French-Thai restaurant in Krabi, collects and protects your personal data (Thai PDPA B.E. 2562 and GDPR).",
+    "title": "Privacy policy",
+    "lastUpdated": "Last updated: 16 October 2026",
+    "back": "Back to home",
+    "who": {
+      "title": "Who we are",
+      "body": "Gecko Cabane, a French-Thai restaurant at Maharat Road, Krabi Town, Thailand. We are responsible for the personal data you give us through this website."
+    },
+    "data": {
+      "title": "What we collect",
+      "body": "When you request a reservation, we collect:",
+      "item1": "your name;",
+      "item2": "your phone number;",
+      "item3": "your email address;",
+      "item4": "your booking details: date, time, number of guests and occasion, if any;",
+      "item5": "if you tick the box, your consent to receive our news, recorded with the date, the source and the version of the consent text;",
+      "item6": "technical anti-abuse data, stored only as irreversible hashes and deleted after 2 days."
+    },
+    "purpose": {
+      "title": "Why we use it",
+      "body": "We use your details to:",
+      "item1": "handle and confirm your reservation;",
+      "item2": "contact you about that reservation;",
+      "item3": "send you our newsletter, only if you ticked the consent box. We never sell your data."
+    },
+    "rights": {
+      "title": "Legal basis and your rights",
+      "body": "We handle your reservation to carry out your request, and send the newsletter based on your consent. Under Thailand's Personal Data Protection Act (PDPA B.E. 2562) and the GDPR, you have the right to:",
+      "item1": "access your data;",
+      "item2": "have it corrected;",
+      "item3": "have it erased;",
+      "item4": "object to its processing;",
+      "item5": "withdraw your consent at any time, without giving a reason;",
+      "item6": "lodge a complaint with the competent data protection authority."
+    },
+    "retention": {
+      "title": "How long we keep it",
+      "body": "We keep your data only as long as needed:",
+      "item1": "reservation data: 24 months after your visit;",
+      "item2": "newsletter consent: until you withdraw it;",
+      "item3": "anti-abuse hashes: 2 days."
+    },
+    "sharing": {
+      "title": "Who we share it with",
+      "body": "Your data is never sold. It is processed by service providers, by category:",
+      "item1": "website hosting;",
+      "item2": "database hosting;",
+      "item3": "transactional email delivery."
+    },
+    "contact": {
+      "title": "Exercising your rights and unsubscribing",
+      "body": "To exercise your rights or withdraw your consent, email us at contact@gecko-cabane.com or message us on WhatsApp at +66 81 958 5945. Every newsletter will include an unsubscribe link.",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone / WhatsApp"
+    }
   }
 }
