@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Leaf, Flame } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 import { MenuPage, MenuCategory, MenuItem } from '@/types/database'
 
@@ -105,6 +106,16 @@ export default function MenuDisplay() {
         </div>
       )}
 
+      {/* Legend */}
+      <div className="flex justify-center gap-6 mb-8 font-raleway text-[12px] tracking-[0.05em] text-gc-text-mid">
+        <span className="inline-flex items-center gap-2">
+          <Leaf size={16} strokeWidth={1.75} className="text-gc-celadon" aria-hidden="true" /> Végétarien
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <Flame size={16} strokeWidth={1.75} className="text-gc-copper" aria-hidden="true" /> Épicé
+        </span>
+      </div>
+
       {/* Page Description */}
       {activePage?.description && (
         <p className="text-center font-cormorant italic text-[17px] text-gc-text-mid mb-10 max-w-xl mx-auto">
@@ -139,10 +150,26 @@ export default function MenuDisplay() {
                       {item.name}
                     </h4>
                     {item.is_vegetarian && (
-                      <span className="font-cinzel text-[10px] tracking-[0.15em] text-gc-celadon">V</span>
+                      <Leaf
+                        size={18}
+                        strokeWidth={1.75}
+                        className="text-gc-celadon self-center shrink-0"
+                        role="img"
+                        aria-label="Végétarien"
+                      >
+                        <title>Végétarien</title>
+                      </Leaf>
                     )}
                     {item.is_spicy && (
-                      <span className="font-cinzel text-[10px] tracking-[0.15em] text-gc-gold">S</span>
+                      <Flame
+                        size={18}
+                        strokeWidth={1.75}
+                        className="text-gc-copper self-center shrink-0"
+                        role="img"
+                        aria-label="Épicé"
+                      >
+                        <title>Épicé</title>
+                      </Flame>
                     )}
                   </div>
                   {item.description && (
