@@ -1,7 +1,7 @@
 ---
 phase: 3
 slug: carte-html-et-pages-d-atterrissage-cles
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-10-17
