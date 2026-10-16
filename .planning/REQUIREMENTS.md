@@ -23,7 +23,7 @@
 - [ ] **SEO-02** (T2) [P1]: Le schema contient `geo` (lat 8.0615, lon 98.9157) et des `url`/`image` sur le domaine principal ; Rich Results Test sans erreur
 - [ ] **SEO-03** (T3) [P1]: Le schema Restaurant inclut `hasMenu`, `acceptsReservations: true`, `sameAs` (Google Maps, TripAdvisor, Facebook, Instagram), `paymentAccepted`, `currenciesAccepted: THB`, `priceRange: ฿฿` ; `aggregateRating` seulement si de vrais avis sont affichés sur la page
 - [ ] **SEO-04** (T4) [P1]: `/en` est 100 % anglais (title, meta description, `og:locale` `en_US`, schema `description`, titres « Notre Histoire », « La Carte », « Nos Créations »), hors noms de plats
-- [ ] **SEO-05** (T5) [P1]: Chaque page déclare des liens `hreflang` fr, en, de et `x-default` vers ses équivalents
+- [ ] **SEO-05** (T5) [P1]: Chaque page déclare des liens `hreflang` vers ses équivalents publiés (fr, en et `x-default` dès maintenant) ; `de` puis `sv` s'ajoutent à la publication de chaque langue (I18N-01, I18N-02), jamais vers une page inexistante
 - [ ] **SEO-06** (T6) [P1]: `sitemap.xml` liste toutes les pages de toutes les langues ; `robots.txt` le déclare
 - [ ] **SEO-07** (T6) [P1]: Le domaine est vérifié dans Google Search Console et Bing Webmaster, sitemap soumis
 - [ ] **SEO-08** (T7): Images hero en WebP/AVIF, `loading="lazy"` hors écran, LCP < 2,5 s en 4G, PageSpeed mobile ≥ 85
@@ -129,14 +129,78 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 
 ## Traceability
 
-Remplie par le roadmap.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| SEC-01 | Phase 1 | Pending |
+| SEC-02 | Phase 1 | Pending |
+| SEC-03 | Phase 1 | Pending |
+| SEC-04 | Phase 1 | Pending |
+| SEC-05 | Phase 1 | Pending |
+| SEC-06 | Phase 1 | Pending |
+| RESA-01 | Phase 1 | Pending |
+| RESA-02 | Phase 1 | Pending |
+| RESA-03 | Phase 1 | Pending |
+| RESA-04 | Phase 1 | Pending |
+| SEO-01 | Phase 2 | Pending |
+| SEO-02 | Phase 2 | Pending |
+| SEO-03 | Phase 2 | Pending |
+| SEO-04 | Phase 2 | Pending |
+| SEO-05 | Phase 2 | Pending |
+| SEO-06 | Phase 2 | Pending |
+| SEO-07 | Phase 2 | Pending |
+| MENU-01 | Phase 3 | Pending |
+| MENU-02 | Phase 3 | Pending |
+| PAGE-01 | Phase 3 | Pending |
+| PAGE-02 | Phase 3 | Pending |
+| REV-01 | Phase 4 | Pending |
+| REV-02 | Phase 4 | Pending |
+| REV-03 | Phase 4 | Pending |
+| REV-04 | Phase 4 | Pending |
+| OPS-01 | Phase 4 | Pending |
+| SEO-08 | Phase 5 | Pending |
+| MENU-03 | Phase 5 | Pending |
+| RESA-05 | Phase 5 | Pending |
+| RESA-06 | Phase 5 | Pending |
+| CONV-01 | Phase 5 | Pending |
+| CONV-02 | Phase 5 | Pending |
+| CONV-03 | Phase 5 | Pending |
+| REV-05 | Phase 5 | Pending |
+| REV-06 | Phase 5 | Pending |
+| REV-07 | Phase 5 | Pending |
+| KPI-01 | Phase 5 | Pending |
+| PAGE-03 | Phase 6 | Pending |
+| PAGE-04 | Phase 6 | Pending |
+| PAGE-05 | Phase 6 | Pending |
+| PAGE-06 | Phase 6 | Pending |
+| PAGE-07 | Phase 6 | Pending |
+| PAGE-08 | Phase 6 | Pending |
+| I18N-01 | Phase 6 | Pending |
+| I18N-02 | Phase 6 | Pending |
+| OPS-02 | Phase 6 | Pending |
+| OPS-03 | Phase 6 | Pending |
+| OPS-04 | Phase 6 | Pending |
+| OPS-05 | Phase 6 | Pending |
+| OPS-06 | Phase 6 | Pending |
+| OPS-07 | Phase 6 | Pending |
+| NEWS-01 | Phase 7 | Pending |
+| NEWS-02 | Phase 7 | Pending |
+| NEWS-03 | Phase 7 | Pending |
+| NEWS-04 | Phase 7 | Pending |
+| NEWS-05 | Phase 7 | Pending |
+| NEWS-06 | Phase 7 | Pending |
+| NEWS-07 | Phase 7 | Pending |
+| KPI-02 | Phase 8 | Pending |
+| KPI-03 | Phase 8 | Pending |
+| KPI-04 | Phase 8 | Pending |
+| KPI-05 | Phase 8 | Pending |
+| KPI-06 | Phase 8 | Pending |
+| KPI-07 | Phase 8 | Pending |
+| KPI-08 | Phase 8 | Pending |
 
 **Coverage:**
-- v1 requirements: 62 total (24 marquées [P1])
-- Mapped to phases: 0 (en attente du roadmap)
+- v1 requirements: 65 total (24 marquées [P1]) ; le décompte initial de 62 était erroné
+- Mapped to phases: 65
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-16*
