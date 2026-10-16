@@ -2,7 +2,7 @@
 
 Date: 2026-10-16
 Status: PARTIAL. Task 1 resolved, Task 2 complete (all checks green). **Task 3 (production push) NOT executed.**
-**prod approval: pending**
+**prod approval: given (push 008+009, repair 001-006 reverted if present, 007 applied). Push BLOCKED at dry-run, see "Production push".**
 
 Scratch database: Supabase preview branch `phase1-scratch`, project ref `ztsncmtzzoghgbsnwhhk` (parent prod ref `ubxllsvanurkwkohzxau`). Disposable; the branch will be deleted. Connection string lives only in the gitignored `.env.local` (`SCRATCH_DB_URL`). Nothing in this file contains credentials.
 
@@ -96,3 +96,27 @@ Caveat: anon got "permission denied" (not an empty set) on the tables on this sc
 ## Remaining (Task 3, not run)
 
 Awaiting owner approval ("prod approved"). Planned steps unchanged: list migration history, repair 001-006 as reverted if present, repair 007 as applied, `db push --dry-run` must list exactly 008 and 009, then push and verify read-only. Plan 01-10 (code deploy) stays blocked until then.
+
+## Production push (2026-10-16) - STOPPED at dry-run, nothing pushed
+
+Target: prod project ref `ubxllsvanurkwkohzxau` (via POSTGRES_URL_NON_POOLING, pooler host, never printed).
+
+### History before
+`supabase migration list` showed local 007, 008, 009 with empty remote, plus **26 remote-only versions** (timestamp format, none of 001-006): 20260425125140, 20260521095243, 20260524220307, 20260920083556, 20260921010000, 20260921202340, 20260921202354, 20260921203728, 20260921211036, 20260921211109, 20260921214241, 20261002000000, 20261003000000, 20261003010000, 20261003020000, 20261004000000, 20261005000000, 20261006000000, 20261007000000, 20261007010000, 20261008000000, 20261009000000, 20261010000000, 20261011000000, 20261015174122, 20261015174138. These likely belong to the shared "portfolio" app and/or earlier dashboard-applied gecko changes.
+
+### Actions taken (history table only)
+- 001-006: not present remotely, no repair needed.
+- `migration repair --status applied 007`: done (007 not executed).
+
+### Dry-run
+`supabase db push --dry-run` did NOT list 008/009. It failed with `LegacyDbPushMissingLocalError: Remote migration versions not found in local migrations directory`, suggesting `repair --status reverted` on the 26 versions above. Per the hard stop, no push was performed.
+
+### Why stopped
+Reverting those 26 versions would rewrite migration history belonging to another app in the shared project, which is outside the approval (only 001-006 / 007). No schema, data, env or deploy change was made. Production schema still lacks 008/009; plan 01-10 remains blocked.
+
+### Options for the owner
+1. Approve applying 008 and 009 by `psql -f` (each is idempotent, verified on scratch) plus `migration repair --status applied 008 009`, bypassing `db push`.
+2. Approve reverting the 26 foreign versions (not recommended on a shared project).
+3. Pull remote history into local placeholder files (`db pull`-style) so push is happy.
+
+Prod verification (locale column, RLS, anon execute privilege): not run, nothing to verify yet.
