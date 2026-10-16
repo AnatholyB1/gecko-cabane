@@ -37,9 +37,9 @@
 ### Réservation (RESA)
 
 - [ ] **RESA-01** (R1) [P1]: Le code SMS est facultatif ; la réservation se confirme par email
-- [ ] **RESA-02** (N1) [P1]: L'email est obligatoire pour réserver en ligne ; une case non pré-cochée « Recevoir nos actualités et offres » enregistre le consentement avec date et source
+- [x] **RESA-02** (N1) [P1]: L'email est obligatoire pour réserver en ligne ; une case non pré-cochée « Recevoir nos actualités et offres » enregistre le consentement avec date et source
 - [ ] **RESA-03** (R1) [P1]: Un touriste avec un numéro étranger réserve en moins de 60 secondes
-- [ ] **RESA-04** (R1) [P1]: Un bouton WhatsApp flottant est présent sur toutes les pages publiques
+- [x] **RESA-04** (R1) [P1]: Un bouton WhatsApp flottant est présent sur toutes les pages publiques
 - [ ] **RESA-05** (R1): Un bouton LINE est présent pour les Thaïlandais
 - [ ] **RESA-06**: Chaque réservation porte un champ « source » (site, WhatsApp, téléphone, sans réservation) ; les événements « réservation envoyée » et « clic WhatsApp » sont mesurés
 
@@ -138,9 +138,9 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | SEC-05 | Phase 1 | Pending |
 | SEC-06 | Phase 1 | Pending |
 | RESA-01 | Phase 1 | Pending |
-| RESA-02 | Phase 1 | Pending |
+| RESA-02 | Phase 1 | Complete |
 | RESA-03 | Phase 1 | Pending |
-| RESA-04 | Phase 1 | Pending |
+| RESA-04 | Phase 1 | Complete |
 | SEO-01 | Phase 2 | Pending |
 | SEO-02 | Phase 2 | Pending |
 | SEO-03 | Phase 2 | Pending |

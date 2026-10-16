@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-10-16T16:23:08.276Z"
+last_updated: "2026-10-16T16:37:58.465Z"
 last_activity: 2026-10-16
 progress:
   total_phases: 8
   completed_phases: 0
   total_plans: 11
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-10-16)
 ## Current Position
 
 Phase: 01 (Réservation sûre et sans friction) — EXECUTING
-Plan: 2 of 11
+Plan: 3 of 11
 Status: Ready to execute
 Last activity: 2026-10-16
 
-Progress: [█░░░░░░░░░] 9%
+Progress: [██░░░░░░░░] 18%
 
 ## Performance Metrics
 
@@ -49,12 +49,14 @@ Progress: [█░░░░░░░░░] 9%
 ## Accumulated Context
 
 | Phase 01 P01 | 10min | 2 tasks | 18 files |
+| Phase 01 P02 | 15min | 2 tasks | 9 files |
 
 ### Decisions
 
 - Phases 1 à 4 portent les 24 exigences [P1] (échéance 1er novembre 2026)
 - Sécurité (SEC) couplée à la réservation (RESA) en phase 1
 - OPS-01 (fiche Google, P1) en phase 4 ; OPS-02 à 07 en phase 6 ; toute action publique exige l'accord du propriétaire
+- [Phase 01]: WhatsApp number from env with fallback 66819585945; accessible green tokens
 
 ### Pending Todos
 
@@ -68,6 +70,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-16T16:22:55.235Z
+Last session: 2026-10-16T16:37:42.260Z
 Stopped at: Phase 1 UI-SPEC approved
 Resume file: None
