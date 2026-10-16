@@ -270,14 +270,6 @@ export interface RestaurantSetting {
   updated_at: string
 }
 
-export interface PhoneVerification {
-  id: number
-  phone: string
-  verified_token: string
-  token_expires_at: string
-  created_at: string
-}
-
 // Admin membership (checked by gecko_is_admin())
 export interface GeckoAdmin {
   id: string // uuid, FK auth.users

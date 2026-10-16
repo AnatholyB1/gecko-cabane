@@ -152,7 +152,6 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - Fonts: `next/font/google` (Cinzel, Cinzel Decorative, Cormorant Garamond, Raleway) in `src/app/layout.tsx`
 ## Key Dependencies
 - `@supabase/supabase-js` ^2.98.0 and `@supabase/ssr` ^0.9.0 - DB, auth, storage (`src/utils/supabase/`)
-- `twilio` ^5.13.0 - phone verification (Verify) in `src/app/api/verify/`
 - `resend` ^6.28.1 - transactional email (`src/utils/resend`)
 - `@sentry/nextjs` ^10.45.0, `@sentry/profiling-node` ^10.45.0 - error tracking
 - `@modelcontextprotocol/sdk` ^1.27.1 - MCP server at `src/app/api/mcp/route.ts`
@@ -235,7 +234,6 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 | Landing page | Single-page composition of all sections | `src/app/[locale]/page.tsx` |
 | Public widgets | Hours, menu, announcement, reservation form, language switch | `src/components/*.tsx` |
 | Reservation API | Create/list/update reservations, send emails | `src/app/api/reservations/route.ts` |
-| Phone verification | Twilio Verify OTP send/check | `src/app/api/verify/send/route.ts`, `src/app/api/verify/check/route.ts` |
 | MCP server | Stateless MCP tools (menu, hours, availability) | `src/app/api/mcp/route.ts` |
 | Email templates | Resend client + templates | `src/utils/resend.ts` |
 | Validation | Reservation/phone validators | `src/utils/validation.ts` |
@@ -253,7 +251,7 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - Location: `src/middleware.ts`
 - Depends on: `@supabase/ssr`, `next-intl/middleware`, `src/i18n/config.ts`
 - Location: `src/app/api/`
-- Contains: Route Handlers per resource (announcement, auth, hours, menu/*, reservations, settings, special-hours, tables/*, verify/*, mcp)
+- Contains: Route Handlers per resource (announcement, auth, hours, menu/*, reservations, settings, special-hours, tables/*, mcp)
 - Depends on: `src/utils/supabase/server.ts`, `src/utils/validation.ts`, `src/utils/resend.ts`
 - Location: `supabase/migrations/001..006_*.sql`
 ## Data Flow

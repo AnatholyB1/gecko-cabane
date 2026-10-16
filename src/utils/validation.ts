@@ -71,8 +71,3 @@ export function isReservationDateValid(dateStr: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || isNaN(new Date(dateStr).getTime())) return false
   return dateStr >= bangkokNow().date
 }
-
-/** OTP code must be exactly 6 digits. */
-export function isOtpCode(code: string): boolean {
-  return /^\d{6}$/.test(code)
-}

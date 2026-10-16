@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { builtinModules } from 'node:module'
 
@@ -49,5 +49,22 @@ describe('dependencies', () => {
       }
     }
     expect([...missing]).toEqual([])
+  })
+
+  it('no longer depends on twilio', () => {
+    expect(pkg.dependencies?.twilio).toBeUndefined()
+    expect(pkg.devDependencies?.twilio).toBeUndefined()
+  })
+
+  it('has no SMS/OTP code path left in src/', () => {
+    expect(existsSync(join(root, 'src/app/api/verify'))).toBe(false)
+    const offenders: string[] = []
+    for (const file of walk(join(root, 'src'))) {
+      const text = readFileSync(file, 'utf8')
+      for (const needle of ['twilio', 'api/verify', 'phone_verification', 'isOtpCode']) {
+        if (text.includes(needle)) offenders.push(`${file}: ${needle}`)
+      }
+    }
+    expect(offenders).toEqual([])
   })
 })

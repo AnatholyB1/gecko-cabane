@@ -15,7 +15,6 @@ import {
   validateReservationFields,
   isPartySizeValid,
   isReservationDateValid,
-  isOtpCode,
 } from '../src/utils/validation'
 import { bangkokNow } from '../src/utils/reservation-rules'
 
@@ -211,32 +210,5 @@ describe('isReservationDateValid', () => {
   it('rejects an invalid date string', () => {
     expect(isReservationDateValid('not-a-date')).toBe(false)
     expect(isReservationDateValid('')).toBe(false)
-  })
-})
-
-// ---------------------------------------------------------------------------
-// isOtpCode
-// ---------------------------------------------------------------------------
-
-describe('isOtpCode', () => {
-  it('accepts exactly 6 digits', () => {
-    expect(isOtpCode('123456')).toBe(true)
-    expect(isOtpCode('000000')).toBe(true)
-    expect(isOtpCode('999999')).toBe(true)
-  })
-
-  it('rejects fewer than 6 digits', () => {
-    expect(isOtpCode('12345')).toBe(false)
-    expect(isOtpCode('')).toBe(false)
-  })
-
-  it('rejects more than 6 digits', () => {
-    expect(isOtpCode('1234567')).toBe(false)
-  })
-
-  it('rejects non-digit characters', () => {
-    expect(isOtpCode('12345a')).toBe(false)
-    expect(isOtpCode('12 345')).toBe(false)
-    expect(isOtpCode('12-345')).toBe(false)
   })
 })
