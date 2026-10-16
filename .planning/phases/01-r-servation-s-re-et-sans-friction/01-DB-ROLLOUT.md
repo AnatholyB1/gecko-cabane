@@ -129,3 +129,26 @@ anon table grants (Supabase default privileges):
 RLS is enabled with no anon policy, so anon reads/writes return nothing/are denied. However TRUNCATE is not subject to RLS; PostgREST does not expose TRUNCATE so this is not reachable through the API, but it is unnecessary privilege. Recommended follow-up migration: `revoke all on public.gecko_marketing_consents, public.gecko_rate_limits from anon, authenticated;` (the service-role/security-definer paths and the admin read policy via `gecko_is_admin` should be checked before revoking from `authenticated`, since the admin consents policy needs SELECT for authenticated). Nothing was changed on prod for this.
 
 Plan 01-10 (code deploy) is unblocked from the database side.
+
+## Post-launch approvals (2026-10-16)
+
+- Owner delegated remaining decisions to Claude and approved its actions ("le reste, regle-le toi-meme", earlier "j'approuve tes actions"). Recorded as: drop of `gecko_phone_verifications` approved by delegation; removal of TWILIO_* env vars from Vercel and `.env.local` approved by delegation.
+- Twilio account / Verify service: NOT retired by Claude (owner-only, billing). Owner TODO: delete/disable the Verify service and close or downgrade the Twilio account.
+
+## Post-launch cleanup (plan 01-11)
+
+Method: `psql -v ON_ERROR_STOP=1 -1 -f` against prod (`POSTGRES_URL_NON_POOLING` via shell var, never printed) then `supabase migration repair --status applied`. `db push` not used (26 foreign versions in the shared project, untouched; no dry-run was possible for the same reason). No scratch DB exists; both migrations are idempotent and touch only gecko_ objects.
+
+| step | migration | result |
+|------|-----------|--------|
+| 011 `revoke insert, update, delete, select on gecko_marketing_consents from anon` | applied before deploy | exit 0, `REVOKE`; repaired; grants query: anon none, authenticated = DELETE, INSERT, SELECT, UPDATE (admin read policy kept) |
+| deploy of commit dc5ad7a (webhooks removed, privacy email, lint fixes) | - | Vercel READY, smoke tests pass (below) |
+| 012 `drop table if exists public.gecko_phone_verifications` | applied AFTER deploy and smoke tests | exit 0, `DROP TABLE`; repaired; `to_regclass` before = table, after = NULL |
+
+Migration history on prod now includes 007-012 (plus the 26 foreign versions).
+
+Env names removed (values never printed): Vercel production `RESA_HOOK_URL`, `RESA_VALIDATION_HOOK_URL`; Vercel preview+development `NEXT_PUBLIC_RESA_HOOK_URL`, `NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL`; Vercel all environments `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_VERIFY_SERVICE_SID`; `.env.local` the same names (0 `TWILIO_`/`RESA` lines left). Listing afterwards: 0 TWILIO/RESA names.
+
+Production smoke tests (no reservation submitted):
+- Before drop: GET `?phone` 401; POST `{}` 400 `too_fast`; `/api/verify/send` 404; bundle scan (/fr, /en HTML + 15 chunks) 0 matches for `NEXT_PUBLIC_RESA`/`RESA_`, 0 for twilio, 0 for n8n; `/en/privacy` and `/fr/privacy` contain geckocabanerestaurant@gmail.com (old address 0); `/fr` contains `wa.me/66819585945`.
+- After drop and env removal: GET `?phone` 401; POST with empty fields 400 with a code (no 500). Note: the running deployment keeps its build-time env; the reservation path never touched the dropped table.

@@ -8,7 +8,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 
 ## Phases
 
-- [ ] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp
+- [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
 - [ ] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing
 - [ ] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
 - [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
@@ -63,7 +63,7 @@ Plans:
 
 **Wave 6** *(blocked on Wave 5 completion)*
 
-- [ ] 01-11-PLAN.md — Post-launch: drop gecko_phone_verifications (010), retire Twilio [checkpoint]
+- [x] 01-11-PLAN.md — Post-launch: drop gecko_phone_verifications (010), retire Twilio [checkpoint]
 
 **UI hint**: yes
 
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 10/11 | In Progress|  |
+| 1. Réservation sûre et sans friction | 11/11 | Complete   | 2026-10-16 |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |

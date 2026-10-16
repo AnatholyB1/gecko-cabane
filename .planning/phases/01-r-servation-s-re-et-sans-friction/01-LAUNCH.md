@@ -1,7 +1,7 @@
 # 01-LAUNCH - Phase 1 production launch log (plan 01-10)
 
 Date: 2026-10-16
-Status: DEPLOYED and smoke-tested. Human phone check (Task 3) is PENDING (owner).
+Status: DEPLOYED and smoke-tested. Human phone check (Task 3): OWNER-REPORTED OK (not verified by Claude).
 No secret or webhook URL appears in this file (names and actions only).
 
 ## Owner approvals
@@ -73,7 +73,7 @@ Not covered by these tests: the full successful booking path, emails, WhatsApp o
 
 ## Human verification
 
-STATUS: PENDING - to be done by the owner. NOT performed by Claude; nothing below has passed yet.
+STATUS: OWNER-REPORTED OK (2026-10-16, "1 ok; 2 ok": phone check = booking under 60 s with a foreign number, emails, admin confirm; and the WhatsApp button). Reported by the owner, NOT verified by Claude. No measured time or per-step result was provided, so the "Resultats" line below stays unfilled.
 
 Etapes (a faire sur un telephone, avec un vrai email) :
 
@@ -88,3 +88,10 @@ Etapes (a faire sur un telephone, avec un vrai email) :
 Aussi a confirmer par le proprietaire : le numero WhatsApp est actif ; decision sur la rotation des URLs n8n ; relecture juridique de la page confidentialite.
 
 Resultats (a remplir) : temps mesure ____ s ; email de demande EN ____ ; email de confirmation EN ____ ; ligne de consentement ____ ; WhatsApp fr/en ____.
+
+## Owner decisions after launch (2026-10-16)
+
+- Phone check and WhatsApp button: confirmed OK by the owner (owner-reported).
+- n8n webhooks: no longer needed (Resend is used). Removed in plan 01-11: code, `RESA_HOOK_URL` / `RESA_VALIDATION_HOOK_URL` (Vercel production, and `NEXT_PUBLIC_RESA_*` from preview/development, plus `.env.local`). Decision 4 above (keep and rotate) is superseded. Owner TODO: delete/disable the old exposed n8n URLs in n8n (only the owner can); they are now unused.
+- Privacy contact email: geckocabanerestaurant@gmail.com; the rest of the privacy text approved by the owner.
+- Remaining decisions delegated to Claude ("regle-le toi-meme"), including the drop of `gecko_phone_verifications` and the Twilio env removal.
