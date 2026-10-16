@@ -54,7 +54,7 @@ export default async function LoginPage({
               type="email"
               required
               className="w-full px-4 py-3 border border-(--accent-light) rounded-xl focus:ring-2 focus:ring-(--primary) focus:border-transparent outline-none transition-all"
-              placeholder="admin@gecko-cabane.com"
+              placeholder="vous@exemple.com"
             />
           </div>
 

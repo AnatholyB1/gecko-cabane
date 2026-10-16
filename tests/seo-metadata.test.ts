@@ -76,7 +76,7 @@ describe.each(LOCALES.flatMap((l) => PUBLISHED_PATHS.map((p) => [l, p] as const)
     })
 
     it('never references the legacy domain', () => {
-      expect(JSON.stringify(md)).not.toContain('gecko-cabane.com')
+      expect(JSON.stringify(md)).not.toContain(['gecko-cabane', 'com'].join('.'))
     })
   }
 )

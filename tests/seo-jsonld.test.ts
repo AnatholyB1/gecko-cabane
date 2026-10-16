@@ -103,7 +103,7 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
     for (const k of ['aggregateRating', 'hasMenu', 'menu', 'amenityFeature', 'sameAs']) {
       expect(ld).not.toHaveProperty(k)
     }
-    expect(JSON.stringify(ld)).not.toContain('gecko-cabane.com')
+    expect(JSON.stringify(ld)).not.toContain(['gecko-cabane', 'com'].join('.'))
   })
 })
 

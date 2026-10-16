@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const other: SeoLocale = locale === 'fr' ? 'en' : 'fr'
   const t = await getTranslations({ locale, namespace: 'meta' })
 
-  // No alternates here: metadata merging is shallow, pages own canonical/hreflang.
+  // Metadata merging is shallow: each page owns its own URL and language links.
   return {
     title: { default: t('homeTitle'), template: '%s | Gecko Cabane' },
     description: t('homeDescription'),
