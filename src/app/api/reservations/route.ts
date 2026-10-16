@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse, after } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { createClient, createAdminClient } from '@/utils/supabase/server'
-import type { ApiResponse } from '@/types/database'
+import { createAdminClient } from '@/utils/supabase/server'
+import { requireAdmin } from '@/utils/auth'
+import type { ApiResponse, Reservation, ReservationStatus } from '@/types/database'
 import {
   reservationRequestSchema,
   firstErrorCode,
@@ -19,73 +20,37 @@ import {
   customerStatusEmail,
 } from '@/utils/resend'
 
-// GET: Fetch reservations (admin only, or by phone for customers)
+// GET: List reservations (admin only — D-14: no public lookup by phone)
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
-  const { searchParams } = new URL(request.url)
+  const auth = await requireAdmin()
+  if (!auth.ok) return auth.response
+  const { supabase } = auth
 
-  const phone = searchParams.get('phone')
+  const { searchParams } = new URL(request.url)
   const date = searchParams.get('date')
   const status = searchParams.get('status')
   const startDate = searchParams.get('startDate')
   const endDate = searchParams.get('endDate')
 
-  // If phone is provided, allow public to check their reservation.
-  // gecko_reservations has no public SELECT policy (customer PII), so this
-  // uses the service-role client — safe because the phone filter below runs
-  // in trusted server code, not as an open query a client could widen.
-  if (phone) {
-    const adminSupabase = createAdminClient()
-    const { data, error } = await adminSupabase
-      .from('gecko_reservations')
-      .select('*')
-      .eq('customer_phone', phone)
-      .order('reservation_date', { ascending: false })
-      .limit(5)
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-    return NextResponse.json({ data })
-  }
-
-  // Admin-only: Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-  }
-
-  // Build query
   let query = supabase
     .from('gecko_reservations')
     .select('*')
     .order('reservation_date', { ascending: true })
     .order('reservation_time', { ascending: true })
 
-  // Apply filters
-  if (date) {
-    query = query.eq('reservation_date', date)
-  }
-
-  if (status && status !== 'all') {
-    query = query.eq('status', status)
-  }
-
-  if (startDate) {
-    query = query.gte('reservation_date', startDate)
-  }
-
-  if (endDate) {
-    query = query.lte('reservation_date', endDate)
-  }
+  if (date) query = query.eq('reservation_date', date)
+  if (status && status !== 'all') query = query.eq('status', status)
+  if (startDate) query = query.gte('reservation_date', startDate)
+  if (endDate) query = query.lte('reservation_date', endDate)
 
   const { data, error } = await query
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    Sentry.captureException(error)
+    return NextResponse.json<ApiResponse<never>>({ error: 'Erreur serveur', code: 'server_error' }, { status: 500 })
   }
 
-  return NextResponse.json({ data })
+  return NextResponse.json<ApiResponse<Reservation[]>>({ data: (data ?? []) as Reservation[] })
 }
 
 // POST: Create a new reservation (public, no OTP — D-01)
@@ -246,31 +211,51 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT: Update reservation status (admin only)
-export async function PUT(request: NextRequest) {
-  const supabase = await createClient()
+const RESERVATION_STATUSES: readonly ReservationStatus[] = [
+  'pending',
+  'confirmed',
+  'cancelled',
+  'completed',
+  'no_show',
+]
 
-  // Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-  }
+// PUT: Update reservation status / admin notes (admin only, whitelisted fields)
+export async function PUT(request: NextRequest) {
+  const auth = await requireAdmin()
+  if (!auth.ok) return auth.response
+  const { supabase } = auth
+
+  const bad = (error: string) =>
+    NextResponse.json<ApiResponse<never>>({ error, code: 'invalid_fields' }, { status: 400 })
 
   try {
     const body = await request.json()
-    const { id, ...updates } = body
+    const id = body?.id
 
-    if (!id) {
-      return NextResponse.json({ error: 'ID requis' }, { status: 400 })
+    if (typeof id !== 'number' || !Number.isInteger(id) || id <= 0) {
+      return bad('ID requis')
     }
 
-    // Handle status changes with timestamps
-    if (updates.status === 'confirmed' && !updates.confirmed_at) {
-      updates.confirmed_at = new Date().toISOString()
+    // Whitelist: only status and admin_notes can be changed (no mass assignment)
+    const updates: Record<string, string | null> = {}
+
+    if (body.status !== undefined) {
+      if (!RESERVATION_STATUSES.includes(body.status)) return bad('Statut invalide')
+      updates.status = body.status
+      const now = new Date().toISOString()
+      if (body.status === 'confirmed') updates.confirmed_at = now
+      if (body.status === 'cancelled') updates.cancelled_at = now
     }
-    if (updates.status === 'cancelled' && !updates.cancelled_at) {
-      updates.cancelled_at = new Date().toISOString()
+
+    if (body.admin_notes !== undefined) {
+      if (body.admin_notes !== null && (typeof body.admin_notes !== 'string' || body.admin_notes.length > 2000)) {
+        return bad('Notes invalides')
+      }
+      updates.admin_notes = body.admin_notes
     }
+
+    if (Object.keys(updates).length === 0) return bad('Aucune modification')
+    updates.updated_at = new Date().toISOString()
 
     const { data, error } = await supabase
       .from('gecko_reservations')
@@ -279,21 +264,23 @@ export async function PUT(request: NextRequest) {
       .select()
       .single()
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error || !data) {
+      if (error) Sentry.captureException(error)
+      return NextResponse.json<ApiResponse<never>>({ error: 'Erreur serveur', code: 'server_error' }, { status: 500 })
     }
 
-    // Send webhook notification when reservation status changes (confirmed or cancelled)
-    if ((updates.status === 'confirmed' || updates.status === 'cancelled') && data) {
-      const validationWebhookUrl = process.env.NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL
+    // Notify on confirmation / cancellation (best-effort, never fails the update)
+    if (updates.status === 'confirmed' || updates.status === 'cancelled') {
+      const newStatus = updates.status
+      const validationWebhookUrl = process.env.RESA_VALIDATION_HOOK_URL
       if (validationWebhookUrl) {
         try {
           await fetch(validationWebhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              type: updates.status === 'confirmed' ? 'reservation_confirmed' : 'reservation_cancelled',
-              status: updates.status,
+              type: newStatus === 'confirmed' ? 'reservation_confirmed' : 'reservation_cancelled',
+              status: newStatus,
               reservation: {
                 id: data.id,
                 customer_name: data.customer_name,
@@ -304,19 +291,21 @@ export async function PUT(request: NextRequest) {
                 party_size: data.party_size,
                 occasion: data.occasion,
                 status: data.status,
+                locale: data.locale,
                 confirmed_at: data.confirmed_at,
-                cancelled_at: data.cancelled_at
-              }
-            })
+                cancelled_at: data.cancelled_at,
+              },
+            }),
+            signal: AbortSignal.timeout(5000),
           })
         } catch (webhookError) {
-          console.error('Validation webhook error:', webhookError)
+          Sentry.captureException(webhookError)
         }
       }
 
-      // Notify the customer by email via Resend (best-effort)
       const resend = getResendClient()
       if (resend && data.customer_email) {
+        const emailLocale: EmailLocale = data.locale === 'en' ? 'en' : 'fr'
         const { subject, html } = customerStatusEmail(
           {
             customer_name: data.customer_name,
@@ -327,49 +316,43 @@ export async function PUT(request: NextRequest) {
             party_size: data.party_size,
             occasion: data.occasion,
           },
-          updates.status
+          newStatus,
+          emailLocale
         )
         try {
           await resend.emails.send({ from: RESEND_FROM_EMAIL, to: data.customer_email, subject, html })
         } catch (resendError) {
-          console.error('Resend status email error:', resendError)
+          Sentry.captureException(resendError)
         }
       }
     }
 
-    return NextResponse.json({ data })
-
+    return NextResponse.json<ApiResponse<Reservation>>({ data: data as Reservation })
   } catch (error) {
-    console.error('Update error:', error)
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+    Sentry.captureException(error)
+    return NextResponse.json<ApiResponse<never>>({ error: 'Erreur serveur', code: 'server_error' }, { status: 500 })
   }
 }
 
 // DELETE: Delete reservation (admin only)
 export async function DELETE(request: NextRequest) {
-  const supabase = await createClient()
-
-  // Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-  }
+  const auth = await requireAdmin()
+  if (!auth.ok) return auth.response
+  const { supabase } = auth
 
   const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
+  const id = Number(searchParams.get('id'))
 
-  if (!id) {
-    return NextResponse.json({ error: 'ID requis' }, { status: 400 })
+  if (!Number.isInteger(id) || id <= 0) {
+    return NextResponse.json<ApiResponse<never>>({ error: 'ID requis', code: 'invalid_fields' }, { status: 400 })
   }
 
-  const { error } = await supabase
-    .from('gecko_reservations')
-    .delete()
-    .eq('id', id)
+  const { error } = await supabase.from('gecko_reservations').delete().eq('id', id)
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    Sentry.captureException(error)
+    return NextResponse.json<ApiResponse<never>>({ error: 'Erreur serveur', code: 'server_error' }, { status: 500 })
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json<ApiResponse<{ id: number }>>({ data: { id } })
 }
