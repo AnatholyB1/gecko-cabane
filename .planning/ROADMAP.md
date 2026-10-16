@@ -51,7 +51,7 @@ Plans:
 **Wave 3** *(blocked on Wave 2 completion)*
 
 - [x] 01-07-PLAN.md — OTP-free form (email required, consent, honeypot, 429 WhatsApp) + SMS backend/twilio removed
-- [ ] 01-08-PLAN.md — Rate limits (migration 009) + honeypot/min fill time on POST (SEC-02)
+- [x] 01-08-PLAN.md — Rate limits (migration 009) + honeypot/min fill time on POST (SEC-02)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 7/11 | In Progress|  |
+| 1. Réservation sûre et sans friction | 8/11 | In Progress|  |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
