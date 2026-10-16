@@ -15,20 +15,88 @@ export const RESEND_FROM_EMAIL =
 
 export const RESTAURANT_NOTIFICATION_EMAIL = process.env.RESTAURANT_NOTIFICATION_EMAIL
 
-const DAY_LABELS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi']
-const MONTH_LABELS = [
-  'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-  'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
-]
+export type EmailLocale = 'fr' | 'en'
 
-/** Formats a YYYY-MM-DD date string as "lundi 12 janvier 2027" (French, no timezone conversion). */
-export function formatReservationDate(dateStr: string): string {
-  const [year, month, day] = dateStr.split('-').map(Number)
-  const d = new Date(Date.UTC(year, month - 1, day))
-  return `${DAY_LABELS[d.getUTCDay()]} ${day} ${MONTH_LABELS[month - 1]} ${year}`
+const WHATSAPP_DISPLAY = '+66 81 958 5945'
+
+const COPY: Record<
+  EmailLocale,
+  {
+    dateLocale: string
+    tagline: string
+    address: string
+    labels: { date: string; time: string; guests: string; occasion: string }
+    pendingTitle: (name: string) => string
+    pendingIntro: string
+    pendingNote: string
+    pendingSubject: string
+    changeLine: string
+    confirmedTitle: string
+    cancelledTitle: string
+    confirmedIntro: (name: string) => string
+    cancelledIntro: (name: string) => string
+    confirmedSubject: string
+    cancelledSubject: string
+  }
+> = {
+  fr: {
+    dateLocale: 'fr-FR',
+    tagline: 'Cuisine Franco-Thaï · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thaïlande',
+    labels: { date: 'Date', time: 'Heure', guests: 'Couverts', occasion: 'Occasion' },
+    pendingTitle: (n) => `Merci pour votre demande, ${n}`,
+    pendingIntro:
+      'Nous avons bien reçu votre demande de réservation. Notre équipe la confirmera sous peu par téléphone ou par email.',
+    pendingNote:
+      "Cette réservation est en attente de confirmation — elle n'est définitive qu'une fois validée par le restaurant.",
+    pendingSubject: 'Votre demande de réservation — Gecko Cabane',
+    changeLine: `Pour modifier ou annuler, écrivez-nous sur WhatsApp au ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Réservation confirmée',
+    cancelledTitle: 'Réservation annulée',
+    confirmedIntro: (n) => `Votre réservation est confirmée, ${n}. Nous avons hâte de vous accueillir.`,
+    cancelledIntro: (n) =>
+      `Votre réservation a été annulée, ${n}. N'hésitez pas à nous contacter pour en planifier une nouvelle.`,
+    confirmedSubject: 'Réservation confirmée — Gecko Cabane',
+    cancelledSubject: 'Réservation annulée — Gecko Cabane',
+  },
+  en: {
+    dateLocale: 'en-GB',
+    tagline: 'French-Thai cuisine · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thailand',
+    labels: { date: 'Date', time: 'Time', guests: 'Guests', occasion: 'Occasion' },
+    pendingTitle: (n) => `Thank you for your request, ${n}`,
+    pendingIntro:
+      'We have received your reservation request. The restaurant will confirm it shortly by email.',
+    pendingNote:
+      'This reservation is pending confirmation — it is only final once the restaurant has confirmed it.',
+    pendingSubject: 'Your reservation request at Gecko Cabane',
+    changeLine: `To change or cancel, message us on WhatsApp at ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Reservation confirmed',
+    cancelledTitle: 'Reservation cancelled',
+    confirmedIntro: (n) => `Your reservation is confirmed, ${n}. We look forward to welcoming you.`,
+    cancelledIntro: (n) =>
+      `Your reservation has been cancelled, ${n}. Please get in touch if you would like to book another table.`,
+    confirmedSubject: 'Reservation confirmed — Gecko Cabane',
+    cancelledSubject: 'Reservation cancelled — Gecko Cabane',
+  },
 }
 
-interface ReservationDetails {
+/** Formats a YYYY-MM-DD date as a long date ("samedi 24 octobre 2026" / "Saturday 24 October 2026"). */
+export function formatReservationDate(dateStr: string, locale: EmailLocale = 'fr'): string {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const d = new Date(Date.UTC(year, month - 1, day))
+  const parts = new Intl.DateTimeFormat(COPY[locale].dateLocale, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).formatToParts(d)
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? ''
+  return `${get('weekday')} ${get('day')} ${get('month')} ${get('year')}`
+}
+
+export interface ReservationDetails {
   customer_name: string
   customer_email?: string | null
   customer_phone: string
@@ -36,12 +104,14 @@ interface ReservationDetails {
   reservation_time: string
   party_size: number
   occasion?: string | null
+  locale?: EmailLocale
 }
 
-function baseTemplate(title: string, bodyHtml: string): string {
+function baseTemplate(title: string, bodyHtml: string, locale: EmailLocale = 'fr'): string {
+  const c = COPY[locale]
   return `
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="${locale}">
   <body style="margin:0;padding:0;background:#F5EEDA;font-family:Georgia,'Times New Roman',serif;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F5EEDA;padding:32px 16px;">
       <tr>
@@ -50,7 +120,7 @@ function baseTemplate(title: string, bodyHtml: string): string {
             <tr>
               <td style="background:#0D1F17;padding:28px 32px;text-align:center;">
                 <p style="margin:0;color:#C69B3C;font-size:11px;letter-spacing:3px;text-transform:uppercase;">Gecko Cabane</p>
-                <p style="margin:6px 0 0;color:#FAF0E6;opacity:0.6;font-size:12px;">Cuisine Franco-Thaï · Krabi</p>
+                <p style="margin:6px 0 0;color:#FAF0E6;opacity:0.6;font-size:12px;">${c.tagline}</p>
               </td>
             </tr>
             <tr>
@@ -62,8 +132,8 @@ function baseTemplate(title: string, bodyHtml: string): string {
             <tr>
               <td style="padding:20px 32px;border-top:1px solid #E8DCC8;text-align:center;">
                 <p style="margin:0;color:#5C4A3A;font-size:12px;">
-                  1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thaïlande<br />
-                  +66 81 958 5945
+                  ${c.address}<br />
+                  ${WHATSAPP_DISPLAY}
                 </p>
               </td>
             </tr>
@@ -75,13 +145,14 @@ function baseTemplate(title: string, bodyHtml: string): string {
 </html>`
 }
 
-function detailsTable(r: ReservationDetails): string {
+function detailsTable(r: ReservationDetails, locale: EmailLocale = 'fr'): string {
+  const l = COPY[locale].labels
   const rows: [string, string][] = [
-    ['Date', escapeHtml(formatReservationDate(r.reservation_date))],
-    ['Heure', escapeHtml(r.reservation_time)],
-    ['Couverts', escapeHtml(r.party_size)],
+    [l.date, escapeHtml(formatReservationDate(r.reservation_date, locale))],
+    [l.time, escapeHtml(r.reservation_time)],
+    [l.guests, escapeHtml(r.party_size)],
   ]
-  if (r.occasion) rows.push(['Occasion', escapeHtml(r.occasion)])
+  if (r.occasion) rows.push([l.occasion, escapeHtml(r.occasion)])
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">
   ${rows
@@ -96,26 +167,31 @@ function detailsTable(r: ReservationDetails): string {
 </table>`
 }
 
-export function customerPendingEmail(r: ReservationDetails) {
+export function customerPendingEmail(r: ReservationDetails, locale: EmailLocale = 'fr') {
+  const c = COPY[locale]
   const html = baseTemplate(
-    `Merci pour votre demande, ${escapeHtml(r.customer_name)}`,
+    c.pendingTitle(escapeHtml(r.customer_name)),
     `
     <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 20px;">
-      Nous avons bien reçu votre demande de réservation. Notre équipe la confirmera sous peu par téléphone ou par email.
+      ${c.pendingIntro}
     </p>
-    ${detailsTable(r)}
-    <p style="color:#5C4A3A;font-size:13px;font-style:italic;margin:0;">
-      Cette réservation est en attente de confirmation — elle n'est définitive qu'une fois validée par le restaurant.
-    </p>`
+    ${detailsTable(r, locale)}
+    <p style="color:#5C4A3A;font-size:13px;font-style:italic;margin:0 0 12px;">
+      ${c.pendingNote}
+    </p>
+    <p style="color:#5C4A3A;font-size:13px;margin:0;">${c.changeLine}</p>`,
+    locale
   )
-  return { subject: 'Votre demande de réservation — Gecko Cabane', html }
+  return { subject: c.pendingSubject, html }
 }
 
+/** Staff notification: always French, shows the guest language. */
 export function restaurantNotificationEmail(r: ReservationDetails) {
+  const lang = (r.locale ?? 'fr').toUpperCase()
   const html = baseTemplate(
     'Nouvelle demande de réservation',
     `
-    ${detailsTable(r)}
+    ${detailsTable(r, 'fr')}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;border-top:1px solid #E8DCC8;padding-top:16px;">
       <tr>
         <td style="padding:4px 0;color:#5C4A3A;font-size:13px;text-transform:uppercase;letter-spacing:1px;width:120px;">Client</td>
@@ -133,25 +209,32 @@ export function restaurantNotificationEmail(r: ReservationDetails) {
       </tr>`
           : ''
       }
-    </table>`
+      <tr>
+        <td style="padding:4px 0;color:#5C4A3A;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Langue du client</td>
+        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${escapeHtml(lang)}</td>
+      </tr>
+    </table>`,
+    'fr'
   )
-  return { subject: `Nouvelle réservation — ${stripLineBreaks(r.customer_name)} (${escapeHtml(r.party_size)} pers.)`, html }
+  return { subject: `Nouvelle réservation — ${stripLineBreaks(r.customer_name)} (${r.party_size} pers.)`, html }
 }
 
-export function customerStatusEmail(r: ReservationDetails, status: 'confirmed' | 'cancelled') {
-  const title = status === 'confirmed' ? 'Réservation confirmée' : 'Réservation annulée'
-  const intro =
-    status === 'confirmed'
-      ? `Votre réservation est confirmée, ${escapeHtml(r.customer_name)}. Nous avons hâte de vous accueillir.`
-      : `Votre réservation a été annulée, ${escapeHtml(r.customer_name)}. N'hésitez pas à nous contacter pour en planifier une nouvelle.`
+export function customerStatusEmail(
+  r: ReservationDetails,
+  status: 'confirmed' | 'cancelled',
+  locale: EmailLocale = 'fr'
+) {
+  const c = COPY[locale]
+  const name = escapeHtml(r.customer_name)
+  const confirmed = status === 'confirmed'
   const html = baseTemplate(
-    title,
+    confirmed ? c.confirmedTitle : c.cancelledTitle,
     `
-    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 20px;">${intro}</p>
-    ${detailsTable(r)}`
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 20px;">${
+      confirmed ? c.confirmedIntro(name) : c.cancelledIntro(name)
+    }</p>
+    ${detailsTable(r, locale)}`,
+    locale
   )
-  return {
-    subject: status === 'confirmed' ? 'Réservation confirmée — Gecko Cabane' : 'Réservation annulée — Gecko Cabane',
-    html,
-  }
+  return { subject: confirmed ? c.confirmedSubject : c.cancelledSubject, html }
 }
