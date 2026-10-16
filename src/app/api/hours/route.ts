@@ -2,6 +2,8 @@ import * as Sentry from '@sentry/nextjs'
 import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
+import { OPENING_HOURS_TAG } from '@/utils/opening-hours'
 
 export async function GET() {
   try {
@@ -53,7 +55,10 @@ export async function PUT(request: Request) {
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
       }
     }
-    
+
+    // Schema hours follow the admin within one request cycle (D-05)
+    revalidateTag(OPENING_HOURS_TAG, 'max')
+
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
