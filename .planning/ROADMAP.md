@@ -81,12 +81,12 @@ Plans:
   4. Chaque page déclare hreflang fr, en et x-default (pas de `de` tant que `/de` n'est pas publié) ; `sitemap.xml` liste toutes les pages publiées et `robots.txt` le déclare
   5. Le domaine est vérifié dans Google Search Console et Bing Webmaster avec le sitemap soumis
 
-**Plans:** 8 plans
+**Plans:** 1/8 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 02-01-PLAN.md — Pure SEO helper src/utils/seo.ts (canonical/hreflang/OG builder, Restaurant JSON-LD, hours mapper) + unit tests (wave 1)
+- [x] 02-01-PLAN.md — Pure SEO helper src/utils/seo.ts (canonical/hreflang/OG builder, Restaurant JSON-LD, hours mapper) + unit tests (wave 1)
 - [ ] 02-02-PLAN.md — i18n of components and locale error/404 pages + hard-coded French guard test (wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
@@ -216,7 +216,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
-| 2. Fondations SEO techniques | 0/TBD | Not started | - |
+| 2. Fondations SEO techniques | 1/8 | In Progress|  |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
