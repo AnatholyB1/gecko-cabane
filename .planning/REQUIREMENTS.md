@@ -22,7 +22,7 @@
 - [x] **SEO-01** (T1) [P1]: Chaque page a un canonical auto-référent sur `https://geckocabanerestaurant.com/{locale}/…` ; `gecko-cabane.com` redirige en 301 vers le domaine principal
 - [x] **SEO-02** (T2) [P1]: Le schema contient `geo` (lat 8.0615, lon 98.9157) et des `url`/`image` sur le domaine principal ; Rich Results Test sans erreur
 - [ ] **SEO-03** (T3) [P1]: Le schema Restaurant inclut `hasMenu`, `acceptsReservations: true`, `sameAs` (Google Maps, TripAdvisor, Facebook, Instagram), `paymentAccepted`, `currenciesAccepted: THB`, `priceRange: ฿฿` ; `aggregateRating` seulement si de vrais avis sont affichés sur la page
-- [ ] **SEO-04** (T4) [P1]: `/en` est 100 % anglais (title, meta description, `og:locale` `en_US`, schema `description`, titres « Notre Histoire », « La Carte », « Nos Créations »), hors noms de plats
+- [x] **SEO-04** (T4) [P1]: `/en` est 100 % anglais (title, meta description, `og:locale` `en_US`, schema `description`, titres « Notre Histoire », « La Carte », « Nos Créations »), hors noms de plats
 - [x] **SEO-05** (T5) [P1]: Chaque page déclare des liens `hreflang` vers ses équivalents publiés (fr, en et `x-default` dès maintenant) ; `de` puis `sv` s'ajoutent à la publication de chaque langue (I18N-01, I18N-02), jamais vers une page inexistante
 - [ ] **SEO-06** (T6) [P1]: `sitemap.xml` liste toutes les pages de toutes les langues ; `robots.txt` le déclare
 - [ ] **SEO-07** (T6) [P1]: Le domaine est vérifié dans Google Search Console et Bing Webmaster, sitemap soumis
@@ -144,7 +144,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | SEO-01 | Phase 2 | Complete |
 | SEO-02 | Phase 2 | Complete |
 | SEO-03 | Phase 2 | Pending |
-| SEO-04 | Phase 2 | Pending |
+| SEO-04 | Phase 2 | Complete |
 | SEO-05 | Phase 2 | Complete |
 | SEO-06 | Phase 2 | Pending |
 | SEO-07 | Phase 2 | Pending |
