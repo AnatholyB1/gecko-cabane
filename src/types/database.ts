@@ -259,3 +259,9 @@ export interface PhoneVerification {
   created_at: string
 }
 
+// Admin membership (checked by gecko_is_admin())
+export interface GeckoAdmin {
+  id: string // uuid, FK auth.users
+  email: string
+  created_at: string
+}

@@ -53,7 +53,7 @@ describe('supabase migrations', () => {
 
   it('has no using (true) policy on PII tables', () => {
     const re =
-      /create\s+policy[^;]*?\bon\s+(?:public\.)?(gecko_reservations|gecko_marketing_consents|gecko_rate_limits)\b[^;]*?using\s*\(\s*true\s*\)/gis
+      /create\s+policy[^;]*?\bon\s+(?:public\.)?(gecko_reservations|gecko_marketing_consents|gecko_rate_limits)\b[^;]*?using\s*\(\s*true\s*\)/gi
     for (const f of files) {
       expect(re.test(read(f)), `${f} has a public policy on a PII table`).toBe(false)
       re.lastIndex = 0
