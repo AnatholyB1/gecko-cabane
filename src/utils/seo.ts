@@ -80,8 +80,11 @@ export function buildPageMetadata(args: {
 // Google prefers 5+ decimals; the owner confirms the map pin in plan 02-07.
 export const GEO = { latitude: 8.0615, longitude: 98.9157 } as const
 
-// D-09: only owner-validated/verified official profile URLs; filled in plan 02-06
-export const SAME_AS: readonly string[] = []
+// D-09: only URLs already published on the site; new profiles require owner approval (02-07 Task 2/3)
+export const SAME_AS: readonly string[] = [
+  'https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
+  'https://www.facebook.com/GeckoCabaneRestaurant/',
+]
 
 export type OpeningHoursRow = {
   day_of_week: number

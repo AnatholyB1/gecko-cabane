@@ -100,7 +100,7 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
   })
 
   it('never claims rating, menu or amenities', () => {
-    for (const k of ['aggregateRating', 'hasMenu', 'menu', 'amenityFeature', 'sameAs']) {
+    for (const k of ['aggregateRating', 'hasMenu', 'menu', 'amenityFeature']) {
       expect(ld).not.toHaveProperty(k)
     }
     expect(JSON.stringify(ld)).not.toContain(['gecko-cabane', 'com'].join('.'))
@@ -122,6 +122,11 @@ describe('buildRestaurantJsonLd options', () => {
     const list = ['https://www.facebook.com/GeckoCabaneRestaurant/']
     const ld = buildRestaurantJsonLd({ locale: 'en', description: 'x', hoursRows: [], sameAs: list })
     expect(ld.sameAs).toEqual(list)
+  })
+
+  it('omits sameAs when the list is empty', () => {
+    const ld = buildRestaurantJsonLd({ locale: 'en', description: 'x', hoursRows: [], sameAs: [] })
+    expect(ld).not.toHaveProperty('sameAs')
   })
 
   it('SAME_AS entries are https URLs', () => {

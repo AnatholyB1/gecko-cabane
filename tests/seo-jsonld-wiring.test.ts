@@ -78,3 +78,11 @@ describe('OG image per locale', () => {
     expect(readFileSync(p, 'utf8')).toContain('params')
   })
 })
+
+describe('SAME_AS (D-09)', () => {
+  it('only contains URLs already published as hrefs in the home page', async () => {
+    const { SAME_AS } = await import('../src/utils/seo')
+    const page = read('src/app/[locale]/page.tsx')
+    for (const url of SAME_AS) expect(page).toContain(`href="${url}"`)
+  })
+})
