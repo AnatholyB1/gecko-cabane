@@ -16,10 +16,6 @@ export default function MenuDisplay() {
   const [activeTab, setActiveTab] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchMenu()
-  }, [])
-
   async function fetchMenu() {
     const supabase = createClient()
     
@@ -69,6 +65,12 @@ export default function MenuDisplay() {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    // fetchMenu is async: state is set after the awaited fetch (initial data load on mount); rule is a false positive here
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchMenu()
+  }, [])
 
   if (loading) {
     return (

@@ -32,10 +32,10 @@ export default function GlobalError({
             </div>
 
             <h1 className="text-4xl font-bold text-[#1E3D2A] mb-4">
-              Une erreur s'est produite
+              Une erreur s&apos;est produite
             </h1>
             <p className="text-[#4A5D4A] mb-10 leading-relaxed">
-              Quelque chose s'est mal passé. Veuillez réessayer.
+              Quelque chose s&apos;est mal passé. Veuillez réessayer.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
@@ -45,6 +45,8 @@ export default function GlobalError({
               >
                 🔄 Réessayer
               </button>
+              {/* global-error replaces the root layout: a plain anchor forces a full reload, which is intended here (next/link needs the app router context) */}
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/fr"
                 className="inline-block border-2 border-[#2D5A3D] text-[#2D5A3D] px-8 py-3 rounded-full no-underline font-semibold"

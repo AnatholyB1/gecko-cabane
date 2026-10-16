@@ -21,14 +21,14 @@ export default function GlobalNotFound() {
               Page introuvable
             </h1>
             <p className="text-[#4A5D4A] mb-10 leading-relaxed">
-              Cette page n'existe pas ou a été déplacée.
+              Cette page n&apos;existe pas ou a été déplacée.
             </p>
 
             <Link
               href="/fr"
               className="inline-block bg-[#2D5A3D] text-white px-8 py-3 rounded-full font-semibold no-underline"
             >
-              ← Retour à l'accueil
+              ← Retour à l&apos;accueil
             </Link>
 
             <p className="mt-12 text-sm text-[#4A5D4A] opacity-50">

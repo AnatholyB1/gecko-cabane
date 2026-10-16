@@ -329,7 +329,7 @@ export default function AdminReservationsPage() {
                   onClick={() => setFilterDate(new Date().toISOString().split('T')[0])}
                   className="px-3 py-1 text-sm bg-(--accent-light) rounded-lg hover:bg-(--moss)/30"
                 >
-                  Aujourd'hui
+                  Aujourd&apos;hui
                 </button>
               </div>
             )}
