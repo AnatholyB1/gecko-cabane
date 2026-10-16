@@ -32,7 +32,7 @@ describe('sitemap', () => {
   })
 
   it('uses only the canonical domain and no unpublished locale', () => {
-    const all = entries.flatMap((e) => [e.url, ...Object.values(e.alternates?.languages ?? {})])
+    const all: string[] = entries.flatMap((e) => [e.url, ...Object.values(e.alternates?.languages ?? {}).filter((x): x is string => typeof x === 'string')])
     for (const u of all) {
       expect(u.startsWith('https://geckocabanerestaurant.com/')).toBe(true)
       expect(u).not.toMatch(/\/de|\/sv|gecko-cabane\.com/)
