@@ -146,7 +146,7 @@
     "legalVat": "N° TVA : Exonéré (PP.30)",
     "legalAlcohol": "Licence alcool : Excise Dept.",
     "legalPdpa": "Données personnelles protégées (PDPA BE 2562)",
-    "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : contact@gecko-cabane.com."
+    "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : geckocabanerestaurant@gmail.com."
   },
   "hours": {
     "monday": "Lundi",
@@ -251,7 +251,7 @@
     },
     "contact": {
       "title": "Exercer vos droits et vous désinscrire",
-      "body": "Pour exercer vos droits ou retirer votre consentement, écrivez-nous à contact@gecko-cabane.com ou sur WhatsApp au +66 81 958 5945. Chaque newsletter contiendra un lien de désinscription.",
+      "body": "Pour exercer vos droits ou retirer votre consentement, écrivez-nous à geckocabanerestaurant@gmail.com ou sur WhatsApp au +66 81 958 5945. Chaque newsletter contiendra un lien de désinscription.",
       "emailLabel": "Email",
       "phoneLabel": "Téléphone / WhatsApp"
     }

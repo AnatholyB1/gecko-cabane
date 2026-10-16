@@ -6,7 +6,7 @@ type Props = {
   params: Promise<{ locale: string }>
 }
 
-const CONTACT_EMAIL = 'contact@gecko-cabane.com'
+const CONTACT_EMAIL = 'geckocabanerestaurant@gmail.com'
 const CONTACT_PHONE_DISPLAY = '+66 81 958 5945'
 const CONTACT_PHONE_TEL = '+66819585945'
 
