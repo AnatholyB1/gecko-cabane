@@ -7,6 +7,11 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // 308 before middleware, no Accept-Language detection (D-02).
+  // A permanent redirect is browser-cached: never reuse '/' for another purpose.
+  async redirects() {
+    return [{ source: '/', destination: '/fr', permanent: true }];
+  },
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {

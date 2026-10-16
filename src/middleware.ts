@@ -6,7 +6,9 @@ import { locales, defaultLocale } from '@/i18n/config'
 const intlMiddleware = createIntlMiddleware({
   locales,
   defaultLocale,
-  localeDetection: true,
+  localeDetection: false,
+  // No Link hreflang header: HTML hreflang (x-default -> /fr) is the only signal
+  alternateLinks: false,
   localePrefix: 'always',
 })
 
@@ -115,8 +117,9 @@ export const config = {
      * - favicon.ico
      * - manifest.webmanifest (PWA manifest — served at the root, not per-locale)
      * - monitoring    (Sentry tunnel – must bypass middleware)
+     * - sitemap.xml, robots.txt, opengraph-image (metadata routes, served at the root)
      * - image assets  (svg, png, jpg, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|monitoring|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
