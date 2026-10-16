@@ -470,23 +470,29 @@ vi.mock('@/utils/supabase/server', () => ({
 | A7 | Le numéro +66 81 958 5945 est actif sur WhatsApp | D-15 | Bouton inutile ; confirmation propriétaire déjà notée dans CONTEXT |
 | A8 | Fail-open sur erreur de la RPC de rate limit (réservation acceptée + alerte Sentry) | Pattern 1 | Fail-closed protégerait mieux mais perdrait des réservations si la base vacille ; choix produit |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Définition du "créneau" pour la capacité (D-04)**
    - Known: `gecko_restaurant_settings` contient `max_covers` et `table_block_duration_minutes` ; `MAX_COVERS=40` codé en dur dans le MCP.
    - Unclear: même heure exacte, fenêtre de chevauchement, ou service (déjeuner/dîner).
    - Recommendation: fenêtre de chevauchement (A3). Confirmer en une question au propriétaire/utilisateur avant le plan SQL ; la logique reste isolée dans la RPC.
+   - RESOLVED: fenêtre de chevauchement `table_block_duration_minutes` (défaut 120) sur `max_covers` (défaut 40), tranchée par l'orchestrateur ; règles partagées dans 01-04 (`reservation-rules.ts`), RPC atomique `gecko_create_reservation` dans 01-06.
 
 2. **Dernière heure réservable** : `close_time` par défaut 23:00, cuisine jusqu'à 22:00, créneaux du formulaire jusqu'à 21:30.
    - Recommendation: serveur accepte `reservation_time` ≤ `close_time - 60 min` ET impose que l'heure fasse partie de la grille 30 min du formulaire (liste `TIME_SLOTS` partagée entre client et serveur dans `reservation-rules.ts`).
+   - RESOLVED: tranché par l'orchestrateur ; grille 30 min, dernière heure = `last_reservation_time` si défini, sinon fermeture cuisine 22:00 moins `table_block_duration_minutes`, dans 01-04 (`bookableSlots`/`checkSlot`), appliqués côté serveur dans 01-06 et côté formulaire dans 01-07.
 
 3. **Neutralisation de 001-006 et historique distant** : confirmer que `supabase migration list --linked` montre ou non 001-006 appliquées (si oui, les déplacer casse `db push`).
+   - RESOLVED: vérification à l'exécution dans 01-09 (`supabase migration list --db-url` consigné dans 01-DB-ROLLOUT.md avant tout push) ; 001-006 déplacées vers `supabase/legacy` en 01-03.
 
 4. **Emails multilingues (Pitfall 9)** : inclus dans la phase (recommandé) ou dette ? Impact : 3 gabarits + colonne `locale`.
+   - RESOLVED: inclus dans la phase 1 ; gabarits fr/en dans 01-05, colonne `locale` dans la migration 008 (01-06).
 
 5. **Rétention des données** (réservations, consentements, rate-limit) : durée à fixer par le propriétaire pour `/privacy`.
+   - RESOLVED: durées proposées dans le brouillon `/privacy` de 01-02 ; validation par le propriétaire avant publication dans 01-10.
 
 6. **MCP et tables non préfixées (Pitfall 10)** : corriger dans la phase 1 ou différer.
+   - RESOLVED: différé, hors phase 1 (dette notée dans 01-CONTEXT.md, Deferred Ideas).
 
 ## Environment Availability
 

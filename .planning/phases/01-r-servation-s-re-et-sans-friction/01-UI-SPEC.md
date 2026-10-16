@@ -119,8 +119,8 @@ Email field: invalid format shows `emailInvalid` hint after blur (not while typi
 Party size: stepper keeps 1..40 (D-04 server cap is 40; client max raised from 20 to 40). `largeGroupWarning` (copper italic) stays for > 10 and its text must point to WhatsApp for groups. +/- buttons 44px; `aria-label` from i18n (`partySizeDecrease` / `partySizeIncrease`), not "-1"/"+1".
 
 Honeypot (D-09):
-- One extra text input named `website`, `tabIndex={-1}`, `autoComplete="off"`, `aria-hidden="true"`, wrapped in a div positioned off-screen (`absolute -left-[9999px] h-px w-px overflow-hidden`). Never `display:none`/`hidden`. No label text visible to assistive tech (the wrapper is `aria-hidden`).
-- Sent as `website` in the POST body; server rejects non-empty (respond with a generic success-looking 200 or 400 per server plan; UI treats any non-ok as the generic error).
+- One extra text input named `company_url`, `tabIndex={-1}`, `autoComplete="off"`, `aria-hidden="true"`, wrapped in a div positioned off-screen (`absolute -left-[9999px] h-px w-px overflow-hidden`). Never `display:none`/`hidden`. No label text visible to assistive tech (the wrapper is `aria-hidden`).
+- Sent as `company_url` in the POST body; server rejects non-empty (respond with a generic success-looking 200 or 400 per server plan; UI treats any non-ok as the generic error).
 - A hidden `form_started_at` timestamp (ms, set in `useState` initializer or on first input) is sent for the minimum-fill-time check. No visible UI.
 
 Marketing consent checkbox (D-11/D-12):
