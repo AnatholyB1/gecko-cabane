@@ -14,6 +14,8 @@
   --gc-celadon:     #8FA882;
   --gc-text-dark:   #1A0E00;
   --gc-text-mid:    #5C4A3A;
+  --gc-whatsapp: #128C7E;
+  --gc-whatsapp-dark: #0B6B5F;
 
   /* ── Legacy tokens (pre-rebrand palette) ────────────────
      Still referenced throughout src/app/admin/ via var(--x)
@@ -50,6 +52,8 @@
   --color-gc-celadon:     var(--gc-celadon);
   --color-gc-text-dark:   var(--gc-text-dark);
   --color-gc-text-mid:    var(--gc-text-mid);
+  --color-gc-whatsapp: var(--gc-whatsapp);
+  --color-gc-whatsapp-dark: var(--gc-whatsapp-dark);
   --font-cinzel:            var(--font-cinzel);
   --font-cinzel-decorative: var(--font-cinzel-decorative);
   --font-cormorant:         var(--font-cormorant);

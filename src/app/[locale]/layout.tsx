@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { locales } from '@/i18n/config'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 type Props = {
   children: React.ReactNode
@@ -22,6 +23,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider messages={messages}>
       {children}
+      <WhatsAppButton />
     </NextIntlClientProvider>
   )
 }

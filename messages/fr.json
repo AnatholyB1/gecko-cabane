@@ -191,5 +191,10 @@
       "retry": "Réessayer",
       "backHome": "Retour à l'accueil"
     }
+  },
+  "whatsapp": {
+    "ariaLabel": "Nous écrire sur WhatsApp",
+    "label": "Une question ? Écrivez-nous",
+    "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
   }
 }

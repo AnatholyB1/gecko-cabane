@@ -191,5 +191,10 @@
       "retry": "Try again",
       "backHome": "Back to home"
     }
+  },
+  "whatsapp": {
+    "ariaLabel": "Chat with us on WhatsApp",
+    "label": "Questions? Chat with us",
+    "prefill": "Hello Gecko Cabane, I would like to book a table."
   }
 }
