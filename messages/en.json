@@ -10,14 +10,16 @@
     "hours": "Hours",
     "reservation": "Reservation",
     "contact": "Contact",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "homeAriaLabel": "Gecko Cabane - Home"
   },
   "hero": {
     "subtitle": "Franco-Thai Restaurant",
     "tagline": "A culinary fusion in the heart of Krabi's jungle",
     "discoverButton": "Discover our cuisine",
     "discoverAriaLabel": "Discover our menu and specialties",
-    "findUsButton": "Find us"
+    "findUsButton": "Find us",
+    "location": "Krabi Town · Thailand"
   },
   "about": {
     "title": "Welcome to our cabana",
@@ -26,7 +28,10 @@
     "important": "Important",
     "kitchenClose": "The kitchen stops taking orders at 10:00 PM",
     "chefName": "Chef Jariya",
-    "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story."
+    "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
+    "eyebrow": "Our Story",
+    "chefPhotoAlt": "Chef Jariya at Gecko Cabane, Krabi",
+    "chefRole": "Head Chef"
   },
   "cuisine": {
     "title": "Our Cuisine",
@@ -44,7 +49,8 @@
     "brunch": "Brunch",
     "brunchDesc": "Gourmet morning moments",
     "drinks": "Drinks",
-    "drinksDesc": "Fine wines and creative cocktails"
+    "drinksDesc": "Fine wines and creative cocktails",
+    "eyebrow": "Our Cuisine"
   },
   "menuSection": {
     "title": "Our Menu",
@@ -53,7 +59,8 @@
     "spicy": "Spicy",
     "noItems": "No dishes available in this category",
     "preparing": "This menu is being prepared",
-    "menuPreparing": "The menu is being prepared"
+    "menuPreparing": "The menu is being prepared",
+    "eyebrow": "The Menu"
   },
   "services": {
     "title": "Our Services",
@@ -70,7 +77,8 @@
     "glutenFree": "Gluten-free"
   },
   "hoursSection": {
-    "title": "Opening Hours"
+    "title": "Opening Hours",
+    "eyebrow": "Opening Hours"
   },
   "reservationForm": {
     "title": "Reservation",
@@ -117,7 +125,8 @@
     "partySizeDecrease": "Fewer guests",
     "partySizeIncrease": "More guests",
     "namePlaceholder": "John Smith",
-    "emailPlaceholder": "john@example.com"
+    "emailPlaceholder": "john@example.com",
+    "eyebrow": "Reservation"
   },
   "contactSection": {
     "title": "Find Us",
@@ -131,14 +140,16 @@
     "chefTeam": "Chef Jariya & her team",
     "cuisineType": "Franco-Thai Cuisine",
     "viewOnMap": "View on Google Maps",
-    "viewMapAriaLabel": "View our location on Google Maps (opens in new tab)"
+    "viewMapAriaLabel": "View our location on Google Maps (opens in new tab)",
+    "eyebrow": "Find Us",
+    "signAlt": "Gecko Cabane's illuminated sign at night, Krabi"
   },
   "footer": {
     "restaurantInfo": "Restaurant information",
     "subtitle": "Gastronomic Franco-Thai Restaurant",
     "location": "In the heart of Krabi's jungle",
     "hoursTitle": "Hours",
-    "openHours": "Open from 11am to 11pm",
+    "openHours": "Open from 12pm to 10pm",
     "closedDay": "Closed on Tuesdays",
     "lastOrder": "Last order: 10pm",
     "contactTitle": "Contact",
@@ -265,5 +276,14 @@
     "from": "From {date}",
     "to": "to {date}",
     "close": "Close announcement"
+  },
+  "gallery": {
+    "eyebrow": "Our Creations",
+    "title": "Chef Jariya's Table",
+    "alt1": "Lamb shank in Massaman curry with rice",
+    "alt2": "Beef bourguignon with mashed potatoes and country bread",
+    "alt3": "Free-range chicken supreme in cream sauce",
+    "alt4": "Pumpkin velouté with cream",
+    "tagline": "Fine French-Thai cuisine · Chef Jariya · Krabi, Thailand"
   }
 }

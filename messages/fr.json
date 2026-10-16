@@ -10,14 +10,16 @@
     "hours": "Horaires",
     "reservation": "Réservation",
     "contact": "Contact",
-    "skipToContent": "Aller au contenu principal"
+    "skipToContent": "Aller au contenu principal",
+    "homeAriaLabel": "Gecko Cabane - Accueil"
   },
   "hero": {
     "subtitle": "Restaurant Franco-Thaï",
     "tagline": "Une fusion culinaire au cœur de la jungle de Krabi",
     "discoverButton": "Découvrir notre cuisine",
     "discoverAriaLabel": "Découvrir notre carte et nos spécialités",
-    "findUsButton": "Nous trouver"
+    "findUsButton": "Nous trouver",
+    "location": "Krabi Town · Thaïlande"
   },
   "about": {
     "title": "Bienvenue dans notre cabane",
@@ -26,7 +28,10 @@
     "important": "Important",
     "kitchenClose": "La cuisine cesse d'enregistrer des commandes à partir de 22h00",
     "chefName": "Chef Jariya",
-    "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire."
+    "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire.",
+    "eyebrow": "Notre Histoire",
+    "chefPhotoAlt": "Chef Jariya — Gecko Cabane, Krabi",
+    "chefRole": "Chef de cuisine"
   },
   "cuisine": {
     "title": "Notre Cuisine",
@@ -44,7 +49,8 @@
     "brunch": "Brunch",
     "brunchDesc": "Moments gourmands du matin",
     "drinks": "Boissons",
-    "drinksDesc": "Vins fins et cocktails créatifs"
+    "drinksDesc": "Vins fins et cocktails créatifs",
+    "eyebrow": "Notre Cuisine"
   },
   "menuSection": {
     "title": "Notre Carte",
@@ -53,7 +59,8 @@
     "spicy": "Épicé",
     "noItems": "Aucun plat disponible dans cette catégorie",
     "preparing": "Ce menu est en cours de préparation",
-    "menuPreparing": "La carte est en cours de préparation"
+    "menuPreparing": "La carte est en cours de préparation",
+    "eyebrow": "La Carte"
   },
   "services": {
     "title": "Nos Services",
@@ -70,7 +77,8 @@
     "glutenFree": "Sans gluten"
   },
   "hoursSection": {
-    "title": "Horaires d'ouverture"
+    "title": "Horaires d'ouverture",
+    "eyebrow": "Horaires"
   },
   "reservationForm": {
     "title": "Réservation",
@@ -117,7 +125,8 @@
     "partySizeDecrease": "Moins de couverts",
     "partySizeIncrease": "Plus de couverts",
     "namePlaceholder": "Jean Dupont",
-    "emailPlaceholder": "jean@exemple.fr"
+    "emailPlaceholder": "jean@exemple.fr",
+    "eyebrow": "Réservation"
   },
   "contactSection": {
     "title": "Nous Trouver",
@@ -131,14 +140,16 @@
     "chefTeam": "Chef Jariya & son équipe",
     "cuisineType": "Cuisine Franco-Thaï",
     "viewOnMap": "Voir sur Google Maps",
-    "viewMapAriaLabel": "Voir notre emplacement sur Google Maps (ouvre dans un nouvel onglet)"
+    "viewMapAriaLabel": "Voir notre emplacement sur Google Maps (ouvre dans un nouvel onglet)",
+    "eyebrow": "Nous trouver",
+    "signAlt": "Enseigne du restaurant Gecko Cabane de nuit, Krabi"
   },
   "footer": {
     "restaurantInfo": "Informations du restaurant",
     "subtitle": "Restaurant Franco-Thaï gastronomique",
     "location": "Au cœur de la jungle de Krabi",
     "hoursTitle": "Horaires",
-    "openHours": "Ouvert de 11h à 23h",
+    "openHours": "Ouvert de 12h à 22h",
     "closedDay": "Fermé le mardi",
     "lastOrder": "Dernière commande : 22h",
     "contactTitle": "Contact",
@@ -265,5 +276,14 @@
     "from": "Du {date}",
     "to": "au {date}",
     "close": "Fermer l'annonce"
+  },
+  "gallery": {
+    "eyebrow": "Nos Créations",
+    "title": "La Table du Chef Jariya",
+    "alt1": "Souris d'agneau au curry Massaman et riz",
+    "alt2": "Bœuf bourguignon, purée et pain de campagne",
+    "alt3": "Suprême de poulet label rouge sauce crème",
+    "alt4": "Velouté de potiron à la crème",
+    "tagline": "Cuisine Franco-Thaï gastronomique · Chef Jariya · Krabi, Thaïlande"
   }
 }

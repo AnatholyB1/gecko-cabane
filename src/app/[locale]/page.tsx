@@ -30,7 +30,7 @@ export default async function Home() {
           <a
             href="#"
             className="font-cinzel-decorative font-bold text-gc-gold text-xl tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
-            aria-label="Gecko Cabane - Accueil"
+            aria-label={t('common.homeAriaLabel')}
           >
             GECKO CABANE
           </a>
@@ -117,7 +117,7 @@ export default async function Home() {
               {t('hero.subtitle')}
             </p>
             <p className="font-raleway font-light text-[13px] tracking-[0.3em] uppercase text-gc-gold/55 mb-10">
-              Krabi Town · Thaïlande
+              {t('hero.location')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -164,7 +164,7 @@ export default async function Home() {
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
                 <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
-                  Notre Histoire
+                  {t('about.eyebrow')}
                 </p>
                 <h2
                   className="font-cinzel font-normal text-gc-text-dark leading-tight mb-6"
@@ -202,7 +202,7 @@ export default async function Home() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/chef-jariya.jpg"
-                    alt="Chef Jariya — Gecko Cabane, Krabi"
+                    alt={t('about.chefPhotoAlt')}
                     className="w-full object-cover"
                     style={{ aspectRatio: '3/4', filter: 'sepia(0.3) contrast(1.05)', objectPosition: 'center top' }}
                   />
@@ -214,7 +214,7 @@ export default async function Home() {
                   >
                     <div className="w-20 h-px bg-gc-gold/30 mx-auto mb-4" />
                     <p className="font-raleway font-light text-[10px] tracking-[0.3em] uppercase text-gc-gold/65 mb-2">
-                      Chef de cuisine
+                      {t('about.chefRole')}
                     </p>
                     <h3 className="font-cinzel font-normal text-gc-ivory text-xl tracking-wide mb-3">
                       {t('about.chefName')}
@@ -235,7 +235,7 @@ export default async function Home() {
           <div className="max-w-[1200px] mx-auto relative z-10">
             <div className="text-center mb-16">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-4">
-                Notre Cuisine
+                {t('cuisine.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-ivory mb-4"
@@ -324,7 +324,7 @@ export default async function Home() {
           <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-12">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
-                La Carte
+                {t('menuSection.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-text-dark mb-4"
@@ -347,13 +347,13 @@ export default async function Home() {
           <div className="max-w-[1200px] mx-auto relative z-10">
             <div className="text-center mb-14">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--gc-gold)' }}>
-                Nos Créations
+                {t('gallery.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-ivory"
                 style={{ fontSize: 'clamp(26px, 3.5vw, 42px)', letterSpacing: '0.03em' }}
               >
-                La Table du Chef Jariya
+                {t('gallery.title')}
               </h2>
               <GcDivider className="mt-4" />
             </div>
@@ -361,10 +361,10 @@ export default async function Home() {
             {/* Grille 2×2 desktop, 1 col mobile */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { src: '/food-massaman.jpg', alt: "Souris d'agneau au curry Massaman et riz", caption: "Souris d'Agneau · Curry Massaman", pos: '50% 55%' },
-                { src: '/food-bourguignon.jpg', alt: 'Bœuf bourguignon, purée et pain de campagne', caption: 'Bœuf Bourguignon · Purée Maison', pos: '50% 50%' },
-                { src: '/food-poulet-creme.jpg', alt: 'Suprême de poulet label rouge sauce crème', caption: 'Suprême de Poulet · Sauce Crème', pos: '50% 50%' },
-                { src: '/food-veloute.jpg', alt: 'Velouté de potiron à la crème', caption: 'Velouté de Potiron · Crème', pos: '50% 62%' },
+                { src: '/food-massaman.jpg', alt: t('gallery.alt1'), caption: "Souris d'Agneau · Curry Massaman", pos: '50% 55%' }, // i18n-ignore: dish name
+                { src: '/food-bourguignon.jpg', alt: t('gallery.alt2'), caption: 'Bœuf Bourguignon · Purée Maison', pos: '50% 50%' }, // i18n-ignore: dish name
+                { src: '/food-poulet-creme.jpg', alt: t('gallery.alt3'), caption: 'Suprême de Poulet · Sauce Crème', pos: '50% 50%' }, // i18n-ignore: dish name
+                { src: '/food-veloute.jpg', alt: t('gallery.alt4'), caption: 'Velouté de Potiron · Crème', pos: '50% 62%' }, // i18n-ignore: dish name
               ].map((item, i) => (
                 <div
                   key={i}
@@ -397,7 +397,7 @@ export default async function Home() {
 
             <div className="text-center mt-10">
               <p className="font-cormorant italic text-gc-ivory/50 text-[15px]">
-                Cuisine Franco-Thaï gastronomique · Chef Jariya · Krabi, Thaïlande
+                {t('gallery.tagline')}
               </p>
             </div>
           </div>
@@ -459,7 +459,7 @@ export default async function Home() {
           <div className="max-w-[720px] mx-auto">
             <div className="text-center mb-12">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
-                Horaires
+                {t('hoursSection.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-text-dark mb-4"
@@ -540,7 +540,7 @@ export default async function Home() {
           <div className="max-w-[600px] mx-auto relative z-10">
             <div className="text-center mb-10">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-gold/65 mb-4">
-                Réservation
+                {t('reservationForm.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-ivory mb-4"
@@ -563,7 +563,7 @@ export default async function Home() {
           <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-12">
               <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
-                Nous trouver
+                {t('contactSection.eyebrow')}
               </p>
               <h2
                 className="font-cinzel font-normal text-gc-text-dark mb-4"
@@ -580,7 +580,7 @@ export default async function Home() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/exterior-sign.jpg"
-                    alt="Enseigne du restaurant Gecko Cabane de nuit, Krabi"
+                    alt={t('contactSection.signAlt')}
                     className="w-full object-cover"
                     style={{ aspectRatio: '4/5', objectPosition: 'top center' }}
                     loading="lazy"
