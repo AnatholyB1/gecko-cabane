@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Skip Sentry tunnel and dev tools entirely — no auth, no i18n
-  if (pathname.startsWith('/monitoring') || pathname.startsWith('/sentry-example-page')) {
+  if (pathname.startsWith('/monitoring')) {
     return NextResponse.next()
   }
 
@@ -115,9 +115,8 @@ export const config = {
      * - favicon.ico
      * - manifest.webmanifest (PWA manifest — served at the root, not per-locale)
      * - monitoring    (Sentry tunnel – must bypass middleware)
-     * - sentry-example-page
      * - image assets  (svg, png, jpg, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|monitoring|sentry-example-page|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|monitoring|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
