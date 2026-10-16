@@ -2,7 +2,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js"
 import * as Sentry from "@sentry/nextjs"
 import { z } from "zod"
-import { createClient } from "@/utils/supabase/server"
+import { createClient, createAdminClient } from "@/utils/supabase/server"
+import { bangkokNow } from "@/utils/reservation-rules"
 
 /**
  * Gecko Cabane MCP Server
@@ -39,18 +40,18 @@ function buildMcpServer() {
       const supabase = await createClient()
 
       const pagesRes = await supabase
-        .from("menu_pages")
+        .from("gecko_menu_pages")
         .select("id, name, slug, description, display_order")
         .eq("is_active", true)
         .order("display_order")
 
       const catRes = await supabase
-        .from("menu_categories")
+        .from("gecko_menu_categories")
         .select("id, menu_page_id, name, description, display_order")
         .order("display_order")
 
       const itemsRes = await supabase
-        .from("menu_items")
+        .from("gecko_menu_items")
         .select("id, category_id, name, description, price, price_label, is_vegetarian, is_spicy, allergens, display_order")
         .eq("is_available", true)
         .order("display_order")
@@ -89,16 +90,16 @@ function buildMcpServer() {
     {},
     async () => {
       const supabase = await createClient()
-      const today = new Date().toISOString().slice(0, 10)
+      const today = bangkokNow().date
 
       const [{ data: regular, error: regError }, { data: special, error: spError }] =
         await Promise.all([
           supabase
-            .from("opening_hours")
+            .from("gecko_opening_hours")
             .select("day_of_week, day_name, is_open, open_time, close_time")
             .order("day_of_week"),
           supabase
-            .from("special_hours")
+            .from("gecko_special_hours")
             .select("date, title, is_open, open_time, close_time, note")
             .gte("date", today)
             .order("date")
@@ -133,10 +134,10 @@ function buildMcpServer() {
     {},
     async () => {
       const supabase = await createClient()
-      const today = new Date().toISOString().slice(0, 10)
+      const today = bangkokNow().date
 
       const { data, error } = await supabase
-        .from("announcements")
+        .from("gecko_announcement")
         .select("title, content, bg_color, start_date, end_date")
         .eq("is_active", true)
         .or(`start_date.is.null,start_date.lte.${today}`)
@@ -169,10 +170,14 @@ function buildMcpServer() {
         .describe("Number of guests in the party"),
     },
     async ({ date, party_size }) => {
-      const supabase = await createClient()
+      // gecko_reservations has no public SELECT policy (customer PII), so the
+      // anon client would always see zero rows and report full availability.
+      // Service-role is safe here: only the aggregate column party_size is
+      // selected and no personal data is returned to the caller.
+      const supabase = createAdminClient()
 
       const { data: reservations, error } = await supabase
-        .from("reservations")
+        .from("gecko_reservations")
         .select("party_size")
         .eq("reservation_date", date)
         .in("status", ["pending", "confirmed"])
