@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+import { escapeHtml, stripLineBreaks } from './html'
 
 let client: Resend | null = null
 
@@ -76,11 +77,11 @@ function baseTemplate(title: string, bodyHtml: string): string {
 
 function detailsTable(r: ReservationDetails): string {
   const rows: [string, string][] = [
-    ['Date', formatReservationDate(r.reservation_date)],
-    ['Heure', r.reservation_time],
-    ['Couverts', String(r.party_size)],
+    ['Date', escapeHtml(formatReservationDate(r.reservation_date))],
+    ['Heure', escapeHtml(r.reservation_time)],
+    ['Couverts', escapeHtml(r.party_size)],
   ]
-  if (r.occasion) rows.push(['Occasion', r.occasion])
+  if (r.occasion) rows.push(['Occasion', escapeHtml(r.occasion)])
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">
   ${rows
@@ -97,7 +98,7 @@ function detailsTable(r: ReservationDetails): string {
 
 export function customerPendingEmail(r: ReservationDetails) {
   const html = baseTemplate(
-    `Merci pour votre demande, ${r.customer_name}`,
+    `Merci pour votre demande, ${escapeHtml(r.customer_name)}`,
     `
     <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 20px;">
       Nous avons bien reçu votre demande de réservation. Notre équipe la confirmera sous peu par téléphone ou par email.
@@ -118,31 +119,31 @@ export function restaurantNotificationEmail(r: ReservationDetails) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;border-top:1px solid #E8DCC8;padding-top:16px;">
       <tr>
         <td style="padding:4px 0;color:#5C4A3A;font-size:13px;text-transform:uppercase;letter-spacing:1px;width:120px;">Client</td>
-        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${r.customer_name}</td>
+        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${escapeHtml(r.customer_name)}</td>
       </tr>
       <tr>
         <td style="padding:4px 0;color:#5C4A3A;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Téléphone</td>
-        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${r.customer_phone}</td>
+        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${escapeHtml(r.customer_phone)}</td>
       </tr>
       ${
         r.customer_email
           ? `<tr>
         <td style="padding:4px 0;color:#5C4A3A;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Email</td>
-        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${r.customer_email}</td>
+        <td style="padding:4px 0;color:#1A0E00;font-size:15px;">${escapeHtml(r.customer_email)}</td>
       </tr>`
           : ''
       }
     </table>`
   )
-  return { subject: `Nouvelle réservation — ${r.customer_name} (${r.party_size} pers.)`, html }
+  return { subject: `Nouvelle réservation — ${stripLineBreaks(r.customer_name)} (${escapeHtml(r.party_size)} pers.)`, html }
 }
 
 export function customerStatusEmail(r: ReservationDetails, status: 'confirmed' | 'cancelled') {
   const title = status === 'confirmed' ? 'Réservation confirmée' : 'Réservation annulée'
   const intro =
     status === 'confirmed'
-      ? `Votre réservation est confirmée, ${r.customer_name}. Nous avons hâte de vous accueillir.`
-      : `Votre réservation a été annulée, ${r.customer_name}. N'hésitez pas à nous contacter pour en planifier une nouvelle.`
+      ? `Votre réservation est confirmée, ${escapeHtml(r.customer_name)}. Nous avons hâte de vous accueillir.`
+      : `Votre réservation a été annulée, ${escapeHtml(r.customer_name)}. N'hésitez pas à nous contacter pour en planifier une nouvelle.`
   const html = baseTemplate(
     title,
     `
