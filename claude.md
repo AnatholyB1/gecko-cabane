@@ -78,13 +78,22 @@ npm run lint    # ESLint
 
 | Table | Description |
 |-------|-------------|
-| `opening_hours` | Horaires par jour de la semaine (0=Dimanche) |
-| `special_hours` | Horaires exceptionnels par date |
-| `announcements` | Bannières d'annonce (avec plages de dates) |
-| `menu_pages` | Pages de menu (ex: Déjeuner, Dîner) |
-| `menu_categories` | Catégories au sein d'une page |
-| `menu_items` | Plats avec prix, allergènes, drapeau végétarien/épicé |
-| `reservations` | Réservations clients avec statut workflow |
+| `gecko_opening_hours` | Horaires par jour de la semaine (0=Dimanche) |
+| `gecko_special_hours` | Horaires exceptionnels par date |
+| `gecko_announcement` | Bannières d'annonce (avec plages de dates) |
+| `gecko_menu_pages` | Pages de menu (ex: Déjeuner, Dîner) |
+| `gecko_menu_categories` | Catégories au sein d'une page |
+| `gecko_menu_items` | Plats avec prix, allergènes, drapeau végétarien/épicé |
+| `gecko_reservations` | Réservations clients avec statut workflow |
+| `gecko_restaurant_settings` | Réglages clé/valeur (max_covers, table_block_duration_minutes) |
+| `gecko_tables` | Tables physiques du plan de salle |
+| `gecko_table_configurations` | Combinaisons de tables (capacité min/max) |
+| `gecko_table_configuration_tables` | Liaison configuration ↔ tables |
+| `gecko_table_assignments` | Affectation réservation ↔ configuration (blocage horaire) |
+| `gecko_admins` | Membres admin, vérifiés par `gecko_is_admin()` |
+| `gecko_phone_verifications` | Legacy (vérification SMS), supprimée en phase 1 |
+
+Projet Supabase partagé : toutes les tables sont préfixées `gecko_` ; baseline = `supabase/migrations/007_gecko_baseline.sql` ; `supabase/legacy/` ne doit jamais être appliqué.
 
 Statuts de réservation : `pending` → `confirmed` → `completed` / `cancelled` / `no_show`.
 
@@ -124,7 +133,7 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 
 ## Languages
 - TypeScript ^5 (strict) - all app code in `src/`, tests in `tests/`, config (`next.config.ts`, `vitest.config.ts`, `sentry.*.config.ts`)
-- SQL (PostgreSQL) - migrations in `supabase/migrations/001_opening_hours.sql` ... `006_phone_verifications.sql`
+- SQL (PostgreSQL) - migrations in `supabase/migrations/` (baseline 007; legacy 001-006 archived in `supabase/legacy/`)
 - JSON - translations in `messages/fr.json`, `messages/en.json`
 - CSS (Tailwind v4) - `src/app/globals.css`
 ## Runtime
