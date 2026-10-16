@@ -80,9 +80,24 @@ describe('OG image per locale', () => {
 })
 
 describe('SAME_AS (D-09)', () => {
-  it('only contains URLs already published as hrefs in the home page', async () => {
+  it('are https, on the host allow-list and recorded as approved in 02-LAUNCH.md', async () => {
     const { SAME_AS } = await import('../src/utils/seo')
-    const page = read('src/app/[locale]/page.tsx')
-    for (const url of SAME_AS) expect(page).toContain(`href="${url}"`)
+    const launch = read('.planning/phases/02-fondations-seo-techniques/02-LAUNCH.md')
+    const allowed = [
+      /^https:\/\/www\.google\.com\/maps\//,
+      /^https:\/\/www\.tripadvisor\.com\//,
+      /^https:\/\/www\.facebook\.com\//,
+      /^https:\/\/www\.instagram\.com\//,
+    ]
+    for (const url of SAME_AS) {
+      expect(allowed.some((re) => re.test(url))).toBe(true)
+      expect(launch).toContain(url)
+    }
+    expect(launch).toContain('Owner approvals / Task 2 outcome')
+  })
+  it('never emits aggregateRating or hasMenu', () => {
+    const src = read('src/utils/seo.ts')
+    expect(src).not.toMatch(/aggregateRating\s*:/)
+    expect(src).not.toMatch(/hasMenu\s*:/)
   })
 })

@@ -77,13 +77,16 @@ export function buildPageMetadata(args: {
 // Restaurant JSON-LD
 // ---------------------------------------------------------------------------
 
-// Google prefers 5+ decimals; the owner confirms the map pin in plan 02-07.
-export const GEO = { latitude: 8.0615, longitude: 98.9157 } as const
+// Google asks for 5+ decimals. Pin 8.0614728, 98.9156616 (Google Maps, two independent
+// sources) rounded to 5 decimals; matches D-06 (8.0615, 98.9157) to rounding. 02-07.
+export const GEO = { latitude: 8.06147, longitude: 98.91566 } as const
 
-// D-09: only URLs already published on the site; new profiles require owner approval (02-07 Task 2/3)
+// D-09: owner-approved/delegated 2026-10-17 (see 02-LAUNCH.md "Owner approvals / Task 2 outcome")
 export const SAME_AS: readonly string[] = [
-  'https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
+  'https://www.google.com/maps/place/?q=place_id:ChIJozpAo2GUUTARABLcICH3H7I',
+  'https://www.tripadvisor.com/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
   'https://www.facebook.com/GeckoCabaneRestaurant/',
+  'https://www.instagram.com/geckocabane/',
 ]
 
 export type OpeningHoursRow = {

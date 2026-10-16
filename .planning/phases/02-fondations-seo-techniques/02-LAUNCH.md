@@ -46,7 +46,22 @@ Failing: none after the privacy title fix. Not done here: Rich Results Test, geo
 
 ## Owner confirmations
 
-Filled by 02-07.
+### Owner approvals / Task 2 outcome (2026-10-17)
+
+The owner answered "cherche-les toi-même": the lookups were delegated to Claude and Claude's actions approved. The values below were found by Claude via web sources and applied under that delegation. Rich Results Test (interactive Google tool) was not run by the owner; to be re-checked later.
+
+1. **Geo**: wanderlog.com (place 2352102) and visitthailandtoday.com both give 8.0614728, 98.9156616 (Google Maps pin). Matches D-06 (8.0615, 98.9157) to rounding. Applied as 8.06147 / 98.91566 (5 decimals, Google recommendation).
+2. **Footer hours 12h-22h**: confirmed by DB consistency (`gecko_opening_hours`, admin-managed, and the schema); owner did not object. Reminder: third-party listings still show 11:00-23:00 daily (stale) - update Google Business Profile / TripAdvisor in phase 4/6.
+3. **sameAs final list** (replaces the previous 2), owner-approved/delegated 2026-10-17:
+
+| Profile | URL | Evidence | Decision |
+|---------|-----|----------|----------|
+| Google Maps place | https://www.google.com/maps/place/?q=place_id:ChIJozpAo2GUUTARABLcICH3H7I | place id found on both sites above; `curl -sIL` returns HTTP 200 on google.com/maps (no redirect for bots) | included (owner-approved/delegated 2026-10-17) |
+| TripAdvisor (.com canonical) | https://www.tripadvisor.com/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html | same listing id d2413872 as the visible .be link (left unchanged in page.tsx, OPS-04 phase 6) | included (owner-approved/delegated 2026-10-17) |
+| Facebook | https://www.facebook.com/GeckoCabaneRestaurant/ | already published, page title "Gecko Cabane Restaurant Paklow Jariya \| Krabi" | included (already published) |
+| Instagram | https://www.instagram.com/geckocabane/ | probable, same owner: handle equals the restaurant name; display name "Paklow Jariya" is the same as the official Facebook page; bio not readable by bots | included (owner-approved/delegated 2026-10-17) |
+
+The old `fr.tripadvisor.be` URL is dropped from sameAs only (still linked visibly on the page). The D-09 test (hrefs in page.tsx) was relaxed to: https, host allow-list (google.com/maps, tripadvisor.com, facebook.com, instagram.com) and listed in this file.
 
 ## Search Console / Bing
 
