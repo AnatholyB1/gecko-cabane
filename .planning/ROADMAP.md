@@ -81,7 +81,7 @@ Plans:
   4. Chaque page déclare hreflang fr, en et x-default (pas de `de` tant que `/de` n'est pas publié) ; `sitemap.xml` liste toutes les pages publiées et `robots.txt` le déclare
   5. Le domaine est vérifié dans Google Search Console et Bing Webmaster avec le sitemap soumis
 
-**Plans:** 4/8 plans executed
+**Plans:** 5/8 plans executed
 
 Plans:
 **Wave 1**
@@ -96,7 +96,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-05-PLAN.md — Per-locale generateMetadata, slim root layout, gecko-cabane.com removal, admin noindex (wave 3)
+- [x] 02-05-PLAN.md — Per-locale generateMetadata, slim root layout, gecko-cabane.com removal, admin noindex (wave 3)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -216,7 +216,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
-| 2. Fondations SEO techniques | 4/8 | In Progress|  |
+| 2. Fondations SEO techniques | 5/8 | In Progress|  |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
