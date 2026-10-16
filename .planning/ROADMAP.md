@@ -38,7 +38,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — requireAdmin() guard on all admin API routes + vitest alias (SEC-03)
+- [x] 01-01-PLAN.md — requireAdmin() guard on all admin API routes + vitest alias (SEC-03)
 - [ ] 01-02-PLAN.md — Floating WhatsApp button + localized /privacy page (RESA-04, D-13)
 - [ ] 01-03-PLAN.md — Read-only prod dump -> idempotent 007 baseline, legacy migrations archived (SEC-04) [checkpoint]
 - [ ] 01-04-PLAN.md — TDD: Krabi-time slot rules, international phone, zod schema, zod declared (D-04/05/06, SEC-06)
@@ -188,7 +188,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 0/11 | Not started | - |
+| 1. Réservation sûre et sans friction | 1/11 | In Progress|  |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
