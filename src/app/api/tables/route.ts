@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
@@ -10,7 +12,10 @@ export async function GET() {
       .order('display_order', { ascending: true })
       .order('id', { ascending: true })
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error) {
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -19,9 +24,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
 
     const body = await request.json()
     const { name, seats, position_x, position_y, width, height, shape } = body
@@ -50,7 +55,10 @@ export async function POST(request: Request) {
       .select()
       .single()
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error) {
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
     return NextResponse.json({ data }, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

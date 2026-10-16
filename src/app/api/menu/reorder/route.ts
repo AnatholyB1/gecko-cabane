@@ -1,15 +1,13 @@
-import { createClient } from '@/utils/supabase/server'
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { NextResponse } from 'next/server'
 
 // POST reorder items
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     
     const body = await request.json()
     const { type, items } = body
@@ -38,7 +36,8 @@ export async function POST(request: Request) {
         .eq('id', item.id)
       
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        Sentry.captureException(error)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
       }
     }
     

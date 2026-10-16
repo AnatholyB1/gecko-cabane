@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
-  
-  // Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-  }
+  const auth = await requireAdmin()
+  if (!auth.ok) return auth.response
+  const { supabase } = auth
   
   try {
     const formData = await request.formData()
@@ -48,8 +45,8 @@ export async function POST(request: NextRequest) {
       })
     
     if (error) {
-      console.error('Upload error:', error)
-      return NextResponse.json({ error: 'Erreur lors de l\'upload: ' + error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Erreur lors de l\'upload' }, { status: 500 })
     }
     
     // Get public URL
@@ -69,13 +66,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const supabase = await createClient()
-  
-  // Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  if (authError || !user) {
-    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
-  }
+  const auth = await requireAdmin()
+  if (!auth.ok) return auth.response
+  const { supabase } = auth
   
   try {
     const { searchParams } = new URL(request.url)

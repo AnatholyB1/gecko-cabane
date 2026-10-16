@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
@@ -11,14 +13,20 @@ export async function GET() {
       .select('*')
       .order('id', { ascending: true })
 
-    if (cfgErr) return NextResponse.json({ error: cfgErr.message }, { status: 500 })
+    if (cfgErr) {
+      Sentry.captureException(cfgErr)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 
     // Fetch junction rows + tables for each config
     const { data: junctions, error: juncErr } = await supabase
       .from('gecko_table_configuration_tables')
       .select('table_configuration_id, table_id, tables(*)')
 
-    if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
+    if (juncErr) {
+      Sentry.captureException(juncErr)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 
     // Attach tables array to each config
     const data = (configs ?? []).map((cfg) => ({
@@ -38,9 +46,9 @@ export async function GET() {
 /** Create a new configuration (with its associated table_ids). */
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
 
     const body = await request.json()
     const { name, min_capacity, max_capacity, table_ids } = body
@@ -64,14 +72,20 @@ export async function POST(request: Request) {
       .select()
       .single()
 
-    if (cfgErr) return NextResponse.json({ error: cfgErr.message }, { status: 500 })
+    if (cfgErr) {
+      Sentry.captureException(cfgErr)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 
     const junctions = (table_ids as number[]).map((tid) => ({
       table_configuration_id: cfg.id,
       table_id: tid,
     }))
     const { error: juncErr } = await supabase.from('gecko_table_configuration_tables').insert(junctions)
-    if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
+    if (juncErr) {
+      Sentry.captureException(juncErr)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 
     return NextResponse.json({ data: cfg }, { status: 201 })
   } catch {

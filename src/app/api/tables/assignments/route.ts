@@ -1,4 +1,5 @@
-import { createClient } from '@/utils/supabase/server'
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -16,7 +17,9 @@ import { NextRequest, NextResponse } from 'next/server'
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     const { searchParams } = request.nextUrl
 
     // -----------------------------------------------------------------------
@@ -46,13 +49,19 @@ export async function GET(request: NextRequest) {
         .eq('is_active', true)
         .order('id')
 
-      if (cfgErr) return NextResponse.json({ error: cfgErr.message }, { status: 500 })
+      if (cfgErr) {
+        Sentry.captureException(cfgErr)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+      }
 
       const { data: junctions, error: juncErr } = await supabase
         .from('gecko_table_configuration_tables')
         .select('table_configuration_id, table_id, tables(*)')
 
-      if (juncErr) return NextResponse.json({ error: juncErr.message }, { status: 500 })
+      if (juncErr) {
+        Sentry.captureException(juncErr)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+      }
 
       // Find currently blocked physical table IDs at checkDatetime
       // A table is blocked if it belongs to a config with an active assignment where:
@@ -62,7 +71,10 @@ export async function GET(request: NextRequest) {
         .select('table_configuration_id, blocked_until, reservation_id, reservations(reservation_date, reservation_time)')
         .gt('blocked_until', checkDatetime.toISOString())
 
-      if (asgErr) return NextResponse.json({ error: asgErr.message }, { status: 500 })
+      if (asgErr) {
+        Sentry.captureException(asgErr)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+      }
 
       // Collect table_ids from blocked configurations
       const blockedTableIds = new Set<number>()
@@ -132,7 +144,10 @@ export async function GET(request: NextRequest) {
       `)
       .filter('reservations.reservation_date', 'eq', dateParam)
 
-    if (asgErr) return NextResponse.json({ error: asgErr.message }, { status: 500 })
+    if (asgErr) {
+      Sentry.captureException(asgErr)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
 
     // Normalize nested structure
     const data = (assignments ?? []).map((a) => {
@@ -162,9 +177,9 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
 
     const body = await request.json()
     const { reservation_id, table_configuration_id } = body
@@ -206,7 +221,10 @@ export async function POST(request: Request) {
       .select()
       .single()
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error) {
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
     return NextResponse.json({ data }, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -218,9 +236,9 @@ export async function POST(request: Request) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
 
     const { searchParams } = request.nextUrl
     const id            = searchParams.get('id')
@@ -232,7 +250,10 @@ export async function DELETE(request: NextRequest) {
     else return NextResponse.json({ error: 'id ou reservation_id requis' }, { status: 400 })
 
     const { error } = await q
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error) {
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

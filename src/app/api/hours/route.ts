@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
@@ -11,7 +13,8 @@ export async function GET() {
       .order('day_of_week', { ascending: true })
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
 
     return NextResponse.json({ data })
@@ -22,13 +25,9 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
-    const supabase = await createClient()
-    
-    // Check authentication
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     
     const body = await request.json()
     const { hours } = body
@@ -50,7 +49,8 @@ export async function PUT(request: Request) {
         .eq('day_of_week', hour.day_of_week)
       
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        Sentry.captureException(error)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
       }
     }
     

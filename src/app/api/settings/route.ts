@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
@@ -9,7 +11,10 @@ export async function GET() {
       .select('*')
       .order('key')
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error) {
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    }
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -22,9 +27,9 @@ export async function GET() {
  */
 export async function PUT(request: Request) {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
 
     const body = await request.json()
     if (typeof body !== 'object' || Array.isArray(body)) {
@@ -45,7 +50,10 @@ export async function PUT(request: Request) {
         .from('gecko_restaurant_settings')
         .update({ value: String(numVal) })
         .eq('key', key)
-      if (error) errors.push(error.message)
+      if (error) {
+        Sentry.captureException(error)
+        errors.push(`Erreur de mise à jour pour ${key}`)
+      }
     }
 
     if (errors.length > 0) {

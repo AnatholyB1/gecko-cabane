@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs'
+import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
@@ -21,7 +23,8 @@ export async function GET(request: Request) {
     const { data, error } = await query
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
     // Sort items by display_order
@@ -39,12 +42,9 @@ export async function GET(request: Request) {
 // POST create a new category
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
-    
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     
     const body = await request.json()
     const { menu_page_id, name, description } = body
@@ -76,7 +76,8 @@ export async function POST(request: Request) {
       .single()
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
     return NextResponse.json({ data })
@@ -88,12 +89,9 @@ export async function POST(request: Request) {
 // PUT update a category
 export async function PUT(request: Request) {
   try {
-    const supabase = await createClient()
-    
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     
     const body = await request.json()
     const { id, name, description } = body
@@ -114,7 +112,8 @@ export async function PUT(request: Request) {
       .single()
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
     return NextResponse.json({ data })
@@ -126,12 +125,9 @@ export async function PUT(request: Request) {
 // DELETE a category
 export async function DELETE(request: Request) {
   try {
-    const supabase = await createClient()
-    
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireAdmin()
+    if (!auth.ok) return auth.response
+    const { supabase } = auth
     
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
@@ -146,7 +142,8 @@ export async function DELETE(request: Request) {
       .eq('id', parseInt(id))
     
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      Sentry.captureException(error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
     return NextResponse.json({ success: true })
