@@ -84,13 +84,30 @@ Plans:
 **Plans:** 8 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 02-01-PLAN.md — Pure SEO helper src/utils/seo.ts (canonical/hreflang/OG builder, Restaurant JSON-LD, hours mapper) + unit tests (wave 1)
 - [ ] 02-02-PLAN.md — i18n of components and locale error/404 pages + hard-coded French guard test (wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-03-PLAN.md — sitemap.ts, robots.ts, middleware matcher/options fix, / -> /fr 308 (wave 2)
 - [ ] 02-04-PLAN.md — i18n of home page literals (Our Story, The Menu, ...) + footer hours fix (wave 2)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 02-05-PLAN.md — Per-locale generateMetadata, slim root layout, gecko-cabane.com removal, admin noindex (wave 3)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 02-06-PLAN.md — Restaurant JSON-LD Server Component from DB hours, cache invalidation, per-locale OG image, verified sameAs (wave 4)
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
 - [ ] 02-07-PLAN.md — Deploy, www 301, live probes, owner Rich Results / geo / sameAs check (wave 5, checkpoint)
+
+**Wave 6** *(blocked on Wave 5 completion)*
+
 - [ ] 02-08-PLAN.md — GSC domain verification via Vercel DNS TXT, sitemap submission, Bing import, traceability notes (wave 6, checkpoints)
 
 ### Phase 3: Carte HTML et pages d'atterrissage clés
