@@ -15,7 +15,7 @@
 - [x] **SEC-03** [P1]: Les routes API admin refusent tout utilisateur connecté qui n'est pas admin Gecko (`gecko_is_admin`)
 - [ ] **SEC-04**: Les migrations du dépôt reproduisent le schéma réel (tables `gecko_*`, RLS, fonction `gecko_is_admin`) et s'appliquent sur une base vierge
 - [ ] **SEC-05** [P1]: Les URLs de webhook de réservation ne sont plus exposées au navigateur (variables serveur, sans `NEXT_PUBLIC_`)
-- [ ] **SEC-06**: `zod` est déclaré dans `package.json` et aucune dépendance importée n'est seulement transitive
+- [x] **SEC-06**: `zod` est déclaré dans `package.json` et aucune dépendance importée n'est seulement transitive
 
 ### SEO technique (SEO)
 
@@ -38,7 +38,7 @@
 
 - [ ] **RESA-01** (R1) [P1]: Le code SMS est facultatif ; la réservation se confirme par email
 - [x] **RESA-02** (N1) [P1]: L'email est obligatoire pour réserver en ligne ; une case non pré-cochée « Recevoir nos actualités et offres » enregistre le consentement avec date et source
-- [ ] **RESA-03** (R1) [P1]: Un touriste avec un numéro étranger réserve en moins de 60 secondes
+- [x] **RESA-03** (R1) [P1]: Un touriste avec un numéro étranger réserve en moins de 60 secondes
 - [x] **RESA-04** (R1) [P1]: Un bouton WhatsApp flottant est présent sur toutes les pages publiques
 - [ ] **RESA-05** (R1): Un bouton LINE est présent pour les Thaïlandais
 - [ ] **RESA-06**: Chaque réservation porte un champ « source » (site, WhatsApp, téléphone, sans réservation) ; les événements « réservation envoyée » et « clic WhatsApp » sont mesurés
@@ -136,10 +136,10 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | SEC-03 | Phase 1 | Complete |
 | SEC-04 | Phase 1 | Pending |
 | SEC-05 | Phase 1 | Pending |
-| SEC-06 | Phase 1 | Pending |
+| SEC-06 | Phase 1 | Complete |
 | RESA-01 | Phase 1 | Pending |
 | RESA-02 | Phase 1 | Complete |
-| RESA-03 | Phase 1 | Pending |
+| RESA-03 | Phase 1 | Complete |
 | RESA-04 | Phase 1 | Complete |
 | SEO-01 | Phase 2 | Pending |
 | SEO-02 | Phase 2 | Pending |
