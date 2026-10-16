@@ -104,6 +104,7 @@ Un touriste étranger réserve en moins de 60 secondes (email obligatoire, SMS s
 - Double opt-in par email — phase 7 (NEWS-01).
 - Cloudflare Turnstile — à ajouter seulement si un abus apparaît.
 - Mesure « réservation envoyée » / « clic WhatsApp » et champ source — phase 5 (RESA-06, KPI-01).
+- Route MCP `src/app/api/mcp/route.ts` qui interroge des tables non préfixées (RESEARCH Pitfall 10) — dette notée, hors phase 1 (décision orchestrateur lors de la planification).
 
 </deferred>
 

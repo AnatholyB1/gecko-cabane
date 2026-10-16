@@ -36,7 +36,26 @@ created: 2026-10-16
 
 ## Per-Task Verification Map
 
-Filled by the planner: each task's `<automated>` command maps to the requirement tests listed in `01-RESEARCH.md` §Validation Architecture (SEC-01 anonymous GET returns 401; SEC-02 429 after threshold; SEC-03 non-admin 403; RESA-01/02/03 POST without token, email required; RESA-04 WhatsApp link builder).
+| Plan-Task | Requirement / Decision | Automated command |
+|-----------|------------------------|-------------------|
+| 01-01-T1 | SEC-03 | npx vitest run tests/require-admin.test.ts |
+| 01-01-T2 | SEC-03 | npx vitest run tests/admin-routes-guarded.test.ts |
+| 01-02-T1 | RESA-04, D-15, D-16 | npx vitest run tests/whatsapp.test.ts tests/i18n.test.ts |
+| 01-02-T2 | D-13 | npx vitest run tests/i18n.test.ts |
+| 01-03-T2 | SEC-04 | npx vitest run tests/migrations.test.ts |
+| 01-03-T3 | SEC-04 | npx tsc --noEmit -p . |
+| 01-04-T1 | D-04 (Krabi time, hours, capacity grid) | npx vitest run tests/reservation-rules.test.ts |
+| 01-04-T2 | D-05, D-06, SEC-06, RESA-03 | npx vitest run tests/api-validation.test.ts tests/reservation-schema.test.ts tests/deps.test.ts |
+| 01-05-T1/T2 | RESA-01/03 emails, escapeHtml | npx vitest run tests/resend-escape.test.ts tests/resend-locale.test.ts |
+| 01-06-T1..T3 | SEC-01, SEC-03, SEC-05, RESA-01, RESA-02 | npx vitest run tests/reservations-post.test.ts tests/reservations-admin.test.ts tests/no-public-secrets.test.ts |
+| 01-07-T1 | RESA-01/02/03, D-09 client | npx vitest run tests/reservation-form.test.ts tests/i18n.test.ts |
+| 01-07-T2 | D-02 | npx vitest run tests/deps.test.ts |
+| 01-08-T1/T2 | SEC-02, D-07/08/09 | npx vitest run tests/rate-limit.test.ts tests/anti-bot.test.ts tests/reservations-post.test.ts |
+| 01-09-T2/T3 | SEC-04, SEC-02 atomicity | manual SQL on scratch + prod, evidence in 01-DB-ROLLOUT.md |
+| 01-10-T2/T3 | SEC-05, RESA-03, RESA-04 | production smoke (curl) + human check, evidence in 01-LAUNCH.md |
+| 01-11-T1/T3 | D-02, SEC-04 | npx vitest run tests/migrations.test.ts + prod to_regclass |
+
+Wave 0 note: handler tests are split into tests/reservations-post.test.ts and tests/reservations-admin.test.ts (instead of tests/reservations-api.test.ts); the @ alias is added in 01-01 Task 1.
 
 ---
 

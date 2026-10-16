@@ -30,7 +30,20 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
   3. Le formulaire exige l'email et propose une case « Recevoir nos actualités et offres » non pré-cochée, dont le consentement est enregistré avec date et source
   4. Des appels répétés aux endpoints SMS et réservation depuis une même IP ou un même numéro/email sont refusés après le seuil ; un utilisateur connecté non-admin Gecko reçoit un refus sur les routes admin
   5. Un bouton WhatsApp flottant ouvre la conversation depuis toutes les pages publiques ; les migrations du dépôt s'appliquent sur une base vierge et reproduisent le schéma `gecko_*`
-**Plans**: TBD
+**Plans**: 11 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — requireAdmin() guard on all admin API routes + vitest alias (SEC-03)
+- [ ] 01-02-PLAN.md — Floating WhatsApp button + localized /privacy page (RESA-04, D-13)
+- [ ] 01-03-PLAN.md — Read-only prod dump -> idempotent 007 baseline, legacy migrations archived (SEC-04) [checkpoint]
+- [ ] 01-04-PLAN.md — TDD: Krabi-time slot rules, international phone, zod schema, zod declared (D-04/05/06, SEC-06)
+- [ ] 01-05-PLAN.md — Bilingual fr/en escaped transactional emails
+- [ ] 01-06-PLAN.md — Booking API without SMS: migration 008 (capacity RPC, consents, locale), admin-only GET/PUT/DELETE, server-only webhooks (RESA-01/02, SEC-01/05)
+- [ ] 01-07-PLAN.md — OTP-free form (email required, consent, honeypot, 429 WhatsApp) + SMS backend/twilio removed
+- [ ] 01-08-PLAN.md — Rate limits (migration 009) + honeypot/min fill time on POST (SEC-02)
+- [ ] 01-09-PLAN.md — [BLOCKING] Scratch-DB proof + push 008/009 to production [checkpoint]
+- [ ] 01-10-PLAN.md — Owner approvals, Vercel env, deploy, smoke tests, human <60 s check [checkpoint]
+- [ ] 01-11-PLAN.md — Post-launch: drop gecko_phone_verifications (010), retire Twilio [checkpoint]
 **UI hint**: yes
 
 ### Phase 2: Fondations SEO techniques
@@ -133,7 +146,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 0/TBD | Not started | - |
+| 1. Réservation sûre et sans friction | 0/11 | Not started | - |
 | 2. Fondations SEO techniques | 0/TBD | Not started | - |
 | 3. Carte HTML et pages clés | 0/TBD | Not started | - |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
