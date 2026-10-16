@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: "Phase 1: 10/11 plans done, code live. Pending: owner phone check (01-10 Task 3); then 01-11 (drop gecko_phone_verifications as migration 011, remove TWILIO env)"
-last_updated: "2026-10-16T19:28:10.840Z"
+status: ready_to_plan
+stopped_at: Phase 1 complete (11/11) — ready to discuss Phase 2
+last_updated: 2026-10-16T19:34:12.266Z
 last_activity: 2026-10-16
 progress:
   total_phases: 8
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-16)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Phase 01 — Réservation sûre et sans friction
+**Current focus:** Phase 2 — fondations seo techniques
 
 ## Current Position
 
-Phase: 01 (Réservation sûre et sans friction) — EXECUTING
-Plan: 11 of 11
-Status: Phase complete — ready for verification
+Phase: 2
+Plan: Not started
+Status: Ready to plan
 Last activity: 2026-10-16
 
 Progress: [██████████] 100%
@@ -36,7 +36,7 @@ Progress: [██████████] 100%
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 11
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -44,7 +44,7 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1 | 11 | - | - |
 
 ## Accumulated Context
 
