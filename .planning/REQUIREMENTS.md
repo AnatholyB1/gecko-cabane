@@ -11,7 +11,7 @@
 ### Sécurité et fiabilité (SEC)
 
 - [x] **SEC-01** [P1]: Un visiteur anonyme ne peut plus obtenir les données d'une réservation via `GET /api/reservations?phone=` (accès réservé à l'admin ou à une preuve de possession)
-- [ ] **SEC-02** [P1]: Les endpoints d'envoi de code SMS et de création de réservation limitent le nombre de requêtes par IP et par numéro/email
+- [x] **SEC-02** [P1]: Les endpoints d'envoi de code SMS et de création de réservation limitent le nombre de requêtes par IP et par numéro/email
 - [x] **SEC-03** [P1]: Les routes API admin refusent tout utilisateur connecté qui n'est pas admin Gecko (`gecko_is_admin`)
 - [x] **SEC-04**: Les migrations du dépôt reproduisent le schéma réel (tables `gecko_*`, RLS, fonction `gecko_is_admin`) et s'appliquent sur une base vierge
 - [x] **SEC-05** [P1]: Les URLs de webhook de réservation ne sont plus exposées au navigateur (variables serveur, sans `NEXT_PUBLIC_`)
@@ -132,7 +132,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | SEC-01 | Phase 1 | Complete |
-| SEC-02 | Phase 1 | Pending |
+| SEC-02 | Phase 1 | Complete |
 | SEC-03 | Phase 1 | Complete |
 | SEC-04 | Phase 1 | Complete |
 | SEC-05 | Phase 1 | Complete |
