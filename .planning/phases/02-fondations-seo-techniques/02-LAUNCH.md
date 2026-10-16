@@ -63,6 +63,10 @@ The owner answered "cherche-les toi-même": the lookups were delegated to Claude
 
 The old `fr.tripadvisor.be` URL is dropped from sameAs only (still linked visibly on the page). The D-09 test (hrefs in page.tsx) was relaxed to: https, host allow-list (google.com/maps, tripadvisor.com, facebook.com, instagram.com) and listed in this file.
 
+### Second deploy and re-probe (2026-10-17)
+
+Commit 5cc02f1 pushed, production Ready (no fonts failure). Live /fr and /en: one Restaurant JSON-LD each; geo 8.06147 / 98.91566; sameAs = exactly the 4 URLs above; no aggregateRating, no hasMenu; `/sitemap.xml` 200. Gates: vitest 239/239, lint 0 errors, build green.
+
 ## Search Console / Bing
 
 Filled by 02-08.
