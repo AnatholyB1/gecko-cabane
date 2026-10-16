@@ -13,8 +13,24 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { join, relative } from 'path'
 
-// Removed by plan 02-04 once page.tsx is migrated.
-const EXCLUDED_UNTIL_02_04 = [join('src', 'app', '[locale]', 'page.tsx')]
+// Unaccented French phrases that the accent scan cannot catch (D-12, SEO-04).
+const BANNED_PHRASES = [
+  'Notre Histoire',
+  'Notre Cuisine',
+  'La Carte',
+  'Nos Créations',
+  'Nous trouver',
+  'Horaires',
+  'Chef de cuisine',
+  'Accueil',
+  "Fermer l'annonce",
+  'La Table du Chef',
+  "Souris d'agneau",
+  'Enseigne du restaurant',
+]
+
+// Words legitimately kept in English messages (dish names, brand).
+const ALLOWED_EN_WORDS = ['velouté', 'Gecko Cabane']
 
 const ACCENTED = /[àâäçéèêëîïôöùûüœÀÂÉÈÊËÎÏÔÙÛÜÇŒ]/
 
@@ -45,7 +61,7 @@ describe('i18n — no hard-coded French literals', () => {
     const files = [
       ...walk(join(cwd, 'src', 'components')),
       ...walk(join(cwd, 'src', 'app', '[locale]')),
-    ].filter((f) => !EXCLUDED_UNTIL_02_04.includes(relative(cwd, f)))
+    ]
 
     const offenders: string[] = []
     for (const file of files) {
@@ -62,5 +78,34 @@ describe('i18n — no hard-coded French literals', () => {
     const en = JSON.parse(readFileSync(join(cwd, 'messages', 'en.json'), 'utf-8'))
     const bad = JSON.stringify([en.menuSection, en.announcement, en.errors]).match(ACCENTED)
     expect(bad).toBeNull()
+  })
+
+  it('no banned unaccented French phrase in scanned sources', () => {
+    const files = [
+      ...walk(join(cwd, 'src', 'components')),
+      ...walk(join(cwd, 'src', 'app', '[locale]')),
+    ]
+    for (const file of files) {
+      const code = stripComments(readFileSync(file, 'utf-8')).join('\n')
+      const hits = BANNED_PHRASES.filter((p) => code.includes(p))
+      expect(hits, relative(cwd, file)).toEqual([])
+    }
+  })
+
+  it('footer.openHours matches the real hours (12h-22h)', () => {
+    const en = JSON.parse(readFileSync(join(cwd, 'messages', 'en.json'), 'utf-8'))
+    const fr = JSON.parse(readFileSync(join(cwd, 'messages', 'fr.json'), 'utf-8'))
+    expect(en.footer.openHours, 'footer.openHours').not.toMatch(/11am|11pm/)
+    expect(fr.footer.openHours, 'footer.openHours').not.toMatch(/11h|23h/)
+  })
+
+  it('en.json home namespaces contain no French accents', () => {
+    const en = JSON.parse(readFileSync(join(cwd, 'messages', 'en.json'), 'utf-8'))
+    const keys = ['about', 'cuisine', 'menuSection', 'gallery', 'hoursSection', 'contactSection', 'hero', 'common', 'footer']
+    for (const k of keys) {
+      let json = JSON.stringify(en[k] ?? {})
+      for (const w of ALLOWED_EN_WORDS) json = json.split(w).join('')
+      expect(json.match(ACCENTED), k).toBeNull()
+    }
   })
 })
