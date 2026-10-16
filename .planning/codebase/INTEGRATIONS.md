@@ -18,9 +18,7 @@
 **AI assistants:**
 - MCP server exposed (inbound) at `POST /api/mcp` (`src/app/api/mcp/route.ts`), stateless Streamable HTTP, tools for menu/hours/announcements/availability; wrapped with `Sentry.wrapMcpServerWithSentry`
 
-**Automation webhooks (outgoing):**
-- Reservation-created hook and reservation-validation hook called via `fetch` in `src/app/api/reservations/route.ts`
-  - Auth/URL: `NEXT_PUBLIC_RESA_HOOK_URL`, `NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL` (note: `NEXT_PUBLIC_` prefix exposes them to the client bundle)
+**Automation webhooks:** none (removed in phase 1; transactional email goes through Resend only).
 
 **Fonts:**
 - Google Fonts via `next/font/google` (`src/app/layout.tsx`)
@@ -66,9 +64,7 @@
 
 **Required env vars:**
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-- `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_VERIFY_SERVICE_SID`
 - `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESTAURANT_NOTIFICATION_EMAIL`
-- `NEXT_PUBLIC_RESA_HOOK_URL`, `NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL`
 - Sentry build token (`.env.sentry-build-plugin`)
 
 **Secrets location:**
@@ -81,7 +77,7 @@
 - `/api/mcp` (MCP clients)
 
 **Outgoing:**
-- Reservation hooks (`NEXT_PUBLIC_RESA_HOOK_URL`, `NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL`) from `src/app/api/reservations/route.ts`
+- None
 
 ---
 

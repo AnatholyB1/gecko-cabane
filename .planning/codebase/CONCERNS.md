@@ -20,10 +20,7 @@
 - Impact: The example API route is public and throws on every call. It can be used to flood Sentry quota and is bypassed by middleware.
 - Fix approach: Delete the example route and page, and the middleware exception for `/sentry-example-page`. Add `.dev-server.log` and `supabase/.temp/` to `.gitignore`.
 
-**Public env var used for a secret-like webhook URL:**
-- Files: `src/app/api/reservations/route.ts` (`NEXT_PUBLIC_RESA_HOOK_URL`, `NEXT_PUBLIC_RESA_VALIDATION_HOOK_URL`)
-- Impact: The `NEXT_PUBLIC_` prefix means the value may be inlined into the client bundle. The webhooks are only called server-side, so the prefix is unnecessary. Anyone who obtains the URL can post fake events.
-- Fix approach: Rename to `RESA_HOOK_URL` and `RESA_VALIDATION_HOOK_URL`, and rotate the URLs.
+**Resolved: outgoing reservation webhooks removed (phase 1, SEC-05):** no webhook URL or `RESA_*` / `NEXT_PUBLIC_RESA*` variable exists anymore. The previously exposed n8n URLs are unused; the owner should delete/disable them in n8n.
 
 **Supabase env vars inlined at build time:**
 - Files: `src/utils/supabase/server.ts`

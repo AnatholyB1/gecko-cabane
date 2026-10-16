@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
     }
     const id: number = row.reservation_id
 
-    // (f) webhook + emails after the response is sent
+    // (f) emails after the response is sent
     const locale: EmailLocale = r.locale
     const details = {
       customer_name: r.customer_name,
@@ -187,23 +187,6 @@ export async function POST(request: NextRequest) {
     }
     after(async () => {
       try {
-        const webhookUrl = process.env.RESA_HOOK_URL
-        if (webhookUrl) {
-          try {
-            await fetch(webhookUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                type: 'new_reservation',
-                reservation: { id, ...details, locale },
-              }),
-              signal: AbortSignal.timeout(5000),
-            })
-          } catch (webhookError) {
-            Sentry.captureException(webhookError)
-          }
-        }
-
         const resend = getResendClient()
         if (resend) {
           const sends: Promise<unknown>[] = []
@@ -309,37 +292,6 @@ export async function PUT(request: NextRequest) {
     // Notify on confirmation / cancellation (best-effort, never fails the update)
     if (updates.status === 'confirmed' || updates.status === 'cancelled') {
       const newStatus = updates.status
-      const validationWebhookUrl = process.env.RESA_VALIDATION_HOOK_URL
-      if (validationWebhookUrl) {
-        try {
-          await fetch(validationWebhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              type: newStatus === 'confirmed' ? 'reservation_confirmed' : 'reservation_cancelled',
-              status: newStatus,
-              reservation: {
-                id: data.id,
-                customer_name: data.customer_name,
-                customer_email: data.customer_email,
-                customer_phone: data.customer_phone,
-                reservation_date: data.reservation_date,
-                reservation_time: data.reservation_time,
-                party_size: data.party_size,
-                occasion: data.occasion,
-                status: data.status,
-                locale: data.locale,
-                confirmed_at: data.confirmed_at,
-                cancelled_at: data.cancelled_at,
-              },
-            }),
-            signal: AbortSignal.timeout(5000),
-          })
-        } catch (webhookError) {
-          Sentry.captureException(webhookError)
-        }
-      }
-
       const resend = getResendClient()
       if (resend && data.customer_email) {
         const emailLocale: EmailLocale = data.locale === 'en' ? 'en' : 'fr'
