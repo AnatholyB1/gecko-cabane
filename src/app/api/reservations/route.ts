@@ -10,6 +10,8 @@ import {
   type ReservationErrorCode,
 } from '@/utils/reservation-schema'
 import { checkSlot, type SettingsMap } from '@/utils/reservation-rules'
+import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
+import { checkReservationRateLimits, getClientIp } from '@/utils/rate-limit'
 import {
   type EmailLocale,
   getResendClient,
@@ -66,6 +68,21 @@ export async function POST(request: NextRequest) {
     return fail('Requête invalide', 'invalid_body', 400)
   }
 
+  const input = (body && typeof body === 'object' ? body : {}) as Record<string, unknown>
+
+  // Honeypot: fake success, silent to avoid teaching bots (D-09). No DB, email or after().
+  if (isHoneypotFilled(input.company_url)) {
+    return NextResponse.json<ApiResponse<{ id: number; status: 'pending' }>>(
+      { data: { id: 0, status: 'pending' } },
+      { status: 201 }
+    )
+  }
+
+  // Minimum fill time (3 s) / stale or forged timestamp (D-09)
+  if (!checkFillTime(input.form_started_at, Date.now())) {
+    return fail('Envoi trop rapide, merci de réessayer.', 'too_fast', 400)
+  }
+
   try {
     // (b) schema validation (email required, E.164 phone, party size)
     const parsed = reservationRequestSchema.safeParse(body)
@@ -111,6 +128,26 @@ export async function POST(request: NextRequest) {
         slot.code === 'date_past' ? 'Ce créneau est déjà passé' : 'Nombre de personnes invalide',
         slot.code,
         400
+      )
+    }
+
+    // (d2) rate limits, after validation so invalid input never consumes quota (D-08).
+    // A 409 slot_full below has already consumed one unit: accepted, no refund.
+    const limits = await checkReservationRateLimits(admin, {
+      ip: getClientIp(request.headers),
+      email: r.customer_email,
+      phone: r.customer_phone,
+    })
+    if (limits.limited) {
+      return NextResponse.json<ApiResponse<never>>(
+        {
+          error:
+            r.locale === 'en'
+              ? 'Too many requests from your connection. Message us directly on WhatsApp: +66 81 958 5945.'
+              : 'Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.',
+          code: 'rate_limited',
+        },
+        { status: 429 }
       )
     }
 

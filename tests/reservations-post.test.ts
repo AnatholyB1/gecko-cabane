@@ -57,7 +57,12 @@ vi.mock('@/utils/resend', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/utils/resend')>()
   return { ...actual, getResendClient: () => null }
 })
-vi.mock('@sentry/nextjs', () => ({ captureException: vi.fn() }))
+vi.mock('@sentry/nextjs', () => ({ captureException: vi.fn(), captureMessage: vi.fn() }))
+const checkLimits = vi.fn()
+vi.mock('@/utils/rate-limit', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/utils/rate-limit')>()
+  return { ...actual, checkReservationRateLimits: (...a: unknown[]) => checkLimits(...a) }
+})
 
 import { POST } from '@/app/api/reservations/route'
 import { MARKETING_CONSENT_VERSION } from '@/utils/reservation-schema'
@@ -65,7 +70,7 @@ import { MARKETING_CONSENT_VERSION } from '@/utils/reservation-schema'
 function req(body: unknown, raw = false) {
   return new Request('http://localhost/api/reservations', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-vercel-forwarded-for': '1.2.3.4' },
     body: raw ? (body as string) : JSON.stringify(body),
   }) as unknown as import('next/server').NextRequest
 }
@@ -80,6 +85,11 @@ const valid = {
   party_size: 2,
   locale: 'en',
   marketing_consent: false,
+  company_url: '',
+  // Getter: evaluated per request so it follows the fake clock set in beforeEach.
+  get form_started_at() {
+    return Date.now() - 10000
+  },
 }
 
 describe('POST /api/reservations', () => {
@@ -87,6 +97,8 @@ describe('POST /api/reservations', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-10-20T03:00:00Z'))
     rpc.mockReset()
+    checkLimits.mockReset()
+    checkLimits.mockResolvedValue({ limited: false })
     afterCallbacks.length = 0
     rpc.mockResolvedValue({
       data: [{ reservation_id: 123, reservation_status: 'pending', is_full: false }],
@@ -169,5 +181,62 @@ describe('POST /api/reservations', () => {
     expect(res.status).toBe(400)
     expect((await res.json()).code).toBe('invalid_body')
     expect(rpc).not.toHaveBeenCalled()
+  })
+
+  // Fixed clock is set in beforeEach, so build bodies relative to it.
+  const fresh = () => ({ ...valid, form_started_at: Date.now() - 10000 })
+
+  it('fakes a 201 for a filled honeypot with no DB write', async () => {
+    const res = await POST(req({ ...fresh(), company_url: 'http://spam' }))
+    expect(res.status).toBe(201)
+    expect(await res.json()).toEqual({ data: { id: 0, status: 'pending' } })
+    expect(rpc).not.toHaveBeenCalled()
+    expect(checkLimits).not.toHaveBeenCalled()
+    expect(afterCallbacks).toHaveLength(0)
+  })
+
+  it('rejects a too fast or missing form_started_at (400 too_fast)', async () => {
+    const fast = await POST(req({ ...fresh(), form_started_at: Date.now() - 500 }))
+    expect(fast.status).toBe(400)
+    expect((await fast.json()).code).toBe('too_fast')
+    const rest: Record<string, unknown> = { ...fresh() }
+    delete rest.form_started_at
+    const missing = await POST(req(rest))
+    expect(missing.status).toBe(400)
+    expect((await missing.json()).code).toBe('too_fast')
+    expect(rpc).not.toHaveBeenCalled()
+  })
+
+  it('returns 429 rate_limited with a localized WhatsApp message', async () => {
+    checkLimits.mockResolvedValue({ limited: true })
+    const en = await POST(req({ ...fresh(), locale: 'en' }))
+    expect(en.status).toBe(429)
+    const enBody = await en.json()
+    expect(enBody.code).toBe('rate_limited')
+    expect(enBody.error).toContain('WhatsApp')
+    expect(enBody.error).toContain('Too many requests')
+    const fr = await POST(req({ ...fresh(), locale: 'fr' }))
+    expect(fr.status).toBe(429)
+    expect((await fr.json()).error).toContain('Trop de demandes')
+    expect(rpc).not.toHaveBeenCalled()
+  })
+
+  it('does not consume quota for invalid input or an unavailable slot', async () => {
+    const bad = await POST(req({ ...fresh(), customer_email: 'nope' }))
+    expect(bad.status).toBe(400)
+    const tue = await POST(req({ ...fresh(), reservation_date: '2026-10-27' }))
+    expect(tue.status).toBe(422)
+    expect(checkLimits).not.toHaveBeenCalled()
+  })
+
+  it('checks limits once with normalized ip, email and phone', async () => {
+    const res = await POST(req(fresh()))
+    expect(res.status).toBe(201)
+    expect(checkLimits).toHaveBeenCalledTimes(1)
+    expect(checkLimits.mock.calls[0][1]).toEqual({
+      ip: '1.2.3.4',
+      email: 'jane@example.com',
+      phone: '+447911123456',
+    })
   })
 })
