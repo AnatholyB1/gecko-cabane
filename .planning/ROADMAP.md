@@ -9,7 +9,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 ## Phases
 
 - [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
-- [x] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (completed 2026-10-16)
+- [ ] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (code livré et vérifié 2026-10-17 ; en attente du propriétaire : sitemap GSC, import Bing, Rich Results Test)
 - [ ] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
 - [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
 - [ ] **Phase 5: Conversion et mesure** - Preuve sociale, histoire du couple, accès, LINE, paiement, performance mobile, suivi des clics d'avis
