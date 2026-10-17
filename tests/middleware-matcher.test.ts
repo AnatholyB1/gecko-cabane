@@ -43,6 +43,9 @@ describe('middleware matcher', () => {
     '/admin',
     '/admin/login',
     '/api/hours',
+    '/review',
+    '/avis',
+    '/bewertung',
   ])('matches %s', (p) => {
     expect(re.test(p)).toBe(true)
   })
@@ -62,5 +65,16 @@ describe('root redirect', () => {
     expect(nextConfigSrc).toContain("source: '/'")
     expect(nextConfigSrc).toContain("destination: '/fr'")
     expect(nextConfigSrc).toContain('permanent: true')
+  })
+})
+
+describe('review alias pass-through', () => {
+  it('lists the three aliases before the Supabase client is created', () => {
+    const passIdx = middlewareSrc.indexOf('REVIEW_ALIASES.has(pathname)')
+    expect(passIdx).toBeGreaterThan(-1)
+    expect(middlewareSrc).toContain("'/review'")
+    expect(middlewareSrc).toContain("'/avis'")
+    expect(middlewareSrc).toContain("'/bewertung'")
+    expect(passIdx).toBeLessThan(middlewareSrc.indexOf('createServerClient('))
   })
 })

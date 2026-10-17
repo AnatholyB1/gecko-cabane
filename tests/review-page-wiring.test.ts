@@ -68,3 +68,26 @@ describe('review messages', () => {
     }
   })
 })
+
+describe('review aliases', () => {
+  it.each([
+    ['src/app/avis/route.ts', "handleReviewAlias(request, 'fr')"],
+    ['src/app/bewertung/route.ts', "handleReviewAlias(request, 'de')"],
+    ['src/app/review/route.ts', 'handleReviewAlias(request, null)'],
+  ])('%s delegates to the shared handler', (file, call) => {
+    const src = read(file)
+    expect(src).toContain(call)
+    expect(src).toContain('export async function GET')
+    expect(src).toContain("dynamic = 'force-dynamic'")
+  })
+
+  it('shared handler uses 307 and the whitelisting helpers', () => {
+    const src = read('src/utils/review-alias.ts')
+    expect(src).toContain('307')
+    expect(src).not.toContain('308')
+    expect(src).not.toContain('permanent')
+    expect(src).toContain('buildReviewRedirectPath(')
+    expect(src).toContain('resolveReviewLocale(')
+    expect(src).toContain('accept-language')
+  })
+})
