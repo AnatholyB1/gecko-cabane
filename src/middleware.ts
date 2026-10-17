@@ -126,9 +126,10 @@ export const config = {
      * - favicon.ico
      * - manifest.webmanifest (PWA manifest — served at the root, not per-locale)
      * - monitoring    (Sentry tunnel – must bypass middleware)
+     * - gcm           (Plausible proxy, D-02 - must bypass middleware)
      * - sitemap.xml, robots.txt, opengraph-image (metadata routes, served at the root)
      * - image assets  (svg, png, jpg, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|gcm|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

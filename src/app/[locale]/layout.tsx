@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { locales } from '@/i18n/config'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import PlausibleScript from '@/components/PlausibleScript'
+import AttributionCapture from '@/components/AttributionCapture'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
 
 type Props = {
@@ -43,6 +45,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider messages={messages}>
       {children}
+      <PlausibleScript />
+      <AttributionCapture />
       <WhatsAppButton />
     </NextIntlClientProvider>
   )
