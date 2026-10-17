@@ -81,3 +81,7 @@ Réponse du propriétaire (2026-10-17), verbatim : « phone test ok ». Interpr�
 ## First run
 
 À observer le jour suivant le prochain envoi de 11h Krabi : « Invitation envoyée le … » dans /admin/reservations (attendu : 1 invitation).
+
+## QR scan
+
+Réponse du propriétaire (2026-10-17), verbatim : « i scanned it on my phone ». Interprétation : le QR a été scanné sur un téléphone (modèle iOS/Android non précisé). À refaire sur l'autre plateforme si possible avant impression.
