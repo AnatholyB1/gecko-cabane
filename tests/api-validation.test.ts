@@ -45,7 +45,7 @@ describe('phoneCountryForLocale', () => {
   it('maps locales to default countries', () => {
     expect(phoneCountryForLocale('fr')).toBe('FR')
     expect(phoneCountryForLocale('en')).toBe('GB')
-    expect(phoneCountryForLocale('de')).toBe('TH')
+    expect(phoneCountryForLocale('es')).toBe('TH')
   })
 })
 
