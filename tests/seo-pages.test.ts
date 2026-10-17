@@ -42,31 +42,31 @@ describe('meta namespace', () => {
 })
 
 describe('generateMetadata wiring', () => {
-  it('home and privacy use buildPageMetadata', () => {
+  it('home and privacy use localizedPageMetadata', () => {
     const home = read('src/app/[locale]/page.tsx')
     const privacy = read('src/app/[locale]/privacy/page.tsx')
     for (const src of [home, privacy]) {
       expect(src).toContain('export async function generateMetadata')
-      expect(src).toContain('buildPageMetadata(')
+      expect(src).toContain('localizedPageMetadata(')
     }
     expect(home).toContain('absoluteTitle: true')
-    expect(privacy).toContain("path: '/privacy'")
+    expect(home).toContain("key: ''")
+    expect(privacy).toContain("key: '/privacy'")
   })
 
-  it('landing page uses EN-only buildPageMetadata', () => {
+  it('landing page uses localizedPageMetadata with the registry key', () => {
     const landing = read('src/app/[locale]/french-restaurant-krabi/page.tsx')
     expect(landing).toContain('export async function generateMetadata')
-    expect(landing).toContain('buildPageMetadata(')
-    expect(landing).toContain("path: '/french-restaurant-krabi'")
-    expect(landing).toContain("locales: ['en']")
+    expect(landing).toContain('localizedPageMetadata(')
+    expect(landing).toContain("'/french-restaurant-krabi'")
     expect(en.meta.frenchRestaurantTitle).toContain('Krabi')
   })
 
-  it('menu page uses buildPageMetadata', () => {
+  it('menu page uses localizedPageMetadata', () => {
     const menu = read('src/app/[locale]/menu/page.tsx')
     expect(menu).toContain('export async function generateMetadata')
-    expect(menu).toContain('buildPageMetadata(')
-    expect(menu).toContain("path: '/menu'")
+    expect(menu).toContain('localizedPageMetadata(')
+    expect(menu).toContain("key: '/menu'")
     expect(en.meta.menuTitle).toContain('Krabi')
     expect(en.meta.menuTitle).toContain('Gecko Cabane')
   })

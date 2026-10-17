@@ -22,8 +22,8 @@ describe('/menu page', () => {
   it('is a server component with metadata and a single h1', () => {
     expect(src).not.toContain("'use client'")
     expect(src).toContain('export async function generateMetadata')
-    expect(src).toContain('buildPageMetadata(')
-    expect(src).toContain("path: '/menu'")
+    expect(src).toContain('localizedPageMetadata(')
+    expect(src).toContain("key: '/menu'")
     expect(src).toContain('menuTitle')
     expect(src).toContain('menuDescription')
     expect(src).toContain('getMenu()')
