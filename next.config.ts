@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [{ source: '/', destination: '/fr', permanent: true }];
   },
+  // WiFi credentials are rendered per request: never cache (T-07-05-03).
+  async headers() {
+    return [
+      {
+        source: '/:locale(fr|en)/wifi',
+        headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {
