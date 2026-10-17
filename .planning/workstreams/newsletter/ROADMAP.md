@@ -30,7 +30,7 @@ Plans:
 - [x] 07-01-PLAN.md — Subscribe API: migration 015, signed links, ledger state, confirmation email (W1)
 - [ ] 07-02-PLAN.md — Guide gourmand + crab curry PDFs, bill insert and WiFi card from owner content (W1, checkpoint)
 - [x] 07-03-PLAN.md — Footer sign-up form + full newsletter/wifi i18n contract (W2)
-- [ ] 07-04-PLAN.md — Confirm page/route -> Brevo upsert with segments -> welcome email with guide (W3)
+- [x] 07-04-PLAN.md — Confirm page/route -> Brevo upsert with segments -> welcome email with guide (W3)
 - [ ] 07-05-PLAN.md — /newsletter (bill QR) and /wifi pages, short-URL aliases, pdf matcher fix (W3)
 - [ ] 07-06-PLAN.md — Exit-intent pop-up / mobile bottom sheet + anonymous signup counters (W3)
 - [ ] 07-07-PLAN.md — FR/EN sequence drafts, Brevo runbook, privacy update, owner review (W3, checkpoint)
@@ -44,4 +44,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Newsletter | 2/11 | In Progress|  |
+| 7. Newsletter | 3/11 | In Progress|  |

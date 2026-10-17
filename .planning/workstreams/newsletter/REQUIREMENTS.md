@@ -10,7 +10,7 @@
 - [x] **NEWS-02** (N4): Un formulaire en pied de page et un pop-up de sortie (une fois par visiteur, pas en plein écran sur mobile) collectent email et langue ; le taux d'inscription est mesuré
 - [ ] **NEWS-03** (N2): Un portail captif WiFi propose email + consentement, ou un accès sans inscription
 - [ ] **NEWS-04** (N3): Un QR sur l'addition mène à une inscription (recette du curry de crabe) séparée du lien d'avis Google
-- [ ] **NEWS-05** (N5): Le « Guide gourmand de Krabi Town » (PDF) est envoyé par email après confirmation
+- [x] **NEWS-05** (N5): Le « Guide gourmand de Krabi Town » (PDF) est envoyé par email après confirmation
 - [ ] **NEWS-06**: Les séquences bienvenue, après-visite J+1, pendant séjour J+3, retour en octobre et saison verte (mai à octobre) fonctionnent, 1 email/mois maximum hors séquences
-- [ ] **NEWS-07**: Les contacts sont segmentés par langue (FR/EN/DE/SV), pays, résident ou touriste, date de dernière visite
+- [x] **NEWS-07**: Les contacts sont segmentés par langue (FR/EN/DE/SV), pays, résident ou touriste, date de dernière visite
 
