@@ -6,6 +6,7 @@ import type { Reservation, ReservationSource, ReservationStatus, RestaurantTable
 import { RESERVATION_SOURCES, SOURCE_LABELS, formatOrigin } from '@/utils/reservation-source'
 import { krabiToday } from '@/utils/review-invitations'
 import { getReviewBadges, showNoShowDeadline } from '@/utils/review-badges'
+import ManualReservationForm from './ManualReservationForm'
 
 const STATUS_LABELS: Record<ReservationStatus, { label: string; color: string; bg: string }> = {
   pending: { label: 'En attente', color: 'text-amber-700', bg: 'bg-amber-100' },
@@ -37,6 +38,7 @@ export default function AdminReservationsPage() {
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [savingSourceId, setSavingSourceId] = useState<number | null>(null)
+  const [showManualForm, setShowManualForm] = useState(false)
   const [adminNotes, setAdminNotes] = useState('')
 
   // Table assignment modal
@@ -279,6 +281,13 @@ export default function AdminReservationsPage() {
             </Link>
             <h1 className="text-3xl font-bold">📅 Réservations</h1>
           </div>
+          <button
+            type="button"
+            onClick={() => setShowManualForm((v) => !v)}
+            className="px-4 py-2 rounded-lg bg-white text-(--primary) font-semibold hover:bg-(--accent-light)"
+          >
+            {showManualForm ? 'Fermer' : 'Ajouter une réservation'}
+          </button>
         </div>
       </header>
 
@@ -289,6 +298,16 @@ export default function AdminReservationsPage() {
             {message.text}
             <button onClick={() => setMessage(null)} className="float-right">✕</button>
           </div>
+        )}
+
+        {showManualForm && (
+          <ManualReservationForm
+            onCreated={() => {
+              setShowManualForm(false)
+              fetchReservations()
+            }}
+            onMessage={setMessage}
+          />
         )}
 
         {/* Stats */}
