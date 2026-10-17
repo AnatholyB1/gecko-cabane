@@ -111,6 +111,23 @@ describe('supabase migrations', () => {
     expect(sql).not.toMatch(/insert\s+into\s+public\.gecko_menu_(categories|items)/)
   })
 
+  it('014 adds review tracking columns and token idempotently, no status change', () => {
+    const sql = read('014_review_invitations.sql')
+      .replace(/--.*$/gm, '')
+      .toLowerCase()
+    expect(sql).toContain(
+      'add column if not exists review_token uuid not null default gen_random_uuid()'
+    )
+    expect(sql).toContain('add column if not exists review_email_sent_at timestamptz')
+    expect(sql).toContain('add column if not exists review_reminder_sent_at timestamptz')
+    expect(sql).toContain('add column if not exists review_clicked_at timestamptz')
+    expect(sql).toMatch(/create unique index if not exists[^;]*\(review_token\)/)
+    expect(sql).not.toContain('update public.gecko_reservations')
+    expect(sql).not.toContain('drop')
+    expect(sql).not.toContain('check')
+    expect(sql).not.toContain('create policy')
+  })
+
   it('011 revokes anon DML on consents and keeps authenticated select', () => {
     const sql = read('011_revoke_anon_consents_dml.sql').replace(/--.*$/gm, '')
     expect(sql).toMatch(/revoke\s+insert,\s*update,\s*delete,\s*select\s+on\s+public\.gecko_marketing_consents\s+from\s+anon;/i)
