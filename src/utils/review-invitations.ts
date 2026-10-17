@@ -4,7 +4,7 @@
  */
 
 import { SITE_URL } from '@/utils/seo'
-import type { EmailLocale } from '@/utils/resend'
+import { EMAIL_LOCALES, type EmailLocale } from '@/utils/email-locales'
 
 /** Krabi is UTC+7 all year, no DST (D-05). */
 const KRABI_OFFSET_MS = 7 * 3600_000
@@ -77,9 +77,9 @@ export function selectReviewInvitations(
   return { invite, remind }
 }
 
-/** fr -> fr; en, de, sv and anything else -> en (D-08). */
+/** A locale gets its own email copy once listed in EMAIL_LOCALES (fr, en); anything else -> en (D-08, D-09). */
 export function emailLocaleFor(locale: string): EmailLocale {
-  return locale === 'fr' ? 'fr' : 'en'
+  return (EMAIL_LOCALES as readonly string[]).includes(locale) ? (locale as EmailLocale) : 'en'
 }
 
 export function buildEmailReviewUrl(token: string): string {

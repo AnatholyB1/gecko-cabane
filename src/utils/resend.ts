@@ -15,7 +15,9 @@ export const RESEND_FROM_EMAIL =
 
 export const RESTAURANT_NOTIFICATION_EMAIL = process.env.RESTAURANT_NOTIFICATION_EMAIL
 
-export type EmailLocale = 'fr' | 'en'
+import type { EmailLocale } from './email-locales'
+export { EMAIL_LOCALES } from './email-locales'
+export type { EmailLocale } from './email-locales'
 
 const WHATSAPP_DISPLAY = '+66 81 958 5945'
 
@@ -78,6 +80,26 @@ const COPY: Record<
       `Your reservation has been cancelled, ${n}. Please get in touch if you would like to book another table.`,
     confirmedSubject: 'Reservation confirmed — Gecko Cabane',
     cancelledSubject: 'Reservation cancelled — Gecko Cabane',
+  },
+  de: {
+    dateLocale: 'de-DE',
+    tagline: 'Französisch-thailändische Küche · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thailand',
+    labels: { date: 'Datum', time: 'Uhrzeit', guests: 'Gäste', occasion: 'Anlass' },
+    pendingTitle: (n) => `Danke für Ihre Anfrage, ${n}`,
+    pendingIntro:
+      'Wir haben Ihre Reservierungsanfrage erhalten. Das Restaurant bestätigt sie in Kürze per E-Mail.',
+    pendingNote:
+      'Diese Reservierung ist noch nicht bestätigt – sie ist erst verbindlich, wenn das Restaurant sie bestätigt hat.',
+    pendingSubject: 'Ihre Reservierungsanfrage im Gecko Cabane',
+    changeLine: `Für Änderungen oder Stornierungen schreiben Sie uns bitte per WhatsApp an ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Reservierung bestätigt',
+    cancelledTitle: 'Reservierung storniert',
+    confirmedIntro: (n) => `Ihre Reservierung ist bestätigt, ${n}. Wir freuen uns darauf, Sie zu begrüßen.`,
+    cancelledIntro: (n) =>
+      `Ihre Reservierung wurde storniert, ${n}. Melden Sie sich gern bei uns, wenn Sie einen neuen Tisch reservieren möchten.`,
+    confirmedSubject: 'Reservierung bestätigt – Gecko Cabane',
+    cancelledSubject: 'Reservierung storniert – Gecko Cabane',
   },
 }
 
@@ -291,6 +313,22 @@ const REVIEW_COPY: Record<
     cta: 'Leave a review',
     fallback: (u) => `If the button does not show, copy this link: ${u}`,
     footer: 'You are receiving this message following your reservation at Gecko Cabane.',
+  },
+  de: {
+    greeting: (n) => `Guten Tag ${n},`,
+    invite: {
+      subject: 'Ihr Besuch im Gecko Cabane',
+      title: 'Danke für Ihren Besuch',
+      body: 'Danke, dass Sie bei uns zu Gast waren. Wenn Sie eine Minute Zeit haben, hilft uns eine Bewertung sehr.',
+    },
+    reminder: {
+      subject: 'Ein kurzes Wort zu Ihrem Besuch?',
+      title: 'Ein letztes Wort',
+      body: 'Wir schreiben Ihnen dazu kein drittes Mal. Wenn Sie Lust haben, hilft uns Ihre Bewertung sehr.',
+    },
+    cta: 'Bewertung abgeben',
+    fallback: (u) => `Falls die Schaltfläche nicht angezeigt wird, kopieren Sie diesen Link: ${u}`,
+    footer: 'Sie erhalten diese Nachricht im Anschluss an Ihre Reservierung im Gecko Cabane.',
   },
 }
 
