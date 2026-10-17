@@ -48,3 +48,22 @@ describe('no secrets in the public bundle', () => {
     expect(offenders).toEqual([])
   })
 })
+
+describe('newsletter and wifi secrets stay server-side', () => {
+  it('no NEXT_PUBLIC_BREVO, NEXT_PUBLIC_WIFI or NEXT_PUBLIC_NEWSLETTER variable under src/', () => {
+    const offenders = files
+      .filter((f) => /NEXT_PUBLIC_(BREVO|WIFI|NEWSLETTER)/.test(f.src))
+      .map((f) => f.p)
+    expect(offenders).toEqual([])
+  })
+
+  it("'use client' files never reference newsletter or wifi secrets nor import the Brevo client", () => {
+    const offenders = files
+      .filter((f) => /^\s*['"]use client['"]/m.test(f.src))
+      .filter((f) =>
+        /BREVO_API_KEY|BREVO_WEBHOOK_TOKEN|NEWSLETTER_SIGNING_SECRET|WIFI_PASSWORD|@\/utils\/brevo/.test(f.src)
+      )
+      .map((f) => f.p)
+    expect(offenders).toEqual([])
+  })
+})
