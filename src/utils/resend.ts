@@ -111,7 +111,8 @@ function baseTemplate(
   title: string,
   bodyHtml: string,
   locale: EmailLocale = 'fr',
-  footerNote?: string
+  footerNote?: string,
+  footerHtml?: string
 ): string {
   const c = COPY[locale]
   const noteHtml = footerNote ? `${escapeHtml(footerNote)}<br />\n                  ` : ''
@@ -141,6 +142,7 @@ function baseTemplate(
                   ${noteHtml}${c.address}<br />
                   ${WHATSAPP_DISPLAY}
                 </p>
+                ${footerHtml ?? ''}
               </td>
             </tr>
           </table>
@@ -330,4 +332,83 @@ export function reviewInvitationEmail(
     .filter(Boolean)
     .join('\n\n')
   return { subject: stripLineBreaks(k.subject), html, text }
+}
+
+// ---------------------------------------------------------------------------
+// Newsletter double opt-in confirmation (Phase 7, NEWS-01; D-02, D-04).
+// ---------------------------------------------------------------------------
+
+const NEWSLETTER_COPY: Record<
+  EmailLocale,
+  {
+    subject: string
+    reason: string
+    cta: string
+    fallback: string
+    expiry: string
+    ignore: string
+    unsubscribe: string
+    legal: string
+  }
+> = {
+  fr: {
+    subject: 'Confirmez votre inscription à Gecko Cabane',
+    reason: 'Vous avez demandé à recevoir la newsletter de Gecko Cabane.',
+    cta: 'Confirmer mon inscription',
+    fallback: "Si le bouton ne s'affiche pas, copiez ce lien : ",
+    expiry: 'Ce lien expire dans 30 jours.',
+    ignore: "Si vous n'avez rien demandé, ignorez cet e-mail : rien ne vous sera envoyé.",
+    unsubscribe: 'Se désinscrire',
+    legal: 'Conformément au PDPA B.E. 2562 et au RGPD.',
+  },
+  en: {
+    subject: 'Confirm your Gecko Cabane subscription',
+    reason: 'You asked to receive the Gecko Cabane newsletter.',
+    cta: 'Confirm my subscription',
+    fallback: 'If the button does not show, copy this link: ',
+    expiry: 'This link expires in 30 days.',
+    ignore: 'If you did not ask for this, ignore this email; nothing will be sent.',
+    unsubscribe: 'Unsubscribe',
+    legal: 'In line with PDPA B.E. 2562 and GDPR.',
+  },
+}
+
+export function newsletterConfirmEmail(
+  locale: EmailLocale,
+  urls: { confirm: string; unsubscribe: string }
+): { subject: string; html: string; text: string } {
+  const c = NEWSLETTER_COPY[locale]
+  const confirm = escapeHtml(urls.confirm)
+  const unsub = escapeHtml(urls.unsubscribe)
+  const html = baseTemplate(
+    escapeHtml(c.subject),
+    `
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(c.reason)}</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+      <tr>
+        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
+          <a href="${confirm}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(c.cta)}</a>
+        </td>
+      </tr>
+    </table>
+    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0 0 12px;">${escapeHtml(
+      c.fallback
+    )}${confirm}</p>
+    <p style="color:#5C4A3A;font-size:13px;margin:0 0 8px;">${escapeHtml(c.expiry)}</p>
+    <p style="color:#5C4A3A;font-size:13px;margin:0;">${escapeHtml(c.ignore)}</p>`,
+    locale,
+    undefined,
+    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${unsub}" style="color:#5C4A3A;">${escapeHtml(
+      c.unsubscribe
+    )}</a><br />${escapeHtml(c.legal)}</p>`
+  )
+  const text = [
+    c.reason,
+    `${c.cta}: ${urls.confirm}`,
+    c.expiry,
+    c.ignore,
+    `${c.unsubscribe}: ${urls.unsubscribe}`,
+    c.legal,
+  ].join('\n\n')
+  return { subject: stripLineBreaks(c.subject), html, text }
 }

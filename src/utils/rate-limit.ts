@@ -28,8 +28,10 @@ export function getClientIp(h: Headers): string | null {
   return first || null
 }
 
-export function hashKey(kind: 'ip' | 'email' | 'phone', value: string, secret: string): string {
-  const normalized = kind === 'email' ? value.toLowerCase() : value
+export type HashKind = 'ip' | 'email' | 'phone' | 'nl-ip' | 'nl-email'
+
+export function hashKey(kind: HashKind, value: string, secret: string): string {
+  const normalized = kind === 'email' || kind === 'nl-email' ? value.toLowerCase() : value
   return `${kind}:` + createHmac('sha256', secret).update(normalized).digest('hex')
 }
 
@@ -56,6 +58,46 @@ export async function checkReservationRateLimits(
         p_key: hashKey(kind, value, secret),
         p_limit: limit,
         p_window_seconds: windowSeconds,
+      })
+      if (error) {
+        Sentry.captureException(error)
+        continue
+      }
+      if (data === false) limited = true
+    } catch (e) {
+      Sentry.captureException(e)
+    }
+  }
+  return { limited }
+}
+
+/** Newsletter subscribe limits (D-02). Distinct key prefixes: never shared with reservations. */
+export const NEWSLETTER_RATE_LIMITS = {
+  ip: { limit: 5, windowSeconds: 3600 },
+  email: { limit: 3, windowSeconds: 86400 },
+} as const
+
+export async function checkNewsletterRateLimits(
+  admin: SupabaseClient,
+  ids: { ip: string | null; email: string }
+): Promise<{ limited: boolean }> {
+  const secret = process.env.RATE_LIMIT_SECRET
+  if (!secret) {
+    Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
+    return { limited: false }
+  }
+
+  const checks: Array<{ kind: 'nl-ip' | 'nl-email'; value: string; cfg: { limit: number; windowSeconds: number } }> = []
+  if (ids.ip) checks.push({ kind: 'nl-ip', value: ids.ip, cfg: NEWSLETTER_RATE_LIMITS.ip })
+  checks.push({ kind: 'nl-email', value: ids.email, cfg: NEWSLETTER_RATE_LIMITS.email })
+
+  let limited = false
+  for (const { kind, value, cfg } of checks) {
+    try {
+      const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
+        p_key: hashKey(kind, value, secret),
+        p_limit: cfg.limit,
+        p_window_seconds: cfg.windowSeconds,
       })
       if (error) {
         Sentry.captureException(error)
