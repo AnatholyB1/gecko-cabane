@@ -402,15 +402,15 @@ Because the page is EN-only and FR-less, the page JSON-LD can be omitted; at mos
 | A7 | Google Maps directions URL format | Home enrichments | Broken link; prefer existing place URL |
 | A8 | Admin UI already exposes an `is_active` toggle for menu pages so the owner can activate the Belgian page | Migration notes | If not, activation needs SQL |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Belgian wine and beer list (blocking MENU-02).**
+1. **Belgian wine and beer list (blocking MENU-02). RESOLVED: plans 03-07/03-08 handle owner content; page stays inactive until then.**
    - Known: owner provides a photo (D-01); nothing in DB.
    - Unclear: delivery date vs 1 Nov deadline.
    - Recommendation: schedule the data-entry task last; build everything else with the page inactive; verification of criterion 2 is `human_needed` until content exists.
-2. **Chef gluten-free confirmation timing.** Same dependency pattern; the code ships with all flags false, the legend and picto still render only where flagged. Decide whether the gluten-free legend shows when zero items are flagged (recommend: show legend only if at least one item is flagged, or show it with a note "being confirmed"; avoid implying coverage).
-3. **Landing page FR counterpart:** none now (D-14); confirm LanguageSwitcher handling (A4).
-4. **Full Menu JSON-LD on `/menu`:** include now or defer (recommendation: URL-only `hasMenu` for P1; full block optional).
+2. **Chef gluten-free confirmation timing. RESOLVED: legend entry only if at least one item flagged (plan 03-01).** Same dependency pattern; the code ships with all flags false, the legend and picto still render only where flagged. Decide whether the gluten-free legend shows when zero items are flagged (recommend: show legend only if at least one item is flagged, or show it with a note "being confirmed"; avoid implying coverage).
+3. **Landing page FR counterpart: RESOLVED: LanguageSwitcher hidden on EN-only page (plan 03-05).** none now (D-14); confirm LanguageSwitcher handling (A4).
+4. **Full Menu JSON-LD on `/menu`: RESOLVED: URL-only hasMenu (plan 03-02).** include now or defer (recommendation: URL-only `hasMenu` for P1; full block optional).
 
 ## Environment Availability
 
