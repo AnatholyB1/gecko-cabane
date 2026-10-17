@@ -33,7 +33,7 @@ Plans:
 - [x] 05-04-PLAN.md — Bouton LINE empilé sur WhatsApp, clics WhatsApp/LINE mesurés (wave 2)
 - [x] 05-05-PLAN.md — Migration 016, comptage des visites /review et clics sortants par source (wave 2)
 - [x] 05-06-PLAN.md — Ajout manuel de réservations admin (WhatsApp, téléphone, sans réservation) (wave 2)
-- [ ] 05-07-PLAN.md — Hero et images en next/image AVIF/WebP, mesure PageSpeed avant/après avec porte avant la vague 3 (wave 2, checkpoint)
+- [x] 05-07-PLAN.md — Hero et images en next/image AVIF/WebP, mesure PageSpeed avant/après avec porte avant la vague 3 (wave 2, checkpoint)
 - [ ] 05-08-PLAN.md — « Un souci ? » sur /review : POST protégé + email Resend au propriétaire (wave 3)
 - [ ] 05-09-PLAN.md — Page admin « Avis » : tableau mensuel, totaux manuels, modèle WhatsApp (wave 3)
 - [ ] 05-10-PLAN.md — #about enrichi (propriétaire, photo du couple) et « Comment venir » avec carte au clic (wave 4)
@@ -46,4 +46,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 6/13 | In Progress|  |
+| 5. Conversion et mesure | 7/13 | In Progress|  |

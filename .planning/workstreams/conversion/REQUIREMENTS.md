@@ -6,7 +6,7 @@
 
 ### SEO technique (SEO)
 
-- [ ] **SEO-08** (T7): Images hero en WebP/AVIF, `loading="lazy"` hors écran, LCP < 2,5 s en 4G, PageSpeed mobile ≥ 85
+- [x] **SEO-08** (T7): Images hero en WebP/AVIF, `loading="lazy"` hors écran, LCP < 2,5 s en 4G, PageSpeed mobile ≥ 85
 
 ### Carte (MENU)
 
