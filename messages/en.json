@@ -372,5 +372,75 @@
     "backToTop": "Back to top",
     "emptyTitle": "The menu is coming soon",
     "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
+  },
+  "newsletter": {
+    "form": {
+      "emailLabel": "Email address",
+      "consent": "I agree to receive news and offers from Gecko Cabane by email. I can unsubscribe at any time. See our <link>privacy policy</link> (PDPA B.E. 2562, GDPR).",
+      "resident": "I live in Krabi",
+      "submit": "Subscribe to the newsletter",
+      "submitRecipe": "Get the recipe",
+      "submitting": "Sending...",
+      "successTitle": "Check your inbox",
+      "successBody": "We have sent you an email. Click the button inside to confirm your subscription. Please check your spam folder too.",
+      "errorEmail": "This email address doesn't look valid. Check it and try again.",
+      "errorConsent": "Tick the box to agree to receive our emails.",
+      "errorServer": "Sign-up failed. Please try again in a moment or message us on WhatsApp.",
+      "errorRateLimit": "Too many attempts. Please try again in a few minutes."
+    },
+    "footer": {
+      "title": "Stay in touch with the kitchen",
+      "pitch": "At most one letter a month: menu news, seasons, stories from the kitchen."
+    },
+    "popup": {
+      "title": "Before you go: our Krabi food guide",
+      "body": "Subscribe and receive our favourite spots once you confirm your email.",
+      "close": "Close",
+      "regionLabel": "Newsletter sign-up"
+    },
+    "page": {
+      "metaTitle": "Crab curry recipe",
+      "title": "Chef Jariya's crab curry recipe",
+      "body": "Leave us your email and we will send you the recipe as soon as you confirm your subscription.",
+      "teaser": "The recipe arrives by email once you confirm your address."
+    },
+    "confirm": {
+      "metaTitle": "Confirm your subscription",
+      "title": "Confirm your subscription",
+      "button": "Confirm my subscription",
+      "confirming": "Confirming...",
+      "success": "Thank you, your subscription is confirmed.",
+      "already": "Your subscription was already confirmed. Thank you.",
+      "recipeCta": "Get the crab curry recipe",
+      "guideCta": "Download the food guide",
+      "back": "Back to the site",
+      "invalid": "This link is no longer valid. Please sign up again from the bottom of the home page.",
+      "invalidCta": "Sign up from the home page",
+      "error": "Sign-up failed. Please try again in a moment or message us on WhatsApp."
+    },
+    "unsubscribe": {
+      "metaTitle": "Unsubscribe",
+      "title": "Unsubscribe",
+      "button": "Unsubscribe me",
+      "unsubscribing": "Unsubscribing...",
+      "intro": "Address: {email}",
+      "success": "You are unsubscribed. You will no longer receive emails from us, in line with PDPA B.E. 2562 and GDPR.",
+      "legal": "Your data is handled in line with PDPA B.E. 2562 and GDPR.",
+      "resubscribe": "Changed your mind? Subscribe again",
+      "invalid": "This link is not valid. Email us to unsubscribe: {email}",
+      "error": "Unsubscribing failed. Please try again in a moment or message us on WhatsApp."
+    }
+  },
+  "wifi": {
+    "metaTitle": "WiFi",
+    "title": "Restaurant WiFi",
+    "network": "Network",
+    "password": "Password",
+    "copy": "Copy password",
+    "copied": "Copied",
+    "unavailableTitle": "Password unavailable",
+    "unavailableBody": "Please ask a member of staff for the WiFi password.",
+    "optionalTitle": "Get our news (optional)",
+    "optionalBody": "You do not need to subscribe to use the WiFi."
   }
 }
