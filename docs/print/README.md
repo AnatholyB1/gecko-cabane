@@ -35,7 +35,7 @@ Le texte allemand doit être relu et validé par la propriétaire avant impressi
 - Titre : « Eine Bewertung hilft uns sehr »
 - Corps : « Scannen Sie den Code, um eine Bewertung bei Google oder TripAdvisor zu hinterlassen. Danke, dass Sie diesen Moment mit uns geteilt haben. »
 
-Statut : en attente de relecture.
+Statut : DE relu et validé le 2026-10-17 (réponse du propriétaire : « every thing approved »). Aucun relevé séparé du scan du QR n'a été fourni par le propriétaire.
 
 ## Avant le tirage
 
