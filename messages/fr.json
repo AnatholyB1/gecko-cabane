@@ -237,7 +237,7 @@
     "metaTitle": "Politique de confidentialité",
     "metaDescription": "Comment Gecko Cabane, restaurant franco-thaï à Krabi, collecte et protège vos données personnelles (PDPA B.E. 2562 et RGPD).",
     "title": "Politique de confidentialité",
-    "lastUpdated": "Dernière mise à jour : 16 octobre 2026",
+    "lastUpdated": "Dernière mise à jour : 17 octobre 2026",
     "back": "Retour à l'accueil",
     "who": {
       "title": "Qui sommes-nous",
@@ -259,6 +259,17 @@
       "item1": "traiter et confirmer votre réservation ;",
       "item2": "vous contacter à propos de cette réservation ;",
       "item3": "vous envoyer notre newsletter, uniquement si vous avez coché la case de consentement. Nous ne vendons jamais vos données."
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "body": "Voici comment fonctionne notre newsletter et ce que nous retenons d'une inscription :",
+      "item1": "vous pouvez vous inscrire depuis le pied de page du site, la fenêtre d'inscription, la page du QR code de l'addition, la page WiFi ou la case du formulaire de réservation ;",
+      "item2": "double inscription : rien n'est envoyé avant que vous cliquiez sur le lien de confirmation. Nous conservons la date, la source, la langue et la version du texte de consentement (newsletter-2026-10-17) ;",
+      "item3": "Resend (emails transactionnels) et Brevo (newsletter) traitent votre adresse pour nous, uniquement pour l'envoi ;",
+      "item4": "pour adapter nos messages, nous retenons votre langue, votre pays, votre statut de résident de Krabi (case cochée ou numéro thaïlandais) et la date de votre dernière visite. Le pays vient de votre numéro de téléphone si vous avez réservé, sinon d'une localisation approximative à partir du réseau, pour les inscriptions faites sur le site uniquement : seul le pays est retenu et l'adresse IP n'est pas conservée. Les inscriptions faites au restaurant depuis le QR code de l'addition ou la page WiFi n'utilisent pas la localisation réseau, car elle indiquerait toujours la Thaïlande ;",
+      "item5": "la fenêtre d'inscription mémorise dans votre navigateur, pendant 90 jours, le fait qu'elle a été affichée (sans identifiant) ;",
+      "item6": "au plus une newsletter par mois en dehors de l'email de bienvenue et des emails après la visite. Chaque email contient un lien de désinscription, et la désinscription est enregistrée immédiatement ;",
+      "item7": "base légale : votre consentement, conformément au PDPA B.E. 2562 et au RGPD. Vous pouvez le retirer à tout moment."
     },
     "rights": {
       "title": "Base légale et vos droits",

@@ -16,6 +16,7 @@ const SECTIONS = [
   { id: 'who', items: 0, contact: true },
   { id: 'data', items: 6, contact: false },
   { id: 'purpose', items: 3, contact: false },
+  { id: 'newsletter', items: 7, contact: false },
   { id: 'rights', items: 6, contact: false },
   { id: 'retention', items: 3, contact: false },
   { id: 'sharing', items: 3, contact: false },
