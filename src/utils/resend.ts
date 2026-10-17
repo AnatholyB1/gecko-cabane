@@ -491,3 +491,59 @@ export function newsletterWelcomeEmail(
     .join('\n\n')
   return { subject: stripLineBreaks(c.subject), html, text }
 }
+
+// ---------------------------------------------------------------------------
+// One-shot confirmation for past reservation-form consents (D-03, NEWS-01).
+// ---------------------------------------------------------------------------
+
+const LEGACY_COPY: Record<EmailLocale, { reason: string; only: string }> = {
+  fr: {
+    reason: 'Lors de votre réservation, vous avez coché la case pour recevoir nos actualités.',
+    only: 'Nous ne vous écrirons plus si vous ne confirmez pas.',
+  },
+  en: {
+    reason: 'When you booked, you ticked the box to receive our news.',
+    only: 'We will not write to you again unless you confirm.',
+  },
+}
+
+export function newsletterLegacyConfirmEmail(
+  locale: EmailLocale,
+  urls: { confirm: string; unsubscribe: string }
+): { subject: string; html: string; text: string } {
+  const c = NEWSLETTER_COPY[locale]
+  const l = LEGACY_COPY[locale]
+  const confirm = escapeHtml(urls.confirm)
+  const unsub = escapeHtml(urls.unsubscribe)
+  const html = baseTemplate(
+    escapeHtml(c.subject),
+    `
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 12px;">${escapeHtml(l.reason)}</p>
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(l.only)}</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+      <tr>
+        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
+          <a href="${confirm}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(c.cta)}</a>
+        </td>
+      </tr>
+    </table>
+    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0 0 12px;">${escapeHtml(
+      c.fallback
+    )}${confirm}</p>
+    <p style="color:#5C4A3A;font-size:13px;margin:0;">${escapeHtml(c.expiry)}</p>`,
+    locale,
+    undefined,
+    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${unsub}" style="color:#5C4A3A;">${escapeHtml(
+      c.unsubscribe
+    )}</a><br />${escapeHtml(c.legal)}</p>`
+  )
+  const text = [
+    l.reason,
+    l.only,
+    `${c.cta}: ${urls.confirm}`,
+    c.expiry,
+    `${c.unsubscribe}: ${urls.unsubscribe}`,
+    c.legal,
+  ].join('\n\n')
+  return { subject: stripLineBreaks(c.subject), html, text }
+}

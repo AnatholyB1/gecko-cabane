@@ -7,9 +7,9 @@
  */
 
 import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
-import { krabiToday } from './review-invitations'
+import { addDays, krabiToday, REVIEW_ELIGIBLE_STATUSES } from './review-invitations'
 import { GEO_ALLOWED_SOURCES, NEWSLETTER_LOCALES } from './newsletter-schema'
-import type { LedgerRow } from './newsletter-ledger'
+import { groupByEmail, resolveEmailState, type LedgerRow } from './newsletter-ledger'
 
 export function phoneCountry(phone: string | null | undefined): string | null {
   if (!phone) return null
@@ -92,4 +92,92 @@ export function buildSubscriberProfile(
     consentAt: row.consented_at,
     lastVisit,
   }
+}
+
+// ---------------------------------------------------------------------------
+// Daily Brevo sync selectors (D-05, D-07, D-15, D-03). Pure.
+// ---------------------------------------------------------------------------
+
+export interface SyncReservation {
+  customer_email: string | null
+  reservation_date: string
+  customer_phone: string | null
+  status: string
+}
+
+export interface SyncUpdate {
+  row: LedgerRow
+  profile: SubscriberProfile
+}
+
+/**
+ * Subscribers whose visit date, country or resident flag differs from what was
+ * last pushed. Only honored reservations (confirmed/completed, date <= today).
+ */
+export function selectSyncUpdates(
+  actives: Map<string, LedgerRow>,
+  reservations: SyncReservation[],
+  today: string
+): SyncUpdate[] {
+  const latestByEmail = new Map<string, SyncReservation>()
+  for (const r of reservations) {
+    if (!r.customer_email) continue
+    if (!(REVIEW_ELIGIBLE_STATUSES as readonly string[]).includes(r.status)) continue
+    if (r.reservation_date > today) continue
+    const key = r.customer_email.trim().toLowerCase()
+    const prev = latestByEmail.get(key)
+    if (!prev || r.reservation_date >= prev.reservation_date) latestByEmail.set(key, r)
+  }
+
+  const updates: SyncUpdate[] = []
+  for (const [email, row] of actives) {
+    const reservation = latestByEmail.get(email.toLowerCase())
+    const profile = buildSubscriberProfile(row, {
+      phone: reservation?.customer_phone ?? null,
+      lastVisit: reservation?.reservation_date ?? null,
+    })
+    const changed =
+      profile.lastVisit !== row.last_visit_synced ||
+      profile.country !== row.country ||
+      profile.resident !== row.is_resident
+    if (changed) updates.push({ row, profile })
+  }
+  return updates
+}
+
+/**
+ * Fallback list triggers: J+2 after the visit (after the J+1 review email) and
+ * J+3 for tourists still in town (D-07).
+ */
+export function selectSequenceListAdds(
+  profiles: { email: string; lastVisit: string | null; resident: boolean }[],
+  today: string
+): { afterVisit: string[]; duringStay: string[] } {
+  const j2 = addDays(today, -2)
+  const j3 = addDays(today, -3)
+  return {
+    afterVisit: profiles.filter((p) => p.lastVisit === j2).map((p) => p.email),
+    duringStay: profiles.filter((p) => p.lastVisit === j3 && !p.resident).map((p) => p.email),
+  }
+}
+
+/**
+ * D-03: emails that ticked the reservation-form box, were never sent a
+ * confirmation mail (on any row) and are still pending. Oldest first.
+ */
+export function selectLegacyConfirmations(allRows: LedgerRow[], limit: number): LedgerRow[] {
+  const picked: LedgerRow[] = []
+  for (const rows of groupByEmail(allRows).values()) {
+    if (rows.some((r) => r.confirmation_sent_at !== null)) continue
+    if (resolveEmailState(rows).status !== 'pending') continue
+    const forms = rows.filter((r) => r.source === 'reservation_form' && r.consent)
+    if (forms.length === 0) continue
+    const latestForm = forms.reduce((best, r) => {
+      const d = Date.parse(r.consented_at) - Date.parse(best.consented_at)
+      return d > 0 || (d === 0 && r.id > best.id) ? r : best
+    })
+    picked.push(latestForm)
+  }
+  picked.sort((a, b) => Date.parse(a.consented_at) - Date.parse(b.consented_at) || a.id - b.id)
+  return picked.slice(0, Math.max(0, limit))
 }
