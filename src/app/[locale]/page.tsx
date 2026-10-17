@@ -6,6 +6,7 @@ import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuTeaser from '@/components/MenuTeaser'
 import { Link } from '@/i18n/navigation'
 import ReservationForm from '@/components/ReservationForm'
+import SocialProof from '@/components/SocialProof'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
@@ -516,76 +517,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
         </section>
 
-        {/* ═══ SOCIAL ═══ */}
-        <section className="py-20 px-6 bg-gc-void relative overflow-hidden">
-          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
-          <div className="max-w-[860px] mx-auto text-center relative z-10">
-            <h2
-              className="font-cinzel font-normal text-gc-ivory mb-4"
-              style={{ fontSize: 'clamp(20px, 2.5vw, 32px)' }}
-            >
-              {t('social.title')}
-            </h2>
-            <GcDivider className="mb-8" />
-            <p className="font-cormorant italic text-[18px] text-gc-ivory/65 mb-12 max-w-xl mx-auto">
-              {t('social.description')}
-            </p>
-            <div className="mb-12">
-              <p className="font-cinzel text-[20px] font-semibold text-gc-ivory mb-3">
-                {t('home.reviewsLine')}
-              </p>
-              <a
-                href={GOOGLE_PLACE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-raleway font-light text-[12px] tracking-[0.15em] uppercase text-gc-gold underline hover:text-gc-ivory transition-colors inline-flex items-center min-h-11"
-              >
-                {t('home.reviewsLink')} →
-              </a>
-            </div>
-            <div className="grid md:grid-cols-2 gap-5">
-              <a
-                href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
-              >
-                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">TripAdvisor</p>
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-gc-gold text-gc-gold" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                  ))}
-                </div>
-                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
-                  {t('social.tripAdvisorText')}
-                </p>
-                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
-                  {t('social.readReviews')} →
-                </span>
-              </a>
-
-              <a
-                href="https://www.facebook.com/GeckoCabaneRestaurant/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
-              >
-                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">Facebook</p>
-                <svg className="w-8 h-8 fill-gc-gold opacity-50 mb-4" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
-                  {t('social.facebookText')}
-                </p>
-                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
-                  {t('social.followUs')} →
-                </span>
-              </a>
-            </div>
-          </div>
-        </section>
+        {/* ═══ SOCIAL PROOF ═══ */}
+        <SocialProof locale={locale as SeoLocale} />
 
         {/* ═══ RESERVATION ═══ */}
         <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
@@ -611,6 +544,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             <ReservationForm />
+            <p className="mt-6 text-center font-cormorant italic text-[17px] leading-[1.5] text-gc-ivory/65">{t('payment.note')}</p>
           </div>
         </section>
 
