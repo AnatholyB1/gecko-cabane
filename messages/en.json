@@ -372,5 +372,23 @@
     "backToTop": "Back to top",
     "emptyTitle": "The menu is coming soon",
     "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
+  },
+  "socialProof": {
+    "eyebrow": "Guests recommend us",
+    "title": "What our guests say",
+    "ratingAria": "Rated {rating} out of 5, {count} reviews",
+    "countLabel": "from {count} reviews",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Original review in {language}",
+    "viewSource": "See {name}'s review on {source}",
+    "starsSr": "{rating} out of 5",
+    "leaveReview": "Leave a review",
+    "googleReviews": "Read the reviews on Google",
+    "tripadvisorReviews": "Read the reviews on TripAdvisor",
+    "facebook": "Follow Gecko Cabane on Facebook"
+  },
+  "payment": {
+    "note": "Cash, cards, PromptPay — a 5% fee applies to card payments."
   }
 }

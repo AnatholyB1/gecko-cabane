@@ -6,6 +6,7 @@
  */
 
 import type { Metadata } from 'next'
+import { aggregateRatingFor } from './social-proof'
 
 // ---------------------------------------------------------------------------
 // URLs and locales
@@ -166,11 +167,12 @@ export function buildRestaurantJsonLd(args: {
   description: string
   hoursRows: OpeningHoursRow[]
   sameAs?: readonly string[]
+  aggregateRating?: ReturnType<typeof aggregateRatingFor>
 }): Record<string, unknown> {
-  const { locale, description, hoursRows, sameAs = SAME_AS } = args
+  const { locale, description, hoursRows, sameAs = SAME_AS, aggregateRating = aggregateRatingFor() } = args
   const hours = mapOpeningHours(hoursRows)
 
-  // No rating block (D-07: unverifiable). hasMenu = URL of the localized /menu
+  // aggregateRating (phase 5 D-14): from social-proof.ts, the same constants as the visible badge. hasMenu = URL of the localized /menu
   // page (phase 3, D-10); the deprecated `menu` property stays absent.
   return {
     '@context': 'https://schema.org',
@@ -200,6 +202,7 @@ export function buildRestaurantJsonLd(args: {
     acceptsReservations: true,
     paymentAccepted: 'Cash, Credit Card',
     currenciesAccepted: 'THB',
+    ...(aggregateRating ? { aggregateRating } : {}),
     ...(hours.length > 0 ? { openingHoursSpecification: hours } : {}),
     ...(sameAs.length > 0 ? { sameAs: [...sameAs] } : {}),
   }

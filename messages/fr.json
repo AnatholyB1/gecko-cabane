@@ -372,5 +372,23 @@
     "backToTop": "Haut de page",
     "emptyTitle": "La carte arrive bientôt",
     "emptyBody": "Notre carte est en cours de mise à jour. Appelez-nous au +66 81 958 5945 ou réservez en ligne."
+  },
+  "socialProof": {
+    "eyebrow": "Ils nous recommandent",
+    "title": "Ce que disent nos clients",
+    "ratingAria": "Note {rating} sur 5, {count} avis",
+    "countLabel": "sur {count} avis",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Avis original en {language}",
+    "viewSource": "Voir l'avis de {name} sur {source}",
+    "starsSr": "{rating} sur 5",
+    "leaveReview": "Laisser un avis",
+    "googleReviews": "Lire les avis sur Google",
+    "tripadvisorReviews": "Lire les avis sur TripAdvisor",
+    "facebook": "Suivre Gecko Cabane sur Facebook"
+  },
+  "payment": {
+    "note": "Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte."
   }
 }
