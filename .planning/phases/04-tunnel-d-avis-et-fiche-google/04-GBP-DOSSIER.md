@@ -1,6 +1,6 @@
 # Dossier Google Business Profile — Gecko Cabane (OPS-01)
 
-Statut : prêt pour la session Chrome (2026-10-17). Aucun nom, adresse, téléphone, horaire ni condition Google n'est modifié.
+Statut : **reporté** (2026-10-17) — le propriétaire attend l'accès au compte Google Business Profile ; dossier prêt, rien appliqué. Constat de l'état public de la fiche (lecture seule) : catégorie unique « Thai restaurant », pas de bouton de réservation, pas de lien carte du site, pas de description propriétaire. Aucun nom, adresse, téléphone, horaire ni condition Google n'est modifié.
 
 ## Accord du propriétaire
 
