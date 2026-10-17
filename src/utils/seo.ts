@@ -105,6 +105,21 @@ export const SAME_AS: readonly string[] = [
   'https://www.instagram.com/geckocabane/',
 ]
 
+// Review destinations (D-12). Both URLs are centralized here so they can be swapped
+// (e.g. for the g.page/r/.../review link from the GBP dashboard) without touching the UI.
+// The TripAdvisor UserReviewEdit schema is undocumented by TripAdvisor: owner device test in 04-07.
+export const GOOGLE_PLACE_ID = 'ChIJozpAo2GUUTARABLcICH3H7I'
+export const TRIPADVISOR_REVIEW_SLUG =
+  'g297927-d2413872-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province'
+
+export function googleReviewUrl(): string {
+  return `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`
+}
+
+export function tripAdvisorReviewUrl(): string {
+  return `https://www.tripadvisor.com/UserReviewEdit-${TRIPADVISOR_REVIEW_SLUG}.html`
+}
+
 export type OpeningHoursRow = {
   day_of_week: number
   is_open: boolean | null
