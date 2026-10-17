@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { locales } from '@/i18n/config'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import NewsletterPopup from '@/components/NewsletterPopup'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
 
 type Props = {
@@ -44,6 +45,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <NextIntlClientProvider messages={messages}>
       {children}
       <WhatsAppButton />
+      <NewsletterPopup />
     </NextIntlClientProvider>
   )
 }

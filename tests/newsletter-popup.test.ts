@@ -100,3 +100,27 @@ describe('event route (source scan)', () => {
   })
   it('reads no IP', () => expect(route).not.toContain('getClientIp'))
 })
+
+describe('component and layout (source scan)', () => {
+  const comp = read('src/components/NewsletterPopup.tsx')
+  it('is a client component with the required hooks', () => {
+    expect(comp.trimStart().startsWith("'use client'")).toBe(true)
+    for (const s of [
+      'POPUP_STORAGE_KEY',
+      'reservation',
+      'aria-modal',
+      'role="region"',
+      'api/newsletter/event',
+      'source="popup"',
+    ]) {
+      expect(comp).toContain(s)
+    }
+  })
+  it('never locks scroll and has a single full-screen overlay', () => {
+    expect(comp).not.toMatch(/overflow-hidden|body\.style\.overflow/)
+    expect(comp.match(/inset-0/g)?.length).toBe(1)
+  })
+  it('is mounted in the locale layout', () => {
+    expect(read('src/app/[locale]/layout.tsx')).toContain('<NewsletterPopup')
+  })
+})
