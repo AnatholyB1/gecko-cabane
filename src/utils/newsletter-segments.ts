@@ -110,15 +110,11 @@ export interface SyncUpdate {
   profile: SubscriberProfile
 }
 
-/**
- * Subscribers whose visit date, country or resident flag differs from what was
- * last pushed. Only honored reservations (confirmed/completed, date <= today).
- */
-export function selectSyncUpdates(
-  actives: Map<string, LedgerRow>,
+/** Latest honored reservation (confirmed/completed, date <= today) per lower-cased email. */
+export function latestHonoredByEmail(
   reservations: SyncReservation[],
   today: string
-): SyncUpdate[] {
+): Map<string, SyncReservation> {
   const latestByEmail = new Map<string, SyncReservation>()
   for (const r of reservations) {
     if (!r.customer_email) continue
@@ -128,14 +124,35 @@ export function selectSyncUpdates(
     const prev = latestByEmail.get(key)
     if (!prev || r.reservation_date >= prev.reservation_date) latestByEmail.set(key, r)
   }
+  return latestByEmail
+}
+
+/** Profile of a subscriber enriched with their latest honored reservation, if any. */
+export function profileWithReservation(
+  row: LedgerRow,
+  latest: Map<string, SyncReservation>
+): SubscriberProfile {
+  const reservation = latest.get(row.email.toLowerCase())
+  return buildSubscriberProfile(row, {
+    phone: reservation?.customer_phone ?? null,
+    lastVisit: reservation?.reservation_date ?? null,
+  })
+}
+
+/**
+ * Subscribers whose visit date, country or resident flag differs from what was
+ * last pushed. Only honored reservations (confirmed/completed, date <= today).
+ */
+export function selectSyncUpdates(
+  actives: Map<string, LedgerRow>,
+  reservations: SyncReservation[],
+  today: string
+): SyncUpdate[] {
+  const latestByEmail = latestHonoredByEmail(reservations, today)
 
   const updates: SyncUpdate[] = []
-  for (const [email, row] of actives) {
-    const reservation = latestByEmail.get(email.toLowerCase())
-    const profile = buildSubscriberProfile(row, {
-      phone: reservation?.customer_phone ?? null,
-      lastVisit: reservation?.reservation_date ?? null,
-    })
+  for (const row of actives.values()) {
+    const profile = profileWithReservation(row, latestByEmail)
     const changed =
       profile.lastVisit !== row.last_visit_synced ||
       profile.country !== row.country ||
