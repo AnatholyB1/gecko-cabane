@@ -1,7 +1,7 @@
 ---
 phase: 7
 slug: newsletter
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-10-17
