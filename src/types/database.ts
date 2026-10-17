@@ -98,6 +98,7 @@ export interface MenuItem {
   is_available: boolean
   is_vegetarian: boolean
   is_spicy: boolean
+  is_gluten_free?: boolean
   allergens: string | null
   display_order: number
   created_at: string
