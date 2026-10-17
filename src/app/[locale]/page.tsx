@@ -5,12 +5,15 @@ import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuTeaser from '@/components/MenuTeaser'
 import { Link } from '@/i18n/navigation'
+import NextLink from 'next/link'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import GuidesMenu from '@/components/GuidesMenu'
+import { getGuideItems } from '@/components/guideItems'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import { localizedPageMetadata } from '@/utils/page-metadata'
-import { isPublished, SAME_AS, slugFor, toSeoLocale, type SeoLocale } from '@/utils/seo'
+import { isPublished, SAME_AS, slugFor, toSeoLocale, TRIPADVISOR_URL, guidesFor, type SeoLocale } from '@/utils/seo'
 
 // Google place URL, taken from the shared sameAs list (no duplicated literal).
 const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
@@ -30,6 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations()
+  const guideItems = await getGuideItems(locale)
+  const footerGuides = guidesFor(toSeoLocale(locale))
 
   return (
     <div className="min-h-screen bg-gc-void font-cormorant">
@@ -56,7 +61,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           >
             GECKO CABANE
           </a>
-          <div className="hidden md:flex gap-8 font-raleway font-light text-[13px] tracking-[0.2em] uppercase" role="menubar">
+          <ul className="hidden md:flex gap-8 font-raleway font-light text-[13px] tracking-[0.2em] uppercase">
             {[
               { href: '#about', key: 'common.about' },
               { href: '#menu', key: 'common.menu' },
@@ -65,27 +70,28 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               { href: '#contact', key: 'common.contact' },
             ].map(({ href, key }) =>
               key === 'common.menu' ? (
-                <Link
-                  key={href}
-                  href="/menu"
-                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
-                  role="menuitem"
-                >
-                  {t(key as Parameters<typeof t>[0])}
-                </Link>
+                <li key={href}>
+                  <Link
+                    href="/menu"
+                    className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  >
+                    {t(key as Parameters<typeof t>[0])}
+                  </Link>
+                </li>
               ) : (
-                <a
-                  key={href}
-                  href={href}
-                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
-                  role="menuitem"
-                >
-                  {t(key as Parameters<typeof t>[0])}
-                </a>
+                <li key={href}>
+                  <a
+                    href={href}
+                    className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  >
+                    {t(key as Parameters<typeof t>[0])}
+                  </a>
+                </li>
               ),
             )}
-          </div>
-          <div className="flex items-center gap-6">
+          </ul>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <GuidesMenu items={guideItems} toggleLabel={t('guides.toggle')} navLabel={t('guides.ariaLabel')} />
             <LanguageSwitcher />
             <a
               href="#reservation"
@@ -545,7 +551,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
             <div className="grid md:grid-cols-2 gap-5">
               <a
-                href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
+                href={TRIPADVISOR_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
@@ -770,6 +776,25 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">
                 {t('common.menu')}
               </Link>
+              {footerGuides.length > 0 && (
+                <nav aria-label={t('footer.guidesTitle')} className="mt-4">
+                  <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-2">
+                    {t('footer.guidesTitle')}
+                  </h4>
+                  <ul>
+                    {footerGuides.map((g) => (
+                      <li key={g.href}>
+                        <NextLink
+                          href={g.href}
+                          className="inline-flex items-center min-h-11 md:min-h-0 font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors"
+                        >
+                          {t(`nav.${g.namespace}` as Parameters<typeof t>[0])}
+                        </NextLink>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              )}
             </div>
             <div>
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
