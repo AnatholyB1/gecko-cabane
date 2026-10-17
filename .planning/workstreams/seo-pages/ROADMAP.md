@@ -24,13 +24,13 @@ Workstream parallèle extrait du ROADMAP principal. Phases 1 à 4 terminées (vo
   4. TripAdvisor est à jour avec le lien du site vers `.com`, et nom, adresse, téléphone sont identiques sur toutes les plateformes
   5. Posts Google, modèles de réponse aux avis, liste de blogs et dossier concierge sont prêts, rien n'est envoyé sans accord du propriétaire
 
-**Plans:** 15 plans
+**Plans:** 4/15 plans executed
 
 Plans:
-- [ ] 06-01-PLAN.md — Slug registry, pathnames routing, noindex gate; FR landing published at /fr/restaurant-francais-krabi (W1)
-- [ ] 06-02-PLAN.md — Reservations accept de/sv (phone default, English emails until review) (W1)
-- [ ] 06-03-PLAN.md — docs/ph6: index, NAP audit, TripAdvisor texts, 4 weeks of Google posts, review replies (W1)
-- [ ] 06-04-PLAN.md — docs/ph6: blog/guide outreach and concierge dossier + PDF (W1)
+- [x] 06-01-PLAN.md — Slug registry, pathnames routing, noindex gate; FR landing published at /fr/restaurant-francais-krabi (W1)
+- [x] 06-02-PLAN.md — Reservations accept de/sv (phone default, English emails until review) (W1)
+- [x] 06-03-PLAN.md — docs/ph6: index, NAP audit, TripAdvisor texts, 4 weeks of Google posts, review replies (W1)
+- [x] 06-04-PLAN.md — docs/ph6: blog/guide outreach and concierge dossier + PDF (W1)
 - [ ] 06-05-PLAN.md — Shared SeoLandingPage + À découvrir; romantic dinner EN/FR (W2)
 - [ ] 06-06-PLAN.md — Where to eat in Krabi Town EN/FR (W3)
 - [ ] 06-07-PLAN.md — Getting here from Ao Nang (EN, live); wine and Belgian beer (EN, gated) (W4)
@@ -48,4 +48,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 6. Plan de pages SEO, allemand/suédois et présence externe | 0/15 | Planned | - |
+| 6. Plan de pages SEO, allemand/suédois et présence externe | 4/15 | In Progress|  |
