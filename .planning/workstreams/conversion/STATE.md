@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 5
 current_plan: 1
 status: executing
-stopped_at: Phase 5 planned (13 plans)
-last_updated: "2026-10-17T17:54:49.638Z"
+stopped_at: "Phase 5: 11/13 plans done; 05-12/05-13 await owner"
+last_updated: "2026-10-17T17:55:27.596Z"
 last_activity: 2026-10-17
 progress:
   total_phases: 1
@@ -34,5 +34,5 @@ Plan: 12 of 13
 
 ## Session Continuity
 
-**Stopped At:** Phase 5 planned (13 plans)
-**Resume File:** None
+**Stopped At:** Phase 5: 11/13 plans done; 05-12/05-13 await owner
+**Resume File:** .planning/workstreams/conversion/phases/05-conversion-et-mesure/05-12-PLAN.md
