@@ -9,7 +9,10 @@ import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
-import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
+import { buildPageMetadata, LOCALES, SAME_AS, type SeoLocale } from '@/utils/seo'
+
+// Google place URL, taken from the shared sameAs list (no duplicated literal).
+const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: raw } = await params
@@ -517,6 +520,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <p className="font-cormorant italic text-[18px] text-gc-ivory/65 mb-12 max-w-xl mx-auto">
               {t('social.description')}
             </p>
+            <div className="mb-12">
+              <p className="font-cinzel text-[20px] font-semibold text-gc-ivory mb-3">
+                {t('home.reviewsLine')}
+              </p>
+              <a
+                href={GOOGLE_PLACE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-raleway font-light text-[12px] tracking-[0.15em] uppercase text-gc-gold underline hover:text-gc-ivory transition-colors inline-flex items-center min-h-11"
+              >
+                {t('home.reviewsLink')} →
+              </a>
+            </div>
             <div className="grid md:grid-cols-2 gap-5">
               <a
                 href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
@@ -626,6 +642,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   Krabi Town 81000<br />
                   {t('contactSection.thailand')}
                 </address>
+                <a
+                  href={GOOGLE_PLACE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-text-dark px-6 py-3 min-h-11 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-all mb-8 focus:outline-none focus:ring-1 focus:ring-gc-gold"
+                >
+                  {t('home.directionsLink')} →
+                </a>
                 <div className="border-t border-gc-aged pt-6">
                   <h4 className="font-cinzel font-normal text-[13px] tracking-[0.15em] uppercase text-gc-text-dark mb-4">
                     {t('contactSection.reservationTitle')}
