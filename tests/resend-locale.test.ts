@@ -8,7 +8,10 @@ import {
   customerStatusEmail,
   restaurantNotificationEmail,
   formatReservationDate,
+  reviewInvitationEmail,
+  EMAIL_LOCALES,
 } from '../src/utils/resend'
+import { emailLocaleFor } from '../src/utils/review-invitations'
 
 const r = {
   customer_name: 'Alice',
@@ -67,5 +70,21 @@ describe('restaurantNotificationEmail', () => {
     expect(html).toContain('Langue du client')
     expect(html).toContain('EN')
     expect(html).toContain('lang="fr"')
+  })
+})
+
+describe('German email copy (inactive until DE publication, D-09)', () => {
+  it('has COPY.de and REVIEW_COPY.de entries', () => {
+    const pending = customerPendingEmail(r, 'de')
+    expect(pending.html).toContain('lang="de"')
+    expect(pending.subject).not.toBe(customerPendingEmail(r, 'en').subject)
+    const rev = reviewInvitationEmail('de', 'https://example.com/review?rid=x', 'invite', 'Alice')
+    expect(rev.subject).not.toBe(reviewInvitationEmail('en', 'https://example.com/review?rid=x', 'invite', 'Alice').subject)
+  })
+  it('EMAIL_LOCALES whitelist keeps de on English emails', () => {
+    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en'])
+    expect(emailLocaleFor('de')).toBe('en')
+    expect(emailLocaleFor('fr')).toBe('fr')
+    expect(emailLocaleFor('sv')).toBe('en')
   })
 })
