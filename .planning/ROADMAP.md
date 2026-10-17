@@ -172,7 +172,7 @@ Plans:
 **Wave 1**
 
 - [x] 04-01-PLAN.md — /review, /avis, /bewertung aliases + noindex /{locale}/review page, Google then TripAdvisor (REV-01)
-- [ ] 04-02-PLAN.md — QR to /review?src=qr, bill insert + A6 table tent PDFs FR/EN/DE (REV-04) [checkpoint]
+- [x] 04-02-PLAN.md — QR to /review?src=qr, bill insert + A6 table tent PDFs FR/EN/DE (REV-04) [checkpoint]
 - [ ] 04-03-PLAN.md — Google Business Profile dossier + owner-approved Chrome session (OPS-01) [checkpoint]
 - [x] 04-04-PLAN.md — TDD: migration 014 (review_token + tracking columns), eligibility/Krabi date logic, invitation email (REV-02, REV-03)
 
@@ -183,7 +183,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 04-07-PLAN.md — Launch: owner approval, [BLOCKING] migration 014 push, CRON_SECRET, deploy, probes, device test [checkpoint]
+- [x] 04-07-PLAN.md — Launch: owner approval, [BLOCKING] migration 014 push, CRON_SECRET, deploy, probes, device test [checkpoint]
 **UI hint**: yes
 
 ### Phase 5: Conversion et mesure
@@ -261,7 +261,7 @@ Plans:
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete    | 2026-10-17 |
 | 3. Carte HTML et pages clés | 8/8 | Complete    | 2026-10-17 |
-| 4. Tunnel d'avis et fiche Google | 4/7 | In Progress|  |
+| 4. Tunnel d'avis et fiche Google | 6/7 | In Progress|  |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |
 | 7. Newsletter | 0/TBD | Not started | - |

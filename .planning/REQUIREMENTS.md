@@ -65,7 +65,7 @@
 - [x] **REV-01** (A1) [P1]: `/review` (EN), `/avis` (FR), `/bewertung` (DE) redirigent selon la langue et montrent deux boutons, Google en premier puis TripAdvisor ; un clic depuis le mobile ouvre la fenêtre d'avis
 - [x] **REV-02** (A2) [P1]: L'admin permet de marquer une réservation « honorée » ou « no-show » ; sans annulation elle est « honorée » par défaut
 - [x] **REV-03** (A3) [P1]: Un email J+1 à 11h (heure de Krabi) part via Resend, dans la langue de la réservation, avec lien `/review?rid=…&src=email`, uniquement pour les réservations honorées ; un seul rappel à J+5 si le lien n'a pas été cliqué
-- [ ] **REV-04** (A4) [P1]: Un QR code vers `/review?src=qr` est prêt à imprimer pour l'addition et le chevalet de table, textes courts FR/EN/DE
+- [x] **REV-04** (A4) [P1]: Un QR code vers `/review?src=qr` est prêt à imprimer pour l'addition et le chevalet de table, textes courts FR/EN/DE
 - [ ] **REV-05** (A5): L'admin fournit un modèle de message WhatsApp avec lien `/review?src=wa`
 - [ ] **REV-06** (A6): Les clics sur `/review` sont comptés par source (email, QR, WhatsApp) et un tableau de suivi mensuel compare avis Google et TripAdvisor
 - [ ] **REV-07**: Le champ « Un souci ? » de `/review` envoie un email au propriétaire dès réception, affiché en même temps que les boutons d'avis, sans filtrage
@@ -155,7 +155,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | REV-01 | Phase 4 | Complete |
 | REV-02 | Phase 4 | Complete |
 | REV-03 | Phase 4 | Complete |
-| REV-04 | Phase 4 | Pending |
+| REV-04 | Phase 4 | Complete |
 | OPS-01 | Phase 4 | Pending |
 | SEO-08 | Phase 5 | Pending |
 | MENU-03 | Phase 5 | Pending |
