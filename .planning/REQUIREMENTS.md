@@ -62,7 +62,7 @@
 
 ### Tunnel d'avis (REV)
 
-- [ ] **REV-01** (A1) [P1]: `/review` (EN), `/avis` (FR), `/bewertung` (DE) redirigent selon la langue et montrent deux boutons, Google en premier puis TripAdvisor ; un clic depuis le mobile ouvre la fenêtre d'avis
+- [x] **REV-01** (A1) [P1]: `/review` (EN), `/avis` (FR), `/bewertung` (DE) redirigent selon la langue et montrent deux boutons, Google en premier puis TripAdvisor ; un clic depuis le mobile ouvre la fenêtre d'avis
 - [ ] **REV-02** (A2) [P1]: L'admin permet de marquer une réservation « honorée » ou « no-show » ; sans annulation elle est « honorée » par défaut
 - [ ] **REV-03** (A3) [P1]: Un email J+1 à 11h (heure de Krabi) part via Resend, dans la langue de la réservation, avec lien `/review?rid=…&src=email`, uniquement pour les réservations honorées ; un seul rappel à J+5 si le lien n'a pas été cliqué
 - [ ] **REV-04** (A4) [P1]: Un QR code vers `/review?src=qr` est prêt à imprimer pour l'addition et le chevalet de table, textes courts FR/EN/DE
@@ -152,7 +152,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | MENU-02 | Phase 3 | Complete |
 | PAGE-01 | Phase 3 | Complete |
 | PAGE-02 | Phase 3 | Complete |
-| REV-01 | Phase 4 | Pending |
+| REV-01 | Phase 4 | Complete |
 | REV-02 | Phase 4 | Pending |
 | REV-03 | Phase 4 | Pending |
 | REV-04 | Phase 4 | Pending |
