@@ -312,7 +312,9 @@
     "menuTitle": "Carte – Gecko Cabane, restaurant franco-thaï à Krabi",
     "menuDescription": "Découvrez la carte du Gecko Cabane à Krabi Town : plats français et thaïs de la cheffe Jariya, prix en bahts, plats végétariens et épicés signalés.",
     "frenchRestaurantTitle": "Restaurant français à Krabi Town – Gecko Cabane",
-    "frenchRestaurantDescription": "Cuisine française d'un couple franco-thaï sur Maharat Road, Krabi Town : bourguignon, poulet à la crème et currys thaïs. Réservez en ligne."
+    "frenchRestaurantDescription": "Cuisine française d'un couple franco-thaï sur Maharat Road, Krabi Town : bourguignon, poulet à la crème et currys thaïs. Réservez en ligne.",
+    "romanticDinnerTitle": "Dîner romantique à Krabi Town – Gecko Cabane",
+    "romanticDinnerDescription": "Une table calme pour deux sur Maharat Road, à Krabi Town : cuisine française et plats thaïs dans une salle de 40 couverts. Réservez en ligne."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -384,12 +386,43 @@
     "frenchRestaurant": "Restaurant français",
     "frenchRestaurantHint": "Cuisine française de la maison par un couple franco-thaï, avec quelques plats thaïs.",
     "romanticDinner": "Dîner romantique",
-    "romanticDinnerHint": "Une petite salle calme pour deux, avec la cheffe aux fourneaux juste derrière.",
+    "romanticDinnerHint": "Une petite salle calme et une cuisine franco-thaïe, pour une soirée à deux.",
     "whereToEat": "Où manger à Krabi Town",
     "whereToEatHint": "Là où nous enverrions un ami dîner à Krabi Town, et ce qui vous y attend.",
     "gettingHere": "Venir depuis Ao Nang",
     "gettingHereHint": "Comment nous rejoindre depuis Ao Nang, avec des durées approximatives à confirmer sur place.",
     "wineBeer": "Vins et bières belges",
     "wineBeerHint": "La courte carte de vins et de bières belges qui accompagne le repas."
+  },
+  "romanticDinner": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Dîner romantique à Krabi Town",
+    "subtitle": "Une petite salle, une cuisine franco-thaïe et une soirée sans se presser, à deux.",
+    "heroAlt": "L'enseigne du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
+    "sections": {
+      "ambiance": {
+        "title": "Une salle calme, pour deux",
+        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
+        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h."
+      },
+      "table": {
+        "title": "Ce que vous mangerez",
+        "alt": "Bœuf bourguignon servi au Gecko Cabane",
+        "p1": "La carte est celle d'une cuisine française de maison : un bœuf bourguignon mijoté longuement au vin rouge, un poulet à la crème. Quelques plats thaïs de la cheffe l'accompagnent, comme un massaman doux.",
+        "p2": "Une courte sélection de vins et de bières belges accompagne le repas. Demandez-nous conseil selon vos plats, nous vous aiderons volontiers à choisir."
+      },
+      "chef": {
+        "title": "Cuisiné par la cheffe Jariya",
+        "alt": "La cheffe Jariya du Gecko Cabane, Krabi Town",
+        "p1": "La cheffe Jariya tient la cuisine et son mari français s'occupe de la salle. Ensemble, ils ont monté le petit restaurant où ils aimeraient eux-mêmes dîner.",
+        "p2": "Un plat vous intrigue ? Posez-nous la question : nous vous expliquons volontiers ce qu'il contient et comment il est cuisiné."
+      },
+      "occasion": {
+        "title": "Un moment à fêter ?",
+        "p1": "Le formulaire de réservation comporte un champ « Occasion ». Anniversaire, fête ou premier voyage à deux : écrivez-le, nous le saurons à votre arrivée.",
+        "link": "Réserver et indiquer l'occasion"
+      }
+    },
+    "closingTitle": "Rejoignez-nous pour le dîner à Krabi Town"
   }
 }

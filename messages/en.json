@@ -312,7 +312,9 @@
     "menuTitle": "Menu – Gecko Cabane, French-Thai Restaurant in Krabi",
     "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked.",
     "frenchRestaurantTitle": "French Restaurant in Krabi Town – Gecko Cabane",
-    "frenchRestaurantDescription": "Authentic French cooking by a French-Thai couple on Maharat Road, Krabi Town: beef bourguignon, chicken in cream sauce and Thai curries. Book online."
+    "frenchRestaurantDescription": "Authentic French cooking by a French-Thai couple on Maharat Road, Krabi Town: beef bourguignon, chicken in cream sauce and Thai curries. Book online.",
+    "romanticDinnerTitle": "Romantic Dinner in Krabi Town – Gecko Cabane",
+    "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -384,12 +386,43 @@
     "frenchRestaurant": "French restaurant",
     "frenchRestaurantHint": "French home cooking by a French-Thai couple, with a few Thai favourites.",
     "romanticDinner": "Romantic dinner",
-    "romanticDinnerHint": "A small, quiet dining room for two, with the chef cooking just behind it.",
+    "romanticDinnerHint": "A small, quiet dining room with a French-Thai kitchen, made for an evening for two.",
     "whereToEat": "Where to eat in Krabi Town",
     "whereToEatHint": "Where we would send a friend for dinner in Krabi Town, and what to expect.",
     "gettingHere": "Getting here from Ao Nang",
     "gettingHereHint": "How to reach us from Ao Nang, with approximate times to confirm locally.",
     "wineBeer": "Wine and Belgian beer",
     "wineBeerHint": "The short list of wines and Belgian beers that goes with the menu."
+  },
+  "romanticDinner": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Romantic dinner in Krabi Town",
+    "subtitle": "A small dining room, a French-Thai kitchen and an unhurried evening for two.",
+    "heroAlt": "The Gecko Cabane sign on Maharat Road in Krabi Town",
+    "sections": {
+      "ambiance": {
+        "title": "A quiet room for two",
+        "p1": "Gecko Cabane seats 40 guests at most, so the dining room stays calm and conversation comes easily. It is run by a French-Thai couple who welcome you themselves.",
+        "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. We are closed on Tuesdays, and the kitchen takes orders until 10 pm."
+      },
+      "table": {
+        "title": "What you will eat",
+        "alt": "Beef bourguignon served at Gecko Cabane",
+        "p1": "The menu is French home cooking, such as beef bourguignon braised slowly in red wine, and chicken in a cream sauce. A few Thai dishes from the chef sit alongside, like a mild massaman curry.",
+        "p2": "A short list of wines and Belgian beers goes with the meal. Ask us what works with your dishes; we are glad to help you choose."
+      },
+      "chef": {
+        "title": "Cooked by Chef Jariya",
+        "alt": "Chef Jariya of Gecko Cabane in Krabi Town",
+        "p1": "Chef Jariya runs the kitchen and her French husband looks after the dining room. Together they have built a small restaurant they would want to eat in themselves.",
+        "p2": "If you are curious about a dish, just ask. They are happy to explain what is in it and how it is cooked."
+      },
+      "occasion": {
+        "title": "Celebrating something?",
+        "p1": "The booking form has an \"Occasion\" field. If it is an anniversary, a birthday or a first trip together, write it there and we will know when you arrive.",
+        "link": "Book a table and note your occasion"
+      }
+    },
+    "closingTitle": "Join us for dinner in Krabi Town"
   }
 }

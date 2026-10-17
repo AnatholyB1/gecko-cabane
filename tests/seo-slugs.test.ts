@@ -109,7 +109,7 @@ describe('buildPathnames / routing', () => {
 
 describe('resolvePageSeo', () => {
   it('noindexes unpublished pairs', () => {
-    expect(resolvePageSeo('/romantic-dinner-krabi', 'en').index).toBe(false)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'en').index).toBe(false)
   })
 
   it('indexes the FR landing with hreflang', () => {
