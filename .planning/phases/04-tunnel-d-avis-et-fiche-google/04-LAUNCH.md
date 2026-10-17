@@ -25,3 +25,13 @@ Prepared 2026-10-17. Nothing below has been applied yet.
 
 ## Owner approval
 
+Réponse du propriétaire dans la conversation (2026-10-17), verbatim : « check everything yourself ». Interprétation (Claude) : le propriétaire délègue la vérification et autorise de poursuivre. Décisions par item :
+1. Migration 014 : approuvée comme proposée.
+2. CRON_SECRET : approuvé.
+3. Déploiement de master : approuvé.
+4. Premier envoi (au plus 1 invité) : approuvé, pas de report demandé.
+5. Consentement : option recommandée conservée (email transactionnel à tous les invités honorés).
+6. Mention « Chaque avis est lu par Jariya et son équipe » : non vérifiable par Claude, donc **texte de repli utilisé** (FR « Merci, c'est un vrai plaisir de vous accueillir. » / EN « Thank you, it is a real pleasure to host you. »).
+7. RESEND_FROM_EMAIL : inchangé.
+
+
