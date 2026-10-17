@@ -27,7 +27,7 @@ Workstream parallèle extrait du ROADMAP principal. Phases 1 à 4 terminées (vo
 **Plans**: 11 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Subscribe API: migration 015, signed links, ledger state, confirmation email (W1)
+- [x] 07-01-PLAN.md — Subscribe API: migration 015, signed links, ledger state, confirmation email (W1)
 - [ ] 07-02-PLAN.md — Guide gourmand + crab curry PDFs, bill insert and WiFi card from owner content (W1, checkpoint)
 - [ ] 07-03-PLAN.md — Footer sign-up form + full newsletter/wifi i18n contract (W2)
 - [ ] 07-04-PLAN.md — Confirm page/route -> Brevo upsert with segments -> welcome email with guide (W3)
@@ -44,4 +44,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Newsletter | 0/11 | Not started | - |
+| 7. Newsletter | 1/11 | In Progress|  |
