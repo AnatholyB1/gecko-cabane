@@ -121,6 +121,16 @@ export function tripAdvisorReviewUrl(): string {
   return `https://www.tripadvisor.com/UserReviewEdit-${TRIPADVISOR_REVIEW_SLUG}.html`
 }
 
+// D-19: single directions button target (coordinates + place id).
+export function googleDirectionsUrl(): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${GEO.latitude},${GEO.longitude}&destination_place_id=${GOOGLE_PLACE_ID}`
+}
+
+// D-20: keyless legacy embed (RESEARCH A1); swap for the pb= URL from Google Maps > Share > Embed if it stops rendering.
+export function googleMapsEmbedUrl(): string {
+  return `https://www.google.com/maps?q=${GEO.latitude},${GEO.longitude}&z=16&output=embed`
+}
+
 export type OpeningHoursRow = {
   day_of_week: number
   is_open: boolean | null

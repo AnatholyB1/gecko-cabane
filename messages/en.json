@@ -36,6 +36,10 @@
     "chefName": "Chef Jariya",
     "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
     "eyebrow": "Our Story",
+    "storyTitle": "Our story",
+    "story1": "Gecko Cabane was opened by Chef Jariya and her French husband. She brings the cooking, he brings the French table, and together they welcome guests every evening. French cooking and Thai classics sit side by side on the menu, with a short list of wines and Belgian beers.",
+    "couplePhotoAlt": "Chef Jariya and her husband",
+    "coupleCaption": "Jariya and her husband",
     "chefPhotoAlt": "Chef Jariya at Gecko Cabane, Krabi",
     "chefRole": "Head Chef",
     "frenchRestaurantLink": "Discover our French cooking in Krabi Town"
@@ -138,6 +142,17 @@
     "eyebrow": "Reservation"
   },
   "contactSection": {
+    "gettingHereTitle": "Getting here",
+    "gettingHere": {
+      "aoNang": "Ao Nang: 20 min by taxi",
+      "songthaew": "Songthaew: 50 baht",
+      "walkingStreet": "Walking Street: 3 min on foot",
+      "chaoFah": "Chao Fah Pier: 15 min"
+    },
+    "showMap": "Show the map",
+    "mapPrivacy": "The map loads only after you click.",
+    "mapTitle": "Map: Gecko Cabane, Krabi Town",
+    "mapLoaded": "Map loaded",
     "title": "Find Us",
     "addressTitle": "Address",
     "thailand": "Thailand",
