@@ -76,3 +76,34 @@ describe('home menu teaser wiring', () => {
     }
   })
 })
+
+// -----------------------------------------------------------------------------
+// Google rating line and directions link
+// -----------------------------------------------------------------------------
+
+describe('home reviews and directions', () => {
+  const page = read('src/app/[locale]/page.tsx')
+  it('has home.* keys in fr and en, EN accent-free', () => {
+    for (const l of ['fr', 'en']) {
+      const m = JSON.parse(read(`messages/${l}.json`))
+      expect(m.home.reviewsLine).toBeTruthy()
+      expect(m.home.reviewsLink).toBeTruthy()
+      expect(m.home.directionsLink).toBeTruthy()
+    }
+    const en = JSON.parse(read('messages/en.json'))
+    expect(/[àâçèéêëîïôùû]/i.test(JSON.stringify(en.home))).toBe(false)
+  })
+  it('page renders the keys with the SAME_AS Google URL and safe links', () => {
+    expect(page).toContain("t('home.reviewsLine')")
+    expect(page).toContain("t('home.reviewsLink')")
+    expect(page).toContain("t('home.directionsLink')")
+    expect(page).toContain('SAME_AS')
+    expect(page).not.toContain('ChIJozpAo2GUUTARABLcICH3H7I')
+    expect((page.match(/noopener noreferrer/g) ?? []).length).toBeGreaterThanOrEqual(2)
+  })
+  it('does not emit aggregateRating and keeps sections', () => {
+    expect(page).not.toContain('aggregateRating')
+    expect(read('src/utils/seo.ts')).not.toContain('aggregateRating')
+    for (const id of ['about', 'hours', 'contact']) expect(page).toContain(`id="${id}"`)
+  })
+})
