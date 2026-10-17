@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import type { Reservation, ReservationStatus, RestaurantTable, ConfigAvailability } from '@/types/database'
+import type { Reservation, ReservationSource, ReservationStatus, RestaurantTable, ConfigAvailability } from '@/types/database'
+import { RESERVATION_SOURCES, SOURCE_LABELS, formatOrigin } from '@/utils/reservation-source'
 import { krabiToday } from '@/utils/review-invitations'
 import { getReviewBadges, showNoShowDeadline } from '@/utils/review-badges'
 
@@ -35,6 +36,7 @@ export default function AdminReservationsPage() {
   // Modal for editing
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [savingSourceId, setSavingSourceId] = useState<number | null>(null)
   const [adminNotes, setAdminNotes] = useState('')
 
   // Table assignment modal
@@ -183,6 +185,27 @@ export default function AdminReservationsPage() {
       }
     } catch {
       setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' })
+    }
+  }
+
+  async function updateSource(id: number, source: ReservationSource) {
+    setSavingSourceId(id)
+    try {
+      const response = await fetch('/api/reservations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, source })
+      })
+      if (response.ok) {
+        setReservations(prev => prev.map(r => (r.id === id ? { ...r, source } : r)))
+        setMessage({ type: 'success', text: 'Enregistré' })
+      } else {
+        setMessage({ type: 'error', text: 'Impossible de modifier la source. Réessayez.' })
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Impossible de modifier la source. Réessayez.' })
+    } finally {
+      setSavingSourceId(null)
     }
   }
 
@@ -387,6 +410,9 @@ export default function AdminReservationsPage() {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${STATUS_LABELS[reservation.status].bg} ${STATUS_LABELS[reservation.status].color}`}>
                         {STATUS_LABELS[reservation.status].label}
                       </span>
+                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                        {SOURCE_LABELS[reservation.source ?? 'site']}
+                      </span>
                     </div>
                     <div className="text-lg font-semibold text-(--primary-dark)">
                       {reservation.customer_name}
@@ -395,6 +421,25 @@ export default function AdminReservationsPage() {
                       📞 {reservation.customer_phone}
                       {reservation.customer_email && ` • ✉️ ${reservation.customer_email}`}
                     </div>
+                    <div className="flex flex-wrap items-center gap-2 mt-2 text-sm text-(--warm-gray)">
+                      <label htmlFor={`source-${reservation.id}`}>Source</label>
+                      <select
+                        id={`source-${reservation.id}`}
+                        value={reservation.source ?? 'site'}
+                        disabled={savingSourceId === reservation.id}
+                        onChange={(e) => updateSource(reservation.id, e.target.value as ReservationSource)}
+                        className="px-3 py-2 border rounded-lg"
+                      >
+                        {RESERVATION_SOURCES.map((s) => (
+                          <option key={s} value={s}>{SOURCE_LABELS[s]}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {formatOrigin(reservation) && (
+                      <div className="text-sm text-(--warm-gray) mt-1">
+                        Origine : {formatOrigin(reservation)}
+                      </div>
+                    )}
                     {/* Empty row is hidden (empty:hidden) when there is nothing to show */}
                     <div className="flex flex-wrap gap-2 mt-2 empty:hidden">
                       {getReviewBadges(reservation, todayKrabi).map((badge) => (
