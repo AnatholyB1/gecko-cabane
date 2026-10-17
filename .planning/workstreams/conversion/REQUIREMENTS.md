@@ -14,7 +14,7 @@
 
 ### Réservation (RESA)
 
-- [ ] **RESA-05** (R1): Un bouton LINE est présent pour les Thaïlandais
+- [x] **RESA-05** (R1): Un bouton LINE est présent pour les Thaïlandais
 - [x] **RESA-06**: Chaque réservation porte un champ « source » (site, WhatsApp, téléphone, sans réservation) ; les événements « réservation envoyée » et « clic WhatsApp » sont mesurés
 
 ### Conversion (CONV)

@@ -30,7 +30,7 @@ Plans:
 - [x] 05-01-PLAN.md — Plausible proxy (inert sans ID), événement « Reservation Sent », capture UTM/ref (wave 1)
 - [x] 05-02-PLAN.md — Migration 015 source/UTM, POST non falsifiable, sélecteur de source admin (wave 1)
 - [x] 05-03-PLAN.md — Preuve sociale avant #reservation, aggregateRating (D-14), ligne paiement /menu + réservation (wave 1)
-- [ ] 05-04-PLAN.md — Bouton LINE empilé sur WhatsApp, clics WhatsApp/LINE mesurés (wave 2)
+- [x] 05-04-PLAN.md — Bouton LINE empilé sur WhatsApp, clics WhatsApp/LINE mesurés (wave 2)
 - [ ] 05-05-PLAN.md — Migration 016, comptage des visites /review et clics sortants par source (wave 2)
 - [ ] 05-06-PLAN.md — Ajout manuel de réservations admin (WhatsApp, téléphone, sans réservation) (wave 2)
 - [ ] 05-07-PLAN.md — Hero et images en next/image AVIF/WebP, mesure PageSpeed avant/après avec porte avant la vague 3 (wave 2, checkpoint)
@@ -46,4 +46,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 3/13 | In Progress|  |
+| 5. Conversion et mesure | 4/13 | In Progress|  |
