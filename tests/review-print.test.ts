@@ -36,9 +36,8 @@ describe('review print artifacts', () => {
       errorCorrectionLevel: 'M',
       color: { dark: '#0D1F17', light: '#FFFFFF' },
     })
-    expect(fs.readFileSync(SVG, 'utf8').replace(/
-/g, '
-')).toBe(expected)
+    const committed = fs.readFileSync(SVG, 'utf8').split('\r\n').join('\n')
+    expect(committed).toBe(expected)
   })
 
   it('README flags the DE text for proofreading', () => {
