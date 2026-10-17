@@ -37,8 +37,8 @@ Declared values (multiples of 4):
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Icon-to-label gap inside buttons, badge inner gap |
-| sm | 8px | Gap between stacked small texts, admin badge row gap |
+| xs | 4px | Icon-to-label gap inside buttons, badge inner gap, admin badge vertical padding |
+| sm | 8px | Gap between stacked small texts, admin badge row gap, admin badge horizontal padding |
 | md | 16px | Gap between the two review buttons, email paragraph spacing |
 | lg | 24px | Card inner section gaps, title-to-intro gap |
 | xl | 32px | Card padding mobile (`p-8`), email cell padding |
@@ -48,7 +48,7 @@ Declared values (multiples of 4):
 Exceptions:
 - Review buttons: min height 56px (`min-h-14`), full width, a multiple of 4 and above the 44px touch minimum.
 - Email button: padding 16px 32px (min tap height 48px).
-- Admin badges: `px-2 py-0.5` (8px / 2px), matching the existing `px-2 py-0.5 rounded` badges at lines 472/482 of the admin page; 2px is the single pre-existing off-scale value, not extended.
+- Admin badges: `px-2 py-1` (8px horizontal / 4px vertical), both on the 4-multiple scale. New Phase 4 badges use `py-1`; no off-scale value is introduced and there is no 2px exception.
 - Print: millimetre geometry (see Print section); safe margin 5 mm, bleed 3 mm.
 
 ---
@@ -60,14 +60,14 @@ Exactly 4 sizes and 2 weights for the web page (same scale as Phase 1).
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body (intro, button helper text) | 17px Cormorant | 400 | 1.5 |
-| Label (button text Cinzel, tracking 0.1em, uppercase) | 11px Cinzel on desktop; see note | 500 | 1.5 |
-| Small (reassurance line, footer link) | 14px Cormorant italic | 400 | 1.5 |
+| Label (overline "Gecko Cabane" only: Raleway, uppercase, tracking 0.2em) | 11px Raleway | 500 | 1.5 |
+| Small (button labels: Cinzel uppercase, tracking 0.1em; reassurance line: Cormorant italic; back link) | 14px | 500 for button labels, 400 for italic reassurance line and back link | 1.5 |
 | Heading (page title) | 20px Cinzel, `tracking-wide` | 400 | 1.2 |
 
 Notes:
-- Button text uses 14px Cinzel uppercase tracking 0.1em weight 500 on the review page for legibility on phones: this is the "Small" size (14px), not a fifth size. The 11px Label size is reserved for the "Gecko Cabane" overline above the title (Raleway, uppercase, tracking 0.2em).
+- Each size has one unambiguous role: 11px is exclusively the Raleway overline; 14px is exclusively button label and small text (reassurance, back link). No fifth size.
 - Weights: 400 and 500 only. No `font-bold`.
-- Email sizes (inline styles, separate scale from web): title 20px normal weight, body 15px line-height 1.6, small 13px italic, button 14px weight normal uppercase letter-spacing 2px. Same as existing `baseTemplate` usage.
+- Email sizes (inline styles, separate scale from web, 3 levels): title 20px normal weight, body 15px line-height 1.6, small 14px (italic for the URL fallback line; uppercase letter-spacing 2px, weight normal, for the button label). Same as existing `baseTemplate` usage, with the former 13px and 14px levels merged into 14px.
 - Admin badges: 12px (`text-xs`), `font-medium`, per existing admin conventions (admin has its own Tailwind default scale; not subject to the public 4-size rule).
 
 ---
@@ -87,9 +87,11 @@ Accent reserved for:
 3. Focus ring on both buttons: `focus-visible:ring-2 ring-gc-gold ring-offset-2 ring-offset-gc-parchment`
 4. Email: the single CTA button fill (#0C3C2D, text #FAF0E6) and the gold overline "Gecko Cabane" (#C69B3C) already in the header
 5. Print: gold hairline fold line / ornament rule (#C69B3C) only
+6. TripAdvisor button border and label text (`border-gc-jungle`, `text-gc-jungle`; outlined, no fill)
+7. Back-link underline on `/review` (`decoration-gc-jungle`)
 
 Rules:
-- Second button (TripAdvisor) is secondary-styled, NOT accent: transparent background, `border border-gc-jungle`, `text-gc-jungle`, hover `bg-gc-jungle/10`. Hierarchy: Google first and visually primary (D-12); TripAdvisor never uses TripAdvisor green (#34E0A1) and Google button never uses Google blue/red. Brand glyphs are monochrome `currentColor`.
+- Second button (TripAdvisor) is secondary-styled: transparent background, `border border-gc-jungle`, `text-gc-jungle` (items 6 above), hover `bg-gc-jungle/10`. It never gets a filled accent background, so hierarchy stays Google first and visually primary (D-12); TripAdvisor never uses TripAdvisor green (#34E0A1) and Google button never uses Google blue/red. Brand glyphs are monochrome `currentColor`.
 - No star-rating graphics, no "5 stars" imagery, no wording that steers toward a positive rating (no pre-filtering, D-12/D-18).
 - Email: reuse hex values already in `baseTemplate` (#F5EEDA, #FAF0E6, #E8DCC8, #0D1F17, #C69B3C, #1A0E00, #5C4A3A). No new colors.
 - Contrast: ivory on jungle ~11:1; jungle text on parchment ~10:1. Both pass AA.
@@ -101,6 +103,8 @@ Rules:
 ### 1. `/{locale}/review` page (`src/app/[locale]/review/page.tsx`, Server Component)
 
 Utility page. Locales `fr` and `en` only (de/sv resolved to `en` upstream by the alias handlers, D-10). `robots: { index: false, follow: false }`, no canonical/hreflang, not in sitemap (D-11). Text via `getTranslations({ locale, namespace: 'review' })`.
+
+Focal point: the Google review button is the single focal point of `/review` (largest filled, highest-contrast element, first in reading and tab order); everything above it is quiet, centered text and the TripAdvisor button is deliberately outlined and lower in weight.
 
 Layout (mobile first, designed at 360px):
 - Full-height `bg-gc-void`, content vertically top-aligned on mobile with 64px top padding (`pt-16`), centered with `max-w-md` (448px) on `sm`+; horizontal page padding 16px.
@@ -118,6 +122,7 @@ Layout (mobile first, designed at 360px):
 Buttons (both are `<a>`, not `<button>`):
 - `href` from `googleReviewUrl()` / `tripAdvisorReviewUrl()` (centralised in `src/utils/seo.ts`), `target="_blank"`, `rel="noopener noreferrer"`. Works without JS.
 - Size: full width, `min-h-14` (56px), `px-6`, flex row centered, glyph 20px + 8px gap + label.
+- Label typography: 14px Cinzel uppercase, tracking 0.1em, weight 500.
 - Google: primary fill (see Color). TripAdvisor: outlined secondary.
 - Label includes the platform name so the destination is unambiguous: "Avis sur Google" / "Review on Google"; "Avis sur TripAdvisor" / "Review on TripAdvisor".
 - Trailing external-link affordance: 16px inline SVG arrow (`aria-hidden`), plus visually hidden text "(s'ouvre dans un nouvel onglet)" / "(opens in a new tab)" appended via `sr-only`.
@@ -143,7 +148,7 @@ Body structure, in order:
 1. `<h1>` title (20px Georgia normal, #1A0E00)
 2. One short paragraph (15px, line-height 1.6, #5C4A3A, max 2 sentences): thanks for visiting + one-line ask. Reminder variant: one sentence, softer, acknowledges it is the only reminder.
 3. Single CTA button, centered, table-based bulletproof button: background #0C3C2D, text #FAF0E6, padding 16px 32px, 14px uppercase, letter-spacing 2px, no border radius, `href` = `{SITE_URL}/review?rid={review_token}&src=email`. Label "Donner mon avis" / "Leave a review".
-4. Plain-text URL fallback line below the button (13px italic #5C4A3A) so the link is usable when buttons are stripped.
+4. Plain-text URL fallback line below the button (14px italic #5C4A3A) so the link is usable when buttons are stripped.
 5. Footer sentence in the existing footer slot: reservation context line ("Vous recevez ce message suite à votre réservation au Gecko Cabane.") and the restaurant contact. No marketing content, no promo, no unsubscribe-for-newsletter language (this is transactional, RESEARCH Pitfall 8).
 
 Rules:
@@ -157,7 +162,7 @@ Rules:
 
 Placement: on each reservation card, in the existing meta row with the other small badges (where `px-2 py-0.5 rounded` badges sit at lines ~472-482), only for statuses `confirmed` and `completed`. Never rendered for `pending`, `cancelled`, `no_show`, nor when `customer_email` is empty (show the "Pas d'email" badge instead, see below).
 
-Badge shape: reuse the existing pattern `px-2 py-0.5 rounded text-xs font-medium inline-flex items-center gap-1`, no icons beyond a 12px inline SVG dot/check (`aria-hidden`). Dates in `fr-FR` short format `17 oct.`, Krabi time zone (`Asia/Bangkok`, UTC+7), via `toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'Asia/Bangkok' })`.
+Badge shape: new badges use `px-2 py-1 rounded text-xs font-medium inline-flex items-center gap-1` (4px vertical padding, on-scale), no icons beyond a 12px inline SVG dot/check (`aria-hidden`). Dates in `fr-FR` short format `17 oct.`, Krabi time zone (`Asia/Bangkok`, UTC+7), via `toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'Asia/Bangkok' })`.
 
 | State (from columns) | Label | Style |
 |----------------------|-------|-------|
@@ -196,6 +201,8 @@ Copy (final text lives in the Copywriting Contract below; the script reads const
 
 All `/review` keys go in namespace `review` in both `messages/fr.json` and `messages/en.json` (parity enforced by `tests/i18n.test.ts`; no literals in `[locale]`, guarded by `tests/i18n-hardcoded.test.ts`). `de` is not published this phase (phase 6); DE exists only in print copy and is flagged to the owner.
 
+Wording is meal-neutral (lunch and dinner are both served): no "dîné", "soirée", "dinner" or "evening" in any guest-facing copy.
+
 ### `/review` page
 
 | Element | FR | EN |
@@ -218,9 +225,9 @@ Claims check: "lu par Jariya et son équipe" must be true; the owner confirms be
 
 | Element | FR | EN |
 |---------|----|----|
-| Subject, invite (`invite.subject`) | Votre soirée au Gecko Cabane | Your visit to Gecko Cabane |
+| Subject, invite (`invite.subject`) | Votre visite au Gecko Cabane | Your visit to Gecko Cabane |
 | Title, invite | Merci de votre visite | Thank you for your visit |
-| Body, invite | Merci d'avoir dîné chez nous. Si vous avez une minute, un avis nous aide beaucoup. | Thank you for dining with us. If you have a minute, a review helps us a great deal. |
+| Body, invite | Merci d'être venus chez nous. Si vous avez une minute, un avis nous aide beaucoup. | Thank you for visiting us. If you have a minute, a review helps us a great deal. |
 | Button label (`cta`) | Donner mon avis | Leave a review |
 | Fallback line | Si le bouton ne s'affiche pas, copiez ce lien : {url} | If the button does not show, copy this link: {url} |
 | Subject, reminder (`reminder.subject`) | Un petit mot sur votre visite ? | A quick word about your visit? |
