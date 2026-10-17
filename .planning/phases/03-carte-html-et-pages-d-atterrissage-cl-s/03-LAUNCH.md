@@ -240,3 +240,8 @@ Probed 2026-10-17 12:35 (raw HTML via curl) on https://geckocabanerestaurant.com
 - /fr/menu and /en/menu: contain id="vins-bieres-belges", nav href="#vins-bieres-belges", "Duvel Blonde", "Orval", "Westmalle Brune" (380 ฿), "Château du Barry", "Muay Thai IPA", "Droit de bouchon", "Prix des vins" note. Wi-Fi code from the beer sheet is not present.
 - /en/french-restaurant-krabi: links to /en/menu#vins-bieres-belges.
 - Gluten-free: no per-dish flags by owner decision; menu-wide line "available on request" live since 08c497d.
+
+## Wine list update (typed list, 2026-10-17)
+
+Owner sent the typed numbered "liste des vins" (1-57). Applied `03-CONTENT-WINES-2.sql` directly on the owner's instruction (idempotent, run twice): 46 rows enriched with appellation and grape varieties, spelling fixes (Steinmaier, Tremel, Les Chambertines, Les Écobuts), 8 wines added (Jean Brocard Petit Chablis, Pfaff Riesling Zinnkoepflé, La Bourgondie Givry, Domaine Gry-Sablon Morgon, Plaimont L'Apéro-nautes, Clos de Gamot, Aubert & Mathieu, Château Nénin), 1 stray row removed ("Côtes de Provence AOC", a fragment of the Mon Plaisir line). Result: 42 reds, 18 whites, 3 rosés, 2 sparkling. Château Treytins (47) line was cropped on the photo; grapes taken from the visible part.
+Kept although absent from the typed list (they were on the first printed board): Château de la Chaize (Morgon), Château Eugénie (Cahors), Gaspard (Larzac), Plénitude (Madiran), Père Anselme–Brotte (Châteauneuf), L'Esprit de Bacchus, Pfaff Pinot noir, Marius rosé. Owner to confirm which are really in stock.
