@@ -216,6 +216,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     seats: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
                   })}
                 </p>
+                {locale === 'en' && (
+                  <p className="mb-8">
+                    <Link
+                      href="/french-restaurant-krabi"
+                      className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
+                    >
+                      {t('about.frenchRestaurantLink')}
+                    </Link>
+                  </p>
+                )}
                 <div className="flex items-start gap-4 p-5 border-l-[3px] border-gc-gold bg-gc-gold/5">
                   <svg className="w-5 h-5 text-gc-brass mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />

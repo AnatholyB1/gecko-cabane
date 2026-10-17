@@ -53,6 +53,15 @@ describe('generateMetadata wiring', () => {
     expect(privacy).toContain("path: '/privacy'")
   })
 
+  it('landing page uses EN-only buildPageMetadata', () => {
+    const landing = read('src/app/[locale]/french-restaurant-krabi/page.tsx')
+    expect(landing).toContain('export async function generateMetadata')
+    expect(landing).toContain('buildPageMetadata(')
+    expect(landing).toContain("path: '/french-restaurant-krabi'")
+    expect(landing).toContain("locales: ['en']")
+    expect(en.meta.frenchRestaurantTitle).toContain('Krabi')
+  })
+
   it('menu page uses buildPageMetadata', () => {
     const menu = read('src/app/[locale]/menu/page.tsx')
     expect(menu).toContain('export async function generateMetadata')
