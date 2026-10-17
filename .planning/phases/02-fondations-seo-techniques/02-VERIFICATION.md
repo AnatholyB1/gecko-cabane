@@ -44,3 +44,9 @@ Aucun marqueur bloquant releve; pas de gecko-cabane.com residuel; /admin noindex
 Aucun gap de code ou de contenu. Le seul manquant (SC5 : sitemap GSC, Bing, Rich Results Test) depend de comptes tiers du proprietaire, pas d'un defaut d'implementation; il est classe human_needed plutot que passed car le critere "sitemap soumis" n'est pas prouve. Le sitemap et robots sont servis correctement, donc la soumission est un simple geste manuel (GSC detecte aussi robots.txt).
 
 _Verifier: Claude (gsd-verifier)_
+
+## Owner steps update (2026-10-17, done by Claude on the owner's request)
+
+- Google Search Console: sitemap `https://geckocabanerestaurant.com/sitemap.xml` submitted on `sc-domain:geckocabanerestaurant.com` via the GSC tool. Google fetched it at 12:52 Krabi time: 7 URLs submitted, 0 indexed yet, 0 errors, 0 warnings.
+- Rich Results Test on https://geckocabanerestaurant.com/en (Chrome): crawled successfully; 2 valid items detected (Local business 1, Organisation 1), no errors or warnings.
+- Bing Webmaster: NOT done. Needs the owner to sign in (Claude does not sign in or grant account access). Remaining for SEO-07: import the site from GSC in Bing Webmaster and submit the sitemap there.
