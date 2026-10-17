@@ -5,6 +5,7 @@
 import { z } from 'zod'
 
 export const NEWSLETTER_SOURCES = ['footer', 'popup', 'bill_qr', 'wifi', 'newsletter_page'] as const
+export type NewsletterSource = (typeof NEWSLETTER_SOURCES)[number]
 
 /** Every source value that may appear in the ledger. */
 export const LEDGER_SOURCES = [
