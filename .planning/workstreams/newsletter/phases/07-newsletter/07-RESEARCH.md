@@ -67,7 +67,7 @@ The phase is mostly plumbing around three things that already exist: the consent
 
 The consent model should stay an **append-only ledger with a per-row confirmation lifecycle**: each consent row (footer, popup, bill_qr, wifi, and the legacy `reservation_form` rows from D-03) gets its own `confirmed_at`; a withdrawal is a new row with `consent=false`. "Current state" of an email = latest row (pure TS resolver, unit-tested). This makes D-03 (confirm legacy rows) and D-04 (webhook writes consent=false) fit the existing schema with only additive columns.
 
-Four non-obvious risks drive the design: (1) **link scanners** (Outlook SafeLinks, Gmail, antivirus) prefetch GET links, so a GET that confirms or unsubscribes will auto-confirm bots and auto-unsubscribe real people; confirm/unsubscribe must be GET page + POST button. (2) **Geo-IP at the restaurant is Thailand for everybody**, so `x-vercel-ip-country` is wrong for the `bill_qr` and `wifi` sources (tourists roaming/using restaurant WiFi) and must not be used to infer country or residency there. (3) The `/review` alias trick is required for `/newsletter` and `/wifi` short URLs, otherwise next-intl (`localePrefix: 'always'`, `localeDetection: false`) sends every English tourist to `/fr/...`. (4) Brevo date-triggered automations are the least documented part; build the code so it works with either a date-attribute trigger or a list-add trigger (fallback in Open Questions).
+Four non-obvious risks drive the design: (1) **link scanners** (Outlook SafeLinks, Gmail, antivirus) prefetch GET links, so a GET that confirms or unsubscribes will auto-confirm bots and auto-unsubscribe real people; confirm/unsubscribe must be GET page + POST button. (2) **Geo-IP at the restaurant is Thailand for everybody**, so `x-vercel-ip-country` is wrong for the `bill_qr` and `wifi` sources (tourists roaming/using restaurant WiFi) and must not be used to infer country or residency there. (3) The `/review` alias trick is required for `/newsletter` and `/wifi` short URLs, otherwise next-intl (`localePrefix: 'always'`, `localeDetection: false`) sends every English tourist to `/fr/...`. (4) Brevo date-triggered automations are the least documented part; build the code so it works with either a date-attribute trigger or a list-add trigger (fallback in Open Questions, resolved).
 
 **Primary recommendation:** Extend `gecko_marketing_consents` additively (migration 015), keep Brevo as a one-way copy written only after `confirmed_at`, implement all Brevo/signing/segment logic as pure functions in `src/utils/newsletter*.ts` with Vitest coverage, and treat every Brevo-account and owner-content step (attributes, list, webhook, automations, sender domain DNS, recipe, guide, WiFi password) as an explicit owner-gated checkpoint task.
 
@@ -382,16 +382,22 @@ const geoCountry = raw && /^[A-Z]{2}$/.test(raw) ? raw : null   // never store t
 | A9 | Any Brevo unsubscribe/spam event should withdraw consent globally | Pattern 4 | Over-withdrawal (a list-only unsub removes everything); acceptable for PDPA but confirm with owner |
 | A10 | A functional localStorage key for pop-up capping needs no consent banner under PDPA/GDPR | Pattern 6 | Legal review; stores no identifier, only an expiry timestamp |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Which Brevo plan and editor does the owner have, and are automations enabled?**
+1. **Which Brevo plan and editor does the owner have, and are automations enabled?** — RESOLVED
    - Known: free plan = 300 emails/day; automation scope unconfirmed.
-   - Recommendation: first plan task is an owner checkpoint (screenshots/confirmation) before building anything dependent on automations.
-2. **Sender domain authentication for Brevo (SPF/DKIM/DMARC on geckocabanerestaurant.com)?** Required for deliverability; DNS change is an external action needing owner approval and must coexist with Resend's records.
-3. **Does the `bill_qr` / `wifi` `LAST_VISIT_DATE` rule (consent date, not confirmation date) match the owner's intent (D-06)?**
-4. **Consent text version string and `/privacy` update** (e.g. `newsletter-2026-10-XX`): needs FR/EN wording naming PDPA B.E. 2562 and RGPD, sources (footer, pop-up, QR, WiFi), Brevo as processor, and unsubscribe path. The existing privacy copy already states "Every newsletter will include an unsubscribe link" [VERIFIED: messages/en.json].
-5. **Owner-supplied content**: crab curry recipe, Guide gourmand recommendations and photos, final WiFi SSID/password, print layouts for the bill insert and table card.
-6. **Resend sending limits/plan** for the one-shot D-03 mailing (count of legacy consent rows is unknown; run `?dry=1` first and batch ≤ ~50 per invocation given `maxDuration = 60` and the 600 ms send pause used in Phase 4).
+   - Resolution: answered by the owner at the 07-10 Task 2 checkpoint (approval item 2: plan, automations, editor type deciding option A date-attribute trigger vs option B list fallback in docs/newsletter/BREVO-SETUP.md, written in 07-07). Code in 07-04/07-09 supports both options, so nothing upstream blocks on the answer. Automations are built by the owner in 07-11 Task 1.
+2. **Sender domain authentication for Brevo (SPF/DKIM/DMARC on geckocabanerestaurant.com)?** — RESOLVED
+   - Resolution: 07-10 Task 1 checks whether the domain DNS is on Vercel; approval item 3 asks the owner to authorize the records (added by Claude via Vercel DNS, or by the owner otherwise), coexisting with Resend records; the procedure is in BREVO-SETUP.md (07-07). Executed in 07-10 Task 3 only after approval.
+3. **Which date drives `LAST_VISIT_DATE` for `bill_qr` / `wifi` sign-ups?** — RESOLVED
+   - Decision taken: the **confirmation date** (`confirmed_at`, Krabi day), per D-06 as implemented in 07-04 (newsletter-segments) and synced by 07-09. The signup/consent date is not used.
+   - The owner may revise this at 07-10 approval item 9 (keep confirmation date, or switch to signup date); a switch would be a quick-fix on newsletter-segments.ts.
+4. **Consent text version string and `/privacy` update** — RESOLVED
+   - Resolution: version string is `newsletter-2026-10-17` (`NEWSLETTER_CONSENT_VERSION` in src/utils/newsletter-schema.ts, 07-01). FR/EN privacy section `privacy.newsletter` (sources, double opt-in, Resend and Brevo as processors, country/geo rule, resident flag, pop-up memory, unsubscribe, PDPA B.E. 2562 and GDPR) written in 07-07 Task 2 and reviewed by the owner in 07-07 Task 3. The existing privacy copy already states "Every newsletter will include an unsubscribe link" [VERIFIED: messages/en.json].
+5. **Owner-supplied content** (crab curry recipe, Guide gourmand recommendations and photos, WiFi SSID/password, print layouts) — RESOLVED
+   - Resolution: guide, photos and recipe are supplied at the 07-02 Task 2 owner checkpoint (no invented content); print proofs approved at 07-10 item 7; WiFi SSID/password typed by the owner into .env.local at 07-10 Task 2 (never in chat), piped to Vercel in 07-10 Task 3; rotation policy at item 8.
+6. **Resend sending limits for the one-shot D-03 mailing** — RESOLVED
+   - Resolution: 07-10 Task 1 counts the maximum audience (distinct reservation_form consent emails) and approval item 11 asks the owner to approve, postpone or refuse; the job in 07-09 Task 3 is manual, `?dry=1` first, batched (≤ ~50 per invocation, `maxDuration = 60`, 600 ms pause as in Phase 4); it runs only in 07-11 Task 3 after the live round trip and only if approved.
 
 ## Environment Availability
 
