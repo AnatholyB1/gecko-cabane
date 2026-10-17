@@ -50,3 +50,5 @@ _Verifier: Claude (gsd-verifier)_
 - Google Search Console: sitemap `https://geckocabanerestaurant.com/sitemap.xml` submitted on `sc-domain:geckocabanerestaurant.com` via the GSC tool. Google fetched it at 12:52 Krabi time: 7 URLs submitted, 0 indexed yet, 0 errors, 0 warnings.
 - Rich Results Test on https://geckocabanerestaurant.com/en (Chrome): crawled successfully; 2 valid items detected (Local business 1, Organisation 1), no errors or warnings.
 - Bing Webmaster: NOT done. Needs the owner to sign in (Claude does not sign in or grant account access). Remaining for SEO-07: import the site from GSC in Bing Webmaster and submit the sitemap there.
+- Bing Webmaster (2026-10-17, later): owner signed in and approved the Google import; geckocabanerestaurant.com is in Bing Webmaster. Sitemap `https://geckocabanerestaurant.com/sitemap.xml` submitted by Claude in Chrome: "successfully submitted for processing" (1 sitemap, 0 errors, 0 warnings, status Processing).
+- SEO-07 is now complete (GSC verified + sitemap submitted, Bing imported + sitemap submitted). Indexing itself will take days; monitor in both consoles.
