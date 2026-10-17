@@ -96,6 +96,21 @@ describe('supabase migrations', () => {
     expect(sql).not.toMatch(/cascade/i)
   })
 
+  it('013 adds is_gluten_free (no backfill) and an inactive empty Belgian page', () => {
+    const sql = read('013_menu_gluten_free.sql')
+      .replace(/--.*$/gm, '')
+      .toLowerCase()
+    expect(sql).toContain(
+      'add column if not exists is_gluten_free boolean not null default false'
+    )
+    expect(sql).not.toContain('update public.gecko_menu_items')
+    expect(sql).not.toContain('is_gluten_free = true')
+    expect(sql).toContain("'vins-bieres-belges'")
+    expect(sql).toMatch(/false,\s*coalesce/)
+    expect(sql).toContain('where not exists')
+    expect(sql).not.toMatch(/insert\s+into\s+public\.gecko_menu_(categories|items)/)
+  })
+
   it('011 revokes anon DML on consents and keeps authenticated select', () => {
     const sql = read('011_revoke_anon_consents_dml.sql').replace(/--.*$/gm, '')
     expect(sql).toMatch(/revoke\s+insert,\s*update,\s*delete,\s*select\s+on\s+public\.gecko_marketing_consents\s+from\s+anon;/i)
