@@ -133,7 +133,7 @@ Plans:
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 03-02-PLAN.md — hasMenu in Restaurant JSON-LD + /menu in PUBLISHED_PATHS/sitemap (MENU-01, SEO-03)
-- [ ] 03-03-PLAN.md — Migration 013 (is_gluten_free, inactive vins-bieres-belges page), admin checkbox, menu cache invalidation (MENU-01, MENU-02)
+- [x] 03-03-PLAN.md — Migration 013 (is_gluten_free, inactive vins-bieres-belges page), admin checkbox, menu cache invalidation (MENU-01, MENU-02)
 - [ ] 03-04-PLAN.md — Home teaser to /menu (MenuDisplay removed), Google rating line, directions link (PAGE-01)
 
 **Wave 3** *(blocked on Wave 2 completion)*
@@ -241,7 +241,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete   | 2026-10-16 |
-| 3. Carte HTML et pages clés | 2/8 | In Progress|  |
+| 3. Carte HTML et pages clés | 3/8 | In Progress|  |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |

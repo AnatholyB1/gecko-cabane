@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 3 UI-SPEC approved
-last_updated: "2026-10-17T00:28:30.869Z"
+last_updated: "2026-10-17T00:38:01.140Z"
 last_activity: 2026-10-17
 progress:
   total_phases: 8
   completed_phases: 2
   total_plans: 27
-  completed_plans: 21
+  completed_plans: 22
   percent: 25
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-10-16)
 ## Current Position
 
 Phase: 03 (carte-html-et-pages-d-atterrissage-cl-s) — EXECUTING
-Plan: 3 of 8
+Plan: 4 of 8
 Status: Ready to execute
 Last activity: 2026-10-17
 
-Progress: [████████░░] 78%
+Progress: [████████░░] 81%
 
 ## Performance Metrics
 
@@ -45,6 +45,7 @@ Progress: [████████░░] 78%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 11 | - | - |
+| Phase 03 P03 | 15min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,7 @@ Progress: [████████░░] 78%
 - [Phase 01]: WhatsApp number from env with fallback 66819585945; accessible green tokens
 - [Phase ?]: [Phase 01-04]: zod kept at vetted 4.3.6 via lockfile; isOtpCode kept until plan 01-07
 - [Phase ?]: [Phase 01-05]: Staff notification stays French with guest language row; customer emails bilingual fr/en
+- [Phase ?]: [Phase 03-03]: is_gluten_free default false, no backfill; Belgian page inactive/empty; migration 013 applied only in 03-06
 
 ### Pending Todos
 
@@ -75,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-17T00:28:30.842Z
+Last session: 2026-10-17T00:37:33.546Z
 Stopped at: Phase 3 UI-SPEC approved
 Resume file: None

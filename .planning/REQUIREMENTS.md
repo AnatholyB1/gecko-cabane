@@ -31,7 +31,7 @@
 ### Carte (MENU)
 
 - [x] **MENU-01** (C1) [P1]: La page `/menu` affiche la carte en HTML (texte sélectionnable) : plats, prix en bahts, pictos végétarien / sans gluten / épicé, allergènes
-- [ ] **MENU-02** (C1) [P1]: La carte comprend une section vins et bières belges
+- [x] **MENU-02** (C1) [P1]: La carte comprend une section vins et bières belges
 - [ ] **MENU-03** (R2): La mention « espèces, cartes, PromptPay » et les éventuels frais carte (5 %) sont visibles sur la carte et la page réservation
 
 ### Réservation (RESA)
@@ -149,7 +149,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | SEO-06 | Phase 2 | Complete |
 | SEO-07 | Phase 2 | Partial (GSC verified; sitemap submit + Bing pending owner) |
 | MENU-01 | Phase 3 | Complete |
-| MENU-02 | Phase 3 | Pending |
+| MENU-02 | Phase 3 | Complete |
 | PAGE-01 | Phase 3 | Pending |
 | PAGE-02 | Phase 3 | Pending |
 | REV-01 | Phase 4 | Pending |
