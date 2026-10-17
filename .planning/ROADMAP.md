@@ -123,7 +123,31 @@ Plans:
   3. L'accueil EN a le title « Gecko Cabane – French-Thai Restaurant in Krabi Town » et présente avis, histoire et accès
   4. `/en/french-restaurant-krabi` existe avec plats signatures, cave, couple franco-thaï et photos, et un lien vers la réservation
 
-**Plans**: TBD
+**Plans**: 8 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 03-01-PLAN.md — /menu server-rendered (cached anon read, sections, sticky anchors, pictos, prices in baht, i18n) (MENU-01)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 03-02-PLAN.md — hasMenu in Restaurant JSON-LD + /menu in PUBLISHED_PATHS/sitemap (MENU-01, SEO-03)
+- [ ] 03-03-PLAN.md — Migration 013 (is_gluten_free, inactive vins-bieres-belges page), admin checkbox, menu cache invalidation (MENU-01, MENU-02)
+- [ ] 03-04-PLAN.md — Home teaser to /menu (MenuDisplay removed), Google rating line, directions link (PAGE-01)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 03-05-PLAN.md — EN-only SEO plumbing + /en/french-restaurant-krabi landing page (PAGE-02)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 03-06-PLAN.md — Owner approval, push 013, chef gluten sheet, deploy, live probes [checkpoint]
+
+**Wave 5-6** *(owner content; may land after the other plans)*
+
+- [ ] 03-07-PLAN.md — Transcribe owner wine/Belgian beer list + chef sheet into approved SQL [checkpoint]
+- [ ] 03-08-PLAN.md — Apply content, owner activates Belgian section, live verification [checkpoint]
 **UI hint**: yes
 
 ### Phase 4: Tunnel d'avis et fiche Google
