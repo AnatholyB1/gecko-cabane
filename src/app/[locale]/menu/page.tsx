@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
+import { localizedPageMetadata } from '@/utils/page-metadata'
 import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -14,14 +14,12 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale: raw } = await params
-  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const t = await getTranslations({ locale, namespace: 'meta' })
-  return buildPageMetadata({
-    locale,
-    path: '/menu',
-    title: t('menuTitle'),
-    description: t('menuDescription'),
+  const { locale: rawLocale } = await params
+  return localizedPageMetadata({
+    rawLocale,
+    key: '/menu',
+    titleKey: 'menuTitle',
+    descriptionKey: 'menuDescription',
     absoluteTitle: true,
   })
 }

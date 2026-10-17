@@ -1,16 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
-import { locales, defaultLocale } from '@/i18n/config'
+import { routing } from '@/i18n/routing'
 
-const intlMiddleware = createIntlMiddleware({
-  locales,
-  defaultLocale,
-  localeDetection: false,
-  // No Link hreflang header: HTML hreflang (x-default -> /fr) is the only signal
-  alternateLinks: false,
-  localePrefix: 'always',
-})
+const intlMiddleware = createIntlMiddleware(routing)
 
 const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
 

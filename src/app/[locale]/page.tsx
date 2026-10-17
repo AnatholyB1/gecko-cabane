@@ -9,20 +9,20 @@ import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
-import { buildPageMetadata, LOCALES, SAME_AS, type SeoLocale } from '@/utils/seo'
+import { localizedPageMetadata } from '@/utils/page-metadata'
+import { isPublished, SAME_AS, slugFor, toSeoLocale, type SeoLocale } from '@/utils/seo'
 
 // Google place URL, taken from the shared sameAs list (no duplicated literal).
 const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale: raw } = await params
-  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const t = await getTranslations({ locale, namespace: 'meta' })
+  const { locale: rawLocale } = await params
   // Absolute title so the layout template is not appended (D-11).
-  return buildPageMetadata({
-    locale,
-    title: t('homeTitle'),
-    description: t('homeDescription'),
+  return localizedPageMetadata({
+    rawLocale,
+    key: '',
+    titleKey: 'homeTitle',
+    descriptionKey: 'homeDescription',
     absoluteTitle: true,
   })
 }
@@ -216,10 +216,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     seats: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
                   })}
                 </p>
-                {locale === 'en' && (
+                {isPublished('/french-restaurant-krabi', toSeoLocale(locale)) && (
                   <p className="mb-8">
                     <Link
-                      href="/french-restaurant-krabi"
+                      href={slugFor('/french-restaurant-krabi', toSeoLocale(locale))}
                       className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
                     >
                       {t('about.frenchRestaurantLink')}

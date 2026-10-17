@@ -26,22 +26,135 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '', locales: ['fr', 'en'] },
   { path: '/privacy', locales: ['fr', 'en'] },
   { path: '/menu', locales: ['fr', 'en'] },
-  { path: '/french-restaurant-krabi', locales: ['en'] },
+  { path: '/french-restaurant-krabi', locales: ['fr', 'en'] },
 ]
 
-/** Bilingual published paths (D-14); /menu added in phase 3, D-10. */
-export const PUBLISHED_PATHS = ['', '/privacy', '/menu'] as const
+/** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */
+export const PUBLISHED_PATHS: readonly string[] = PUBLISHED_PAGES.filter(
+  (p) => p.locales.includes('fr') && p.locales.includes('en')
+).map((p) => p.path)
+
+export type PageKey =
+  | ''
+  | '/privacy'
+  | '/menu'
+  | '/french-restaurant-krabi'
+  | '/romantic-dinner-krabi'
+  | '/where-to-eat-krabi-town'
+  | '/getting-here-from-ao-nang'
+  | '/wine-belgian-beer-krabi'
+
+export type PageDef = {
+  key: PageKey
+  namespace: string
+  slugs: Partial<Record<SeoLocale, string>>
+  contentLocales: readonly SeoLocale[]
+  related: readonly PageKey[]
+}
+
+/**
+ * Single slug registry (D-01). EN slug = key (D-02, indexed URLs never change);
+ * other locales may override through `slugs`. DE/SV slugs arrive with plan 09.
+ */
+export const PAGES: readonly PageDef[] = [
+  { key: '', namespace: 'home', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  { key: '/privacy', namespace: 'privacy', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  { key: '/menu', namespace: 'menuPage', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  {
+    key: '/french-restaurant-krabi',
+    namespace: 'frenchRestaurant',
+    slugs: { fr: '/restaurant-francais-krabi' },
+    contentLocales: ['fr', 'en'],
+    related: ['/romantic-dinner-krabi', '/where-to-eat-krabi-town', '/wine-belgian-beer-krabi'],
+  },
+  {
+    key: '/romantic-dinner-krabi',
+    namespace: 'romanticDinner',
+    slugs: { fr: '/diner-romantique-krabi' },
+    contentLocales: ['fr', 'en'],
+    related: ['/french-restaurant-krabi', '/wine-belgian-beer-krabi', '/where-to-eat-krabi-town'],
+  },
+  {
+    key: '/where-to-eat-krabi-town',
+    namespace: 'whereToEat',
+    slugs: { fr: '/ou-manger-krabi-town' },
+    contentLocales: ['fr', 'en'],
+    related: ['/getting-here-from-ao-nang', '/french-restaurant-krabi', '/romantic-dinner-krabi'],
+  },
+  {
+    key: '/getting-here-from-ao-nang',
+    namespace: 'gettingHere',
+    slugs: {},
+    contentLocales: ['en'],
+    related: ['/where-to-eat-krabi-town', '/french-restaurant-krabi'],
+  },
+  {
+    // Owner alcohol gate (plan 12): no content locale yet
+    key: '/wine-belgian-beer-krabi',
+    namespace: 'wineBeer',
+    slugs: {},
+    contentLocales: [],
+    related: ['/french-restaurant-krabi', '/romantic-dinner-krabi'],
+  },
+]
+
+export function toSeoLocale(raw: string): SeoLocale {
+  return (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
+}
+
+/** Localized slug for a page key (falls back to the key itself). */
+export function slugFor(key: PageKey | string, locale: SeoLocale): string {
+  const page = PAGES.find((p) => p.key === key)
+  return page?.slugs[locale] ?? key
+}
+
+export function localeUrl(locale: SeoLocale, key: PageKey | string = ''): string {
+  return `${SITE_URL}/${locale}${slugFor(key, locale)}`
+}
+
+export function localePath(locale: SeoLocale, key: PageKey | string = ''): string {
+  return `/${locale}${slugFor(key, locale)}`
+}
+
+export function publishedLocales(key: string): readonly SeoLocale[] {
+  return PUBLISHED_PAGES.find((p) => p.path === key)?.locales ?? []
+}
+
+export function isPublished(key: string, locale: SeoLocale): boolean {
+  return publishedLocales(key).includes(locale)
+}
 
 /** hreflang map for a page published in the given locales (x-default -> fr when present). */
-export function pageLanguages(path: string, locales: readonly SeoLocale[] = LOCALES): Record<string, string> {
+export function pageLanguages(path: string, locales: readonly SeoLocale[]): Record<string, string> {
   const languages: Record<string, string> = {}
   for (const l of locales) languages[l] = localeUrl(l, path)
   languages['x-default'] = localeUrl(locales.includes('fr') ? 'fr' : locales[0], path)
   return languages
 }
 
-export function localeUrl(locale: SeoLocale, path = ''): string {
-  return `${SITE_URL}/${locale}${path}`
+/** Noindex gate (D-05): an unpublished (page, locale) gets no canonical/hreflang. */
+export function resolvePageSeo(
+  key: string,
+  locale: SeoLocale
+):
+  | { index: false }
+  | { index: true; canonical: string; languages: Record<string, string> } {
+  if (!isPublished(key, locale)) return { index: false }
+  return {
+    index: true,
+    canonical: localeUrl(locale, key),
+    languages: pageLanguages(key, publishedLocales(key)),
+  }
+}
+
+/** next-intl pathnames: only non-EN rewrites, derived from the registry. */
+export function buildPathnames(): Record<string, Partial<Record<SeoLocale, string>>> {
+  const out: Record<string, Partial<Record<SeoLocale, string>>> = {}
+  for (const page of PAGES) {
+    if (Object.keys(page.slugs).length === 0) continue
+    out[page.key] = { ...page.slugs }
+  }
+  return out
 }
 
 // ---------------------------------------------------------------------------
@@ -61,7 +174,7 @@ export function buildPageMetadata(args: {
   absoluteTitle?: boolean
   locales?: readonly SeoLocale[]
 }): Metadata {
-  const { locale, path = '', title, description, absoluteTitle, locales = LOCALES } = args
+  const { locale, path = '', title, description, absoluteTitle, locales = publishedLocales(path) } = args
   const others = locales.filter((l) => l !== locale)
   const url = localeUrl(locale, path)
 

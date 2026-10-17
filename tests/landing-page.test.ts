@@ -27,16 +27,17 @@ function values(o: unknown): string[] {
 describe('landing page source', () => {
   const src = read(PAGE)
 
-  it('is EN only (notFound + early return in metadata)', () => {
-    expect(src).toContain("locale !== 'en'")
+  it('is guarded by contentLocales (notFound + early return in metadata)', () => {
+    expect(src).toContain('contentLocales')
     expect(src.match(/notFound\(\)/g)).toHaveLength(1)
     expect(src).toContain('return {}')
   })
 
-  it('uses EN-only metadata', () => {
+  it('uses the registry-driven metadata helper', () => {
     expect(src).toContain('export async function generateMetadata')
-    expect(src).toContain("locales: ['en']")
-    expect(src).toContain("path: '/french-restaurant-krabi'")
+    expect(src).toContain('localizedPageMetadata(')
+    expect(src).toContain("const KEY = '/french-restaurant-krabi'")
+    expect(src).not.toContain("locale: 'en'")
   })
 
   it('has a single h1 and booking/menu links', () => {
@@ -44,7 +45,7 @@ describe('landing page source', () => {
     expect(src).toContain('#reservation')
     expect(src).toContain('href="/menu')
     expect(src).toContain('vins-bieres-belges')
-    expect(src).toContain("availableLocales={['en']}")
+    expect(src).toContain('availableLocales={publishedLocales(KEY)}')
     expect(src).toContain('getOpeningHours()')
   })
 
@@ -104,7 +105,13 @@ describe('landing copy', () => {
     expect(t.length).toBeLessThanOrEqual(60)
     expect(d.length).toBeGreaterThanOrEqual(120)
     expect(d.length).toBeLessThanOrEqual(165)
-    expect(fr.meta.frenchRestaurantTitle).toBeTruthy()
-    expect(fr.meta.frenchRestaurantDescription).toBeTruthy()
+    const ft: string = fr.meta.frenchRestaurantTitle
+    const fd: string = fr.meta.frenchRestaurantDescription
+    expect(ft.toLowerCase()).toContain('restaurant français')
+    expect(ft).toContain('Krabi')
+    expect(ft.length).toBeGreaterThanOrEqual(40)
+    expect(ft.length).toBeLessThanOrEqual(60)
+    expect(fd.length).toBeGreaterThanOrEqual(120)
+    expect(fd.length).toBeLessThanOrEqual(165)
   })
 })
