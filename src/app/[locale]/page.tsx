@@ -11,10 +11,9 @@ import SocialProof from '@/components/SocialProof'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
-import { buildPageMetadata, LOCALES, SAME_AS, type SeoLocale } from '@/utils/seo'
-
-// Google place URL, taken from the shared sameAs list (no duplicated literal).
-const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
+import MapEmbed from '@/components/MapEmbed'
+import { COUPLE_PHOTO } from '@/utils/about-content'
+import { buildPageMetadata, LOCALES, googleDirectionsUrl, googleMapsEmbedUrl, type SeoLocale } from '@/utils/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: raw } = await params
@@ -221,6 +220,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     seats: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
                   })}
                 </p>
+                <h3 className="font-cinzel font-normal text-[20px] leading-[1.2] text-gc-text-dark mb-4">
+                  {t('about.storyTitle')}
+                </h3>
+                <p className="font-cormorant text-[17px] text-gc-text-mid leading-[1.85] mb-8">
+                  {t('about.story1')}
+                </p>
                 {locale === 'en' && (
                   <p className="mb-8">
                     <Link
@@ -274,6 +279,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     </p>
                   </div>
                 </div>
+                {COUPLE_PHOTO && (
+                  <figure className="relative mt-8 bg-gc-void overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
+                    <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold z-10" />
+                    <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold z-10" />
+                    <Image
+                      src={COUPLE_PHOTO.src}
+                      width={COUPLE_PHOTO.width}
+                      height={COUPLE_PHOTO.height}
+                      alt={t('about.couplePhotoAlt')}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="w-full h-auto object-cover"
+                      style={{ aspectRatio: '4/3' }}
+                    />
+                    <figcaption className="font-raleway font-light text-[12px] tracking-[0.15em] uppercase text-gc-gold/65 text-center px-6 py-4">
+                      {t('about.coupleCaption')}
+                    </figcaption>
+                  </figure>
+                )}
               </div>
             </div>
           </div>
@@ -595,13 +618,37 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   {t('contactSection.thailand')}
                 </address>
                 <a
-                  href={GOOGLE_PLACE_URL}
+                  href={googleDirectionsUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-text-dark px-6 py-3 min-h-11 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-all mb-8 focus:outline-none focus:ring-1 focus:ring-gc-gold"
                 >
                   {t('home.directionsLink')} →
                 </a>
+                <div className="border-t border-gc-aged pt-6 mb-8">
+                  <h4 className="font-cinzel font-normal text-[20px] leading-[1.2] text-gc-text-dark mb-4">
+                    {t('contactSection.gettingHereTitle')}
+                  </h4>
+                  <div className="w-8 h-px bg-gc-gold mb-5" />
+                  <ul className="space-y-2 mb-6">
+                    {[
+                      { key: 'aoNang', label: t('contactSection.gettingHere.aoNang'), d: 'M3 13l2-6h14l2 6M5 13h14v5H5zM7 18v2M17 18v2' },
+                      { key: 'songthaew', label: t('contactSection.gettingHere.songthaew'), d: 'M4 6h16v10H4zM4 11h16M7 16v2M17 16v2' },
+                      { key: 'walkingStreet', label: t('contactSection.gettingHere.walkingStreet'), d: 'M12 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 6v7l-3 6M12 13l3 6M9 9l3-1 3 2' },
+                      { key: 'chaoFah', label: t('contactSection.gettingHere.chaoFah'), d: 'M3 15h18l-2 4H5zM12 15V4l5 6h-5' },
+                    ].map(({ key, label, d }) => (
+                      <li key={key} className="flex items-center gap-3">
+                        <svg className="w-5 h-5 text-gc-brass shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" d={d} />
+                        </svg>
+                        <span className="font-cormorant text-[17px] text-gc-text-mid leading-[1.5]">
+                          {label}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <MapEmbed src={googleMapsEmbedUrl()} />
+                </div>
                 <div className="border-t border-gc-aged pt-6">
                   <h4 className="font-cinzel font-normal text-[13px] tracking-[0.15em] uppercase text-gc-text-dark mb-4">
                     {t('contactSection.reservationTitle')}
