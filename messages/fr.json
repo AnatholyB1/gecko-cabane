@@ -256,7 +256,7 @@
     "metaTitle": "Politique de confidentialité",
     "metaDescription": "Comment Gecko Cabane, restaurant franco-thaï à Krabi, collecte et protège vos données personnelles (PDPA B.E. 2562 et RGPD).",
     "title": "Politique de confidentialité",
-    "lastUpdated": "Dernière mise à jour : 16 octobre 2026",
+    "lastUpdated": "Dernière mise à jour : 17 octobre 2026",
     "back": "Retour à l'accueil",
     "who": {
       "title": "Qui sommes-nous",
@@ -270,7 +270,8 @@
       "item3": "votre adresse email ;",
       "item4": "les détails de la réservation : date, heure, nombre de couverts et occasion éventuelle ;",
       "item5": "si vous cochez la case, votre consentement à recevoir nos actualités, avec la date, la source et la version du texte de consentement ;",
-      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours."
+      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours ;",
+      "item7": "si vous utilisez le formulaire « Un souci ? » de la page d'avis : votre message et, si vous la donnez, votre adresse email, transmis par email au restaurant et non enregistrés sur le site."
     },
     "purpose": {
       "title": "Pourquoi nous les utilisons",
@@ -301,7 +302,8 @@
       "body": "Vos données ne sont jamais vendues. Elles sont traitées par des prestataires, par catégorie :",
       "item1": "hébergement du site ;",
       "item2": "hébergement de la base de données ;",
-      "item3": "envoi des emails transactionnels."
+      "item3": "envoi des emails transactionnels ;",
+      "item4": "mesure d'audience sans cookies (Plausible Analytics) : pages vues et clics, sans identifiant personnel, hébergée dans l'Union européenne."
     },
     "contact": {
       "title": "Exercer vos droits et vous désinscrire",

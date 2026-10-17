@@ -256,7 +256,7 @@
     "metaTitle": "Privacy policy",
     "metaDescription": "How Gecko Cabane, a French-Thai restaurant in Krabi, collects and protects your personal data (Thai PDPA B.E. 2562 and GDPR).",
     "title": "Privacy policy",
-    "lastUpdated": "Last updated: 16 October 2026",
+    "lastUpdated": "Last updated: 17 October 2026",
     "back": "Back to home",
     "who": {
       "title": "Who we are",
@@ -270,7 +270,8 @@
       "item3": "your email address;",
       "item4": "your booking details: date, time, number of guests and occasion, if any;",
       "item5": "if you tick the box, your consent to receive our news, recorded with the date, the source and the version of the consent text;",
-      "item6": "technical anti-abuse data, stored only as irreversible hashes and deleted after 2 days."
+      "item6": "technical anti-abuse data, stored only as irreversible hashes and deleted after 2 days;",
+      "item7": "if you use the \"Something wrong?\" form on the review page: your message and, if you provide it, your email address, sent by email to the restaurant and not stored on the website."
     },
     "purpose": {
       "title": "Why we use it",
@@ -301,7 +302,8 @@
       "body": "Your data is never sold. It is processed by service providers, by category:",
       "item1": "website hosting;",
       "item2": "database hosting;",
-      "item3": "transactional email delivery."
+      "item3": "transactional email delivery;",
+      "item4": "audience measurement without cookies (Plausible Analytics): page views and clicks, without any personal identifier, hosted in the European Union."
     },
     "contact": {
       "title": "Exercising your rights and unsubscribing",
