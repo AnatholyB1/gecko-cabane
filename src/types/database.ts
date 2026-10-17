@@ -158,6 +158,11 @@ export interface Reservation {
   confirmed_at: string | null
   cancelled_at: string | null
   locale: 'fr' | 'en' | 'de' | 'sv'
+  // Added by migration 014. review_token is never sent to public responses.
+  review_token: string
+  review_email_sent_at: string | null
+  review_reminder_sent_at: string | null
+  review_clicked_at: string | null
 }
 
 export interface MarketingConsent {
