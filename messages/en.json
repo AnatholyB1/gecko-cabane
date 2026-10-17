@@ -394,5 +394,21 @@
   },
   "payment": {
     "note": "Cash, cards, PromptPay — a 5% fee applies to card payments."
+  },
+  "reviewFeedback": {
+    "title": "Something wrong?",
+    "lead": "Did something not go well? Tell us directly, we read every message.",
+    "messageLabel": "Your message",
+    "counter": "{count}/{max}",
+    "emailLabel": "Email (optional)",
+    "emailHelp": "Only used to reply to you if you wish.",
+    "submit": "Send message",
+    "pending": "Sending…",
+    "success": "Thank you, your message has been sent.",
+    "errorMessage": "Your message must be between 5 and 1,000 characters.",
+    "errorEmail": "This email address does not look valid.",
+    "errorGeneric": "Your message could not be sent. Please try again, or call us on +66 81 958 5945.",
+    "errorRateLimited": "Too many messages from your connection.",
+    "whatsappLink": "Message us on WhatsApp"
   }
 }

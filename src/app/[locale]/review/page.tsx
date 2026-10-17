@@ -5,6 +5,8 @@ import { after } from 'next/server'
 import { isReviewToken, normalizeReviewSource } from '@/utils/review-links'
 import { markReviewClicked } from '@/utils/review-tracking'
 import { recordReviewHit } from '@/utils/review-stats'
+import ReviewFeedbackForm from '@/components/ReviewFeedbackForm'
+import { FEEDBACK_MESSAGE_MAX } from '@/utils/review-feedback'
 import { LOCALES, type SeoLocale } from '@/utils/seo'
 
 type Props = {
@@ -92,7 +94,9 @@ export default async function ReviewPage({ params, searchParams }: Props) {
             </a>
           </div>
 
-          <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-6">{t('note')}</p>
+          <ReviewFeedbackForm src={source} rid={isReviewToken(rid) ? rid : null} maxLength={FEEDBACK_MESSAGE_MAX} />
+
+          <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-8">{t('note')}</p>
           <Link
             href="/"
             className="inline-flex min-h-11 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"

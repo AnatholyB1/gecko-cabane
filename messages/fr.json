@@ -394,5 +394,21 @@
   },
   "payment": {
     "note": "Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte."
+  },
+  "reviewFeedback": {
+    "title": "Un souci ?",
+    "lead": "Quelque chose ne s'est pas bien passé ? Dites-le-nous directement, nous lisons chaque message.",
+    "messageLabel": "Votre message",
+    "counter": "{count}/{max}",
+    "emailLabel": "Email (facultatif)",
+    "emailHelp": "Uniquement pour vous répondre si vous le souhaitez.",
+    "submit": "Envoyer le message",
+    "pending": "Envoi…",
+    "success": "Merci, message transmis.",
+    "errorMessage": "Votre message doit contenir entre 5 et 1 000 caractères.",
+    "errorEmail": "Cette adresse email ne semble pas valide.",
+    "errorGeneric": "Le message n'a pas pu être envoyé. Réessayez, ou appelez-nous au +66 81 958 5945.",
+    "errorRateLimited": "Trop de messages depuis votre connexion.",
+    "whatsappLink": "Écrire sur WhatsApp"
   }
 }
