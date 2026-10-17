@@ -318,7 +318,9 @@
     "whereToEatTitle": "Where to Eat in Krabi Town – Gecko Cabane",
     "whereToEatDescription": "A local guide to eating in Krabi Town: the night market, Walking Street and the riverfront, what to try and when to go, plus dinner at Gecko Cabane.",
     "gettingHereTitle": "Getting to Krabi Town from Ao Nang – Gecko Cabane",
-    "gettingHereDescription": "How to reach Gecko Cabane in Krabi Town from Ao Nang by taxi, songthaew, private transfer or scooter, with Google Maps directions to Maharat Road."
+    "gettingHereDescription": "How to reach Gecko Cabane in Krabi Town from Ao Nang by taxi, songthaew, private transfer or scooter, with Google Maps directions to Maharat Road.",
+    "wineBeerTitle": "Wine and Belgian Beer in Krabi Town – Gecko Cabane",
+    "wineBeerDescription": "Which wines and Belgian beers go with French and Thai dishes at Gecko Cabane in Krabi Town: a short pairing guide, with the full list on our menu page."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -514,5 +516,51 @@
       "approx": "Figures are approximate, please confirm locally."
     },
     "closingTitle": "Come for dinner in Krabi Town"
+  },
+  "wineBeer": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Wine and Belgian beer in Krabi Town",
+    "subtitle": "A short guide to the wine and Belgian beer that goes with a French-Thai dinner.",
+    "heroAlt": "Beef bourguignon served at Gecko Cabane in Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "A short list, chosen to match the kitchen",
+        "p1": "A French kitchen and a glass of wine belong together, so Gecko Cabane keeps a short list of red, white and rosé wines chosen to suit the dishes on the menu.",
+        "p2": "The list is deliberately small. It is easier to choose from, and each bottle has a reason to be there."
+      },
+      "belgian": {
+        "title": "Why Belgian beer",
+        "p1": "Our kitchen is run by a French-Thai couple, and Belgian beer is a natural companion to French home cooking. Abbey-style ales, blonde ales and wheat beers share the table well with braised and creamy dishes.",
+        "p2": "If you prefer beer to wine, ask us which style suits your dish. We are happy to explain the differences."
+      },
+      "pairings": {
+        "title": "What goes with what",
+        "p1": "These are suggestions, not rules. Choose what you enjoy.",
+        "cards": {
+          "c1": {
+            "title": "Beef bourguignon",
+            "text": "Slow-braised in red wine, it suits a red wine or an abbey-style ale with some depth."
+          },
+          "c2": {
+            "title": "Chicken in cream sauce",
+            "text": "A rich, creamy sauce goes well with a dry white wine or a light blonde ale."
+          },
+          "c3": {
+            "title": "Massaman curry",
+            "text": "The gentle spice and sweetness of a mild curry pair with a rosé or a wheat beer."
+          },
+          "c4": {
+            "title": "Velvety soup",
+            "text": "A smooth soup to start works with a crisp white wine or a blonde ale."
+          }
+        }
+      },
+      "list": {
+        "title": "See the full list",
+        "p1": "The complete list of wines and beers, with current prices, is on our menu page.",
+        "link": "See wines and beers on the menu"
+      }
+    },
+    "closingTitle": "Join us for dinner in Krabi Town"
   }
 }

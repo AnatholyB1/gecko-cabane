@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import GcDivider from '@/components/ui/GcDivider'
@@ -22,6 +23,13 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
   const ts = await getTranslations({ locale, namespace: 'seoLanding' })
   const tc = await getTranslations({ locale, namespace: 'common' })
 
+  // D-13: the priced list stays on /menu; deep-link only while that menu page is populated.
+  const belgianHref = config.sections.some((s) => s.link === 'belgian')
+    ? (await getMenu()).some((p) => p.slug === 'vins-bieres-belges')
+      ? '/menu#vins-bieres-belges'
+      : '/menu'
+    : '/menu'
+
   function renderLink(section: LandingSection) {
     if (section.link === 'reservation') {
       return (
@@ -33,6 +41,13 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
     if (section.link === 'menu') {
       return (
         <Link href="/menu" className={`${TEXT_LINK} mt-2`}>
+          {t(`sections.${section.id}.link`)}
+        </Link>
+      )
+    }
+    if (section.link === 'belgian') {
+      return (
+        <Link href={belgianHref} className={`${TEXT_LINK} mt-2`}>
           {t(`sections.${section.id}.link`)}
         </Link>
       )

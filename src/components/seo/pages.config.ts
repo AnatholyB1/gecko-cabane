@@ -29,6 +29,14 @@ export const TRANSPORT_FACTS: readonly TransportFact[] = [
   { mode: 'scooter', minutes: null, thb: null, source: null },
 ]
 
+/** Pairing card ids; copy lives in wineBeer.sections.pairings.cards (dish -> style). */
+export const PAIRINGS: readonly { id: string }[] = [
+  { id: 'bourguignon' },
+  { id: 'pouletCreme' },
+  { id: 'massaman' },
+  { id: 'veloute' },
+]
+
 /** Per-page structure for SeoLandingPage; copy lives in the page namespace of messages/*.json. */
 export const LANDING: Partial<Record<PageKey, LandingConfig>> = {
   '/romantic-dinner-krabi': {
@@ -56,6 +64,15 @@ export const LANDING: Partial<Record<PageKey, LandingConfig>> = {
       { id: 'options', paras: 2, facts: true },
       { id: 'arrive', paras: 2, image: '/exterior-sign.jpg', link: 'directions' },
       { id: 'back', paras: 1, link: 'reservation' },
+    ],
+  },
+  '/wine-belgian-beer-krabi': {
+    heroImage: '/food-bourguignon.jpg',
+    sections: [
+      { id: 'intro', paras: 2 },
+      { id: 'belgian', paras: 2 },
+      { id: 'pairings', paras: 1, cards: 4 },
+      { id: 'list', paras: 1, link: 'belgian' },
     ],
   },
 }
