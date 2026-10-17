@@ -35,3 +35,41 @@ Réponse du propriétaire dans la conversation (2026-10-17), verbatim : « check
 7. RESEND_FROM_EMAIL : inchangé.
 
 
+
+## Step 0 - claim fallback (2026-10-17)
+
+Item 6 not confirmed: `review.note` swapped to the fallback strings in `messages/fr.json` and `messages/en.json`. `tests/i18n.test.ts` + `tests/review-page-wiring.test.ts`: 18 tests pass. Commit 26fbc6d (`fix(04-07)`). Consent item 5 kept as proposed (no code change).
+
+## Production DB push
+
+Target prod ref `ubxllsvanurkwkohzxau`, connection string held in a shell variable only (never printed). Mechanism as in 01-DB-ROLLOUT.md (`db push` unusable on the shared project).
+
+- `psql -v ON_ERROR_STOP=1 -1 -f supabase/migrations/014_review_invitations.sql`: exit 0 (ALTER TABLE, CREATE INDEX x2).
+- `supabase migration repair --status applied 014`: "Migration history repaired". History now 34 rows (013 and 014 present).
+- Columns on `gecko_reservations`: `review_token` uuid NOT NULL, `review_email_sent_at`, `review_reminder_sent_at`, `review_clicked_at` (timestamptz, nullable).
+- `count(*) = count(distinct review_token)` and no null token: true (9 rows).
+- Indexes: `idx_gecko_reservations_review_token` (unique), `idx_gecko_reservations_review_scan` (partial).
+- `relrowsecurity` on gecko_reservations: true. `has_table_privilege('anon', gecko_reservations, 'SELECT')`: false.
+
+## Env
+
+`CRON_SECRET` created in Vercel Production (generated 32 random bytes hex, piped from generation to `vercel env add`, never displayed); `vercel env ls production` shows the name only (Hidden Secret). Appended to gitignored `.env.local` without printing.
+
+## Deploy & live probes
+
+- `vitest run`: 39 files, 408 tests pass. `npm run build`: exit 0.
+- `git push origin master`: b75d8e1..26fbc6d. Production deployment READY (gecko-cabane-restaurant-3cba0k1n5-anatholyb1s-projects.vercel.app).
+
+| probe | result |
+|-------|--------|
+| /avis | 307 -> /fr/review |
+| /bewertung | 307 -> /en/review |
+| /review Accept-Language fr-FR / en-GB / de-DE | 307 -> /fr/review / /en/review / /en/review |
+| /avis?src=qr&evil=1 | 307 -> /fr/review?src=qr (evil dropped) |
+| /fr/review | 200, noindex present, 0 hreflang, 0 canonical, Google writereview link before TripAdvisor UserReviewEdit |
+| /fr/review?rid=0000... | 200, same structure |
+| /sitemap.xml occurrences of /review | 0 |
+| cron without header / wrong Bearer | 401 / 401 |
+| cron real Bearer, ?dry=1 | 200, counts: invite 1, remind 0 (equals Task 1 maximum of 1) |
+
+Cron registered via `vercel.json`: `/api/cron/review-invitations`, `0 4 * * *` (dashboard not inspected). Fallback review note is live. The cron was only called with `dry=1`; the scheduled run does the real send.
