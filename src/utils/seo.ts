@@ -18,8 +18,8 @@ export type SeoLocale = (typeof LOCALES)[number]
 
 export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US' } as const
 
-/** Only published pages (D-14). */
-export const PUBLISHED_PATHS = ['', '/privacy'] as const
+/** Only published pages (D-14); /menu added in phase 3, D-10. */
+export const PUBLISHED_PATHS = ['', '/privacy', '/menu'] as const
 
 export function localeUrl(locale: SeoLocale, path = ''): string {
   return `${SITE_URL}/${locale}${path}`
