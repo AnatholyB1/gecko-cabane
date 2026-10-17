@@ -5,12 +5,12 @@
 import { describe, it, expect } from 'vitest'
 import sitemap from '../src/app/sitemap'
 import robots from '../src/app/robots'
-import { localeUrl, SITE_URL } from '../src/utils/seo'
+import { localeUrl, SITE_URL, PUBLISHED_PAGES } from '../src/utils/seo'
 
 describe('sitemap', () => {
   const entries = sitemap()
 
-  it('lists exactly the 6 published URLs', () => {
+  it('lists exactly the 7 published URLs', () => {
     const expected = [
       localeUrl('fr'),
       localeUrl('fr', '/privacy'),
@@ -18,19 +18,34 @@ describe('sitemap', () => {
       localeUrl('en'),
       localeUrl('en', '/privacy'),
       localeUrl('en', '/menu'),
+      localeUrl('en', '/french-restaurant-krabi'),
     ].sort()
     expect(entries.map((e) => e.url).sort()).toEqual(expected)
   })
 
-  it('declares fr, en and x-default alternates per path', () => {
+  it('declares alternates per entry from PUBLISHED_PAGES', () => {
     for (const e of entries) {
-      const path = e.url.replace(/^https:\/\/geckocabanerestaurant\.com\/(fr|en)/, '')
-      expect(e.alternates?.languages).toEqual({
-        fr: localeUrl('fr', path),
-        en: localeUrl('en', path),
-        'x-default': localeUrl('fr', path),
-      })
+      const m = e.url.match(/^https:\/\/geckocabanerestaurant\.com\/(fr|en)(.*)$/)!
+      const path = m[2]
+      const page = PUBLISHED_PAGES.find((p) => p.path === path)!
+      if (page.locales.length === 2) {
+        expect(e.alternates?.languages).toEqual({
+          fr: localeUrl('fr', path),
+          en: localeUrl('en', path),
+          'x-default': localeUrl('fr', path),
+        })
+      } else {
+        expect(e.alternates?.languages).toEqual({
+          en: localeUrl('en', path),
+          'x-default': localeUrl('en', path),
+        })
+      }
     }
+  })
+
+  it('never lists the FR landing URL', () => {
+    const all = entries.flatMap((e) => [e.url, ...Object.values(e.alternates?.languages ?? {})])
+    expect(all.join(' ')).not.toContain('/fr/french-restaurant-krabi')
   })
 
   it('uses only the canonical domain and no unpublished locale', () => {

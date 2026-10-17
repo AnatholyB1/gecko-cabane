@@ -11,6 +11,7 @@ import {
   LOCALES,
   OG_LOCALE,
   PUBLISHED_PATHS,
+  PUBLISHED_PAGES,
   localeUrl,
   buildPageMetadata,
 } from '../src/utils/seo'
@@ -92,5 +93,35 @@ describe('buildPageMetadata title', () => {
 
   it('uses a plain string otherwise', () => {
     expect(buildPageMetadata({ locale: 'fr', title: T, description: D }).title).toBe(T)
+  })
+})
+
+describe('EN-only page', () => {
+  const path = '/french-restaurant-krabi'
+  const md = buildPageMetadata({ locale: 'en', path, locales: ['en'], title: T, description: D })
+
+  it('has a self-referencing canonical and en + x-default hreflang only', () => {
+    expect(md.alternates?.canonical).toBe(localeUrl('en', path))
+    const langs = md.alternates?.languages as Record<string, string>
+    expect(Object.keys(langs).sort()).toEqual(['en', 'x-default'])
+    expect(langs.en).toBe(localeUrl('en', path))
+    expect(langs['x-default']).toBe(localeUrl('en', path))
+  })
+
+  it('has no FR reference and no alternateLocale', () => {
+    const og = md.openGraph as { locale: string; alternateLocale?: string[] }
+    expect(og.locale).toBe('en_US')
+    expect(og.alternateLocale ?? []).toEqual([])
+    const json = JSON.stringify(md)
+    expect(json).not.toContain('/fr/french-restaurant-krabi')
+    expect(json).not.toContain('fr_FR')
+  })
+})
+
+describe('PUBLISHED_PAGES', () => {
+  it('declares per-page locales and keeps PUBLISHED_PATHS as the bilingual subset', () => {
+    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['en'])
+    const bilingual = PUBLISHED_PAGES.filter((p) => p.locales.length === 2).map((p) => p.path)
+    expect([...PUBLISHED_PATHS]).toEqual(bilingual)
   })
 })
