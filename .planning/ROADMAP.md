@@ -10,7 +10,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 
 - [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
 - [ ] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (code livré et vérifié 2026-10-17 ; en attente du propriétaire : sitemap GSC, import Bing, Rich Results Test)
-- [ ] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
+- [x] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi » (completed 2026-10-17)
 - [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
 - [ ] **Phase 5: Conversion et mesure** - Preuve sociale, histoire du couple, accès, LINE, paiement, performance mobile, suivi des clics d'avis
 - [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - Pages restantes FR/EN, /de relu, /sv, posts Google, TripAdvisor, NAP, blogs, hôtels
@@ -142,12 +142,12 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 03-06-PLAN.md — Owner approval, push 013, chef gluten sheet, deploy, live probes [checkpoint]
+- [x] 03-06-PLAN.md — Owner approval, push 013, chef gluten sheet, deploy, live probes [checkpoint]
 
 **Wave 5-6** *(owner content; may land after the other plans)*
 
-- [ ] 03-07-PLAN.md — Transcribe owner wine/Belgian beer list + chef sheet into approved SQL [checkpoint]
-- [ ] 03-08-PLAN.md — Apply content, owner activates Belgian section, live verification [checkpoint]
+- [x] 03-07-PLAN.md — Transcribe owner wine/Belgian beer list + chef sheet into approved SQL [checkpoint]
+- [x] 03-08-PLAN.md — Apply content, owner activates Belgian section, live verification [checkpoint]
 **UI hint**: yes
 
 ### Phase 4: Tunnel d'avis et fiche Google
@@ -241,7 +241,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete   | 2026-10-16 |
-| 3. Carte HTML et pages clés | 5/8 | In Progress|  |
+| 3. Carte HTML et pages clés | 8/8 | Complete    | 2026-10-17 |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 3 UI-SPEC approved
-last_updated: "2026-10-17T01:24:02.539Z"
+status: ready_to_plan
+stopped_at: Phase 3 complete (8/8) — ready to discuss Phase 4
+last_updated: 2026-10-17T10:38:50.903Z
 last_activity: 2026-10-17
 progress:
   total_phases: 8
   completed_phases: 2
   total_plans: 27
-  completed_plans: 24
+  completed_plans: 27
   percent: 25
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-16)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Phase 03 — carte-html-et-pages-d-atterrissage-cl-s
+**Current focus:** Phase 4 — tunnel d'avis et fiche google
 
 ## Current Position
 
-Phase: 03 (carte-html-et-pages-d-atterrissage-cl-s) — EXECUTING
-Plan: 6 of 8
-Status: Ready to execute
+Phase: 4
+Plan: Not started
+Status: Ready to plan
 Last activity: 2026-10-17
 
 Progress: [█████████░] 89%
@@ -36,7 +36,7 @@ Progress: [█████████░] 89%
 
 **Velocity:**
 
-- Total plans completed: 11
+- Total plans completed: 19
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -47,6 +47,7 @@ Progress: [█████████░] 89%
 | 1 | 11 | - | - |
 | Phase 03 P03 | 15min | 2 tasks | 9 files |
 | Phase 03 P05 | 25min | 3 tasks | 12 files |
+| 3 | 8 | - | - |
 
 ## Accumulated Context
 
