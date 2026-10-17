@@ -223,6 +223,16 @@
     "label": "Questions? Chat with us",
     "prefill": "Hello Gecko Cabane, I would like to book a table."
   },
+  "review": {
+    "metaTitle": "Leave a review",
+    "title": "Your opinion matters to us",
+    "intro": "Thank you for sharing a meal at our table. If you have a minute, a review helps us a great deal.",
+    "google": "Review on Google",
+    "tripadvisor": "Review on TripAdvisor",
+    "newTab": "(opens in a new tab)",
+    "note": "Every review is read by Jariya and her team.",
+    "back": "Back to the website"
+  },
   "privacy": {
     "metaTitle": "Privacy policy",
     "metaDescription": "How Gecko Cabane, a French-Thai restaurant in Krabi, collects and protects your personal data (Thai PDPA B.E. 2562 and GDPR).",

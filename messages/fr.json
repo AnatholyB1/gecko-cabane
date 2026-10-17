@@ -223,6 +223,16 @@
     "label": "Une question ? Écrivez-nous",
     "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
   },
+  "review": {
+    "metaTitle": "Laisser un avis",
+    "title": "Votre avis compte pour nous",
+    "intro": "Merci d'avoir partagé ce moment à notre table. Si vous avez une minute, un avis nous aide beaucoup.",
+    "google": "Avis sur Google",
+    "tripadvisor": "Avis sur TripAdvisor",
+    "newTab": "(s'ouvre dans un nouvel onglet)",
+    "note": "Chaque avis est lu par Jariya et son équipe.",
+    "back": "Retour au site"
+  },
   "privacy": {
     "metaTitle": "Politique de confidentialité",
     "metaDescription": "Comment Gecko Cabane, restaurant franco-thaï à Krabi, collecte et protège vos données personnelles (PDPA B.E. 2562 et RGPD).",
