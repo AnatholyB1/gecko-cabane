@@ -29,8 +29,26 @@ function builder(rows: unknown[]) {
   return b
 }
 
+const updateSpy = vi.fn()
+let updateResult: { error: unknown } | 'throw' = { error: null }
+
+function reservationsBuilder() {
+  const b = builder([]) as Record<string, unknown>
+  b.update = (payload: unknown) => {
+    updateSpy(payload)
+    return {
+      eq: async () => {
+        if (updateResult === 'throw') throw new Error('boom')
+        return updateResult
+      },
+    }
+  }
+  return b
+}
+
 const adminClient = {
   from: vi.fn((table: string) => {
+    if (table === 'gecko_reservations') return reservationsBuilder()
     if (table === 'gecko_opening_hours') return builder(REGULAR)
     if (table === 'gecko_special_hours') return builder([])
     if (table === 'gecko_restaurant_settings') return builder(SETTINGS)
@@ -100,6 +118,8 @@ describe('POST /api/reservations', () => {
     checkLimits.mockReset()
     checkLimits.mockResolvedValue({ limited: false })
     afterCallbacks.length = 0
+    updateSpy.mockReset()
+    updateResult = { error: null }
     rpc.mockResolvedValue({
       data: [{ reservation_id: 123, reservation_status: 'pending', is_full: false }],
       error: null,
@@ -227,6 +247,52 @@ describe('POST /api/reservations', () => {
     const tue = await POST(req({ ...fresh(), reservation_date: '2026-10-27' }))
     expect(tue.status).toBe(422)
     expect(checkLimits).not.toHaveBeenCalled()
+  })
+
+  it('ignores a forged source and stores sanitized utm via a follow-up update', async () => {
+    const res = await POST(
+      req({ ...fresh(), source: 'whatsapp', utm_source: 'google', utm_medium: 'gbp' })
+    )
+    expect(res.status).toBe(201)
+    expect(JSON.stringify(rpc.mock.calls[0][1])).not.toContain('source')
+    expect(updateSpy).toHaveBeenCalledTimes(1)
+    expect(updateSpy.mock.calls[0][0]).toEqual({
+      utm_source: 'google',
+      utm_medium: 'gbp',
+      ref: null,
+    })
+    for (const c of updateSpy.mock.calls) expect(Object.keys(c[0])).not.toContain('source')
+  })
+
+  it('does not update when no utm is sent', async () => {
+    const res = await POST(req(fresh()))
+    expect(res.status).toBe(201)
+    expect(updateSpy).not.toHaveBeenCalled()
+  })
+
+  it('drops hostile utm values without updating', async () => {
+    const res = await POST(req({ ...fresh(), utm_source: '<b>x</b>' }))
+    expect(res.status).toBe(201)
+    expect(updateSpy).not.toHaveBeenCalled()
+  })
+
+  it('still returns 201 when the utm update fails', async () => {
+    updateResult = { error: { message: 'nope' } }
+    const res = await POST(req({ ...fresh(), utm_source: 'google' }))
+    expect(res.status).toBe(201)
+    expect(updateSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('POST handler never reads source from the body', async () => {
+    const { readFileSync } = await import('fs')
+    const { join } = await import('path')
+    const src = readFileSync(
+      join(__dirname, '..', 'src', 'app', 'api', 'reservations', 'route.ts'),
+      'utf-8'
+    )
+    const post = src.slice(src.indexOf('export async function POST'), src.indexOf('const RESERVATION_STATUSES'))
+    expect(post.length).toBeGreaterThan(100)
+    expect(post).not.toMatch(/body\.source|input\.source|\br\.source\b/)
   })
 
   it('checks limits once with normalized ip, email and phone', async () => {

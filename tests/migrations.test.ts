@@ -128,6 +128,25 @@ describe('supabase migrations', () => {
     expect(sql).not.toContain('create policy')
   })
 
+  it('015 adds source and utm columns idempotently without touching rows', () => {
+    const sql = read('015_reservation_source.sql')
+      .replace(/--.*$/gm, '')
+      .toLowerCase()
+    expect(sql).toContain("add column if not exists source text not null default 'site'")
+    expect(sql).toMatch(
+      /source in \('site',\s*'whatsapp',\s*'telephone',\s*'sans_reservation'\)/
+    )
+    expect(sql).toContain('add column if not exists utm_source text')
+    expect(sql).toContain('add column if not exists utm_medium text')
+    expect(sql).toContain('add column if not exists ref text')
+    expect(sql.match(/char_length\([a-z_]+\) <= 100/g)).toHaveLength(3)
+    expect(sql).toContain(
+      'grant usage, select on sequence public.gecko_reservations_id_seq to authenticated'
+    )
+    expect(sql).not.toContain('drop')
+    expect(sql).not.toContain('update public.gecko_reservations')
+  })
+
   it('011 revokes anon DML on consents and keeps authenticated select', () => {
     const sql = read('011_revoke_anon_consents_dml.sql').replace(/--.*$/gm, '')
     expect(sql).toMatch(/revoke\s+insert,\s*update,\s*delete,\s*select\s+on\s+public\.gecko_marketing_consents\s+from\s+anon;/i)
