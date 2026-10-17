@@ -3,6 +3,8 @@
  */
 
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import {
   POPUP_STORAGE_KEY,
   POPUP_TTL_MS,
@@ -17,6 +19,8 @@ import {
   shouldShowPopup,
 } from '../src/utils/newsletter-popup'
 
+const root = join(__dirname, '..')
+const read = (p: string) => readFileSync(join(root, p), 'utf8')
 
 describe('constants', () => {
   it('match the decided values', () => {
@@ -81,4 +85,18 @@ describe('shouldShowPopup', () => {
     expect(shouldShowPopup({ ...base, memory: { state: 'dismissed', until: 99 } })).toBe(false))
   it('hides on excluded paths', () => expect(shouldShowPopup({ ...base, pathname: '/wifi' })).toBe(false))
   it('hides during reservation', () => expect(shouldShowPopup({ ...base, reservationActive: true })).toBe(false))
+})
+
+describe('event route (source scan)', () => {
+  const route = read('src/app/api/newsletter/event/route.ts')
+  it('exports POST only', () => {
+    expect(route).toMatch(/export async function POST/)
+    expect(route).not.toMatch(/export async function (GET|PUT|PATCH|DELETE)/)
+  })
+  it('whitelists events and fixes the source', () => {
+    expect(route).toContain("'popup_shown'")
+    expect(route).toContain("'popup_dismissed'")
+    expect(route).toMatch(/p_source: 'popup'/)
+  })
+  it('reads no IP', () => expect(route).not.toContain('getClientIp'))
 })
