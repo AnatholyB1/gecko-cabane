@@ -142,6 +142,46 @@ export function relatedFor(key: PageKey, locale: SeoLocale): PageKey[] {
   return page.related.filter((k) => k !== key && isPublished(k, locale)).slice(0, 3)
 }
 
+/** Guide pages shown in the header menu, footer and home (D-04), in display order. */
+export const GUIDE_KEYS: readonly PageKey[] = [
+  '/french-restaurant-krabi',
+  '/romantic-dinner-krabi',
+  '/where-to-eat-krabi-town',
+  '/getting-here-from-ao-nang',
+  '/wine-belgian-beer-krabi',
+]
+
+/** Guides published in the given locale (published only, GUIDE_KEYS order). */
+export function guidesFor(locale: SeoLocale): { key: PageKey; namespace: string; href: string }[] {
+  const out: { key: PageKey; namespace: string; href: string }[] = []
+  for (const key of GUIDE_KEYS) {
+    const page = PAGES.find((p) => p.key === key)
+    if (!page || !isPublished(key, locale)) continue
+    out.push({ key, namespace: page.namespace, href: localePath(locale, key) })
+  }
+  return out
+}
+
+/**
+ * Language switcher targets for a browser pathname (D-05): the current locale plus
+ * every other locale in which the same page is published, each with its own slug.
+ * Hrefs come only from the registry; an unknown path yields [].
+ */
+export function switcherTargets(
+  pathname: string
+): { locale: SeoLocale; href: string; current: boolean }[] {
+  const current = LOCALES.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
+  if (!current) return []
+  const rest = pathname.slice(current.length + 1).replace(/\/+$/, '')
+  const page = PAGES.find((p) => slugFor(p.key, current) === rest)
+  if (!page) return []
+  return LOCALES.filter((l) => l === current || isPublished(page.key, l)).map((l) => ({
+    locale: l,
+    href: localePath(l, page.key),
+    current: l === current,
+  }))
+}
+
 /** Noindex gate (D-05): an unpublished (page, locale) gets no canonical/hreflang. */
 export function resolvePageSeo(
   key: string,
@@ -227,6 +267,8 @@ export const SAME_AS: readonly string[] = [
   'https://www.facebook.com/GeckoCabaneRestaurant/',
   'https://www.instagram.com/geckocabane/',
 ]
+
+export const TRIPADVISOR_URL: string = SAME_AS.find((u) => u.includes('tripadvisor.com'))!
 
 // Review destinations (D-12). Both URLs are centralized here so they can be swapped
 // (e.g. for the g.page/r/.../review link from the GBP dashboard) without touching the UI.

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedPageMetadata } from '@/utils/page-metadata'
-import { mapOpeningHours, PAGES, publishedLocales, SAME_AS, toSeoLocale, type SeoLocale } from '@/utils/seo'
+import { mapOpeningHours, PAGES, SAME_AS, toSeoLocale, type SeoLocale } from '@/utils/seo'
 import { getOpeningHours } from '@/utils/opening-hours'
 import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
@@ -68,7 +68,7 @@ export default async function FrenchRestaurantPage({ params }: Props) {
       >
         {tc('skipToContent')}
       </a>
-      <SiteHeader locale={locale} availableLocales={publishedLocales(KEY)} />
+      <SiteHeader locale={locale} />
       <main id="main-content">
         {/* 1. Hero */}
         <section className="bg-gc-jungle py-16 px-6">

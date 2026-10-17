@@ -5,7 +5,7 @@ import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import GcDivider from '@/components/ui/GcDivider'
-import { PAGES, googleDirectionsUrl, publishedLocales, type PageKey, type SeoLocale } from '@/utils/seo'
+import { PAGES, googleDirectionsUrl, type PageKey, type SeoLocale } from '@/utils/seo'
 import { LANDING, TRANSPORT_FACTS, type LandingSection } from './pages.config'
 import RelatedGuides from './RelatedGuides'
 import { BTN_GOLD, BTN_IVORY, H2, PROSE, TEXT_LINK } from './styles'
@@ -103,7 +103,7 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
       >
         {tc('skipToContent')}
       </a>
-      <SiteHeader locale={locale} availableLocales={publishedLocales(pageKey)} />
+      <SiteHeader locale={locale} />
       <main id="main-content">
         <section className="bg-gc-jungle py-16 px-6">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
