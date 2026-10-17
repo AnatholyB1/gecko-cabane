@@ -229,3 +229,14 @@ Run 2026-10-17. Connection string read into a shell variable only (never printed
   - `is_gluten_free` true: 0 (approved: 0, gluten-free on request)
   - page `vins-bieres-belges` `is_active`: false (stays inactive until owner activation)
   - total `gecko_menu_items`: 246 (162 existing + 84 new)
+
+## Owner activation
+
+2026-10-17: owner reported "c'est bon" then "every thing is up" after activating "Vins & bières belges" in /admin/menu. (Admin list was empty at first because of unprefixed relation names in the menu API, fixed in 7d7d42c; a second set in the tables API fixed in b75d8e1.)
+
+## Content live
+
+Probed 2026-10-17 12:35 (raw HTML via curl) on https://geckocabanerestaurant.com:
+- /fr/menu and /en/menu: contain id="vins-bieres-belges", nav href="#vins-bieres-belges", "Duvel Blonde", "Orval", "Westmalle Brune" (380 ฿), "Château du Barry", "Muay Thai IPA", "Droit de bouchon", "Prix des vins" note. Wi-Fi code from the beer sheet is not present.
+- /en/french-restaurant-krabi: links to /en/menu#vins-bieres-belges.
+- Gluten-free: no per-dish flags by owner decision; menu-wide line "available on request" live since 08c497d.
