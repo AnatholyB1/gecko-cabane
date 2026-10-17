@@ -179,7 +179,7 @@ Plans:
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 04-05-PLAN.md — Vercel Cron 04:00 UTC route, Bearer CRON_SECRET, atomic claim/release (REV-03)
-- [ ] 04-06-PLAN.md — rid -> locale + click mark, admin tracking badges and no-show deadline (REV-01, REV-02, REV-03)
+- [x] 04-06-PLAN.md — rid -> locale + click mark, admin tracking badges and no-show deadline (REV-01, REV-02, REV-03)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -261,7 +261,7 @@ Plans:
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete    | 2026-10-17 |
 | 3. Carte HTML et pages clés | 8/8 | Complete    | 2026-10-17 |
-| 4. Tunnel d'avis et fiche Google | 3/7 | In Progress|  |
+| 4. Tunnel d'avis et fiche Google | 4/7 | In Progress|  |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |
 | 7. Newsletter | 0/TBD | Not started | - |
