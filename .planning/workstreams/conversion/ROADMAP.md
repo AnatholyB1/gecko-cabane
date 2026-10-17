@@ -37,7 +37,7 @@ Plans:
 - [x] 05-08-PLAN.md — « Un souci ? » sur /review : POST protégé + email Resend au propriétaire (wave 3)
 - [x] 05-09-PLAN.md — Page admin « Avis » : tableau mensuel, totaux manuels, modèle WhatsApp (wave 3)
 - [x] 05-10-PLAN.md — #about enrichi (propriétaire, photo du couple) et « Comment venir » avec carte au clic (wave 4)
-- [ ] 05-11-PLAN.md — Confidentialité (Plausible, « Un souci ? ») et OWNER-CHECKLIST avec la porte avis CONV-01/D-14 (wave 5)
+- [x] 05-11-PLAN.md — Confidentialité (Plausible, « Un souci ? ») et OWNER-CHECKLIST avec la porte avis CONV-01/D-14 (wave 5)
 - [ ] 05-12-PLAN.md — Accord du propriétaire, avis candidats recopiés mot pour mot, choix de 3-4 avis (wave 2, checkpoints)
 - [ ] 05-13-PLAN.md — Ajout des avis choisis dans social-proof.ts, vérification preview des 5 critères (wave 6, checkpoint)
 **UI hint**: yes
@@ -46,4 +46,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 10/13 | In Progress|  |
+| 5. Conversion et mesure | 11/13 | In Progress|  |
