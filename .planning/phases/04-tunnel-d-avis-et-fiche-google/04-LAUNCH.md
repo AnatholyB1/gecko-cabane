@@ -73,3 +73,11 @@ Target prod ref `ubxllsvanurkwkohzxau`, connection string held in a shell variab
 | cron real Bearer, ?dry=1 | 200, counts: invite 1, remind 0 (equals Task 1 maximum of 1) |
 
 Cron registered via `vercel.json`: `/api/cron/review-invitations`, `0 4 * * *` (dashboard not inspected). Fallback review note is live. The cron was only called with `dry=1`; the scheduled run does the real send.
+
+## Owner device checks
+
+Réponse du propriétaire (2026-10-17), verbatim : « phone test ok ». Interprétation : les deux boutons (Google puis TripAdvisor) ouvrent la fenêtre d'avis sur téléphone. Le propriétaire n'a pas détaillé iOS vs Android ; aucune correction de lien demandée.
+
+## First run
+
+À observer le jour suivant le prochain envoi de 11h Krabi : « Invitation envoyée le … » dans /admin/reservations (attendu : 1 invitation).
