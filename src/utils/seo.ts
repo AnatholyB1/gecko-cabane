@@ -18,8 +18,27 @@ export type SeoLocale = (typeof LOCALES)[number]
 
 export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US' } as const
 
-/** Only published pages (D-14); /menu added in phase 3, D-10. */
+/**
+ * Per-page locales (D-14): a page is listed and hreflang'd only in the locales
+ * where it exists; FR landing arrives with PAGE-08 in phase 6.
+ */
+export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLocale[] }[] = [
+  { path: '', locales: ['fr', 'en'] },
+  { path: '/privacy', locales: ['fr', 'en'] },
+  { path: '/menu', locales: ['fr', 'en'] },
+  { path: '/french-restaurant-krabi', locales: ['en'] },
+]
+
+/** Bilingual published paths (D-14); /menu added in phase 3, D-10. */
 export const PUBLISHED_PATHS = ['', '/privacy', '/menu'] as const
+
+/** hreflang map for a page published in the given locales (x-default -> fr when present). */
+export function pageLanguages(path: string, locales: readonly SeoLocale[] = LOCALES): Record<string, string> {
+  const languages: Record<string, string> = {}
+  for (const l of locales) languages[l] = localeUrl(l, path)
+  languages['x-default'] = localeUrl(locales.includes('fr') ? 'fr' : locales[0], path)
+  return languages
+}
 
 export function localeUrl(locale: SeoLocale, path = ''): string {
   return `${SITE_URL}/${locale}${path}`
@@ -40,9 +59,10 @@ export function buildPageMetadata(args: {
   title: string
   description: string
   absoluteTitle?: boolean
+  locales?: readonly SeoLocale[]
 }): Metadata {
-  const { locale, path = '', title, description, absoluteTitle } = args
-  const other: SeoLocale = locale === 'fr' ? 'en' : 'fr'
+  const { locale, path = '', title, description, absoluteTitle, locales = LOCALES } = args
+  const others = locales.filter((l) => l !== locale)
   const url = localeUrl(locale, path)
 
   return {
@@ -50,11 +70,7 @@ export function buildPageMetadata(args: {
     description,
     alternates: {
       canonical: url,
-      languages: {
-        fr: localeUrl('fr', path),
-        en: localeUrl('en', path),
-        'x-default': localeUrl('fr', path),
-      },
+      languages: pageLanguages(path, locales),
     },
     openGraph: {
       title,
@@ -63,7 +79,7 @@ export function buildPageMetadata(args: {
       siteName: 'Gecko Cabane',
       url,
       locale: OG_LOCALE[locale],
-      alternateLocale: [OG_LOCALE[other]],
+      ...(others.length > 0 ? { alternateLocale: others.map((l) => OG_LOCALE[l]) } : {}),
     },
     twitter: {
       card: 'summary_large_image',
