@@ -15,7 +15,7 @@
 ### Réservation (RESA)
 
 - [ ] **RESA-05** (R1): Un bouton LINE est présent pour les Thaïlandais
-- [ ] **RESA-06**: Chaque réservation porte un champ « source » (site, WhatsApp, téléphone, sans réservation) ; les événements « réservation envoyée » et « clic WhatsApp » sont mesurés
+- [x] **RESA-06**: Chaque réservation porte un champ « source » (site, WhatsApp, téléphone, sans réservation) ; les événements « réservation envoyée » et « clic WhatsApp » sont mesurés
 
 ### Conversion (CONV)
 
@@ -31,5 +31,5 @@
 
 ### KPI et reporting (KPI)
 
-- [ ] **KPI-01**: GA4 ou Plausible est installé avec les événements « réservation envoyée » et « clic WhatsApp »
+- [x] **KPI-01**: GA4 ou Plausible est installé avec les événements « réservation envoyée » et « clic WhatsApp »
 

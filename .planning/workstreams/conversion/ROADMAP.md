@@ -27,7 +27,7 @@ Workstream parallèle extrait du ROADMAP principal. Phases 1 à 4 terminées (vo
 **Plans**: 13 plans (6 waves)
 
 Plans:
-- [ ] 05-01-PLAN.md — Plausible proxy (inert sans ID), événement « Reservation Sent », capture UTM/ref (wave 1)
+- [x] 05-01-PLAN.md — Plausible proxy (inert sans ID), événement « Reservation Sent », capture UTM/ref (wave 1)
 - [ ] 05-02-PLAN.md — Migration 015 source/UTM, POST non falsifiable, sélecteur de source admin (wave 1)
 - [ ] 05-03-PLAN.md — Preuve sociale avant #reservation, aggregateRating (D-14), ligne paiement /menu + réservation (wave 1)
 - [ ] 05-04-PLAN.md — Bouton LINE empilé sur WhatsApp, clics WhatsApp/LINE mesurés (wave 2)
@@ -46,4 +46,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 0/13 | Not started | - |
+| 5. Conversion et mesure | 1/13 | In Progress|  |
