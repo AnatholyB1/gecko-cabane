@@ -63,8 +63,8 @@
 ### Tunnel d'avis (REV)
 
 - [x] **REV-01** (A1) [P1]: `/review` (EN), `/avis` (FR), `/bewertung` (DE) redirigent selon la langue et montrent deux boutons, Google en premier puis TripAdvisor ; un clic depuis le mobile ouvre la fenêtre d'avis
-- [ ] **REV-02** (A2) [P1]: L'admin permet de marquer une réservation « honorée » ou « no-show » ; sans annulation elle est « honorée » par défaut
-- [ ] **REV-03** (A3) [P1]: Un email J+1 à 11h (heure de Krabi) part via Resend, dans la langue de la réservation, avec lien `/review?rid=…&src=email`, uniquement pour les réservations honorées ; un seul rappel à J+5 si le lien n'a pas été cliqué
+- [x] **REV-02** (A2) [P1]: L'admin permet de marquer une réservation « honorée » ou « no-show » ; sans annulation elle est « honorée » par défaut
+- [x] **REV-03** (A3) [P1]: Un email J+1 à 11h (heure de Krabi) part via Resend, dans la langue de la réservation, avec lien `/review?rid=…&src=email`, uniquement pour les réservations honorées ; un seul rappel à J+5 si le lien n'a pas été cliqué
 - [ ] **REV-04** (A4) [P1]: Un QR code vers `/review?src=qr` est prêt à imprimer pour l'addition et le chevalet de table, textes courts FR/EN/DE
 - [ ] **REV-05** (A5): L'admin fournit un modèle de message WhatsApp avec lien `/review?src=wa`
 - [ ] **REV-06** (A6): Les clics sur `/review` sont comptés par source (email, QR, WhatsApp) et un tableau de suivi mensuel compare avis Google et TripAdvisor
@@ -153,8 +153,8 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | PAGE-01 | Phase 3 | Complete |
 | PAGE-02 | Phase 3 | Complete |
 | REV-01 | Phase 4 | Complete |
-| REV-02 | Phase 4 | Pending |
-| REV-03 | Phase 4 | Pending |
+| REV-02 | Phase 4 | Complete |
+| REV-03 | Phase 4 | Complete |
 | REV-04 | Phase 4 | Pending |
 | OPS-01 | Phase 4 | Pending |
 | SEO-08 | Phase 5 | Pending |
