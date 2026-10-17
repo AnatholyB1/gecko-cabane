@@ -67,7 +67,7 @@ describe('review-invitations cron route', () => {
   })
 
   it('leaks no PII in responses or logs and never redirects', () => {
-    const spans = src.match(/NextResponse\.json\([^;]*?\)\s*(?:\n|$)/g) ?? []
+    const spans = src.match(/NextResponse\.json(?:<[^(]*>)?\([\s\S]*?\)\s*\n/g) ?? []
     expect(spans.length).toBeGreaterThan(0)
     for (const s of spans) {
       expect(s).not.toMatch(/customer_email|customer_name|review_token/)
