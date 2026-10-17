@@ -128,6 +128,7 @@ export interface MenuItemFormData {
   is_available: boolean
   is_vegetarian: boolean
   is_spicy: boolean
+  is_gluten_free: boolean
   allergens: string
 }
 
