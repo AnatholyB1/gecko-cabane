@@ -22,4 +22,13 @@ export const LANDING: Partial<Record<PageKey, LandingConfig>> = {
       { id: 'occasion', paras: 1, link: 'reservation' },
     ],
   },
+  '/where-to-eat-krabi-town': {
+    heroImage: '/exterior-entrance.jpg',
+    sections: [
+      { id: 'intro', paras: 2 },
+      { id: 'areas', paras: 1, cards: 3 },
+      { id: 'when', paras: 2 },
+      { id: 'dinner', paras: 2, image: '/food-massaman.jpg', link: 'reservation' },
+    ],
+  },
 }

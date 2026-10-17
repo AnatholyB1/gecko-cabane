@@ -28,6 +28,7 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '/menu', locales: ['fr', 'en'] },
   { path: '/french-restaurant-krabi', locales: ['fr', 'en'] },
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en'] },
+  { path: '/where-to-eat-krabi-town', locales: ['fr', 'en'] },
 ]
 
 /** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */

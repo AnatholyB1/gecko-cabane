@@ -314,7 +314,9 @@
     "frenchRestaurantTitle": "French Restaurant in Krabi Town – Gecko Cabane",
     "frenchRestaurantDescription": "Authentic French cooking by a French-Thai couple on Maharat Road, Krabi Town: beef bourguignon, chicken in cream sauce and Thai curries. Book online.",
     "romanticDinnerTitle": "Romantic Dinner in Krabi Town – Gecko Cabane",
-    "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion."
+    "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion.",
+    "whereToEatTitle": "Where to Eat in Krabi Town – Gecko Cabane",
+    "whereToEatDescription": "A local guide to eating in Krabi Town: the night market, Walking Street and the riverfront, what to try and when to go, plus dinner at Gecko Cabane."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -424,5 +426,49 @@
       }
     },
     "closingTitle": "Join us for dinner in Krabi Town"
+  },
+  "whereToEat": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Where to eat in Krabi Town",
+    "subtitle": "A short guide to the night market, Walking Street and the river, and where to sit down for dinner.",
+    "heroAlt": "The entrance of Gecko Cabane on Maharat Road in Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Eating well in a small town",
+        "p1": "Krabi Town is compact, so you can eat your way around it on foot. Most of what travellers enjoy here is simple and local: street food at a market, a seafood supper by the water, a sweet snack on a walk.",
+        "p2": "This page is not a ranking. It describes the places and habits that make an evening in town easy, so you can plan it your own way."
+      },
+      "areas": {
+        "title": "Three places to start",
+        "p1": "These are areas rather than addresses. Walk around, look at what is cooking and choose what appeals to you.",
+        "cards": {
+          "c1": {
+            "title": "The night market",
+            "text": "Stalls with grilled skewers, noodles, fried snacks, fruit and Thai sweets. Come hungry, share a few plates and pay as you go."
+          },
+          "c2": {
+            "title": "Walking Street",
+            "text": "The pedestrian street is usually busiest on weekend evenings, with food stalls, small shops and music. Check locally for the days it runs."
+          },
+          "c3": {
+            "title": "The riverfront",
+            "text": "A calm place for a stroll at dusk, with seafood and Thai dishes served along the water. A good way to end a day of sightseeing."
+          }
+        }
+      },
+      "when": {
+        "title": "What to try and when to go",
+        "p1": "Look for grilled seafood, stir-fried dishes, green and red curries, som tam and mango with sticky rice. Markets are at their liveliest in the early evening, and it is usually cooler and calmer after sunset.",
+        "p2": "Opening days and hours change with the season and the weather, so check locally on the day. Bring small notes and a little patience, and ask before you add chilli if you prefer mild food."
+      },
+      "dinner": {
+        "title": "When you want to sit down for dinner",
+        "alt": "A massaman curry served at Gecko Cabane",
+        "p1": "After the market, some evenings call for a table, a menu and a quiet room. Gecko Cabane is a 40-seat restaurant on Maharat Road serving French and Thai dishes, cooked by Chef Jariya.",
+        "p2": "We are closed on Tuesdays and the kitchen takes orders until 10 pm. You can book a table online in under a minute.",
+        "link": "Book a table for dinner"
+      }
+    },
+    "closingTitle": "Plan your evening in Krabi Town"
   }
 }

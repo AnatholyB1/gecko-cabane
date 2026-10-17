@@ -314,7 +314,9 @@
     "frenchRestaurantTitle": "Restaurant français à Krabi Town – Gecko Cabane",
     "frenchRestaurantDescription": "Cuisine française d'un couple franco-thaï sur Maharat Road, Krabi Town : bourguignon, poulet à la crème et currys thaïs. Réservez en ligne.",
     "romanticDinnerTitle": "Dîner romantique à Krabi Town – Gecko Cabane",
-    "romanticDinnerDescription": "Une table calme pour deux sur Maharat Road, à Krabi Town : cuisine française et plats thaïs dans une salle de 40 couverts. Réservez en ligne."
+    "romanticDinnerDescription": "Une table calme pour deux sur Maharat Road, à Krabi Town : cuisine française et plats thaïs dans une salle de 40 couverts. Réservez en ligne.",
+    "whereToEatTitle": "Où manger à Krabi Town – Gecko Cabane",
+    "whereToEatDescription": "Notre guide pour bien manger à Krabi Town : marché de nuit, Walking Street et bord de rivière, quoi goûter et quand y aller, puis dîner au Gecko Cabane."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -424,5 +426,49 @@
       }
     },
     "closingTitle": "Rejoignez-nous pour le dîner à Krabi Town"
+  },
+  "whereToEat": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Où manger à Krabi Town",
+    "subtitle": "Un petit guide du marché de nuit, de la Walking Street et de la rivière, et où dîner assis.",
+    "heroAlt": "L'entrée du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Bien manger dans une petite ville",
+        "p1": "Krabi Town se parcourt à pied, et on y mange très bien sans chercher loin. Ce que les voyageurs y apprécient est simple et local : de la street food au marché, un dîner de poisson au bord de l'eau, une douceur à grignoter en flânant.",
+        "p2": "Ce n'est pas un classement. Nous décrivons les lieux et les habitudes qui rendent une soirée en ville agréable, pour que vous organisiez la vôtre comme vous l'entendez."
+      },
+      "areas": {
+        "title": "Trois endroits pour commencer",
+        "p1": "Ce sont des quartiers plutôt que des adresses. Promenez-vous, regardez ce qui cuit et laissez-vous tenter.",
+        "cards": {
+          "c1": {
+            "title": "Le marché de nuit",
+            "text": "Brochettes grillées, nouilles, beignets, fruits et douceurs thaïes. Venez avec appétit, partagez plusieurs assiettes et payez au fur et à mesure."
+          },
+          "c2": {
+            "title": "La Walking Street",
+            "text": "Cette rue piétonne est en général plus animée le week-end en soirée, avec stands, petites boutiques et musique. Renseignez-vous sur place pour les jours d'ouverture."
+          },
+          "c3": {
+            "title": "Le bord de rivière",
+            "text": "Un endroit tranquille pour marcher à la tombée du jour, avec poissons, fruits de mer et plats thaïs servis au bord de l'eau. Parfait pour finir une journée de visites."
+          }
+        }
+      },
+      "when": {
+        "title": "Quoi goûter et quand y aller",
+        "p1": "Cherchez les fruits de mer grillés, les plats sautés, les currys verts et rouges, la salade de papaye som tam et la mangue au riz gluant. Les marchés sont les plus vivants en début de soirée, et il fait en général plus frais et plus calme après le coucher du soleil.",
+        "p2": "Les jours et horaires varient selon la saison et la météo : mieux vaut vérifier sur place le jour même. Prenez de la petite monnaie, et précisez que vous préférez peu pimenté si vous craignez le piment."
+      },
+      "dinner": {
+        "title": "Quand on veut dîner à table",
+        "alt": "Un massaman servi au Gecko Cabane",
+        "p1": "Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya.",
+        "p2": "Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute.",
+        "link": "Réserver une table pour le dîner"
+      }
+    },
+    "closingTitle": "Préparez votre soirée à Krabi Town"
   }
 }
