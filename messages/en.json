@@ -11,7 +11,8 @@
     "reservation": "Reservation",
     "contact": "Contact",
     "skipToContent": "Skip to main content",
-    "homeAriaLabel": "Gecko Cabane - Home"
+    "homeAriaLabel": "Gecko Cabane - Home",
+    "reserveShort": "Book"
   },
   "hero": {
     "subtitle": "Franco-Thai Restaurant",
@@ -60,7 +61,8 @@
     "noItems": "No dishes available in this category",
     "preparing": "This menu is being prepared",
     "menuPreparing": "The menu is being prepared",
-    "eyebrow": "The Menu"
+    "eyebrow": "The Menu",
+    "glutenFree": "Gluten-free"
   },
   "services": {
     "title": "Our Services",
@@ -289,6 +291,20 @@
   "meta": {
     "homeTitle": "Gecko Cabane – French-Thai Restaurant in Krabi Town",
     "homeDescription": "Chef Jariya's French-Thai cooking in Krabi Town, Maharat Road: 40 seats, French and Thai dishes, book your table online in under a minute.",
-    "schemaDescription": "Fine French-Thai restaurant in Krabi Town, Thailand: French and Thai fusion cuisine by Chef Jariya, 40 seats."
+    "schemaDescription": "Fine French-Thai restaurant in Krabi Town, Thailand: French and Thai fusion cuisine by Chef Jariya, 40 seats.",
+    "menuTitle": "Menu – Gecko Cabane, French-Thai Restaurant in Krabi",
+    "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked."
+  },
+  "menuPage": {
+    "eyebrow": "Gecko Cabane · Krabi Town",
+    "title": "Our menu",
+    "intro": "French and Thai cooking by Chef Jariya. Prices in Thai baht.",
+    "legendTitle": "Key",
+    "allergyNote": "Allergies: please ask our team for advice.",
+    "allergensPrefix": "Allergens:",
+    "anchorNavLabel": "Menu sections",
+    "backToTop": "Back to top",
+    "emptyTitle": "The menu is coming soon",
+    "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
   }
 }

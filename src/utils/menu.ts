@@ -4,8 +4,8 @@ import type { MenuPage, MenuCategory, MenuItem } from '@/types/database'
 
 export const MENU_TAG = 'menu'
 
-export type MenuCategoryWithItems = MenuCategory & { items: MenuItem[] }
-export type MenuPageWithContent = MenuPage & { categories: MenuCategoryWithItems[] }
+export type MenuCategoryWithItems = Omit<MenuCategory, 'items'> & { items: MenuItem[] }
+export type MenuPageWithContent = Omit<MenuPage, 'categories'> & { categories: MenuCategoryWithItems[] }
 
 /**
  * Formats a baht price as text: 650 -> '650 ฿', 1200 -> '1,200 ฿'. No trailing .00.

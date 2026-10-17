@@ -11,7 +11,8 @@
     "reservation": "Réservation",
     "contact": "Contact",
     "skipToContent": "Aller au contenu principal",
-    "homeAriaLabel": "Gecko Cabane - Accueil"
+    "homeAriaLabel": "Gecko Cabane - Accueil",
+    "reserveShort": "Réserver"
   },
   "hero": {
     "subtitle": "Restaurant Franco-Thaï",
@@ -60,7 +61,8 @@
     "noItems": "Aucun plat disponible dans cette catégorie",
     "preparing": "Ce menu est en cours de préparation",
     "menuPreparing": "La carte est en cours de préparation",
-    "eyebrow": "La Carte"
+    "eyebrow": "La Carte",
+    "glutenFree": "Sans gluten"
   },
   "services": {
     "title": "Nos Services",
@@ -289,6 +291,20 @@
   "meta": {
     "homeTitle": "Gecko Cabane – Restaurant franco-thaï à Krabi Town",
     "homeDescription": "Cuisine franco-thaï de la cheffe Jariya à Krabi Town, Maharat Road : 40 couverts, plats français et thaïs, réservation en ligne en moins d'une minute.",
-    "schemaDescription": "Restaurant franco-thaï gastronomique à Krabi Town, Thaïlande : cuisine fusion française et thaïlandaise de la cheffe Jariya, 40 couverts."
+    "schemaDescription": "Restaurant franco-thaï gastronomique à Krabi Town, Thaïlande : cuisine fusion française et thaïlandaise de la cheffe Jariya, 40 couverts.",
+    "menuTitle": "Carte – Gecko Cabane, restaurant franco-thaï à Krabi",
+    "menuDescription": "Découvrez la carte du Gecko Cabane à Krabi Town : plats français et thaïs de la cheffe Jariya, prix en bahts, plats végétariens et épicés signalés."
+  },
+  "menuPage": {
+    "eyebrow": "Gecko Cabane · Krabi Town",
+    "title": "La carte",
+    "intro": "Cuisine française et thaïe de la cheffe Jariya. Prix en bahts.",
+    "legendTitle": "Légende",
+    "allergyNote": "Allergies : demandez conseil à notre équipe.",
+    "allergensPrefix": "Allergènes :",
+    "anchorNavLabel": "Sections de la carte",
+    "backToTop": "Haut de page",
+    "emptyTitle": "La carte arrive bientôt",
+    "emptyBody": "Notre carte est en cours de mise à jour. Appelez-nous au +66 81 958 5945 ou réservez en ligne."
   }
 }
