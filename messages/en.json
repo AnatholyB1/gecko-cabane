@@ -62,7 +62,8 @@
     "preparing": "This menu is being prepared",
     "menuPreparing": "The menu is being prepared",
     "eyebrow": "The Menu",
-    "glutenFree": "Gluten-free"
+    "glutenFree": "Gluten-free",
+    "seeFullMenu": "See the full menu"
   },
   "services": {
     "title": "Our Services",

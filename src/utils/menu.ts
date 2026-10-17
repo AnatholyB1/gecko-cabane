@@ -82,3 +82,15 @@ export const getMenu = unstable_cache(
   ['gecko-menu'],
   { tags: [MENU_TAG], revalidate: 3600 },
 )
+
+export const ARDOISE_SLUG = 'ardoise'
+
+/**
+ * Up to `max` items for the home teaser: the Ardoise page, in category then item order.
+ * RESEARCH A6: the Ardoise slug is unverified, so fall back to the first page.
+ */
+export function pickTeaserItems(menu: MenuPageWithContent[], max = 4): MenuItem[] {
+  const source = menu.find((p) => p.slug === ARDOISE_SLUG) ?? menu[0]
+  if (!source) return []
+  return source.categories.flatMap((c) => c.items).slice(0, max)
+}

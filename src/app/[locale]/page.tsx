@@ -3,7 +3,8 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
-import MenuDisplay from '@/components/MenuDisplay'
+import MenuTeaser from '@/components/MenuTeaser'
+import { Link } from '@/i18n/navigation'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
@@ -59,16 +60,27 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               { href: '#hours', key: 'common.hours' },
               { href: '#reservation', key: 'common.reservation' },
               { href: '#contact', key: 'common.contact' },
-            ].map(({ href, key }) => (
-              <a
-                key={href}
-                href={href}
-                className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
-                role="menuitem"
-              >
-                {t(key as Parameters<typeof t>[0])}
-              </a>
-            ))}
+            ].map(({ href, key }) =>
+              key === 'common.menu' ? (
+                <Link
+                  key={href}
+                  href="/menu"
+                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  role="menuitem"
+                >
+                  {t(key as Parameters<typeof t>[0])}
+                </Link>
+              ) : (
+                <a
+                  key={href}
+                  href={href}
+                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  role="menuitem"
+                >
+                  {t(key as Parameters<typeof t>[0])}
+                </a>
+              ),
+            )}
           </div>
           <div className="flex items-center gap-6">
             <LanguageSwitcher />
@@ -355,7 +367,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 {t('menuSection.description')}
               </p>
             </div>
-            <MenuDisplay />
+            <MenuTeaser locale={locale} />
           </div>
         </section>
 
@@ -721,6 +733,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 {t('footer.closedDay')}<br />
                 {t('footer.lastOrder')}
               </p>
+              <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">
+                {t('common.menu')}
+              </Link>
             </div>
             <div>
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">

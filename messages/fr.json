@@ -62,7 +62,8 @@
     "preparing": "Ce menu est en cours de préparation",
     "menuPreparing": "La carte est en cours de préparation",
     "eyebrow": "La Carte",
-    "glutenFree": "Sans gluten"
+    "glutenFree": "Sans gluten",
+    "seeFullMenu": "Voir la carte complète"
   },
   "services": {
     "title": "Nos Services",
