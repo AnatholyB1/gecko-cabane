@@ -30,10 +30,10 @@ describe('localeUrl', () => {
     expect(localeUrl('en', '/privacy')).toBe('https://geckocabanerestaurant.com/en/privacy')
   })
 
-  it('exposes only fr/en and the published paths', () => {
-    expect([...LOCALES]).toEqual(['fr', 'en'])
+  it('exposes the four locales and the published paths', () => {
+    expect([...LOCALES]).toEqual(['fr', 'en', 'de', 'sv'])
     expect([...PUBLISHED_PATHS]).toEqual(PUBLISHED_PAGES.filter((p) => p.locales.includes('fr') && p.locales.includes('en')).map((p) => p.path))
-    expect(OG_LOCALE).toEqual({ fr: 'fr_FR', en: 'en_US' })
+    expect(OG_LOCALE).toEqual({ fr: 'fr_FR', en: 'en_US', de: 'de_DE', sv: 'sv_SE' })
   })
 })
 
@@ -41,7 +41,7 @@ describe('localeUrl', () => {
 // buildPageMetadata
 // ---------------------------------------------------------------------------
 
-describe.each(LOCALES.flatMap((l) => PUBLISHED_PATHS.map((p) => [l, p] as const)))(
+describe.each((['fr', 'en'] as const).flatMap((l) => PUBLISHED_PATHS.map((p) => [l, p] as const)))(
   'buildPageMetadata(%s, "%s")',
   (locale, path) => {
     const other = locale === 'fr' ? 'en' : 'fr'

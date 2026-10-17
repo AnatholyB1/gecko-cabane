@@ -200,6 +200,8 @@
   "language": {
     "fr": "Français",
     "en": "English",
+    "de": "Deutsch",
+    "sv": "Svenska",
     "switchTo": "Switch to {language}",
     "changeLanguage": "Change language"
   },

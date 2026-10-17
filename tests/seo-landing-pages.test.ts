@@ -10,7 +10,7 @@ import { PAGES, PUBLISHED_PAGES, relatedFor, isPublished, googleDirectionsUrl, t
 
 const root = join(__dirname, '..')
 const read = (p: string) => readFileSync(join(root, p), 'utf8')
-const messages: Record<SeoLocale, Record<string, Record<string, unknown>>> = {
+const messages: Record<string, Record<string, Record<string, unknown>>> = {
   fr: JSON.parse(read('messages/fr.json')),
   en: JSON.parse(read('messages/en.json')),
 }

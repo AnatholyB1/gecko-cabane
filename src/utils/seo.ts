@@ -13,10 +13,10 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://geckocabanerestaurant.com'
 
-export const LOCALES = ['fr', 'en'] as const
+export const LOCALES = ['fr', 'en', 'de', 'sv'] as const
 export type SeoLocale = (typeof LOCALES)[number]
 
-export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US' } as const
+export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US', de: 'de_DE', sv: 'sv_SE' } as const
 
 /**
  * Per-page locales (D-14): a page is listed and hreflang'd only in the locales
@@ -60,28 +60,28 @@ export type PageDef = {
  * other locales may override through `slugs`. DE/SV slugs arrive with plan 09.
  */
 export const PAGES: readonly PageDef[] = [
-  { key: '', namespace: 'home', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  { key: '', namespace: 'home', slugs: {}, contentLocales: ['fr', 'en', 'de', 'sv'], related: [] },
   { key: '/privacy', namespace: 'privacy', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
-  { key: '/menu', namespace: 'menuPage', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  { key: '/menu', namespace: 'menuPage', slugs: {}, contentLocales: ['fr', 'en', 'de', 'sv'], related: [] },
   {
     key: '/french-restaurant-krabi',
     namespace: 'frenchRestaurant',
-    slugs: { fr: '/restaurant-francais-krabi' },
-    contentLocales: ['fr', 'en'],
+    slugs: { fr: '/restaurant-francais-krabi', de: '/franzoesisches-restaurant-krabi', sv: '/fransk-restaurang-krabi' },
+    contentLocales: ['fr', 'en', 'de', 'sv'],
     related: ['/romantic-dinner-krabi', '/where-to-eat-krabi-town', '/wine-belgian-beer-krabi'],
   },
   {
     key: '/romantic-dinner-krabi',
     namespace: 'romanticDinner',
-    slugs: { fr: '/diner-romantique-krabi' },
-    contentLocales: ['fr', 'en'],
+    slugs: { fr: '/diner-romantique-krabi', de: '/romantisches-abendessen-krabi', sv: '/romantisk-middag-krabi' },
+    contentLocales: ['fr', 'en', 'de', 'sv'],
     related: ['/french-restaurant-krabi', '/wine-belgian-beer-krabi', '/where-to-eat-krabi-town'],
   },
   {
     key: '/where-to-eat-krabi-town',
     namespace: 'whereToEat',
-    slugs: { fr: '/ou-manger-krabi-town' },
-    contentLocales: ['fr', 'en'],
+    slugs: { fr: '/ou-manger-krabi-town', de: '/wo-essen-krabi-town', sv: '/var-ata-krabi-town' },
+    contentLocales: ['fr', 'en', 'de', 'sv'],
     related: ['/getting-here-from-ao-nang', '/french-restaurant-krabi', '/romantic-dinner-krabi'],
   },
   {
