@@ -212,3 +212,7 @@ None: gluten-free is on request (menu-wide line already live). No flags in the S
 ## Owner content received
 
 2026-10-17: owner sent 6 photos in chat (wine shelves, Belgian beer bottles, handwritten "Belgium Beer" sheet, printed "Les français" wine list). Belgian list: yes. Gluten sheet: not needed (gluten-free is on request).
+
+## Content approval
+
+2026-10-17: owner replied "Approved as written" for the full transcription (9 categories, 84 items), including Westmalle Brune 380, "Kasteel Rouge", non-Belgian beers in a separate category, wines without prices and the note "Prix des vins : demandez à notre équipe.". Open questions list: none. Gluten-free: none (on request).
