@@ -216,3 +216,16 @@ None: gluten-free is on request (menu-wide line already live). No flags in the S
 ## Content approval
 
 2026-10-17: owner replied "Approved as written" for the full transcription (9 categories, 84 items), including Westmalle Brune 380, "Kasteel Rouge", non-Belgian beers in a separate category, wines without prices and the note "Prix des vins : demandez à notre équipe.". Open questions list: none. Gluten-free: none (on request).
+
+## Content applied
+
+Run 2026-10-17. Connection string read into a shell variable only (never printed or written). Applied with `psql -v ON_ERROR_STOP=1 -f 03-CONTENT.sql` (file wraps its own BEGIN/COMMIT; no `supabase db push`).
+
+- Run 1: BEGIN, 93 x `INSERT 0 1` (9 categories + 84 items), COMMIT.
+- Run 2 (idempotency): BEGIN, 93 x `INSERT 0 0`, COMMIT (no-op).
+- Read-only counts after run 1 and after run 2 (identical):
+  - categories under `vins-bieres-belges`: 9 (approved: 9)
+  - items under `vins-bieres-belges`: 84 (approved: 84)
+  - `is_gluten_free` true: 0 (approved: 0, gluten-free on request)
+  - page `vins-bieres-belges` `is_active`: false (stays inactive until owner activation)
+  - total `gecko_menu_items`: 246 (162 existing + 84 new)
