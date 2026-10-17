@@ -139,8 +139,8 @@ export function buildRestaurantJsonLd(args: {
   const { locale, description, hoursRows, sameAs = SAME_AS } = args
   const hours = mapOpeningHours(hoursRows)
 
-  // No rating block (D-07: unverifiable). hasMenu/menu reintroduced in
-  // phase 3 with /menu; SEO-03 partial until then (D-08).
+  // No rating block (D-07: unverifiable). hasMenu = URL of the localized /menu
+  // page (phase 3, D-10); the deprecated `menu` property stays absent.
   return {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
@@ -148,6 +148,7 @@ export function buildRestaurantJsonLd(args: {
     name: 'Gecko Cabane Restaurant',
     alternateName: 'Gecko Cabane',
     url: localeUrl(locale),
+    hasMenu: localeUrl(locale, '/menu'),
     description,
     image: [
       `${SITE_URL}/hero-bg.jpg`,
