@@ -5,7 +5,8 @@
  */
 
 import { NextResponse, type NextRequest } from 'next/server'
-import { buildReviewRedirectPath, resolveReviewLocale } from '@/utils/review-links'
+import { buildReviewRedirectPath, isReviewToken, resolveReviewLocale } from '@/utils/review-links'
+import { lookupReviewLocale } from '@/utils/review-tracking'
 
 export async function handleReviewAlias(
   request: NextRequest,
@@ -16,8 +17,9 @@ export async function handleReviewAlias(
   const src = params.get('src')
   const acceptLanguage = request.headers.get('accept-language')
 
-  // 04-06: ridLocale lookup by review_token
-  const locale = resolveReviewLocale({ ridLocale: null, hint, acceptLanguage })
+  // Reservation language beats hint and Accept-Language (D-10); unknown token -> null -> fallback.
+  const ridLocale = isReviewToken(rid) ? await lookupReviewLocale(rid) : null
+  const locale = resolveReviewLocale({ ridLocale, hint, acceptLanguage })
 
   // Temporary redirect only: the target varies per request and a cached
   // browser redirect would be sticky forever.

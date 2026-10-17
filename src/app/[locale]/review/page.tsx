@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { isReviewToken } from '@/utils/review-links'
+import { markReviewClicked } from '@/utils/review-tracking'
 import { googleReviewUrl, tripAdvisorReviewUrl, LOCALES, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
-  // Consumed by plan 04-06 (rid / src tracking); declared now so the shape is stable.
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
@@ -37,8 +38,12 @@ function ExternalArrow() {
   )
 }
 
-export default async function ReviewPage({ params }: Props) {
+export default async function ReviewPage({ params, searchParams }: Props) {
   const { locale: raw } = await params
+  const sp = await searchParams
+  const rid = typeof sp.rid === 'string' ? sp.rid : null
+  // D-13: first click stops the J+5 reminder; output is identical for any rid.
+  if (isReviewToken(rid)) await markReviewClicked(rid)
   const locale = resolveLocale(raw)
   const t = await getTranslations({ locale, namespace: 'review' })
 
