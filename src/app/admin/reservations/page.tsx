@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import type { Reservation, ReservationStatus, RestaurantTable, ConfigAvailability } from '@/types/database'
+import { krabiToday } from '@/utils/review-invitations'
+import { getReviewBadges, showNoShowDeadline } from '@/utils/review-badges'
 
 const STATUS_LABELS: Record<ReservationStatus, { label: string; color: string; bg: string }> = {
   pending: { label: 'En attente', color: 'text-amber-700', bg: 'bg-amber-100' },
@@ -241,6 +243,8 @@ export default function AdminReservationsPage() {
   const pendingCount = reservations.filter(r => r.status === 'pending').length
   const totalGuests = reservations.filter(r => r.status !== 'cancelled').reduce((sum, r) => sum + r.party_size, 0)
 
+  const todayKrabi = krabiToday(new Date())
+
   return (
     <div className="min-h-screen bg-(--background)">
       {/* Header */}
@@ -391,6 +395,17 @@ export default function AdminReservationsPage() {
                       📞 {reservation.customer_phone}
                       {reservation.customer_email && ` • ✉️ ${reservation.customer_email}`}
                     </div>
+                    {/* Empty row is hidden (empty:hidden) when there is nothing to show */}
+                    <div className="flex flex-wrap gap-2 mt-2 empty:hidden">
+                      {getReviewBadges(reservation, todayKrabi).map((badge) => (
+                        <span key={badge.label} className={badge.className} title={badge.title}>
+                          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                            <circle cx="6" cy="6" r="3" fill="currentColor" />
+                          </svg>
+                          {badge.label}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Party & Date */}
@@ -462,6 +477,11 @@ export default function AdminReservationsPage() {
                     >
                       🗑️
                     </button>
+                    {showNoShowDeadline(reservation, todayKrabi) && (
+                      <p className="text-xs text-amber-700 mt-1 w-full">
+                        Non présenté ? À marquer avant 11h (Krabi) le lendemain du service : l&apos;envoi peut avoir lieu entre 11h et 12h.
+                      </p>
+                    )}
                   </div>
                 </div>
 
