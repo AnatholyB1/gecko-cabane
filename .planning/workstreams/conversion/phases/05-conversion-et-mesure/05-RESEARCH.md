@@ -450,18 +450,23 @@ Admin page `'use client'`, `fetch('/api/review/stats?months=12')` (admin GET via
 | A7 | 4.7 / 1 062 and Travellers' Choice are current and from Google + TripAdvisor respectively | Pitfall 2/9 | Wrong displayed numbers; owner must validate (D-11) |
 | A8 | Vercel plan allows image optimization at this volume | Pitfall 1 | Optimizer quota; mitigated by pre-resized source |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Keep `aggregateRating` (D-14) despite Google's self-serving policy?**
    - Known: policy says self-controlled LocalBusiness reviews are ineligible for stars and aggregated third-party ratings should not be marked up. The decision is locked.
    - Unclear: whether the owner wants the (probably non-rendering) markup for non-Google consumers.
    - Recommendation: implement behind the `showAggregateRating` flag, default on per D-14, and tell the owner; easy off-switch.
+   - RESOLVED: 05-03 implements aggregateRating behind the single `SHOW_AGGREGATE_RATING` flag in `src/utils/social-proof.ts` (default true, D-14), emitted only once owner-validated reviews are displayed (05-12 selection, 05-13 append); the policy risk is in OWNER-CHECKLIST.md (05-11).
 2. **How do `telephone`/`whatsapp`/`sans_reservation` rows get created (D-06)?**
    - Known: no admin create exists.
    - Recommendation: add a minimal admin "Ajouter une réservation" (or confirm with owner that selector-only is enough, which makes three of four values unusable).
+   - RESOLVED: 05-06 adds the admin-only `POST /api/reservations/manual` (requireAdmin + RLS insert, sources whatsapp/telephone/sans_reservation; `customer_email` verified nullable in 007) and the "Ajouter une réservation" form; 05-02 adds the source selector.
 3. **Plausible script ID and goals** depend on the owner; **LINE URL**, **couple photo**, **validated reviews** likewise. Plans must not block on them (all gated).
+   - RESOLVED: every owner input is gated and degrades cleanly (Plausible inert without a valid `pa-` id in 05-01, LINE hidden without a valid URL in 05-04, `COUPLE_PHOTO = null` in 05-10, `reviews: []` in 05-03 until 05-12/05-13); all owner actions are collected in OWNER-CHECKLIST.md (05-11).
 4. **Spec file** (`Specs site Gecko Cabane – SEO et conversion.md`) is absent from the worktree (searched root); rely on REQUIREMENTS.md.
+   - RESOLVED: `.planning/workstreams/conversion/REQUIREMENTS.md` is the spec source for all plans.
 5. **Admin tile placement for « Avis »** in `src/app/admin/page.tsx`: trivial, follow existing card pattern.
+   - RESOLVED: 05-09 adds the "Avis" card to the grid and the quick-links list of `src/app/admin/page.tsx`.
 
 ## Environment Availability
 
