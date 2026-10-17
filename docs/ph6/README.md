@@ -38,5 +38,5 @@ Aucun compte externe n'est touché depuis le code ni par Claude sans votre accor
 1. **Les cinq étoiles dorées de la carte TripAdvisor de la page d'accueil** ne reposent sur aucune donnée du site. Le projet interdit les affirmations non vérifiables. Choix : les retirer maintenant, ou les laisser jusqu'à la phase de preuve sociale (phase 5).
 2. **Alcool** : la loi thaïlandaise sur le contrôle des boissons alcoolisées (art. 32) et la politique des posts Google encadrent la promotion de l'alcool. À valider avec votre conseiller pour la page PAGE-06 (vin et bière belge) et pour les posts. Les 8 posts proposés n'en parlent pas.
 3. **Chiffres de transport vers Ao Nang** (taxi, songthaew, durée, prix) : à confirmer par vous avant publication de la page « comment venir » (D-10).
-4. **Relecteur** : qui relit l'allemand, puis le suédois (D-06) ? Aucun texte DE ou SV n'est publié sans validation écrite.
+4. **Choix du relecteur** : qui est le relecteur de l'allemand, puis du suédois (D-06) ? Aucun texte DE ou SV n'est publié sans validation écrite.
 5. **Fichier manquant** : le fichier « Specs site Gecko Cabane – SEO et conversion.md » est absent du dépôt. Merci de le fournir si certaines consignes n'y sont pas reprises ailleurs.
