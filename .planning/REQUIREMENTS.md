@@ -25,7 +25,7 @@
 - [x] **SEO-04** (T4) [P1]: `/en` est 100 % anglais (title, meta description, `og:locale` `en_US`, schema `description`, titres « Notre Histoire », « La Carte », « Nos Créations »), hors noms de plats
 - [x] **SEO-05** (T5) [P1]: Chaque page déclare des liens `hreflang` vers ses équivalents publiés (fr, en et `x-default` dès maintenant) ; `de` puis `sv` s'ajoutent à la publication de chaque langue (I18N-01, I18N-02), jamais vers une page inexistante
 - [x] **SEO-06** (T6) [P1]: `sitemap.xml` liste toutes les pages de toutes les langues ; `robots.txt` le déclare
-- [x] **SEO-07** (T6) [P1]: Le domaine est vérifié dans Google Search Console et Bing Webmaster, sitemap soumis *(partiel : GSC vérifié par TXT DNS ; soumission du sitemap et import Bing en attente du propriétaire)*
+- [x] **SEO-07** (T6) [P1]: Le domaine est vérifié dans Google Search Console et Bing Webmaster, sitemap soumis *(GSC vérifié par TXT DNS, sitemap soumis ; Bing importé depuis GSC, sitemap soumis — 2026-10-17)*
 - [ ] **SEO-08** (T7): Images hero en WebP/AVIF, `loading="lazy"` hors écran, LCP < 2,5 s en 4G, PageSpeed mobile ≥ 85
 
 ### Carte (MENU)
