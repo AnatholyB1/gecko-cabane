@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 3 UI-SPEC approved
-last_updated: "2026-10-17T01:23:46.627Z"
+last_updated: "2026-10-17T01:24:02.539Z"
 last_activity: 2026-10-17
 progress:
   total_phases: 8
@@ -46,6 +46,7 @@ Progress: [█████████░] 89%
 |-------|-------|-------|----------|
 | 1 | 11 | - | - |
 | Phase 03 P03 | 15min | 2 tasks | 9 files |
+| Phase 03 P05 | 25min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,7 @@ Progress: [█████████░] 89%
 - [Phase ?]: [Phase 01-04]: zod kept at vetted 4.3.6 via lockfile; isOtpCode kept until plan 01-07
 - [Phase ?]: [Phase 01-05]: Staff notification stays French with guest language row; customer emails bilingual fr/en
 - [Phase ?]: [Phase 03-03]: is_gluten_free default false, no backfill; Belgian page inactive/empty; migration 013 applied only in 03-06
+- [Phase 03]: 03-05: pageLanguages helper shared by buildPageMetadata and sitemap; EN-only landing via PUBLISHED_PAGES locales
 
 ### Pending Todos
 
