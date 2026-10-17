@@ -1,6 +1,10 @@
 import * as Sentry from '@sentry/nextjs'
 import { requireAdmin } from '@/utils/auth'
 import { NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
+import { MENU_TAG } from '@/utils/menu'
+
+// /menu (cached under MENU_TAG) follows admin edits on the next request
 
 // POST reorder items
 export async function POST(request: Request) {
@@ -41,6 +45,7 @@ export async function POST(request: Request) {
       }
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

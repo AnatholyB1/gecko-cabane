@@ -2,6 +2,10 @@ import * as Sentry from '@sentry/nextjs'
 import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
+import { MENU_TAG } from '@/utils/menu'
+
+// /menu (cached under MENU_TAG) follows admin edits on the next request
 
 // GET items for a category
 export async function GET(request: Request) {
@@ -51,9 +55,14 @@ export async function POST(request: Request) {
       is_available,
       is_vegetarian,
       is_spicy,
+      is_gluten_free,
       allergens
     } = body
     
+    if (is_gluten_free !== undefined && typeof is_gluten_free !== 'boolean') {
+      return NextResponse.json({ error: 'is_gluten_free must be a boolean' }, { status: 400 })
+    }
+
     if (!category_id || !name) {
       return NextResponse.json({ error: 'category_id and name are required' }, { status: 400 })
     }
@@ -81,6 +90,7 @@ export async function POST(request: Request) {
         is_available: is_available ?? true,
         is_vegetarian: is_vegetarian ?? false,
         is_spicy: is_spicy ?? false,
+        is_gluten_free: is_gluten_free ?? false,
         allergens: allergens || null,
         display_order: newOrder
       })
@@ -92,6 +102,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -117,13 +128,18 @@ export async function PUT(request: Request) {
       is_available,
       is_vegetarian,
       is_spicy,
+      is_gluten_free,
       allergens
     } = body
     
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 })
     }
-    
+
+    if (is_gluten_free !== undefined && typeof is_gluten_free !== 'boolean') {
+      return NextResponse.json({ error: 'is_gluten_free must be a boolean' }, { status: 400 })
+    }
+
     const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString()
     }
@@ -137,6 +153,7 @@ export async function PUT(request: Request) {
     if (is_available !== undefined) updateData.is_available = is_available
     if (is_vegetarian !== undefined) updateData.is_vegetarian = is_vegetarian
     if (is_spicy !== undefined) updateData.is_spicy = is_spicy
+    if (is_gluten_free !== undefined) updateData.is_gluten_free = is_gluten_free
     if (allergens !== undefined) updateData.allergens = allergens || null
     
     const { data, error } = await supabase
@@ -151,6 +168,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -181,6 +199,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

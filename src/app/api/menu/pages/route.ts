@@ -2,6 +2,10 @@ import * as Sentry from '@sentry/nextjs'
 import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
+import { revalidateTag } from 'next/cache'
+import { MENU_TAG } from '@/utils/menu'
+
+// /menu (cached under MENU_TAG) follows admin edits on the next request
 
 // GET all menu pages
 export async function GET() {
@@ -82,6 +86,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -120,6 +125,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -150,6 +156,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(MENU_TAG, 'max')
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

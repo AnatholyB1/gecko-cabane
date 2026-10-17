@@ -37,6 +37,7 @@ export default function MenuEditorPage() {
     is_available: true,
     is_vegetarian: false,
     is_spicy: false,
+    is_gluten_free: false,
     allergens: ''
   })
 
@@ -186,6 +187,7 @@ export default function MenuEditorPage() {
           is_available: itemForm.is_available,
           is_vegetarian: itemForm.is_vegetarian,
           is_spicy: itemForm.is_spicy,
+          is_gluten_free: itemForm.is_gluten_free,
           allergens: itemForm.allergens || null
         })
       })
@@ -276,6 +278,7 @@ export default function MenuEditorPage() {
       is_available: true,
       is_vegetarian: false,
       is_spicy: false,
+      is_gluten_free: false,
       allergens: ''
     })
   }
@@ -322,6 +325,7 @@ export default function MenuEditorPage() {
       is_available: item.is_available,
       is_vegetarian: item.is_vegetarian,
       is_spicy: item.is_spicy,
+      is_gluten_free: item.is_gluten_free ?? false,
       allergens: item.allergens || ''
     })
     setShowItemForm(item.category_id)
@@ -638,6 +642,14 @@ export default function MenuEditorPage() {
                           />
                           <span>🌶️ Épicé</span>
                         </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={itemForm.is_gluten_free}
+                            onChange={(e) => setItemForm(p => ({ ...p, is_gluten_free: e.target.checked }))}
+                          />
+                          <span>Sans gluten (confirmé par la cheffe)</span>
+                        </label>
                       </div>
                     </div>
                     <div className="mt-4 flex gap-2">
@@ -700,6 +712,7 @@ export default function MenuEditorPage() {
                               <span className="font-medium text-(--primary-dark)">{item.name}</span>
                               {item.is_vegetarian && <span title="Végétarien">🌱</span>}
                               {item.is_spicy && <span title="Épicé">🌶️</span>}
+                              {item.is_gluten_free && <span title="Sans gluten">GF</span>}
                               {!item.is_available && <span className="text-xs bg-red-200 text-red-700 px-2 rounded">Indisponible</span>}
                             </div>
                             {item.description && (
