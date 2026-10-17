@@ -4,11 +4,10 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 type Props = {
   locale: string
-  // Accepted now, forwarded to LanguageSwitcher in plan 03-05.
   availableLocales?: readonly string[]
 }
 
-export default async function SiteHeader({ locale }: Props) {
+export default async function SiteHeader({ locale, availableLocales }: Props) {
   const t = await getTranslations({ locale, namespace: 'common' })
 
   return (
@@ -22,7 +21,7 @@ export default async function SiteHeader({ locale }: Props) {
           GECKO CABANE
         </Link>
         <div className="flex items-center gap-4 sm:gap-6">
-          <LanguageSwitcher />
+          <LanguageSwitcher availableLocales={availableLocales} />
           <Link
             href="/#reservation"
             className="inline-flex items-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-4 sm:px-5 hover:bg-gc-gold hover:text-gc-void transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold"

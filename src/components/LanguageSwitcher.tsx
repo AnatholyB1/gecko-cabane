@@ -5,10 +5,13 @@ import { usePathname } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { locales } from '@/i18n/config'
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ availableLocales }: { availableLocales?: readonly string[] }) {
   const locale = useLocale()
   const pathname = usePathname()
   const t = useTranslations('language')
+
+  // Hidden when the page exists in a single locale (D-14): no link to a missing page.
+  if (availableLocales && availableLocales.length < 2) return null
   
   // Remove current locale prefix to get the path
   const pathWithoutLocale = pathname.replace(/^\/(fr|en)/, '') || '/'

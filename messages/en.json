@@ -37,7 +37,8 @@
     "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
     "eyebrow": "Our Story",
     "chefPhotoAlt": "Chef Jariya at Gecko Cabane, Krabi",
-    "chefRole": "Head Chef"
+    "chefRole": "Head Chef",
+    "frenchRestaurantLink": "Discover our French cooking in Krabi Town"
   },
   "cuisine": {
     "title": "Our Cuisine",
@@ -299,7 +300,56 @@
     "homeDescription": "Chef Jariya's French-Thai cooking in Krabi Town, Maharat Road: 40 seats, French and Thai dishes, book your table online in under a minute.",
     "schemaDescription": "Fine French-Thai restaurant in Krabi Town, Thailand: French and Thai fusion cuisine by Chef Jariya, 40 seats.",
     "menuTitle": "Menu – Gecko Cabane, French-Thai Restaurant in Krabi",
-    "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked."
+    "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked.",
+    "frenchRestaurantTitle": "French Restaurant in Krabi Town – Gecko Cabane",
+    "frenchRestaurantDescription": "Authentic French cooking by a French-Thai couple on Maharat Road, Krabi Town: beef bourguignon, chicken in cream sauce and Thai curries. Book online."
+  },
+  "frenchRestaurant": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "French restaurant in Krabi Town",
+    "subtitle": "Authentic French cooking by a French-Thai couple, on Maharat Road.",
+    "ctaBook": "Book a table",
+    "ctaMenu": "See the menu",
+    "heroAlt": "The entrance of Gecko Cabane restaurant on Maharat Road in Krabi Town",
+    "introTitle": "French cooking, cooked with care in Krabi",
+    "intro1": "Gecko Cabane is a small French restaurant in Krabi Town, run by a French-Thai couple. Chef Jariya cooks the classics of French home cooking the way they should taste, slowly and generously.",
+    "intro2": "With only 40 seats, the dining room stays intimate. You will find French dishes on the slate, a few Thai favourites from the chef's own kitchen, and a short list of wines and beers to go with them.",
+    "dishesTitle": "Signature dishes",
+    "bourguignon": {
+      "name": "Beef bourguignon",
+      "text": "Beef slowly braised in red wine with carrots and onions, the way it is cooked in Burgundy.",
+      "alt": "Beef bourguignon served at Gecko Cabane"
+    },
+    "veloute": {
+      "name": "Velouté",
+      "text": "A smooth, silky soup made fresh, served warm and finished with cream.",
+      "alt": "A bowl of velouté soup served at Gecko Cabane"
+    },
+    "pouletCreme": {
+      "name": "Chicken in cream sauce",
+      "text": "Tender chicken in a rich, creamy sauce, a French comfort dish.",
+      "alt": "Chicken in cream sauce served at Gecko Cabane"
+    },
+    "massaman": {
+      "name": "Massaman curry",
+      "text": "On the Thai side of the menu, a mild and fragrant curry cooked by Chef Jariya.",
+      "alt": "Massaman curry served at Gecko Cabane"
+    },
+    "winesTitle": "Wines and Belgian beers",
+    "winesText": "To go with the food, we pour French wines and a selection of Belgian beers.",
+    "winesLink": "See our wines and beers on the menu",
+    "storyTitle": "A French-Thai couple's restaurant",
+    "story1": "Gecko Cabane was opened by Chef Jariya and her French husband. She brings the cooking, he brings the French table, and together they welcome guests every evening.",
+    "story2": "The idea is simple: cook the dishes they love, with care, and share them with travellers and locals in Krabi Town.",
+    "chefAlt": "Chef Jariya of Gecko Cabane, Krabi Town",
+    "findTitle": "Find us in Krabi Town",
+    "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
+    "hoursTitle": "Opening hours",
+    "hoursLine": "{days}: {opens}-{closes}",
+    "closedNote": "Closed on Tuesdays.",
+    "directionsLink": "Get directions",
+    "phoneLabel": "Call us on +66 81 958 5945",
+    "closingTitle": "Join us for dinner in Krabi Town"
   },
   "menuPage": {
     "eyebrow": "Gecko Cabane · Krabi Town",
