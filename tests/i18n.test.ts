@@ -49,6 +49,9 @@ const enOnlyNamespaces = PAGES.filter((p) => !p.contentLocales.includes('fr')).m
 const isExempt = (k: string) =>
   enOnlyNamespaces.some((ns) => k.startsWith(`${ns}.`) || k.startsWith(`meta.${ns}`))
 
+const de: unknown = JSON.parse(readFileSync(join(root, 'de.json'), 'utf-8'))
+const sv: unknown = JSON.parse(readFileSync(join(root, 'sv.json'), 'utf-8'))
+
 const frKeys = new Set(flattenKeys(fr).filter((k) => !isExempt(k)))
 const enKeys = new Set(flattenKeys(en).filter((k) => !isExempt(k)))
 
@@ -97,5 +100,25 @@ describe('i18n — value quality', () => {
         ? `Empty values in en.json:\n${empty.map((k) => `  ✗ ${k}`).join('\n')}`
         : ''
     ).toHaveLength(0)
+  })
+})
+
+describe('i18n — de/sv fallback files', () => {
+  it.each([
+    ['de', de],
+    ['sv', sv],
+  ] as const)('every key of %s.json exists in en.json and no value is empty', (_name, file) => {
+    const allEn = new Set(flattenKeys(en))
+    const orphans = flattenKeys(file).filter((k) => k !== '' && !allEn.has(k))
+    expect(orphans).toHaveLength(0)
+    expect(findEmptyValues(file)).toHaveLength(0)
+  })
+
+  it('exposes de/sv endonyms in fr and en', () => {
+    for (const f of [fr, en]) {
+      const lang = (f as { language: Record<string, string> }).language
+      expect(lang.de).toBe('Deutsch')
+      expect(lang.sv).toBe('Svenska')
+    }
   })
 })

@@ -17,6 +17,9 @@ import {
   buildPathnames,
   pageLanguages,
   toSeoLocale,
+  LOCALES,
+  guidesFor,
+  switcherTargets,
 } from '../src/utils/seo'
 import { routing } from '../src/i18n/routing'
 
@@ -48,7 +51,7 @@ describe('PAGES registry', () => {
   })
 
   it('uses ASCII lowercase hyphenated slugs, unique per locale', () => {
-    for (const locale of ['fr', 'en'] as const) {
+    for (const locale of ['fr', 'en', 'de', 'sv'] as const) {
       const seen = new Set<string>()
       for (const p of PAGES) {
         if (p.key === '') continue
@@ -100,7 +103,11 @@ describe('buildPathnames / routing', () => {
   it('has no en entry and the FR rewrite', () => {
     const p = buildPathnames()
     for (const v of Object.values(p)) expect(v).not.toHaveProperty('en')
-    expect(p['/french-restaurant-krabi']).toEqual({ fr: '/restaurant-francais-krabi' })
+    expect(p['/french-restaurant-krabi']).toEqual({
+      fr: '/restaurant-francais-krabi',
+      de: '/franzoesisches-restaurant-krabi',
+      sv: '/fransk-restaurang-krabi',
+    })
   })
   it('routing.pathnames equals buildPathnames()', () => {
     expect(routing.pathnames).toEqual(buildPathnames())
@@ -158,5 +165,42 @@ describe('resolvePageSeo', () => {
   it('publishes the French landing in fr and en (PAGE-08)', () => {
     expect([...publishedLocales('/french-restaurant-krabi')]).toEqual(['fr', 'en'])
     expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en'])
+  })
+})
+
+describe('de/sv locales (D-05)', () => {
+  it('registers four locales', () => {
+    expect([...LOCALES]).toEqual(['fr', 'en', 'de', 'sv'])
+  })
+
+  it('has the DE/SV slugs', () => {
+    expect(slugFor('/french-restaurant-krabi', 'de')).toBe('/franzoesisches-restaurant-krabi')
+    expect(slugFor('/french-restaurant-krabi', 'sv')).toBe('/fransk-restaurang-krabi')
+    expect(slugFor('/romantic-dinner-krabi', 'de')).toBe('/romantisches-abendessen-krabi')
+    expect(slugFor('/romantic-dinner-krabi', 'sv')).toBe('/romantisk-middag-krabi')
+    expect(slugFor('/where-to-eat-krabi-town', 'de')).toBe('/wo-essen-krabi-town')
+    expect(slugFor('/where-to-eat-krabi-town', 'sv')).toBe('/var-ata-krabi-town')
+    expect(slugFor('/menu', 'de')).toBe('/menu')
+    expect(slugFor('', 'sv')).toBe('')
+  })
+
+  it('noindexes unpublished de/sv pages', () => {
+    expect(resolvePageSeo('', 'de').index).toBe(false)
+    expect(resolvePageSeo('/menu', 'sv').index).toBe(false)
+  })
+
+  it('lists no de/sv URL in the sitemap', async () => {
+    const sitemap = (await import('../src/app/sitemap')).default
+    for (const e of sitemap()) expect(e.url).not.toMatch(/\/(de|sv)(\/|$)/)
+  })
+
+  it('switcherTargets on /de/menu returns de current plus published fr/en', () => {
+    const t = switcherTargets('/de/menu')
+    expect(t.map((x) => x.locale).sort()).toEqual(['de', 'en', 'fr'])
+    expect(t.find((x) => x.current)?.locale).toBe('de')
+  })
+
+  it('guidesFor de is empty', () => {
+    expect(guidesFor('de')).toEqual([])
   })
 })
