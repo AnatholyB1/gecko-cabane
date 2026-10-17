@@ -11,6 +11,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { PAGES } from '../src/utils/seo'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -42,8 +43,14 @@ const root = join(process.cwd(), 'messages')
 const fr: unknown = JSON.parse(readFileSync(join(root, 'fr.json'), 'utf-8'))
 const en: unknown = JSON.parse(readFileSync(join(root, 'en.json'), 'utf-8'))
 
-const frKeys = new Set(flattenKeys(fr))
-const enKeys = new Set(flattenKeys(en))
+// D-07: pages whose contentLocales exclude 'fr' are EN-only; their namespace and
+// meta keys are exempt from the fr<->en symmetry (nav.* stays symmetric).
+const enOnlyNamespaces = PAGES.filter((p) => !p.contentLocales.includes('fr')).map((p) => p.namespace)
+const isExempt = (k: string) =>
+  enOnlyNamespaces.some((ns) => k.startsWith(`${ns}.`) || k.startsWith(`meta.${ns}`))
+
+const frKeys = new Set(flattenKeys(fr).filter((k) => !isExempt(k)))
+const enKeys = new Set(flattenKeys(en).filter((k) => !isExempt(k)))
 
 // ---------------------------------------------------------------------------
 // Tests

@@ -5,8 +5,8 @@
 import { describe, it, expect } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { LANDING } from '../src/components/seo/pages.config'
-import { PAGES, PUBLISHED_PAGES, relatedFor, isPublished, type PageKey, type SeoLocale } from '../src/utils/seo'
+import { LANDING, TRANSPORT_FACTS } from '../src/components/seo/pages.config'
+import { PAGES, PUBLISHED_PAGES, relatedFor, isPublished, googleDirectionsUrl, type PageKey, type SeoLocale } from '../src/utils/seo'
 
 const root = join(__dirname, '..')
 const read = (p: string) => readFileSync(join(root, p), 'utf8')
@@ -143,4 +143,69 @@ describe('where-to-eat (D-11)', () => {
       }
     })
   }
+})
+
+describe('EN-only pages (D-07, D-10, D-13)', () => {
+  const HERE = '/getting-here-from-ao-nang'
+  const WINE = '/wine-belgian-beer-krabi'
+  const en = messages.en as unknown as Record<string, Record<string, unknown>>
+
+  for (const key of [HERE, WINE]) {
+    it(`route ${key} exists with one guarded notFound()`, () => {
+      const src = read(`src/app/[locale]${key}/page.tsx`)
+      expect(src).toContain('contentLocales')
+      expect(src.match(/notFound\(\)/g)).toHaveLength(1)
+    })
+  }
+
+  it('TRANSPORT_FACTS figures always carry a source', () => {
+    for (const f of TRANSPORT_FACTS) {
+      if (f.minutes || f.thb) expect((f.source ?? '').trim()).not.toBe('')
+    }
+  })
+
+  it('gettingHere copy holds no figure with a unit (figures come from TRANSPORT_FACTS)', () => {
+    for (const v of values(en.gettingHere)) {
+      if (v.includes('{min}')) continue
+      expect(v).not.toMatch(/\d\s?(min|minutes|THB|baht|฿)/i)
+    }
+  })
+
+  it('gettingHere has an approximate qualifier', () => {
+    expect((en.gettingHere.facts as Record<string, string>).approx).toContain('approximate')
+  })
+
+  it('template wires directions and Belgian menu links', () => {
+    const src = read('src/components/seo/SeoLandingPage.tsx')
+    expect(src).toContain('googleDirectionsUrl(')
+    expect(src).toContain('vins-bieres-belges')
+  })
+
+  it('googleDirectionsUrl targets the Google place', () => {
+    const url = googleDirectionsUrl()
+    expect(url.startsWith('https://www.google.com/maps/dir/?api=1')).toBe(true)
+    expect(url).toContain('destination_place_id=ChIJozpAo2GUUTARABLcICH3H7I')
+  })
+
+  it('wineBeer copy is alcohol-safe (no brand, drink CTA or price)', () => {
+    for (const v of values(en.wineBeer)) {
+      expect(v).not.toMatch(
+        /Chimay|Leffe|Duvel|Hoegaarden|Westmalle|Westvleteren|Orval|Rochefort|Stella|Delirium|Kwak|Chouffe|Karmeliet|Affligem|Grimbergen/i
+      )
+      expect(v).not.toMatch(/\b(drink up|cheers|happy hour|bottomless|free flow|buy one)\b/i)
+      expect(v).not.toMatch(/\d+\s?(THB|baht|฿)/i)
+    }
+  })
+
+  it('publication state', () => {
+    expect(PAGES.find((p) => p.key === WINE)!.contentLocales).toEqual([])
+    expect(PUBLISHED_PAGES.some((p) => p.path === WINE)).toBe(false)
+    expect(PUBLISHED_PAGES.find((p) => p.path === HERE)?.locales).toEqual(['en'])
+  })
+
+  it('owner review sheet exists with sign-off line', () => {
+    const f = 'docs/ph6/review/en/wine-belgian-beer-krabi.md'
+    expect(existsSync(join(root, f))).toBe(true)
+    expect(read(f)).toContain('- [ ] Validé par écrit par :')
+  })
 })
