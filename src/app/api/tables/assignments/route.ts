@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
 
       const { data: junctions, error: juncErr } = await supabase
         .from('gecko_table_configuration_tables')
-        .select('table_configuration_id, table_id, tables(*)')
+        .select('table_configuration_id, table_id, tables:gecko_tables(*)')
 
       if (juncErr) {
         Sentry.captureException(juncErr)
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
       //   reservation_datetime <= checkDatetime < blocked_until
       const { data: activeAssignments, error: asgErr } = await supabase
         .from('gecko_table_assignments')
-        .select('table_configuration_id, blocked_until, reservation_id, reservations(reservation_date, reservation_time)')
+        .select('table_configuration_id, blocked_until, reservation_id, reservations:gecko_reservations(reservation_date, reservation_time)')
         .gt('blocked_until', checkDatetime.toISOString())
 
       if (asgErr) {
@@ -136,10 +136,10 @@ export async function GET(request: NextRequest) {
       .from('gecko_table_assignments')
       .select(`
         *,
-        reservations(*),
-        table_configurations(
+        reservations:gecko_reservations(*),
+        table_configurations:gecko_table_configurations(
           *,
-          table_configuration_tables(table_id, tables(*))
+          table_configuration_tables:gecko_table_configuration_tables(table_id, tables:gecko_tables(*))
         )
       `)
       .filter('reservations.reservation_date', 'eq', dateParam)

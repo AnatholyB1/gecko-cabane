@@ -21,7 +21,7 @@ export async function GET() {
     // Fetch junction rows + tables for each config
     const { data: junctions, error: juncErr } = await supabase
       .from('gecko_table_configuration_tables')
-      .select('table_configuration_id, table_id, tables(*)')
+      .select('table_configuration_id, table_id, tables:gecko_tables(*)')
 
     if (juncErr) {
       Sentry.captureException(juncErr)
