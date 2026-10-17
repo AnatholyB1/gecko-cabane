@@ -223,6 +223,10 @@
     "label": "Une question ? Écrivez-nous",
     "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
   },
+  "line": {
+    "ariaLabel": "Nous écrire sur LINE",
+    "label": "Nous écrire sur LINE"
+  },
   "review": {
     "metaTitle": "Laisser un avis",
     "title": "Votre avis compte pour nous",

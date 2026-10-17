@@ -3,7 +3,7 @@ import { getMessages, getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { locales } from '@/i18n/config'
-import WhatsAppButton from '@/components/WhatsAppButton'
+import FloatingContact from '@/components/FloatingContact'
 import PlausibleScript from '@/components/PlausibleScript'
 import AttributionCapture from '@/components/AttributionCapture'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
@@ -47,7 +47,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       {children}
       <PlausibleScript />
       <AttributionCapture />
-      <WhatsAppButton />
+      <FloatingContact />
     </NextIntlClientProvider>
   )
 }
