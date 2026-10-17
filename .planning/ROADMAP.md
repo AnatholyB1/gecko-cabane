@@ -128,7 +128,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — /menu server-rendered (cached anon read, sections, sticky anchors, pictos, prices in baht, i18n) (MENU-01)
+- [x] 03-01-PLAN.md — /menu server-rendered (cached anon read, sections, sticky anchors, pictos, prices in baht, i18n) (MENU-01)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -241,7 +241,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete   | 2026-10-16 |
-| 3. Carte HTML et pages clés | 0/TBD | Not started | - |
+| 3. Carte HTML et pages clés | 1/8 | In Progress|  |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |
