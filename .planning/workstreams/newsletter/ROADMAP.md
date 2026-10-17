@@ -35,7 +35,7 @@ Plans:
 - [x] 07-06-PLAN.md — Exit-intent pop-up / mobile bottom sheet + anonymous signup counters (W3)
 - [x] 07-07-PLAN.md — FR/EN sequence drafts, Brevo runbook, privacy update, owner review (W3, checkpoint)
 - [x] 07-08-PLAN.md — Unsubscribe page/route (one-click) + Brevo webhook to the ledger (W4)
-- [ ] 07-09-PLAN.md — Daily newsletter-sync cron (visit date, country, resident) + D-03 legacy job (W4)
+- [x] 07-09-PLAN.md — Daily newsletter-sync cron (visit date, country, resident) + D-03 legacy job (W4)
 - [ ] 07-10-PLAN.md — Launch: approvals, migration 015 push, Brevo setup, env, deploy, probes (W5, checkpoint)
 - [ ] 07-11-PLAN.md — Brevo automations activation, device checks, round trip, D-03 mailing (W6, checkpoint)
 **UI hint**: yes
@@ -44,4 +44,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Newsletter | 7/11 | In Progress|  |
+| 7. Newsletter | 8/11 | In Progress|  |
