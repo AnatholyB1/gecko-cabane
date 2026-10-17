@@ -7,6 +7,12 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    qualities: [60, 75],
+    minimumCacheTTL: 2678400,
+  },
   // 308 before middleware, no Accept-Language detection (D-02).
   // A permanent redirect is browser-cached: never reuse '/' for another purpose.
   async redirects() {

@@ -1,5 +1,6 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
@@ -109,12 +110,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         {/* ═══ HERO ═══ */}
         <section className="relative min-h-screen flex items-center justify-center bg-gc-void pt-[72px] overflow-hidden">
           {/* Hero background image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/hero-bg.jpg"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            fill
+            preload
+            sizes="100vw"
+            quality={60}
+            className="object-cover pointer-events-none select-none"
             style={{ opacity: 0.28 }}
           />
           {/* Noise */}
@@ -243,10 +247,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold z-10" />
 
                   {/* Photo de la cheffe */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/chef-jariya.jpg"
                     alt={t('about.chefPhotoAlt')}
+                    width={1024}
+                    height={1024}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full object-cover"
                     style={{ aspectRatio: '3/4', filter: 'sepia(0.3) contrast(1.05)', objectPosition: 'center top' }}
                   />
@@ -415,13 +421,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   className="group relative overflow-hidden"
                   style={{ border: '1px solid rgba(198,155,60,0.12)' }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={item.src}
                     alt={item.alt}
+                    width={800}
+                    height={600}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
                     style={{ objectPosition: item.pos }}
-                    loading="lazy"
                   />
                   {/* Caption overlay */}
                   <div
@@ -567,13 +574,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid md:grid-cols-2 gap-12">
               <div>
                 <div className="relative mb-6 overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/exterior-sign.jpg"
                     alt={t('contactSection.signAlt')}
+                    width={1000}
+                    height={1333}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full object-cover"
                     style={{ aspectRatio: '4/5', objectPosition: 'top center' }}
-                    loading="lazy"
                   />
                 </div>
                 <h3 className="font-cinzel font-normal text-[18px] text-gc-text-dark tracking-wide mb-5">
@@ -611,12 +619,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </div>
 
               <div className="bg-gc-void p-10 relative overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/exterior-entrance.jpg"
                   alt=""
                   aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover pointer-events-none select-none"
                 />
                 <div
                   className="absolute inset-0"
