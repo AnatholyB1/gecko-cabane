@@ -24,10 +24,10 @@ export async function POST(request: Request) {
     }
     
     const tableName = type === 'pages' 
-      ? 'menu_pages' 
-      : type === 'categories' 
-        ? 'menu_categories' 
-        : 'menu_items'
+      ? 'gecko_menu_pages'
+      : type === 'categories'
+        ? 'gecko_menu_categories'
+        : 'gecko_menu_items'
     
     // Update each item's display_order
     for (const item of items) {

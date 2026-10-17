@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     
     let query = supabase
       .from('gecko_menu_categories')
-      .select('*, items:menu_items(*)')
+      .select('*, items:gecko_menu_items(*)')
       .order('display_order', { ascending: true })
     
     if (menuPageId) {

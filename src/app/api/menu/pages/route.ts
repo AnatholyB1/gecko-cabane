@@ -16,9 +16,9 @@ export async function GET() {
       .from('gecko_menu_pages')
       .select(`
         *,
-        categories:menu_categories(
+        categories:gecko_menu_categories(
           *,
-          items:menu_items(*)
+          items:gecko_menu_items(*)
         )
       `)
       .order('display_order', { ascending: true })
