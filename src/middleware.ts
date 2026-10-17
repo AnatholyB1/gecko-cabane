@@ -12,11 +12,20 @@ const intlMiddleware = createIntlMiddleware({
   localePrefix: 'always',
 })
 
+const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Skip Sentry tunnel and dev tools entirely — no auth, no i18n
   if (pathname.startsWith('/monitoring')) {
+    return NextResponse.next()
+  }
+
+  // Review short URLs: next-intl (localePrefix 'always') would otherwise redirect
+  // /review to /fr/review before the alias handler can resolve the locale.
+  // No auth or session is needed on these paths.
+  if (REVIEW_ALIASES.has(pathname)) {
     return NextResponse.next()
   }
 
