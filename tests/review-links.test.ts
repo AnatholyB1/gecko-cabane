@@ -10,6 +10,9 @@ import {
   pickAcceptLanguage,
   resolveReviewLocale,
   buildReviewRedirectPath,
+  normalizeReviewSource,
+  REVIEW_STAT_SOURCES,
+  REVIEW_HIT_KINDS,
 } from '../src/utils/review-links'
 import { googleReviewUrl, tripAdvisorReviewUrl } from '../src/utils/seo'
 
@@ -40,12 +43,30 @@ describe('isReviewToken', () => {
 })
 
 describe('sanitizeReviewSource', () => {
-  it.each(['email', 'qr', 'wa'])('accepts %s', (v) => {
+  it.each(['email', 'qr', 'wa', 'site'])('accepts %s', (v) => {
     expect(sanitizeReviewSource(v)).toBe(v)
   })
 
   it.each(['EMAIL ', 'javascript:', '', 'Email', null, undefined])('rejects %s', (v) => {
     expect(sanitizeReviewSource(v as string | null | undefined)).toBeNull()
+  })
+})
+
+describe('normalizeReviewSource', () => {
+  it('exposes the stat sources and hit kinds', () => {
+    expect([...REVIEW_STAT_SOURCES]).toEqual(['email', 'qr', 'wa', 'site', 'unknown'])
+    expect([...REVIEW_HIT_KINDS]).toEqual(['visit', 'google', 'tripadvisor'])
+  })
+
+  it.each([
+    ['qr', null, 'qr'],
+    ['wa', UUID, 'email'],
+    [undefined, 'not-a-uuid', 'unknown'],
+    [['qr'], null, 'unknown'],
+    ['unknown', null, 'unknown'],
+    ['<x>', null, 'unknown'],
+  ] as const)('%j + %j -> %s', (src, rid, expected) => {
+    expect(normalizeReviewSource(src, rid)).toBe(expected)
   })
 })
 

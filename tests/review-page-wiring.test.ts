@@ -23,10 +23,13 @@ describe('review page', () => {
   })
 
   it('shows Google before TripAdvisor', () => {
-    const g = pageSrc.indexOf('googleReviewUrl()')
-    const t = pageSrc.indexOf('tripAdvisorReviewUrl()')
+    // Phase 5 D-08: buttons go through the counted redirect
+    const g = pageSrc.indexOf('/api/review/go?t=google')
+    const t = pageSrc.indexOf('/api/review/go?t=tripadvisor')
     expect(g).toBeGreaterThan(-1)
     expect(t).toBeGreaterThan(g)
+    expect(pageSrc).not.toContain('googleReviewUrl(')
+    expect(pageSrc).not.toContain('tripAdvisorReviewUrl(')
   })
 
   it('opens both links in a new tab safely', () => {
