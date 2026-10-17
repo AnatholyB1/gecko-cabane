@@ -40,3 +40,11 @@ Aucun compte externe n'est touché depuis le code ni par Claude sans votre accor
 3. **Chiffres de transport vers Ao Nang** (taxi, songthaew, durée, prix) : à confirmer par vous avant publication de la page « comment venir » (D-10).
 4. **Choix du relecteur** : qui est le relecteur de l'allemand, puis du suédois (D-06) ? Aucun texte DE ou SV n'est publié sans validation écrite.
 5. **Fichier manquant** : le fichier « Specs site Gecko Cabane – SEO et conversion.md » est absent du dépôt. Merci de le fournir si certaines consignes n'y sont pas reprises ailleurs.
+
+## Décisions du propriétaire
+
+Date : 2026-10-17 (conversation Claude Code).
+
+- **Validation** : le propriétaire a validé les textes préparés (posts Google, modèles de réponse, texte TripAdvisor) par un « je valide, continue tout seul », sans correction. Les trous à remplir par le propriétaire restent à remplir (offre basse saison, date de la soirée) : les semaines concernées ne sont pas publiables en l'état.
+- **Mode d'exécution OPS-04/05** : Chrome piloté par Claude, relevé en lecture seule d'abord ; **chaque modification d'une plateforme externe reste soumise à l'accord du propriétaire avant le clic** (règle du projet, pas de blanc-seing).
+- **Cinq étoiles de la carte TripAdvisor (accueil)** : non tranché explicitement ; par défaut aucune modification ici, traité en phase 5 (preuve sociale).

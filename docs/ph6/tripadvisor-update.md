@@ -1,5 +1,5 @@
 Statut : brouillon
-Validé par le propriétaire : ____ (date)
+Validé par le propriétaire : 2026-10-17 (conversation Claude Code, validation globale « je valide, continue tout seul », sans correction demandée ; aucune publication sans accord explicite avant chaque action externe)
 Envoyé/publié par le propriétaire : ____ (date)
 
 # Mise à jour de la fiche TripAdvisor — OPS-04

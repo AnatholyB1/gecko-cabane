@@ -1,5 +1,5 @@
 Statut : brouillon — à valider par le propriétaire avant publication
-Validé par le propriétaire : ____ (date)
+Validé par le propriétaire : 2026-10-17 (conversation Claude Code, validation globale « je valide, continue tout seul », sans correction demandée ; aucune publication sans accord explicite avant chaque action externe)
 Envoyé/publié par le propriétaire : ____ (date)
 
 # Posts Google Business Profile — 4 semaines, FR et EN (OPS-02)
