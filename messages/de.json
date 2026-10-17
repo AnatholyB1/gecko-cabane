@@ -1,1 +1,425 @@
-{}
+{
+  "home": {
+    "reviewsLine": "Google-Bewertung 4,7 / 5 · 1.062 Bewertungen",
+    "reviewsLink": "Bewertungen auf Google lesen",
+    "directionsLink": "Route in Google Maps anzeigen"
+  },
+  "common": {
+    "reserve": "Tisch reservieren",
+    "book": "Reservieren",
+    "bookTable": "Tisch reservieren",
+    "mainNav": "Hauptnavigation",
+    "home": "Startseite",
+    "about": "Über uns",
+    "menu": "Speisekarte",
+    "hours": "Öffnungszeiten",
+    "reservation": "Reservierung",
+    "contact": "Kontakt",
+    "skipToContent": "Zum Hauptinhalt springen",
+    "homeAriaLabel": "Gecko Cabane – Startseite",
+    "reserveShort": "Reservieren"
+  },
+  "hero": {
+    "subtitle": "Französisch-thailändisches Restaurant",
+    "tagline": "Eine kulinarische Verbindung im Herzen des Dschungels von Krabi",
+    "discoverButton": "Unsere Küche entdecken",
+    "discoverAriaLabel": "Unsere Speisekarte und Spezialitäten entdecken",
+    "findUsButton": "So finden Sie uns",
+    "location": "Krabi Town · Thailand"
+  },
+  "about": {
+    "title": "Willkommen in unserer Cabana",
+    "description1": "Mitten in Krabi liegt unser kleines französisch-thailändisches Restaurant, in dem <chef>Chefköchin Jariya</chef> und ihr Team Sie mit Herzlichkeit und Leidenschaft empfangen.",
+    "description2": "Wir haben nur <seats>40 Plätze</seats> und legen Wert auf einen ruhigen, persönlichen Abend. Für Gruppen ab mehr als 10 Personen empfehlen wir die Reservierung per Telefon oder direkt vor Ort.",
+    "important": "Wichtig",
+    "kitchenClose": "Die Küche nimmt Bestellungen bis 22:00 Uhr entgegen",
+    "chefName": "Chefköchin Jariya",
+    "chefQuote": "Mit Liebe und Kreativität verbinde ich französische und thailändische Aromen zu Gerichten, die eine Geschichte erzählen.",
+    "eyebrow": "Unsere Geschichte",
+    "chefPhotoAlt": "Chefköchin Jariya im Gecko Cabane, Krabi",
+    "chefRole": "Chefköchin",
+    "frenchRestaurantLink": "Unsere französische Küche in Krabi Town entdecken"
+  },
+  "cuisine": {
+    "title": "Unsere Küche",
+    "description": "Eine feine Verbindung aus französischer Tradition und thailändischen Aromen, zubereitet mit frischen Zutaten",
+    "french": "Französisch",
+    "frenchDesc": "Klassische, elegante Zubereitung",
+    "thai": "Thailändisch",
+    "thaiDesc": "Authentische, würzige Aromen",
+    "fusion": "Fusion",
+    "fusionDesc": "Eigene, überraschende Kreationen",
+    "healthy": "Gesund",
+    "healthyDesc": "Frische Zutaten in guter Qualität",
+    "dinner": "Abendessen",
+    "dinnerDesc": "Ein vollständiges kulinarisches Erlebnis",
+    "brunch": "Brunch",
+    "brunchDesc": "Genussvolle Morgenstunden",
+    "drinks": "Getränke",
+    "drinksDesc": "Gute Weine und kreative Cocktails",
+    "eyebrow": "Unsere Küche"
+  },
+  "menuSection": {
+    "title": "Unsere Speisekarte",
+    "description": "Entdecken Sie unsere Kreationen, eine besondere Verbindung aus französischen und thailändischen Aromen",
+    "vegetarian": "Vegetarisch",
+    "spicy": "Scharf",
+    "noItems": "In dieser Kategorie sind keine Gerichte verfügbar",
+    "preparing": "Diese Speisekarte wird gerade vorbereitet",
+    "menuPreparing": "Die Speisekarte wird gerade vorbereitet",
+    "eyebrow": "Die Speisekarte",
+    "glutenFree": "Glutenfrei",
+    "seeFullMenu": "Speisekarte ansehen"
+  },
+  "services": {
+    "title": "Unser Service",
+    "fullBar": "Vollständige Bar",
+    "beersWines": "Bier und Wein",
+    "cardsAccepted": "Kartenzahlung möglich",
+    "highChairs": "Kinderhochstühle",
+    "reservations": "Reservierungen",
+    "alcoholServed": "Alkoholausschank",
+    "tableService": "Bedienung am Tisch",
+    "streetParking": "Parken an der Straße",
+    "freeWifi": "Kostenloses WLAN",
+    "vegetarian": "Vegetarisch",
+    "glutenFree": "Glutenfrei"
+  },
+  "hoursSection": {
+    "title": "Öffnungszeiten",
+    "eyebrow": "Öffnungszeiten"
+  },
+  "reservationForm": {
+    "title": "Reservierung",
+    "subtitle": "Reservieren Sie Ihren Tisch für einen besonderen Abend im Dschungel von Krabi",
+    "comingSoonBadge": "Demnächst",
+    "comingSoonTitle": "Die Online-Reservierung startet in Kürze!",
+    "comingSoonText": "Unser Online-Reservierungssystem ist in etwa einer Woche verfügbar. Bis dahin erreichen Sie uns direkt per Telefon oder WhatsApp.",
+    "fullName": "Vollständiger Name *",
+    "phone": "Telefon *",
+    "email": "E-Mail *",
+    "date": "Datum *",
+    "time": "Uhrzeit *",
+    "selectTime": "Uhrzeit wählen",
+    "lunch": "Mittagessen",
+    "dinnerLabel": "Abendessen",
+    "partySize": "Anzahl der Gäste *",
+    "occasion": "Anlass",
+    "selectOptional": "Auswählen (optional)",
+    "birthday": "🎂 Geburtstag",
+    "romanticDinner": "💕 Romantisches Abendessen",
+    "businessMeal": "💼 Geschäftsessen",
+    "celebration": "🎉 Feier",
+    "other": "✨ Sonstiges",
+    "submit": "Reservierungsanfrage senden",
+    "sending": "Wird gesendet ...",
+    "required": "* Pflichtfelder.",
+    "largeGroupWarning": "Bei mehr als 10 Gästen schreiben Sie uns bitte per WhatsApp, damit wir die Verfügbarkeit bestätigen können.",
+    "successTitle": "Anfrage erhalten",
+    "successMessage": "Wir haben eine E-Mail an die angegebene Adresse gesendet. Unser Team bestätigt Ihren Tisch in Kürze.",
+    "successNote": "Für Änderungen oder Stornierungen schreiben Sie uns bitte per WhatsApp.",
+    "newReservation": "Neue Reservierung",
+    "countryLabel": "Ländervorwahl",
+    "emailInvalid": "Ungültige E-Mail-Adresse. Bitte prüfen Sie das Format (z. B. anna@beispiel.de).",
+    "phoneInvalid": "Ungültige Nummer für dieses Land. Bitte prüfen Sie Vorwahl und Nummer.",
+    "marketingConsent": "Ich möchte Neuigkeiten und Angebote von Gecko Cabane erhalten (höchstens 1 E-Mail pro Monat). Siehe unsere <link>Datenschutzerklärung</link>.",
+    "privacyNote": "Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Reservierung verwendet.",
+    "genericError": "Wir konnten Ihre Anfrage nicht senden. Bitte versuchen Sie es gleich noch einmal oder schreiben Sie uns per WhatsApp.",
+    "networkError": "Verbindung fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    "rateLimited": "Zu viele Anfragen von Ihrer Verbindung. Schreiben Sie uns direkt per WhatsApp, wir antworten schnell.",
+    "rateLimitedWhatsapp": "Per WhatsApp schreiben",
+    "slotUnavailable": "Das Restaurant ist zu dieser Zeit geschlossen (dienstags Ruhetag). Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit.",
+    "slotFull": "Dieser Zeitraum ist ausgebucht. Wählen Sie eine andere Uhrzeit oder schreiben Sie uns per WhatsApp.",
+    "datePast": "Dieser Zeitpunkt liegt bereits in der Vergangenheit. Bitte wählen Sie ein späteres Datum oder eine spätere Uhrzeit.",
+    "partySizeDecrease": "Weniger Gäste",
+    "partySizeIncrease": "Mehr Gäste",
+    "namePlaceholder": "Anna Müller",
+    "emailPlaceholder": "anna@beispiel.de",
+    "eyebrow": "Reservierung"
+  },
+  "contactSection": {
+    "title": "So finden Sie uns",
+    "addressTitle": "Adresse",
+    "thailand": "Thailand",
+    "reservationTitle": "Reservierung",
+    "groupInfo": "Für Gruppen ab mehr als 10 Personen kontaktieren Sie uns bitte telefonisch oder direkt vor Ort.",
+    "welcomeTitle": "Willkommen im Dschungel!",
+    "welcomeText": "Wir freuen uns, Sie in unserer Cabana im Herzen von Krabi zu begrüßen. Ein tropisches Genusserlebnis erwartet Sie!",
+    "maxSeats": "Maximal 40 Plätze",
+    "chefTeam": "Chefköchin Jariya und ihr Team",
+    "cuisineType": "Französisch-thailändische Küche",
+    "viewOnMap": "In Google Maps ansehen",
+    "viewMapAriaLabel": "Unseren Standort in Google Maps ansehen (öffnet in neuem Tab)",
+    "eyebrow": "So finden Sie uns",
+    "signAlt": "Das beleuchtete Schild des Gecko Cabane bei Nacht, Krabi"
+  },
+  "footer": {
+    "restaurantInfo": "Informationen zum Restaurant",
+    "subtitle": "Französisch-thailändisches Restaurant",
+    "location": "Im Herzen des Dschungels von Krabi",
+    "hoursTitle": "Öffnungszeiten",
+    "openHours": "Geöffnet von 12 bis 22 Uhr",
+    "closedDay": "Dienstags geschlossen",
+    "lastOrder": "Letzte Bestellung: 22 Uhr",
+    "contactTitle": "Kontakt",
+    "rights": "Alle Rechte vorbehalten.",
+    "createdBy": "Erstellt von",
+    "legalTitle": "Rechtliche Hinweise",
+    "legalBusiness": "Eintragung: DBD Thailand",
+    "legalVat": "USt-IdNr.: befreit (PP.30)",
+    "legalAlcohol": "Alkohollizenz: Excise Department",
+    "legalPdpa": "Schutz personenbezogener Daten (PDPA B.E. 2562)",
+    "legalNotice": "Gecko Cabane ist ein in Thailand nach dem Business Registration Act eingetragener gastronomischer Betrieb. Verkauf und Konsum von Alkohol unterliegen dem thailändischen Verbrauchsteuerrecht (Excise Act B.E. 2560). Personenbezogene Daten, die über diese Website erhoben werden, werden gemäß dem thailändischen Datenschutzgesetz (PDPA B.E. 2562) verarbeitet. Gemäß dem thailändischen Verbraucherschutzgesetz (B.E. 2522) verstehen sich alle Preise inklusive aller anfallenden Steuern. Bei Fragen: geckocabanerestaurant@gmail.com.",
+    "guidesTitle": "Guides",
+    "navigateTitle": "Navigation"
+  },
+  "hours": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "closed": "Geschlossen",
+    "today": "Heute",
+    "openNow": "Geöffnet",
+    "closedNow": "Geschlossen",
+    "specialHours": "Kommende Sonderöffnungszeiten",
+    "lastOrder": "Letzte Bestellung in der Küche",
+    "loading": "Wird geladen ..."
+  },
+  "social": {
+    "title": "Das sagen unsere Gäste",
+    "description": "Werden Sie Teil unserer Gemeinschaft und erfahren Sie, warum unsere Gäste gerne wiederkommen",
+    "tripAdvisorText": "Lesen Sie die Bewertungen unserer Gäste auf TripAdvisor und teilen Sie Ihre Erfahrung",
+    "facebookText": "Folgen Sie uns für Neuigkeiten, besondere Abende und Fotos unserer Gerichte",
+    "readReviews": "Bewertungen lesen",
+    "followUs": "Folgen Sie uns"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "sv": "Svenska",
+    "switchTo": "Zu {language} wechseln",
+    "changeLanguage": "Sprache wechseln"
+  },
+  "errors": {
+    "notFound": {
+      "code": "404",
+      "title": "Seite nicht gefunden",
+      "subtitle": "Diese Seite existiert nicht oder wurde verschoben. Kehren Sie zur Startseite zurück, um weiterzustöbern.",
+      "backHome": "Zurück zur Startseite",
+      "goMenu": "Speisekarte ansehen",
+      "signature": "🦎 Gecko Cabane — Krabi, Thailand"
+    },
+    "error": {
+      "code": "500",
+      "title": "Etwas ist schiefgelaufen",
+      "subtitle": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es erneut oder kehren Sie zur Startseite zurück.",
+      "retry": "Erneut versuchen",
+      "backHome": "Zurück zur Startseite",
+      "signature": "🦎 Gecko Cabane — Krabi, Thailand"
+    }
+  },
+  "whatsapp": {
+    "ariaLabel": "Per WhatsApp mit uns chatten",
+    "label": "Fragen? Schreiben Sie uns",
+    "prefill": "Guten Tag Gecko Cabane, ich möchte gern einen Tisch reservieren."
+  },
+  "review": {
+    "metaTitle": "Bewertung abgeben",
+    "title": "Ihre Meinung ist uns wichtig",
+    "intro": "Danke, dass Sie bei uns zu Gast waren. Wenn Sie eine Minute Zeit haben, hilft uns eine Bewertung sehr.",
+    "google": "Bewertung auf Google",
+    "tripadvisor": "Bewertung auf TripAdvisor",
+    "newTab": "(öffnet in neuem Tab)",
+    "note": "Danke, es war uns eine echte Freude, Sie zu bewirten.",
+    "back": "Zurück zur Website"
+  },
+  "announcement": {
+    "from": "Ab {date}",
+    "to": "bis {date}",
+    "close": "Hinweis schließen"
+  },
+  "gallery": {
+    "eyebrow": "Unsere Kreationen",
+    "title": "Der Tisch von Chefköchin Jariya",
+    "alt1": "Lammhaxe in Massaman-Curry mit Reis",
+    "alt2": "Rindfleisch nach Burgunder Art mit Kartoffelpüree und Landbrot",
+    "alt3": "Freilandhähnchenbrust in Sahnesauce",
+    "alt4": "Kürbis-Velouté mit Sahne",
+    "tagline": "Feine französisch-thailändische Küche · Chefköchin Jariya · Krabi, Thailand"
+  },
+  "meta": {
+    "homeTitle": "Gecko Cabane – Französisch-thailändisch in Krabi Town",
+    "homeDescription": "Französisch-thailändische Küche von Chefköchin Jariya in Krabi Town, Maharat Road: 40 Plätze, Tisch online in unter einer Minute reservieren.",
+    "schemaDescription": "Feines französisch-thailändisches Restaurant in Krabi Town, Thailand: französisch-thailändische Fusionsküche von Chefköchin Jariya, 40 Plätze.",
+    "menuTitle": "Speisekarte – Gecko Cabane, Krabi Town",
+    "menuDescription": "Die Speisekarte des Gecko Cabane in Krabi Town: französische und thailändische Gerichte von Chefköchin Jariya, Preise in Baht, vegetarisch und scharf gekennzeichnet.",
+    "frenchRestaurantTitle": "Französisches Restaurant in Krabi Town – Gecko Cabane",
+    "frenchRestaurantDescription": "Echte französische Küche eines französisch-thailändischen Paares an der Maharat Road in Krabi Town: Bourguignon, Hähnchen in Sahnesauce, Currys. Online reservieren.",
+    "romanticDinnerTitle": "Romantisches Abendessen in Krabi Town – Gecko Cabane",
+    "romanticDinnerDescription": "Ein ruhiger Tisch für zwei an der Maharat Road in Krabi Town: französische Küche mit thailändischen Klassikern, 40 Plätze. Online reservieren, Anlass angeben.",
+    "whereToEatTitle": "Wo essen in Krabi Town – Gecko Cabane",
+    "whereToEatDescription": "Lokaler Guide zum Essen in Krabi Town: Nachtmarkt, Walking Street und Flusspromenade, was Sie probieren sollten und wann, dazu Abendessen im Gecko Cabane."
+  },
+  "frenchRestaurant": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Französisches Restaurant in Krabi Town",
+    "subtitle": "Echte französische Küche eines französisch-thailändischen Paares, an der Maharat Road.",
+    "ctaBook": "Tisch reservieren",
+    "ctaMenu": "Speisekarte ansehen",
+    "heroAlt": "Der Eingang des Restaurants Gecko Cabane an der Maharat Road in Krabi Town",
+    "introTitle": "Französische Küche, mit Sorgfalt in Krabi gekocht",
+    "intro1": "Das Gecko Cabane ist ein kleines französisches Restaurant in Krabi Town, geführt von einem französisch-thailändischen Paar. Chefköchin Jariya kocht die Klassiker der französischen Hausmannskost so, wie sie schmecken sollen: langsam und großzügig.",
+    "intro2": "Mit nur 40 Plätzen bleibt der Gastraum überschaubar. Auf der Tafel stehen französische Gerichte, ein paar thailändische Lieblingsgerichte aus der Küche der Chefin und eine kurze Auswahl an Weinen und Bieren dazu.",
+    "dishesTitle": "Unsere Spezialitäten",
+    "bourguignon": {
+      "name": "Boeuf Bourguignon",
+      "text": "Rindfleisch, langsam in Rotwein mit Karotten und Zwiebeln geschmort, so wie man es im Burgund zubereitet.",
+      "alt": "Boeuf Bourguignon, serviert im Gecko Cabane"
+    },
+    "veloute": {
+      "name": "Velouté",
+      "text": "Eine samtige Suppe, frisch zubereitet, warm serviert und mit Sahne verfeinert.",
+      "alt": "Eine Schale Velouté-Suppe, serviert im Gecko Cabane"
+    },
+    "pouletCreme": {
+      "name": "Hähnchen in Sahnesauce",
+      "text": "Zartes Hähnchen in einer reichhaltigen, cremigen Sauce, ein französisches Wohlfühlgericht.",
+      "alt": "Hähnchen in Sahnesauce, serviert im Gecko Cabane"
+    },
+    "massaman": {
+      "name": "Massaman-Curry",
+      "text": "Von der thailändischen Seite der Karte: ein mildes, duftendes Curry, gekocht von Chefköchin Jariya.",
+      "alt": "Massaman-Curry, serviert im Gecko Cabane"
+    },
+    "winesTitle": "Wein und belgisches Bier",
+    "winesText": "Zum Essen schenken wir französische Weine und eine Auswahl belgischer Biere aus.",
+    "winesLink": "Unsere Weine und Biere auf der Speisekarte ansehen",
+    "storyTitle": "Das Restaurant eines französisch-thailändischen Paares",
+    "story1": "Das Gecko Cabane wurde von Chefköchin Jariya und ihrem französischen Ehemann eröffnet. Sie sorgt für die Küche, er für den französischen Tisch, und gemeinsam empfangen sie jeden Abend ihre Gäste.",
+    "story2": "Die Idee ist einfach: die Gerichte kochen, die sie lieben, mit Sorgfalt, und sie mit Reisenden und Einheimischen in Krabi Town teilen.",
+    "chefAlt": "Chefköchin Jariya vom Gecko Cabane, Krabi Town",
+    "findTitle": "So finden Sie uns in Krabi Town",
+    "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
+    "hoursTitle": "Öffnungszeiten",
+    "hoursLine": "{days}: {opens}–{closes}",
+    "closedNote": "Dienstags geschlossen.",
+    "directionsLink": "Route anzeigen",
+    "phoneLabel": "Rufen Sie uns an: +66 81 958 5945",
+    "closingTitle": "Genießen Sie Ihr Abendessen in Krabi Town"
+  },
+  "menuPage": {
+    "eyebrow": "Gecko Cabane · Krabi Town",
+    "title": "Unsere Speisekarte",
+    "intro": "Französische und thailändische Küche von Chefköchin Jariya. Preise in thailändischen Baht. Die Gerichte sind auf Französisch beschrieben.",
+    "legendTitle": "Legende",
+    "allergyNote": "Allergien: Bitte lassen Sie sich von unserem Team beraten. Glutenfreie Gerichte sind auf Anfrage erhältlich.",
+    "allergensPrefix": "Allergene:",
+    "anchorNavLabel": "Bereiche der Speisekarte",
+    "backToTop": "Zurück nach oben",
+    "emptyTitle": "Die Speisekarte folgt in Kürze",
+    "emptyBody": "Unsere Speisekarte wird gerade aktualisiert. Rufen Sie uns an unter +66 81 958 5945 oder reservieren Sie online."
+  },
+  "seoLanding": {
+    "discoverTitle": "Mehr entdecken",
+    "guideEyebrow": "Guide",
+    "readGuide": "Guide lesen",
+    "seeMenu": "Speisekarte ansehen",
+    "bookTable": "Tisch reservieren"
+  },
+  "nav": {
+    "frenchRestaurant": "Französisches Restaurant",
+    "frenchRestaurantHint": "Französische Hausmannskost eines französisch-thailändischen Paares, mit ein paar thailändischen Lieblingsgerichten.",
+    "romanticDinner": "Romantisches Abendessen",
+    "romanticDinnerHint": "Ein kleiner, ruhiger Gastraum mit französisch-thailändischer Küche, gemacht für einen Abend zu zweit.",
+    "whereToEat": "Wo essen in Krabi Town",
+    "whereToEatHint": "Wohin wir einen Freund zum Abendessen in Krabi Town schicken würden, und was Sie erwartet.",
+    "gettingHere": "Anreise ab Ao Nang",
+    "gettingHereHint": "So erreichen Sie uns ab Ao Nang, mit ungefähren Fahrzeiten, die Sie vor Ort bestätigen sollten.",
+    "wineBeer": "Wein und belgisches Bier",
+    "wineBeerHint": "Die kurze Auswahl an Weinen und belgischen Bieren, die zur Speisekarte passt."
+  },
+  "romanticDinner": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Romantisches Abendessen in Krabi Town",
+    "subtitle": "Ein kleiner Gastraum, eine französisch-thailändische Küche und ein Abend zu zweit ohne Eile.",
+    "heroAlt": "Das Schild des Gecko Cabane an der Maharat Road in Krabi Town",
+    "sections": {
+      "ambiance": {
+        "title": "Ein ruhiger Raum für zwei",
+        "p1": "Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von einem französisch-thailändischen Paar, das Sie persönlich willkommen heißt.",
+        "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Dienstags haben wir Ruhetag, und die Küche nimmt Bestellungen bis 22 Uhr entgegen."
+      },
+      "table": {
+        "title": "Was Sie essen werden",
+        "alt": "Boeuf Bourguignon, serviert im Gecko Cabane",
+        "p1": "Die Karte bietet französische Hausmannskost, etwa Boeuf Bourguignon, langsam in Rotwein geschmort, und Hähnchen in Sahnesauce. Dazu gibt es einige thailändische Gerichte der Chefin, wie ein mildes Massaman-Curry.",
+        "p2": "Eine kurze Auswahl an Weinen und belgischen Bieren rundet das Essen ab. Fragen Sie uns gern, was zu Ihren Gerichten passt; wir helfen Ihnen bei der Auswahl."
+      },
+      "chef": {
+        "title": "Gekocht von Chefköchin Jariya",
+        "alt": "Chefköchin Jariya vom Gecko Cabane in Krabi Town",
+        "p1": "Chefköchin Jariya führt die Küche, und ihr französischer Ehemann kümmert sich um den Gastraum. Gemeinsam haben sie ein kleines Restaurant geschaffen, in dem sie selbst gern essen würden.",
+        "p2": "Wenn Sie neugierig auf ein Gericht sind, fragen Sie einfach. Die beiden erklären gern, was darin ist und wie es zubereitet wird."
+      },
+      "occasion": {
+        "title": "Gibt es etwas zu feiern?",
+        "p1": "Das Reservierungsformular enthält ein Feld „Anlass“. Ob Jahrestag, Geburtstag oder die erste gemeinsame Reise: Tragen Sie es dort ein, dann wissen wir bei Ihrer Ankunft Bescheid.",
+        "link": "Tisch reservieren und Anlass angeben"
+      }
+    },
+    "closingTitle": "Genießen Sie Ihr Abendessen in Krabi Town"
+  },
+  "whereToEat": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Wo essen in Krabi Town",
+    "subtitle": "Ein kurzer Guide zu Nachtmarkt, Walking Street und Fluss und dazu, wo man sich zum Abendessen hinsetzen kann.",
+    "heroAlt": "Der Eingang des Gecko Cabane an der Maharat Road in Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Gut essen in einer kleinen Stadt",
+        "p1": "Krabi Town ist überschaubar, man kann sich zu Fuß durch die Stadt essen. Was Reisende hier schätzen, ist meist einfach und lokal: Streetfood auf dem Markt, ein Fischgericht am Wasser, ein süßer Snack beim Spaziergang.",
+        "p2": "Diese Seite ist kein Ranking. Sie beschreibt Orte und Gewohnheiten, die einen Abend in der Stadt leicht machen, damit Sie ihn nach Ihrem eigenen Geschmack planen können."
+      },
+      "areas": {
+        "title": "Drei Orte für den Anfang",
+        "p1": "Es sind eher Gegenden als Adressen. Schlendern Sie umher, schauen Sie, was gekocht wird, und wählen Sie, was Sie anspricht.",
+        "cards": {
+          "c1": {
+            "title": "Der Nachtmarkt",
+            "text": "Stände mit gegrillten Spießen, Nudeln, frittierten Snacks, Obst und thailändischen Süßigkeiten. Kommen Sie hungrig, teilen Sie sich ein paar Teller und zahlen Sie direkt am Stand."
+          },
+          "c2": {
+            "title": "Walking Street",
+            "text": "Die Fußgängerstraße ist meist an Wochenendabenden am vollsten, mit Essensständen, kleinen Läden und Musik. Erkundigen Sie sich vor Ort, an welchen Tagen sie stattfindet."
+          },
+          "c3": {
+            "title": "Die Flusspromenade",
+            "text": "Ein ruhiger Ort für einen Spaziergang in der Dämmerung, mit Fisch und thailändischen Gerichten direkt am Wasser. Ein schöner Abschluss nach einem Tag voller Besichtigungen."
+          }
+        }
+      },
+      "when": {
+        "title": "Was Sie probieren sollten und wann",
+        "p1": "Achten Sie auf gegrillten Fisch und Meeresfrüchte, gebratene Gerichte, grüne und rote Currys, Som Tam und Mango mit Klebreis. Die Märkte sind am frühen Abend am lebendigsten, nach Sonnenuntergang ist es meist kühler und ruhiger.",
+        "p2": "Öffnungstage und -zeiten ändern sich mit Jahreszeit und Wetter, erkundigen Sie sich also am selben Tag vor Ort. Nehmen Sie kleine Scheine und etwas Geduld mit, und sagen Sie vorher Bescheid, wenn Sie es lieber mild mögen."
+      },
+      "dinner": {
+        "title": "Wenn Sie sich zum Abendessen hinsetzen möchten",
+        "alt": "Ein Massaman-Curry, serviert im Gecko Cabane",
+        "p1": "Nach dem Markt braucht mancher Abend einen Tisch, eine Speisekarte und einen ruhigen Raum. Das Gecko Cabane ist ein Restaurant mit 40 Plätzen an der Maharat Road, das französische und thailändische Gerichte serviert, gekocht von Chefköchin Jariya.",
+        "p2": "Wir haben dienstags geschlossen, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren.",
+        "link": "Tisch zum Abendessen reservieren"
+      }
+    },
+    "closingTitle": "Planen Sie Ihren Abend in Krabi Town"
+  },
+  "guides": {
+    "toggle": "Guides",
+    "ariaLabel": "Krabi-Guides"
+  }
+}
