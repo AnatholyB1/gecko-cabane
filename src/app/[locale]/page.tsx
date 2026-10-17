@@ -7,6 +7,7 @@ import MenuTeaser from '@/components/MenuTeaser'
 import { Link } from '@/i18n/navigation'
 import ReservationForm from '@/components/ReservationForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import NewsletterFooterSection from '@/components/NewsletterFooterSection'
 import GcDivider from '@/components/ui/GcDivider'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import { buildPageMetadata, LOCALES, SAME_AS, type SeoLocale } from '@/utils/seo'
@@ -796,6 +797,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </ul>
             </div>
           </div>
+          <NewsletterFooterSection locale={locale} idPrefix="home-footer-nl" />
           <div className="border-t border-gc-gold/10 pt-5 mb-4">
             <p className="font-cormorant text-[12px] text-gc-ivory/25 leading-relaxed">
               {t('footer.legalNotice')}

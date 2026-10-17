@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import NewsletterFooterSection from '@/components/NewsletterFooterSection'
 
 type Props = {
   locale: string
@@ -11,7 +12,9 @@ export default async function SiteFooter({ locale }: Props) {
 
   return (
     <footer className="bg-gc-jungle border-t border-gc-gold/10 py-8 px-6">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="max-w-5xl mx-auto">
+        <NewsletterFooterSection locale={locale} idPrefix="site-footer-nl" />
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-gc-gold/10 pt-6">
         <p className="font-cormorant text-[13px] text-gc-ivory/60">
           © 2026 Gecko Cabane Restaurant. {t('rights')}
         </p>
@@ -29,6 +32,7 @@ export default async function SiteFooter({ locale }: Props) {
           <a href="https://anatholy-bricon.com" target="_blank" rel="noopener noreferrer"
              className="hover:text-gc-gold underline transition-colors">anatholy-bricon.com</a>
         </p>
+        </div>
       </div>
     </footer>
   )
