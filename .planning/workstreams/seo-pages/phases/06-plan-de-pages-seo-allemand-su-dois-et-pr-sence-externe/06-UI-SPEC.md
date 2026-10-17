@@ -1,7 +1,7 @@
 ---
 phase: 6
 slug: plan-de-pages-seo-allemand-suedois-et-presence-externe
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-10-17
