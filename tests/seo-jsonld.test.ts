@@ -99,8 +99,12 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
     for (const i of images) expect(i.startsWith(SITE_URL)).toBe(true)
   })
 
+  it('links hasMenu to the localized /menu page', () => {
+    expect(ld.hasMenu).toBe(localeUrl(locale, '/menu'))
+  })
+
   it('never claims rating, menu or amenities', () => {
-    for (const k of ['aggregateRating', 'hasMenu', 'menu', 'amenityFeature']) {
+    for (const k of ['aggregateRating', 'menu', 'amenityFeature']) {
       expect(ld).not.toHaveProperty(k)
     }
     expect(JSON.stringify(ld)).not.toContain(['gecko-cabane', 'com'].join('.'))
