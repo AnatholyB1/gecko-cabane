@@ -119,3 +119,28 @@ describe('romantic dinner (D-12)', () => {
     }
   })
 })
+
+describe('where-to-eat (D-11)', () => {
+  const KEY = '/where-to-eat-krabi-town'
+  it('has a section with 3 cards', () => {
+    expect(LANDING[KEY]?.sections.some((s) => s.cards === 3)).toBe(true)
+  })
+  it('is published in fr and en and linked from romantic dinner', () => {
+    expect(PUBLISHED_PAGES.find((p) => p.path === KEY)?.locales).toEqual(['fr', 'en'])
+    expect(relatedFor('/romantic-dinner-krabi', 'en')).toContain(KEY)
+  })
+  for (const locale of ['en', 'fr'] as const) {
+    const all = () => values(messages[locale].whereToEat)
+    it(`[${locale}] mentions the night market and Walking Street`, () => {
+      const text = all().join(' ')
+      expect(text).toMatch(locale === 'en' ? /night market/i : /marché de nuit/i)
+      expect(text).toContain('Walking Street')
+    })
+    it(`[${locale}] names no competitor, ranking or negative claim`, () => {
+      for (const v of all()) {
+        expect(v).not.toMatch(/\b(best|worst|top \d|#\d|meilleur|pire|avoid|à éviter)\b/i)
+        expect(v.replace(/Restaurant Gecko Cabane/g, '')).not.toMatch(/Restaurant [A-Z][a-z]+/)
+      }
+    })
+  }
+})
