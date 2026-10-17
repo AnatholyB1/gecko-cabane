@@ -45,7 +45,6 @@ describe('landing page source', () => {
     expect(src).toContain('#reservation')
     expect(src).toContain('href="/menu')
     expect(src).toContain('vins-bieres-belges')
-    expect(src).toContain('availableLocales={publishedLocales(KEY)}')
     expect(src).toContain('getOpeningHours()')
   })
 
@@ -69,16 +68,7 @@ describe('landing page source', () => {
   })
 })
 
-describe('LanguageSwitcher / SiteHeader', () => {
-  it('switcher hides itself with fewer than 2 available locales', () => {
-    const s = read('src/components/LanguageSwitcher.tsx')
-    expect(s).toContain('availableLocales')
-    expect(s).toMatch(/availableLocales\.length < 2/)
-  })
-  it('header forwards availableLocales', () => {
-    expect(read('src/components/SiteHeader.tsx')).toContain('availableLocales={availableLocales}')
-  })
-})
+// LanguageSwitcher / SiteHeader navigation is covered in tests/seo-nav.test.ts
 
 describe('landing copy', () => {
   it('has the exact EN h1', () => {
