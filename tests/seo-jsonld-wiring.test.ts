@@ -98,6 +98,6 @@ describe('SAME_AS (D-09)', () => {
   it('never emits aggregateRating; hasMenu points to /menu', () => {
     const src = read('src/utils/seo.ts')
     expect(src).not.toMatch(/aggregateRating\s*:/)
-    expect(src).toContain("hasMenu: localeUrl(locale, '/menu')")
+    expect(src).toContain("isPublished('/menu', locale)")
   })
 })

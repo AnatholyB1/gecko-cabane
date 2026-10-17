@@ -6,7 +6,7 @@ import { describe, it, expect } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { LANDING, TRANSPORT_FACTS } from '../src/components/seo/pages.config'
-import { PAGES, PUBLISHED_PAGES, relatedFor, isPublished, googleDirectionsUrl, type PageKey, type SeoLocale } from '../src/utils/seo'
+import { PAGES, PUBLISHED_PAGES, relatedFor, isPublished, googleDirectionsUrl, type PageKey } from '../src/utils/seo'
 
 const root = join(__dirname, '..')
 const read = (p: string) => readFileSync(join(root, p), 'utf8')

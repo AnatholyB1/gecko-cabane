@@ -150,3 +150,11 @@ describe('serializeJsonLd', () => {
     expect(JSON.parse(out)).toEqual(payload)
   })
 })
+
+describe('buildRestaurantJsonLd on unpublished locales', () => {
+  it.each(['de', 'sv'] as const)('%s falls back to the EN url and hasMenu', (locale) => {
+    const ld = buildRestaurantJsonLd({ locale, description: 'x', hoursRows: week() })
+    expect(ld.url).toBe(localeUrl('en'))
+    expect(ld.hasMenu).toBe(localeUrl('en', '/menu'))
+  })
+})

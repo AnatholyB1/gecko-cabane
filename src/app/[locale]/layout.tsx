@@ -2,7 +2,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { locales } from '@/i18n/config'
+import { locales, type Locale } from '@/i18n/config'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
 
@@ -14,7 +14,6 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params
   const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const other: SeoLocale = locale === 'fr' ? 'en' : 'fr'
   const t = await getTranslations({ locale, namespace: 'meta' })
 
   // Metadata merging is shallow: each page owns its own URL and language links.
@@ -24,7 +23,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       siteName: 'Gecko Cabane',
       locale: OG_LOCALE[locale],
-      alternateLocale: [OG_LOCALE[other]],
     },
   }
 }
@@ -33,7 +31,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
   
   // Validate locale
-  if (!locales.includes(locale as 'fr' | 'en')) {
+  if (!locales.includes(locale as Locale)) {
     notFound()
   }
 

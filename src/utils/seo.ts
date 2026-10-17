@@ -351,8 +351,8 @@ export function buildRestaurantJsonLd(args: {
     '@id': `${SITE_URL}/#restaurant`,
     name: 'Gecko Cabane Restaurant',
     alternateName: 'Gecko Cabane',
-    url: localeUrl(locale),
-    hasMenu: localeUrl(locale, '/menu'),
+    url: isPublished('', locale) ? localeUrl(locale) : localeUrl('en'),
+    hasMenu: isPublished('/menu', locale) ? localeUrl(locale, '/menu') : localeUrl('en', '/menu'),
     description,
     image: [
       `${SITE_URL}/hero-bg.jpg`,
