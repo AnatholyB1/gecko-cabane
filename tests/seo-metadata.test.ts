@@ -31,7 +31,7 @@ describe('localeUrl', () => {
 
   it('exposes only fr/en and the published paths', () => {
     expect([...LOCALES]).toEqual(['fr', 'en'])
-    expect([...PUBLISHED_PATHS]).toEqual(['', '/privacy'])
+    expect([...PUBLISHED_PATHS]).toEqual(['', '/privacy', '/menu'])
     expect(OG_LOCALE).toEqual({ fr: 'fr_FR', en: 'en_US' })
   })
 })

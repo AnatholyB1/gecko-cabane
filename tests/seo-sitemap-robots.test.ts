@@ -10,12 +10,14 @@ import { localeUrl, SITE_URL } from '../src/utils/seo'
 describe('sitemap', () => {
   const entries = sitemap()
 
-  it('lists exactly the 4 published URLs', () => {
+  it('lists exactly the 6 published URLs', () => {
     const expected = [
       localeUrl('fr'),
       localeUrl('fr', '/privacy'),
+      localeUrl('fr', '/menu'),
       localeUrl('en'),
       localeUrl('en', '/privacy'),
+      localeUrl('en', '/menu'),
     ].sort()
     expect(entries.map((e) => e.url).sort()).toEqual(expected)
   })

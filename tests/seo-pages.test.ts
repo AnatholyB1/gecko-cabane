@@ -53,6 +53,15 @@ describe('generateMetadata wiring', () => {
     expect(privacy).toContain("path: '/privacy'")
   })
 
+  it('menu page uses buildPageMetadata', () => {
+    const menu = read('src/app/[locale]/menu/page.tsx')
+    expect(menu).toContain('export async function generateMetadata')
+    expect(menu).toContain('buildPageMetadata(')
+    expect(menu).toContain("path: '/menu'")
+    expect(en.meta.menuTitle).toContain('Krabi')
+    expect(en.meta.menuTitle).toContain('Gecko Cabane')
+  })
+
   it('locale layout sets defaults but no alternates/canonical', () => {
     const src = read('src/app/[locale]/layout.tsx')
     expect(src).toContain('generateMetadata')
