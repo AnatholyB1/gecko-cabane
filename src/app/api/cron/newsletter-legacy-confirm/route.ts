@@ -38,7 +38,8 @@ export async function GET(request: NextRequest) {
   }
 
   const params = request.nextUrl.searchParams
-  const dryRun = params.get('dry') === '1'
+  // Dry-run by default: a real send needs an explicit ?send=1 (and never with ?dry=1).
+  const dryRun = params.get('dry') === '1' || params.get('send') !== '1'
   const rawLimit = Number.parseInt(params.get('limit') ?? '', 10)
   const limit = Math.min(Number.isFinite(rawLimit) && rawLimit > 0 ? rawLimit : MAX_PER_RUN, MAX_PER_RUN)
 
