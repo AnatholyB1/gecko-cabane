@@ -65,3 +65,150 @@ Run 2026-10-17. Connection string read into a shell variable only (never printed
 
 Recorded 2026-10-17: owner replied "live ok" after the live review of /en/menu, /en, /en/french-restaurant-krabi (checked via Chrome by Claude, then by the owner).
 - Change requested during review: gluten-free is on request, so no per-dish flag. A menu-wide line was added to the allergy note (commit 08c497d, deployed). The chef gluten sheet (03-CHEF-GLUTEN-SHEET.csv) is no longer needed; `is_gluten_free` stays false everywhere.
+
+## Content transcription (to approve)
+
+Transcribed from the owner's photos (2026-10-17). Beer prices as on the sheet; wines have no bottle price on the sheet (shown with the note "Prix des vins : demandez à notre équipe."). The Wi-Fi code on the beer sheet is NOT published. Owner choices applied: Westmalle Brune 380, "Kasteel Rouge", non-Belgian beers in a separate category, no gluten-free flags (on request).
+
+### Bières belges
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Duvel Blonde | 8,5° | 250 |  |
+| Duvel Tripel Hop Cashmere | 9,5° | 280 |  |
+| La Chouffe Blonde | 8° | 250 |  |
+| Kasteel Rouge | 8° | 260 |  |
+| Vedett IPA | 5,5° | 250 |  |
+| St. Bernardus ABT 12 | 10° | 280 |  |
+| St. Bernardus Tripel | 8° | 250 |  |
+| St. Bernardus Wit | 5,5° | 250 |  |
+| Bush Ambrée | 12° | 320 |  |
+| Leffe Blonde / Brune | 6,6° / 6,5° | 200 |  |
+| Hoegaarden Wit | 4,9° | 200 |  |
+
+### Bières trappistes belges
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Chimay Gold (Blonde) | 4,8° | 250 |  |
+| Chimay Rouge (Brune) | 7° | 280 |  |
+| Chimay Bleue (Brune) | 9° | 300 |  |
+| Rochefort Tripel | 11,3° | 300 |  |
+| Westmalle Tripel | 9,5° | 300 |  |
+| Westmalle Brune | 7° | 380 |  |
+| Orval | 6,2° | 300 |  |
+
+### Bières artisanales
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| London Black Cab Stout | 4,5° | 280 |  |
+| Muay Thai IPA | 5,5° | 190 |  |
+| Muay Thai Pilsner | 4° | 190 |  |
+| Muay Thai Wit | 5° | 190 |  |
+
+### Vin de la maison
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Le verre (110 ml) |  | 190 |  |
+| La carafe (1/2 litre) |  | 650 |  |
+
+### Droit de bouchon
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Vin tranquille |  | 500 | par bouteille |
+| Mousseux / boisson alcoolisée |  | 800 | par bouteille |
+
+### Vins rouges français — note: Prix des vins : demandez à notre équipe.
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Les Barnabés – Olga Raffault | Chinon AOP, Vallée de la Loire |  |  |
+| Domaine de Chézatte | Sancerre AOP, Vallée de la Loire |  |  |
+| Domaine Stainmaier | Givry 1er Cru AOC, Bourgogne |  |  |
+| Patriarche | Gevrey-Chambertin AOC, Bourgogne |  |  |
+| Tremor | Juliénas AOP, Beaujolais |  |  |
+| Château de la Chaize | Morgon, Beaujolais |  |  |
+| Pfaff Tradition – Pinot noir vieilles vignes | Alsace AOC |  |  |
+| Petite Ruche | Crozes-Hermitage AOP, Vallée du Rhône nord |  |  |
+| Monier de la Sizeranne | Hermitage AOP, Vallée du Rhône nord |  |  |
+| Domaine François Merlin | Côte-Rôtie AOP, Vallée du Rhône nord |  |  |
+| La Fiole du Pape | Châteauneuf-du-Pape AOP, Vallée du Rhône |  |  |
+| Père Anselme – Brotte | Châteauneuf-du-Pape AOP, Vallée du Rhône |  |  |
+| La Bernardine | Châteauneuf-du-Pape AOP, Vallée du Rhône |  |  |
+| Patriarche Endless Summer Pinot Noir | Pays d'Oc |  |  |
+| Marius – Grenache Shiraz | Pays d'Oc |  |  |
+| Plénitude – Plaimont | Madiran AOP |  |  |
+| Château Eugénie – cuvée réserve | Cahors AOP |  |  |
+| Gaspard – Grenache Mourvèdre Syrah | Terrasse du Larzac AOP |  |  |
+| Mouton Cadet | Bordeaux AOP |  |  |
+| Château Saint-Germain | Bordeaux Supérieur AOP |  |  |
+| Château Haut-Landon | Bordeaux Supérieur AOP |  |  |
+| Château Domeyne | Saint-Estèphe, Médoc AOC, Bordeaux |  |  |
+| Château Bibian – Cru Bourgeois Supérieur | Listrac-Médoc AOC, Bordeaux |  |  |
+| Château La Rose Picot | Médoc AOC, Bordeaux |  |  |
+| L'Esprit de Bacchus | Médoc AOC, Bordeaux |  |  |
+| Château Malbec | Entre-deux-Mers, Bordeaux AOC |  |  |
+| Château Franc Couplet | Entre-deux-Mers, Bordeaux AOC |  |  |
+| Château Cantelaudette | Graves de Vayres, Entre-deux-Mers, Bordeaux AOC |  |  |
+| Château Treytins | Lalande de Pomerol, Bordeaux AOC |  |  |
+| Château La Croix du Casse | Pomerol, Bordeaux |  |  |
+| La Fugue de Nénin | Pomerol, Bordeaux |  |  |
+| La Tour de Capet | Saint-Émilion Grand Cru AOC |  |  |
+| Château du Barry | Saint-Émilion Grand Cru AOC |  |  |
+| Château Montaiguillon | Montagne Saint-Émilion |  |  |
+| Château Paret | Côtes de Bordeaux Castillon AOC |  |  |
+| Château Petit Picoron | Côtes de Bordeaux Castillon AOC |  |  |
+
+### Vins blancs français — note: Prix des vins : demandez à notre équipe.
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Queue de Morue | Muscadet sur Lie AOC, Vallée de la Loire |  |  |
+| Domaine de Fiervaux – Chenin Blanc | Saumur AOC, Vallée de la Loire |  |  |
+| Les Chantebines – Jean Pabiot | Pouilly-Fumé AOC, Vallée de la Loire |  |  |
+| Antoine de la Farge | Menetou-Salon AOC, Vallée de la Loire |  |  |
+| Saint-Bris | Auxerrois |  |  |
+| Château de Maligny | Petit Chablis AOC |  |  |
+| Louis Robin | Chablis AOC |  |  |
+| Château de Maligny – Montmains | Chablis 1er Cru |  |  |
+| Blason de Bourgogne | Saint-Véran, Bourgogne |  |  |
+| Pfaff Tradition – Pinot gris | Alsace AOC |  |  |
+| Pfaff Tradition – Riesling | Alsace AOC |  |  |
+| Pfaff Tradition – Gewurztraminer | Alsace AOC |  |  |
+| Invitare | Condrieu AOP, Vallée du Rhône nord |  |  |
+| Domaine François Merlin | Condrieu AOP, Vallée du Rhône nord |  |  |
+| La Fiole – Viognier | Pays d'Oc IGP |  |  |
+| Marius – Viognier | Pays d'Oc IGP |  |  |
+
+### Vins rosés français — note: Prix des vins : demandez à notre équipe.
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Château des Ferrages – Roumery | Côtes de Provence AOP |  |  |
+| Château des Ferrages – Mon Plaisir | Sainte-Victoire |  |  |
+| Côtes de Provence AOC |  |  |  |
+| Marius | Pays d'Oc IGP |  |  |
+
+### Bulles — note: Prix des vins : demandez à notre équipe.
+
+| Name | Description | Price | Label |
+|---|---|---|---|
+| Louis Perdrier – Brut Excellence |  |  |  |
+| Champagne Paul Dangin – Carte d'Or Brut |  |  |  |
+
+### Uncertain lines (glare / handwriting) — please check
+- "Tremor" (Juliénas): name partly hidden by glare.
+- Rosés: the "Mon Plaisir" line read as "Sainte-Victoire"; a line "Côtes de Provence AOC" has no producer visible.
+- Château Malbec / Franc Couplet / Cantelaudette: appellations read from a small print.
+- "Domaine de Fiervaux", "Les Chantebines", "Invitare": spelling taken from the sheet.
+- Kasteel Rouge is "Kastell Rouge" on the handwritten sheet; the bottle says Kasteel.
+
+### Gluten-free
+None: gluten-free is on request (menu-wide line already live). No flags in the SQL.
+
+## Owner content received
+
+2026-10-17: owner sent 6 photos in chat (wine shelves, Belgian beer bottles, handwritten "Belgium Beer" sheet, printed "Les français" wine list). Belgian list: yes. Gluten sheet: not needed (gluten-free is on request).
