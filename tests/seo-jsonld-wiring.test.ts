@@ -95,9 +95,11 @@ describe('SAME_AS (D-09)', () => {
     }
     expect(launch).toContain('Owner approvals / Task 2 outcome')
   })
-  it('never emits aggregateRating; hasMenu points to /menu', () => {
+  // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts (no hard-coded numbers)
+  it('derives aggregateRating from social-proof; hasMenu points to /menu', () => {
     const src = read('src/utils/seo.ts')
-    expect(src).not.toMatch(/aggregateRating\s*:/)
+    expect(src).toContain('aggregateRatingFor(')
+    expect(src).not.toMatch(/ratingValue:\s*[0-9]/)
     expect(src).toContain("hasMenu: localeUrl(locale, '/menu')")
   })
 })
