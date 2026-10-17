@@ -472,7 +472,7 @@ Warning: an FR page must be listed **only when its FR content ships** (do not fo
 | A7 | 307 redirect (not 308) for cross-locale slug mismatch | Pattern 2 | Source shows `NextResponse.redirect` default (307); harmless either way |
 | A8 | `setRequestLocale` not needed because pages are dynamic | Pattern 4 | If the owner later enables static rendering for these pages, add it |
 
-## Open Questions
+## Open Questions (RESOLVED — handled in plans: alcohol → 06-07/06-12 checkpoint; DE emails → 06-11, EN fallback kept until 06-13; DE/SV independent waves 6-10; TripAdvisor stars → flagged in docs/ph6, owner decision in 06-10)
 
 1. **Alcohol compliance for PAGE-06 and Google posts**
    - What we know: Thai ABCA s.32 and Google's regulated-products rule (Pitfall 9).
