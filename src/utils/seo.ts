@@ -29,6 +29,7 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '/french-restaurant-krabi', locales: ['fr', 'en'] },
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en'] },
   { path: '/where-to-eat-krabi-town', locales: ['fr', 'en'] },
+  { path: '/getting-here-from-ao-nang', locales: ['en'] },
 ]
 
 /** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */
@@ -236,6 +237,14 @@ export const TRIPADVISOR_REVIEW_SLUG =
 
 export function googleReviewUrl(): string {
   return `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`
+}
+
+/** Google Maps turn-by-turn directions to the restaurant (PAGE-05). */
+export function googleDirectionsUrl(origin = 'Ao Nang'): string {
+  return (
+    `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}` +
+    `&destination=${encodeURIComponent('Gecko Cabane Restaurant')}&destination_place_id=${GOOGLE_PLACE_ID}`
+  )
 }
 
 export function tripAdvisorReviewUrl(): string {

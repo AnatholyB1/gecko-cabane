@@ -316,7 +316,9 @@
     "romanticDinnerTitle": "Romantic Dinner in Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion.",
     "whereToEatTitle": "Where to Eat in Krabi Town – Gecko Cabane",
-    "whereToEatDescription": "A local guide to eating in Krabi Town: the night market, Walking Street and the riverfront, what to try and when to go, plus dinner at Gecko Cabane."
+    "whereToEatDescription": "A local guide to eating in Krabi Town: the night market, Walking Street and the riverfront, what to try and when to go, plus dinner at Gecko Cabane.",
+    "gettingHereTitle": "Getting to Krabi Town from Ao Nang – Gecko Cabane",
+    "gettingHereDescription": "How to reach Gecko Cabane in Krabi Town from Ao Nang by taxi, songthaew, private transfer or scooter, with Google Maps directions to Maharat Road."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -470,5 +472,47 @@
       }
     },
     "closingTitle": "Plan your evening in Krabi Town"
+  },
+  "gettingHere": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Getting to Krabi Town from Ao Nang",
+    "subtitle": "Staying in Ao Nang and fancy dinner in Krabi Town? Here is how to get to us and how to find the door.",
+    "heroAlt": "The entrance of Gecko Cabane on Maharat Road in Krabi Town",
+    "sections": {
+      "overview": {
+        "title": "From the beach to town for dinner",
+        "p1": "Ao Nang and Krabi Town are separate places, and the ride between them takes a little planning. Many guests make the trip for an evening out, and it is an easy one once you know your options.",
+        "p2": "We do not run a shuttle, so this page describes the usual ways to travel. Fares and journey times change with traffic, season and the driver, so always agree the price before you set off."
+      },
+      "options": {
+        "title": "Ways to get here",
+        "p1": "Taxis, either metered or booked through a ride-hailing app, are the most direct choice. Shared songthaew pick-up trucks run along fixed routes and cost less, but they are slower and usually stop running early in the evening.",
+        "p2": "A private transfer arranged through your hotel gives you a set price and a driver who waits or returns at a time you choose. If you are comfortable on two wheels, a rented scooter works too, though the road is busy after dark."
+      },
+      "arrive": {
+        "title": "Finding us on Maharat Road",
+        "alt": "The Gecko Cabane sign on Maharat Road in Krabi Town",
+        "p1": "Gecko Cabane is on Maharat Road in the centre of Krabi Town. Show the driver the name of the street or open our location in your maps app.",
+        "p2": "Look for the wooden sign and the entrance with plants out front. If you cannot find us, call the restaurant and we will guide you in.",
+        "link": "Open directions in Google Maps"
+      },
+      "back": {
+        "title": "Getting back after dinner",
+        "p1": "Plan your ride back before the evening is over. Ask us about your ride back when you book, and we will tell you what we can suggest at that time.",
+        "link": "Book a table"
+      }
+    },
+    "facts": {
+      "modes": {
+        "taxi": "Taxi or ride-hailing",
+        "songthaew": "Songthaew",
+        "transfer": "Private transfer",
+        "scooter": "Scooter"
+      },
+      "duration": "{min}-{max} min",
+      "price": "{min}-{max} THB",
+      "approx": "Figures are approximate, please confirm locally."
+    },
+    "closingTitle": "Come for dinner in Krabi Town"
   }
 }

@@ -4,8 +4,8 @@ import { Link } from '@/i18n/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import GcDivider from '@/components/ui/GcDivider'
-import { PAGES, publishedLocales, type PageKey, type SeoLocale } from '@/utils/seo'
-import { LANDING, type LandingSection } from './pages.config'
+import { PAGES, googleDirectionsUrl, publishedLocales, type PageKey, type SeoLocale } from '@/utils/seo'
+import { LANDING, TRANSPORT_FACTS, type LandingSection } from './pages.config'
 import RelatedGuides from './RelatedGuides'
 import { BTN_GOLD, BTN_IVORY, H2, PROSE, TEXT_LINK } from './styles'
 
@@ -23,7 +23,6 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
   const tc = await getTranslations({ locale, namespace: 'common' })
 
   function renderLink(section: LandingSection) {
-    // 'belgian' and 'directions' are implemented in plan 07.
     if (section.link === 'reservation') {
       return (
         <Link href="/#reservation" className={`${TEXT_LINK} mt-2`}>
@@ -38,7 +37,47 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
         </Link>
       )
     }
+    if (section.link === 'directions') {
+      return (
+        <a
+          href={googleDirectionsUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${TEXT_LINK} mt-2 inline-block`}
+        >
+          {t(`sections.${section.id}.link`)}
+        </a>
+      )
+    }
     return null
+  }
+
+  // D-10: only rows with sourced figures are shown; no data means no list at all.
+  function renderFacts(section: LandingSection) {
+    if (!section.facts) return null
+    const rows = TRANSPORT_FACTS.filter((f) => f.minutes || f.thb)
+    if (rows.length === 0) return null
+    return (
+      <>
+        <dl className="grid md:grid-cols-2 gap-x-8 gap-y-4 mt-6">
+          {rows.map((f) => (
+            <div key={f.mode}>
+              <dt className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-text-mid">
+                {t(`facts.modes.${f.mode}`)}
+              </dt>
+              <dd className="font-cormorant text-[16px] leading-[1.7] text-gc-text-mid">
+                {f.minutes && t('facts.duration', { min: f.minutes[0], max: f.minutes[1] })}
+                {f.minutes && f.thb && ' · '}
+                {f.thb && t('facts.price', { min: f.thb[0], max: f.thb[1] })}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="font-cormorant text-[16px] leading-[1.7] text-gc-text-mid mt-2">
+          {t('facts.approx')}
+        </p>
+      </>
+    )
   }
 
   return (
@@ -102,6 +141,7 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
                   {t(`sections.${section.id}.${p}`)}
                 </p>
               ))}
+              {renderFacts(section)}
               {renderLink(section)}
             </div>
           )
