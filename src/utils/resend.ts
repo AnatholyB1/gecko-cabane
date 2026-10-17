@@ -107,8 +107,14 @@ export interface ReservationDetails {
   locale?: EmailLocale
 }
 
-function baseTemplate(title: string, bodyHtml: string, locale: EmailLocale = 'fr'): string {
+function baseTemplate(
+  title: string,
+  bodyHtml: string,
+  locale: EmailLocale = 'fr',
+  footerNote?: string
+): string {
   const c = COPY[locale]
+  const noteHtml = footerNote ? `${escapeHtml(footerNote)}<br />\n                  ` : ''
   return `
 <!DOCTYPE html>
 <html lang="${locale}">
@@ -132,7 +138,7 @@ function baseTemplate(title: string, bodyHtml: string, locale: EmailLocale = 'fr
             <tr>
               <td style="padding:20px 32px;border-top:1px solid #E8DCC8;text-align:center;">
                 <p style="margin:0;color:#5C4A3A;font-size:12px;">
-                  ${c.address}<br />
+                  ${noteHtml}${c.address}<br />
                   ${WHATSAPP_DISPLAY}
                 </p>
               </td>
@@ -237,4 +243,91 @@ export function customerStatusEmail(
     locale
   )
   return { subject: confirmed ? c.confirmedSubject : c.cancelledSubject, html }
+}
+
+// ---------------------------------------------------------------------------
+// Review invitation (Phase 4, REV-03). Transactional tone: no incentive (D-18).
+// ---------------------------------------------------------------------------
+
+const REVIEW_COPY: Record<
+  EmailLocale,
+  {
+    greeting: (name: string) => string
+    invite: { subject: string; title: string; body: string }
+    reminder: { subject: string; title: string; body: string }
+    cta: string
+    fallback: (url: string) => string
+    footer: string
+  }
+> = {
+  fr: {
+    greeting: (n) => `Bonjour ${n},`,
+    invite: {
+      subject: 'Votre visite au Gecko Cabane',
+      title: 'Merci de votre visite',
+      body: "Merci d'être venus chez nous. Si vous avez une minute, un avis nous aide beaucoup.",
+    },
+    reminder: {
+      subject: 'Un petit mot sur votre visite ?',
+      title: 'Un dernier petit mot',
+      body: 'Nous ne vous écrirons pas à ce sujet une troisième fois. Si le coeur vous en dit, votre avis nous aide beaucoup.',
+    },
+    cta: 'Donner mon avis',
+    fallback: (u) => `Si le bouton ne s'affiche pas, copiez ce lien : ${u}`,
+    footer: 'Vous recevez ce message suite à votre réservation au Gecko Cabane.',
+  },
+  en: {
+    greeting: (n) => `Hello ${n},`,
+    invite: {
+      subject: 'Your visit to Gecko Cabane',
+      title: 'Thank you for your visit',
+      body: 'Thank you for visiting us. If you have a minute, a review helps us a great deal.',
+    },
+    reminder: {
+      subject: 'A quick word about your visit?',
+      title: 'One last note',
+      body: 'We will not write about this a third time. If you feel like it, your review helps us a great deal.',
+    },
+    cta: 'Leave a review',
+    fallback: (u) => `If the button does not show, copy this link: ${u}`,
+    footer: 'You are receiving this message following your reservation at Gecko Cabane.',
+  },
+}
+
+export function reviewInvitationEmail(
+  locale: EmailLocale,
+  url: string,
+  kind: 'invite' | 'reminder',
+  name?: string | null
+): { subject: string; html: string; text: string } {
+  const c = REVIEW_COPY[locale]
+  const k = c[kind]
+  const first = (name ?? '').trim().split(/\s+/)[0] ?? ''
+  const greetingText = first ? c.greeting(first) : ''
+  const greetingHtml = first
+    ? `<p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 12px;">${escapeHtml(c.greeting(first))}</p>`
+    : ''
+  const safeUrl = escapeHtml(url)
+  const html = baseTemplate(
+    escapeHtml(k.title),
+    `
+    ${greetingHtml}
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(k.body)}</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+      <tr>
+        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
+          <a href="${safeUrl}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(c.cta)}</a>
+        </td>
+      </tr>
+    </table>
+    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0;">${escapeHtml(
+      c.fallback('')
+    )}${safeUrl}</p>`,
+    locale,
+    c.footer
+  )
+  const text = [greetingText, k.body, `${c.cta}: ${url}`, c.footer]
+    .filter(Boolean)
+    .join('\n\n')
+  return { subject: stripLineBreaks(k.subject), html, text }
 }
