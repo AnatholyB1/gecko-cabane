@@ -132,6 +132,13 @@ export function pageLanguages(path: string, locales: readonly SeoLocale[]): Reco
   return languages
 }
 
+/** Related pages published in the given locale (D-04), never the page itself, max 3. */
+export function relatedFor(key: PageKey, locale: SeoLocale): PageKey[] {
+  const page = PAGES.find((p) => p.key === key)
+  if (!page) return []
+  return page.related.filter((k) => k !== key && isPublished(k, locale)).slice(0, 3)
+}
+
 /** Noindex gate (D-05): an unpublished (page, locale) gets no canonical/hreflang. */
 export function resolvePageSeo(
   key: string,

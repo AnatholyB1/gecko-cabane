@@ -11,6 +11,8 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import GcDivider from '@/components/ui/GcDivider'
+import RelatedGuides from '@/components/seo/RelatedGuides'
+import { BTN_GOLD, BTN_IVORY, H2, PROSE, TEXT_LINK } from '@/components/seo/styles'
 
 const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
 
@@ -42,15 +44,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     absoluteTitle: true,
   })
 }
-
-const BTN_GOLD =
-  'inline-flex items-center justify-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-8 py-4 hover:bg-gc-gold hover:text-gc-void transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
-const BTN_IVORY =
-  'inline-flex items-center justify-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory border border-gc-ivory/60 px-8 py-4 hover:bg-gc-ivory hover:text-gc-jungle transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
-const H2 = 'font-cinzel font-semibold text-[20px] leading-[1.2] tracking-wide text-gc-text-dark'
-const PROSE = 'font-cormorant text-[16px] leading-[1.7] text-gc-text-mid max-w-[65ch]'
-const TEXT_LINK =
-  'inline-flex items-center min-h-11 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-jungle'
 
 export default async function FrenchRestaurantPage({ params }: Props) {
   const { locale: rawLocale } = await params
@@ -221,6 +214,8 @@ export default async function FrenchRestaurantPage({ params }: Props) {
             </div>
           </div>
         </section>
+
+        <RelatedGuides pageKey={KEY} locale={locale} />
 
         {/* 7. Closing CTA */}
         <section className="bg-gc-jungle py-16 px-6 text-center">

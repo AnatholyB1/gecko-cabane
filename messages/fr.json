@@ -372,5 +372,24 @@
     "backToTop": "Haut de page",
     "emptyTitle": "La carte arrive bientôt",
     "emptyBody": "Notre carte est en cours de mise à jour. Appelez-nous au +66 81 958 5945 ou réservez en ligne."
+  },
+  "seoLanding": {
+    "discoverTitle": "À découvrir",
+    "guideEyebrow": "Guide",
+    "readGuide": "Lire le guide",
+    "seeMenu": "Voir la carte",
+    "bookTable": "Réserver une table"
+  },
+  "nav": {
+    "frenchRestaurant": "Restaurant français",
+    "frenchRestaurantHint": "Cuisine française de la maison par un couple franco-thaï, avec quelques plats thaïs.",
+    "romanticDinner": "Dîner romantique",
+    "romanticDinnerHint": "Une petite salle calme pour deux, avec la cheffe aux fourneaux juste derrière.",
+    "whereToEat": "Où manger à Krabi Town",
+    "whereToEatHint": "Là où nous enverrions un ami dîner à Krabi Town, et ce qui vous y attend.",
+    "gettingHere": "Venir depuis Ao Nang",
+    "gettingHereHint": "Comment nous rejoindre depuis Ao Nang, avec des durées approximatives à confirmer sur place.",
+    "wineBeer": "Vins et bières belges",
+    "wineBeerHint": "La courte carte de vins et de bières belges qui accompagne le repas."
   }
 }

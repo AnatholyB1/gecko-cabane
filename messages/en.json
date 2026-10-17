@@ -372,5 +372,24 @@
     "backToTop": "Back to top",
     "emptyTitle": "The menu is coming soon",
     "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
+  },
+  "seoLanding": {
+    "discoverTitle": "Discover more",
+    "guideEyebrow": "Guide",
+    "readGuide": "Read the guide",
+    "seeMenu": "See the menu",
+    "bookTable": "Book a table"
+  },
+  "nav": {
+    "frenchRestaurant": "French restaurant",
+    "frenchRestaurantHint": "French home cooking by a French-Thai couple, with a few Thai favourites.",
+    "romanticDinner": "Romantic dinner",
+    "romanticDinnerHint": "A small, quiet dining room for two, with the chef cooking just behind it.",
+    "whereToEat": "Where to eat in Krabi Town",
+    "whereToEatHint": "Where we would send a friend for dinner in Krabi Town, and what to expect.",
+    "gettingHere": "Getting here from Ao Nang",
+    "gettingHereHint": "How to reach us from Ao Nang, with approximate times to confirm locally.",
+    "wineBeer": "Wine and Belgian beer",
+    "wineBeerHint": "The short list of wines and Belgian beers that goes with the menu."
   }
 }
