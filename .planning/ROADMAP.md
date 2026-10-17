@@ -138,7 +138,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 03-05-PLAN.md — EN-only SEO plumbing + /en/french-restaurant-krabi landing page (PAGE-02)
+- [x] 03-05-PLAN.md — EN-only SEO plumbing + /en/french-restaurant-krabi landing page (PAGE-02)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -241,7 +241,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
 | 2. Fondations SEO techniques | 8/8 | Complete   | 2026-10-16 |
-| 3. Carte HTML et pages clés | 4/8 | In Progress|  |
+| 3. Carte HTML et pages clés | 5/8 | In Progress|  |
 | 4. Tunnel d'avis et fiche Google | 0/TBD | Not started | - |
 | 5. Conversion et mesure | 0/TBD | Not started | - |
 | 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |

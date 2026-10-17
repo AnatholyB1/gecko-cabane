@@ -46,7 +46,7 @@
 ### Pages et contenu SEO (PAGE)
 
 - [x] **PAGE-01** [P1]: L'accueil `/{locale}` est enrichi (avis, histoire, accès) avec title « Gecko Cabane – French-Thai Restaurant in Krabi Town » (EN)
-- [ ] **PAGE-02** [P1]: `/en/french-restaurant-krabi` cible « french restaurant krabi » (plats français signatures, cave, couple franco-thaï, photos)
+- [x] **PAGE-02** [P1]: `/en/french-restaurant-krabi` cible « french restaurant krabi » (plats français signatures, cave, couple franco-thaï, photos)
 - [ ] **PAGE-03**: `/en/romantic-dinner-krabi` cible « romantic dinner krabi » (ambiance, menu dégustation pour deux, réservation « occasion »)
 - [ ] **PAGE-04**: `/en/where-to-eat-krabi-town` est un guide honnête du quartier (marchés de nuit, Walking Street, adresses, Gecko pour le dîner)
 - [ ] **PAGE-05**: `/en/getting-here-from-ao-nang` détaille taxi, songthaew, horaires, prix, carte
@@ -151,7 +151,7 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | MENU-01 | Phase 3 | Complete |
 | MENU-02 | Phase 3 | Complete |
 | PAGE-01 | Phase 3 | Complete |
-| PAGE-02 | Phase 3 | Pending |
+| PAGE-02 | Phase 3 | Complete |
 | REV-01 | Phase 4 | Pending |
 | REV-02 | Phase 4 | Pending |
 | REV-03 | Phase 4 | Pending |
