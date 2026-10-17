@@ -412,3 +412,82 @@ export function newsletterConfirmEmail(
   ].join('\n\n')
   return { subject: stripLineBreaks(c.subject), html, text }
 }
+
+// ---------------------------------------------------------------------------
+// Newsletter welcome email, sent right after confirmation (NEWS-05; D-17, D-12).
+// ---------------------------------------------------------------------------
+
+const WELCOME_COPY: Record<
+  EmailLocale,
+  {
+    subject: string
+    thanks: string
+    guideCta: string
+    recipeCta: string
+    cadence: string
+    signoff: string
+  }
+> = {
+  fr: {
+    subject: 'Bienvenue chez Gecko Cabane',
+    thanks: 'Merci, votre inscription est confirmée. Voici notre guide gourmand de Krabi Town.',
+    guideCta: 'Télécharger le guide gourmand',
+    recipeCta: 'La recette du curry de crabe',
+    cadence: 'Une lettre par mois au plus.',
+    signoff: "La cheffe Jariya et l'équipe de Gecko Cabane",
+  },
+  en: {
+    subject: 'Welcome to Gecko Cabane',
+    thanks: 'Thank you, your subscription is confirmed. Here is our Krabi Town food guide.',
+    guideCta: 'Download the food guide',
+    recipeCta: 'The crab curry recipe',
+    cadence: 'At most one letter a month.',
+    signoff: 'Chef Jariya and the Gecko Cabane team',
+  },
+}
+
+function welcomeButton(href: string, label: string): string {
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+      <tr>
+        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
+          <a href="${escapeHtml(href)}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(label)}</a>
+        </td>
+      </tr>
+    </table>`
+}
+
+export function newsletterWelcomeEmail(
+  locale: EmailLocale,
+  urls: { guide: string; recipe: string | null; unsubscribe: string }
+): { subject: string; html: string; text: string } {
+  const c = WELCOME_COPY[locale]
+  const n = NEWSLETTER_COPY[locale]
+  const html = baseTemplate(
+    escapeHtml(c.subject),
+    `
+    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(c.thanks)}</p>${welcomeButton(
+      urls.guide,
+      c.guideCta
+    )}${urls.recipe ? welcomeButton(urls.recipe, c.recipeCta) : ''}
+    <p style="color:#5C4A3A;font-size:13px;margin:8px 0 12px;">${escapeHtml(c.cadence)}</p>
+    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0;">${escapeHtml(c.signoff)}</p>`,
+    locale,
+    undefined,
+    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${escapeHtml(
+      urls.unsubscribe
+    )}" style="color:#5C4A3A;">${escapeHtml(n.unsubscribe)}</a><br />${escapeHtml(n.legal)}</p>`
+  )
+  const text = [
+    c.thanks,
+    `${c.guideCta}: ${urls.guide}`,
+    urls.recipe ? `${c.recipeCta}: ${urls.recipe}` : null,
+    c.cadence,
+    c.signoff,
+    `${n.unsubscribe}: ${urls.unsubscribe}`,
+    n.legal,
+  ]
+    .filter((s): s is string => s !== null)
+    .join('\n\n')
+  return { subject: stripLineBreaks(c.subject), html, text }
+}
