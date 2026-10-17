@@ -9,8 +9,10 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 ## Phases
 
 - [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
-- [x] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (code livré et vérifié 2026-10-17 ; en attente du propriétaire : sitemap GSC, import Bing, Rich Results Test) (completed 2026-10-17)
-- [x] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi » (completed 2026-10-17)
+- [x] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (code livré et vérifié 2026-10-17 ; en attente du propriétaire : sitemap GSC, import Bing, Rich Results Test)
+ (completed 2026-10-17)
+- [x] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
+ (completed 2026-10-17)
 - [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
 - [ ] **Phase 5: Conversion et mesure** - Preuve sociale, histoire du couple, accès, LINE, paiement, performance mobile, suivi des clics d'avis
 - [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - Pages restantes FR/EN, /de relu, /sv, posts Google, TripAdvisor, NAP, blogs, hôtels
@@ -164,7 +166,24 @@ Plans:
   4. Un QR code vers `/review?src=qr` avec textes FR/EN/DE est prêt à imprimer pour l'addition et le chevalet
   5. La fiche Google Business Profile est à jour (catégories, attributs, lien de réservation, carte, 20 photos), après accord du propriétaire
 
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — /review, /avis, /bewertung aliases + noindex /{locale}/review page, Google then TripAdvisor (REV-01)
+- [ ] 04-02-PLAN.md — QR to /review?src=qr, bill insert + A6 table tent PDFs FR/EN/DE (REV-04) [checkpoint]
+- [ ] 04-03-PLAN.md — Google Business Profile dossier + owner-approved Chrome session (OPS-01) [checkpoint]
+- [ ] 04-04-PLAN.md — TDD: migration 014 (review_token + tracking columns), eligibility/Krabi date logic, invitation email (REV-02, REV-03)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 04-05-PLAN.md — Vercel Cron 04:00 UTC route, Bearer CRON_SECRET, atomic claim/release (REV-03)
+- [ ] 04-06-PLAN.md — rid -> locale + click mark, admin tracking badges and no-show deadline (REV-01, REV-02, REV-03)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 04-07-PLAN.md — Launch: owner approval, [BLOCKING] migration 014 push, CRON_SECRET, deploy, probes, device test [checkpoint]
 **UI hint**: yes
 
 ### Phase 5: Conversion et mesure
