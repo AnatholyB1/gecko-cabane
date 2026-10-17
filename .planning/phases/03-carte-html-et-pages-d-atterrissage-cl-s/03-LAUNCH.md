@@ -60,3 +60,8 @@ Run 2026-10-17. Connection string read into a shell variable only (never printed
   - `/fr/french-restaurant-krabi` 404.
   - `/sitemap.xml`: 7 `<loc>` (fr, en, fr/privacy, en/privacy, fr/menu, en/menu, en/french-restaurant-krabi); no `/fr/french-restaurant-krabi`.
 - All probes pass.
+
+## Owner live checks
+
+Recorded 2026-10-17: owner replied "live ok" after the live review of /en/menu, /en, /en/french-restaurant-krabi (checked via Chrome by Claude, then by the owner).
+- Change requested during review: gluten-free is on request, so no per-dish flag. A menu-wide line was added to the allergy note (commit 08c497d, deployed). The chef gluten sheet (03-CHEF-GLUTEN-SHEET.csv) is no longer needed; `is_gluten_free` stays false everywhere.
