@@ -35,7 +35,7 @@ Plans:
 - [x] 05-06-PLAN.md — Ajout manuel de réservations admin (WhatsApp, téléphone, sans réservation) (wave 2)
 - [x] 05-07-PLAN.md — Hero et images en next/image AVIF/WebP, mesure PageSpeed avant/après avec porte avant la vague 3 (wave 2, checkpoint)
 - [x] 05-08-PLAN.md — « Un souci ? » sur /review : POST protégé + email Resend au propriétaire (wave 3)
-- [ ] 05-09-PLAN.md — Page admin « Avis » : tableau mensuel, totaux manuels, modèle WhatsApp (wave 3)
+- [x] 05-09-PLAN.md — Page admin « Avis » : tableau mensuel, totaux manuels, modèle WhatsApp (wave 3)
 - [ ] 05-10-PLAN.md — #about enrichi (propriétaire, photo du couple) et « Comment venir » avec carte au clic (wave 4)
 - [ ] 05-11-PLAN.md — Confidentialité (Plausible, « Un souci ? ») et OWNER-CHECKLIST avec la porte avis CONV-01/D-14 (wave 5)
 - [ ] 05-12-PLAN.md — Accord du propriétaire, avis candidats recopiés mot pour mot, choix de 3-4 avis (wave 2, checkpoints)
@@ -46,4 +46,4 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 8/13 | In Progress|  |
+| 5. Conversion et mesure | 9/13 | In Progress|  |
