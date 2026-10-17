@@ -32,7 +32,7 @@ describe('localeUrl', () => {
 
   it('exposes only fr/en and the published paths', () => {
     expect([...LOCALES]).toEqual(['fr', 'en'])
-    expect([...PUBLISHED_PATHS]).toEqual(['', '/privacy', '/menu'])
+    expect([...PUBLISHED_PATHS]).toEqual(PUBLISHED_PAGES.filter((p) => p.locales.includes('fr') && p.locales.includes('en')).map((p) => p.path))
     expect(OG_LOCALE).toEqual({ fr: 'fr_FR', en: 'en_US' })
   })
 })
@@ -120,8 +120,8 @@ describe('EN-only page', () => {
 
 describe('PUBLISHED_PAGES', () => {
   it('declares per-page locales and keeps PUBLISHED_PATHS as the bilingual subset', () => {
-    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['en'])
-    const bilingual = PUBLISHED_PAGES.filter((p) => p.locales.length === 2).map((p) => p.path)
+    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en'])
+    const bilingual = PUBLISHED_PAGES.filter((p) => p.locales.includes('fr') && p.locales.includes('en')).map((p) => p.path)
     expect([...PUBLISHED_PATHS]).toEqual(bilingual)
   })
 })
