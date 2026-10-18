@@ -1,6 +1,6 @@
 /**
  * Review-document tests (Phase 6, I18N-01, D-06/D-08/D-09).
- * Parametrised over LOCS so a later plan adds 'sv'.
+ * Parametrised over LOCS (de, sv). qr-print is required for de only: the print supports are FR/EN/DE.
  */
 
 import { describe, it, expect } from 'vitest'
@@ -8,7 +8,7 @@ import { existsSync, readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 
 const root = process.cwd()
-const LOCS = ['de'] as const
+const LOCS = ['de', 'sv'] as const
 
 type Scope = { files: Record<string, { pageKey: string | null; prefixes: string[] }> }
 const scope: Scope = JSON.parse(readFileSync(join(root, 'scripts/translation-scope.json'), 'utf-8'))
@@ -56,7 +56,8 @@ describe.each(LOCS)('review set for %s', (loc) => {
     })
   }
 
-  for (const extra of ['emails.md', 'qr-print.md']) {
+  const extras = loc === 'de' ? ['emails.md', 'qr-print.md'] : ['emails.md']
+  for (const extra of extras) {
     it(`${extra} exists with a sign-off line`, () => {
       const p = join(root, 'docs/ph6/review', loc, extra)
       expect(existsSync(p)).toBe(true)
@@ -64,7 +65,7 @@ describe.each(LOCS)('review set for %s', (loc) => {
     })
   }
 
-  it('qr-print.md carries the DE QR title', () => {
+  it.runIf(loc === 'de')('qr-print.md carries the DE QR title', () => {
     const doc = readFileSync(join(root, 'docs/ph6/review', loc, 'qr-print.md'), 'utf-8')
     expect(doc).toContain('Eine Bewertung hilft uns sehr')
   })

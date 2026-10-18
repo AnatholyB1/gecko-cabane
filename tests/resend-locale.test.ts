@@ -88,3 +88,18 @@ describe('German email copy (inactive until DE publication, D-09)', () => {
     expect(emailLocaleFor('sv')).toBe('en')
   })
 })
+
+describe('Swedish email copy (inactive until SV publication, D-09)', () => {
+  it('has COPY.sv and REVIEW_COPY.sv entries', () => {
+    const pending = customerPendingEmail(r, 'sv')
+    expect(pending.html).toContain('lang="sv"')
+    expect(pending.subject).not.toBe(customerPendingEmail(r, 'en').subject)
+    const url = 'https://example.com/review?rid=x'
+    const rev = reviewInvitationEmail('sv', url, 'invite', 'Alice')
+    expect(rev.subject).not.toBe(reviewInvitationEmail('en', url, 'invite', 'Alice').subject)
+  })
+  it('sv is not in EMAIL_LOCALES: sv customers keep receiving English emails', () => {
+    expect([...EMAIL_LOCALES] as string[]).not.toContain('sv')
+    expect(emailLocaleFor('sv')).toBe('en')
+  })
+})
