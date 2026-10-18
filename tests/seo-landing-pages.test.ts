@@ -209,14 +209,14 @@ describe('EN-only pages (D-07, D-10, D-13)', () => {
   })
 
   it('publication state', () => {
-    expect(PAGES.find((p) => p.key === WINE)!.contentLocales).toEqual([])
-    expect(PUBLISHED_PAGES.some((p) => p.path === WINE)).toBe(false)
+    expect(PAGES.find((p) => p.key === WINE)!.contentLocales).toEqual(['en'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === WINE)?.locales).toEqual(['en'])
     expect(PUBLISHED_PAGES.find((p) => p.path === HERE)?.locales).toEqual(['en'])
   })
 
   it('owner review sheet exists with sign-off line', () => {
     const f = 'docs/ph6/review/en/wine-belgian-beer-krabi.md'
     expect(existsSync(join(root, f))).toBe(true)
-    expect(read(f)).toContain('- [ ] Validé par écrit par :')
+    expect(read(f)).toMatch(/^- \[x\] Validé par écrit par : .+Date : \d{4}-\d{2}-\d{2}/m)
   })
 })

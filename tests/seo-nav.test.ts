@@ -42,7 +42,8 @@ describe('guidesFor / TRIPADVISOR_URL', () => {
     ])
     const en = guidesFor('en').map((g) => g.href)
     expect(en).toContain('/en/getting-here-from-ao-nang')
-    expect(en).not.toContain('/en/wine-belgian-beer-krabi')
+    expect(en[en.length - 1]).toBe('/en/wine-belgian-beer-krabi')
+    expect(guidesFor('fr').map((g) => g.href)).not.toContain('/fr/wine-belgian-beer-krabi')
   })
   it('points to tripadvisor.com', () => {
     expect(TRIPADVISOR_URL.startsWith('https://www.tripadvisor.com/')).toBe(true)

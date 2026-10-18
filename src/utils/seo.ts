@@ -30,6 +30,8 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en'] },
   { path: '/where-to-eat-krabi-town', locales: ['fr', 'en'] },
   { path: '/getting-here-from-ao-nang', locales: ['en'] },
+  // Owner alcohol-advertising sign-off: publish, 2026-10-18 (plan 12)
+  { path: '/wine-belgian-beer-krabi', locales: ['en'] },
 ]
 
 /** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */
@@ -92,11 +94,11 @@ export const PAGES: readonly PageDef[] = [
     related: ['/where-to-eat-krabi-town', '/french-restaurant-krabi'],
   },
   {
-    // Owner alcohol gate (plan 12): no content locale yet
+    // Owner alcohol gate cleared 2026-10-18 (plan 12): EN only
     key: '/wine-belgian-beer-krabi',
     namespace: 'wineBeer',
     slugs: {},
-    contentLocales: [],
+    contentLocales: ['en'],
     related: ['/french-restaurant-krabi', '/romantic-dinner-krabi'],
   },
 ]
