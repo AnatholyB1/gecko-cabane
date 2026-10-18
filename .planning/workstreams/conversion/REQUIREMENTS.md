@@ -19,7 +19,7 @@
 
 ### Conversion (CONV)
 
-- [ ] **CONV-01** (C2): Un bloc de preuve sociale (note Google 4,7 pour 1 062 avis, badge Travellers' Choice TripAdvisor, 3 à 4 avis réels avec prénom et pays, lien « Laisser un avis ») est visible au-dessus de la réservation
+- [x] **CONV-01** (C2): Un bloc de preuve sociale (note Google 4,7 pour 1 062 avis, badge Travellers' Choice TripAdvisor, 3 à 4 avis réels avec prénom et pays, lien « Laisser un avis ») est visible au-dessus de la réservation
 - [ ] **CONV-02** (C3): Une section « Qui sommes-nous » présente la cheffe Jariya, le propriétaire, la photo du couple et l'origine du lieu, en FR/EN/DE
 - [ ] **CONV-03** (C4): Un bloc « Comment venir » (depuis Ao Nang 20 min en taxi, songthaew 50 bahts, 3 min du Walking Street, 15 min de Chao Fah Pier) affiche une carte intégrée et un bouton d'itinéraire Google Maps
 
