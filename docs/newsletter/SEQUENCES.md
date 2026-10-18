@@ -4,7 +4,7 @@ Cartographie des séquences. Les brouillons sont dans `docs/newsletter/sequences
 
 | Séquence | Outil | Déclencheur | Délai | Audience | Langues | Heure d'envoi | Compte dans le plafond 1/mois | Statut propriétaire |
 |----------|-------|-------------|-------|----------|---------|---------------|-------------------------------|---------------------|
-| Bienvenue | Resend (code, 07-04) | confirmation du double opt-in | immédiat | tous les inscrits confirmés (guide, recette si source bill_qr) | FR/EN | immédiat | non | à valider |
+| Bienvenue | Resend (code, 07-04) | confirmation du double opt-in | immédiat | tous les inscrits confirmés (guide, recette si source bill_qr) | FR/EN | immédiat | non | accepted Resend 2026-10-18 |
 | Après-visite | Brevo automation | LAST_VISIT_DATE + 2 jours | J+2 | inscrits avec une date de visite | FR/EN actifs | 18:00 Asia/Bangkok | non (séquence) | approuvé 2026-10-18 |
 | Pendant le séjour | Brevo automation | LAST_VISIT_DATE + 3 jours | J+3 | RESIDENT = false, date de visite renseignée | FR/EN actifs | 18:00 Asia/Bangkok | non (séquence) | approuvé 2026-10-18 |
 | Retour en octobre | Brevo campagne | chaque septembre ou octobre | annuel | RESIDENT = false et LAST_VISIT_DATE renseignée | FR/EN actifs | 18:00 Asia/Bangkok | oui | approuvé 2026-10-18 |

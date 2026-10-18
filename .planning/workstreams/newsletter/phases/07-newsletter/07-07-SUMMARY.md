@@ -20,14 +20,14 @@ key-files:
     - messages/fr.json
     - messages/en.json
     - src/app/[locale]/privacy/page.tsx
-requirements-completed: []
-status: PARTIAL - awaiting owner review (Task 3 checkpoint)
-completed: 2026-10-17
+requirements-completed: [NEWS-06, NEWS-01]
+status: COMPLETE
+completed: 2026-10-18
 ---
 
-# Phase 7 Plan 07: Sequences, Brevo runbook and privacy Summary (partial)
+# Phase 7 Plan 07: Sequences, Brevo runbook and privacy Summary
 
-Autonomous tasks 1 and 2 are done; Task 3 (owner review) is pending. NEWS-06 and NEWS-01 are not marked complete until the owner approves.
+Tasks 1-3 done. Owner review completed 2026-10-18.
 
 ## Tasks
 
@@ -35,22 +35,17 @@ Autonomous tasks 1 and 2 are done; Task 3 (owner review) is pending. NEWS-06 and
 |------|--------|--------|
 | 1. Drafts, sequence map, Brevo runbook, docs test | b503ef5 | docs test 6 passed |
 | 2. Privacy newsletter section fr/en | a1e9f34 | i18n, i18n-hardcoded, seo-pages 18 passed |
-| 3. Owner review | pending | checkpoint |
+| 3. Owner review | done | 1adda0c |
 
 ## Deviations from Plan
 
 None. The welcome-email-via-Resend choice is the plan's own documented deviation from D-05 and is recorded in SEQUENCES.md as "à valider" until the owner answers.
 
-## Pending owner answers (not fabricated)
+## Owner review (2026-10-18)
 
-- Welcome email via Resend: accept or refuse (no answer yet).
-- Approval of the four Brevo sequences (no answer yet). SEQUENCES.md shows "brouillon".
-- Each `[À CONFIRMER PAR LE PROPRIÉTAIRE]` marker in the drafts is unresolved (after-visit: mention review link; during-stay: dish suggestion; October return: season opening and menu news; green season: seasonal dish or hours).
+Owner replies, quoted verbatim:
 
-## Known Stubs
+- Drafts: "review link yes; 2 -3 -4 depends on what we have new send them to menu or landing; approved"
+- Welcome email via Resend and privacy text (including the no-network-location sentence): "approved for both"
 
-The unresolved owner markers above are intentional and must be cleared at the checkpoint.
-
-## Self-Check: PASSED (tasks 1-2)
-
-Files exist, docs test and i18n tests green.
+Applied: review link added to the J+2 email (/{locale}/review?src=newsletter); placeholders removed from J+3, October return and green season; October return gained a menu link; all four Brevo sequences marked "approved 2026-10-18" in SEQUENCES.md; welcome row marked "accepted Resend 2026-10-18". Commit 1adda0c.
