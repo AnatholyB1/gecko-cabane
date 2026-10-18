@@ -10,6 +10,7 @@ import ReservationForm from '@/components/ReservationForm'
 import SocialProof from '@/components/SocialProof'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import GcDivider from '@/components/ui/GcDivider'
+import { BotanicalHeliconia, BotanicalPalm } from '@/components/ui/Botanical'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import MapEmbed from '@/components/MapEmbed'
 import { COUPLE_PHOTO } from '@/utils/about-content'
@@ -130,11 +131,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           />
           {/* Botanical right */}
           <div className="absolute bottom-0 right-0 w-72 h-[440px] opacity-[0.07] gc-botanical pointer-events-none select-none" aria-hidden="true">
-            <img src="/botanical-heliconia.svg" alt="" className="w-full h-full object-contain object-bottom" />
+            <BotanicalHeliconia />
           </div>
           {/* Botanical left */}
           <div className="absolute top-20 left-0 w-56 h-80 opacity-[0.05] gc-botanical-slow pointer-events-none select-none" aria-hidden="true">
-            <img src="/botanical-palm.svg" alt="" className="w-full h-full object-contain" />
+            <BotanicalPalm />
           </div>
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
