@@ -2,7 +2,7 @@ Sujet : Merci d'être passés chez Gecko Cabane
 Texte d'aperçu : Quelques mots de la part de Jariya et de toute l'équipe.
 Audience : abonnés confirmés avec une date de visite (LAST_VISIT_DATE), langue FR
 Déclencheur : LAST_VISIT_DATE + 2 jours, envoi à 18:00 (Asia/Bangkok)
-Statut propriétaire : brouillon
+Statut propriétaire : approuvé 2026-10-18
 
 ---
 
@@ -14,7 +14,7 @@ Si vous êtes encore dans la région, notre table vous attend. Nous sommes ferm�
 
 [Réserver une table](https://geckocabanerestaurant.com/fr#reservation)
 
-Si vous avez aimé votre soirée, un avis nous aide beaucoup, mais ce n'est jamais une obligation. [À CONFIRMER PAR LE PROPRIÉTAIRE : mentionner ou non le lien d'avis, l'invitation d'avis part déjà la veille]
+Si vous avez aimé votre soirée, un avis nous aide beaucoup, mais ce n'est jamais une obligation : [Laisser un avis](https://geckocabanerestaurant.com/fr/review?src=newsletter)
 
 À bientôt,
 Jariya et l'équipe de Gecko Cabane

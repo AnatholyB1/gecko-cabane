@@ -2,7 +2,7 @@ Sujet : Votre séjour à Krabi, et une table chez nous
 Texte d'aperçu : Nos horaires et notre carte, au cas où l'envie vous prendrait de revenir.
 Audience : abonnés confirmés avec une date de visite, RESIDENT = false, langue FR
 Déclencheur : LAST_VISIT_DATE + 3 jours, envoi à 18:00 (Asia/Bangkok)
-Statut propriétaire : brouillon
+Statut propriétaire : approuvé 2026-10-18
 
 ---
 
@@ -17,8 +17,6 @@ Si l'envie vous prend de revenir dîner, retrouvez notre carte franco-thaï sign
 Pour un groupe ou une occasion particulière, vous pouvez aussi réserver en quelques instants.
 
 [Réserver une table](https://geckocabanerestaurant.com/fr#reservation)
-
-[À CONFIRMER PAR LE PROPRIÉTAIRE : une suggestion de plat ou de saison à mentionner, sinon la phrase est supprimée]
 
 Bon séjour,
 Jariya et l'équipe de Gecko Cabane

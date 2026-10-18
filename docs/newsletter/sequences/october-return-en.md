@@ -2,7 +2,7 @@ Subject: Krabi is getting ready for the season, and so are we
 Preview text: A table will be waiting for you on Maharat Road.
 Audience: RESIDENT = false and LAST_VISIT_DATE set, language EN
 Trigger: Brevo campaign, sent every September or October, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
-Owner status: draft
+Owner status: approved 2026-10-18
 
 ---
 
@@ -12,9 +12,9 @@ You dined with us during a previous stay in Krabi, and we think of you as the se
 
 Jariya welcomes you again in Krabi Town, on Maharat Road, for her French-Thai cooking. We are closed on Tuesdays, and the kitchen stays open until 10:00 pm.
 
-[À CONFIRMER PAR LE PROPRIÉTAIRE: season opening date and any menu news, otherwise this sentence is removed]
-
 If you are coming back soon, you can already book your table.
+
+[See the menu](https://geckocabanerestaurant.com/en#menu)
 
 [Book a table](https://geckocabanerestaurant.com/en#reservation)
 
