@@ -42,4 +42,4 @@ Instructions pour le relecteur :
 
 ## Validation écrite
 
-- [ ] Validé par écrit par : ____  Date : ____  Canal de la validation : ____
+- [x] Validé par écrit par : propriétaire (Gecko Cabane), relecture allemande déclarée approuvée  Date : 2026-10-18  Canal de la validation : conversation Claude Code (message « relecture allemand … approved »)
