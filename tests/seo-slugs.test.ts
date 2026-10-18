@@ -128,6 +128,7 @@ describe('resolvePageSeo', () => {
       languages: {
         fr: localeUrl('fr', '/french-restaurant-krabi'),
         en: localeUrl('en', '/french-restaurant-krabi'),
+        de: localeUrl('de', '/french-restaurant-krabi'),
         'x-default': localeUrl('fr', '/french-restaurant-krabi'),
       },
     })
@@ -164,8 +165,8 @@ describe('resolvePageSeo', () => {
   })
 
   it('publishes the French landing in fr and en (PAGE-08)', () => {
-    expect([...publishedLocales('/french-restaurant-krabi')]).toEqual(['fr', 'en'])
-    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en'])
+    expect([...publishedLocales('/french-restaurant-krabi')]).toEqual(['fr', 'en', 'de'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en', 'de'])
   })
 })
 
@@ -185,14 +186,20 @@ describe('de/sv locales (D-05)', () => {
     expect(slugFor('', 'sv')).toBe('')
   })
 
-  it('noindexes unpublished de/sv pages', () => {
-    expect(resolvePageSeo('', 'de').index).toBe(false)
+  it('indexes validated de pages and noindexes unpublished de/sv pages', () => {
+    expect(resolvePageSeo('', 'de').index).toBe(true)
+    expect(resolvePageSeo('/privacy', 'de').index).toBe(false)
+    expect(resolvePageSeo('', 'sv').index).toBe(false)
     expect(resolvePageSeo('/menu', 'sv').index).toBe(false)
   })
 
-  it('lists no de/sv URL in the sitemap', async () => {
+  it('lists de URLs of validated pages and no sv URL in the sitemap', async () => {
     const sitemap = (await import('../src/app/sitemap')).default
-    for (const e of sitemap()) expect(e.url).not.toMatch(/\/(de|sv)(\/|$)/)
+    const urls = sitemap().map((e) => e.url)
+    for (const u of urls) expect(u).not.toMatch(/\/sv(\/|$)/)
+    expect(urls).toContain(localeUrl('de', '/menu'))
+    expect(urls).toContain(localeUrl('de'))
+    expect(urls.some((u) => u.includes('/de/privacy'))).toBe(false)
   })
 
   it('switcherTargets on /de/menu returns de current plus published fr/en', () => {
@@ -201,7 +208,12 @@ describe('de/sv locales (D-05)', () => {
     expect(t.find((x) => x.current)?.locale).toBe('de')
   })
 
-  it('guidesFor de is empty', () => {
-    expect(guidesFor('de')).toEqual([])
+  it('guidesFor de lists the three validated guides (no EN-only pages)', () => {
+    expect(guidesFor('de').map((g) => g.key)).toEqual([
+      '/french-restaurant-krabi',
+      '/romantic-dinner-krabi',
+      '/where-to-eat-krabi-town',
+    ])
+    expect(guidesFor('sv')).toEqual([])
   })
 })

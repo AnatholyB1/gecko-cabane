@@ -81,9 +81,9 @@ describe('German email copy (inactive until DE publication, D-09)', () => {
     const rev = reviewInvitationEmail('de', 'https://example.com/review?rid=x', 'invite', 'Alice')
     expect(rev.subject).not.toBe(reviewInvitationEmail('en', 'https://example.com/review?rid=x', 'invite', 'Alice').subject)
   })
-  it('EMAIL_LOCALES whitelist keeps de on English emails', () => {
-    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en'])
-    expect(emailLocaleFor('de')).toBe('en')
+  it('EMAIL_LOCALES whitelist lists de, sv stays on English emails', () => {
+    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en', 'de'])
+    expect(emailLocaleFor('de')).toBe('de')
     expect(emailLocaleFor('fr')).toBe('fr')
     expect(emailLocaleFor('sv')).toBe('en')
   })

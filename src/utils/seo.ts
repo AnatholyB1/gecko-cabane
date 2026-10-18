@@ -23,12 +23,12 @@ export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US', de: 'de_DE', sv: 'sv_SE' } 
  * where it exists; FR landing arrives with PAGE-08 in phase 6.
  */
 export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLocale[] }[] = [
-  { path: '', locales: ['fr', 'en'] },
+  { path: '', locales: ['fr', 'en', 'de'] },
   { path: '/privacy', locales: ['fr', 'en'] },
-  { path: '/menu', locales: ['fr', 'en'] },
-  { path: '/french-restaurant-krabi', locales: ['fr', 'en'] },
-  { path: '/romantic-dinner-krabi', locales: ['fr', 'en'] },
-  { path: '/where-to-eat-krabi-town', locales: ['fr', 'en'] },
+  { path: '/menu', locales: ['fr', 'en', 'de'] },
+  { path: '/french-restaurant-krabi', locales: ['fr', 'en', 'de'] },
+  { path: '/romantic-dinner-krabi', locales: ['fr', 'en', 'de'] },
+  { path: '/where-to-eat-krabi-town', locales: ['fr', 'en', 'de'] },
   { path: '/getting-here-from-ao-nang', locales: ['en'] },
   // Owner alcohol-advertising sign-off: publish, 2026-10-18 (plan 12)
   { path: '/wine-belgian-beer-krabi', locales: ['en'] },

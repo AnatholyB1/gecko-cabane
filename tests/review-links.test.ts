@@ -52,7 +52,7 @@ describe('sanitizeReviewSource', () => {
 describe('pickAcceptLanguage', () => {
   it.each([
     ['fr-FR,fr;q=0.9,en;q=0.8', 'fr'],
-    ['de-DE,de;q=0.9,en;q=0.8', 'en'],
+    ['de-DE,de;q=0.9,en;q=0.8', 'de'],
     ['en-GB', 'en'],
     ['sv-SE', 'en'],
     ['es-ES,it', null],
@@ -67,11 +67,11 @@ describe('pickAcceptLanguage', () => {
 describe('resolveReviewLocale', () => {
   it.each([
     [{ ridLocale: 'fr', hint: 'de', acceptLanguage: 'en' }, 'fr'],
-    [{ ridLocale: 'de', hint: 'fr', acceptLanguage: 'fr' }, 'en'],
+    [{ ridLocale: 'de', hint: 'fr', acceptLanguage: 'fr' }, 'de'],
     [{ ridLocale: 'sv' }, 'en'],
     [{ ridLocale: 'xx', hint: 'fr' }, 'fr'],
     [{ hint: 'fr', acceptLanguage: 'en' }, 'fr'],
-    [{ hint: 'de', acceptLanguage: 'fr' }, 'en'],
+    [{ hint: 'de', acceptLanguage: 'fr' }, 'de'],
     [{ acceptLanguage: 'fr-FR' }, 'fr'],
     [{ acceptLanguage: 'es-ES' }, 'en'],
     [{}, 'en'],

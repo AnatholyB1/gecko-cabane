@@ -113,9 +113,10 @@ describe('selectReviewInvitations - remind', () => {
 })
 
 describe('emailLocaleFor', () => {
-  it('maps fr to fr and everything else to en', () => {
+  it('maps fr/en/de to themselves and everything else to en', () => {
     expect(emailLocaleFor('fr')).toBe('fr')
-    for (const l of ['en', 'de', 'sv', '', 'xx']) expect(emailLocaleFor(l)).toBe('en')
+    expect(emailLocaleFor('de')).toBe('de')
+    for (const l of ['en', 'sv', '', 'xx']) expect(emailLocaleFor(l)).toBe('en')
   })
 })
 

@@ -8,6 +8,8 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { PUBLISHED_PAGES } from '../src/utils/seo'
+import { REVIEW_LOCALES } from '../src/utils/review-links'
+import { EMAIL_LOCALES } from '../src/utils/email-locales'
 
 type Scope = { files: Record<string, { pageKey: string | null; prefixes: string[] }> }
 
@@ -45,10 +47,25 @@ describe('translation-scope.json', () => {
 })
 
 describe('de/sv publication gate', () => {
-  it('currently publishes no de/sv page', () => {
+  it('currently publishes no sv page', () => {
     for (const p of PUBLISHED_PAGES) {
-      expect(p.locales as readonly string[]).not.toContain('de')
       expect(p.locales as readonly string[]).not.toContain('sv')
+    }
+  })
+
+  it('REVIEW_LOCALES lists de only with a signed review.md (and never sv)', () => {
+    expect(REVIEW_LOCALES as readonly string[]).not.toContain('sv')
+    if ((REVIEW_LOCALES as readonly string[]).includes('de')) {
+      const doc = join(root, 'docs/ph6/review/de/review.md')
+      expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
+    }
+  })
+
+  it('EMAIL_LOCALES lists de only with a signed emails.md (and never sv)', () => {
+    expect(EMAIL_LOCALES as readonly string[]).not.toContain('sv')
+    if ((EMAIL_LOCALES as readonly string[]).includes('de')) {
+      const doc = join(root, 'docs/ph6/review/de/emails.md')
+      expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
     }
   })
 

@@ -6,7 +6,7 @@
 export type EmailLocale = 'fr' | 'en' | 'de'
 
 /**
- * Locales that get their own customer email copy. 'de' copy exists in resend.ts but is
- * NOT listed: de is appended at DE publication, after written review (D-09, plan 13).
+ * Locales that get their own customer email copy. 'de' listed after the owner's written
+ * validation of docs/ph6/review/de/emails.md (2026-10-18, plan 13); sv falls back to en.
  */
-export const EMAIL_LOCALES: readonly EmailLocale[] = ['fr', 'en']
+export const EMAIL_LOCALES: readonly EmailLocale[] = ['fr', 'en', 'de']
