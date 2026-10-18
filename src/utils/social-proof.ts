@@ -34,7 +34,36 @@ export const SOCIAL_PROOF = {
   ratingSource: 'google' as const,
   // The year stays null until the owner confirms it; the badge renders without a year.
   travellersChoice: { awarded: true, year: null as number | null },
-  reviews: [] as readonly SocialReview[],
+  // Owner-validated on 2026-10-18 (05-12 REVIEW-CANDIDATES.md). Verbatim TripAdvisor reviews, original language.
+  reviews: [
+    {
+      name: 'David C',
+      country: 'Bahrain',
+      lang: 'en',
+      source: 'tripadvisor',
+      url: 'https://www.tripadvisor.com/ShowUserReviews-g297927-d2413872-r1057914879-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
+      rating: 5,
+      text: "Unexpected gem of a restaurant within Krabi Town affording an authentic French experience. Welcoming but unobtrusive French owner willing to offer guidance but not impose !\n\nBroad choice of either French or Thai dishes with a fine selection of wines and liqueurs and Belgian beer.\n\nWe fully enjoyed a well prepared boeuf bourguignon and pork chop main course together with the bananas flambéed.\n\nGood ambience notwithstanding the limited number of guests.\n\nRecommended - well worth the additional cost !",
+    },
+    {
+      name: 'Jean-Louis305',
+      country: 'Mexico',
+      lang: 'fr',
+      source: 'tripadvisor',
+      url: 'https://www.tripadvisor.com/ShowUserReviews-g297927-d2413872-r1048507597-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
+      rating: 5,
+      text: 'Un superbe restaurant qui réussit parfaitement le mariage entre la cuisine française et de savoureuses recettes thaïlandaises. Tout a été excellent de l’entrée au dessert, avec des produits frais et une exécution soignée. Que ce soit les plats français ou thaïs, chaque assiette est pleine de goût et de justesse. Mention spéciale pour l’excellente carte des vins, rare et très appréciable dans la région. Une très belle expérience culinaire que l’on recommande sans hésiter.',
+    },
+    {
+      name: 'Swen S',
+      country: 'Germany',
+      lang: 'de',
+      source: 'tripadvisor',
+      url: 'https://www.tripadvisor.com/ShowUserReviews-g297927-d2413872-r1049536470-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html',
+      rating: 5,
+      text: 'Wir hatten einen wunderbaren Besuch im Gecko Canaveral Restaurant in Krabi. Vom ersten Moment an haben wir uns sehr wohlgefühlt. Besonders hervorheben möchten wir den freundlichen Service und die angenehme, herzliche Art des Inhabers – man merkt sofort, mit wie viel Leidenschaft hier gearbeitet wird.\n\nDas Essen war hervorragend und geschmacklich absolut überzeugend. Frisch zubereitet, liebevoll angerichtet und einfach rundum lecker.\n\nWir kommen sehr gerne wieder und können das Restaurant uneingeschränkt weiterempfehlen. Vielen Dank',
+    },
+  ] as readonly SocialReview[],
 }
 
 export type SocialProofConfig = typeof SOCIAL_PROOF

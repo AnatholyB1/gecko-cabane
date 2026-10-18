@@ -74,6 +74,39 @@ describe('social-proof config', () => {
   })
 })
 
+describe('owner-selected reviews (05-12/05-13)', () => {
+  const candidates = read('.planning/workstreams/conversion/phases/05-conversion-et-mesure/REVIEW-CANDIDATES.md').replace(/\r\n/g, '\n')
+  const selection = candidates.split('## Sélection du propriétaire')[1] ?? ''
+  const deferred = /report|refus/i.test(selection) && !/\[x\]/i.test(selection)
+
+  it('ships 3-4 verbatim owner-selected reviews and emits aggregateRating', () => {
+    if (deferred) {
+      expect(SOCIAL_PROOF.reviews.length).toBe(0)
+      expect(aggregateRatingFor()).toBeNull()
+      return
+    }
+    expect(SOCIAL_PROOF.reviews.length).toBeGreaterThanOrEqual(3)
+    expect(SOCIAL_PROOF.reviews.length).toBeLessThanOrEqual(4)
+    for (const r of SOCIAL_PROOF.reviews) {
+      expect(isValidSocialReview(r)).toBe(true)
+      const text = r.text.replace(/\r\n/g, '\n')
+      expect(candidates, `text of ${r.name}`).toContain(text)
+      // name and url must belong to the same candidate block as the text
+      const block = candidates.split('## Candidat ').find((b) => b.includes(text)) ?? ''
+      expect(block).toContain(`Prénom : ${r.name}`)
+      expect(block).toContain(r.url)
+      expect(block).toContain(`Pays : ${r.country}`)
+    }
+    expect(aggregateRatingFor()).toEqual({
+      '@type': 'AggregateRating',
+      ratingValue: 4.7,
+      reviewCount: 1062,
+      bestRating: 5,
+      worstRating: 1,
+    })
+  })
+})
+
 describe('socialProof messages', () => {
   const keys = [
     'eyebrow', 'title', 'ratingAria', 'countLabel', 'travellersChoice', 'travellersChoiceYear',

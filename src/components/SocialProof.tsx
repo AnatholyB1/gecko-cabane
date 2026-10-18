@@ -97,7 +97,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
               <figure key={i} className="bg-gc-jungle border-t-2 border-gc-gold p-6">
                 <blockquote
                   lang={review.lang}
-                  className="font-cormorant italic text-[17px] leading-[1.5] text-gc-ivory/90"
+                  className="font-cormorant whitespace-pre-line italic text-[17px] leading-[1.5] text-gc-ivory/90"
                 >
                   {review.text}
                 </blockquote>
