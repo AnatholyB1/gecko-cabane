@@ -1,6 +1,6 @@
 # Page vin et bière belge (EN) — validation propriétaire
 
-**Statut :** en attente de validation écrite du propriétaire. La page /en/wine-belgian-beer-krabi renvoie une 404 tant que cette validation n'est pas donnée (plan 12).
+**Statut :** validé par le propriétaire le 2026-10-18 (décision : publish). La page /en/wine-belgian-beer-krabi est publiée (plan 12).
 
 ## Pourquoi cette validation
 
@@ -43,4 +43,6 @@ La publicité pour l'alcool est encadrée en Thaïlande (Alcoholic Beverage Cont
 - Publier avec corrections (indiquer lesquelles)
 - Ne pas publier
 
-- [ ] Validé par écrit par : ____  Date : ____  Canal de la validation : ____
+Décision du propriétaire : publish (2026-10-18) — publication telle quelle, sans correction.
+
+- [x] Validé par écrit par : propriétaire (Gecko Cabane)  Date : 2026-10-18  Canal de la validation : conversation Claude Code (message « fiche alcool approved »)
