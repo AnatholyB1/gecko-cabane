@@ -61,7 +61,7 @@ export const LANDING: Partial<Record<PageKey, LandingConfig>> = {
     heroImage: '/exterior-entrance.jpg',
     sections: [
       { id: 'overview', paras: 2 },
-      { id: 'options', paras: 2, facts: true },
+      { id: 'options', paras: 3, facts: true },
       { id: 'arrive', paras: 2, image: '/exterior-sign.jpg', link: 'directions' },
       { id: 'back', paras: 1, link: 'reservation' },
     ],

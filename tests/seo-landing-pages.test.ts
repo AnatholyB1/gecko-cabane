@@ -171,6 +171,17 @@ describe('EN-only pages (D-07, D-10, D-13)', () => {
     }
   })
 
+  it('gettingHere recommends Grab without inventing figures (owner 2026-10-18)', () => {
+    const sections = en.gettingHere.sections as Record<string, Record<string, string>>
+    expect(sections.options.p3).toContain('Grab')
+    expect(sections.options.p3).toContain('Gecko Cabane Restaurant')
+    expect(sections.options.p3).not.toMatch(/\d|guarantee/i)
+    for (const f of TRANSPORT_FACTS) {
+      expect(f.minutes).toBeNull()
+      expect(f.thb).toBeNull()
+    }
+  })
+
   it('gettingHere has an approximate qualifier', () => {
     expect((en.gettingHere.facts as Record<string, string>).approx).toContain('approximate')
   })
