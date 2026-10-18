@@ -101,6 +101,26 @@ const COPY: Record<
     confirmedSubject: 'Reservierung bestätigt – Gecko Cabane',
     cancelledSubject: 'Reservierung storniert – Gecko Cabane',
   },
+  sv: {
+    dateLocale: 'sv-SE',
+    tagline: 'Fransk-thailändskt kök · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thailand',
+    labels: { date: 'Datum', time: 'Tid', guests: 'Gäster', occasion: 'Tillfälle' },
+    pendingTitle: (n) => `Tack för din förfrågan, ${n}`,
+    pendingIntro:
+      'Vi har tagit emot din bokningsförfrågan. Restaurangen bekräftar den inom kort via e-post.',
+    pendingNote:
+      'Bokningen väntar på bekräftelse – den är först bindande när restaurangen har bekräftat den.',
+    pendingSubject: 'Din bokningsförfrågan på Gecko Cabane',
+    changeLine: `Vill du ändra eller avboka, skriv till oss på WhatsApp på ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Bokningen är bekräftad',
+    cancelledTitle: 'Bokningen är avbokad',
+    confirmedIntro: (n) => `Din bokning är bekräftad, ${n}. Vi ser fram emot att få ta emot dig.`,
+    cancelledIntro: (n) =>
+      `Din bokning har avbokats, ${n}. Hör gärna av dig om du vill boka ett nytt bord.`,
+    confirmedSubject: 'Bokningen är bekräftad – Gecko Cabane',
+    cancelledSubject: 'Bokningen är avbokad – Gecko Cabane',
+  },
 }
 
 /** Formats a YYYY-MM-DD date as a long date ("samedi 24 octobre 2026" / "Saturday 24 October 2026"). */
@@ -329,6 +349,22 @@ const REVIEW_COPY: Record<
     cta: 'Bewertung abgeben',
     fallback: (u) => `Falls die Schaltfläche nicht angezeigt wird, kopieren Sie diesen Link: ${u}`,
     footer: 'Sie erhalten diese Nachricht im Anschluss an Ihre Reservierung im Gecko Cabane.',
+  },
+  sv: {
+    greeting: (n) => `Hej ${n},`,
+    invite: {
+      subject: 'Ditt besök på Gecko Cabane',
+      title: 'Tack för ditt besök',
+      body: 'Tack för att du åt hos oss. Har du en minut över hjälper en recension oss väldigt mycket.',
+    },
+    reminder: {
+      subject: 'Några ord om ditt besök?',
+      title: 'Ett sista litet ord',
+      body: 'Vi skriver inte till dig om detta en tredje gång. Känner du för det hjälper din recension oss väldigt mycket.',
+    },
+    cta: 'Lämna en recension',
+    fallback: (u) => `Om knappen inte visas, kopiera den här länken: ${u}`,
+    footer: 'Du får det här meddelandet efter din bokning på Gecko Cabane.',
   },
 }
 

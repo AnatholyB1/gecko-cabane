@@ -1,1 +1,425 @@
-{}
+{
+  "home": {
+    "reviewsLine": "Betyg på Google 4,7 / 5 · 1 062 recensioner",
+    "reviewsLink": "Läs recensionerna på Google",
+    "directionsLink": "Hitta hit med Google Maps"
+  },
+  "common": {
+    "reserve": "Boka bord",
+    "book": "Boka",
+    "bookTable": "Boka bord",
+    "mainNav": "Huvudmeny",
+    "home": "Startsida",
+    "about": "Om oss",
+    "menu": "Meny",
+    "hours": "Öppettider",
+    "reservation": "Bordsbokning",
+    "contact": "Kontakt",
+    "skipToContent": "Hoppa till huvudinnehållet",
+    "homeAriaLabel": "Gecko Cabane – Startsida",
+    "reserveShort": "Boka"
+  },
+  "hero": {
+    "subtitle": "Fransk-thailändsk restaurang",
+    "tagline": "En kulinarisk förening mitt i Krabis djungel",
+    "discoverButton": "Upptäck vårt kök",
+    "discoverAriaLabel": "Upptäck vår meny och våra specialiteter",
+    "findUsButton": "Hitta hit",
+    "location": "Krabi Town · Thailand"
+  },
+  "about": {
+    "title": "Välkommen till vår cabana",
+    "description1": "Mitt i Krabi ligger vår lilla fransk-thailändska restaurang, där <chef>kocken Jariya</chef> och hennes team tar emot dig med värme och passion.",
+    "description2": "Vi har bara <seats>40 platser</seats> och vill att kvällen ska kännas lugn och personlig. För sällskap på fler än 10 personer rekommenderar vi att du bokar per telefon eller direkt på plats.",
+    "important": "Viktigt",
+    "kitchenClose": "Köket tar emot beställningar till klockan 22.00",
+    "chefName": "Kocken Jariya",
+    "chefQuote": "Med kärlek och kreativitet blandar jag franska och thailändska smaker till rätter som berättar en historia.",
+    "eyebrow": "Vår historia",
+    "chefPhotoAlt": "Kocken Jariya på Gecko Cabane, Krabi",
+    "chefRole": "Köksmästare",
+    "frenchRestaurantLink": "Upptäck vårt franska kök i Krabi Town"
+  },
+  "cuisine": {
+    "title": "Vårt kök",
+    "description": "En fin förening av fransk tradition och thailändska smaker, lagad på färska råvaror",
+    "french": "Franskt",
+    "frenchDesc": "Klassiska, eleganta tekniker",
+    "thai": "Thailändskt",
+    "thaiDesc": "Genuina och kryddiga smaker",
+    "fusion": "Fusion",
+    "fusionDesc": "Egna, överraskande skapelser",
+    "healthy": "Hälsosamt",
+    "healthyDesc": "Färska råvaror av hög kvalitet",
+    "dinner": "Middag",
+    "dinnerDesc": "En komplett gastronomisk upplevelse",
+    "brunch": "Brunch",
+    "brunchDesc": "Goda stunder på förmiddagen",
+    "drinks": "Drycker",
+    "drinksDesc": "Fina viner och kreativa cocktails",
+    "eyebrow": "Vårt kök"
+  },
+  "menuSection": {
+    "title": "Vår meny",
+    "description": "Upptäck våra skapelser, en alldeles särskild förening av franska och thailändska smaker",
+    "vegetarian": "Vegetariskt",
+    "spicy": "Starkt",
+    "noItems": "Det finns inga rätter i den här kategorin",
+    "preparing": "Den här menyn är under uppdatering",
+    "menuPreparing": "Menyn är under uppdatering",
+    "eyebrow": "Menyn",
+    "glutenFree": "Glutenfritt",
+    "seeFullMenu": "Se hela menyn"
+  },
+  "services": {
+    "title": "Vår service",
+    "fullBar": "Fullständig bar",
+    "beersWines": "Öl och vin",
+    "cardsAccepted": "Vi tar kort",
+    "highChairs": "Barnstolar",
+    "reservations": "Bordsbokning",
+    "alcoholServed": "Alkohol serveras",
+    "tableService": "Servering vid bordet",
+    "streetParking": "Parkering vid gatan",
+    "freeWifi": "Gratis wifi",
+    "vegetarian": "Vegetariskt",
+    "glutenFree": "Glutenfritt"
+  },
+  "hoursSection": {
+    "title": "Öppettider",
+    "eyebrow": "Öppettider"
+  },
+  "reservationForm": {
+    "title": "Bordsbokning",
+    "subtitle": "Boka ditt bord för en särskild kväll i Krabis djungel",
+    "comingSoonBadge": "Snart",
+    "comingSoonTitle": "Onlinebokningen öppnar mycket snart!",
+    "comingSoonText": "Vårt system för onlinebokning är tillgängligt inom ungefär en vecka. Tills dess når du oss direkt via telefon eller WhatsApp.",
+    "fullName": "Fullständigt namn *",
+    "phone": "Telefon *",
+    "email": "E-post *",
+    "date": "Datum *",
+    "time": "Tid *",
+    "selectTime": "Välj en tid",
+    "lunch": "Lunch",
+    "dinnerLabel": "Middag",
+    "partySize": "Antal gäster *",
+    "occasion": "Tillfälle",
+    "selectOptional": "Välj (valfritt)",
+    "birthday": "🎂 Födelsedag",
+    "romanticDinner": "💕 Romantisk middag",
+    "businessMeal": "💼 Affärsmiddag",
+    "celebration": "🎉 Firande",
+    "other": "✨ Annat",
+    "submit": "Skicka bokningsförfrågan",
+    "sending": "Skickar ...",
+    "required": "* Obligatoriska fält.",
+    "largeGroupWarning": "För fler än 10 gäster, skriv till oss på WhatsApp så att vi kan bekräfta att det finns plats.",
+    "successTitle": "Förfrågan mottagen",
+    "successMessage": "Vi har skickat ett e-postmeddelande till adressen du angav. Vårt team bekräftar ditt bord inom kort.",
+    "successNote": "Vill du ändra eller avboka, skriv till oss på WhatsApp.",
+    "newReservation": "Ny bokning",
+    "countryLabel": "Landskod",
+    "emailInvalid": "Ogiltig e-postadress. Kontrollera formatet (t.ex. anna@exempel.se).",
+    "phoneInvalid": "Ogiltigt nummer för det här landet. Kontrollera landskoden och numret.",
+    "marketingConsent": "Jag vill ta emot nyheter och erbjudanden från Gecko Cabane (högst 1 e-postmeddelande per månad). Se vår <link>integritetspolicy</link>.",
+    "privacyNote": "Dina uppgifter används bara för att hantera din bokning.",
+    "genericError": "Vi kunde inte skicka din förfrågan. Försök igen om en stund eller skriv till oss på WhatsApp.",
+    "networkError": "Anslutningen misslyckades. Kontrollera ditt nätverk och försök igen.",
+    "rateLimited": "För många förfrågningar från din anslutning. Skriv direkt till oss på WhatsApp så svarar vi snabbt.",
+    "rateLimitedWhatsapp": "Skriv till oss på WhatsApp",
+    "slotUnavailable": "Restaurangen är stängd vid den tiden (stängt på tisdagar). Välj ett annat datum eller en annan tid.",
+    "slotFull": "Den här tiden är fullbokad. Välj en annan tid eller skriv till oss på WhatsApp.",
+    "datePast": "Den tidpunkten har redan passerat. Välj ett senare datum eller en senare tid.",
+    "partySizeDecrease": "Färre gäster",
+    "partySizeIncrease": "Fler gäster",
+    "namePlaceholder": "Anna Svensson",
+    "emailPlaceholder": "anna@exempel.se",
+    "eyebrow": "Bordsbokning"
+  },
+  "contactSection": {
+    "title": "Hitta hit",
+    "addressTitle": "Adress",
+    "thailand": "Thailand",
+    "reservationTitle": "Bordsbokning",
+    "groupInfo": "För sällskap på fler än 10 personer, kontakta oss per telefon eller direkt på plats.",
+    "welcomeTitle": "Välkommen till djungeln!",
+    "welcomeText": "Vi tar gärna emot dig i vår cabana mitt i Krabi. En tropisk gastronomisk upplevelse väntar dig!",
+    "maxSeats": "Högst 40 platser",
+    "chefTeam": "Kocken Jariya och hennes team",
+    "cuisineType": "Fransk-thailändskt kök",
+    "viewOnMap": "Visa i Google Maps",
+    "viewMapAriaLabel": "Visa vår plats i Google Maps (öppnas i ny flik)",
+    "eyebrow": "Hitta hit",
+    "signAlt": "Gecko Cabanes upplysta skylt på kvällen, Krabi"
+  },
+  "footer": {
+    "restaurantInfo": "Information om restaurangen",
+    "subtitle": "Fransk-thailändsk restaurang",
+    "location": "Mitt i Krabis djungel",
+    "hoursTitle": "Öppettider",
+    "openHours": "Öppet kl. 12–22",
+    "closedDay": "Stängt på tisdagar",
+    "lastOrder": "Sista beställning: kl. 22",
+    "contactTitle": "Kontakt",
+    "rights": "Alla rättigheter förbehållna.",
+    "createdBy": "Skapad av",
+    "legalTitle": "Juridisk information",
+    "legalBusiness": "Registrering: DBD Thailand",
+    "legalVat": "Momsnr: undantagen (PP.30)",
+    "legalAlcohol": "Alkoholtillstånd: Excise Department",
+    "legalPdpa": "Skydd av personuppgifter (PDPA B.E. 2562)",
+    "legalNotice": "Gecko Cabane är en restaurangverksamhet registrerad i Thailand enligt Business Registration Act. Försäljning och konsumtion av alkohol regleras av thailändsk punktskattelagstiftning (Excise Act B.E. 2560). Personuppgifter som samlas in via webbplatsen behandlas enligt Thailands dataskyddslag (PDPA B.E. 2562). Enligt thailändska konsumentskyddslagen (B.E. 2522) inkluderar alla priser tillämpliga skatter. Frågor: geckocabanerestaurant@gmail.com.",
+    "guidesTitle": "Guider",
+    "navigateTitle": "Navigera"
+  },
+  "hours": {
+    "monday": "Måndag",
+    "tuesday": "Tisdag",
+    "wednesday": "Onsdag",
+    "thursday": "Torsdag",
+    "friday": "Fredag",
+    "saturday": "Lördag",
+    "sunday": "Söndag",
+    "closed": "Stängt",
+    "today": "Idag",
+    "openNow": "Öppet",
+    "closedNow": "Stängt",
+    "specialHours": "Kommande särskilda öppettider",
+    "lastOrder": "Sista beställning i köket",
+    "loading": "Laddar ..."
+  },
+  "social": {
+    "title": "De älskar oss",
+    "description": "Bli en del av vår gemenskap och se varför våra gäster gärna kommer tillbaka",
+    "tripAdvisorText": "Läs våra gästers recensioner på TripAdvisor och dela din upplevelse",
+    "facebookText": "Följ oss för de senaste nyheterna, särskilda kvällar och bilder på våra rätter",
+    "readReviews": "Läs recensioner",
+    "followUs": "Följ oss"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "sv": "Svenska",
+    "switchTo": "Byt till {language}",
+    "changeLanguage": "Byt språk"
+  },
+  "errors": {
+    "notFound": {
+      "code": "404",
+      "title": "Sidan hittades inte",
+      "subtitle": "Sidan finns inte eller har flyttats. Gå tillbaka till startsidan för att fortsätta.",
+      "backHome": "Tillbaka till startsidan",
+      "goMenu": "Se vår meny",
+      "signature": "🦎 Gecko Cabane — Krabi, Thailand"
+    },
+    "error": {
+      "code": "500",
+      "title": "Något gick fel",
+      "subtitle": "Något gick fel hos oss. Försök igen eller gå tillbaka till startsidan.",
+      "retry": "Försök igen",
+      "backHome": "Tillbaka till startsidan",
+      "signature": "🦎 Gecko Cabane — Krabi, Thailand"
+    }
+  },
+  "whatsapp": {
+    "ariaLabel": "Chatta med oss på WhatsApp",
+    "label": "Frågor? Skriv till oss",
+    "prefill": "Hej Gecko Cabane, jag skulle vilja boka ett bord."
+  },
+  "review": {
+    "metaTitle": "Lämna en recension",
+    "title": "Din åsikt betyder mycket för oss",
+    "intro": "Tack för att du åt hos oss. Har du en minut över hjälper en recension oss väldigt mycket.",
+    "google": "Recension på Google",
+    "tripadvisor": "Recension på TripAdvisor",
+    "newTab": "(öppnas i ny flik)",
+    "note": "Tack, det var ett riktigt nöje att få ta emot dig.",
+    "back": "Tillbaka till webbplatsen"
+  },
+  "announcement": {
+    "from": "Från {date}",
+    "to": "till {date}",
+    "close": "Stäng meddelandet"
+  },
+  "gallery": {
+    "eyebrow": "Våra skapelser",
+    "title": "Kocken Jariyas bord",
+    "alt1": "Lammlägg i massamancurry med ris",
+    "alt2": "Boeuf bourguignon med potatismos och lantbröd",
+    "alt3": "Frigående kycklingbröst i gräddsås",
+    "alt4": "Pumpavelouté med grädde",
+    "tagline": "Fint fransk-thailändskt kök · Kocken Jariya · Krabi, Thailand"
+  },
+  "meta": {
+    "homeTitle": "Gecko Cabane – fransk-thailändsk restaurang i Krabi",
+    "homeDescription": "Kocken Jariyas fransk-thailändska kök i Krabi Town, Maharat Road: 40 platser, franska och thailändska rätter. Boka bord online på under en minut.",
+    "schemaDescription": "Fin fransk-thailändsk restaurang i Krabi Town, Thailand: fransk-thailändskt fusionskök av kocken Jariya, 40 platser.",
+    "menuTitle": "Meny – Gecko Cabane, Krabi Town",
+    "menuDescription": "Menyn på Gecko Cabane i Krabi Town: franska och thailändska rätter av kocken Jariya, priser i baht, vegetariska och starka rätter tydligt markerade.",
+    "frenchRestaurantTitle": "Fransk restaurang i Krabi Town – Gecko Cabane",
+    "frenchRestaurantDescription": "Äkta fransk husmanskost av ett fransk-thailändskt par på Maharat Road i Krabi Town: boeuf bourguignon, kyckling i gräddsås och curry. Boka online.",
+    "romanticDinnerTitle": "Romantisk middag i Krabi Town – Gecko Cabane",
+    "romanticDinnerDescription": "Ett lugnt bord för två på Maharat Road i Krabi Town: franskt kök med thailändska favoriter i en sal med 40 platser. Boka online och ange tillfälle.",
+    "whereToEatTitle": "Var man äter i Krabi Town – Gecko Cabane",
+    "whereToEatDescription": "En lokal guide till maten i Krabi Town: nattmarknaden, Walking Street och floden, vad du bör prova och när du ska gå, plus middag på Gecko Cabane."
+  },
+  "frenchRestaurant": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Fransk restaurang i Krabi Town",
+    "subtitle": "Äkta fransk matlagning av ett fransk-thailändskt par, på Maharat Road.",
+    "ctaBook": "Boka bord",
+    "ctaMenu": "Se menyn",
+    "heroAlt": "Ingången till restaurang Gecko Cabane på Maharat Road i Krabi Town",
+    "introTitle": "Fransk mat, lagad med omsorg i Krabi",
+    "intro1": "Gecko Cabane är en liten fransk restaurang i Krabi Town som drivs av ett fransk-thailändskt par. Kocken Jariya lagar den franska husmanskostens klassiker så som de ska smaka: långsamt och generöst.",
+    "intro2": "Med bara 40 platser förblir matsalen intim. På tavlan hittar du franska rätter, några thailändska favoriter från kockens eget kök och en kort lista med viner och öl till maten.",
+    "dishesTitle": "Våra signaturrätter",
+    "bourguignon": {
+      "name": "Boeuf bourguignon",
+      "text": "Nötkött som sakta fått puttra i rödvin med morötter och lök, precis som man gör det i Bourgogne.",
+      "alt": "Boeuf bourguignon serverad på Gecko Cabane"
+    },
+    "veloute": {
+      "name": "Velouté",
+      "text": "En len, sammetslen soppa lagad på färska råvaror, serverad varm och avrundad med grädde.",
+      "alt": "En skål velouté serverad på Gecko Cabane"
+    },
+    "pouletCreme": {
+      "name": "Kyckling i gräddsås",
+      "text": "Mör kyckling i en fyllig, krämig sås, en fransk komforträtt.",
+      "alt": "Kyckling i gräddsås serverad på Gecko Cabane"
+    },
+    "massaman": {
+      "name": "Massamancurry",
+      "text": "Från den thailändska sidan av menyn: en len och doftande curry lagad av kocken Jariya.",
+      "alt": "Massamancurry serverad på Gecko Cabane"
+    },
+    "winesTitle": "Vin och belgiskt öl",
+    "winesText": "Till maten serverar vi franska viner och ett urval belgiska ölsorter.",
+    "winesLink": "Se våra viner och öl på menyn",
+    "storyTitle": "Ett fransk-thailändskt pars restaurang",
+    "story1": "Gecko Cabane öppnades av kocken Jariya och hennes franske man. Hon står för maten, han för det franska bordet, och tillsammans tar de emot gäster varje kväll.",
+    "story2": "Idén är enkel: laga de rätter de älskar, med omsorg, och dela dem med resenärer och lokalbefolkning i Krabi Town.",
+    "chefAlt": "Kocken Jariya på Gecko Cabane, Krabi Town",
+    "findTitle": "Hitta oss i Krabi Town",
+    "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
+    "hoursTitle": "Öppettider",
+    "hoursLine": "{days}: {opens}–{closes}",
+    "closedNote": "Stängt på tisdagar.",
+    "directionsLink": "Visa vägen",
+    "phoneLabel": "Ring oss på +66 81 958 5945",
+    "closingTitle": "Välkommen på middag i Krabi Town"
+  },
+  "menuPage": {
+    "eyebrow": "Gecko Cabane · Krabi Town",
+    "title": "Vår meny",
+    "intro": "Franskt och thailändskt kök av kocken Jariya. Priser i thailändska baht. Rätterna är beskrivna på franska.",
+    "legendTitle": "Teckenförklaring",
+    "allergyNote": "Allergier: fråga vår personal om råd. Glutenfria rätter finns på begäran.",
+    "allergensPrefix": "Allergener:",
+    "anchorNavLabel": "Menyavdelningar",
+    "backToTop": "Tillbaka till toppen",
+    "emptyTitle": "Menyn kommer snart",
+    "emptyBody": "Vår meny uppdateras. Ring oss på +66 81 958 5945 eller boka online."
+  },
+  "seoLanding": {
+    "discoverTitle": "Upptäck mer",
+    "guideEyebrow": "Guide",
+    "readGuide": "Läs guiden",
+    "seeMenu": "Se menyn",
+    "bookTable": "Boka bord"
+  },
+  "nav": {
+    "frenchRestaurant": "Fransk restaurang",
+    "frenchRestaurantHint": "Fransk husmanskost av ett fransk-thailändskt par, med några thailändska favoriter.",
+    "romanticDinner": "Romantisk middag",
+    "romanticDinnerHint": "En liten, lugn matsal med fransk-thailändskt kök, gjord för en kväll för två.",
+    "whereToEat": "Var man äter i Krabi Town",
+    "whereToEatHint": "Dit vi skulle skicka en vän på middag i Krabi Town, och vad du kan vänta dig.",
+    "gettingHere": "Hit från Ao Nang",
+    "gettingHereHint": "Så tar du dig hit från Ao Nang, med ungefärliga restider som du bör bekräfta på plats.",
+    "wineBeer": "Vin och belgiskt öl",
+    "wineBeerHint": "Den korta listan med viner och belgiska öl som passar till menyn."
+  },
+  "romanticDinner": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Romantisk middag i Krabi Town",
+    "subtitle": "En liten matsal, ett fransk-thailändskt kök och en lugn kväll för två.",
+    "heroAlt": "Gecko Cabanes skylt på Maharat Road i Krabi Town",
+    "sections": {
+      "ambiance": {
+        "title": "Ett lugnt rum för två",
+        "p1": "Gecko Cabane har plats för högst 40 gäster, så matsalen förblir lugn och samtalet flyter lätt. Restaurangen drivs av ett fransk-thailändskt par som själva tar emot dig.",
+        "p2": "Här finns ingen show och ingen brådska. Du kommer för maten, ett glas vin eller ett belgiskt öl och tid att prata. Vi har stängt på tisdagar, och köket tar emot beställningar till klockan 22."
+      },
+      "table": {
+        "title": "Det här får du äta",
+        "alt": "Boeuf bourguignon serverad på Gecko Cabane",
+        "p1": "Menyn består av fransk husmanskost, till exempel boeuf bourguignon som sakta fått koka i rödvin, och kyckling i gräddsås. Vid sidan av finns några thailändska rätter av kocken, som en len massamancurry.",
+        "p2": "En kort lista med viner och belgiska öl hör till måltiden. Fråga oss gärna vad som passar till dina rätter, vi hjälper dig gärna att välja."
+      },
+      "chef": {
+        "title": "Lagat av kocken Jariya",
+        "alt": "Kocken Jariya på Gecko Cabane i Krabi Town",
+        "p1": "Kocken Jariya leder köket, och hennes franske man tar hand om matsalen. Tillsammans har de byggt en liten restaurang där de själva skulle vilja äta.",
+        "p2": "Är du nyfiken på en rätt, fråga bara. De berättar gärna vad den innehåller och hur den lagas."
+      },
+      "occasion": {
+        "title": "Firar du något?",
+        "p1": "Bokningsformuläret har ett fält som heter \"Tillfälle\". Gäller det en bröllopsdag, en födelsedag eller en första gemensam resa, skriv det där så vet vi det när du kommer.",
+        "link": "Boka bord och ange tillfälle"
+      }
+    },
+    "closingTitle": "Välkommen på middag i Krabi Town"
+  },
+  "whereToEat": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Var man äter i Krabi Town",
+    "subtitle": "En kort guide till nattmarknaden, Walking Street och floden, och var du kan slå dig ner för middag.",
+    "heroAlt": "Ingången till Gecko Cabane på Maharat Road i Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Att äta gott i en liten stad",
+        "p1": "Krabi Town är kompakt, så du kan äta dig runt i staden till fots. Det mesta som resenärer uppskattar här är enkelt och lokalt: streetfood på en marknad, en fiskmåltid vid vattnet, ett sött tilltugg på promenaden.",
+        "p2": "Den här sidan är ingen topplista. Den beskriver platser och vanor som gör en kväll i stan enkel, så att du kan planera den på ditt eget sätt."
+      },
+      "areas": {
+        "title": "Tre ställen att börja på",
+        "p1": "Det här är områden snarare än adresser. Gå runt, titta på vad som lagas och välj det som lockar dig.",
+        "cards": {
+          "c1": {
+            "title": "Nattmarknaden",
+            "text": "Stånd med grillspett, nudlar, friterade tilltugg, frukt och thailändskt godis. Kom hungrig, dela några tallrikar och betala efter hand."
+          },
+          "c2": {
+            "title": "Walking Street",
+            "text": "Gågatan är oftast som livligast på helgkvällar, med matstånd, små butiker och musik. Kolla på plats vilka dagar den hålls."
+          },
+          "c3": {
+            "title": "Flodpromenaden",
+            "text": "Ett lugnt ställe för en kvällspromenad i skymningen, med fisk och thailändska rätter serverade längs vattnet. Ett bra sätt att avsluta en dag med sevärdheter."
+          }
+        }
+      },
+      "when": {
+        "title": "Vad du bör prova och när du ska gå",
+        "p1": "Leta efter grillad fisk och skaldjur, wokade rätter, grön och röd curry, som tam och mango med klibbigt ris. Marknaderna är som livligast tidigt på kvällen, och efter solnedgången är det oftast svalare och lugnare.",
+        "p2": "Öppettider och öppna dagar ändras med säsong och väder, så kolla på plats samma dag. Ta med småsedlar och lite tålamod, och be dem att utelämna chilin om du föredrar mild mat."
+      },
+      "dinner": {
+        "title": "När du vill sitta ner till middag",
+        "alt": "En massamancurry serverad på Gecko Cabane",
+        "p1": "Efter marknaden kräver vissa kvällar ett bord, en meny och ett lugnt rum. Gecko Cabane är en restaurang med 40 platser på Maharat Road som serverar franska och thailändska rätter, lagade av kocken Jariya.",
+        "p2": "Vi har stängt på tisdagar och köket tar emot beställningar till klockan 22. Du kan boka bord online på under en minut.",
+        "link": "Boka bord till middag"
+      }
+    },
+    "closingTitle": "Planera din kväll i Krabi Town"
+  },
+  "guides": {
+    "toggle": "Guider",
+    "ariaLabel": "Krabi-guider"
+  }
+}
