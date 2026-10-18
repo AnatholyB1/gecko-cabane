@@ -47,7 +47,7 @@ Aucune correction n'a été faite : chaque ligne attend l'accord du propriétair
 
 | # | Surface | Écart | Correction proposée | Accord propriétaire | Fait |
 |---|---------|-------|---------------------|---------------------|------|
-| 1 | Horaires du mercredi | Site et TripAdvisor : 12:00-22:00. Google (via Wanderlog) et Facebook : 17:00-22:00. | Le propriétaire dit quel horaire est réel ; aligner site (admin), Google, TripAdvisor et Facebook. | en attente | en attente |
+| 1 | Horaires du mercredi | Site et TripAdvisor : 12:00-22:00. Google (via Wanderlog) et Facebook : 17:00-22:00. | **Horaire réel confirmé par le propriétaire (2026-10-18) : 12:00-22:00.** Site et TripAdvisor déjà conformes ; corriger Google (mercredi) et la publication Facebook du 1 oct. | horaire confirmé 2026-10-18 ; modification Google/Facebook : en attente d'un OK explicite | en attente |
 | 2 | Trip.com | Fiche marquée « Temporarily closed, opening hours to be confirmed / Business suspended ». | Demander la réouverture de la fiche (Trip.com Merchant) ; ajouter le site web. | en attente | en attente |
 | 3 | Google Business Profile | Adresse sans « Maharat Road » et « Ruam Jit » en deux mots ; catégorie principale « Thai restaurant » (OPS-01 prévoyait « French restaurant »). | Aligner l'adresse sur le bloc de référence ; catégories de la phase 4 (D-20). | en attente | en attente |
 | 4 | TripAdvisor | Nom « Gecko Cabane Restaurant @krabi » (suffixe). Cible du lien « Website » non vérifiée. Sur l'accueil, la carte TripAdvisor affiche cinq étoiles statiques sans donnée. | Retirer le suffixe si TripAdvisor l'accepte ; fixer le lien sur https://geckocabanerestaurant.com ; étoiles : voir README. | en attente | en attente |
