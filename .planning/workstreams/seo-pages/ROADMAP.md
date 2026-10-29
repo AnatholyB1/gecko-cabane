@@ -24,7 +24,7 @@ Workstream parallèle extrait du ROADMAP principal. Phases 1 à 4 terminées (vo
   4. TripAdvisor est à jour avec le lien du site vers `.com`, et nom, adresse, téléphone sont identiques sur toutes les plateformes
   5. Posts Google, modèles de réponse aux avis, liste de blogs et dossier concierge sont prêts, rien n'est envoyé sans accord du propriétaire
 
-**Plans:** 13/15 plans executed (06-10 et 06-15 bloqués sur actions humaines)
+**Plans:** 14/15 plans executed (06-10 bloqué sur une action humaine)
 
 Plans:
 - [x] 06-01-PLAN.md — Slug registry, pathnames routing, noindex gate; FR landing published at /fr/restaurant-francais-krabi (W1)
@@ -41,11 +41,11 @@ Plans:
 - [x] 06-12-PLAN.md — Owner gates: transport figures and wine page publication (checkpoints) (W7)
 - [x] 06-13-PLAN.md — DE publication after written validation (checkpoint) (W8)
 - [x] 06-14-PLAN.md — SV draft, inactive SV emails, SV review documents (W9)
-- [ ] 06-15-PLAN.md — SV publication after written validation (checkpoint) (W10)
+- [x] 06-15-PLAN.md — SV publication after written validation (checkpoint) (W10)
 **UI hint**: yes
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 6. Plan de pages SEO, allemand/suédois et présence externe | 13/15 | Blocked on owner actions (06-10, 06-15) |  |
+| 6. Plan de pages SEO, allemand/suédois et présence externe | 14/15 | Blocked on owner action (06-10 task 3) |  |

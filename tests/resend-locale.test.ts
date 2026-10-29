@@ -81,15 +81,15 @@ describe('German email copy (inactive until DE publication, D-09)', () => {
     const rev = reviewInvitationEmail('de', 'https://example.com/review?rid=x', 'invite', 'Alice')
     expect(rev.subject).not.toBe(reviewInvitationEmail('en', 'https://example.com/review?rid=x', 'invite', 'Alice').subject)
   })
-  it('EMAIL_LOCALES whitelist lists de, sv stays on English emails', () => {
-    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en', 'de'])
+  it('EMAIL_LOCALES whitelist lists de and sv (both owner-validated)', () => {
+    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en', 'de', 'sv'])
     expect(emailLocaleFor('de')).toBe('de')
     expect(emailLocaleFor('fr')).toBe('fr')
-    expect(emailLocaleFor('sv')).toBe('en')
+    expect(emailLocaleFor('sv')).toBe('sv')
   })
 })
 
-describe('Swedish email copy (inactive until SV publication, D-09)', () => {
+describe('Swedish email copy (active since owner validation of 2026-10-29, plan 15)', () => {
   it('has COPY.sv and REVIEW_COPY.sv entries', () => {
     const pending = customerPendingEmail(r, 'sv')
     expect(pending.html).toContain('lang="sv"')
@@ -98,8 +98,8 @@ describe('Swedish email copy (inactive until SV publication, D-09)', () => {
     const rev = reviewInvitationEmail('sv', url, 'invite', 'Alice')
     expect(rev.subject).not.toBe(reviewInvitationEmail('en', url, 'invite', 'Alice').subject)
   })
-  it('sv is not in EMAIL_LOCALES: sv customers keep receiving English emails', () => {
-    expect([...EMAIL_LOCALES] as string[]).not.toContain('sv')
-    expect(emailLocaleFor('sv')).toBe('en')
+  it('sv is in EMAIL_LOCALES: sv customers receive Swedish emails', () => {
+    expect([...EMAIL_LOCALES] as string[]).toContain('sv')
+    expect(emailLocaleFor('sv')).toBe('sv')
   })
 })

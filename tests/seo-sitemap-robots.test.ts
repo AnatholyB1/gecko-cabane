@@ -33,11 +33,15 @@ describe('sitemap', () => {
     expect(all.join(' ')).not.toContain('/fr/french-restaurant-krabi')
   })
 
-  it('uses only the canonical domain and no sv locale', () => {
+  it('uses only the canonical domain and sv only for pages published in sv', () => {
+    const svUrls = new Set(
+      PUBLISHED_PAGES.filter((p) => p.locales.includes('sv')).map((p) => localeUrl('sv', p.path))
+    )
     const all: string[] = entries.flatMap((e) => [e.url, ...Object.values(e.alternates?.languages ?? {}).filter((x): x is string => typeof x === 'string')])
     for (const u of all) {
       expect(u.startsWith('https://geckocabanerestaurant.com/')).toBe(true)
-      expect(u).not.toMatch(/\/sv|gecko-cabane\.com/)
+      expect(u).not.toMatch(/gecko-cabane\.com/)
+      if (/\/sv(\/|$)/.test(u)) expect(svUrls.has(u), u).toBe(true)
     }
   })
 

@@ -1,7 +1,7 @@
 # Relecture SV — emails clients
 
 Page : emails (src/utils/resend.ts : COPY.sv et REVIEW_COPY.sv)
-Statut : à relire (brouillon rédigé par Claude, non utilisé)
+Statut : validé par le propriétaire le 2026-10-29 (sans relecteur natif identifié)
 
 Ces textes existent dans le code mais ne sont pas actifs : tant que le suédois n'est pas publié (plan 15), les clients de langue suédoise reçoivent des emails en anglais (D-09).
 
@@ -38,4 +38,4 @@ Instructions pour le relecteur :
 
 ## Validation écrite
 
-- [ ] Validé par écrit par : ____  Date : ____  Canal de la validation : ____
+- [x] Validé par écrit par : propriétaire (Gecko Cabane), aucun relecteur natif suédois identifié, aucune correction fournie  Date : 2026-10-29  Canal de la validation : conversation Claude Code (message « je valide les documents suédois »)
