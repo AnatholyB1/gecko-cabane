@@ -10,7 +10,7 @@ import {
   type ReservationErrorCode,
 } from '@/utils/reservation-schema'
 import { emailLocaleFor } from '@/utils/review-invitations'
-import { checkSlot,type SettingsMap } from '@/utils/reservation-rules'
+import { checkSlot, type SettingsMap } from '@/utils/reservation-rules'
 import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
 import { checkReservationRateLimits, getClientIp } from '@/utils/rate-limit'
 import {
