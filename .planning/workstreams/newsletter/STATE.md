@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 07
-current_plan: 1
-status: executing
-stopped_at: Phase 7 UI-SPEC approved
-last_updated: "2026-10-17T17:29:36.032Z"
-last_activity: 2026-10-17
+current_plan: 8
+status: blocked-on-owner
+stopped_at: "07-02 task 1 done; 07-02 t2-3, 07-10, 07-11 blocked on owner content/approvals"
+last_updated: "2026-10-29T00:00:00.000Z"
+last_activity: 2026-10-29
 progress:
   total_phases: 1
   completed_phases: 0
@@ -22,7 +22,7 @@ progress:
 
 Phase: 07 (Newsletter) — EXECUTING
 Plan: 8 of 11
-**Status:** Ready to execute
+**Status:** Blocked on owner (content, approvals, Brevo account)
 **Current Phase:** 07
 **Last Activity:** 2026-10-17
 **Last Activity Description:** Phase 07 execution started
@@ -34,5 +34,5 @@ Plan: 8 of 11
 
 ## Session Continuity
 
-**Stopped At:** Phase 7 UI-SPEC approved
+**Stopped At:** gate green (587 tests); see phases/07-newsletter/OWNER-CHECKLIST.md and 07-REPORT.md
 **Resume File:** None
