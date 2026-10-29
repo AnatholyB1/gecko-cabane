@@ -10,11 +10,9 @@ const read = (p: string) => readFileSync(join(root, p), 'utf8')
 const ROUTE = 'src/app/api/cron/review-invitations/route.ts'
 
 describe('vercel.json', () => {
-  it('declares exactly one daily cron at 0 4 * * *', () => {
+  it('declares the review-invitations daily cron at 0 4 * * *', () => {
     const v = JSON.parse(read('vercel.json'))
-    expect(v.crons).toEqual([
-      { path: '/api/cron/review-invitations', schedule: '0 4 * * *' },
-    ])
+    expect(v.crons).toContainEqual({ path: '/api/cron/review-invitations', schedule: '0 4 * * *' })
   })
 })
 

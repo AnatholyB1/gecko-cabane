@@ -41,3 +41,17 @@ Statut : DE relu et validé le 2026-10-17 (réponse du propriétaire : « every 
 
 - Scanner une épreuve imprimée ou affichée à l'écran avec un iPhone et un Android avant de lancer l'impression.
 - Aucune contrepartie ne peut être proposée en échange d'un avis (D-18).
+
+## Supports newsletter (phase 7)
+
+Générés par `scripts/generate-newsletter-print.mjs` (hors ligne). Le script refuse de tourner si le guide ou la recette sont vides.
+
+| Fichier | Contenu |
+|---------|---------|
+| `newsletter-addition-insert.pdf` | Insert d'addition 100 x 60 mm, FR + EN, QR vers `https://geckocabanerestaurant.com/newsletter?src=qr`. Aucun mot sur les avis : support séparé de l'insert d'avis. |
+| `wifi-table-card.pdf` | Carte WiFi A6 portrait, QR vers `https://geckocabanerestaurant.com/wifi?src=wifi`. Le mot de passe n'est jamais imprimé : il peut changer sans réimpression. |
+| `newsletter-qr.svg`, `wifi-qr.svg` | QR vectoriels (mêmes réglages que l'avis). |
+
+Les PDF du guide et de la recette sont dans `public/` (`guide-gourmand-krabi-town-{fr,en}.pdf`, `recette-curry-crabe-{fr,en}.pdf`) ; contenu et sources dans `docs/newsletter/` (`SOURCES.md`). Les versions DE et SV attendent la relecture de la phase 6. Les bandes image des emails sont générées par `scripts/generate-email-bands.mjs` dans `public/email/`.
+
+Régénérer : `node scripts/generate-newsletter-print.mjs`. Scanner une épreuve avec un iPhone et un Android avant tirage.

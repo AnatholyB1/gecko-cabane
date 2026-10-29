@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [{ source: '/', destination: '/fr', permanent: true }];
   },
+  // WiFi credentials are rendered per request: never cache (T-07-05-03).
+  async headers() {
+    return [
+      {
+        source: '/:locale(fr|en)/wifi',
+        headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
+      },
+    ];
+  },
   // Plausible first-party proxy (D-02). Keyed on the same env var as PlausibleScript.
   // Rewrites are baked at build time on Vercel: set the env, then redeploy.
   // /gcm is excluded from the middleware matcher like /monitoring.

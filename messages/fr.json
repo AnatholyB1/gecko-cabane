@@ -285,6 +285,17 @@
       "item2": "vous contacter à propos de cette réservation ;",
       "item3": "vous envoyer notre newsletter, uniquement si vous avez coché la case de consentement. Nous ne vendons jamais vos données."
     },
+    "newsletter": {
+      "title": "Newsletter",
+      "body": "Voici comment fonctionne notre newsletter et ce que nous retenons d'une inscription :",
+      "item1": "vous pouvez vous inscrire depuis le pied de page du site, la fenêtre d'inscription, la page du QR code de l'addition, la page WiFi ou la case du formulaire de réservation ;",
+      "item2": "double inscription : rien n'est envoyé avant que vous cliquiez sur le lien de confirmation. Nous conservons la date, la source, la langue et la version du texte de consentement (newsletter-2026-10-17) ;",
+      "item3": "Resend (emails transactionnels et newsletter) traite votre adresse pour nous, uniquement pour l'envoi ;",
+      "item4": "pour adapter nos messages, nous retenons votre langue, votre pays, votre statut de résident de Krabi (case cochée ou numéro thaïlandais) et la date de votre dernière visite. Le pays vient de votre numéro de téléphone si vous avez réservé, sinon d'une localisation approximative à partir du réseau, pour les inscriptions faites sur le site uniquement : seul le pays est retenu et l'adresse IP n'est pas conservée. Les inscriptions faites au restaurant depuis le QR code de l'addition ou la page WiFi n'utilisent pas la localisation réseau, car elle indiquerait toujours la Thaïlande ;",
+      "item5": "la fenêtre d'inscription mémorise dans votre navigateur, pendant 90 jours, le fait qu'elle a été affichée (sans identifiant) ;",
+      "item6": "au plus une newsletter par mois en dehors de l'email de bienvenue et des emails après la visite. Chaque email contient un lien de désinscription, et la désinscription est enregistrée immédiatement ;",
+      "item7": "base légale : votre consentement, conformément au PDPA B.E. 2562 et au RGPD. Vous pouvez le retirer à tout moment."
+    },
     "rights": {
       "title": "Base légale et vos droits",
       "body": "Nous traitons votre réservation pour exécuter votre demande, et la newsletter sur la base de votre consentement. Conformément au Personal Data Protection Act thaïlandais (PDPA B.E. 2562) et au RGPD, vous disposez des droits suivants :",
@@ -402,6 +413,76 @@
     "backToTop": "Haut de page",
     "emptyTitle": "La carte arrive bientôt",
     "emptyBody": "Notre carte est en cours de mise à jour. Appelez-nous au +66 81 958 5945 ou réservez en ligne."
+  },
+  "newsletter": {
+    "form": {
+      "emailLabel": "Adresse e-mail",
+      "consent": "J'accepte de recevoir les actualités et offres de Gecko Cabane par e-mail. Je peux me désinscrire à tout moment. Voir notre <link>politique de confidentialité</link> (PDPA B.E. 2562, RGPD).",
+      "resident": "J'habite à Krabi",
+      "submit": "Recevoir la newsletter",
+      "submitRecipe": "Recevoir la recette",
+      "submitting": "Envoi...",
+      "successTitle": "Consultez votre boîte mail",
+      "successBody": "Nous vous avons envoyé un e-mail. Cliquez sur le bouton qu'il contient pour confirmer votre inscription. Pensez à vérifier vos courriers indésirables.",
+      "errorEmail": "Cette adresse e-mail ne semble pas valide. Vérifiez-la et réessayez.",
+      "errorConsent": "Cochez la case pour accepter de recevoir nos e-mails.",
+      "errorServer": "L'inscription a échoué. Réessayez dans un instant ou écrivez-nous par WhatsApp.",
+      "errorRateLimit": "Trop de tentatives. Réessayez dans quelques minutes."
+    },
+    "footer": {
+      "title": "Restez au courant de la table",
+      "pitch": "Une lettre par mois au plus : nouveautés de la carte, saisons, histoires de la cuisine."
+    },
+    "popup": {
+      "title": "Avant de partir : le guide gourmand de Krabi",
+      "body": "Inscrivez-vous et recevez nos adresses préférées après confirmation de votre e-mail.",
+      "close": "Fermer",
+      "regionLabel": "Inscription à la newsletter"
+    },
+    "page": {
+      "metaTitle": "Recette du curry de crabe",
+      "title": "Notre recette de curry de crabe",
+      "body": "Laissez-nous votre e-mail : nous vous envoyons la recette dès que vous avez confirmé votre inscription.",
+      "teaser": "La recette arrive par e-mail après confirmation de votre adresse."
+    },
+    "confirm": {
+      "metaTitle": "Confirmer votre inscription",
+      "title": "Confirmer votre inscription",
+      "button": "Confirmer mon inscription",
+      "confirming": "Confirmation...",
+      "success": "Merci, votre inscription est confirmée.",
+      "already": "Votre inscription était déjà confirmée. Merci.",
+      "recipeCta": "Obtenir la recette du curry de crabe",
+      "guideCta": "Télécharger le guide gourmand",
+      "back": "Retour au site",
+      "invalid": "Ce lien n'est plus valide. Inscrivez-vous de nouveau depuis le bas de la page d'accueil.",
+      "invalidCta": "S'inscrire depuis la page d'accueil",
+      "error": "L'inscription a échoué. Réessayez dans un instant ou écrivez-nous par WhatsApp."
+    },
+    "unsubscribe": {
+      "metaTitle": "Se désinscrire",
+      "title": "Se désinscrire",
+      "button": "Me désinscrire",
+      "unsubscribing": "Désinscription...",
+      "intro": "Adresse concernée : {email}",
+      "success": "Vous êtes désinscrit(e). Vous ne recevrez plus d'e-mails de notre part, conformément au PDPA B.E. 2562 et au RGPD.",
+      "legal": "Vos données sont traitées conformément au PDPA B.E. 2562 et au RGPD.",
+      "resubscribe": "Vous avez changé d'avis ? Réinscrivez-vous",
+      "invalid": "Ce lien n'est pas valide. Écrivez-nous pour vous désinscrire : {email}",
+      "error": "La désinscription a échoué. Réessayez dans un instant ou écrivez-nous par WhatsApp."
+    }
+  },
+  "wifi": {
+    "metaTitle": "WiFi",
+    "title": "WiFi du restaurant",
+    "network": "Réseau",
+    "password": "Mot de passe",
+    "copy": "Copier le mot de passe",
+    "copied": "Copié",
+    "unavailableTitle": "Mot de passe indisponible",
+    "unavailableBody": "Demandez le mot de passe WiFi à un membre de l'équipe.",
+    "optionalTitle": "Recevez nos nouvelles (facultatif)",
+    "optionalBody": "Pas besoin de vous inscrire pour utiliser le WiFi."
   },
   "socialProof": {
     "eyebrow": "Ils nous recommandent",

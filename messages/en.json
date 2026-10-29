@@ -285,6 +285,17 @@
       "item2": "contact you about that reservation;",
       "item3": "send you our newsletter, only if you ticked the consent box. We never sell your data."
     },
+    "newsletter": {
+      "title": "Newsletter",
+      "body": "Here is how our newsletter works and what we keep when you subscribe:",
+      "item1": "you can subscribe from the website footer, the pop-up, the bill QR code page, the WiFi page or the box on the reservation form;",
+      "item2": "double opt-in: nothing is sent until you click the confirmation link. We keep the date, source, language and version of the consent text (newsletter-2026-10-17);",
+      "item3": "Resend (transactional emails and newsletter) processes your address on our behalf, only to send emails;",
+      "item4": "to tailor our messages, we keep your language, your country, whether you live in Krabi (box ticked or Thai number) and the date of your last visit. The country comes from your phone number if you booked, otherwise from an approximate location based on the network, for sign-ups made on the website only: only the country is kept and the IP address is not stored. Sign-ups made at the restaurant from the bill QR code or the WiFi page do not use network location, because it would always show Thailand;",
+      "item5": "the pop-up remembers in your browser for 90 days that it was shown (no identifier);",
+      "item6": "at most one newsletter a month, apart from the welcome email and the post-visit emails. Every email has an unsubscribe link, and unsubscribing is recorded immediately;",
+      "item7": "legal basis: your consent, under PDPA B.E. 2562 and the GDPR. You can withdraw it at any time."
+    },
     "rights": {
       "title": "Legal basis and your rights",
       "body": "We handle your reservation to carry out your request, and send the newsletter based on your consent. Under Thailand's Personal Data Protection Act (PDPA B.E. 2562) and the GDPR, you have the right to:",
@@ -406,6 +417,76 @@
     "backToTop": "Back to top",
     "emptyTitle": "The menu is coming soon",
     "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
+  },
+  "newsletter": {
+    "form": {
+      "emailLabel": "Email address",
+      "consent": "I agree to receive news and offers from Gecko Cabane by email. I can unsubscribe at any time. See our <link>privacy policy</link> (PDPA B.E. 2562, GDPR).",
+      "resident": "I live in Krabi",
+      "submit": "Subscribe to the newsletter",
+      "submitRecipe": "Get the recipe",
+      "submitting": "Sending...",
+      "successTitle": "Check your inbox",
+      "successBody": "We have sent you an email. Click the button inside to confirm your subscription. Please check your spam folder too.",
+      "errorEmail": "This email address doesn't look valid. Check it and try again.",
+      "errorConsent": "Tick the box to agree to receive our emails.",
+      "errorServer": "Sign-up failed. Please try again in a moment or message us on WhatsApp.",
+      "errorRateLimit": "Too many attempts. Please try again in a few minutes."
+    },
+    "footer": {
+      "title": "Stay in touch with the kitchen",
+      "pitch": "At most one letter a month: menu news, seasons, stories from the kitchen."
+    },
+    "popup": {
+      "title": "Before you go: our Krabi food guide",
+      "body": "Subscribe and receive our favourite spots once you confirm your email.",
+      "close": "Close",
+      "regionLabel": "Newsletter sign-up"
+    },
+    "page": {
+      "metaTitle": "Crab curry recipe",
+      "title": "Our crab curry recipe",
+      "body": "Leave us your email and we will send you the recipe as soon as you confirm your subscription.",
+      "teaser": "The recipe arrives by email once you confirm your address."
+    },
+    "confirm": {
+      "metaTitle": "Confirm your subscription",
+      "title": "Confirm your subscription",
+      "button": "Confirm my subscription",
+      "confirming": "Confirming...",
+      "success": "Thank you, your subscription is confirmed.",
+      "already": "Your subscription was already confirmed. Thank you.",
+      "recipeCta": "Get the crab curry recipe",
+      "guideCta": "Download the food guide",
+      "back": "Back to the site",
+      "invalid": "This link is no longer valid. Please sign up again from the bottom of the home page.",
+      "invalidCta": "Sign up from the home page",
+      "error": "Sign-up failed. Please try again in a moment or message us on WhatsApp."
+    },
+    "unsubscribe": {
+      "metaTitle": "Unsubscribe",
+      "title": "Unsubscribe",
+      "button": "Unsubscribe me",
+      "unsubscribing": "Unsubscribing...",
+      "intro": "Address: {email}",
+      "success": "You are unsubscribed. You will no longer receive emails from us, in line with PDPA B.E. 2562 and GDPR.",
+      "legal": "Your data is handled in line with PDPA B.E. 2562 and GDPR.",
+      "resubscribe": "Changed your mind? Subscribe again",
+      "invalid": "This link is not valid. Email us to unsubscribe: {email}",
+      "error": "Unsubscribing failed. Please try again in a moment or message us on WhatsApp."
+    }
+  },
+  "wifi": {
+    "metaTitle": "WiFi",
+    "title": "Restaurant WiFi",
+    "network": "Network",
+    "password": "Password",
+    "copy": "Copy password",
+    "copied": "Copied",
+    "unavailableTitle": "Password unavailable",
+    "unavailableBody": "Please ask a member of staff for the WiFi password.",
+    "optionalTitle": "Get our news (optional)",
+    "optionalBody": "You do not need to subscribe to use the WiFi."
   },
   "socialProof": {
     "eyebrow": "Guests recommend us",

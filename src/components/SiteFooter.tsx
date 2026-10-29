@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import NewsletterFooterSection from '@/components/NewsletterFooterSection'
 import NextLink from 'next/link'
 import { guidesFor, toSeoLocale, TRIPADVISOR_URL } from '@/utils/seo'
 
@@ -20,6 +21,9 @@ export default async function SiteFooter({ locale }: Props) {
 
   return (
     <footer className="bg-gc-jungle border-t border-gc-gold/10 py-8 px-6">
+      <div className="max-w-5xl mx-auto">
+        <NewsletterFooterSection locale={locale} idPrefix="site-footer-nl" />
+      </div>
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 mb-8">
         <div className="flex flex-col">
           <h2 className={TITLE}>{t('navigateTitle')}</h2>

@@ -6,6 +6,7 @@ import { locales, type Locale } from '@/i18n/config'
 import FloatingContact from '@/components/FloatingContact'
 import PlausibleScript from '@/components/PlausibleScript'
 import AttributionCapture from '@/components/AttributionCapture'
+import NewsletterPopup from '@/components/NewsletterPopup'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
 
 type Props = {
@@ -46,6 +47,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <PlausibleScript />
       <AttributionCapture />
       <FloatingContact />
+      <NewsletterPopup />
     </NextIntlClientProvider>
   )
 }

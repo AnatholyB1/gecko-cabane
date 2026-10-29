@@ -176,6 +176,36 @@ describe('supabase migrations', () => {
     expect(sql).not.toMatch(/grant update[^;]*gecko_review_clicks/)
   })
 
+  it('017 newsletter ledger is additive and service-role only', () => {
+    expect(files).toContain('017_newsletter.sql')
+    const sql = read('017_newsletter.sql')
+      .replace(/--.*$/gm, '')
+      .toLowerCase()
+    for (const c of [
+      'confirmation_sent_at',
+      'confirmed_at',
+      'country',
+      'is_resident',
+      'contact_synced_at',
+      'last_visit_synced',
+    ]) {
+      expect(sql, c).toContain(`add column if not exists ${c}`)
+    }
+    expect(sql).toContain('create table if not exists public.gecko_newsletter_events')
+    expect(sql).toMatch(/alter table public\.gecko_newsletter_events\s+enable row level security/)
+    expect(sql).toMatch(/revoke all on public\.gecko_newsletter_events from anon, authenticated/)
+    expect(sql).toContain(
+      'grant execute on function public.gecko_newsletter_count(text, text) to service_role'
+    )
+    expect(sql).toContain('create table if not exists public.gecko_newsletter_sends')
+    expect(sql).toContain('unique (email, kind, period)')
+    expect(sql).toMatch(/alter table public\.gecko_newsletter_sends\s+enable row level security/)
+    expect(sql).toMatch(/revoke all on public\.gecko_newsletter_sends from anon, authenticated/)
+    expect(sql).not.toContain('drop table')
+    expect(sql).not.toContain('delete from')
+    expect(sql).not.toMatch(/using\s*\(\s*true\s*\)/)
+  })
+
   it('011 revokes anon DML on consents and keeps authenticated select', () => {
     const sql = read('011_revoke_anon_consents_dml.sql').replace(/--.*$/gm, '')
     expect(sql).toMatch(/revoke\s+insert,\s*update,\s*delete,\s*select\s+on\s+public\.gecko_marketing_consents\s+from\s+anon;/i)

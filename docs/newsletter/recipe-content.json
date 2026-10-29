@@ -1,0 +1,108 @@
+{
+  "locales": {
+    "fr": {
+      "title": "Le curry de crabe à la thaïlandaise"
+    },
+    "en": {
+      "title": "Thai-style crab curry"
+    }
+  },
+  "serves": {
+    "fr": "Pour 2 personnes",
+    "en": "Serves 2"
+  },
+  "ingredients": [
+    {
+      "fr": "1 crabe d'environ 600 g, nettoyé et coupé en morceaux (ou 250 g de chair de crabe)",
+      "en": "1 crab of about 600 g, cleaned and cut into pieces (or 250 g crab meat)"
+    },
+    {
+      "fr": "1 cuillère à soupe d'huile neutre",
+      "en": "1 tablespoon neutral oil"
+    },
+    {
+      "fr": "2 gousses d'ail hachées",
+      "en": "2 garlic cloves, minced"
+    },
+    {
+      "fr": "1/2 oignon émincé",
+      "en": "1/2 onion, sliced"
+    },
+    {
+      "fr": "1 cuillère à soupe de poudre de curry jaune",
+      "en": "1 tablespoon yellow curry powder"
+    },
+    {
+      "fr": "1 cuillère à café de pâte de piment à l'huile (nam prik pao), facultatif",
+      "en": "1 teaspoon chilli paste in oil (nam prik pao), optional"
+    },
+    {
+      "fr": "100 ml de lait de coco",
+      "en": "100 ml coconut milk"
+    },
+    {
+      "fr": "1 cuillère à soupe de sauce de poisson",
+      "en": "1 tablespoon fish sauce"
+    },
+    {
+      "fr": "1 cuillère à café de sucre",
+      "en": "1 teaspoon sugar"
+    },
+    {
+      "fr": "2 œufs battus",
+      "en": "2 eggs, beaten"
+    },
+    {
+      "fr": "1 branche de céleri chinois ou 2 oignons nouveaux, en tronçons",
+      "en": "1 stalk of Chinese celery or 2 spring onions, cut into lengths"
+    },
+    {
+      "fr": "Du riz blanc pour servir",
+      "en": "Steamed white rice to serve"
+    }
+  ],
+  "steps": [
+    {
+      "fr": "Si le crabe est entier, craquez les pinces avec le dos d'un couteau pour que la sauce pénètre.",
+      "en": "If the crab is whole, crack the claws with the back of a knife so the sauce gets in."
+    },
+    {
+      "fr": "Dans un wok, faites chauffer l'huile à feu moyen. Faites revenir l'ail et l'oignon sans les colorer.",
+      "en": "Heat the oil in a wok over medium heat. Cook the garlic and onion without browning them."
+    },
+    {
+      "fr": "Ajoutez la poudre de curry (et le nam prik pao) et remuez quelques secondes jusqu'à ce que l'odeur se libère.",
+      "en": "Add the curry powder (and the nam prik pao) and stir for a few seconds until the aroma is released."
+    },
+    {
+      "fr": "Versez le lait de coco, la sauce de poisson et le sucre. Portez à frémissement.",
+      "en": "Pour in the coconut milk, fish sauce and sugar. Bring to a gentle simmer."
+    },
+    {
+      "fr": "Ajoutez le crabe, enrobez-le de sauce, couvrez et laissez cuire 8 à 10 minutes à feu moyen (4 à 5 minutes pour de la chair de crabe).",
+      "en": "Add the crab, coat it in the sauce, cover and cook for 8 to 10 minutes over medium heat (4 to 5 minutes for crab meat)."
+    },
+    {
+      "fr": "Baissez le feu, versez les œufs en filet en remuant doucement : ils doivent prendre en rubans soyeux dans la sauce.",
+      "en": "Lower the heat and pour in the eggs in a thin stream, stirring gently: they should set into silky ribbons in the sauce."
+    },
+    {
+      "fr": "Ajoutez le céleri ou les oignons nouveaux, mélangez 30 secondes, goûtez et servez aussitôt avec le riz.",
+      "en": "Add the celery or spring onions, stir for 30 seconds, taste and serve straight away with the rice."
+    }
+  ],
+  "tips": [
+    {
+      "fr": "Gardez un feu moyen : une chaleur trop forte brûle la poudre de curry et fait durcir les œufs.",
+      "en": "Keep the heat at medium: too much heat scorches the curry powder and hardens the eggs."
+    },
+    {
+      "fr": "Allergènes à signaler : crustacé, œuf, poisson (sauce de poisson).",
+      "en": "Allergens to flag: shellfish, egg, fish (fish sauce)."
+    },
+    {
+      "fr": "Les quantités sont une base à ajuster à votre goût : goûtez avant de servir.",
+      "en": "Quantities are a starting point to adjust to your taste: taste before serving."
+    }
+  ]
+}

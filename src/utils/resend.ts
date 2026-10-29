@@ -153,7 +153,8 @@ function baseTemplate(
   title: string,
   bodyHtml: string,
   locale: EmailLocale = 'fr',
-  footerNote?: string
+  footerNote?: string,
+  footerHtml?: string
 ): string {
   const c = COPY[locale]
   const noteHtml = footerNote ? `${escapeHtml(footerNote)}<br />\n                  ` : ''
@@ -183,6 +184,7 @@ function baseTemplate(
                   ${noteHtml}${c.address}<br />
                   ${WHATSAPP_DISPLAY}
                 </p>
+                ${footerHtml ?? ''}
               </td>
             </tr>
           </table>
@@ -405,3 +407,4 @@ export function reviewInvitationEmail(
     .join('\n\n')
   return { subject: stripLineBreaks(k.subject), html, text }
 }
+

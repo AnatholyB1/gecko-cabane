@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing'
 const intlMiddleware = createIntlMiddleware(routing)
 
 const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
+const NEWSLETTER_ALIASES = new Set(['/newsletter', '/wifi'])
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -19,6 +20,11 @@ export async function middleware(request: NextRequest) {
   // /review to /fr/review before the alias handler can resolve the locale.
   // No auth or session is needed on these paths.
   if (REVIEW_ALIASES.has(pathname)) {
+    return NextResponse.next()
+  }
+
+  // Bill QR and WiFi card short URLs: same reason, locale resolved by the alias route.
+  if (NEWSLETTER_ALIASES.has(pathname)) {
     return NextResponse.next()
   }
 
@@ -121,8 +127,8 @@ export const config = {
      * - monitoring    (Sentry tunnel – must bypass middleware)
      * - gcm           (Plausible proxy, D-02 - must bypass middleware)
      * - sitemap.xml, robots.txt, opengraph-image (metadata routes, served at the root)
-     * - image assets  (svg, png, jpg, …)
+     * - image assets  (svg, png, jpg, pdf, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|gcm|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|gcm|.*\\.(?:svg|png|jpg|jpeg|gif|webp|pdf)$).*)',
   ],
 }

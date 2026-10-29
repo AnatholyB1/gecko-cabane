@@ -10,6 +10,7 @@ import NextLink from 'next/link'
 import ReservationForm from '@/components/ReservationForm'
 import SocialProof from '@/components/SocialProof'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import NewsletterFooterSection from '@/components/NewsletterFooterSection'
 import GuidesMenu from '@/components/GuidesMenu'
 import { getGuideItems } from '@/components/guideItems'
 import GcDivider from '@/components/ui/GcDivider'
@@ -812,6 +813,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </ul>
             </div>
           </div>
+          <NewsletterFooterSection locale={locale} idPrefix="home-footer-nl" />
           <div className="border-t border-gc-gold/10 pt-5 mb-4">
             <p className="font-cormorant text-[12px] text-gc-ivory/25 leading-relaxed">
               {t('footer.legalNotice')}

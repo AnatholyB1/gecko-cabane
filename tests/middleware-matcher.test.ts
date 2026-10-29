@@ -83,3 +83,18 @@ describe('review alias pass-through', () => {
     expect(passIdx).toBeLessThan(middlewareSrc.indexOf('createServerClient('))
   })
 })
+
+describe('newsletter alias pass-through and pdf exclusion', () => {
+  it('lists /newsletter and /wifi before the Supabase client is created', () => {
+    const passIdx = middlewareSrc.indexOf('NEWSLETTER_ALIASES.has(pathname)')
+    expect(passIdx).toBeGreaterThan(-1)
+    expect(middlewareSrc).toContain("'/newsletter'")
+    expect(middlewareSrc).toContain("'/wifi'")
+    expect(passIdx).toBeLessThan(middlewareSrc.indexOf('createServerClient('))
+  })
+
+  it('does not match pdf files in public/', () => {
+    expect(matcherRegex().test('/guide-gourmand-krabi-town-fr.pdf')).toBe(false)
+    expect(middlewareSrc).toContain('pdf')
+  })
+})
