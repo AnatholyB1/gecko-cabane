@@ -15,6 +15,7 @@ import {
   serializeJsonLd,
   type OpeningHoursRow,
 } from '../src/utils/seo'
+import { aggregateRatingFor, SOCIAL_PROOF } from '../src/utils/social-proof'
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -103,8 +104,23 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
     expect(ld.hasMenu).toBe(localeUrl(locale, '/menu'))
   })
 
-  it('never claims rating, menu or amenities', () => {
-    for (const k of ['aggregateRating', 'menu', 'amenityFeature']) {
+  // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts
+  it('aggregateRating mirrors social-proof constants and can be passed explicitly', () => {
+    const rating = aggregateRatingFor()
+    if (rating) {
+      expect(ld.aggregateRating).toEqual(rating)
+      expect(rating.ratingValue).toBe(SOCIAL_PROOF.rating)
+      expect(rating.reviewCount).toBe(SOCIAL_PROOF.reviewCount)
+    } else {
+      expect(ld).not.toHaveProperty('aggregateRating')
+    }
+    const forced = { '@type': 'AggregateRating' as const, ratingValue: 4.7, reviewCount: 1062, bestRating: 5, worstRating: 1 }
+    const withRating = buildRestaurantJsonLd({ locale: 'fr', description: 'd', hoursRows: [], aggregateRating: forced })
+    expect(withRating.aggregateRating).toEqual(forced)
+  })
+
+  it('never claims menu or amenities', () => {
+    for (const k of ['menu', 'amenityFeature']) {
       expect(ld).not.toHaveProperty(k)
     }
     expect(JSON.stringify(ld)).not.toContain(['gecko-cabane', 'com'].join('.'))

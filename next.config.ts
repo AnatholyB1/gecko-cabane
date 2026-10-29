@@ -7,10 +7,27 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    qualities: [60, 75],
+    minimumCacheTTL: 2678400,
+  },
   // 308 before middleware, no Accept-Language detection (D-02).
   // A permanent redirect is browser-cached: never reuse '/' for another purpose.
   async redirects() {
     return [{ source: '/', destination: '/fr', permanent: true }];
+  },
+  // Plausible first-party proxy (D-02). Keyed on the same env var as PlausibleScript.
+  // Rewrites are baked at build time on Vercel: set the env, then redeploy.
+  // /gcm is excluded from the middleware matcher like /monitoring.
+  async rewrites() {
+    const id = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_ID;
+    if (!id || !/^pa-[A-Za-z0-9_-]+$/.test(id)) return [];
+    return [
+      { source: '/gcm/js/script.js', destination: `https://plausible.io/js/${id}.js` },
+      { source: '/gcm/api/event', destination: 'https://plausible.io/api/event' },
+    ];
   },
 };
 

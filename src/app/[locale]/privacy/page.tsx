@@ -14,11 +14,11 @@ const CONTACT_PHONE_TEL = '+66819585945'
 // Number of item1..itemN keys per section (lists are encoded as flat keys).
 const SECTIONS = [
   { id: 'who', items: 0, contact: true },
-  { id: 'data', items: 6, contact: false },
+  { id: 'data', items: 7, contact: false },
   { id: 'purpose', items: 3, contact: false },
   { id: 'rights', items: 6, contact: false },
   { id: 'retention', items: 3, contact: false },
-  { id: 'sharing', items: 3, contact: false },
+  { id: 'sharing', items: 4, contact: false },
   { id: 'contact', items: 0, contact: true },
 ] as const
 

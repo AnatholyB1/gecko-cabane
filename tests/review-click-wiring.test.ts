@@ -42,6 +42,23 @@ describe('review-tracking helper', () => {
   })
 })
 
+describe('review-stats helper', () => {
+  const src = read('src/utils/review-stats.ts')
+  it('writes through the service-role RPC and never throws', () => {
+    expect(src).toContain('createAdminClient()')
+    expect(src).toContain("rpc('gecko_review_click_hit'")
+    expect(src).toContain('catch')
+    expect(src.toLowerCase()).toContain('service role')
+  })
+  it("is not imported from any 'use client' file", () => {
+    const offenders = walk(join(root, 'src')).filter((f) => {
+      const s = readFileSync(f, 'utf8')
+      return /^\s*['"]use client['"]/.test(s) && s.includes('review-stats')
+    })
+    expect(offenders).toEqual([])
+  })
+})
+
 describe('review alias', () => {
   const src = read('src/utils/review-alias.ts')
   it('looks up the rid locale when the token is valid', () => {
@@ -58,6 +75,11 @@ describe('review page', () => {
     expect(src).toContain('isReviewToken(')
     expect(src).toContain('markReviewClicked(')
     expect(src).toContain('robots: { index: false, follow: false }')
+  })
+  it('counts the visit per source after the response', () => {
+    expect(src).toContain('after(')
+    expect(src).toContain("recordReviewHit(source, 'visit')")
+    expect(src).toContain('normalizeReviewSource(')
   })
   it('renders no guest data', () => {
     expect(src).not.toContain('customer_name')

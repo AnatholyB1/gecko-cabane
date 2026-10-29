@@ -30,6 +30,8 @@ describe('middleware matcher', () => {
     '/manifest.webmanifest',
     '/monitoring',
     '/hero-bg.jpg',
+    '/gcm/js/script.js',
+    '/gcm/api/event',
   ])('does not match %s', (p) => {
     expect(re.test(p)).toBe(false)
   })

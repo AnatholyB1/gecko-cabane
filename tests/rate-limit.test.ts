@@ -15,6 +15,7 @@ import {
   getClientIp,
   hashKey,
   checkReservationRateLimits,
+  checkFeedbackRateLimit,
   RATE_LIMITS,
 } from '../src/utils/rate-limit'
 
@@ -98,6 +99,41 @@ describe('checkReservationRateLimits', () => {
     vi.stubEnv('RATE_LIMIT_SECRET', '')
     expect(await checkReservationRateLimits(admin, ids)).toEqual({ limited: false })
     expect(rpc).not.toHaveBeenCalled()
+    expect(captureMessage).toHaveBeenCalled()
+  })
+})
+
+describe('feedback bucket', () => {
+  const rpc = vi.fn()
+  const admin = { rpc: (...a: unknown[]) => rpc(...a) } as never
+
+  beforeEach(() => {
+    rpc.mockReset()
+    captureMessage.mockReset()
+    vi.stubEnv('RATE_LIMIT_SECRET', 'test-secret')
+  })
+  afterEach(() => vi.unstubAllEnvs())
+
+  it('has its own limit and key prefix', () => {
+    expect(RATE_LIMITS.feedback).toEqual({ limit: 3, windowSeconds: 3600 })
+    expect(hashKey('feedback', '1.2.3.4', 's').startsWith('feedback:')).toBe(true)
+    expect(hashKey('feedback', '1.2.3.4', 's')).not.toBe(hashKey('ip', '1.2.3.4', 's'))
+  })
+
+  it('is limited when the rpc returns false', async () => {
+    rpc.mockResolvedValue({ data: false, error: null })
+    expect(await checkFeedbackRateLimit(admin, '1.2.3.4')).toEqual({ limited: true })
+    expect(rpc.mock.calls[0][1]).toMatchObject({ p_limit: 3, p_window_seconds: 3600 })
+  })
+
+  it('does not call the rpc without an ip', async () => {
+    expect(await checkFeedbackRateLimit(admin, null)).toEqual({ limited: false })
+    expect(rpc).not.toHaveBeenCalled()
+  })
+
+  it('fails open and reports when the secret is missing', async () => {
+    vi.stubEnv('RATE_LIMIT_SECRET', '')
+    expect(await checkFeedbackRateLimit(admin, '1.2.3.4')).toEqual({ limited: false })
     expect(captureMessage).toHaveBeenCalled()
   })
 })

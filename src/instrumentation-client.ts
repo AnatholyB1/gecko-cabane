@@ -17,15 +17,10 @@ Sentry.init({
   // ----------------------------------------------------------------
   // Integrations
   // ----------------------------------------------------------------
-  integrations: [
-    // Session replay — record user interactions around errors
-    Sentry.replayIntegration({
-      maskAllText: IS_PROD,   // mask PII in production
-      blockAllMedia: IS_PROD,
-    }),
-    // Browser performance profiling (continuous profiling)
-    Sentry.browserProfilingIntegration(),
-  ],
+  // Session Replay and browser profiling were removed from the client bundle (SEO-08):
+  // they cost ~850 ms of main-thread script on mobile and blocked LCP/TBT.
+  // Errors, traces and logs are still reported.
+  integrations: [],
 
   // ----------------------------------------------------------------
   // Tracing
@@ -39,22 +34,9 @@ Sentry.init({
   ],
 
   // ----------------------------------------------------------------
-  // Profiling
-  // ----------------------------------------------------------------
-  // profilesSampleRate is relative to tracesSampleRate:
-  // 1.0 → profile every sampled transaction
-  profilesSampleRate: 1.0,
-
-  // ----------------------------------------------------------------
   // Logs  (Sentry structured logging, requires enableLogs: true)
   // ----------------------------------------------------------------
   enableLogs: true,
-
-  // ----------------------------------------------------------------
-  // Session Replay sampling
-  // ----------------------------------------------------------------
-  replaysSessionSampleRate: IS_PROD ? 0.05 : 1.0,
-  replaysOnErrorSampleRate: 1.0,
 
   // ----------------------------------------------------------------
   // Misc

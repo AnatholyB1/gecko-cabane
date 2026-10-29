@@ -36,6 +36,10 @@
     "chefName": "Chef Jariya",
     "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire.",
     "eyebrow": "Notre Histoire",
+    "storyTitle": "Notre histoire",
+    "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français. Elle apporte la cuisine, lui la table à la française, et ensemble ils accueillent leurs hôtes chaque soir. Cuisine française et classiques thaïs se partagent la carte, avec une courte sélection de vins et de bières belges.",
+    "couplePhotoAlt": "La cheffe Jariya et son mari",
+    "coupleCaption": "Jariya et son mari",
     "chefPhotoAlt": "Chef Jariya — Gecko Cabane, Krabi",
     "chefRole": "Chef de cuisine",
     "frenchRestaurantLink": "Découvrez notre cuisine française à Krabi Town"
@@ -138,6 +142,17 @@
     "eyebrow": "Réservation"
   },
   "contactSection": {
+    "gettingHereTitle": "Comment venir",
+    "gettingHere": {
+      "aoNang": "Ao Nang : 20 min en taxi",
+      "songthaew": "Songthaew : 50 bahts",
+      "walkingStreet": "Walking Street : 3 min à pied",
+      "chaoFah": "Chao Fah Pier : 15 min"
+    },
+    "showMap": "Afficher la carte",
+    "mapPrivacy": "La carte se charge uniquement après votre clic.",
+    "mapTitle": "Carte : Gecko Cabane, Krabi Town",
+    "mapLoaded": "Carte chargée",
     "title": "Nous Trouver",
     "addressTitle": "Adresse",
     "thailand": "Thaïlande",
@@ -223,6 +238,10 @@
     "label": "Une question ? Écrivez-nous",
     "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
   },
+  "line": {
+    "ariaLabel": "Nous écrire sur LINE",
+    "label": "Nous écrire sur LINE"
+  },
   "review": {
     "metaTitle": "Laisser un avis",
     "title": "Votre avis compte pour nous",
@@ -237,7 +256,7 @@
     "metaTitle": "Politique de confidentialité",
     "metaDescription": "Comment Gecko Cabane, restaurant franco-thaï à Krabi, collecte et protège vos données personnelles (PDPA B.E. 2562 et RGPD).",
     "title": "Politique de confidentialité",
-    "lastUpdated": "Dernière mise à jour : 16 octobre 2026",
+    "lastUpdated": "Dernière mise à jour : 17 octobre 2026",
     "back": "Retour à l'accueil",
     "who": {
       "title": "Qui sommes-nous",
@@ -251,7 +270,8 @@
       "item3": "votre adresse email ;",
       "item4": "les détails de la réservation : date, heure, nombre de couverts et occasion éventuelle ;",
       "item5": "si vous cochez la case, votre consentement à recevoir nos actualités, avec la date, la source et la version du texte de consentement ;",
-      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours."
+      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours ;",
+      "item7": "si vous utilisez le formulaire « Un souci ? » de la page d'avis : votre message et, si vous la donnez, votre adresse email, transmis par email au restaurant et non enregistrés sur le site."
     },
     "purpose": {
       "title": "Pourquoi nous les utilisons",
@@ -282,7 +302,8 @@
       "body": "Vos données ne sont jamais vendues. Elles sont traitées par des prestataires, par catégorie :",
       "item1": "hébergement du site ;",
       "item2": "hébergement de la base de données ;",
-      "item3": "envoi des emails transactionnels."
+      "item3": "envoi des emails transactionnels ;",
+      "item4": "mesure d'audience sans cookies (Plausible Analytics) : pages vues et clics, sans identifiant personnel, hébergée dans l'Union européenne."
     },
     "contact": {
       "title": "Exercer vos droits et vous désinscrire",
@@ -372,5 +393,39 @@
     "backToTop": "Haut de page",
     "emptyTitle": "La carte arrive bientôt",
     "emptyBody": "Notre carte est en cours de mise à jour. Appelez-nous au +66 81 958 5945 ou réservez en ligne."
+  },
+  "socialProof": {
+    "eyebrow": "Ils nous recommandent",
+    "title": "Ce que disent nos clients",
+    "ratingAria": "Note {rating} sur 5, {count} avis",
+    "countLabel": "sur {count} avis",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Avis original en {language}",
+    "viewSource": "Voir l'avis de {name} sur {source}",
+    "starsSr": "{rating} sur 5",
+    "leaveReview": "Laisser un avis",
+    "googleReviews": "Lire les avis sur Google",
+    "tripadvisorReviews": "Lire les avis sur TripAdvisor",
+    "facebook": "Suivre Gecko Cabane sur Facebook"
+  },
+  "payment": {
+    "note": "Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte."
+  },
+  "reviewFeedback": {
+    "title": "Un souci ?",
+    "lead": "Quelque chose ne s'est pas bien passé ? Dites-le-nous directement, nous lisons chaque message.",
+    "messageLabel": "Votre message",
+    "counter": "{count}/{max}",
+    "emailLabel": "Email (facultatif)",
+    "emailHelp": "Uniquement pour vous répondre si vous le souhaitez.",
+    "submit": "Envoyer le message",
+    "pending": "Envoi…",
+    "success": "Merci, message transmis.",
+    "errorMessage": "Votre message doit contenir entre 5 et 1 000 caractères.",
+    "errorEmail": "Cette adresse email ne semble pas valide.",
+    "errorGeneric": "Le message n'a pas pu être envoyé. Réessayez, ou appelez-nous au +66 81 958 5945.",
+    "errorRateLimited": "Trop de messages depuis votre connexion.",
+    "whatsappLink": "Écrire sur WhatsApp"
   }
 }

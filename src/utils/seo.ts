@@ -6,6 +6,7 @@
  */
 
 import type { Metadata } from 'next'
+import { aggregateRatingFor } from './social-proof'
 
 // ---------------------------------------------------------------------------
 // URLs and locales
@@ -120,6 +121,16 @@ export function tripAdvisorReviewUrl(): string {
   return `https://www.tripadvisor.com/UserReviewEdit-${TRIPADVISOR_REVIEW_SLUG}.html`
 }
 
+// D-19: single directions button target (coordinates + place id).
+export function googleDirectionsUrl(): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${GEO.latitude},${GEO.longitude}&destination_place_id=${GOOGLE_PLACE_ID}`
+}
+
+// D-20: keyless legacy embed (RESEARCH A1); swap for the pb= URL from Google Maps > Share > Embed if it stops rendering.
+export function googleMapsEmbedUrl(): string {
+  return `https://www.google.com/maps?q=${GEO.latitude},${GEO.longitude}&z=16&output=embed`
+}
+
 export type OpeningHoursRow = {
   day_of_week: number
   is_open: boolean | null
@@ -166,11 +177,12 @@ export function buildRestaurantJsonLd(args: {
   description: string
   hoursRows: OpeningHoursRow[]
   sameAs?: readonly string[]
+  aggregateRating?: ReturnType<typeof aggregateRatingFor>
 }): Record<string, unknown> {
-  const { locale, description, hoursRows, sameAs = SAME_AS } = args
+  const { locale, description, hoursRows, sameAs = SAME_AS, aggregateRating = aggregateRatingFor() } = args
   const hours = mapOpeningHours(hoursRows)
 
-  // No rating block (D-07: unverifiable). hasMenu = URL of the localized /menu
+  // aggregateRating (phase 5 D-14): from social-proof.ts, the same constants as the visible badge. hasMenu = URL of the localized /menu
   // page (phase 3, D-10); the deprecated `menu` property stays absent.
   return {
     '@context': 'https://schema.org',
@@ -200,6 +212,7 @@ export function buildRestaurantJsonLd(args: {
     acceptsReservations: true,
     paymentAccepted: 'Cash, Credit Card',
     currenciesAccepted: 'THB',
+    ...(aggregateRating ? { aggregateRating } : {}),
     ...(hours.length > 0 ? { openingHoursSpecification: hours } : {}),
     ...(sameAs.length > 0 ? { sameAs: [...sameAs] } : {}),
   }

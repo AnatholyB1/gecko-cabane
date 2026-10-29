@@ -36,6 +36,10 @@
     "chefName": "Chef Jariya",
     "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
     "eyebrow": "Our Story",
+    "storyTitle": "Our story",
+    "story1": "Gecko Cabane was opened by Chef Jariya and her French husband. She brings the cooking, he brings the French table, and together they welcome guests every evening. French cooking and Thai classics sit side by side on the menu, with a short list of wines and Belgian beers.",
+    "couplePhotoAlt": "Chef Jariya and her husband",
+    "coupleCaption": "Jariya and her husband",
     "chefPhotoAlt": "Chef Jariya at Gecko Cabane, Krabi",
     "chefRole": "Head Chef",
     "frenchRestaurantLink": "Discover our French cooking in Krabi Town"
@@ -138,6 +142,17 @@
     "eyebrow": "Reservation"
   },
   "contactSection": {
+    "gettingHereTitle": "Getting here",
+    "gettingHere": {
+      "aoNang": "Ao Nang: 20 min by taxi",
+      "songthaew": "Songthaew: 50 baht",
+      "walkingStreet": "Walking Street: 3 min on foot",
+      "chaoFah": "Chao Fah Pier: 15 min"
+    },
+    "showMap": "Show the map",
+    "mapPrivacy": "The map loads only after you click.",
+    "mapTitle": "Map: Gecko Cabane, Krabi Town",
+    "mapLoaded": "Map loaded",
     "title": "Find Us",
     "addressTitle": "Address",
     "thailand": "Thailand",
@@ -223,6 +238,10 @@
     "label": "Questions? Chat with us",
     "prefill": "Hello Gecko Cabane, I would like to book a table."
   },
+  "line": {
+    "ariaLabel": "Message us on LINE",
+    "label": "Message us on LINE"
+  },
   "review": {
     "metaTitle": "Leave a review",
     "title": "Your opinion matters to us",
@@ -237,7 +256,7 @@
     "metaTitle": "Privacy policy",
     "metaDescription": "How Gecko Cabane, a French-Thai restaurant in Krabi, collects and protects your personal data (Thai PDPA B.E. 2562 and GDPR).",
     "title": "Privacy policy",
-    "lastUpdated": "Last updated: 16 October 2026",
+    "lastUpdated": "Last updated: 17 October 2026",
     "back": "Back to home",
     "who": {
       "title": "Who we are",
@@ -251,7 +270,8 @@
       "item3": "your email address;",
       "item4": "your booking details: date, time, number of guests and occasion, if any;",
       "item5": "if you tick the box, your consent to receive our news, recorded with the date, the source and the version of the consent text;",
-      "item6": "technical anti-abuse data, stored only as irreversible hashes and deleted after 2 days."
+      "item6": "technical anti-abuse data, stored only as irreversible hashes and deleted after 2 days;",
+      "item7": "if you use the \"Something wrong?\" form on the review page: your message and, if you provide it, your email address, sent by email to the restaurant and not stored on the website."
     },
     "purpose": {
       "title": "Why we use it",
@@ -282,7 +302,8 @@
       "body": "Your data is never sold. It is processed by service providers, by category:",
       "item1": "website hosting;",
       "item2": "database hosting;",
-      "item3": "transactional email delivery."
+      "item3": "transactional email delivery;",
+      "item4": "audience measurement without cookies (Plausible Analytics): page views and clicks, without any personal identifier, hosted in the European Union."
     },
     "contact": {
       "title": "Exercising your rights and unsubscribing",
@@ -372,5 +393,39 @@
     "backToTop": "Back to top",
     "emptyTitle": "The menu is coming soon",
     "emptyBody": "Our menu is being updated. Call us on +66 81 958 5945 or book online."
+  },
+  "socialProof": {
+    "eyebrow": "Guests recommend us",
+    "title": "What our guests say",
+    "ratingAria": "Rated {rating} out of 5, {count} reviews",
+    "countLabel": "from {count} reviews",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Original review in {language}",
+    "viewSource": "See {name}'s review on {source}",
+    "starsSr": "{rating} out of 5",
+    "leaveReview": "Leave a review",
+    "googleReviews": "Read the reviews on Google",
+    "tripadvisorReviews": "Read the reviews on TripAdvisor",
+    "facebook": "Follow Gecko Cabane on Facebook"
+  },
+  "payment": {
+    "note": "Cash, cards, PromptPay — a 5% fee applies to card payments."
+  },
+  "reviewFeedback": {
+    "title": "Something wrong?",
+    "lead": "Did something not go well? Tell us directly, we read every message.",
+    "messageLabel": "Your message",
+    "counter": "{count}/{max}",
+    "emailLabel": "Email (optional)",
+    "emailHelp": "Only used to reply to you if you wish.",
+    "submit": "Send message",
+    "pending": "Sending…",
+    "success": "Thank you, your message has been sent.",
+    "errorMessage": "Your message must be between 5 and 1,000 characters.",
+    "errorEmail": "This email address does not look valid.",
+    "errorGeneric": "Your message could not be sent. Please try again, or call us on +66 81 958 5945.",
+    "errorRateLimited": "Too many messages from your connection.",
+    "whatsappLink": "Message us on WhatsApp"
   }
 }

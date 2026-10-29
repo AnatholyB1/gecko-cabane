@@ -1,5 +1,5 @@
 /**
- * Supabase-backed rate limiting for reservation creation (D-07, D-08, SEC-02).
+ * Supabase-backed rate limiting for reservation creation and review feedback (D-07, D-08, SEC-02).
  *
  * The service-role client is required: gecko_rate_limits has RLS enabled with
  * no policy and gecko_rate_limit_hit() is executable by service_role only.
@@ -16,6 +16,7 @@ export const RATE_LIMITS = {
   ip: { limit: 5, windowSeconds: 3600 },
   email: { limit: 3, windowSeconds: 86400 },
   phone: { limit: 3, windowSeconds: 86400 },
+  feedback: { limit: 3, windowSeconds: 3600 },
 } as const
 
 /** Client IP from Vercel-controlled headers first; null when unknown. */
@@ -28,7 +29,7 @@ export function getClientIp(h: Headers): string | null {
   return first || null
 }
 
-export function hashKey(kind: 'ip' | 'email' | 'phone', value: string, secret: string): string {
+export function hashKey(kind: 'ip' | 'email' | 'phone' | 'feedback', value: string, secret: string): string {
   const normalized = kind === 'email' ? value.toLowerCase() : value
   return `${kind}:` + createHmac('sha256', secret).update(normalized).digest('hex')
 }
@@ -67,4 +68,33 @@ export async function checkReservationRateLimits(
     }
   }
   return { limited }
+}
+
+/** Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket. */
+export async function checkFeedbackRateLimit(
+  admin: SupabaseClient,
+  ip: string | null
+): Promise<{ limited: boolean }> {
+  const secret = process.env.RATE_LIMIT_SECRET
+  if (!secret) {
+    Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
+    return { limited: false }
+  }
+  if (!ip) return { limited: false }
+  const { limit, windowSeconds } = RATE_LIMITS.feedback
+  try {
+    const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
+      p_key: hashKey('feedback', ip, secret),
+      p_limit: limit,
+      p_window_seconds: windowSeconds,
+    })
+    if (error) {
+      Sentry.captureException(error)
+      return { limited: false }
+    }
+    return { limited: data === false }
+  } catch (e) {
+    Sentry.captureException(e)
+    return { limited: false }
+  }
 }

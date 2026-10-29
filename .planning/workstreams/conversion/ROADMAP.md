@@ -24,11 +24,26 @@ Workstream parallèle extrait du ROADMAP principal. Phases 1 à 4 terminées (vo
   4. Les modes de paiement et frais carte sont visibles sur la carte et la réservation ; un bouton LINE est présent
   5. Les réservations portent un champ source, les événements « réservation envoyée » et « clic WhatsApp » sont mesurés, les clics `/review` sont comptés par source, et « Un souci ? » envoie un email au propriétaire
 
-**Plans**: TBD
+**Plans**: 13 plans (6 waves)
+
+Plans:
+- [x] 05-01-PLAN.md — Plausible proxy (inert sans ID), événement « Reservation Sent », capture UTM/ref (wave 1)
+- [x] 05-02-PLAN.md — Migration 015 source/UTM, POST non falsifiable, sélecteur de source admin (wave 1)
+- [x] 05-03-PLAN.md — Preuve sociale avant #reservation, aggregateRating (D-14), ligne paiement /menu + réservation (wave 1)
+- [x] 05-04-PLAN.md — Bouton LINE empilé sur WhatsApp, clics WhatsApp/LINE mesurés (wave 2)
+- [x] 05-05-PLAN.md — Migration 016, comptage des visites /review et clics sortants par source (wave 2)
+- [x] 05-06-PLAN.md — Ajout manuel de réservations admin (WhatsApp, téléphone, sans réservation) (wave 2)
+- [x] 05-07-PLAN.md — Hero et images en next/image AVIF/WebP, mesure PageSpeed avant/après avec porte avant la vague 3 (wave 2, checkpoint)
+- [x] 05-08-PLAN.md — « Un souci ? » sur /review : POST protégé + email Resend au propriétaire (wave 3)
+- [x] 05-09-PLAN.md — Page admin « Avis » : tableau mensuel, totaux manuels, modèle WhatsApp (wave 3)
+- [x] 05-10-PLAN.md — #about enrichi (propriétaire, photo du couple) et « Comment venir » avec carte au clic (wave 4)
+- [x] 05-11-PLAN.md — Confidentialité (Plausible, « Un souci ? ») et OWNER-CHECKLIST avec la porte avis CONV-01/D-14 (wave 5)
+- [x] 05-12-PLAN.md — Accord du propriétaire, avis candidats recopiés mot pour mot, choix de 3-4 avis (wave 2, checkpoints)
+- [x] 05-13-PLAN.md — Ajout des avis choisis dans social-proof.ts, vérification preview des 5 critères (wave 6, checkpoint)
 **UI hint**: yes
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 5. Conversion et mesure | 0/TBD | Not started | - |
+| 5. Conversion et mesure | 13/13 | Code livré; SEO-08 ouvert, REV-07 et CONV-02 en attente propriétaire |  |

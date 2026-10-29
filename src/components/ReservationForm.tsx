@@ -9,6 +9,8 @@ import { phoneCountryForLocale, isEmailValid } from '@/utils/validation'
 import { bangkokNow, bookableSlots, MAX_PARTY_SIZE } from '@/utils/reservation-rules'
 import type { SettingsMap } from '@/utils/reservation-rules'
 import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
+import { track, EVENTS } from '@/utils/analytics'
+import { readAttribution } from '@/utils/attribution'
 
 interface Country {
   code: CountryCode
@@ -202,10 +204,12 @@ export default function ReservationForm() {
     setLoading(true)
 
     try {
+      const attribution = readAttribution()
       const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          ...attribution,
           ...form,
           customer_phone: fullPhone,
           phone_country: selectedCountryCode,
@@ -217,6 +221,7 @@ export default function ReservationForm() {
       })
 
       if (response.ok) {
+        track(EVENTS.reservationSent, attribution.utm_source ? { locale, src: attribution.utm_source } : { locale })
         setSuccess(true)
         setForm(EMPTY_FORM)
         setLocalPhone('')
