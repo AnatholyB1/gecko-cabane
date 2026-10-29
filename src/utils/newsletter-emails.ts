@@ -73,7 +73,7 @@ function band(locale: NewsletterEmailLocale, key: BandKey, extra = ''): string {
   const alt = BAND_ALT[locale][key]
   return `<img src="${SITE_URL}${EMAIL_BANDS[key]}" width="520" alt="${escapeHtml(
     alt
-  )}" style="display:block;width:100%;max-width:520px;height:auto;border:0;${extra}" />`
+  )}" style="display:block;width:100%;max-width:520px;height:auto;border:0;font-size:12px;line-height:1.4;color:${key === 'header' ? '#C69B3C' : '#5C4A3A'};${extra}" />`
 }
 
 const P = 'color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 20px;'

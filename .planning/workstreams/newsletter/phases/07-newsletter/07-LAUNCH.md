@@ -1,6 +1,6 @@
 # 07-LAUNCH — Lancement de la newsletter (plan 07-10, tâche 1)
 
-Statut : demande d'approbation rédigée. Rien n'a été appliqué en production, créé dans Brevo, défini dans Vercel, fusionné dans master, déployé ni envoyé.
+Statut : demande d'approbation rédigée. Rien n'a été appliqué en production, créé chez Resend, défini dans Vercel, fusionné dans master, déployé ni envoyé.
 
 ## Vérifications locales (branche ws/newsletter, 2026-10-29)
 
@@ -10,30 +10,34 @@ Statut : demande d'approbation rédigée. Rien n'a été appliqué en production
 | `npx tsc --noEmit` | 0 erreur |
 | `npm run lint` | 0 erreur, 8 avertissements (préexistants, pages admin, hors newsletter) |
 | `npm run build` (variables Supabase factices) | compilé, routes newsletter, wifi, webhook et crons présentes |
-| `015_newsletter.sql` | additif et idempotent : aucun drop, delete, truncate ni update |
+| `017_newsletter.sql` (ex-015) | additif et idempotent : aucun drop, delete, truncate ni update |
 | ws/newsletter vs master | 44 commits d'avance, 0 de retard au moment du contrôle (à re-vérifier avant fusion) |
 
 ## Non vérifié (volontairement, aucune lecture de la base ou des services réels)
 
 - Version max de migration appliquée en production (attendu : 014).
 - Taille réelle de l'audience D-03 (requête `count(distinct lower(email))` sur `gecko_marketing_consents` avec `source = 'reservation_form' and consent`). **N est donc inconnu** : à mesurer en lecture seule au moment de 07-10, ou à fixer par le propriétaire.
-- Noms des variables Vercel déjà présentes, DNS du domaine (Vercel ou autre) pour l'authentification d'expéditeur Brevo.
+- Noms des variables Vercel déjà présentes, DNS du domaine (Vercel ou autre) (domaine d envoi Resend à confirmer).
 
 ## Approval request
 
-1. Appliquer la migration 015 en production (colonnes additives, table de compteurs, RPC ; aucune donnée modifiée). Méthode : psql `-v ON_ERROR_STOP=1 -1` puis `supabase migration repair --status applied 015` (voir 01-DB-ROLLOUT.md). Jamais `supabase db push`, jamais `supabase/legacy/`.
-2. Compte Brevo : plan (gratuit = 300 emails/jour ; automatisations disponibles ?), type d'éditeur (option A ou B de BREVO-SETUP.md), clé API saisie par le propriétaire dans `.env.local` sous `BREVO_API_KEY`.
-3. Expéditeur Brevo et authentification de domaine (DKIM/SPF/DMARC) coexistant avec Resend ; enregistrements DNS ajoutés par Claude si le domaine est sur Vercel, sinon par le propriétaire.
-4. Création dans Brevo par API : 6 attributs (LANGUAGE, COUNTRY, RESIDENT, SOURCE, CONSENT_AT, LAST_VISIT_DATE), la liste, le webhook marketing (événements `unsubscribed` et `spam`, jeton bearer), et les deux listes de repli si option B.
-5. Variables Vercel Production : `NEWSLETTER_SIGNING_SECRET` et `BREVO_WEBHOOK_TOKEN` (générés), `BREVO_LIST_ID` (issu de l'étape 4), `BREVO_API_KEY`, `WIFI_SSID`, `WIFI_PASSWORD` (saisis par le propriétaire), et `BREVO_LIST_AFTER_VISIT` / `BREVO_LIST_DURING_STAY` si option B. Aucune valeur n'est affichée.
-6. Fusion de ws/newsletter dans master et déploiement (formulaire de pied de page, pop-up, /newsletter, /wifi, confirmation, désinscription, webhook, cron quotidien de synchronisation à 11:30 Krabi).
-7. Épreuves d'impression (insert d'addition, carte WiFi) validées pour tirage. **Dépend de 07-02 : les supports n'existent pas encore.**
-8. Exposition du mot de passe WiFi : toute personne ayant l'URL `/wifi` le lit. Recommandation : rotation périodique (mettre à jour `WIFI_PASSWORD` dans Vercel, sans réimpression).
-9. Raffinement D-06 (RESEARCH Pitfall 5) : garder « J+2/J+3 depuis la date de confirmation » pour bill_qr et wifi (actuel) ou passer à la date d'inscription.
-10. Politique webhook (RESEARCH A9) : toute désinscription ou plainte spam Brevo retire le consentement globalement.
-11. D-03, envoi unique : au plus N adresses recevront une demande de confirmation après l'aller-retour de 07-11 (N à mesurer, voir plus haut) — approuver, reporter ou refuser. Appel manuel : `/api/cron/newsletter-legacy-confirm?send=1&limit=50` (sans `send=1`, la route est en dry-run ; le plan 07-11 dit « sans dry=1 », l'implémentation exige `send=1`).
+Révisé le 2026-10-29 : Resend remplace Brevo.
+
+1. Appliquer la migration 017 (`supabase/migrations/017_newsletter.sql`, ex-015 renumérotée) en production : colonnes additives, compteurs, journal d'envois, RPC ; aucune donnée modifiée. psql `-v ON_ERROR_STOP=1 -1` puis `supabase migration repair --status applied 017`. Jamais `db push`, jamais `supabase/legacy/`.
+2. Resend : confirmer le domaine d'envoi vérifié, le plan et ses quotas.
+3. Webhook Resend créé par le propriétaire (`/api/webhooks/resend`, événements email.complained, email.bounced, contact.updated) ; secret `whsec_...` saisi dans Vercel (`RESEND_WEBHOOK_SECRET`).
+4. Exécuter `scripts/setup-resend-newsletter.mjs` : crée 6 propriétés de contact chez Resend.
+5. Variables Vercel Production : `NEWSLETTER_SIGNING_SECRET` (généré), `RESEND_WEBHOOK_SECRET`, `WIFI_SSID` et `WIFI_PASSWORD` (à saisir sur place), `CRON_SECRET` (doit exister). Aucune valeur affichée.
+6. Fusion de ws/newsletter dans master et déploiement (footer, pop-up, /newsletter, /wifi, confirmation, désinscription, webhook Resend, cron 11:00 UTC).
+7. Épreuves d'impression (insert d'addition, carte WiFi) validées.
+8. Exposition du mot de passe WiFi sur `/wifi` : rotation périodique recommandée.
+9. D-06 : garder « J+2/J+3 depuis la date de confirmation » pour bill_qr et wifi, ou passer à la date d'inscription.
+10. Politique webhook : toute plainte spam, rebond permanent ou désinscription Resend retire le consentement globalement.
+11. D-03, envoi unique : au plus N adresses (N à mesurer en lecture seule) recevront une demande de confirmation, par `/api/cron/newsletter-legacy-confirm?send=1&limit=50`.
 12. Boîte mail de test pour l'aller-retour réel.
-13. Rétrécissement D-14 : le pays géolocalisé Vercel n'est pas utilisé pour bill_qr et wifi (tout appareil au restaurant géolocalise en TH) ; ces contacts reçoivent le pays du téléphone ou « inconnu » (modifiable dans Brevo) — approuver ou demander d'utiliser la géolocalisation quand même.
+13. D-14 : le pays géolocalisé n'est pas utilisé pour bill_qr et wifi ; approuver ou demander l'inverse.
+14. Activation des envois : `NEWSLETTER_SEQUENCES_ENABLED=1` (J+2, J+3) puis `NEWSLETTER_CAMPAIGNS_ENABLED=1` (retour d'octobre, saison verte), chacun après un contrôle à blanc `?dry=1`.
+15. Contenu web : guide (9 lieux) et recette de base non attribuée à la cheffe, à relire (SOURCES.md).
 
 ## Owner approval
 

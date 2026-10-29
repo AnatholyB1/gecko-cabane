@@ -12,5 +12,159 @@
       "outro": "Thank you for signing up. Find us at Gecko Cabane, Maharat Road, Krabi Town: we would love to welcome you."
     }
   },
-  "places": []
+  "places": [
+    {
+      "name": {
+        "fr": "Krabi Town Walking Street",
+        "en": "Krabi Town Walking Street"
+      },
+      "category": "marché de nuit",
+      "address": {
+        "fr": "Maharat Soi 8, à côté du grand magasin Vogue",
+        "en": "Maharat Soi 8, next to the Vogue department store"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Le plus grand marché de nuit de la ville, surtout fréquenté le week-end : petits plats du Sud, crevettes de rivière grillées, crêpes à la noix de coco, avec musique sur scène. À vérifier sur place : du vendredi au dimanche, environ de 17h à 22h.",
+        "en": "The biggest night market in town, busiest at weekends: small southern dishes, grilled river prawns, coconut pancakes, with live music on a stage. To check on the spot: Friday to Sunday, about 5 pm to 10 pm."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Marché de nuit de Maharat Soi 10",
+        "en": "Maharat Soi 10 night market"
+      },
+      "category": "street food",
+      "address": {
+        "fr": "Maharat Soi 10, une ruelle au nord de la Walking Street",
+        "en": "Maharat Soi 10, a lane north of the Walking Street"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Un marché de soirée plus calme, avec du poisson frit ou à la vapeur et des plats du Sud à petit prix. À vérifier sur place : les horaires varient selon les sources, comptez le soir.",
+        "en": "A calmer evening market with fried or steamed fish and southern dishes at low prices. To check on the spot: hours vary by source, plan on the evening."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Marché du matin de Maharat",
+        "en": "Maharat morning market"
+      },
+      "category": "marché",
+      "address": {
+        "fr": "Maharat Road, Krabi Town",
+        "en": "Maharat Road, Krabi Town"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Pour un petit-déjeuner à la thaïlandaise : fruits de mer, plats du Sud déjà cuisinés, porridge de riz. Le marché ouvre très tôt et les meilleurs étals se vident avant la fin de la matinée. À vérifier sur place.",
+        "en": "For a Thai-style breakfast: seafood, ready-cooked southern dishes, rice porridge. The market opens very early and the best stalls sell out before late morning. To check on the spot."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Restaurants du ponton de Chao Fah",
+        "en": "Chao Fah pier restaurants"
+      },
+      "category": "restaurant",
+      "address": {
+        "fr": "Au bord de la rivière, autour du ponton de Chao Fah",
+        "en": "Riverside, around Chao Fah pier"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Des tables simples devant l'eau, où le poisson et les fruits de mer se choisissent selon l'arrivage du jour, souvent au poids. Les prix et les plats changent chaque jour : à vérifier sur place.",
+        "en": "Simple tables by the water, where fish and seafood depend on the daily catch and are often priced by weight. Prices and dishes change every day: to check on the spot."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "La promenade des berges de la rivière Krabi",
+        "en": "The Krabi River promenade"
+      },
+      "category": "activité",
+      "address": {
+        "fr": "Du parc de Chao Fah au parc de Thara",
+        "en": "From Chao Fah Park to Thara Park"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Une promenade au bord de l'eau, agréable en fin de journée, à pied et gratuite. Elle passe près de la grande sculpture du crabe noir, en face du marché de nuit de Poo Dam.",
+        "en": "A riverside walk that is pleasant late in the day, on foot and free of charge. It passes near the large black crab sculpture, opposite the Poo Dam night market."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Wat Kaew Korawaram",
+        "en": "Wat Kaew Korawaram"
+      },
+      "category": "activité",
+      "address": {
+        "fr": "Krabi Town",
+        "en": "Krabi Town"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Le temple principal de la ville, blanc, connu pour son escalier orné d'un naga et sa vue sur la ville et la rivière. L'entrée est gratuite ; une tenue correcte est demandée dans un temple.",
+        "en": "The town's main temple, white, known for its naga staircase and its view over the town and the river. Entry is free; dress modestly in a temple."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Khao Khanab Nam",
+        "en": "Khao Khanab Nam"
+      },
+      "category": "activité",
+      "address": {
+        "fr": "Sur la rivière Krabi, en longtail depuis le ponton de Chao Fah",
+        "en": "On the Krabi River, by longtail boat from Chao Fah pier"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Deux collines calcaires jumelles au bord de la rivière, avec des grottes à explorer. On y va en bateau longtail depuis le ponton, en 10 à 15 minutes selon les sources. À vérifier sur place : le tarif (de 200 à 400 baht selon les sources).",
+        "en": "Two twin limestone hills beside the river, with caves to explore. You go by longtail boat from the pier, in 10 to 15 minutes depending on the source. To check on the spot: the fare (200 to 400 baht depending on the source)."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Wat Tham Suea (le temple de la Grotte du Tigre)",
+        "en": "Wat Tham Suea (Tiger Cave Temple)"
+      },
+      "category": "activité",
+      "address": {
+        "fr": "Au nord-nord-est de Krabi Town",
+        "en": "North-north-east of Krabi Town"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Un temple bouddhiste connu pour son escalier de plus de 1 200 marches jusqu'au sommet, à environ 278 mètres, où se trouve une grande statue dorée de Bouddha. La vue porte sur une grande partie de Krabi. Prévoyez de l'eau, de bonnes chaussures et un départ tôt, avant la chaleur.",
+        "en": "A Buddhist temple known for its staircase of more than 1,200 steps up to a summit at about 278 metres, where a large golden Buddha stands. The view covers much of Krabi. Bring water, good shoes and start early, before the heat."
+      },
+      "photo": ""
+    },
+    {
+      "name": {
+        "fr": "Songthaew vers Ao Nang",
+        "en": "Songthaew to Ao Nang"
+      },
+      "category": "transport",
+      "address": {
+        "fr": "Au coin de Maharat Road et de Soi 8, devant le 7-Eleven (selon une source)",
+        "en": "At the corner of Maharat Road and Soi 8, by the 7-Eleven (according to one source)"
+      },
+      "mapsUrl": "",
+      "why": {
+        "fr": "Les songthaews, camionnettes-taxis collectives, relient Krabi Town à Ao Nang. À vérifier sur place : le point de départ, les horaires et le prix, qui peuvent changer, surtout le soir.",
+        "en": "Songthaews, shared pickup taxis, link Krabi Town to Ao Nang. To check on the spot: the departure point, the hours and the fare, which can change, especially in the evening."
+      },
+      "photo": ""
+    }
+  ]
 }

@@ -3,6 +3,14 @@
 **Gathered:** 2026-10-17
 **Status:** Ready for planning
 
+## Revision 2026-10-29 (décisions du propriétaire, accord explicite)
+
+- **R-01 Resend remplace Brevo.** Un seul prestataire d'envoi. Les décisions D-01, D-04, D-05, D-08 sont lues avec Resend à la place de Brevo : contacts Resend en miroir (propriétés language, country, resident, source, consent_at, last_visit), webhook Resend signé (Svix) pour plainte spam, rebond permanent et désinscription faite dans Resend ; séquences envoyées par l'application (cron quotidien 11:00 UTC = 18:00 Krabi) ; plafond de 1 campagne par 30 jours **codé** (journal `gecko_newsletter_sends`) ; envois désactivés par défaut (`NEWSLETTER_SEQUENCES_ENABLED`, `NEWSLETTER_CAMPAIGNS_ENABLED`). Le registre Supabase reste la source de vérité.
+- **R-02 Contenu du web autorisé** pour le guide et la recette, avec sources dans `docs/newsletter/SOURCES.md` et mention « à vérifier sur place ». La recette n'est pas celle de la cheffe : plus d'attribution.
+- **R-03 Bandes image** dans chaque email (en-tête, séparateur, photo), hébergées sur le domaine du site, avec alt et texte de secours.
+- **R-04 WiFi** : identifiants récupérés sur place, variables laissées vides.
+- **R-05 Migration newsletter renumérotée 017** (015 et 016 sont prises par master et déjà appliquées en production). Non appliquée.
+
 <domain>
 ## Phase Boundary
 

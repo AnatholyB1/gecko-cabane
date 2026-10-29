@@ -22,7 +22,7 @@ progress:
 
 Phase: 07 (Newsletter) — EXECUTING
 Plan: 8 of 11
-**Status:** Blocked on owner (content, approvals, Brevo account)
+**Status:** Blocked on owner (approvals, Resend webhook secret, on-site WiFi credentials)
 **Current Phase:** 07
 **Last Activity:** 2026-10-17
 **Last Activity Description:** Phase 07 execution started

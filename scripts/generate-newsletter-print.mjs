@@ -37,8 +37,8 @@ const ADDRESS = 'Gecko Cabane, Maharat Road, Krabi Town'
 const LOCALES = ['fr', 'en']
 
 const INSERT_COPY = {
-  fr: 'Recevez la recette du curry de crabe de la cheffe Jariya',
-  en: "Get Chef Jariya's crab curry recipe",
+  fr: 'Recevez notre recette de curry de crabe',
+  en: 'Get our crab curry recipe',
 }
 const WIFI_COPY = {
   fr: 'Scannez pour le mot de passe du WiFi',
@@ -208,8 +208,30 @@ async function writeWifiCard() {
   )
 }
 
+const CATEGORY_EN = {
+  'marché de nuit': 'night market',
+  'street food': 'street food',
+  'marché': 'market',
+  restaurant: 'restaurant',
+  'activité': 'activity',
+  transport: 'transport',
+}
+
+function categoryLabel(category, lang) {
+  const c = String(category ?? '')
+  return (lang === 'en' ? CATEGORY_EN[c] ?? c : c).toUpperCase()
+}
+
 const A5 = [148 * MM, 210 * MM]
 const PAGE_MARGIN = pt(14)
+
+/** Full-width photo band (same crop as the emails) at the top of the first page. */
+function topBand(doc, file) {
+  const w = A5[0]
+  doc.image(file, 0, 0, { width: w })
+  doc.y = w * (260 / 1040) + PAGE_MARGIN
+  doc.x = PAGE_MARGIN
+}
 
 function ensureRoom(doc, needed) {
   if (doc.y + needed > doc.page.height - PAGE_MARGIN) doc.addPage()
@@ -220,9 +242,10 @@ async function writeGuide(guide, lang) {
   const copy = guide.locales[lang]
   const { doc, done } = newDoc(file, copy.title, A5, PAGE_MARGIN)
   const width = A5[0] - PAGE_MARGIN * 2
+  topBand(doc, 'public/email/band-header.jpg')
   doc.font('Helvetica').fontSize(8).fillColor(MID)
   doc.text(OVERLINE.toUpperCase(), { characterSpacing: 1.5 })
-  doc.moveDown(6)
+  doc.moveDown(4)
   doc.font('Times-Bold').fontSize(30).fillColor(DARK).text(copy.title, { width })
   doc.moveDown(1)
   doc.rect(doc.x, doc.y, pt(14), 2).fill(GOLD)
@@ -230,11 +253,11 @@ async function writeGuide(guide, lang) {
   doc.font('Times-Roman').fontSize(12).fillColor(DARK).text(copy.intro, { width, lineGap: 4 })
   doc.moveDown(1.5)
   for (const place of guide.places) {
-    ensureRoom(doc, pt(40))
-    doc.font('Times-Bold').fontSize(14).fillColor(DARK).text(place.name, { width })
-    doc.font('Helvetica').fontSize(8).fillColor(GOLD).text(String(place.category ?? '').toUpperCase(), { characterSpacing: 1 })
+    ensureRoom(doc, pt(34))
+    doc.font('Times-Bold').fontSize(13).fillColor(DARK).text(localized(place.name, lang), { width })
+    doc.font('Helvetica').fontSize(8).fillColor(GOLD).text(categoryLabel(place.category, lang), { characterSpacing: 1 })
     doc.font('Times-Roman').fontSize(11).fillColor(MID).text(localized(place.why, lang), { width, lineGap: 3 })
-    if (place.address) doc.font('Helvetica').fontSize(8).fillColor(MID).text(place.address, { width })
+    if (place.address && localized(place.address, lang)) doc.font('Helvetica').fontSize(8).fillColor(MID).text(localized(place.address, lang), { width })
     if (place.mapsUrl) doc.font('Helvetica').fontSize(8).fillColor(MID).text(place.mapsUrl, { width, link: place.mapsUrl })
     if (place.photo) {
       const photo = path.join(CONTENT_DIR, 'photos', place.photo)
@@ -245,10 +268,10 @@ async function writeGuide(guide, lang) {
         doc.y += pt(42)
       }
     }
-    doc.moveDown(1.2)
+    doc.moveDown(0.8)
   }
-  ensureRoom(doc, pt(40))
-  doc.moveDown(1)
+  ensureRoom(doc, pt(30))
+  doc.moveDown(0.5)
   doc.font('Times-Roman').fontSize(12).fillColor(DARK).text(copy.outro, { width, lineGap: 4 })
   doc.moveDown(0.5)
   doc.font('Helvetica').fontSize(8).fillColor(MID).text(ADDRESS, { width })
@@ -262,12 +285,13 @@ async function writeRecipe(recipe, lang) {
   const copy = recipe.locales[lang]
   const { doc, done } = newDoc(file, copy.title, A5, PAGE_MARGIN)
   const width = A5[0] - PAGE_MARGIN * 2
+  topBand(doc, 'public/email/band-dish.jpg')
   doc.font('Helvetica').fontSize(8).fillColor(MID).text(OVERLINE.toUpperCase(), { characterSpacing: 1.5 })
-  doc.moveDown(1)
-  doc.font('Times-Bold').fontSize(26).fillColor(DARK).text(copy.title, { width })
-  doc.moveDown(0.5)
+  doc.moveDown(0.6)
+  doc.font('Times-Bold').fontSize(22).fillColor(DARK).text(copy.title, { width })
+  doc.moveDown(0.3)
   if (recipe.serves) doc.font('Helvetica').fontSize(9).fillColor(MID).text(String(localized(recipe.serves, lang)))
-  doc.moveDown(1)
+  doc.moveDown(0.6)
   const section = (label, items, numbered) => {
     if (!items.length) return
     ensureRoom(doc, pt(30))
@@ -282,7 +306,7 @@ async function writeRecipe(recipe, lang) {
   }
   section(lang === 'fr' ? 'Ingrédients' : 'Ingredients', recipe.ingredients, false)
   section(lang === 'fr' ? 'Préparation' : 'Method', recipe.steps, true)
-  section(lang === 'fr' ? 'Conseils de la cheffe' : "Chef's tips", recipe.tips ?? [], false)
+  section(lang === 'fr' ? 'Conseils' : 'Tips', recipe.tips ?? [], false)
   ensureRoom(doc, pt(12))
   doc.font('Helvetica').fontSize(8).fillColor(MID).text(ADDRESS, { width })
   doc.end()

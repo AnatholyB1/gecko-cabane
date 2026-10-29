@@ -1,47 +1,40 @@
-# Phase 7 — Rapport de clôture (2026-10-29)
+# Phase 7 — Rapport (révisé le 2026-10-29)
 
-## Plans
+## Ce qui a changé aujourd'hui (décisions du propriétaire)
 
-| Plan | État | Détail |
-|------|------|--------|
-| 07-01, 03, 04, 05, 06, 07, 08, 09 | livrés (SUMMARY présents) | code, migration 015 (non appliquée), tests |
-| 07-02 | partiel | Tâche 1 faite (CONTENT-REQUEST.md, JSON vides, `scripts/generate-newsletter-print.mjs`, commit ac06ec6). Pourquoi pas de SUMMARY : la tâche 2 est un point d'arrêt `human-action` (reco de Krabi et recette inventables : interdit, D-17). Tâche 3 (PDF, SVG, test d'impression) dépend d'elle. |
-| 07-10 | partiel | Tâche 1 faite hors lecture de la prod (07-LAUNCH.md). Tâches 2-3 (approbation, migration, Brevo, Vercel, déploiement) exigent le propriétaire. |
-| 07-11 | non démarré | dépend de 07-10 ; activation Brevo, appareils réels, envoi D-03. |
+1. **Merge de master** : conflits résolus (next.config.ts headers + rewrites, middleware matcher gcm + pdf, rate-limit hashKey + deux limiteurs, SiteFooter, layout avec FloatingContact/PlausibleScript/AttributionCapture + NewsletterPopup, page.tsx, review/page.tsx, messages fr/en, migrations.test). Migration newsletter **renumérotée 017** (015 et 016 de master déjà en production), non appliquée.
+2. **Resend remplace Brevo** : `src/utils/resend-contacts.ts` (miroir de contacts), webhook `/api/webhooks/resend` (signature Svix sur le corps brut ; complaint, rebond permanent, désinscription du tableau de bord), séquences envoyées par `/api/cron/newsletter-sync` (11:00 UTC), plafond 1 campagne/30 jours codé, journal `gecko_newsletter_sends`, envois désactivés par défaut. `docs/newsletter/RESEND-SETUP.md` remplace le runbook Brevo. Plans 07-10 et 07-11 révisés (dont la route legacy : `send=1`).
+3. **Guide et recette** depuis le web : 9 lieux, sources dans `docs/newsletter/SOURCES.md`, éléments incertains marqués « à vérifier sur place », rien d'inventé (aucun nom de restaurant ni lien Maps). La recette est une recette de base rédigée par nos soins, non testée, **non attribuée à la cheffe** (titres du site, des emails et de l'insert changés).
+4. **Bandes image** dans tous les emails (bienvenue, confirmation, D-03, 4 séquences) : `public/email/*` (3 photos recadrées du site + 1 séparateur), URLs absolues, alt, texte de secours.
+5. **WiFi** : aucune valeur ; message dans la checklist.
 
-## Gate (branche ws/newsletter)
+## Gate (branche ws/newsletter, après merge)
 
-- `npm test` : 52 fichiers, 587 tests verts.
-- `npx tsc --noEmit` : 0 erreur.
-- `npm run lint` : 0 erreur, 8 avertissements préexistants (admin).
-- `npm run build` (variables Supabase factices) : OK.
+- `npm test` : 77 fichiers, 986 tests verts (1 ignoré hérité).
+- `npx tsc --noEmit` : 0 erreur. `npm run lint` : 0 erreur, 6 avertissements hérités.
+- `npm run build` (variables Supabase factices) : OK, routes `/api/webhooks/resend` et `/api/cron/newsletter-sync` présentes.
 
-Le générateur d'impression a été prouvé avec un contenu factice temporaire (4 PDF + 2 PDF d'impression + 2 SVG produits, en-tête `%PDF`), puis tout a été supprimé. Sans contenu, il sort en code 1. Mise en page non vérifiée visuellement (aucun rendu ouvert), en particulier le dépassement de page du guide et la lisibilité de l'insert 100 x 60 mm.
+## Vérifications visuelles réelles
 
-## Revue code et sécurité (lecture manuelle ciblée, pas de revue multi-agents)
+- PDF rendus dans Chromium (pdf.js) : guide FR/EN (3 pages), recette FR/EN (2 pages), insert 100 x 60 mm, carte WiFi A6. Mise en page correcte après deux corrections (page orpheline du guide, noms et adresses non traduits en EN).
+- Emails rendus en 390 px (Playwright) : bienvenue, confirmation, après-visite J+2, retour d'octobre. Pas de débordement horizontal. Avec images bloquées, l'en-tête texte « Gecko Cabane » reste visible ; l'alt text a été restylé après ce test (non re-rendu).
 
-Lu : liens signés, subscribe, confirm, unsubscribe, webhook Brevo, événements, cron legacy, client Brevo, page /wifi, migration 015, usages d'env.
+## Non prouvé
 
-Conforme :
-- Double opt-in : subscribe n'écrit qu'une ligne en attente et envoie l'email ; Brevo n'est appelé qu'après `confirmed_at` (POST du bouton, jamais le GET).
-- Consentement horodaté avec source et version de texte ; retrait = nouvelle ligne `consent=false` (registre append-only).
-- Désinscription : lien signé HMAC sans expiration, POST seulement (anti-scanner), un clic RFC 8058, webhook Brevo à jeton comparé en temps constant, 401 sans jeton.
-- Secrets : `BREVO_*`, `NEWSLETTER_SIGNING_SECRET`, `WIFI_*` lus uniquement côté serveur ; aucun `NEXT_PUBLIC_` ; service-role confiné aux routes serveur avec justification.
-- Pas d'énumération (réponse uniforme), honeypot, délai de remplissage, limites de débit, échappement des jokers LIKE.
-- Migration 015 additive, RLS sans policy sur la table de compteurs, RPC réservé à service_role.
-- Cron legacy : fermé sans secret, dry-run par défaut, 50 max par appel.
+- Aucun appel réel à Resend : création de contact, propriétés (si elles n'existent pas, la création de contact échoue sans casser l'inscription), webhook Resend réel, envoi des séquences. Le test du webhook prouve la vérification de signature avec une signature Svix calculée localement, pas avec Resend.
+- Les noms d'API Resend (contacts.create/update, contactProperties, webhooks.verify) sont ceux du SDK installé (6.28.1) et de la documentation lue le 2026-10-29 ; le comportement exact en cas de contact existant (create en erreur puis update) n'est pas vérifié.
+- Les rendus emails n'ont pas été testés dans Gmail, Outlook ou Apple Mail ; images servies depuis localhost pendant le test (pas encore déployées).
+- Cohabitation visuelle du pop-up de newsletter avec le nouveau FloatingContact (WhatsApp/LINE) après le merge : non vérifiée dans un navigateur.
+- Faits du guide : sources de blogs et sites de voyage, aucune vérification sur place ; quantités de la recette non testées en cuisine.
+- Production, DB réelle, DNS, Vercel : rien exécuté (règle). N de l'envoi D-03 inconnu.
 
-Restant, non corrigé (aucun correctif de code nécessaire) :
-1. Le mot de passe WiFi est lisible par quiconque connaît l'URL `/wifi` (par conception, D-13). Rotation recommandée.
-2. `/api/newsletter/event` est anonyme et non limité : les compteurs de pop-up peuvent être gonflés. Impact : statistiques seulement. Accepté.
-3. Deux POST /subscribe simultanés pour un même email pourraient créer deux lignes en attente (course théorique, effet : deux emails). Non reproduit.
-4. Dérive de documentation : 07-11 dit d'appeler la route legacy « sans dry=1 » ; l'implémentation exige `send=1` (plus sûr). Noté dans 07-LAUNCH.md et OWNER-CHECKLIST.md.
-5. REQUIREMENTS.md marquait NEWS-03 à 06 comme faits alors que PDF, supports et séquences n'existent pas : corrigé en `[~]`.
+## Revue sécurité du nouveau code
 
-Non prouvé : tout ce qui touche la production, Brevo, Resend, Vercel et les appareils réels (rien n'a été exécuté, par règle). Les tests utilisent des mocks.
+- Webhook : 401 sans secret, sans en-têtes Svix, avec signature invalide ou corps modifié (testé) ; écriture seulement pour un abonné actif ; pas de rappel sortant.
+- Cron : fermé sans CRON_SECRET, dry-run, envois derrière deux drapeaux, revendication par insertion unique avant envoi, libération en cas d'échec, plafond campagnes testé.
+- Aucun secret côté client (test no-public-secrets étendu à Resend).
+- Restants : un POST /subscribe simultané pour un même email peut théoriquement créer deux lignes ; `/api/newsletter/event` reste anonyme et non limité (statistiques seulement) ; limite Resend (quota du plan) à vérifier avant activation.
 
 ## Blocages humains
 
-Voir `OWNER-CHECKLIST.md` : contenu du guide et de la recette, compte et clé Brevo, WiFi, DNS, 13 approbations, automatisations Brevo, vérifications d'appareils, accord pour l'envoi D-03.
-
-Risque calendrier : sans le contenu du propriétaire, les PDF liés dans l'email de bienvenue n'existent pas ; ne pas déployer l'inscription avant.
+Voir `OWNER-CHECKLIST.md`.
