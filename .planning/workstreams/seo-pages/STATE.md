@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 6
 current_plan: 1
 status: blocked-on-owner
-stopped_at: "Phase 6: 13/15; 06-10 task 3 et 06-15 attendent le propriétaire (voir OWNER-CHECKLIST.md)"
+stopped_at: "Phase 6: 14/15; 06-10 task 3 attend le propriétaire (voir OWNER-CHECKLIST.md); 06-15 fait le 2026-10-29"
 last_updated: "2026-10-18T14:02:22.537Z"
 last_activity: 2026-10-18
 progress:
@@ -34,8 +34,8 @@ Plan: 8 of 15
 
 ## Session Continuity
 
-**Stopped At:** Phase 6: 13/15 plans done; pending 06-10 task 3 (external edits need OK) and 06-15 (SV sign-off)
-**Resume File:** .planning/workstreams/seo-pages/phases/06-plan-de-pages-seo-allemand-su-dois-et-pr-sence-externe/06-15-PLAN.md
+**Stopped At:** Phase 6: 14/15 plans done; pending 06-10 task 3 (external edits need OK). 06-15 done 2026-10-29 (SV published after the owner's written validation, no native Swedish reviewer identified)
+**Resume File:** .planning/workstreams/seo-pages/phases/06-plan-de-pages-seo-allemand-su-dois-et-pr-sence-externe/06-10-PLAN.md
 
 ## Clôture 2026-10-29
 Gate vert (583 tests, tsc, lint, build). Voir phases/06-*/06-REPORT.md et OWNER-CHECKLIST.md.

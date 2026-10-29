@@ -14,12 +14,13 @@ Relevé en lecture seule fait (docs/ph6/nap-audit.md). Chaque correction attend 
 6. Décision sur les cinq étoiles statiques de la carte TripAdvisor de l'accueil (par défaut : phase 5).
 Mode retenu : Chrome piloté par Claude, vous connecté, un OK par clic. À relancer pour terminer la Task 3.
 
-### 06-15 — Suédois (I18N-02)
-Tout /sv reste noindex, absent du sitemap et des hreflang. À faire : envoyer docs/ph6/review/sv/*.md (8 fichiers) à un relecteur suédois, reporter ses corrections, cocher la ligne « Validé par écrit » de chaque document. Puis exécuter la Task 2 (ajout de 'sv' à PUBLISHED_PAGES, REVIEW_LOCALES, EMAIL_LOCALES).
+### 06-15 — Suédois (I18N-02) — FAIT le 2026-10-29
+Vous avez validé par écrit les 8 documents docs/ph6/review/sv/*.md (message « je valide les documents suédois »). Publiés : /sv (accueil), /sv/menu, /sv/fransk-restaurang-krabi, /sv/romantisk-middag-krabi, /sv/var-ata-krabi-town (hreflang réciproques, sitemap, sélecteur de langue, menu Guides), page d'avis /sv/review et emails clients en suédois. Non publiés en sv : /privacy, /getting-here-from-ao-nang, /wine-belgian-beer-krabi (restent noindex ou absents).
+Reste recommandé : une relecture par un suédophone natif (aucun relecteur identifié, aucune correction reçue). Si des corrections arrivent, éditer messages/sv.json (et COPY.sv / REVIEW_COPY.sv dans src/utils/resend.ts) puis re-déployer.
 
 ## À relire / vérifier
 - Textes DE : la validation enregistrée (2026-10-18) est votre message « approved », pas une relecture par un germanophone natif identifié. Recommandé : faire relire par un natif (pages, emails DE, page d'avis DE, QR) ; aucune garantie de qualité linguistique de mon côté.
-- Textes SV : brouillons générés, NON validés.
+- Textes SV : validés par vous le 2026-10-29, mais sans relecteur natif identifié (brouillons générés par Claude, aucune correction externe). Relecture native recommandée.
 - Posts Google : semaines 3 (offre basse saison) et la soirée (date) à compléter ; non publiables en l'état.
 - Page /en/getting-here-from-ao-nang : chiffres de transport confirmés par vous (06-12) ; Grab recommandé sans tarif inventé.
 - Page vin/bière belge : publiée après votre accord (06-12). Elle est EN uniquement (hreflang en + x-default).
