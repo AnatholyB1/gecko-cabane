@@ -41,3 +41,21 @@ const divider = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="88
 </svg>`
 await sharp(Buffer.from(divider)).png({ compressionLevel: 9, palette: true }).toFile(`${OUT}/band-divider.png`)
 console.log(`${OUT}/band-divider.png (${fs.statSync(`${OUT}/band-divider.png`).size} bytes)`)
+
+// Season campaign (october_return): 1200 px hero and 4:3 tiles (560 px, shown at 280 px).
+// Only real photos from public/ are used (no generated image, no photo of the owners).
+const campaign = [
+  ['campaign-hero.jpg', 'public/hero-bg.jpg', { left: 380, top: 0, width: 1640, height: 820 }, 1200, 600],
+  ['campaign-tile-massaman.jpg', 'public/food-massaman.jpg', { left: 0, top: 200, width: 1072, height: 804 }, 560, 420],
+  ['campaign-tile-bourguignon.jpg', 'public/food-bourguignon.jpg', { left: 0, top: 12, width: 1080, height: 810 }, 560, 420],
+  ['campaign-tile-entrance.jpg', 'public/exterior-entrance.jpg', { left: 0, top: 420, width: 1000, height: 750 }, 560, 420],
+  ['campaign-tile-sign.jpg', 'public/exterior-sign.jpg', { left: 250, top: 120, width: 750, height: 563 }, 560, 420],
+]
+for (const [file, src, crop, w, h] of campaign) {
+  await sharp(src)
+    .extract(crop)
+    .resize(w, h, { fit: 'cover' })
+    .jpeg({ quality: 74, mozjpeg: true })
+    .toFile(`${OUT}/${file}`)
+  console.log(`${OUT}/${file} (${fs.statSync(`${OUT}/${file}`).size} bytes)`)
+}

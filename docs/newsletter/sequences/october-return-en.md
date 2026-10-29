@@ -2,7 +2,7 @@ Subject: Krabi is getting ready for the season, and so are we
 Preview text: A table will be waiting for you on Maharat Road.
 Audience: RESIDENT = false and LAST_VISIT_DATE set, language EN
 Trigger: seasonal send by the app (Resend) in October, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
-Owner status: approved 2026-10-18
+Owner status: approved 2026-10-18; SUPERSEDED 2026-10-30 by the illustrated "Come back to the table" campaign (src/utils/newsletter-campaign.ts), which is the text sent
 
 ---
 

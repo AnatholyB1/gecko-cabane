@@ -64,16 +64,24 @@ describe('planSequenceSends: J+2 and J+3', () => {
 
 describe('planSequenceSends: seasonal campaigns and the 1-per-month cap', () => {
   const sent = new Set<string>()
-  it('october return: tourists with a visit, in October only', () => {
-    const o = { today: '2026-10-29', sent, lastCampaign: new Map<string, string>(), ...ON }
-    expect(activeCampaigns('2026-10-29')).toEqual(['october_return'])
+  it('high-season return (kind october_return): tourists with a visit, November only', () => {
+    const o = { today: '2026-11-05', sent, lastCampaign: new Map<string, string>(), ...ON }
+    expect(activeCampaigns('2026-11-05')).toEqual(['october_return'])
     expect(planSequenceSends([cand({ lastVisit: '2025-12-01' })], o)[0]).toMatchObject({
       kind: 'october_return',
       period: '2026',
     })
     expect(planSequenceSends([cand({ lastVisit: '2025-12-01', resident: true })], o)).toEqual([])
     expect(planSequenceSends([cand()], o)).toEqual([])
-    expect(activeCampaigns('2026-11-15')).toEqual([])
+    // window edges: 31 Oct and 1 Dec are outside, 1 Nov and 30 Nov inside
+    expect(activeCampaigns('2026-10-31')).toEqual([])
+    expect(activeCampaigns('2026-11-01')).toEqual(['october_return'])
+    expect(activeCampaigns('2026-11-30')).toEqual(['october_return'])
+    expect(activeCampaigns('2026-12-01')).toEqual([])
+    expect(planSequenceSends([cand({ lastVisit: '2025-12-01' })], { ...o, today: '2026-10-31' })).toEqual([])
+    expect(planSequenceSends([cand({ lastVisit: '2025-12-01' })], { ...o, today: '2026-12-01' })).toEqual([])
+    expect(planSequenceSends([cand({ lastVisit: '2025-12-01' })], { ...o, today: '2026-11-01' })[0]?.period).toBe('2026')
+    expect(planSequenceSends([cand({ lastVisit: '2025-12-01' })], { ...o, today: '2026-11-30' })).toHaveLength(1)
   })
 
   it('green season: residents or visited, May to September', () => {
@@ -84,13 +92,13 @@ describe('planSequenceSends: seasonal campaigns and the 1-per-month cap', () => 
   })
 
   it('caps campaigns at one per 30 days per contact, but not J+2/J+3', () => {
-    const lastCampaign = new Map([['a@x.com', '2026-10-05']])
-    const o = { today: '2026-10-20', sent, lastCampaign, ...ON }
-    const out = planSequenceSends([cand({ lastVisit: '2026-10-18' })], o)
+    const lastCampaign = new Map([['a@x.com', '2026-11-05']])
+    const o = { today: '2026-11-20', sent, lastCampaign, ...ON }
+    const out = planSequenceSends([cand({ lastVisit: '2026-11-18' })], o)
     expect(out.map((p) => p.kind)).toEqual(['after_visit_j2'])
     const freed = planSequenceSends([cand({ lastVisit: '2025-11-01' })], {
       ...o,
-      lastCampaign: new Map([['a@x.com', '2026-09-10']]),
+      lastCampaign: new Map([['a@x.com', '2026-10-10']]),
     })
     expect(freed.map((p) => p.kind)).toEqual(['october_return'])
   })
@@ -98,7 +106,7 @@ describe('planSequenceSends: seasonal campaigns and the 1-per-month cap', () => 
   it('does not resend a campaign already sent this year', () => {
     const done = new Set([sendKey('a@x.com', 'october_return', '2026')])
     const out = planSequenceSends([cand({ lastVisit: '2025-11-01' })], {
-      today: '2026-10-29',
+      today: '2026-11-10',
       sent: done,
       lastCampaign: new Map(),
       ...ON,
@@ -108,7 +116,7 @@ describe('planSequenceSends: seasonal campaigns and the 1-per-month cap', () => 
 
   it('is off unless enabled', () => {
     const out = planSequenceSends([cand({ lastVisit: '2025-11-01' })], {
-      today: '2026-10-29',
+      today: '2026-11-10',
       sent,
       lastCampaign: new Map(),
       sequencesEnabled: true,
@@ -136,12 +144,12 @@ describe('email templates carry image bands, never text only', () => {
     const imgs = [...mail.html.matchAll(/<img [^>]*>/g)].map((m) => m[0])
     expect(imgs.length).toBeGreaterThanOrEqual(2)
     for (const img of imgs) {
-      expect(img).toMatch(/src="https:\/\/geckocabanerestaurant\.com\/email\/band-[a-z]+\.(jpg|png)"/)
+      expect(img).toMatch(/src="https:\/\/geckocabanerestaurant\.com\/email\/(band|campaign)-[a-z-]+\.(jpg|png)"/)
       expect(img).toMatch(/alt="[^"]*"/)
     }
     // photo bands have a real alt text; only the decorative divider may be empty
     for (const img of imgs.filter((i) => !i.includes('band-divider'))) expect(img).not.toContain('alt=""')
-    expect(mail.html).toContain('band-header.jpg')
+    expect(mail.html).toMatch(/band-header\.jpg|campaign-hero\.jpg/)
     expect(mail.html).toContain('Gecko Cabane') // text fallback when images are blocked
     expect(mail.html).toContain(unsub.replace(/&/g, '&amp;'))
     expect(mail.text).toContain(unsub)
@@ -162,7 +170,60 @@ describe('email templates carry image bands, never text only', () => {
     expect(j2.text).toContain('Si vous avez aimé votre soirée')
     expect(j2.html).toContain('https://geckocabanerestaurant.com/fr/review?src=newsletter')
     expect(sequenceEmail('during_stay_j3', 'en', unsub).subject).toBe('Your stay in Krabi, and a table with us')
-    expect(sequenceEmail('october_return', 'en', unsub).subject).toBe('Krabi is getting ready for the season, and so are we')
+    expect(sequenceEmail('october_return', 'en', unsub).subject).toBe('Come back to the table at Gecko Cabane')
     expect(sequenceEmail('green_season', 'fr', unsub).subject).toBe('La saison verte à Krabi, une table calme chez Gecko Cabane')
+  })
+})
+
+describe('season campaign email (Retrouvez la table)', () => {
+  const unsub = 'https://geckocabanerestaurant.com/en/newsletter/unsubscribe?r=1&s=abc'
+  const mails = (['fr', 'en'] as const).map((l) => [l, sequenceEmail('october_return', l, unsub)] as const)
+
+  it.each(mails)('%s: hero, 4 real photos, alt text, 600 px max, absolute hosted URLs', (_l, mail) => {
+    const imgs = [...mail.html.matchAll(/<img [^>]*>/g)].map((m) => m[0])
+    expect(imgs).toHaveLength(5)
+    for (const i of imgs) {
+      expect(i).toMatch(/src="https:\/\/geckocabanerestaurant\.com\/email\/campaign-[a-z-]+\.jpg"/)
+      expect(i).toMatch(/alt="[^"]{25,}"/)
+      expect(i).toMatch(/max-width:(600|270)px/)
+    }
+    expect(mail.html).toContain('width="600"')
+  })
+
+  it.each(mails)('%s: UTM booking button, guide button, hours block, unsubscribe, PDPA', (l, mail) => {
+    expect(mail.html).toContain(
+      `https://geckocabanerestaurant.com/${l}?utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=season-2026#reservation`
+    )
+    expect(mail.html).toContain(`/guide-gourmand-krabi-town-${l}.pdf`)
+    expect(mail.html).toContain('+66 81 958 5945')
+    expect(mail.html).toContain('wa.me/66819585945')
+    expect(mail.html).toContain('Maharat Road')
+    expect(mail.html).toContain(unsub.replace(/&/g, '&amp;'))
+    expect(mail.html).toContain('PDPA')
+    expect(mail.html).toContain('v:roundrect') // Outlook bulletproof button
+    expect(mail.text).toContain('utm_campaign=season-2026')
+  })
+
+  it.each(mails)('%s: no offer, price, rating or modern CSS; short', (_l, mail) => {
+    expect(mail.html + mail.text).not.toMatch(/remise|promo|offre|réduction|discount|% |baht|฿|étoiles|stars|rating|\d+ (avis|reviews)/i)
+    expect(mail.html).not.toMatch(/display:\s*(flex|grid)|position:\s*(absolute|fixed)|var\(--|@media/i)
+    expect(mail.text.length).toBeLessThan(1400)
+  })
+
+  it('angle "Retrouvez la table" in both languages', () => {
+    expect(mails[0][1].html).toContain('Retrouvez la table')
+    expect(mails[1][1].html).toContain('Come back to the table')
+  })
+
+  it('campaign photos exist and total under 250 KB', () => {
+    const files = ['hero', 'tile-massaman', 'tile-bourguignon', 'tile-entrance', 'tile-sign'].map((n) =>
+      join(root, 'public', 'email', `campaign-${n}.jpg`)
+    )
+    let total = 0
+    for (const f of files) {
+      expect(existsSync(f), f).toBe(true)
+      total += readFileSync(f).length
+    }
+    expect(total).toBeLessThan(250 * 1024)
   })
 })

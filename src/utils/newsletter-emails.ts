@@ -8,6 +8,7 @@
 
 import { escapeHtml, stripLineBreaks } from './html'
 import { SITE_URL } from './seo'
+import { campaignEmail } from './newsletter-campaign'
 
 export type NewsletterEmailLocale = 'fr' | 'en'
 
@@ -297,7 +298,8 @@ type SequenceCopy = {
   photo: 'dish' | 'table'
 }
 
-const SEQUENCE_COPY: Record<SequenceKind, Record<NewsletterEmailLocale, SequenceCopy>> = {
+/** Text-led sequences. `october_return` is the illustrated season campaign (newsletter-campaign.ts). */
+const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<NewsletterEmailLocale, SequenceCopy>> = {
   "after_visit_j2": {
     fr: {
       subject: "Merci d'être passés chez Gecko Cabane",
@@ -386,50 +388,6 @@ const SEQUENCE_COPY: Record<SequenceKind, Record<NewsletterEmailLocale, Sequence
       photo: "dish"
     }
   },
-  october_return: {
-    fr: {
-      subject: "Krabi se prépare pour la saison, et nous aussi",
-      preview: "Une table vous attendra à Maharat Road.",
-      paragraphs: [
-        "Vous avez dîné chez nous lors d'un précédent séjour à Krabi, et nous pensons à vous au moment où la saison commence.",
-        "Jariya vous accueille de nouveau à Krabi Town, sur Maharat Road, pour sa cuisine franco-thaï. Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00.",
-        "Si vous revenez bientôt, vous pouvez déjà réserver votre table."
-      ],
-      buttons: [
-        {
-          label: "Voir la carte",
-          path: "#menu"
-        },
-        {
-          label: "Réserver une table",
-          path: "#reservation"
-        }
-      ],
-      signoff: "À très bientôt, Jariya et l'équipe de Gecko Cabane",
-      photo: "dish"
-    },
-    en: {
-      subject: "Krabi is getting ready for the season, and so are we",
-      preview: "A table will be waiting for you on Maharat Road.",
-      paragraphs: [
-        "You dined with us during a previous stay in Krabi, and we think of you as the season begins.",
-        "Jariya welcomes you again in Krabi Town, on Maharat Road, for her French-Thai cooking. We are closed on Tuesdays, and the kitchen stays open until 10:00 pm.",
-        "If you are coming back soon, you can already book your table."
-      ],
-      buttons: [
-        {
-          label: "See the menu",
-          path: "#menu"
-        },
-        {
-          label: "Book a table",
-          path: "#reservation"
-        }
-      ],
-      signoff: "See you soon, Jariya and the Gecko Cabane team",
-      photo: "dish"
-    }
-  },
   green_season: {
     fr: {
       subject: "La saison verte à Krabi, une table calme chez Gecko Cabane",
@@ -482,6 +440,7 @@ export function sequenceEmail(
   locale: NewsletterEmailLocale,
   unsubscribeUrl: string
 ): NewsletterEmail {
+  if (kind === 'october_return') return campaignEmail(locale, unsubscribeUrl)
   const c = SEQUENCE_COPY[kind][locale]
   const common = COMMON[locale]
   const base = `${SITE_URL}/${locale}`

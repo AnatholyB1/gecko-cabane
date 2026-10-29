@@ -7,7 +7,7 @@ Cartographie des séquences. Les brouillons sont dans `docs/newsletter/sequences
 | Bienvenue | Resend (code, 07-04) | confirmation du double opt-in | immédiat | tous les inscrits confirmés (guide, recette si source bill_qr) | FR/EN | immédiat | non | accepted Resend 2026-10-18 |
 | Après-visite | Cron app (Resend) | LAST_VISIT_DATE + 2 jours | J+2 | inscrits avec une date de visite | FR/EN actifs | 18:00 Asia/Bangkok | non (séquence) | approuvé 2026-10-18 |
 | Pendant le séjour | Cron app (Resend) | LAST_VISIT_DATE + 3 jours | J+3 | RESIDENT = false, date de visite renseignée | FR/EN actifs | 18:00 Asia/Bangkok | non (séquence) | approuvé 2026-10-18 |
-| Retour en octobre | Cron app (Resend), campagne | chaque septembre ou octobre | annuel | RESIDENT = false et LAST_VISIT_DATE renseignée | FR/EN actifs | 18:00 Asia/Bangkok | oui | approuvé 2026-10-18 |
+| Retrouvez la table (kind `october_return`) | Cron app (Resend), campagne | 1er au 30 novembre | annuel | RESIDENT = false et LAST_VISIT_DATE renseignée | FR/EN actifs | 18:00 Asia/Bangkok | oui | nouveau texte du 2026-10-30, à relire |
 | Saison verte | Cron app (Resend), saisonnier | mai à octobre | selon le calendrier | RESIDENT = true, ou LAST_VISIT_DATE renseignée | FR/EN actifs | 18:00 Asia/Bangkok | oui | approuvé 2026-10-18 |
 
 DE et SV : après relecture humaine (phase 6), inactifs. Aucun brouillon DE/SV dans cette phase (D-09).

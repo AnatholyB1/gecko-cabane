@@ -6,7 +6,7 @@
  * send is claimed in gecko_newsletter_sends so a contact never gets the same email twice.
  *
  * - J+2 after the visit and J+3 for tourists: short catch-up windows, deduped by visit date.
- * - October return (tourists with a visit) and green season (residents or visited):
+ * - High-season return (kind october_return, November; tourists with a visit) and green season (residents or visited):
  *   seasonal campaigns, once per year, at most one campaign per 30 days per contact.
  */
 
@@ -43,10 +43,16 @@ function monthOf(today: string): number {
   return Number(today.slice(5, 7))
 }
 
-/** Seasonal windows (Krabi calendar): October return in October, green season May to September. */
+/**
+ * Seasonal windows (Krabi calendar): green season May to September; the high-season
+ * campaign in November (1 to 30). The kind keeps its historical name `october_return`
+ * (it was planned for October; the SQL check constraint of migration 017 lists that
+ * name, so it is not renamed). Once per contact per year (period = year), capped with
+ * the 30-day campaign rule.
+ */
 export function activeCampaigns(today: string): SequenceKind[] {
   const m = monthOf(today)
-  if (m === 10) return ['october_return']
+  if (m === 11) return ['october_return']
   if (m >= 5 && m <= 9) return ['green_season']
   return []
 }
