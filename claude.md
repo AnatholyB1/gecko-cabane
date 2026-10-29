@@ -123,7 +123,7 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - **Tech stack**: Next.js 16 App Router, Tailwind v4, Supabase, next-intl — pas de migration ; `createServerClient`/`createBrowserClient` selon le contexte, jamais la service-role côté client
 - **i18n**: toute chaîne visible dans `src/app/[locale]/` via next-intl, clés dans `messages/fr.json` et `en.json` (et `de.json` ensuite) ; l'admin reste en français fixe
 - **Conformité**: PDPA thaïlandais B.E. 2562 et RGPD — consentement explicite, double opt-in, lien de désinscription, consentement horodaté avec source
-- **Emails**: Resend pour le transactionnel (confirmations, email J+1) ; Brevo pour la newsletter (segments FR/EN/DE/SV, pays, résident/touriste, dernière visite) ; 1 email/mois maximum hors séquences
+- **Emails**: Resend pour le transactionnel (confirmations, email J+1)  et pour la newsletter, envoyée par l’application (segments FR/EN/DE/SV, pays, résident/touriste, dernière visite) ; 1 email/mois maximum hors séquences
 - **Actions externes**: tout ce qui est publié ou envoyé à un tiers exige l'accord du propriétaire avant exécution
 - **Qualité du contenu**: textes DE/SV relus par un humain ; aucune affirmation non vérifiable dans le schema (notes, avis)
 <!-- GSD:project-end -->

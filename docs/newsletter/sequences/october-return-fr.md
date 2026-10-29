@@ -2,7 +2,7 @@ Sujet : Krabi se prépare pour la saison, et nous aussi
 Texte d'aperçu : Une table vous attendra à Maharat Road.
 Audience : RESIDENT = false et LAST_VISIT_DATE renseignée, langue FR
 Déclencheur : envoi saisonnier par l’application (Resend) en octobre, 18:00 (Asia/Bangkok). Compte dans le plafond de 1 email par mois.
-Statut propriétaire : approuvé 2026-10-18
+Statut propriétaire : approuvé 2026-10-18 ; REMPLACÉ le 2026-10-30 par la campagne illustrée « Retrouvez la table » (src/utils/newsletter-campaign.ts), qui est le texte envoyé
 
 ---
 

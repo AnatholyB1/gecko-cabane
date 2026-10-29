@@ -37,7 +37,7 @@ Plus d'automatisations à construire dans un outil tiers. La tâche planifiée `
 
 - reflète les segments dans les contacts Resend ;
 - envoie l'email après-visite à J+2 (fenêtre de rattrapage de 2 jours) et l'email pendant le séjour à J+3 (touristes seulement) ;
-- envoie les campagnes saisonnières : retour en octobre (touristes avec une visite, en octobre) et saison verte (résidents ou contacts avec une visite, de mai à septembre), une fois par an et par contact ;
+- envoie les campagnes saisonnières : la campagne de début de haute saison « Retrouvez la table » (touristes avec une visite, du 1er au 30 novembre ; le type garde son nom historique `october_return`, prévu à l'origine pour octobre, car la contrainte SQL de la migration 017 le liste) et la saison verte (résidents ou contacts avec une visite, de mai à septembre), une fois par an et par contact ;
 - applique dans le code le plafond de 1 campagne par 30 jours et par contact (D-08), et consigne chaque envoi dans `gecko_newsletter_sends` pour qu'aucun email ne parte deux fois.
 
 Les envois sont désactivés par défaut. Activer à la main, après approbation : `NEWSLETTER_SEQUENCES_ENABLED=1` (J+2, J+3) et `NEWSLETTER_CAMPAIGNS_ENABLED=1` (retour en octobre, saison verte). Contrôle à blanc : `/api/cron/newsletter-sync?dry=1` avec le secret cron renvoie les comptes sans rien envoyer.
@@ -55,3 +55,7 @@ Aucun envoi, segment ni campagne en allemand ou en suédois. Les contacts de et 
 ## 8. Avant l'activation
 
 Chaque brouillon de `docs/newsletter/sequences/` est marqué approuvé dans `SEQUENCES.md`. Chaque email contient le lien de désinscription signé (désinscription par POST) et l'en-tête List-Unsubscribe en un clic.
+
+## 9. Campagne « Retrouvez la table » (novembre 2026)
+
+Email illustré (fr et en ; de et sv reçoivent l'anglais) : grande image d'en-tête, quatre photos réelles du site (jarret au curry Massaman, bourguignon, entrée, enseigne), bouton « Réserver une table » avec `utm_source=newsletter&utm_medium=email&utm_campaign=season-2026`, bouton vers le guide, horaires, adresse, téléphone et WhatsApp, désinscription et mention PDPA/RGPD. Aucune offre, remise, prix ni note. Images dans `public/email/campaign-*.jpg` (générées par `scripts/generate-email-bands.mjs`). Aperçu hors dépôt, sans rien envoyer : `node scripts/preview-newsletter-campaign.mjs --out <dossier>`. Le texte est nouveau : à faire relire au propriétaire avant `NEWSLETTER_CAMPAIGNS_ENABLED=1`.
