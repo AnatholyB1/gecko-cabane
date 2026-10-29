@@ -164,7 +164,7 @@ Instructions pour le relecteur :
 | `contactSection.mapTitle` | Carte : Gecko Cabane, Krabi Town | Karte: Gecko Cabane, Krabi Town |  |
 | `contactSection.mapLoaded` | Carte chargée | Karte geladen |  |
 
-> Lignes ajoutées le 2026-10-29 (fusion phases 5 et 6) : brouillon rédigé par Claude, NON couvert par la validation du 2026-10-18 ci-dessous. À relire avant publication de ces textes.
+> Lignes ajoutées le 2026-10-29 (fusion phases 5 et 6) : relecture déclarée terminée par le propriétaire le 2026-10-29 (conversation Claude Code, message « TOUT EST RELU. je donne mon accord pour tout »). Validation globale, sans relecteur natif identifié.
 
 ## Validation écrite
 
