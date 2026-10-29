@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "locales": {
+    "fr": {
+      "title": "Le guide gourmand de Krabi Town",
+      "intro": "Bienvenue à Krabi. Nous sommes le Gecko Cabane, un petit restaurant franco-thaï de Maharat Road, et ce guide rassemble les adresses de la ville que nous aimons. Prenez-le comme une liste de départ pour explorer à votre rythme.",
+      "outro": "Merci de votre inscription. Retrouvez-nous au Gecko Cabane, Maharat Road, Krabi Town : nous serons heureux de vous accueillir."
+    },
+    "en": {
+      "title": "The Krabi Town food guide",
+      "intro": "Welcome to Krabi. We are Gecko Cabane, a small French-Thai restaurant on Maharat Road, and this guide gathers the places in town that we like. Use it as a starting list to explore at your own pace.",
+      "outro": "Thank you for signing up. Find us at Gecko Cabane, Maharat Road, Krabi Town: we would love to welcome you."
+    }
+  },
+  "places": []
+}
