@@ -151,9 +151,9 @@ Instructions pour le relecteur :
 | `meta.homeDescription` | Cuisine franco-thaï de la cheffe Jariya à Krabi Town, Maharat Road : 40 couverts, plats français et thaïs, réservation en ligne en moins d'une minute. | Kocken Jariyas fransk-thailändska kök i Krabi Town, Maharat Road: 40 platser, franska och thailändska rätter. Boka bord online på under en minut. |  |
 | `meta.schemaDescription` | Restaurant franco-thaï gastronomique à Krabi Town, Thaïlande : cuisine fusion française et thaïlandaise de la cheffe Jariya, 40 couverts. | Fin fransk-thailändsk restaurang i Krabi Town, Thailand: fransk-thailändskt fusionskök av kocken Jariya, 40 platser. |  |
 | `about.storyTitle` | Notre histoire | Vår historia |  |
-| `about.story1` | Gecko Cabane a été ouvert par la cheffe Jariya et son mari français. Elle apporte la cuisine, lui la table à la française, et ensemble ils accueillent leurs hôtes chaque soir. Cuisine française et classiques thaïs se partagent la carte, avec une courte sélection de vins et de bières belges. | Gecko Cabane öppnades av kocken Jariya och hennes franske man. Hon står för maten, han för det franska bordet, och tillsammans tar de emot sina gäster varje kväll. Fransk matlagning och thailändska klassiker delar på menyn, med ett kort urval viner och belgiska öl. |  |
-| `about.couplePhotoAlt` | La cheffe Jariya et son mari | Kocken Jariya och hennes man |  |
-| `about.coupleCaption` | Jariya et son mari | Jariya och hennes man |  |
+| `about.story1` | Gecko Cabane a été ouvert par la cheffe Jariya et Frédéric français, Frédéric. Elle apporte la cuisine, lui la table à la française, et ensemble ils accueillent leurs hôtes chaque soir. Cuisine française et classiques thaïs se partagent la carte, avec une courte sélection de vins et de bières belges. | Gecko Cabane öppnades av kocken Jariya och hennes franske man Frédéric. Hon står för maten, han för det franska bordet, och tillsammans tar de emot sina gäster varje kväll. Fransk matlagning och thailändska klassiker delar på menyn, med ett kort urval viner och belgiska öl. |  |
+| `about.couplePhotoAlt` | La cheffe Jariya et Frédéric, son mari | Kocken Jariya och hennes man |  |
+| `about.coupleCaption` | Jariya et Frédéric | Jariya och hennes man |  |
 | `contactSection.gettingHereTitle` | Comment venir | Så tar du dig hit |  |
 | `contactSection.gettingHere.aoNang` | Ao Nang : 20 min en taxi | Ao Nang: 20 min med taxi |  |
 | `contactSection.gettingHere.songthaew` | Songthaew : 50 bahts | Songthaew: 50 baht |  |
