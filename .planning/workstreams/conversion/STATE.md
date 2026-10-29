@@ -4,10 +4,10 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 5
 current_plan: 1
-status: executing
-stopped_at: "Phase 5: 13/13 plans written; preview verification and SEO-08 outstanding"
+status: awaiting-owner
+stopped_at: "Phase 5: 13/13 plans livrés et gate vert (2026-10-29); SEO-08, REV-07, CONV-02 attendent le propriétaire"
 last_updated: "2026-10-18T13:39:50.477Z"
-last_activity: 2026-10-17
+last_activity: 2026-10-29
 progress:
   total_phases: 1
   completed_phases: 1
@@ -20,12 +20,12 @@ progress:
 
 ## Current Position
 
-Phase: 5 (Conversion et mesure) — EXECUTING
-Plan: 12 of 13
-**Status:** Ready to execute
+Phase: 5 (Conversion et mesure) — CODE COMPLET, clôture en attente propriétaire
+Plan: 13 of 13
+**Status:** Gate vert (604 tests, tsc, lint 0 erreur, build); voir 05-PHASE-REPORT.md
 **Current Phase:** 5
-**Last Activity:** 2026-10-17
-**Last Activity Description:** Phase 5 execution started
+**Last Activity:** 2026-10-29
+**Last Activity Description:** Vérification goal-backward, gate, revue sécurité, clôture documentaire
 
 ## Progress
 
@@ -34,5 +34,5 @@ Plan: 12 of 13
 
 ## Session Continuity
 
-**Stopped At:** Phase 5: 13/13 plans written; preview verification and SEO-08 outstanding
-**Resume File:** .planning/workstreams/conversion/phases/05-conversion-et-mesure/05-13-SUMMARY.md
+**Stopped At:** Phase 5 code complet; restent SEO-08 (PageSpeed), REV-07 (email non vérifié), CONV-02 (photo, DE)
+**Resume File:** .planning/workstreams/conversion/phases/05-conversion-et-mesure/05-PHASE-REPORT.md

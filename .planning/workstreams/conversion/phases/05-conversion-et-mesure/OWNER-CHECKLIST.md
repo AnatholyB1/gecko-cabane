@@ -74,3 +74,13 @@ Rien de ce qui suit n'a été exécuté par Claude (migrations, variables Vercel
 
 - [ ] Mesurer PageSpeed mobile : la référence de 05-07 est **non vérifiée** (quota PSI dépassé, aucun score revendiqué). Objectif score >= 85 et LCP < 2,5 s, à mesurer sur la préversion ou via Chrome DevTools Lighthouse (plan 05-13).
 - [ ] Vérification finale de 05-13 : contrôles fonctionnels de bout en bout (réservation, LINE/WhatsApp, avis, carte).
+
+## 11. Actions humaines restantes à la clôture (2026-10-29)
+
+Ordre conseillé avant le 1er novembre :
+- [ ] Appliquer 015 puis 016 (section 1), puis déployer ; sans cela source des réservations et compteurs d'avis ne fonctionnent pas
+- [ ] Tester « Un souci ? » en préversion et confirmer la réception de l'email (REV-07)
+- [ ] SEO-08 reste OUVERT : meilleur score mesuré 79 (LCP 4,4 s) sur la préversion, cible 85 / 2,5 s. Pistes : réduire les polices (Cinzel Decorative, poids inutilisés), alléger l'hydratation, Sentry client. À décider/valider : retrait du Replay et du Profiling Sentry côté client
+- [ ] CONV-02 : photo du couple, prénom du propriétaire, année d'ouverture, texte DE (phase 6)
+- [ ] Valider l'accord de publication des 3 avis TripAdvisor repris mot pour mot, et l'année Travellers' Choice
+- [ ] Valider la décision aggregateRating (section 5)

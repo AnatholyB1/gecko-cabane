@@ -21,11 +21,11 @@
 
 - [x] **CONV-01** (C2): Un bloc de preuve sociale (note Google 4,7 pour 1 062 avis, badge Travellers' Choice TripAdvisor, 3 à 4 avis réels avec prénom et pays, lien « Laisser un avis ») est visible au-dessus de la réservation
 - [ ] **CONV-02** (C3): Une section « Qui sommes-nous » présente la cheffe Jariya, le propriétaire, la photo du couple et l'origine du lieu, en FR/EN/DE
-- [ ] **CONV-03** (C4): Un bloc « Comment venir » (depuis Ao Nang 20 min en taxi, songthaew 50 bahts, 3 min du Walking Street, 15 min de Chao Fah Pier) affiche une carte intégrée et un bouton d'itinéraire Google Maps
+- [x] **CONV-03** (C4): Un bloc « Comment venir » (depuis Ao Nang 20 min en taxi, songthaew 50 bahts, 3 min du Walking Street, 15 min de Chao Fah Pier) affiche une carte intégrée et un bouton d'itinéraire Google Maps
 
 ### Tunnel d'avis (REV)
 
-- [ ] **REV-05** (A5): L'admin fournit un modèle de message WhatsApp avec lien `/review?src=wa`
+- [x] **REV-05** (A5): L'admin fournit un modèle de message WhatsApp avec lien `/review?src=wa`
 - [x] **REV-06** (A6): Les clics sur `/review` sont comptés par source (email, QR, WhatsApp) et un tableau de suivi mensuel compare avis Google et TripAdvisor
 - [ ] **REV-07**: Le champ « Un souci ? » de `/review` envoie un email au propriétaire dès réception, affiché en même temps que les boutons d'avis, sans filtrage
 
