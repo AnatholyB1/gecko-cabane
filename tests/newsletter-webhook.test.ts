@@ -1,77 +1,137 @@
-import { describe, it, expect } from 'vitest'
-import { readFileSync } from 'fs'
-import { join } from 'path'
-import { parseBrevoWebhookEvents, tokenMatches } from '../src/utils/newsletter-withdrawal'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { createHmac } from 'node:crypto'
+import { NextRequest } from 'next/server'
+import { parseResendWebhookEvent } from '../src/utils/newsletter-withdrawal'
 
-const route = readFileSync(
-  join(__dirname, '..', 'src', 'app', 'api', 'webhooks', 'brevo', 'route.ts'),
-  'utf-8'
-)
+const inserted: Record<string, unknown>[] = []
+let ledgerRows: Record<string, unknown>[] = []
 
-describe('parseBrevoWebhookEvents', () => {
-  it('maps unsubscribe-like events to withdrawals', () => {
-    const ts = Math.floor(Date.now() / 1000) - 60
-    for (const event of ['unsubscribed', 'unsubscribe', 'spam']) {
-      const out = parseBrevoWebhookEvents({ event, email: 'Jean@Gmail.com', ts_event: ts })
-      expect(out).toEqual([
-        { kind: 'withdraw', email: 'jean@gmail.com', at: new Date(ts * 1000).toISOString() },
-      ])
-    }
+vi.mock('@/utils/supabase/server', () => ({
+  createAdminClient: () => ({
+    from: () => ({
+      select: () => ({ ilike: async () => ({ data: ledgerRows, error: null }) }),
+      insert: async (row: Record<string, unknown>) => {
+        inserted.push(row)
+        return { error: null }
+      },
+    }),
+    rpc: async () => ({ error: null }),
+  }),
+}))
+vi.mock('@sentry/nextjs', () => ({ captureException: vi.fn(), captureMessage: vi.fn() }))
+
+const SECRET_RAW = Buffer.from('test-signing-secret-bytes-0123456789')
+const WEBHOOK_SECRET = `whsec_${SECRET_RAW.toString('base64')}`
+
+function signed(payload: string, opts: { id?: string; ts?: number; secret?: Buffer } = {}) {
+  const id = opts.id ?? 'msg_1'
+  const ts = String(opts.ts ?? Math.floor(Date.now() / 1000))
+  const sig = createHmac('sha256', opts.secret ?? SECRET_RAW)
+    .update(`${id}.${ts}.${payload}`)
+    .digest('base64')
+  return { 'svix-id': id, 'svix-timestamp': ts, 'svix-signature': `v1,${sig}` }
+}
+
+function req(payload: string, headers: Record<string, string>) {
+  return new NextRequest('https://example.com/api/webhooks/resend', {
+    method: 'POST',
+    body: payload,
+    headers,
   })
-  it('ignores other events', () => {
-    expect(parseBrevoWebhookEvents({ event: 'opened', email: 'a@b.co' })).toEqual([])
+}
+
+const complaint = JSON.stringify({
+  type: 'email.complained',
+  created_at: new Date().toISOString(),
+  data: { to: ['Jean@Gmail.com'], email_id: 'x', from: 'a@b.co', subject: 's', message_id: 'm', created_at: 'x' },
+})
+
+describe('parseResendWebhookEvent', () => {
+  it('maps a spam complaint to a withdrawal for each recipient', () => {
+    const out = parseResendWebhookEvent(JSON.parse(complaint))
+    expect(out).toHaveLength(1)
+    expect(out[0]).toMatchObject({ kind: 'withdraw', email: 'jean@gmail.com' })
   })
-  it('handles arrays and skips invalid emails', () => {
-    const out = parseBrevoWebhookEvents([
-      { event: 'unsubscribed', email: 'a@b.co' },
-      { event: 'spam', email: 'c@d.co' },
-      { event: 'spam', email: 'nope' },
-      { event: 'spam' },
-    ])
-    expect(out).toHaveLength(2)
+  it('maps only permanent bounces', () => {
+    const base = { type: 'email.bounced', created_at: new Date().toISOString() }
+    const perm = parseResendWebhookEvent({ ...base, data: { to: ['a@b.co'], bounce: { type: 'Permanent' } } })
+    const temp = parseResendWebhookEvent({ ...base, data: { to: ['a@b.co'], bounce: { type: 'Transient' } } })
+    expect(perm).toHaveLength(1)
+    expect(temp).toEqual([])
+  })
+  it('maps a dashboard unsubscribe, ignores a re-subscribe', () => {
+    const base = { type: 'contact.updated', created_at: new Date().toISOString() }
+    expect(parseResendWebhookEvent({ ...base, data: { email: 'a@b.co', unsubscribed: true } })).toHaveLength(1)
+    expect(parseResendWebhookEvent({ ...base, data: { email: 'a@b.co', unsubscribed: false } })).toEqual([])
+  })
+  it('ignores other events, invalid emails and non-objects', () => {
+    expect(parseResendWebhookEvent({ type: 'email.opened', data: { to: ['a@b.co'] } })).toEqual([])
+    expect(parseResendWebhookEvent({ type: 'email.complained', data: { to: ['nope'] } })).toEqual([])
+    for (const v of [null, undefined, 'x', 42]) expect(parseResendWebhookEvent(v)).toEqual([])
   })
   it('falls back to now for missing or absurd timestamps', () => {
     const before = Date.now()
-    const missing = parseBrevoWebhookEvents({ event: 'spam', email: 'a@b.co' })
-    const old = parseBrevoWebhookEvents({ event: 'spam', email: 'a@b.co', ts_event: 1000 })
-    const future = parseBrevoWebhookEvents({
-      event: 'spam',
-      email: 'a@b.co',
-      ts_event: Math.floor(Date.now() / 1000) + 10 * 86400,
-    })
-    for (const o of [missing, old, future]) {
-      expect(Date.parse(o[0].at)).toBeGreaterThanOrEqual(before - 1000)
-      expect(Date.parse(o[0].at)).toBeLessThanOrEqual(Date.now() + 1000)
-    }
-  })
-  it('returns [] for non-object input', () => {
-    for (const v of [null, undefined, 'x', 42]) expect(parseBrevoWebhookEvents(v)).toEqual([])
+    const out = parseResendWebhookEvent({ type: 'email.complained', created_at: '1999-01-01', data: { to: ['a@b.co'] } })
+    expect(Date.parse(out[0].at)).toBeGreaterThanOrEqual(before - 1000)
   })
 })
 
-describe('tokenMatches', () => {
-  it('compares in constant time semantics', () => {
-    expect(tokenMatches('secret', 'secret')).toBe(true)
-    expect(tokenMatches('secret', 'secreT')).toBe(false)
-    expect(tokenMatches('secret', 'secret2')).toBe(false)
-    expect(tokenMatches('secret', null)).toBe(false)
-    expect(tokenMatches('', '')).toBe(false)
+describe('POST /api/webhooks/resend', () => {
+  beforeEach(() => {
+    inserted.length = 0
+    ledgerRows = []
+    vi.stubEnv('RESEND_API_KEY', 're_test_key')
+    vi.stubEnv('RESEND_WEBHOOK_SECRET', WEBHOOK_SECRET)
   })
-})
+  afterEach(() => vi.unstubAllEnvs())
 
-describe('webhook route wiring', () => {
-  it('exports POST only', () => {
-    expect(route).toMatch(/export async function POST/)
-    expect(route).not.toMatch(/export async function (GET|PUT|PATCH|DELETE)/)
+  it('401 without signature headers', async () => {
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const res = await POST(req(complaint, {}))
+    expect(res.status).toBe(401)
+    expect(inserted).toHaveLength(0)
   })
-  it('checks the token before reading the body', () => {
-    expect(route).toContain('tokenMatches')
-    expect(route).toContain('401')
-    expect(route.indexOf('tokenMatches')).toBeLessThan(route.indexOf('request.json'))
+
+  it('401 with a signature made with another secret', async () => {
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const res = await POST(req(complaint, signed(complaint, { secret: Buffer.from('other') })))
+    expect(res.status).toBe(401)
+    expect(inserted).toHaveLength(0)
   })
-  it('never calls Brevo and writes brevo_webhook rows', () => {
-    expect(route).not.toContain('blacklistBrevoContact')
-    expect(route).not.toContain('upsertBrevoContact')
-    expect(route).toContain('brevo_webhook')
+
+  it('401 when the body was altered after signing', async () => {
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const headers = signed(complaint)
+    const res = await POST(req(complaint.replace('Jean', 'Eve'), headers))
+    expect(res.status).toBe(401)
+  })
+
+  it('401 when no webhook secret is configured', async () => {
+    vi.stubEnv('RESEND_WEBHOOK_SECRET', '')
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const res = await POST(req(complaint, signed(complaint)))
+    expect(res.status).toBe(401)
+  })
+
+  it('writes a resend_webhook withdrawal for an active subscriber', async () => {
+    ledgerRows = [
+      {
+        id: 1, email: 'jean@gmail.com', consent: true, locale: 'fr', source: 'footer',
+        consented_at: '2026-10-01T00:00:00Z', confirmed_at: '2026-10-01T00:05:00Z',
+        confirmation_sent_at: '2026-10-01T00:00:10Z',
+      },
+    ]
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const res = await POST(req(complaint, signed(complaint)))
+    expect(res.status).toBe(200)
+    expect(inserted).toHaveLength(1)
+    expect(inserted[0]).toMatchObject({ email: 'jean@gmail.com', consent: false, source: 'resend_webhook', locale: 'fr' })
+  })
+
+  it('writes nothing when the address is already withdrawn or unknown', async () => {
+    const { POST } = await import('../src/app/api/webhooks/resend/route')
+    const res = await POST(req(complaint, signed(complaint)))
+    expect(res.status).toBe(200)
+    expect(inserted).toHaveLength(0)
   })
 })

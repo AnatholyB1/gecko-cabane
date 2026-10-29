@@ -3,6 +3,9 @@
  */
 
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { phoneCountryForLocale } from '../src/utils/validation'
 import {
   reservationRequestSchema,
   firstErrorCode,
@@ -90,5 +93,45 @@ describe('reservationRequestSchema', () => {
 
   it('exposes a server-side consent version constant', () => {
     expect(MARKETING_CONSENT_VERSION).toBe('reservation-form-2026-10-16')
+  })
+})
+
+describe('de/sv locales (phase 6)', () => {
+  const routeSrc = readFileSync(join(__dirname, '..', 'src/app/api/reservations/route.ts'), 'utf8')
+
+  it('accepts de and sv and keeps the real locale', () => {
+    for (const l of ['de', 'sv']) {
+      const r = reservationRequestSchema.safeParse({ ...valid, locale: l })
+      expect(r.success).toBe(true)
+      if (r.success) expect(r.data.locale).toBe(l)
+    }
+  })
+
+  it('rejects locales outside the whitelist', () => {
+    expect(reservationRequestSchema.safeParse({ ...valid, locale: 'es' }).success).toBe(false)
+  })
+
+  it('maps locales to phone countries', () => {
+    expect(phoneCountryForLocale('de')).toBe('DE')
+    expect(phoneCountryForLocale('sv')).toBe('SE')
+    expect(phoneCountryForLocale('fr')).toBe('FR')
+    expect(phoneCountryForLocale('en')).toBe('GB')
+    expect(phoneCountryForLocale('xx')).toBe('TH')
+  })
+
+  it('uses DE / SE as default phone country when phone_country is omitted', () => {
+    const { phone_country: _c, ...rest } = valid
+    void _c
+    const de = reservationRequestSchema.safeParse({ ...rest, locale: 'de', customer_phone: '0151 12345678' })
+    expect(de.success && de.data.customer_phone).toBe('+4915112345678')
+    const sv = reservationRequestSchema.safeParse({ ...rest, locale: 'sv', customer_phone: '070 123 45 67' })
+    expect(sv.success && sv.data.customer_phone).toBe('+46701234567')
+  })
+
+  it('route maps email locale via emailLocaleFor and French 429 only for fr', () => {
+    expect(routeSrc.split('emailLocaleFor(').length - 1).toBeGreaterThanOrEqual(2)
+    expect(routeSrc).not.toContain('const locale: EmailLocale = r.locale')
+    expect(routeSrc).not.toContain("data.locale === 'en' ? 'en' : 'fr'")
+    expect(routeSrc).toContain("r.locale === 'fr'")
   })
 })

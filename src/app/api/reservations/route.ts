@@ -9,6 +9,8 @@ import {
   MARKETING_CONSENT_VERSION,
   type ReservationErrorCode,
 } from '@/utils/reservation-schema'
+import { sanitizeUtm, isReservationSource } from '@/utils/reservation-source'
+import { emailLocaleFor } from '@/utils/review-invitations'
 import { checkSlot, type SettingsMap } from '@/utils/reservation-rules'
 import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
 import { checkReservationRateLimits, getClientIp } from '@/utils/rate-limit'
@@ -142,9 +144,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse<never>>(
         {
           error:
-            r.locale === 'en'
-              ? 'Too many requests from your connection. Message us directly on WhatsApp: +66 81 958 5945.'
-              : 'Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.',
+            r.locale === 'fr'
+              ? 'Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.'
+              : 'Too many requests from your connection. Message us directly on WhatsApp: +66 81 958 5945.',
           code: 'rate_limited',
         },
         { status: 429 }
@@ -174,8 +176,27 @@ export async function POST(request: NextRequest) {
     }
     const id: number = row.reservation_id
 
+    // Attribution (D-05), best effort. Service role already justified at (c); source is
+    // never written here, the column default 'site' applies (D-04).
+    const attribution = {
+      utm_source: sanitizeUtm(r.utm_source),
+      utm_medium: sanitizeUtm(r.utm_medium),
+      ref: sanitizeUtm(r.ref),
+    }
+    if (Object.values(attribution).some((v) => v !== null)) {
+      try {
+        const { error: utmError } = await admin
+          .from('gecko_reservations')
+          .update(attribution)
+          .eq('id', id)
+        if (utmError) Sentry.captureException(utmError)
+      } catch (e) {
+        Sentry.captureException(e)
+      }
+    }
+
     // (f) emails after the response is sent
-    const locale: EmailLocale = r.locale
+    const locale: EmailLocale = emailLocaleFor(r.locale)
     const details = {
       customer_name: r.customer_name,
       customer_email: r.customer_email,
@@ -256,7 +277,7 @@ export async function PUT(request: NextRequest) {
       return bad('ID requis')
     }
 
-    // Whitelist: only status and admin_notes can be changed (no mass assignment)
+    // Whitelist: only status, admin_notes and source can be changed (no mass assignment)
     const updates: Record<string, string | null> = {}
 
     if (body.status !== undefined) {
@@ -272,6 +293,11 @@ export async function PUT(request: NextRequest) {
         return bad('Notes invalides')
       }
       updates.admin_notes = body.admin_notes
+    }
+
+    if (body.source !== undefined) {
+      if (!isReservationSource(body.source)) return bad('Source invalide')
+      updates.source = body.source
     }
 
     if (Object.keys(updates).length === 0) return bad('Aucune modification')
@@ -294,7 +320,7 @@ export async function PUT(request: NextRequest) {
       const newStatus = updates.status
       const resend = getResendClient()
       if (resend && data.customer_email) {
-        const emailLocale: EmailLocale = data.locale === 'en' ? 'en' : 'fr'
+        const emailLocale: EmailLocale = emailLocaleFor(data.locale ?? 'fr')
         const { subject, html } = customerStatusEmail(
           {
             customer_name: data.customer_name,

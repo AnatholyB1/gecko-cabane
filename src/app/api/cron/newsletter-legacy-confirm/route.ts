@@ -8,7 +8,8 @@ import {
   buildUnsubscribeUrl,
   buildOneClickUnsubscribeUrl,
 } from '@/utils/newsletter-links'
-import { getResendClient, RESEND_FROM_EMAIL, newsletterLegacyConfirmEmail } from '@/utils/resend'
+import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
+import { newsletterLegacyConfirmEmail } from '@/utils/newsletter-emails'
 import type { ApiResponse } from '@/types/database'
 
 export const dynamic = 'force-dynamic'

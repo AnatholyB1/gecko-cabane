@@ -1,7 +1,7 @@
 Sujet : Krabi se prépare pour la saison, et nous aussi
 Texte d'aperçu : Une table vous attendra à Maharat Road.
 Audience : RESIDENT = false et LAST_VISIT_DATE renseignée, langue FR
-Déclencheur : campagne Brevo, envoyée chaque septembre ou octobre, 18:00 (Asia/Bangkok). Compte dans le plafond de 1 email par mois.
+Déclencheur : envoi saisonnier par l’application (Resend) en octobre, 18:00 (Asia/Bangkok). Compte dans le plafond de 1 email par mois.
 Statut propriétaire : approuvé 2026-10-18
 
 ---

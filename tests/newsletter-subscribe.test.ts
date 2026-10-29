@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { newsletterConfirmEmail } from '../src/utils/resend'
+import { newsletterConfirmEmail } from '../src/utils/newsletter-emails'
 
 const route = readFileSync(
   join(__dirname, '..', 'src', 'app', 'api', 'newsletter', 'subscribe', 'route.ts'),
@@ -32,9 +32,9 @@ describe('subscribe route wiring', () => {
       expect(route, s).toContain(s)
     }
   })
-  it('never stores the IP and never touches Brevo', () => {
+  it('never stores the IP and never touches the contact provider', () => {
     expect(route).not.toMatch(/\bip\s*:/)
-    expect(route).not.toMatch(/brevo/i)
+    expect(route).not.toMatch(/brevo|resend-contacts/i)
   })
   it('sets one-click unsubscribe headers', () => {
     expect(route).toContain('List-Unsubscribe')

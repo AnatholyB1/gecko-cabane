@@ -1,0 +1,11 @@
+{
+  "files": {
+    "ui": { "pageKey": null, "prefixes": ["common", "nav", "guides", "seoLanding", "language", "errors", "whatsapp", "footer", "announcement", "hours"] },
+    "home": { "pageKey": "", "prefixes": ["home", "hero", "about", "cuisine", "menuSection", "services", "hoursSection", "reservationForm", "contactSection", "social", "gallery", "meta.homeTitle", "meta.homeDescription", "meta.schemaDescription"] },
+    "menu": { "pageKey": "/menu", "prefixes": ["menuPage", "meta.menuTitle", "meta.menuDescription"] },
+    "french-restaurant-krabi": { "pageKey": "/french-restaurant-krabi", "prefixes": ["frenchRestaurant", "meta.frenchRestaurantTitle", "meta.frenchRestaurantDescription"] },
+    "romantic-dinner-krabi": { "pageKey": "/romantic-dinner-krabi", "prefixes": ["romanticDinner", "meta.romanticDinnerTitle", "meta.romanticDinnerDescription"] },
+    "where-to-eat-krabi-town": { "pageKey": "/where-to-eat-krabi-town", "prefixes": ["whereToEat", "meta.whereToEatTitle", "meta.whereToEatDescription"] },
+    "review": { "pageKey": null, "prefixes": ["review"] }
+  }
+}

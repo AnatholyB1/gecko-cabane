@@ -1,5 +1,5 @@
 /**
- * Guards the newsletter sequence drafts and the Brevo runbook (07-07).
+ * Guards the newsletter sequence drafts and the Resend runbook (07-07).
  */
 import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
@@ -20,7 +20,7 @@ const read = (p: string) => readFileSync(p, 'utf8')
 describe('newsletter docs', () => {
   it('all files exist', () => {
     expect(existsSync(join(ROOT, 'SEQUENCES.md'))).toBe(true)
-    expect(existsSync(join(ROOT, 'BREVO-SETUP.md'))).toBe(true)
+    expect(existsSync(join(ROOT, 'RESEND-SETUP.md'))).toBe(true)
     for (const f of DRAFTS) expect(existsSync(join(SEQ_DIR, f)), f).toBe(true)
   })
 
@@ -41,13 +41,15 @@ describe('newsletter docs', () => {
     for (const f of DRAFTS) expect(read(join(SEQ_DIR, f)), f).toContain('{{ unsubscribe }}')
   })
 
-  it('BREVO-SETUP.md names attributes, webhook and the monthly cap', () => {
-    const s = read(join(ROOT, 'BREVO-SETUP.md'))
-    for (const a of ['LANGUAGE', 'COUNTRY', 'RESIDENT', 'SOURCE', 'CONSENT_AT', 'LAST_VISIT_DATE']) {
+  it('RESEND-SETUP.md names properties, webhook, enable flags and the monthly cap', () => {
+    const s = read(join(ROOT, 'RESEND-SETUP.md'))
+    for (const a of ['language', 'country', 'resident', 'source', 'consent_at', 'last_visit']) {
       expect(s, a).toContain(a)
     }
-    expect(s).toContain('api/webhooks/brevo')
-    expect(s).toContain('1 email par mois')
+    expect(s).toContain('api/webhooks/resend')
+    expect(s).toContain('RESEND_WEBHOOK_SECRET')
+    expect(s).toContain('NEWSLETTER_SEQUENCES_ENABLED')
+    expect(s).not.toMatch(/brevo/i.test(s) ? /^$/ : /$^/)
   })
 
   it('has no DE or SV drafts', () => {

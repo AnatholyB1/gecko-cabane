@@ -1,7 +1,7 @@
 Subject: Krabi is getting ready for the season, and so are we
 Preview text: A table will be waiting for you on Maharat Road.
 Audience: RESIDENT = false and LAST_VISIT_DATE set, language EN
-Trigger: Brevo campaign, sent every September or October, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
+Trigger: seasonal send by the app (Resend) in October, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
 Owner status: approved 2026-10-18
 
 ---

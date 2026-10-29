@@ -1,29 +1,34 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuTeaser from '@/components/MenuTeaser'
 import { Link } from '@/i18n/navigation'
+import NextLink from 'next/link'
 import ReservationForm from '@/components/ReservationForm'
+import SocialProof from '@/components/SocialProof'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import NewsletterFooterSection from '@/components/NewsletterFooterSection'
+import GuidesMenu from '@/components/GuidesMenu'
+import { getGuideItems } from '@/components/guideItems'
 import GcDivider from '@/components/ui/GcDivider'
+import { BotanicalHeliconia, BotanicalPalm } from '@/components/ui/Botanical'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
-import { buildPageMetadata, LOCALES, SAME_AS, type SeoLocale } from '@/utils/seo'
-
-// Google place URL, taken from the shared sameAs list (no duplicated literal).
-const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
+import MapEmbed from '@/components/MapEmbed'
+import { COUPLE_PHOTO } from '@/utils/about-content'
+import { localizedPageMetadata } from '@/utils/page-metadata'
+import { isPublished, slugFor, toSeoLocale, guidesFor, googleDirectionsUrl, googleMapsEmbedUrl, type SeoLocale } from '@/utils/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale: raw } = await params
-  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const t = await getTranslations({ locale, namespace: 'meta' })
+  const { locale: rawLocale } = await params
   // Absolute title so the layout template is not appended (D-11).
-  return buildPageMetadata({
-    locale,
-    title: t('homeTitle'),
-    description: t('homeDescription'),
+  return localizedPageMetadata({
+    rawLocale,
+    key: '',
+    titleKey: 'homeTitle',
+    descriptionKey: 'homeDescription',
     absoluteTitle: true,
   })
 }
@@ -31,6 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations()
+  const guideItems = await getGuideItems(locale)
+  const footerGuides = guidesFor(toSeoLocale(locale))
 
   return (
     <div className="min-h-screen bg-gc-void font-cormorant">
@@ -57,7 +64,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           >
             GECKO CABANE
           </a>
-          <div className="hidden md:flex gap-8 font-raleway font-light text-[13px] tracking-[0.2em] uppercase" role="menubar">
+          <ul className="hidden md:flex gap-8 font-raleway font-light text-[13px] tracking-[0.2em] uppercase">
             {[
               { href: '#about', key: 'common.about' },
               { href: '#menu', key: 'common.menu' },
@@ -66,27 +73,28 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               { href: '#contact', key: 'common.contact' },
             ].map(({ href, key }) =>
               key === 'common.menu' ? (
-                <Link
-                  key={href}
-                  href="/menu"
-                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
-                  role="menuitem"
-                >
-                  {t(key as Parameters<typeof t>[0])}
-                </Link>
+                <li key={href}>
+                  <Link
+                    href="/menu"
+                    className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  >
+                    {t(key as Parameters<typeof t>[0])}
+                  </Link>
+                </li>
               ) : (
-                <a
-                  key={href}
-                  href={href}
-                  className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
-                  role="menuitem"
-                >
-                  {t(key as Parameters<typeof t>[0])}
-                </a>
+                <li key={href}>
+                  <a
+                    href={href}
+                    className="text-gc-ivory/65 hover:text-gc-ivory transition-colors focus:outline-none focus:text-gc-gold"
+                  >
+                    {t(key as Parameters<typeof t>[0])}
+                  </a>
+                </li>
               ),
             )}
-          </div>
-          <div className="flex items-center gap-6">
+          </ul>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <GuidesMenu items={guideItems} toggleLabel={t('guides.toggle')} navLabel={t('guides.ariaLabel')} />
             <LanguageSwitcher />
             <a
               href="#reservation"
@@ -109,12 +117,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         {/* ═══ HERO ═══ */}
         <section className="relative min-h-screen flex items-center justify-center bg-gc-void pt-[72px] overflow-hidden">
           {/* Hero background image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/hero-bg.jpg"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            fill
+            preload
+            sizes="100vw"
+            quality={60}
+            className="object-cover pointer-events-none select-none"
             style={{ opacity: 0.28 }}
           />
           {/* Noise */}
@@ -127,11 +138,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           />
           {/* Botanical right */}
           <div className="absolute bottom-0 right-0 w-72 h-[440px] opacity-[0.07] gc-botanical pointer-events-none select-none" aria-hidden="true">
-            <img src="/botanical-heliconia.svg" alt="" className="w-full h-full object-contain object-bottom" />
+            <BotanicalHeliconia />
           </div>
           {/* Botanical left */}
           <div className="absolute top-20 left-0 w-56 h-80 opacity-[0.05] gc-botanical-slow pointer-events-none select-none" aria-hidden="true">
-            <img src="/botanical-palm.svg" alt="" className="w-full h-full object-contain" />
+            <BotanicalPalm />
           </div>
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
@@ -217,10 +228,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     seats: (chunks) => <span className="text-gc-text-dark font-semibold not-italic">{chunks}</span>
                   })}
                 </p>
-                {locale === 'en' && (
+                <h3 className="font-cinzel font-normal text-[20px] leading-[1.2] text-gc-text-dark mb-4">
+                  {t('about.storyTitle')}
+                </h3>
+                <p className="font-cormorant text-[17px] text-gc-text-mid leading-[1.85] mb-8">
+                  {t('about.story1')}
+                </p>
+                                {isPublished('/french-restaurant-krabi', toSeoLocale(locale)) && (
                   <p className="mb-8">
                     <Link
-                      href="/french-restaurant-krabi"
+                      href={slugFor('/french-restaurant-krabi', toSeoLocale(locale))}
                       className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
                     >
                       {t('about.frenchRestaurantLink')}
@@ -243,10 +260,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold z-10" />
 
                   {/* Photo de la cheffe */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/chef-jariya.jpg"
                     alt={t('about.chefPhotoAlt')}
+                    width={1024}
+                    height={1024}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full object-cover"
                     style={{ aspectRatio: '3/4', filter: 'sepia(0.3) contrast(1.05)', objectPosition: 'center top' }}
                   />
@@ -268,6 +287,24 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     </p>
                   </div>
                 </div>
+                {COUPLE_PHOTO && (
+                  <figure className="relative mt-8 bg-gc-void overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
+                    <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gc-gold z-10" />
+                    <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gc-gold z-10" />
+                    <Image
+                      src={COUPLE_PHOTO.src}
+                      width={COUPLE_PHOTO.width}
+                      height={COUPLE_PHOTO.height}
+                      alt={t('about.couplePhotoAlt')}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="w-full h-auto object-cover"
+                      style={{ aspectRatio: '4/3' }}
+                    />
+                    <figcaption className="font-raleway font-light text-[12px] tracking-[0.15em] uppercase text-gc-gold/65 text-center px-6 py-4">
+                      {t('about.coupleCaption')}
+                    </figcaption>
+                  </figure>
+                )}
               </div>
             </div>
           </div>
@@ -415,13 +452,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   className="group relative overflow-hidden"
                   style={{ border: '1px solid rgba(198,155,60,0.12)' }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={item.src}
                     alt={item.alt}
+                    width={800}
+                    height={600}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
                     style={{ objectPosition: item.pos }}
-                    loading="lazy"
                   />
                   {/* Caption overlay */}
                   <div
@@ -517,76 +555,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
         </section>
 
-        {/* ═══ SOCIAL ═══ */}
-        <section className="py-20 px-6 bg-gc-void relative overflow-hidden">
-          <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
-          <div className="max-w-[860px] mx-auto text-center relative z-10">
-            <h2
-              className="font-cinzel font-normal text-gc-ivory mb-4"
-              style={{ fontSize: 'clamp(20px, 2.5vw, 32px)' }}
-            >
-              {t('social.title')}
-            </h2>
-            <GcDivider className="mb-8" />
-            <p className="font-cormorant italic text-[18px] text-gc-ivory/65 mb-12 max-w-xl mx-auto">
-              {t('social.description')}
-            </p>
-            <div className="mb-12">
-              <p className="font-cinzel text-[20px] font-semibold text-gc-ivory mb-3">
-                {t('home.reviewsLine')}
-              </p>
-              <a
-                href={GOOGLE_PLACE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-raleway font-light text-[12px] tracking-[0.15em] uppercase text-gc-gold underline hover:text-gc-ivory transition-colors inline-flex items-center min-h-11"
-              >
-                {t('home.reviewsLink')} →
-              </a>
-            </div>
-            <div className="grid md:grid-cols-2 gap-5">
-              <a
-                href="https://fr.tripadvisor.be/Restaurant_Review-g297927-d2413872-Reviews-Gecko_Cabane_Restaurant_krabi-Krabi_Town_Krabi_Province.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
-              >
-                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">TripAdvisor</p>
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-gc-gold text-gc-gold" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                  ))}
-                </div>
-                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
-                  {t('social.tripAdvisorText')}
-                </p>
-                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
-                  {t('social.readReviews')} →
-                </span>
-              </a>
-
-              <a
-                href="https://www.facebook.com/GeckoCabaneRestaurant/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group border border-gc-gold/20 p-8 hover:border-gc-gold/50 transition-colors text-left"
-              >
-                <p className="font-raleway font-light text-[11px] tracking-[0.2em] uppercase text-gc-gold/55 mb-4">Facebook</p>
-                <svg className="w-8 h-8 fill-gc-gold opacity-50 mb-4" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <p className="font-cormorant text-[16px] text-gc-ivory/65 mb-5 leading-relaxed">
-                  {t('social.facebookText')}
-                </p>
-                <span className="font-cinzel text-[12px] tracking-[0.1em] uppercase text-gc-gold group-hover:tracking-[0.2em] transition-all">
-                  {t('social.followUs')} →
-                </span>
-              </a>
-            </div>
-          </div>
-        </section>
+        {/* ═══ SOCIAL PROOF ═══ */}
+        <SocialProof locale={locale as SeoLocale} />
 
         {/* ═══ RESERVATION ═══ */}
         <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
@@ -612,6 +582,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             <ReservationForm />
+            <p className="mt-6 text-center font-cormorant italic text-[17px] leading-[1.5] text-gc-ivory/65">{t('payment.note')}</p>
           </div>
         </section>
 
@@ -634,13 +605,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="grid md:grid-cols-2 gap-12">
               <div>
                 <div className="relative mb-6 overflow-hidden" style={{ border: '1px solid rgba(198,155,60,0.2)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/exterior-sign.jpg"
                     alt={t('contactSection.signAlt')}
+                    width={1000}
+                    height={1333}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     className="w-full object-cover"
                     style={{ aspectRatio: '4/5', objectPosition: 'top center' }}
-                    loading="lazy"
                   />
                 </div>
                 <h3 className="font-cinzel font-normal text-[18px] text-gc-text-dark tracking-wide mb-5">
@@ -654,13 +626,37 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   {t('contactSection.thailand')}
                 </address>
                 <a
-                  href={GOOGLE_PLACE_URL}
+                  href={googleDirectionsUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-text-dark px-6 py-3 min-h-11 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-all mb-8 focus:outline-none focus:ring-1 focus:ring-gc-gold"
                 >
                   {t('home.directionsLink')} →
                 </a>
+                <div className="border-t border-gc-aged pt-6 mb-8">
+                  <h4 className="font-cinzel font-normal text-[20px] leading-[1.2] text-gc-text-dark mb-4">
+                    {t('contactSection.gettingHereTitle')}
+                  </h4>
+                  <div className="w-8 h-px bg-gc-gold mb-5" />
+                  <ul className="space-y-2 mb-6">
+                    {[
+                      { key: 'aoNang', label: t('contactSection.gettingHere.aoNang'), d: 'M3 13l2-6h14l2 6M5 13h14v5H5zM7 18v2M17 18v2' },
+                      { key: 'songthaew', label: t('contactSection.gettingHere.songthaew'), d: 'M4 6h16v10H4zM4 11h16M7 16v2M17 16v2' },
+                      { key: 'walkingStreet', label: t('contactSection.gettingHere.walkingStreet'), d: 'M12 5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 6v7l-3 6M12 13l3 6M9 9l3-1 3 2' },
+                      { key: 'chaoFah', label: t('contactSection.gettingHere.chaoFah'), d: 'M3 15h18l-2 4H5zM12 15V4l5 6h-5' },
+                    ].map(({ key, label, d }) => (
+                      <li key={key} className="flex items-center gap-3">
+                        <svg className="w-5 h-5 text-gc-brass shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" d={d} />
+                        </svg>
+                        <span className="font-cormorant text-[17px] text-gc-text-mid leading-[1.5]">
+                          {label}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <MapEmbed src={googleMapsEmbedUrl()} />
+                </div>
                 <div className="border-t border-gc-aged pt-6">
                   <h4 className="font-cinzel font-normal text-[13px] tracking-[0.15em] uppercase text-gc-text-dark mb-4">
                     {t('contactSection.reservationTitle')}
@@ -678,12 +674,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </div>
 
               <div className="bg-gc-void p-10 relative overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/exterior-entrance.jpg"
                   alt=""
                   aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover pointer-events-none select-none"
                 />
                 <div
                   className="absolute inset-0"
@@ -771,6 +768,25 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">
                 {t('common.menu')}
               </Link>
+              {footerGuides.length > 0 && (
+                <nav aria-label={t('footer.guidesTitle')} className="mt-4">
+                  <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-2">
+                    {t('footer.guidesTitle')}
+                  </h4>
+                  <ul>
+                    {footerGuides.map((g) => (
+                      <li key={g.href}>
+                        <NextLink
+                          href={g.href}
+                          className="inline-flex items-center min-h-11 md:min-h-0 font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors"
+                        >
+                          {t(`nav.${g.namespace}` as Parameters<typeof t>[0])}
+                        </NextLink>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              )}
             </div>
             <div>
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">

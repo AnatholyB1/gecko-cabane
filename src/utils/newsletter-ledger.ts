@@ -17,7 +17,7 @@ export interface LedgerRow {
   confirmation_sent_at: string | null
   country: string | null
   is_resident: boolean
-  brevo_synced_at: string | null
+  contact_synced_at: string | null
   last_visit_synced: string | null
   reservation_id: number | null
 }

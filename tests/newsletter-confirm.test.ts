@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { newsletterWelcomeEmail } from '../src/utils/resend'
+import { newsletterWelcomeEmail } from '../src/utils/newsletter-emails'
 
 const root = join(__dirname, '..', 'src')
 const route = readFileSync(join(root, 'app', 'api', 'newsletter', 'confirm', 'route.ts'), 'utf-8')
@@ -40,9 +40,9 @@ describe('confirm route (POST)', () => {
       expect(route, s).toContain(s)
     }
   })
-  it('pushes to Brevo only after the confirmed_at update', () => {
+  it('mirrors the Resend contact only after the confirmed_at update', () => {
     const upd = route.indexOf("confirmed_at: ")
-    const brevo = route.indexOf('upsertBrevoContact(')
+    const brevo = route.indexOf('upsertResendContact(')
     expect(upd).toBeGreaterThan(-1)
     expect(brevo).toBeGreaterThan(upd)
   })

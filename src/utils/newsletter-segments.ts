@@ -7,7 +7,7 @@
  */
 
 import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
-import { addDays, krabiToday, REVIEW_ELIGIBLE_STATUSES } from './review-invitations'
+import { krabiToday, REVIEW_ELIGIBLE_STATUSES } from './review-invitations'
 import { GEO_ALLOWED_SOURCES, NEWSLETTER_LOCALES } from './newsletter-schema'
 import { groupByEmail, resolveEmailState, type LedgerRow } from './newsletter-ledger'
 
@@ -95,7 +95,7 @@ export function buildSubscriberProfile(
 }
 
 // ---------------------------------------------------------------------------
-// Daily Brevo sync selectors (D-05, D-07, D-15, D-03). Pure.
+// Daily contact sync selectors (D-05, D-07, D-15, D-03). Pure.
 // ---------------------------------------------------------------------------
 
 export interface SyncReservation {
@@ -160,22 +160,6 @@ export function selectSyncUpdates(
     if (changed) updates.push({ row, profile })
   }
   return updates
-}
-
-/**
- * Fallback list triggers: J+2 after the visit (after the J+1 review email) and
- * J+3 for tourists still in town (D-07).
- */
-export function selectSequenceListAdds(
-  profiles: { email: string; lastVisit: string | null; resident: boolean }[],
-  today: string
-): { afterVisit: string[]; duringStay: string[] } {
-  const j2 = addDays(today, -2)
-  const j3 = addDays(today, -3)
-  return {
-    afterVisit: profiles.filter((p) => p.lastVisit === j2).map((p) => p.email),
-    duringStay: profiles.filter((p) => p.lastVisit === j3 && !p.resident).map((p) => p.email),
-  }
 }
 
 /**

@@ -1,46 +1,51 @@
 'use client'
 
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
-import { Link } from '@/i18n/navigation'
-import { locales } from '@/i18n/config'
+import Link from 'next/link'
+import { switcherTargets } from '@/utils/seo'
 
-export default function LanguageSwitcher({ availableLocales }: { availableLocales?: readonly string[] }) {
-  const locale = useLocale()
+const BASE =
+  'inline-flex items-center min-h-11 px-1.5 font-raleway text-[12px] tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
+
+/**
+ * Slug-aware switcher (D-05): only offers locales in which the current page is
+ * published, each link going to that locale's own slug. Hidden below 2 targets.
+ */
+export default function LanguageSwitcher() {
   const pathname = usePathname()
   const t = useTranslations('language')
+  const targets = switcherTargets(pathname)
 
-  // Hidden when the page exists in a single locale (D-14): no link to a missing page.
-  if (availableLocales && availableLocales.length < 2) return null
-  
-  // Remove current locale prefix to get the path
-  const pathWithoutLocale = pathname.replace(/^\/(fr|en)/, '') || '/'
+  if (targets.length < 2) return null
 
   return (
-    <div className="flex items-center gap-0" style={{ fontFamily: 'var(--font-raleway)', fontWeight: 300 }}>
-      {locales.map((loc, index) => (
-        <span key={loc} className="flex items-center">
-          {index > 0 && (
-            <span style={{ color: 'var(--gc-gold)', opacity: 0.4, margin: '0 6px', fontSize: '10px' }}>|</span>
-          )}
-          <Link
-            href={pathWithoutLocale}
-            locale={loc}
-            className="transition-all focus:outline-none"
-            style={{
-              fontSize: '11px',
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: locale === loc ? 'var(--gc-gold)' : 'rgba(250,240,230,0.45)',
-              fontWeight: locale === loc ? 400 : 300,
-            }}
-            aria-label={t('switchTo', { language: t(loc) })}
-            aria-current={locale === loc ? 'true' : undefined}
+    <nav aria-label={t('changeLanguage')} className="flex items-center gap-1">
+      {targets.map((target) => {
+        const label = t('switchTo', { language: t(target.locale) })
+        return target.current ? (
+          <span
+            key={target.locale}
+            lang={target.locale}
+            aria-current="true"
+            aria-label={label}
+            className={`${BASE} border-gc-gold text-gc-gold`}
           >
-            {loc.toUpperCase()}
+            {target.locale.toUpperCase()}
+          </span>
+        ) : (
+          <Link
+            key={target.locale}
+            href={target.href}
+            hrefLang={target.locale}
+            lang={target.locale}
+            aria-label={label}
+            className={`${BASE} border-transparent text-gc-ivory/45 hover:text-gc-gold transition-colors`}
+          >
+            {target.locale.toUpperCase()}
           </Link>
-        </span>
-      ))}
-    </div>
+        )
+      })}
+    </nav>
   )
 }

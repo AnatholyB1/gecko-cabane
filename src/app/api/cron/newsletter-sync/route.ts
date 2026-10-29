@@ -6,18 +6,15 @@ import {
   latestHonoredByEmail,
   profileWithReservation,
   selectSyncUpdates,
-  selectSequenceListAdds,
   type SyncReservation,
   type SubscriberProfile,
 } from '@/utils/newsletter-segments'
-import {
-  getBrevoConfig,
-  upsertBrevoContact,
-  updateBrevoContactAttributes,
-  addToBrevoList,
-  removeFromBrevoList,
-} from '@/utils/brevo'
-import { REVIEW_ELIGIBLE_STATUSES, krabiToday } from '@/utils/review-invitations'
+import { planSequenceSends, sendKey, isCampaign } from '@/utils/newsletter-sequences'
+import { sequenceEmail, type SequenceKind } from '@/utils/newsletter-emails'
+import { buildUnsubscribeUrl, buildOneClickUnsubscribeUrl, toPageLocale } from '@/utils/newsletter-links'
+import { upsertResendContact, updateResendContactProperties } from '@/utils/resend-contacts'
+import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
+import { REVIEW_ELIGIBLE_STATUSES, krabiToday, addDays } from '@/utils/review-invitations'
 import type { ApiResponse } from '@/types/database'
 
 export const dynamic = 'force-dynamic'
@@ -27,28 +24,24 @@ type SyncCounts = {
   today: string
   retry: number
   updates: number
-  afterVisit: number
-  duringStay: number
+  planned: number
   dryRun?: boolean
+  sendsEnabled?: boolean
+  campaignsEnabled?: boolean
   synced?: number
+  sent?: number
   failed?: number
   skipped?: number
 }
 
-const BREVO_PAUSE_MS = 150
-const BREVO_CALL_BUDGET = 200
+const CALL_PAUSE_MS = 600 // Resend default limit is 2 requests per second
+const CALL_BUDGET = 80 // one run must finish inside maxDuration
 const CHUNK = 100
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-function listIdFromEnv(name: string): number | null {
-  const raw = process.env[name]
-  if (!raw || !/^[0-9]+$/.test(raw)) return null
-  const n = Number(raw)
-  return Number.isSafeInteger(n) && n > 0 ? n : null
-}
-
-// Daily push of visit date, country and resident flag to Brevo (D-05, D-14, D-15).
-// Attributes only: Brevo automations trigger from data, the app never schedules sends.
+// Daily job (11:00 UTC = 18:00 Krabi): mirrors segments to Resend contacts and sends the
+// J+2 / J+3 sequences and the seasonal campaigns (D-05, D-07, D-08). Sending is OFF unless
+// NEWSLETTER_SEQUENCES_ENABLED / NEWSLETTER_CAMPAIGNS_ENABLED are "1": owner-gated.
 export async function GET(request: NextRequest) {
   // Fail closed: no secret configured or wrong header -> 401, before any work.
   const cronSecret = process.env.CRON_SECRET
@@ -57,9 +50,12 @@ export async function GET(request: NextRequest) {
   }
 
   const dryRun = request.nextUrl.searchParams.get('dry') === '1'
+  const sequencesEnabled = process.env.NEWSLETTER_SEQUENCES_ENABLED === '1'
+  const campaignsEnabled = process.env.NEWSLETTER_CAMPAIGNS_ENABLED === '1'
+  const secret = process.env.NEWSLETTER_SIGNING_SECRET
 
   try {
-    // Service role justified: the consent ledger and reservations hold PII with no
+    // Service role justified: the consent ledger, send log and reservations hold PII with no
     // anon policy. This server-only route is gated by CRON_SECRET and returns counts only.
     const admin = createAdminClient()
     const today = krabiToday(new Date())
@@ -90,52 +86,71 @@ export async function GET(request: NextRequest) {
       reservations.push(...((data ?? []) as SyncReservation[]))
     }
 
-    // Retry confirmed subscribers whose Brevo push failed at confirmation.
     const latest = latestHonoredByEmail(reservations, today)
-    const retryRows = [...actives.values()].filter((r) => r.brevo_synced_at === null)
-    const syncedActives = new Map(
-      [...actives].filter(([, r]) => r.brevo_synced_at !== null)
-    )
+    const retryRows = [...actives.values()].filter((r) => r.contact_synced_at === null)
+    const syncedActives = new Map([...actives].filter(([, r]) => r.contact_synced_at !== null))
     const updates = selectSyncUpdates(syncedActives, reservations, today)
 
-    const afterVisitList = listIdFromEnv('BREVO_LIST_AFTER_VISIT')
-    const duringStayList = listIdFromEnv('BREVO_LIST_DURING_STAY')
-    const profiles: SubscriberProfile[] = [...actives.values()].map((r) =>
-      profileWithReservation(r, latest)
+    // Send log: what was already sent, and the latest campaign per contact (cap, D-08).
+    const { data: sendLog, error: sendLogError } = await admin
+      .from('gecko_newsletter_sends')
+      .select('email, kind, period, sent_at')
+      .gte('sent_at', `${addDays(today, -400)}T00:00:00Z`)
+    if (sendLogError) {
+      Sentry.captureException(sendLogError)
+      return NextResponse.json<ApiResponse<SyncCounts>>({ error: 'Erreur serveur' }, { status: 500 })
+    }
+    const sent = new Set<string>()
+    const lastCampaign = new Map<string, string>()
+    for (const s of (sendLog ?? []) as { email: string; kind: SequenceKind; period: string; sent_at: string }[]) {
+      sent.add(sendKey(s.email, s.kind, s.period))
+      if (isCampaign(s.kind)) {
+        const day = krabiToday(new Date(s.sent_at))
+        const prev = lastCampaign.get(s.email.toLowerCase())
+        if (!prev || day > prev) lastCampaign.set(s.email.toLowerCase(), day)
+      }
+    }
+
+    const profiles: { row: LedgerRow; profile: SubscriberProfile }[] = [...actives.values()].map((row) => ({
+      row,
+      profile: profileWithReservation(row, latest),
+    }))
+    const planned = planSequenceSends(
+      profiles.map(({ row, profile }) => ({
+        email: row.email,
+        rowId: row.id,
+        language: profile.language,
+        lastVisit: profile.lastVisit,
+        resident: profile.resident,
+      })),
+      { today, sent, lastCampaign, sequencesEnabled, campaignsEnabled }
     )
-    const adds = selectSequenceListAdds(profiles, today)
-    const afterVisit = afterVisitList ? adds.afterVisit : []
-    const duringStay = duringStayList ? adds.duringStay : []
+    // Sequences before campaigns when the budget is short.
+    planned.sort((a, b) => Number(isCampaign(a.kind)) - Number(isCampaign(b.kind)))
 
+    const base: SyncCounts = {
+      today,
+      retry: retryRows.length,
+      updates: updates.length,
+      planned: planned.length,
+      sendsEnabled: sequencesEnabled,
+      campaignsEnabled,
+    }
     if (dryRun) {
+      return NextResponse.json<ApiResponse<SyncCounts>>({ data: { ...base, dryRun: true } })
+    }
+
+    const resend = getResendClient()
+    if (!resend) {
+      Sentry.captureMessage('RESEND_API_KEY is not set: newsletter sync skipped', 'warning')
       return NextResponse.json<ApiResponse<SyncCounts>>({
-        data: {
-          today,
-          retry: retryRows.length,
-          updates: updates.length,
-          afterVisit: afterVisit.length,
-          duringStay: duringStay.length,
-          dryRun: true,
-        },
+        data: { ...base, skipped: retryRows.length + updates.length + planned.length },
       })
     }
 
-    if (!getBrevoConfig()) {
-      Sentry.captureMessage('BREVO_API_KEY or BREVO_LIST_ID is not set: newsletter sync skipped', 'warning')
-      return NextResponse.json<ApiResponse<SyncCounts>>({
-        data: {
-          today,
-          retry: retryRows.length,
-          updates: updates.length,
-          afterVisit: afterVisit.length,
-          duringStay: duringStay.length,
-          skipped: retryRows.length + updates.length + afterVisit.length + duringStay.length,
-        },
-      })
-    }
-
-    let budget = BREVO_CALL_BUDGET
+    let budget = CALL_BUDGET
     let synced = 0
+    let sentCount = 0
     let failed = 0
     let skipped = 0
 
@@ -143,7 +158,7 @@ export async function GET(request: NextRequest) {
       const { error } = await admin
         .from('gecko_marketing_consents')
         .update({
-          ...(markSynced ? { brevo_synced_at: new Date().toISOString() } : {}),
+          ...(markSynced ? { contact_synced_at: new Date().toISOString() } : {}),
           country: profile.country,
           is_resident: profile.resident,
           last_visit_synced: profile.lastVisit,
@@ -152,78 +167,103 @@ export async function GET(request: NextRequest) {
       if (error) Sentry.captureException(error)
     }
 
-    for (const row of retryRows) {
+    // 1. Sequences first: they are time-boxed.
+    if (secret) {
+      for (const p of planned) {
+        if (budget <= 0) {
+          skipped++
+          continue
+        }
+        budget--
+        // Claim by insert: the unique key makes a concurrent run skip this send.
+        const claim = await admin
+          .from('gecko_newsletter_sends')
+          .insert({ email: p.email.toLowerCase(), kind: p.kind, period: p.period })
+        if (claim.error) {
+          // 23505 = already claimed elsewhere; anything else is reported.
+          if (claim.error.code !== '23505') Sentry.captureException(claim.error)
+          skipped++
+          continue
+        }
+        const locale = toPageLocale(p.language)
+        const mail = sequenceEmail(p.kind, locale, buildUnsubscribeUrl(secret, locale, p.rowId))
+        let ok = false
+        try {
+          const { error } = await resend.emails.send({
+            from: RESEND_FROM_EMAIL,
+            to: p.email,
+            subject: mail.subject,
+            html: mail.html,
+            text: mail.text,
+            headers: {
+              'List-Unsubscribe': `<${buildOneClickUnsubscribeUrl(secret, p.rowId)}>`,
+              'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+            },
+          })
+          ok = !error
+          if (error) Sentry.captureMessage(`Newsletter send failed: ${error.name}`, 'warning')
+        } catch (e) {
+          Sentry.captureException(e)
+        }
+        if (ok) {
+          sentCount++
+        } else {
+          failed++
+          // Release the claim so the next run retries inside the window.
+          const { error } = await admin
+            .from('gecko_newsletter_sends')
+            .delete()
+            .eq('email', p.email.toLowerCase())
+            .eq('kind', p.kind)
+            .eq('period', p.period)
+          if (error) Sentry.captureException(error)
+        }
+        await sleep(CALL_PAUSE_MS)
+      }
+    } else if (planned.length > 0) {
+      Sentry.captureMessage('NEWSLETTER_SIGNING_SECRET is not set: newsletter sends skipped', 'error')
+      skipped += planned.length
+    }
+
+    // 2. Contact mirror: retry failed confirmations, then segment changes.
+    for (const { row } of profiles.filter(({ row }) => row.contact_synced_at === null)) {
       if (budget <= 0) {
         skipped++
         continue
       }
       budget--
       const profile = profileWithReservation(row, latest)
-      const res = await upsertBrevoContact(profile)
+      const res = await upsertResendContact(profile)
       if (res.ok) {
         await persist(row.id, profile, true)
         synced++
       } else {
         failed++
       }
-      await sleep(BREVO_PAUSE_MS)
+      await sleep(CALL_PAUSE_MS)
     }
-
     for (const { row, profile } of updates) {
       if (budget <= 0) {
         skipped++
         continue
       }
       budget--
-      const attributes: Record<string, string | boolean> = {
-        COUNTRY: profile.country ?? '',
-        RESIDENT: profile.resident,
-      }
-      if (profile.lastVisit) attributes.LAST_VISIT_DATE = profile.lastVisit
-      const res = await updateBrevoContactAttributes(row.email, attributes)
+      const res = await updateResendContactProperties(profile)
       if (res.ok) {
         await persist(row.id, profile, false)
         synced++
       } else {
         failed++
       }
-      await sleep(BREVO_PAUSE_MS)
-    }
-
-    // Remove then add so a returning guest re-enters the automation trigger.
-    const listJobs: { listId: number | null; list: string[] }[] = [
-      { listId: afterVisitList, list: afterVisit },
-      { listId: duringStayList, list: duringStay },
-    ]
-    for (const { listId, list } of listJobs) {
-      if (!listId || list.length === 0) continue
-      if (budget < 2) {
-        skipped += list.length
-        continue
-      }
-      budget -= 2
-      const removed = await removeFromBrevoList(listId, list)
-      await sleep(BREVO_PAUSE_MS)
-      const added = await addToBrevoList(listId, list)
-      await sleep(BREVO_PAUSE_MS)
-      if (removed.ok && added.ok) synced += list.length
-      else failed += list.length
+      await sleep(CALL_PAUSE_MS)
     }
 
     return NextResponse.json<ApiResponse<SyncCounts>>({
-      data: {
-        today,
-        retry: retryRows.length,
-        updates: updates.length,
-        afterVisit: afterVisit.length,
-        duringStay: duringStay.length,
-        synced,
-        failed,
-        skipped,
-      },
+      data: { ...base, synced, sent: sentCount, failed, skipped },
     })
   } catch (err) {
     Sentry.captureException(err)
     return NextResponse.json<ApiResponse<SyncCounts>>({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
+

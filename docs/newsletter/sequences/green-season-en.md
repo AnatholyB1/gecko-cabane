@@ -1,7 +1,7 @@
 Subject: The green season in Krabi, a quiet table at Gecko Cabane
 Preview text: News from Jariya's kitchen during the rainy season.
 Audience: RESIDENT = true, or LAST_VISIT_DATE set, language EN
-Trigger: Brevo seasonal flow between May and October, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
+Trigger: seasonal send by the app (Resend) between May and September, 18:00 (Asia/Bangkok). Counts against the cap of 1 email per month.
 Owner status: approved 2026-10-18
 
 ---

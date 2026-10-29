@@ -23,7 +23,7 @@ const COPY = {
 
 export default async function Image({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const copy = COPY[locale === 'en' ? 'en' : 'fr']
+  const copy = COPY[locale === 'fr' ? 'fr' : 'en']
   return new ImageResponse(
     (
       <div

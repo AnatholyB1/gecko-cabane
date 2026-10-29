@@ -93,17 +93,19 @@ describe('home reviews and directions', () => {
     const en = JSON.parse(read('messages/en.json'))
     expect(/[àâçèéêëîïôùû]/i.test(JSON.stringify(en.home))).toBe(false)
   })
-  it('page renders the keys with the SAME_AS Google URL and safe links', () => {
-    expect(page).toContain("t('home.reviewsLine')")
-    expect(page).toContain("t('home.reviewsLink')")
+  // Phase 5: SOCIAL block folded into SocialProof, rating shown once
+  it('page renders directions; SocialProof renders review links; links are safe', () => {
+    const proof = read('src/components/SocialProof.tsx')
     expect(page).toContain("t('home.directionsLink')")
-    expect(page).toContain('SAME_AS')
     expect(page).not.toContain('ChIJozpAo2GUUTARABLcICH3H7I')
-    expect((page.match(/noopener noreferrer/g) ?? []).length).toBeGreaterThanOrEqual(2)
+    expect(proof).toContain("t('googleReviews')")
+    expect(proof).toContain('SAME_AS')
+    expect(((page + proof).match(/noopener noreferrer/g) ?? []).length).toBeGreaterThanOrEqual(2)
   })
-  it('does not emit aggregateRating and keeps sections', () => {
+  // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts
+  it('keeps aggregateRating out of the page, derived in seo.ts, and keeps sections', () => {
     expect(page).not.toContain('aggregateRating')
-    expect(read('src/utils/seo.ts')).not.toContain('aggregateRating')
+    expect(read('src/utils/seo.ts')).toContain('aggregateRatingFor(')
     for (const id of ['about', 'hours', 'contact']) expect(page).toContain(`id="${id}"`)
   })
 })

@@ -30,6 +30,8 @@ describe('middleware matcher', () => {
     '/manifest.webmanifest',
     '/monitoring',
     '/hero-bg.jpg',
+    '/gcm/js/script.js',
+    '/gcm/api/event',
   ])('does not match %s', (p) => {
     expect(re.test(p)).toBe(false)
   })
@@ -53,9 +55,12 @@ describe('middleware matcher', () => {
 
 describe('middleware options', () => {
   it('disables locale detection and next-intl alternate Link headers', () => {
-    expect(middlewareSrc).toContain('localeDetection: false')
-    expect(middlewareSrc).toContain('alternateLinks: false')
-    expect(middlewareSrc).toContain("localePrefix: 'always'")
+    const routingSrc = readFileSync(join(root, 'src/i18n/routing.ts'), 'utf8')
+    expect(routingSrc).toContain('localeDetection: false')
+    expect(routingSrc).toContain('alternateLinks: false')
+    expect(routingSrc).toContain("localePrefix: 'always'")
+    expect(routingSrc).toContain('pathnames: buildPathnames()')
+    expect(middlewareSrc).toContain('createIntlMiddleware(routing)')
   })
 })
 

@@ -36,6 +36,10 @@
     "chefName": "Chef Jariya",
     "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire.",
     "eyebrow": "Notre Histoire",
+    "storyTitle": "Notre histoire",
+    "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français. Elle apporte la cuisine, lui la table à la française, et ensemble ils accueillent leurs hôtes chaque soir. Cuisine française et classiques thaïs se partagent la carte, avec une courte sélection de vins et de bières belges.",
+    "couplePhotoAlt": "La cheffe Jariya et son mari",
+    "coupleCaption": "Jariya et son mari",
     "chefPhotoAlt": "Chef Jariya — Gecko Cabane, Krabi",
     "chefRole": "Chef de cuisine",
     "frenchRestaurantLink": "Découvrez notre cuisine française à Krabi Town"
@@ -138,6 +142,17 @@
     "eyebrow": "Réservation"
   },
   "contactSection": {
+    "gettingHereTitle": "Comment venir",
+    "gettingHere": {
+      "aoNang": "Ao Nang : 20 min en taxi",
+      "songthaew": "Songthaew : 50 bahts",
+      "walkingStreet": "Walking Street : 3 min à pied",
+      "chaoFah": "Chao Fah Pier : 15 min"
+    },
+    "showMap": "Afficher la carte",
+    "mapPrivacy": "La carte se charge uniquement après votre clic.",
+    "mapTitle": "Carte : Gecko Cabane, Krabi Town",
+    "mapLoaded": "Carte chargée",
     "title": "Nous Trouver",
     "addressTitle": "Adresse",
     "thailand": "Thaïlande",
@@ -169,7 +184,9 @@
     "legalVat": "N° TVA : Exonéré (PP.30)",
     "legalAlcohol": "Licence alcool : Excise Dept.",
     "legalPdpa": "Données personnelles protégées (PDPA BE 2562)",
-    "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : geckocabanerestaurant@gmail.com."
+    "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : geckocabanerestaurant@gmail.com.",
+    "guidesTitle": "Guides",
+    "navigateTitle": "Navigation"
   },
   "hours": {
     "monday": "Lundi",
@@ -198,7 +215,10 @@
   "language": {
     "fr": "Français",
     "en": "English",
-    "switchTo": "Changer vers {language}"
+    "de": "Deutsch",
+    "sv": "Svenska",
+    "switchTo": "Changer vers {language}",
+    "changeLanguage": "Changer de langue"
   },
   "errors": {
     "notFound": {
@@ -222,6 +242,10 @@
     "ariaLabel": "Nous écrire sur WhatsApp",
     "label": "Une question ? Écrivez-nous",
     "prefill": "Bonjour Gecko Cabane, je souhaite réserver une table."
+  },
+  "line": {
+    "ariaLabel": "Nous écrire sur LINE",
+    "label": "Nous écrire sur LINE"
   },
   "review": {
     "metaTitle": "Laisser un avis",
@@ -251,7 +275,8 @@
       "item3": "votre adresse email ;",
       "item4": "les détails de la réservation : date, heure, nombre de couverts et occasion éventuelle ;",
       "item5": "si vous cochez la case, votre consentement à recevoir nos actualités, avec la date, la source et la version du texte de consentement ;",
-      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours."
+      "item6": "des données techniques de protection contre les abus, conservées uniquement sous forme d'empreintes irréversibles (hash) et supprimées au bout de 2 jours ;",
+      "item7": "si vous utilisez le formulaire « Un souci ? » de la page d'avis : votre message et, si vous la donnez, votre adresse email, transmis par email au restaurant et non enregistrés sur le site."
     },
     "purpose": {
       "title": "Pourquoi nous les utilisons",
@@ -265,7 +290,7 @@
       "body": "Voici comment fonctionne notre newsletter et ce que nous retenons d'une inscription :",
       "item1": "vous pouvez vous inscrire depuis le pied de page du site, la fenêtre d'inscription, la page du QR code de l'addition, la page WiFi ou la case du formulaire de réservation ;",
       "item2": "double inscription : rien n'est envoyé avant que vous cliquiez sur le lien de confirmation. Nous conservons la date, la source, la langue et la version du texte de consentement (newsletter-2026-10-17) ;",
-      "item3": "Resend (emails transactionnels) et Brevo (newsletter) traitent votre adresse pour nous, uniquement pour l'envoi ;",
+      "item3": "Resend (emails transactionnels et newsletter) traite votre adresse pour nous, uniquement pour l'envoi ;",
       "item4": "pour adapter nos messages, nous retenons votre langue, votre pays, votre statut de résident de Krabi (case cochée ou numéro thaïlandais) et la date de votre dernière visite. Le pays vient de votre numéro de téléphone si vous avez réservé, sinon d'une localisation approximative à partir du réseau, pour les inscriptions faites sur le site uniquement : seul le pays est retenu et l'adresse IP n'est pas conservée. Les inscriptions faites au restaurant depuis le QR code de l'addition ou la page WiFi n'utilisent pas la localisation réseau, car elle indiquerait toujours la Thaïlande ;",
       "item5": "la fenêtre d'inscription mémorise dans votre navigateur, pendant 90 jours, le fait qu'elle a été affichée (sans identifiant) ;",
       "item6": "au plus une newsletter par mois en dehors de l'email de bienvenue et des emails après la visite. Chaque email contient un lien de désinscription, et la désinscription est enregistrée immédiatement ;",
@@ -293,7 +318,8 @@
       "body": "Vos données ne sont jamais vendues. Elles sont traitées par des prestataires, par catégorie :",
       "item1": "hébergement du site ;",
       "item2": "hébergement de la base de données ;",
-      "item3": "envoi des emails transactionnels."
+      "item3": "envoi des emails transactionnels ;",
+      "item4": "mesure d'audience sans cookies (Plausible Analytics) : pages vues et clics, sans identifiant personnel, hébergée dans l'Union européenne."
     },
     "contact": {
       "title": "Exercer vos droits et vous désinscrire",
@@ -323,45 +349,49 @@
     "menuTitle": "Carte – Gecko Cabane, restaurant franco-thaï à Krabi",
     "menuDescription": "Découvrez la carte du Gecko Cabane à Krabi Town : plats français et thaïs de la cheffe Jariya, prix en bahts, plats végétariens et épicés signalés.",
     "frenchRestaurantTitle": "Restaurant français à Krabi Town – Gecko Cabane",
-    "frenchRestaurantDescription": "Cuisine française authentique d'un couple franco-thaï sur Maharat Road, Krabi Town : bourguignon, poulet à la crème et currys thaïs. Réservez en ligne."
+    "frenchRestaurantDescription": "Cuisine française d'un couple franco-thaï sur Maharat Road, Krabi Town : bourguignon, poulet à la crème et currys thaïs. Réservez en ligne.",
+    "romanticDinnerTitle": "Dîner romantique à Krabi Town – Gecko Cabane",
+    "romanticDinnerDescription": "Une table calme pour deux sur Maharat Road, à Krabi Town : cuisine française et plats thaïs dans une salle de 40 couverts. Réservez en ligne.",
+    "whereToEatTitle": "Où manger à Krabi Town – Gecko Cabane",
+    "whereToEatDescription": "Notre guide pour bien manger à Krabi Town : marché de nuit, Walking Street et bord de rivière, quoi goûter et quand y aller, puis dîner au Gecko Cabane."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
     "h1": "Restaurant français à Krabi Town",
-    "subtitle": "Cuisine française authentique d'un couple franco-thaï, sur Maharat Road.",
+    "subtitle": "Une table française à Krabi Town, tenue par un couple franco-thaï, sur Maharat Road.",
     "ctaBook": "Réserver une table",
     "ctaMenu": "Voir la carte",
     "heroAlt": "L'entrée du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
-    "introTitle": "Une cuisine française faite avec soin à Krabi",
-    "intro1": "Gecko Cabane est un petit restaurant français à Krabi Town, tenu par un couple franco-thaï. La cheffe Jariya cuisine les classiques de la cuisine familiale française comme ils doivent être, lentement et généreusement.",
-    "intro2": "Avec seulement 40 couverts, la salle reste intime. Vous trouverez des plats français à l'ardoise, quelques favoris thaïs de la cuisine de la cheffe, et une courte carte de vins et de bières pour les accompagner.",
+    "introTitle": "Un coin de France à Krabi, cuisiné avec soin",
+    "intro1": "Après quelques jours de curry et de riz sauté, l'envie d'un vrai repas français, ça arrive. Gecko Cabane est un petit restaurant français à Krabi Town, tenu par un couple franco-thaï : la cheffe Jariya y cuisine les plats de la maison que vous reconnaîtrez, mijotés lentement et sans chichis.",
+    "intro2": "Avec 40 couverts seulement, la salle reste à taille humaine. Au menu : des plats français à l'ardoise, quelques classiques thaïs de la cheffe, et une courte carte de vins et de bières belges pour les accompagner.",
     "dishesTitle": "Plats signature",
     "bourguignon": {
       "name": "Bourguignon de bœuf",
-      "text": "Bœuf longuement mijoté au vin rouge avec carottes et oignons, comme en Bourgogne.",
+      "text": "Du bœuf mijoté longuement au vin rouge, avec carottes et oignons : le bourguignon comme à la maison.",
       "alt": "Bourguignon de bœuf servi au Gecko Cabane"
     },
     "veloute": {
       "name": "Velouté",
-      "text": "Un velouté onctueux, préparé frais, servi chaud et terminé à la crème.",
+      "text": "Un velouté onctueux, préparé frais, servi bien chaud et fini à la crème.",
       "alt": "Un bol de velouté servi au Gecko Cabane"
     },
     "pouletCreme": {
       "name": "Poulet à la crème",
-      "text": "Poulet tendre dans une sauce crémeuse, un plat réconfortant de la cuisine française.",
+      "text": "Un poulet tendre dans sa sauce crémeuse, le plat réconfort que l'on connaît bien.",
       "alt": "Poulet à la crème servi au Gecko Cabane"
     },
     "massaman": {
       "name": "Curry massaman",
-      "text": "Côté thaï de la carte, un curry doux et parfumé préparé par la cheffe Jariya.",
+      "text": "Pour le côté thaï de la carte, un curry massaman doux et parfumé, signé de la cheffe Jariya.",
       "alt": "Curry massaman servi au Gecko Cabane"
     },
     "winesTitle": "Vins et bières belges",
-    "winesText": "Pour accompagner les plats, nous servons des vins français et une sélection de bières belges.",
+    "winesText": "Pour accompagner le repas, nous servons des vins français et une sélection de bières belges.",
     "winesLink": "Voir nos vins et bières sur la carte",
     "storyTitle": "Le restaurant d'un couple franco-thaï",
-    "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français. Elle apporte la cuisine, lui la table à la française, et ensemble ils accueillent leurs hôtes chaque soir.",
-    "story2": "L'idée est simple : cuisiner avec soin les plats qu'ils aiment et les partager avec les voyageurs et les habitants de Krabi Town.",
+    "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français. Elle tient la cuisine, lui la table à la française, et ils accueillent ensemble leurs hôtes chaque soir.",
+    "story2": "Leur idée est simple : cuisiner avec soin les plats qu'ils aiment et les partager avec les voyageurs de passage comme avec les habitants de Krabi Town.",
     "chefAlt": "La cheffe Jariya du Gecko Cabane, Krabi Town",
     "findTitle": "Nous trouver à Krabi Town",
     "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
@@ -370,7 +400,7 @@
     "closedNote": "Fermé le mardi.",
     "directionsLink": "Itinéraire",
     "phoneLabel": "Appelez-nous au +66 81 958 5945",
-    "closingTitle": "Rejoignez-nous pour dîner à Krabi Town"
+    "closingTitle": "Une table française vous attend à Krabi Town"
   },
   "menuPage": {
     "eyebrow": "Gecko Cabane · Krabi Town",
@@ -453,5 +483,137 @@
     "unavailableBody": "Demandez le mot de passe WiFi à un membre de l'équipe.",
     "optionalTitle": "Recevez nos nouvelles (facultatif)",
     "optionalBody": "Pas besoin de vous inscrire pour utiliser le WiFi."
+  },
+  "socialProof": {
+    "eyebrow": "Ils nous recommandent",
+    "title": "Ce que disent nos clients",
+    "ratingAria": "Note {rating} sur 5, {count} avis",
+    "countLabel": "sur {count} avis",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Avis original en {language}",
+    "viewSource": "Voir l'avis de {name} sur {source}",
+    "starsSr": "{rating} sur 5",
+    "leaveReview": "Laisser un avis",
+    "googleReviews": "Lire les avis sur Google",
+    "tripadvisorReviews": "Lire les avis sur TripAdvisor",
+    "facebook": "Suivre Gecko Cabane sur Facebook"
+  },
+  "payment": {
+    "note": "Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte."
+  },
+  "reviewFeedback": {
+    "title": "Un souci ?",
+    "lead": "Quelque chose ne s'est pas bien passé ? Dites-le-nous directement, nous lisons chaque message.",
+    "messageLabel": "Votre message",
+    "counter": "{count}/{max}",
+    "emailLabel": "Email (facultatif)",
+    "emailHelp": "Uniquement pour vous répondre si vous le souhaitez.",
+    "submit": "Envoyer le message",
+    "pending": "Envoi…",
+    "success": "Merci, message transmis.",
+    "errorMessage": "Votre message doit contenir entre 5 et 1 000 caractères.",
+    "errorEmail": "Cette adresse email ne semble pas valide.",
+    "errorGeneric": "Le message n'a pas pu être envoyé. Réessayez, ou appelez-nous au +66 81 958 5945.",
+    "errorRateLimited": "Trop de messages depuis votre connexion.",
+    "whatsappLink": "Écrire sur WhatsApp"
+  },
+  "seoLanding": {
+    "discoverTitle": "À découvrir",
+    "guideEyebrow": "Guide",
+    "readGuide": "Lire le guide",
+    "seeMenu": "Voir la carte",
+    "bookTable": "Réserver une table"
+  },
+  "nav": {
+    "frenchRestaurant": "Restaurant français",
+    "frenchRestaurantHint": "Cuisine française de la maison par un couple franco-thaï, avec quelques plats thaïs.",
+    "romanticDinner": "Dîner romantique",
+    "romanticDinnerHint": "Une petite salle calme et une cuisine franco-thaïe, pour une soirée à deux.",
+    "whereToEat": "Où manger à Krabi Town",
+    "whereToEatHint": "Là où nous enverrions un ami dîner à Krabi Town, et ce qui vous y attend.",
+    "gettingHere": "Venir depuis Ao Nang",
+    "gettingHereHint": "Comment nous rejoindre depuis Ao Nang, avec des durées approximatives à confirmer sur place.",
+    "wineBeer": "Vins et bières belges",
+    "wineBeerHint": "La courte carte de vins et de bières belges qui accompagne le repas."
+  },
+  "romanticDinner": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Dîner romantique à Krabi Town",
+    "subtitle": "Une petite salle, une cuisine franco-thaïe et une soirée sans se presser, à deux.",
+    "heroAlt": "L'enseigne du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
+    "sections": {
+      "ambiance": {
+        "title": "Une salle calme, pour deux",
+        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
+        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h."
+      },
+      "table": {
+        "title": "Ce que vous mangerez",
+        "alt": "Bœuf bourguignon servi au Gecko Cabane",
+        "p1": "La carte est celle d'une cuisine française de maison : un bœuf bourguignon mijoté longuement au vin rouge, un poulet à la crème. Quelques plats thaïs de la cheffe l'accompagnent, comme un massaman doux.",
+        "p2": "Une courte sélection de vins et de bières belges accompagne le repas. Demandez-nous conseil selon vos plats, nous vous aiderons volontiers à choisir."
+      },
+      "chef": {
+        "title": "Cuisiné par la cheffe Jariya",
+        "alt": "La cheffe Jariya du Gecko Cabane, Krabi Town",
+        "p1": "La cheffe Jariya tient la cuisine et son mari français s'occupe de la salle. Ensemble, ils ont monté le petit restaurant où ils aimeraient eux-mêmes dîner.",
+        "p2": "Un plat vous intrigue ? Posez-nous la question : nous vous expliquons volontiers ce qu'il contient et comment il est cuisiné."
+      },
+      "occasion": {
+        "title": "Un moment à fêter ?",
+        "p1": "Le formulaire de réservation comporte un champ « Occasion ». Anniversaire, fête ou premier voyage à deux : écrivez-le, nous le saurons à votre arrivée.",
+        "link": "Réserver et indiquer l'occasion"
+      }
+    },
+    "closingTitle": "Rejoignez-nous pour le dîner à Krabi Town"
+  },
+  "whereToEat": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Où manger à Krabi Town",
+    "subtitle": "Un petit guide du marché de nuit, de la Walking Street et de la rivière, et où dîner assis.",
+    "heroAlt": "L'entrée du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Bien manger dans une petite ville",
+        "p1": "Krabi Town se parcourt à pied, et on y mange très bien sans chercher loin. Ce que les voyageurs y apprécient est simple et local : de la street food au marché, un dîner de poisson au bord de l'eau, une douceur à grignoter en flânant.",
+        "p2": "Ce n'est pas un classement. Nous décrivons les lieux et les habitudes qui rendent une soirée en ville agréable, pour que vous organisiez la vôtre comme vous l'entendez."
+      },
+      "areas": {
+        "title": "Trois endroits pour commencer",
+        "p1": "Ce sont des quartiers plutôt que des adresses. Promenez-vous, regardez ce qui cuit et laissez-vous tenter.",
+        "cards": {
+          "c1": {
+            "title": "Le marché de nuit",
+            "text": "Brochettes grillées, nouilles, beignets, fruits et douceurs thaïes. Venez avec appétit, partagez plusieurs assiettes et payez au fur et à mesure."
+          },
+          "c2": {
+            "title": "La Walking Street",
+            "text": "Cette rue piétonne est en général plus animée le week-end en soirée, avec stands, petites boutiques et musique. Renseignez-vous sur place pour les jours d'ouverture."
+          },
+          "c3": {
+            "title": "Le bord de rivière",
+            "text": "Un endroit tranquille pour marcher à la tombée du jour, avec poissons, fruits de mer et plats thaïs servis au bord de l'eau. Parfait pour finir une journée de visites."
+          }
+        }
+      },
+      "when": {
+        "title": "Quoi goûter et quand y aller",
+        "p1": "Cherchez les fruits de mer grillés, les plats sautés, les currys verts et rouges, la salade de papaye som tam et la mangue au riz gluant. Les marchés sont les plus vivants en début de soirée, et il fait en général plus frais et plus calme après le coucher du soleil.",
+        "p2": "Les jours et horaires varient selon la saison et la météo : mieux vaut vérifier sur place le jour même. Prenez de la petite monnaie, et précisez que vous préférez peu pimenté si vous craignez le piment."
+      },
+      "dinner": {
+        "title": "Quand on veut dîner à table",
+        "alt": "Un massaman servi au Gecko Cabane",
+        "p1": "Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya.",
+        "p2": "Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute.",
+        "link": "Réserver une table pour le dîner"
+      }
+    },
+    "closingTitle": "Préparez votre soirée à Krabi Town"
+  },
+  "guides": {
+    "toggle": "Guides",
+    "ariaLabel": "Guides de Krabi"
   }
 }

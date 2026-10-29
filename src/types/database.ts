@@ -142,6 +142,8 @@ export interface ApiResponse<T> {
 // Reservation types
 export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
 
+export type ReservationSource = 'site' | 'whatsapp' | 'telephone' | 'sans_reservation'
+
 export interface Reservation {
   id: number
   customer_name: string
@@ -163,6 +165,11 @@ export interface Reservation {
   review_email_sent_at: string | null
   review_reminder_sent_at: string | null
   review_clicked_at: string | null
+  // Added by migration 015 (D-04, D-05).
+  source: ReservationSource
+  utm_source: string | null
+  utm_medium: string | null
+  ref: string | null
 }
 
 export interface MarketingConsent {
@@ -186,7 +193,7 @@ export interface ReservationFormData {
   party_size: number
   occasion: string
   phone_country?: string
-  locale: 'fr' | 'en'
+  locale: 'fr' | 'en' | 'de' | 'sv'
   marketing_consent: boolean
   company_url?: string
   form_started_at?: number

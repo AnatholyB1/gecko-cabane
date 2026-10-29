@@ -1,7 +1,7 @@
 Sujet : La saison verte à Krabi, une table calme chez Gecko Cabane
 Texte d'aperçu : Des nouvelles de la cuisine de Jariya pendant la saison des pluies.
 Audience : RESIDENT = true, ou LAST_VISIT_DATE renseignée, langue FR
-Déclencheur : flux saisonnier Brevo entre mai et octobre, 18:00 (Asia/Bangkok). Compte dans le plafond de 1 email par mois.
+Déclencheur : envoi saisonnier par l’application (Resend) entre mai et septembre, 18:00 (Asia/Bangkok). Compte dans le plafond de 1 email par mois.
 Statut propriétaire : approuvé 2026-10-18
 
 ---

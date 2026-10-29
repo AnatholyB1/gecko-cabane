@@ -128,9 +128,57 @@ describe('supabase migrations', () => {
     expect(sql).not.toContain('create policy')
   })
 
-  it('015 newsletter ledger is additive and service-role only', () => {
-    expect(files).toContain('015_newsletter.sql')
-    const sql = read('015_newsletter.sql')
+  it('015 adds source and utm columns idempotently without touching rows', () => {
+    const sql = read('015_reservation_source.sql')
+      .replace(/--.*$/gm, '')
+      .toLowerCase()
+    expect(sql).toContain("add column if not exists source text not null default 'site'")
+    expect(sql).toMatch(
+      /source in \('site',\s*'whatsapp',\s*'telephone',\s*'sans_reservation'\)/
+    )
+    expect(sql).toContain('add column if not exists utm_source text')
+    expect(sql).toContain('add column if not exists utm_medium text')
+    expect(sql).toContain('add column if not exists ref text')
+    expect(sql.match(/char_length\([a-z_]+\) <= 100/g)).toHaveLength(3)
+    expect(sql).toContain(
+      'grant usage, select on sequence public.gecko_reservations_id_seq to authenticated'
+    )
+    expect(sql).not.toContain('drop')
+    expect(sql).not.toContain('update public.gecko_reservations')
+  })
+
+  it('016 adds review counters and manual totals', () => {
+    const sql = read('016_review_stats.sql').replace(/--.*$/gm, '').toLowerCase()
+    expect(sql).toContain('create table if not exists public.gecko_review_clicks')
+    expect(sql).toContain('primary key (month, source, kind)')
+    expect(sql).toContain("check (source in ('email', 'qr', 'wa', 'site', 'unknown'))")
+    expect(sql).toContain("check (kind in ('visit', 'google', 'tripadvisor'))")
+    expect(sql).toContain("at time zone 'asia/bangkok'")
+    expect(sql).toContain('security definer')
+    expect(sql).toContain('set search_path = public')
+    expect(sql).toContain(
+      'revoke all on function public.gecko_review_click_hit(text, text) from public, anon, authenticated'
+    )
+    expect(sql).toContain(
+      'grant execute on function public.gecko_review_click_hit(text, text) to service_role'
+    )
+    expect(sql).toContain('create table if not exists public.gecko_review_monthly_totals')
+    expect(sql).toContain("check (platform in ('google', 'tripadvisor'))")
+    expect(sql).toContain('check (total_reviews >= 0')
+    expect(sql.match(/enable row level security/g)).toHaveLength(2)
+    expect(sql).toContain('gecko_is_admin()')
+    const drops = sql.match(/drop policy if exists/g)?.length ?? 0
+    const creates = sql.match(/create policy/g)?.length ?? 0
+    expect(drops).toBeGreaterThanOrEqual(creates)
+    expect(sql).toContain('revoke all on public.gecko_review_clicks from anon, authenticated')
+    expect(sql).not.toMatch(/using\s*\(\s*true\s*\)/)
+    expect(sql).not.toContain('grant insert')
+    expect(sql).not.toMatch(/grant update[^;]*gecko_review_clicks/)
+  })
+
+  it('017 newsletter ledger is additive and service-role only', () => {
+    expect(files).toContain('017_newsletter.sql')
+    const sql = read('017_newsletter.sql')
       .replace(/--.*$/gm, '')
       .toLowerCase()
     for (const c of [
@@ -138,7 +186,7 @@ describe('supabase migrations', () => {
       'confirmed_at',
       'country',
       'is_resident',
-      'brevo_synced_at',
+      'contact_synced_at',
       'last_visit_synced',
     ]) {
       expect(sql, c).toContain(`add column if not exists ${c}`)
@@ -149,6 +197,10 @@ describe('supabase migrations', () => {
     expect(sql).toContain(
       'grant execute on function public.gecko_newsletter_count(text, text) to service_role'
     )
+    expect(sql).toContain('create table if not exists public.gecko_newsletter_sends')
+    expect(sql).toContain('unique (email, kind, period)')
+    expect(sql).toMatch(/alter table public\.gecko_newsletter_sends\s+enable row level security/)
+    expect(sql).toMatch(/revoke all on public\.gecko_newsletter_sends from anon, authenticated/)
     expect(sql).not.toContain('drop table')
     expect(sql).not.toContain('delete from')
     expect(sql).not.toMatch(/using\s*\(\s*true\s*\)/)

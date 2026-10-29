@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
+import { localizedPageMetadata } from '@/utils/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -14,12 +14,12 @@ const CONTACT_PHONE_TEL = '+66819585945'
 // Number of item1..itemN keys per section (lists are encoded as flat keys).
 const SECTIONS = [
   { id: 'who', items: 0, contact: true },
-  { id: 'data', items: 6, contact: false },
+  { id: 'data', items: 7, contact: false },
   { id: 'purpose', items: 3, contact: false },
   { id: 'newsletter', items: 7, contact: false },
   { id: 'rights', items: 6, contact: false },
   { id: 'retention', items: 3, contact: false },
-  { id: 'sharing', items: 3, contact: false },
+  { id: 'sharing', items: 4, contact: false },
   { id: 'contact', items: 0, contact: true },
 ] as const
 
@@ -28,14 +28,13 @@ const headingClass = 'font-cinzel font-normal text-[20px] leading-[1.2] tracking
 const bodyClass = 'font-cormorant text-[17px] leading-[1.5] text-gc-text-dark max-w-[65ch]'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale: raw } = await params
-  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const t = await getTranslations({ locale, namespace: 'privacy' })
-  return buildPageMetadata({
-    locale,
-    path: '/privacy',
-    title: t('metaTitle'),
-    description: t('metaDescription'),
+  const { locale: rawLocale } = await params
+  return localizedPageMetadata({
+    rawLocale,
+    key: '/privacy',
+    namespace: 'privacy',
+    titleKey: 'metaTitle',
+    descriptionKey: 'metaDescription',
   })
 }
 

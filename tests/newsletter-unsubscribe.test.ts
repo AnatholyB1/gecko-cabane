@@ -63,7 +63,7 @@ describe('unsubscribe route (POST)', () => {
       expect(route, s).toContain(s)
     }
   })
-  it('verifies, records, then blacklists', () => {
+  it('verifies, records, then mirrors the unsubscribe in Resend', () => {
     for (const s of [
       "verifyNewsletterLink(secret, 'unsubscribe'",
       'resolveEmailState',
@@ -74,6 +74,6 @@ describe('unsubscribe route (POST)', () => {
       expect(route, s).toContain(s)
     }
     expect(route.indexOf('.insert(')).toBeGreaterThan(-1)
-    expect(route.indexOf('blacklistBrevoContact(')).toBeGreaterThan(route.indexOf('.insert('))
+    expect(route.indexOf('unsubscribeResendContact(')).toBeGreaterThan(route.indexOf('.insert('))
   })
 })

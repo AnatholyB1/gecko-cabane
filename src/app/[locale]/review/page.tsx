@@ -1,11 +1,15 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { after } from 'next/server'
 import UtilityCard from '@/components/ui/UtilityCard'
 import { primaryLightClass as primaryClass, secondaryLightClass as secondaryClass } from '@/components/ui/buttonClasses'
-import { isReviewToken } from '@/utils/review-links'
+import { isReviewToken, normalizeReviewSource } from '@/utils/review-links'
 import { markReviewClicked } from '@/utils/review-tracking'
-import { googleReviewUrl, tripAdvisorReviewUrl, LOCALES, type SeoLocale } from '@/utils/seo'
+import { recordReviewHit } from '@/utils/review-stats'
+import ReviewFeedbackForm from '@/components/ReviewFeedbackForm'
+import { FEEDBACK_MESSAGE_MAX } from '@/utils/review-feedback'
+import { LOCALES, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -41,6 +45,9 @@ export default async function ReviewPage({ params, searchParams }: Props) {
   const rid = typeof sp.rid === 'string' ? sp.rid : null
   // D-13: first click stops the J+5 reminder; output is identical for any rid.
   if (isReviewToken(rid)) await markReviewClicked(rid)
+  // D-07: count the visit per source, non-blocking.
+  const source = normalizeReviewSource(sp.src, rid)
+  after(() => recordReviewHit(source, 'visit'))
   const locale = resolveLocale(raw)
   const t = await getTranslations({ locale, namespace: 'review' })
 
@@ -53,7 +60,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
           </p>
 
           <div className="flex flex-col gap-4 mt-6">
-            <a href={googleReviewUrl()} target="_blank" rel="noopener noreferrer" className={primaryClass}>
+            <a href={`/api/review/go?t=google&src=${source}`} target="_blank" rel="noopener noreferrer" className={primaryClass}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                 <path d="M20 12a8 8 0 1 1-2.5-5.8" />
                 <path d="M12 12h8" />
@@ -62,7 +69,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
               <ExternalArrow />
               <span className="sr-only">{t('newTab')}</span>
             </a>
-            <a href={tripAdvisorReviewUrl()} target="_blank" rel="noopener noreferrer" className={secondaryClass}>
+            <a href={`/api/review/go?t=tripadvisor&src=${source}`} target="_blank" rel="noopener noreferrer" className={secondaryClass}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <circle cx="7.5" cy="13" r="3.5" />
                 <circle cx="16.5" cy="13" r="3.5" />
@@ -74,7 +81,9 @@ export default async function ReviewPage({ params, searchParams }: Props) {
             </a>
           </div>
 
-          <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-6">{t('note')}</p>
+          <ReviewFeedbackForm src={source} rid={isReviewToken(rid) ? rid : null} maxLength={FEEDBACK_MESSAGE_MAX} />
+
+          <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-8">{t('note')}</p>
           <Link
             href="/"
             className="inline-flex min-h-11 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"

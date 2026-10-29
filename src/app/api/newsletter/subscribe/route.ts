@@ -21,7 +21,8 @@ import {
 } from '@/utils/newsletter-links'
 import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
 import { checkNewsletterRateLimits, getClientIp } from '@/utils/rate-limit'
-import { getResendClient, RESEND_FROM_EMAIL, newsletterConfirmEmail } from '@/utils/resend'
+import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
+import { newsletterConfirmEmail } from '@/utils/newsletter-emails'
 
 export const dynamic = 'force-dynamic'
 

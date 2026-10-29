@@ -13,8 +13,9 @@ import {
   recipeUrl,
 } from '@/utils/newsletter-links'
 import { buildSubscriberProfile } from '@/utils/newsletter-segments'
-import { upsertBrevoContact } from '@/utils/brevo'
-import { getResendClient, RESEND_FROM_EMAIL, newsletterWelcomeEmail } from '@/utils/resend'
+import { upsertResendContact } from '@/utils/resend-contacts'
+import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
+import { newsletterWelcomeEmail } from '@/utils/newsletter-emails'
 
 export const dynamic = 'force-dynamic'
 
@@ -118,14 +119,14 @@ export async function POST(request: NextRequest) {
       phone = (reservation as { customer_phone: string | null } | null)?.customer_phone ?? null
     }
 
-    // Brevo strictly after confirmed_at is set. A failure leaves brevo_synced_at null for the cron retry.
+    // Resend contact strictly after confirmed_at is set. A failure leaves contact_synced_at null for the cron retry.
     const profile = buildSubscriberProfile(confirmedRow, { phone })
-    const synced = await upsertBrevoContact(profile)
+    const synced = await upsertResendContact(profile)
     if (synced.ok) {
       const { error: syncError } = await admin
         .from('gecko_marketing_consents')
         .update({
-          brevo_synced_at: new Date().toISOString(),
+          contact_synced_at: new Date().toISOString(),
           country: profile.country,
           is_resident: profile.resident,
           last_visit_synced: profile.lastVisit,

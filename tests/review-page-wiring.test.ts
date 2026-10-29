@@ -23,10 +23,13 @@ describe('review page', () => {
   })
 
   it('shows Google before TripAdvisor', () => {
-    const g = pageSrc.indexOf('googleReviewUrl()')
-    const t = pageSrc.indexOf('tripAdvisorReviewUrl()')
+    // Phase 5 D-08: buttons go through the counted redirect
+    const g = pageSrc.indexOf('/api/review/go?t=google')
+    const t = pageSrc.indexOf('/api/review/go?t=tripadvisor')
     expect(g).toBeGreaterThan(-1)
     expect(t).toBeGreaterThan(g)
+    expect(pageSrc).not.toContain('googleReviewUrl(')
+    expect(pageSrc).not.toContain('tripAdvisorReviewUrl(')
   })
 
   it('opens both links in a new tab safely', () => {
@@ -62,9 +65,27 @@ describe('review messages', () => {
     ['fr', fr],
     ['en', en],
   ])('%s has no incentive or rating wording', (_l, m) => {
-    for (const v of Object.values(m.review) as string[]) {
+    for (const v of [...Object.values(m.review), ...Object.values(m.reviewFeedback ?? {})] as string[]) {
       expect(v).not.toMatch(/\b(remise|offert|cadeau|gagner|discount|free|gift|win|reward)\b/i)
       expect(v).not.toMatch(/5 étoiles|5 stars/i)
+    }
+  })
+})
+
+describe('review feedback wiring', () => {
+  it('mounts the form unfiltered after the buttons', () => {
+    const t = pageSrc.indexOf('/api/review/go?t=tripadvisor')
+    const f = pageSrc.indexOf('<ReviewFeedbackForm')
+    expect(f).toBeGreaterThan(t)
+    expect(pageSrc).not.toMatch(/rating/i)
+  })
+
+  it.each([
+    ['fr', fr],
+    ['en', en],
+  ])('%s has the reviewFeedback keys', (_l, m) => {
+    for (const k of ['title', 'lead', 'messageLabel', 'counter', 'emailLabel', 'emailHelp', 'submit', 'pending', 'success', 'errorMessage', 'errorEmail', 'errorGeneric', 'errorRateLimited', 'whatsappLink']) {
+      expect(typeof m.reviewFeedback?.[k]).toBe('string')
     }
   })
 })

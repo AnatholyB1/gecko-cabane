@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildPageMetadata, LOCALES, type SeoLocale } from '@/utils/seo'
+import { localizedPageMetadata } from '@/utils/page-metadata'
 import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -14,14 +14,12 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale: raw } = await params
-  const locale: SeoLocale = (LOCALES as readonly string[]).includes(raw) ? (raw as SeoLocale) : 'fr'
-  const t = await getTranslations({ locale, namespace: 'meta' })
-  return buildPageMetadata({
-    locale,
-    path: '/menu',
-    title: t('menuTitle'),
-    description: t('menuDescription'),
+  const { locale: rawLocale } = await params
+  return localizedPageMetadata({
+    rawLocale,
+    key: '/menu',
+    titleKey: 'menuTitle',
+    descriptionKey: 'menuDescription',
     absoluteTitle: true,
   })
 }
@@ -30,6 +28,7 @@ export default async function MenuPage({ params }: Props) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'menuPage' })
   const tc = await getTranslations({ locale, namespace: 'common' })
+  const tPayment = await getTranslations({ locale, namespace: 'payment' })
   // Not caught on purpose: errors fall to error.tsx so an error page is never cached as content.
   const menu = await getMenu()
 
@@ -78,6 +77,10 @@ export default async function MenuPage({ params }: Props) {
           ) : (
             <MenuSections locale={locale} menu={menu} />
           )}
+
+          <p className="max-w-[600px] mx-auto mt-12 pt-6 border-t border-gc-aged text-center font-cormorant italic text-[17px] leading-[1.5] text-gc-text-mid">
+            {tPayment('note')}
+          </p>
 
           <a
             href="#top"

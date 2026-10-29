@@ -22,7 +22,7 @@ function row(over: Partial<LedgerRow> = {}): LedgerRow {
     confirmation_sent_at: '2026-10-17T03:00:01Z',
     country: null,
     is_resident: false,
-    brevo_synced_at: null,
+    contact_synced_at: null,
     last_visit_synced: null,
     reservation_id: null,
     ...over,

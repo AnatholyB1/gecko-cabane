@@ -83,8 +83,26 @@ describe('reservations admin handlers', () => {
     )
     expect(res.status).toBe(200)
     expect(update).toHaveBeenCalledTimes(1)
-    const allowed = ['status', 'admin_notes', 'confirmed_at', 'cancelled_at', 'updated_at']
+    const allowed = ['status', 'admin_notes', 'confirmed_at', 'cancelled_at', 'updated_at', 'source']
     for (const k of Object.keys(update.mock.calls[0][0])) expect(allowed).toContain(k)
+  })
+
+  it('PUT accepts a whitelisted source', async () => {
+    requireAdmin.mockResolvedValue(adminOk())
+    const res = await PUT(
+      mk('http://localhost/api/reservations', { method: 'PUT', body: JSON.stringify({ id: 5, source: 'telephone' }) })
+    )
+    expect(res.status).toBe(200)
+    expect(update.mock.calls[0][0]).toMatchObject({ source: 'telephone' })
+  })
+
+  it('PUT rejects an unknown source -> 400', async () => {
+    requireAdmin.mockResolvedValue(adminOk())
+    const res = await PUT(
+      mk('http://localhost/api/reservations', { method: 'PUT', body: JSON.stringify({ id: 5, source: 'email' }) })
+    )
+    expect(res.status).toBe(400)
+    expect(update).not.toHaveBeenCalled()
   })
 
   it('PUT with an invalid status -> 400', async () => {

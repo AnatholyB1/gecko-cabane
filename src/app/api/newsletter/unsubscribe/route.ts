@@ -6,7 +6,7 @@ import type { LedgerRow } from '@/utils/newsletter-ledger'
 import { resolveEmailState } from '@/utils/newsletter-ledger'
 import { parseLinkParams, verifyNewsletterLink } from '@/utils/newsletter-links'
 import { buildWithdrawalRow } from '@/utils/newsletter-withdrawal'
-import { blacklistBrevoContact } from '@/utils/brevo'
+import { unsubscribeResendContact } from '@/utils/resend-contacts'
 
 export const dynamic = 'force-dynamic'
 
@@ -106,10 +106,10 @@ export async function POST(request: NextRequest) {
     })
     if (countError) Sentry.captureException(countError)
 
-    // The ledger is the proof; a Brevo failure is only reported.
-    const blacklisted = await blacklistBrevoContact(row.email)
-    if (!blacklisted.ok && !blacklisted.skipped) {
-      Sentry.captureMessage('Brevo blacklist failed after unsubscribe', 'error')
+    // The ledger is the proof; a Resend failure is only reported.
+    const mirrored = await unsubscribeResendContact(row.email)
+    if (!mirrored.ok && !mirrored.skipped) {
+      Sentry.captureMessage('Resend contact unsubscribe failed after unsubscribe', 'error')
     }
 
     return NextResponse.json<ApiResponse<UnsubscribeData>>({ data: { status: 'unsubscribed' } })

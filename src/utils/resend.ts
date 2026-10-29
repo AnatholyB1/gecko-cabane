@@ -15,7 +15,9 @@ export const RESEND_FROM_EMAIL =
 
 export const RESTAURANT_NOTIFICATION_EMAIL = process.env.RESTAURANT_NOTIFICATION_EMAIL
 
-export type EmailLocale = 'fr' | 'en'
+import type { EmailLocale } from './email-locales'
+export { EMAIL_LOCALES } from './email-locales'
+export type { EmailLocale } from './email-locales'
 
 const WHATSAPP_DISPLAY = '+66 81 958 5945'
 
@@ -78,6 +80,46 @@ const COPY: Record<
       `Your reservation has been cancelled, ${n}. Please get in touch if you would like to book another table.`,
     confirmedSubject: 'Reservation confirmed — Gecko Cabane',
     cancelledSubject: 'Reservation cancelled — Gecko Cabane',
+  },
+  de: {
+    dateLocale: 'de-DE',
+    tagline: 'Französisch-thailändische Küche · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thailand',
+    labels: { date: 'Datum', time: 'Uhrzeit', guests: 'Gäste', occasion: 'Anlass' },
+    pendingTitle: (n) => `Danke für Ihre Anfrage, ${n}`,
+    pendingIntro:
+      'Wir haben Ihre Reservierungsanfrage erhalten. Das Restaurant bestätigt sie in Kürze per E-Mail.',
+    pendingNote:
+      'Diese Reservierung ist noch nicht bestätigt – sie ist erst verbindlich, wenn das Restaurant sie bestätigt hat.',
+    pendingSubject: 'Ihre Reservierungsanfrage im Gecko Cabane',
+    changeLine: `Für Änderungen oder Stornierungen schreiben Sie uns bitte per WhatsApp an ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Reservierung bestätigt',
+    cancelledTitle: 'Reservierung storniert',
+    confirmedIntro: (n) => `Ihre Reservierung ist bestätigt, ${n}. Wir freuen uns darauf, Sie zu begrüßen.`,
+    cancelledIntro: (n) =>
+      `Ihre Reservierung wurde storniert, ${n}. Melden Sie sich gern bei uns, wenn Sie einen neuen Tisch reservieren möchten.`,
+    confirmedSubject: 'Reservierung bestätigt – Gecko Cabane',
+    cancelledSubject: 'Reservierung storniert – Gecko Cabane',
+  },
+  sv: {
+    dateLocale: 'sv-SE',
+    tagline: 'Fransk-thailändskt kök · Krabi',
+    address: '1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000, Thailand',
+    labels: { date: 'Datum', time: 'Tid', guests: 'Gäster', occasion: 'Tillfälle' },
+    pendingTitle: (n) => `Tack för din förfrågan, ${n}`,
+    pendingIntro:
+      'Vi har tagit emot din bokningsförfrågan. Restaurangen bekräftar den inom kort via e-post.',
+    pendingNote:
+      'Bokningen väntar på bekräftelse – den är först bindande när restaurangen har bekräftat den.',
+    pendingSubject: 'Din bokningsförfrågan på Gecko Cabane',
+    changeLine: `Vill du ändra eller avboka, skriv till oss på WhatsApp på ${WHATSAPP_DISPLAY}.`,
+    confirmedTitle: 'Bokningen är bekräftad',
+    cancelledTitle: 'Bokningen är avbokad',
+    confirmedIntro: (n) => `Din bokning är bekräftad, ${n}. Vi ser fram emot att få ta emot dig.`,
+    cancelledIntro: (n) =>
+      `Din bokning har avbokats, ${n}. Hör gärna av dig om du vill boka ett nytt bord.`,
+    confirmedSubject: 'Bokningen är bekräftad – Gecko Cabane',
+    cancelledSubject: 'Bokningen är avbokad – Gecko Cabane',
   },
 }
 
@@ -294,6 +336,38 @@ const REVIEW_COPY: Record<
     fallback: (u) => `If the button does not show, copy this link: ${u}`,
     footer: 'You are receiving this message following your reservation at Gecko Cabane.',
   },
+  de: {
+    greeting: (n) => `Guten Tag ${n},`,
+    invite: {
+      subject: 'Ihr Besuch im Gecko Cabane',
+      title: 'Danke für Ihren Besuch',
+      body: 'Danke, dass Sie bei uns zu Gast waren. Wenn Sie eine Minute Zeit haben, hilft uns eine Bewertung sehr.',
+    },
+    reminder: {
+      subject: 'Ein kurzes Wort zu Ihrem Besuch?',
+      title: 'Ein letztes Wort',
+      body: 'Wir schreiben Ihnen dazu kein drittes Mal. Wenn Sie Lust haben, hilft uns Ihre Bewertung sehr.',
+    },
+    cta: 'Bewertung abgeben',
+    fallback: (u) => `Falls die Schaltfläche nicht angezeigt wird, kopieren Sie diesen Link: ${u}`,
+    footer: 'Sie erhalten diese Nachricht im Anschluss an Ihre Reservierung im Gecko Cabane.',
+  },
+  sv: {
+    greeting: (n) => `Hej ${n},`,
+    invite: {
+      subject: 'Ditt besök på Gecko Cabane',
+      title: 'Tack för ditt besök',
+      body: 'Tack för att du åt hos oss. Har du en minut över hjälper en recension oss väldigt mycket.',
+    },
+    reminder: {
+      subject: 'Några ord om ditt besök?',
+      title: 'Ett sista litet ord',
+      body: 'Vi skriver inte till dig om detta en tredje gång. Känner du för det hjälper din recension oss väldigt mycket.',
+    },
+    cta: 'Lämna en recension',
+    fallback: (u) => `Om knappen inte visas, kopiera den här länken: ${u}`,
+    footer: 'Du får det här meddelandet efter din bokning på Gecko Cabane.',
+  },
 }
 
 export function reviewInvitationEmail(
@@ -334,216 +408,3 @@ export function reviewInvitationEmail(
   return { subject: stripLineBreaks(k.subject), html, text }
 }
 
-// ---------------------------------------------------------------------------
-// Newsletter double opt-in confirmation (Phase 7, NEWS-01; D-02, D-04).
-// ---------------------------------------------------------------------------
-
-const NEWSLETTER_COPY: Record<
-  EmailLocale,
-  {
-    subject: string
-    reason: string
-    cta: string
-    fallback: string
-    expiry: string
-    ignore: string
-    unsubscribe: string
-    legal: string
-  }
-> = {
-  fr: {
-    subject: 'Confirmez votre inscription à Gecko Cabane',
-    reason: 'Vous avez demandé à recevoir la newsletter de Gecko Cabane.',
-    cta: 'Confirmer mon inscription',
-    fallback: "Si le bouton ne s'affiche pas, copiez ce lien : ",
-    expiry: 'Ce lien expire dans 30 jours.',
-    ignore: "Si vous n'avez rien demandé, ignorez cet e-mail : rien ne vous sera envoyé.",
-    unsubscribe: 'Se désinscrire',
-    legal: 'Conformément au PDPA B.E. 2562 et au RGPD.',
-  },
-  en: {
-    subject: 'Confirm your Gecko Cabane subscription',
-    reason: 'You asked to receive the Gecko Cabane newsletter.',
-    cta: 'Confirm my subscription',
-    fallback: 'If the button does not show, copy this link: ',
-    expiry: 'This link expires in 30 days.',
-    ignore: 'If you did not ask for this, ignore this email; nothing will be sent.',
-    unsubscribe: 'Unsubscribe',
-    legal: 'In line with PDPA B.E. 2562 and GDPR.',
-  },
-}
-
-export function newsletterConfirmEmail(
-  locale: EmailLocale,
-  urls: { confirm: string; unsubscribe: string }
-): { subject: string; html: string; text: string } {
-  const c = NEWSLETTER_COPY[locale]
-  const confirm = escapeHtml(urls.confirm)
-  const unsub = escapeHtml(urls.unsubscribe)
-  const html = baseTemplate(
-    escapeHtml(c.subject),
-    `
-    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(c.reason)}</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
-          <a href="${confirm}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(c.cta)}</a>
-        </td>
-      </tr>
-    </table>
-    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0 0 12px;">${escapeHtml(
-      c.fallback
-    )}${confirm}</p>
-    <p style="color:#5C4A3A;font-size:13px;margin:0 0 8px;">${escapeHtml(c.expiry)}</p>
-    <p style="color:#5C4A3A;font-size:13px;margin:0;">${escapeHtml(c.ignore)}</p>`,
-    locale,
-    undefined,
-    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${unsub}" style="color:#5C4A3A;">${escapeHtml(
-      c.unsubscribe
-    )}</a><br />${escapeHtml(c.legal)}</p>`
-  )
-  const text = [
-    c.reason,
-    `${c.cta}: ${urls.confirm}`,
-    c.expiry,
-    c.ignore,
-    `${c.unsubscribe}: ${urls.unsubscribe}`,
-    c.legal,
-  ].join('\n\n')
-  return { subject: stripLineBreaks(c.subject), html, text }
-}
-
-// ---------------------------------------------------------------------------
-// Newsletter welcome email, sent right after confirmation (NEWS-05; D-17, D-12).
-// ---------------------------------------------------------------------------
-
-const WELCOME_COPY: Record<
-  EmailLocale,
-  {
-    subject: string
-    thanks: string
-    guideCta: string
-    recipeCta: string
-    cadence: string
-    signoff: string
-  }
-> = {
-  fr: {
-    subject: 'Bienvenue chez Gecko Cabane',
-    thanks: 'Merci, votre inscription est confirmée. Voici notre guide gourmand de Krabi Town.',
-    guideCta: 'Télécharger le guide gourmand',
-    recipeCta: 'La recette du curry de crabe',
-    cadence: 'Une lettre par mois au plus.',
-    signoff: "La cheffe Jariya et l'équipe de Gecko Cabane",
-  },
-  en: {
-    subject: 'Welcome to Gecko Cabane',
-    thanks: 'Thank you, your subscription is confirmed. Here is our Krabi Town food guide.',
-    guideCta: 'Download the food guide',
-    recipeCta: 'The crab curry recipe',
-    cadence: 'At most one letter a month.',
-    signoff: 'Chef Jariya and the Gecko Cabane team',
-  },
-}
-
-function welcomeButton(href: string, label: string): string {
-  return `
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
-      <tr>
-        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
-          <a href="${escapeHtml(href)}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(label)}</a>
-        </td>
-      </tr>
-    </table>`
-}
-
-export function newsletterWelcomeEmail(
-  locale: EmailLocale,
-  urls: { guide: string; recipe: string | null; unsubscribe: string }
-): { subject: string; html: string; text: string } {
-  const c = WELCOME_COPY[locale]
-  const n = NEWSLETTER_COPY[locale]
-  const html = baseTemplate(
-    escapeHtml(c.subject),
-    `
-    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(c.thanks)}</p>${welcomeButton(
-      urls.guide,
-      c.guideCta
-    )}${urls.recipe ? welcomeButton(urls.recipe, c.recipeCta) : ''}
-    <p style="color:#5C4A3A;font-size:13px;margin:8px 0 12px;">${escapeHtml(c.cadence)}</p>
-    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0;">${escapeHtml(c.signoff)}</p>`,
-    locale,
-    undefined,
-    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${escapeHtml(
-      urls.unsubscribe
-    )}" style="color:#5C4A3A;">${escapeHtml(n.unsubscribe)}</a><br />${escapeHtml(n.legal)}</p>`
-  )
-  const text = [
-    c.thanks,
-    `${c.guideCta}: ${urls.guide}`,
-    urls.recipe ? `${c.recipeCta}: ${urls.recipe}` : null,
-    c.cadence,
-    c.signoff,
-    `${n.unsubscribe}: ${urls.unsubscribe}`,
-    n.legal,
-  ]
-    .filter((s): s is string => s !== null)
-    .join('\n\n')
-  return { subject: stripLineBreaks(c.subject), html, text }
-}
-
-// ---------------------------------------------------------------------------
-// One-shot confirmation for past reservation-form consents (D-03, NEWS-01).
-// ---------------------------------------------------------------------------
-
-const LEGACY_COPY: Record<EmailLocale, { reason: string; only: string }> = {
-  fr: {
-    reason: 'Lors de votre réservation, vous avez coché la case pour recevoir nos actualités.',
-    only: 'Nous ne vous écrirons plus si vous ne confirmez pas.',
-  },
-  en: {
-    reason: 'When you booked, you ticked the box to receive our news.',
-    only: 'We will not write to you again unless you confirm.',
-  },
-}
-
-export function newsletterLegacyConfirmEmail(
-  locale: EmailLocale,
-  urls: { confirm: string; unsubscribe: string }
-): { subject: string; html: string; text: string } {
-  const c = NEWSLETTER_COPY[locale]
-  const l = LEGACY_COPY[locale]
-  const confirm = escapeHtml(urls.confirm)
-  const unsub = escapeHtml(urls.unsubscribe)
-  const html = baseTemplate(
-    escapeHtml(c.subject),
-    `
-    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 12px;">${escapeHtml(l.reason)}</p>
-    <p style="color:#5C4A3A;font-size:15px;line-height:1.6;margin:0 0 24px;">${escapeHtml(l.only)}</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
-      <tr>
-        <td bgcolor="#0C3C2D" style="background:#0C3C2D;">
-          <a href="${confirm}" style="display:inline-block;padding:16px 32px;color:#FAF0E6;font-size:14px;text-transform:uppercase;letter-spacing:2px;text-decoration:none;">${escapeHtml(c.cta)}</a>
-        </td>
-      </tr>
-    </table>
-    <p style="color:#5C4A3A;font-size:14px;font-style:italic;line-height:1.5;margin:0 0 12px;">${escapeHtml(
-      c.fallback
-    )}${confirm}</p>
-    <p style="color:#5C4A3A;font-size:13px;margin:0;">${escapeHtml(c.expiry)}</p>`,
-    locale,
-    undefined,
-    `<p style="margin:12px 0 0;color:#5C4A3A;font-size:12px;"><a href="${unsub}" style="color:#5C4A3A;">${escapeHtml(
-      c.unsubscribe
-    )}</a><br />${escapeHtml(c.legal)}</p>`
-  )
-  const text = [
-    l.reason,
-    l.only,
-    `${c.cta}: ${urls.confirm}`,
-    c.expiry,
-    `${c.unsubscribe}: ${urls.unsubscribe}`,
-    c.legal,
-  ].join('\n\n')
-  return { subject: stripLineBreaks(c.subject), html, text }
-}

@@ -3,11 +3,10 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import {
   selectSyncUpdates,
-  selectSequenceListAdds,
   selectLegacyConfirmations,
 } from '../src/utils/newsletter-segments'
 import { resolveActiveSubscribers, type LedgerRow } from '../src/utils/newsletter-ledger'
-import { newsletterLegacyConfirmEmail } from '../src/utils/resend'
+import { newsletterLegacyConfirmEmail } from '../src/utils/newsletter-emails'
 
 const root = join(__dirname, '..')
 const read = (...p: string[]) => readFileSync(join(root, ...p), 'utf-8')
@@ -24,7 +23,7 @@ function row(over: Partial<LedgerRow> = {}): LedgerRow {
     confirmation_sent_at: '2026-10-01T10:00:05Z',
     country: null,
     is_resident: false,
-    brevo_synced_at: '2026-10-01T11:00:01Z',
+    contact_synced_at: '2026-10-01T11:00:01Z',
     last_visit_synced: null,
     reservation_id: null,
     ...over,
@@ -99,29 +98,13 @@ describe('selectSyncUpdates', () => {
   })
 })
 
-describe('selectSequenceListAdds', () => {
-  it('splits J+2 and J+3 (tourists only for during-stay)', () => {
-    const out = selectSequenceListAdds(
-      [
-        { email: 'a@x.com', lastVisit: '2026-10-18', resident: false },
-        { email: 'b@x.com', lastVisit: '2026-10-17', resident: false },
-        { email: 'c@x.com', lastVisit: '2026-10-17', resident: true },
-        { email: 'd@x.com', lastVisit: null, resident: false },
-      ],
-      TODAY
-    )
-    expect(out.afterVisit).toEqual(['a@x.com'])
-    expect(out.duringStay).toEqual(['b@x.com'])
-  })
-})
-
 describe('selectLegacyConfirmations', () => {
   const legacy = (over: Partial<LedgerRow>) =>
     row({
       source: 'reservation_form',
       confirmed_at: null,
       confirmation_sent_at: null,
-      brevo_synced_at: null,
+      contact_synced_at: null,
       reservation_id: 5,
       ...over,
     })
@@ -199,11 +182,16 @@ describe('cron wiring (source scan)', () => {
     }
   })
 
-  it('sync route never sends listIds and supports dry run', () => {
+  it('sync route mirrors contacts, sends only when enabled, supports dry run', () => {
     const src = sync()
-    expect(src).not.toContain('listIds')
-    expect(src).toContain('updateBrevoContactAttributes(')
+    expect(src).toContain('updateResendContactProperties(')
+    expect(src).toContain('NEWSLETTER_SEQUENCES_ENABLED')
+    expect(src).toContain('NEWSLETTER_CAMPAIGNS_ENABLED')
     expect(src).toContain("'dry'")
+    // claim in the send log before sending, release on failure
+    expect(src.indexOf('.insert({ email: p.email.toLowerCase()')).toBeLessThan(src.indexOf('resend.emails.send'))
+    expect(src).toContain('.delete()')
+    expect(src).not.toMatch(/brevo/i)
   })
 
   it('legacy route claims before sending and resets on failure', () => {
@@ -220,7 +208,7 @@ describe('cron wiring (source scan)', () => {
   it('vercel.json schedules the sync only', () => {
     const v = JSON.parse(read('vercel.json')) as { crons: { path: string; schedule: string }[] }
     expect(
-      v.crons.some((c) => c.path === '/api/cron/newsletter-sync' && c.schedule === '30 4 * * *')
+      v.crons.some((c) => c.path === '/api/cron/newsletter-sync' && c.schedule === '0 11 * * *')
     ).toBe(true)
     expect(v.crons.some((c) => c.path === '/api/cron/review-invitations')).toBe(true)
     expect(JSON.stringify(v)).not.toContain('newsletter-legacy-confirm')

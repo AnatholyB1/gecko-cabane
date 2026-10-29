@@ -62,7 +62,7 @@ const row = (over: Partial<LedgerRow> & { consented_at: string }): LedgerRow => 
   confirmation_sent_at: null,
   country: null,
   is_resident: false,
-  brevo_synced_at: null,
+  contact_synced_at: null,
   last_visit_synced: null,
   reservation_id: null,
   ...over,

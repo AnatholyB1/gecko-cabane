@@ -35,10 +35,15 @@ export const reservationRequestSchema = z
     reservation_time: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
     party_size: z.number().int().min(1).max(MAX_PARTY_SIZE),
     occasion: z.string().trim().max(100).nullish(),
-    locale: z.enum(['fr', 'en']).default('fr'),
+    locale: z.enum(['fr', 'en', 'de', 'sv']).default('fr'),
     marketing_consent: z.boolean().default(false),
     company_url: z.string().max(200).optional(), // honeypot, checked in 01-08
     form_started_at: z.number().int().optional(), // timing check, in 01-08
+    // Optional attribution metadata: must never reject a booking; the route sanitizes it.
+    // source is deliberately absent: z.object strips it, the DB default 'site' applies (D-04).
+    utm_source: z.string().max(500).optional().catch(undefined),
+    utm_medium: z.string().max(500).optional().catch(undefined),
+    ref: z.string().max(500).optional().catch(undefined),
   })
   .transform((data, ctx) => {
     const country = (data.phone_country ?? phoneCountryForLocale(data.locale)) as Parameters<typeof parsePhone>[1]

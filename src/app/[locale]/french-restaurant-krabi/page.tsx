@@ -3,13 +3,16 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildPageMetadata, mapOpeningHours, SAME_AS } from '@/utils/seo'
+import { localizedPageMetadata } from '@/utils/page-metadata'
+import { mapOpeningHours, PAGES, SAME_AS, toSeoLocale, type SeoLocale } from '@/utils/seo'
 import { getOpeningHours } from '@/utils/opening-hours'
 import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import GcDivider from '@/components/ui/GcDivider'
+import RelatedGuides from '@/components/seo/RelatedGuides'
+import { BTN_GOLD, BTN_IVORY, H2, PROSE, TEXT_LINK } from '@/components/seo/styles'
 
 const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
 
@@ -24,36 +27,31 @@ type Props = {
   params: Promise<{ locale: string }>
 }
 
-// EN-only page (D-14): FR landing arrives with PAGE-08 in phase 6.
+const KEY = '/french-restaurant-krabi'
+
+function hasContent(locale: SeoLocale): boolean {
+  return PAGES.find((p) => p.key === KEY)!.contentLocales.includes(locale)
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-  if (locale !== 'en') return {}
-  const t = await getTranslations({ locale: 'en', namespace: 'meta' })
-  return buildPageMetadata({
-    locale: 'en',
-    path: '/french-restaurant-krabi',
-    locales: ['en'],
-    title: t('frenchRestaurantTitle'),
-    description: t('frenchRestaurantDescription'),
+  const { locale: rawLocale } = await params
+  if (!hasContent(toSeoLocale(rawLocale))) return {}
+  return localizedPageMetadata({
+    rawLocale,
+    key: KEY,
+    titleKey: 'frenchRestaurantTitle',
+    descriptionKey: 'frenchRestaurantDescription',
     absoluteTitle: true,
   })
 }
 
-const BTN_GOLD =
-  'inline-flex items-center justify-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-8 py-4 hover:bg-gc-gold hover:text-gc-void transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
-const BTN_IVORY =
-  'inline-flex items-center justify-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory border border-gc-ivory/60 px-8 py-4 hover:bg-gc-ivory hover:text-gc-jungle transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
-const H2 = 'font-cinzel font-semibold text-[20px] leading-[1.2] tracking-wide text-gc-text-dark'
-const PROSE = 'font-cormorant text-[16px] leading-[1.7] text-gc-text-mid max-w-[65ch]'
-const TEXT_LINK =
-  'inline-flex items-center min-h-11 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-jungle'
-
 export default async function FrenchRestaurantPage({ params }: Props) {
-  const { locale } = await params
-  if (locale !== 'en') notFound()
+  const { locale: rawLocale } = await params
+  const locale = toSeoLocale(rawLocale)
+  if (!hasContent(locale)) notFound()
 
-  const t = await getTranslations({ locale: 'en', namespace: 'frenchRestaurant' })
-  const tc = await getTranslations({ locale: 'en', namespace: 'common' })
+  const t = await getTranslations({ locale, namespace: 'frenchRestaurant' })
+  const tc = await getTranslations({ locale, namespace: 'common' })
   // Not caught on purpose: errors fall to error.tsx so an error page is never cached as content.
   const [hoursRows, menu] = await Promise.all([getOpeningHours(), getMenu()])
   const belgianHref = menu.some((p) => p.slug === 'vins-bieres-belges')
@@ -63,14 +61,14 @@ export default async function FrenchRestaurantPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gc-ivory font-cormorant">
-      <RestaurantJsonLd locale="en" />
+      <RestaurantJsonLd locale={locale} />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gc-gold focus:text-gc-void focus:px-4 focus:py-2 focus:font-cinzel focus:text-[12px] focus:tracking-[0.1em]"
       >
         {tc('skipToContent')}
       </a>
-      <SiteHeader locale="en" availableLocales={['en']} />
+      <SiteHeader locale={locale} />
       <main id="main-content">
         {/* 1. Hero */}
         <section className="bg-gc-jungle py-16 px-6">
@@ -217,6 +215,8 @@ export default async function FrenchRestaurantPage({ params }: Props) {
           </div>
         </section>
 
+        <RelatedGuides pageKey={KEY} locale={locale} />
+
         {/* 7. Closing CTA */}
         <section className="bg-gc-jungle py-16 px-6 text-center">
           <h2 className="font-cinzel font-semibold text-[20px] leading-[1.2] tracking-wide text-gc-ivory">
@@ -229,7 +229,7 @@ export default async function FrenchRestaurantPage({ params }: Props) {
           </div>
         </section>
       </main>
-      <SiteFooter locale="en" />
+      <SiteFooter locale={locale} />
     </div>
   )
 }

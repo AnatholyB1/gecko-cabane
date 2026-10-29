@@ -25,7 +25,9 @@ export function buildNewsletterAliasPath(
 }
 
 export function handleNewsletterAlias(request: NextRequest, kind: NewsletterAliasKind): NextResponse {
-  const locale = pickAcceptLanguage(request.headers.get('accept-language')) ?? 'en'
+  const picked = pickAcceptLanguage(request.headers.get('accept-language'))
+  // Newsletter copy exists in fr and en only; de/sv visitors read en until reviewed (D-09).
+  const locale = picked === 'fr' ? 'fr' : 'en'
   const src = request.nextUrl.searchParams.get('src')
   // Temporary redirect only: the target varies per request.
   const response = NextResponse.redirect(

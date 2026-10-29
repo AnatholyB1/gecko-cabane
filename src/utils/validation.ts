@@ -32,6 +32,8 @@ export function isE164Phone(phone: string): boolean {
 export function phoneCountryForLocale(locale: string): CountryCode {
   if (locale === 'fr') return 'FR'
   if (locale === 'en') return 'GB'
+  if (locale === 'de') return 'DE'
+  if (locale === 'sv') return 'SE'
   return 'TH'
 }
 

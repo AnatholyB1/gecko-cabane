@@ -1,5 +1,5 @@
 /**
- * Supabase-backed rate limiting for reservation creation (D-07, D-08, SEC-02).
+ * Supabase-backed rate limiting for reservation creation and review feedback (D-07, D-08, SEC-02).
  *
  * The service-role client is required: gecko_rate_limits has RLS enabled with
  * no policy and gecko_rate_limit_hit() is executable by service_role only.
@@ -16,6 +16,7 @@ export const RATE_LIMITS = {
   ip: { limit: 5, windowSeconds: 3600 },
   email: { limit: 3, windowSeconds: 86400 },
   phone: { limit: 3, windowSeconds: 86400 },
+  feedback: { limit: 3, windowSeconds: 3600 },
 } as const
 
 /** Client IP from Vercel-controlled headers first; null when unknown. */
@@ -28,7 +29,7 @@ export function getClientIp(h: Headers): string | null {
   return first || null
 }
 
-export type HashKind = 'ip' | 'email' | 'phone' | 'nl-ip' | 'nl-email'
+export type HashKind = 'ip' | 'email' | 'phone' | 'feedback' | 'nl-ip' | 'nl-email'
 
 export function hashKey(kind: HashKind, value: string, secret: string): string {
   const normalized = kind === 'email' || kind === 'nl-email' ? value.toLowerCase() : value
@@ -86,7 +87,6 @@ export async function checkNewsletterRateLimits(
     Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
     return { limited: false }
   }
-
   const checks: Array<{ kind: 'nl-ip' | 'nl-email'; value: string; cfg: { limit: number; windowSeconds: number } }> = []
   if (ids.ip) checks.push({ kind: 'nl-ip', value: ids.ip, cfg: NEWSLETTER_RATE_LIMITS.ip })
   checks.push({ kind: 'nl-email', value: ids.email, cfg: NEWSLETTER_RATE_LIMITS.email })
@@ -109,4 +109,33 @@ export async function checkNewsletterRateLimits(
     }
   }
   return { limited }
+}
+
+/** Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket. */
+export async function checkFeedbackRateLimit(
+  admin: SupabaseClient,
+  ip: string | null
+): Promise<{ limited: boolean }> {
+  const secret = process.env.RATE_LIMIT_SECRET
+  if (!secret) {
+    Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
+    return { limited: false }
+  }
+  if (!ip) return { limited: false }
+  const { limit, windowSeconds } = RATE_LIMITS.feedback
+  try {
+    const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
+      p_key: hashKey('feedback', ip, secret),
+      p_limit: limit,
+      p_window_seconds: windowSeconds,
+    })
+    if (error) {
+      Sentry.captureException(error)
+      return { limited: false }
+    }
+    return { limited: data === false }
+  } catch (e) {
+    Sentry.captureException(e)
+    return { limited: false }
+  }
 }

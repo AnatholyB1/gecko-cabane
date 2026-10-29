@@ -1,16 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
-import { locales, defaultLocale } from '@/i18n/config'
+import { routing } from '@/i18n/routing'
 
-const intlMiddleware = createIntlMiddleware({
-  locales,
-  defaultLocale,
-  localeDetection: false,
-  // No Link hreflang header: HTML hreflang (x-default -> /fr) is the only signal
-  alternateLinks: false,
-  localePrefix: 'always',
-})
+const intlMiddleware = createIntlMiddleware(routing)
 
 const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
 const NEWSLETTER_ALIASES = new Set(['/newsletter', '/wifi'])
@@ -132,9 +125,10 @@ export const config = {
      * - favicon.ico
      * - manifest.webmanifest (PWA manifest — served at the root, not per-locale)
      * - monitoring    (Sentry tunnel – must bypass middleware)
+     * - gcm           (Plausible proxy, D-02 - must bypass middleware)
      * - sitemap.xml, robots.txt, opengraph-image (metadata routes, served at the root)
      * - image assets  (svg, png, jpg, pdf, …)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|.*\\.(?:svg|png|jpg|jpeg|gif|webp|pdf)$).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|sitemap\\.xml|robots\\.txt|opengraph-image|monitoring|gcm|.*\\.(?:svg|png|jpg|jpeg|gif|webp|pdf)$).*)',
   ],
 }

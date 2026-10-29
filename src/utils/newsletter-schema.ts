@@ -11,7 +11,7 @@ export type NewsletterSource = (typeof NEWSLETTER_SOURCES)[number]
 export const LEDGER_SOURCES = [
   ...NEWSLETTER_SOURCES,
   'reservation_form',
-  'brevo_webhook',
+  'resend_webhook',
   'unsubscribe_link',
 ] as const
 

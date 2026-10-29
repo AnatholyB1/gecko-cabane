@@ -11,19 +11,38 @@ export function isReviewToken(v: string | null | undefined): v is string {
   return typeof v === 'string' && REVIEW_TOKEN_RE.test(v)
 }
 
-export const REVIEW_SOURCES = ['email', 'qr', 'wa'] as const
+export const REVIEW_SOURCES = ['email', 'qr', 'wa', 'site'] as const
 export type ReviewSource = (typeof REVIEW_SOURCES)[number]
 
 export function sanitizeReviewSource(v: string | null | undefined): ReviewSource | null {
   return (REVIEW_SOURCES as readonly string[]).includes(v ?? '') ? (v as ReviewSource) : null
 }
 
-export type ReviewPageLocale = 'fr' | 'en'
+/** Counter sources (D-07): allowlisted sources plus a catch-all. */
+export const REVIEW_STAT_SOURCES = [...REVIEW_SOURCES, 'unknown'] as const
+export type ReviewStatSource = (typeof REVIEW_STAT_SOURCES)[number]
+
+export const REVIEW_HIT_KINDS = ['visit', 'google', 'tripadvisor'] as const
+export type ReviewHitKind = (typeof REVIEW_HIT_KINDS)[number]
+
+/** A valid rid only ever comes from an email link; otherwise allowlisted src or 'unknown'. */
+export function normalizeReviewSource(src: unknown, rid: unknown): ReviewStatSource {
+  if (typeof rid === 'string' && isReviewToken(rid)) return 'email'
+  return sanitizeReviewSource(typeof src === 'string' ? src : null) ?? 'unknown'
+}
+
+export type ReviewPageLocale = 'fr' | 'en' | 'de'
+
+/**
+ * Locales with their own review page. 'de' added after the owner's written validation
+ * of docs/ph6/review/de/review.md (2026-10-18); sv still falls back to en (D-09).
+ */
+export const REVIEW_LOCALES: readonly ReviewPageLocale[] = ['fr', 'en', 'de']
 
 function mapLanguage(tag: string | null | undefined): ReviewPageLocale | null {
   if (!tag) return null
   const primary = tag.trim().toLowerCase().split('-')[0]
-  if (primary === 'fr') return 'fr'
+  if ((REVIEW_LOCALES as readonly string[]).includes(primary)) return primary as ReviewPageLocale
   if (primary === 'en' || primary === 'de' || primary === 'sv') return 'en'
   return null
 }
