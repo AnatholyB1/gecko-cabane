@@ -31,12 +31,18 @@ export function normalizeReviewSource(src: unknown, rid: unknown): ReviewStatSou
   return sanitizeReviewSource(typeof src === 'string' ? src : null) ?? 'unknown'
 }
 
-export type ReviewPageLocale = 'fr' | 'en'
+export type ReviewPageLocale = 'fr' | 'en' | 'de'
+
+/**
+ * Locales with their own review page. 'de' added after the owner's written validation
+ * of docs/ph6/review/de/review.md (2026-10-18); sv still falls back to en (D-09).
+ */
+export const REVIEW_LOCALES: readonly ReviewPageLocale[] = ['fr', 'en', 'de']
 
 function mapLanguage(tag: string | null | undefined): ReviewPageLocale | null {
   if (!tag) return null
   const primary = tag.trim().toLowerCase().split('-')[0]
-  if (primary === 'fr') return 'fr'
+  if ((REVIEW_LOCALES as readonly string[]).includes(primary)) return primary as ReviewPageLocale
   if (primary === 'en' || primary === 'de' || primary === 'sv') return 'en'
   return null
 }

@@ -8,7 +8,10 @@ import {
   customerStatusEmail,
   restaurantNotificationEmail,
   formatReservationDate,
+  reviewInvitationEmail,
+  EMAIL_LOCALES,
 } from '../src/utils/resend'
+import { emailLocaleFor } from '../src/utils/review-invitations'
 
 const r = {
   customer_name: 'Alice',
@@ -67,5 +70,36 @@ describe('restaurantNotificationEmail', () => {
     expect(html).toContain('Langue du client')
     expect(html).toContain('EN')
     expect(html).toContain('lang="fr"')
+  })
+})
+
+describe('German email copy (inactive until DE publication, D-09)', () => {
+  it('has COPY.de and REVIEW_COPY.de entries', () => {
+    const pending = customerPendingEmail(r, 'de')
+    expect(pending.html).toContain('lang="de"')
+    expect(pending.subject).not.toBe(customerPendingEmail(r, 'en').subject)
+    const rev = reviewInvitationEmail('de', 'https://example.com/review?rid=x', 'invite', 'Alice')
+    expect(rev.subject).not.toBe(reviewInvitationEmail('en', 'https://example.com/review?rid=x', 'invite', 'Alice').subject)
+  })
+  it('EMAIL_LOCALES whitelist lists de, sv stays on English emails', () => {
+    expect([...EMAIL_LOCALES]).toEqual(['fr', 'en', 'de'])
+    expect(emailLocaleFor('de')).toBe('de')
+    expect(emailLocaleFor('fr')).toBe('fr')
+    expect(emailLocaleFor('sv')).toBe('en')
+  })
+})
+
+describe('Swedish email copy (inactive until SV publication, D-09)', () => {
+  it('has COPY.sv and REVIEW_COPY.sv entries', () => {
+    const pending = customerPendingEmail(r, 'sv')
+    expect(pending.html).toContain('lang="sv"')
+    expect(pending.subject).not.toBe(customerPendingEmail(r, 'en').subject)
+    const url = 'https://example.com/review?rid=x'
+    const rev = reviewInvitationEmail('sv', url, 'invite', 'Alice')
+    expect(rev.subject).not.toBe(reviewInvitationEmail('en', url, 'invite', 'Alice').subject)
+  })
+  it('sv is not in EMAIL_LOCALES: sv customers keep receiving English emails', () => {
+    expect([...EMAIL_LOCALES] as string[]).not.toContain('sv')
+    expect(emailLocaleFor('sv')).toBe('en')
   })
 })

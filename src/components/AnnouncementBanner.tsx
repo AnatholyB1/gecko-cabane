@@ -13,10 +13,12 @@ const BG_CLASSES: Record<string, string> = {
   purple: 'bg-(--gc-jungle) border-(--gc-gold) text-(--gc-ivory)',
 }
 
+const DATE_LOCALES: Record<string, string> = { fr: 'fr-FR', en: 'en-GB', de: 'de-DE', sv: 'sv-SE' }
+
 export default function AnnouncementBanner() {
   const t = useTranslations('announcement')
   const locale = useLocale()
-  const dateLocale = locale === 'en' ? 'en-GB' : 'fr-FR'
+  const dateLocale = DATE_LOCALES[locale] ?? 'en-GB'
   const [announcement, setAnnouncement] = useState<Announcement | null>(null)
   const [visible, setVisible] = useState(true)
   const [loading, setLoading] = useState(true)

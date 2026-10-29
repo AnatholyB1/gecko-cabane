@@ -193,7 +193,7 @@ export interface ReservationFormData {
   party_size: number
   occasion: string
   phone_country?: string
-  locale: 'fr' | 'en'
+  locale: 'fr' | 'en' | 'de' | 'sv'
   marketing_consent: boolean
   company_url?: string
   form_started_at?: number

@@ -39,3 +39,14 @@ describe('legacy domain', () => {
     expect(hits).toEqual([])
   })
 })
+
+describe('tripadvisor.be', () => {
+  it('is absent from src (OPS-04: link to the .com listing)', () => {
+    const needle = ['tripadvisor', 'be'].join('.')
+    const hits = walk(join(root, 'src'))
+      .filter((f) => EXTENSIONS.has(extname(f)))
+      .filter((f) => readFileSync(f, 'utf8').includes(needle))
+      .map((f) => f.replace(root, ''))
+    expect(hits).toEqual([])
+  })
+})

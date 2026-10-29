@@ -10,7 +10,8 @@ import {
   type ReservationErrorCode,
 } from '@/utils/reservation-schema'
 import { sanitizeUtm, isReservationSource } from '@/utils/reservation-source'
-import { checkSlot,type SettingsMap } from '@/utils/reservation-rules'
+import { emailLocaleFor } from '@/utils/review-invitations'
+import { checkSlot, type SettingsMap } from '@/utils/reservation-rules'
 import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
 import { checkReservationRateLimits, getClientIp } from '@/utils/rate-limit'
 import {
@@ -143,9 +144,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse<never>>(
         {
           error:
-            r.locale === 'en'
-              ? 'Too many requests from your connection. Message us directly on WhatsApp: +66 81 958 5945.'
-              : 'Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.',
+            r.locale === 'fr'
+              ? 'Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.'
+              : 'Too many requests from your connection. Message us directly on WhatsApp: +66 81 958 5945.',
           code: 'rate_limited',
         },
         { status: 429 }
@@ -195,7 +196,7 @@ export async function POST(request: NextRequest) {
     }
 
     // (f) emails after the response is sent
-    const locale: EmailLocale = r.locale
+    const locale: EmailLocale = emailLocaleFor(r.locale)
     const details = {
       customer_name: r.customer_name,
       customer_email: r.customer_email,
@@ -319,7 +320,7 @@ export async function PUT(request: NextRequest) {
       const newStatus = updates.status
       const resend = getResendClient()
       if (resend && data.customer_email) {
-        const emailLocale: EmailLocale = data.locale === 'en' ? 'en' : 'fr'
+        const emailLocale: EmailLocale = emailLocaleFor(data.locale ?? 'fr')
         const { subject, html } = customerStatusEmail(
           {
             customer_name: data.customer_name,

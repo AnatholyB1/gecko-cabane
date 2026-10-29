@@ -100,6 +100,6 @@ describe('SAME_AS (D-09)', () => {
     const src = read('src/utils/seo.ts')
     expect(src).toContain('aggregateRatingFor(')
     expect(src).not.toMatch(/ratingValue:\s*[0-9]/)
-    expect(src).toContain("hasMenu: localeUrl(locale, '/menu')")
+    expect(src).toContain("isPublished('/menu', locale)")
   })
 })

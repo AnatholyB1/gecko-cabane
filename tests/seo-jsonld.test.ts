@@ -166,3 +166,16 @@ describe('serializeJsonLd', () => {
     expect(JSON.parse(out)).toEqual(payload)
   })
 })
+
+describe('buildRestaurantJsonLd on unpublished locales', () => {
+  it('de uses its own published url and hasMenu (plan 13)', () => {
+    const ld = buildRestaurantJsonLd({ locale: 'de', description: 'x', hoursRows: week() })
+    expect(ld.url).toBe(localeUrl('de'))
+    expect(ld.hasMenu).toBe(localeUrl('de', '/menu'))
+  })
+  it.each(['sv'] as const)('%s falls back to the EN url and hasMenu', (locale) => {
+    const ld = buildRestaurantJsonLd({ locale, description: 'x', hoursRows: week() })
+    expect(ld.url).toBe(localeUrl('en'))
+    expect(ld.hasMenu).toBe(localeUrl('en', '/menu'))
+  })
+})
