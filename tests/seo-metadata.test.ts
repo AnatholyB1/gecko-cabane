@@ -59,7 +59,9 @@ describe.each((['fr', 'en'] as const).flatMap((l) => PUBLISHED_PATHS.map((p) => 
       expect(langs['x-default']).toBe(localeUrl('fr', path))
       expect(langs.fr).toBe(localeUrl('fr', path))
       expect(langs.en).toBe(localeUrl('en', path))
-      expect(JSON.stringify(md)).not.toMatch(/"sv"/)
+      // sv appears only on pages published in sv (signed docs/ph6/review/sv, I18N-02)
+      expect(JSON.stringify(md).includes('"sv"')).toBe(published.includes('sv'))
+      if (published.includes('sv')) expect(langs.sv).toBe(localeUrl('sv', path))
       if (published.includes('de')) expect(langs.de).toBe(localeUrl('de', path))
     })
 
@@ -91,7 +93,7 @@ describe('buildPageMetadata title', () => {
     expect(md.title).toEqual({ absolute: T })
     expect(md.alternates?.canonical).toBe('https://geckocabanerestaurant.com/en')
     expect((md.openGraph as { locale: string }).locale).toBe('en_US')
-    expect((md.openGraph as { alternateLocale: string[] }).alternateLocale).toEqual(['fr_FR', 'de_DE'])
+    expect((md.openGraph as { alternateLocale: string[] }).alternateLocale).toEqual(['fr_FR', 'de_DE', 'sv_SE'])
   })
 
   it('uses a plain string otherwise', () => {
@@ -123,7 +125,7 @@ describe('EN-only page', () => {
 
 describe('PUBLISHED_PAGES', () => {
   it('declares per-page locales and keeps PUBLISHED_PATHS as the bilingual subset', () => {
-    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en', 'de'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en', 'de', 'sv'])
     const bilingual = PUBLISHED_PAGES.filter((p) => p.locales.includes('fr') && p.locales.includes('en')).map((p) => p.path)
     expect([...PUBLISHED_PATHS]).toEqual(bilingual)
   })

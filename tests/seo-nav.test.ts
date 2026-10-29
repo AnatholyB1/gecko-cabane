@@ -16,6 +16,7 @@ describe('switcherTargets', () => {
       { locale: 'fr', href: '/fr/restaurant-francais-krabi', current: true },
       { locale: 'en', href: '/en/french-restaurant-krabi', current: false },
       { locale: 'de', href: '/de/franzoesisches-restaurant-krabi', current: false },
+      { locale: 'sv', href: '/sv/fransk-restaurang-krabi', current: false },
     ])
   })
   it('omits unpublished locales', () => {

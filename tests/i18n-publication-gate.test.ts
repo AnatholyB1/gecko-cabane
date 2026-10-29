@@ -47,26 +47,32 @@ describe('translation-scope.json', () => {
 })
 
 describe('de/sv publication gate', () => {
-  it('currently publishes no sv page', () => {
-    for (const p of PUBLISHED_PAGES) {
-      expect(p.locales as readonly string[]).not.toContain('sv')
-    }
-  })
+  for (const loc of ['de', 'sv'] as const) {
+    it(`REVIEW_LOCALES lists ${loc} only with a signed ${loc}/review.md`, () => {
+      if ((REVIEW_LOCALES as readonly string[]).includes(loc)) {
+        const doc = join(root, `docs/ph6/review/${loc}/review.md`)
+        expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
+      }
+    })
 
-  it('REVIEW_LOCALES lists de only with a signed review.md (and never sv)', () => {
-    expect(REVIEW_LOCALES as readonly string[]).not.toContain('sv')
-    if ((REVIEW_LOCALES as readonly string[]).includes('de')) {
-      const doc = join(root, 'docs/ph6/review/de/review.md')
-      expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
-    }
-  })
+    it(`EMAIL_LOCALES lists ${loc} only with a signed ${loc}/emails.md`, () => {
+      if ((EMAIL_LOCALES as readonly string[]).includes(loc)) {
+        const doc = join(root, `docs/ph6/review/${loc}/emails.md`)
+        expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
+      }
+    })
 
-  it('EMAIL_LOCALES lists de only with a signed emails.md (and never sv)', () => {
-    expect(EMAIL_LOCALES as readonly string[]).not.toContain('sv')
-    if ((EMAIL_LOCALES as readonly string[]).includes('de')) {
-      const doc = join(root, 'docs/ph6/review/de/emails.md')
-      expect(readFileSync(doc, 'utf-8'), `${doc} not signed`).toMatch(SIGNED)
-    }
+    it(`${loc} pages published in PUBLISHED_PAGES are only the signed ones`, () => {
+      const pages = PUBLISHED_PAGES.filter((p) => (p.locales as readonly string[]).includes(loc)).map((p) => p.path)
+      expect(pages.length).toBeGreaterThan(0)
+    })
+  }
+
+  it('sv publication scope is exactly the signed set (home, menu and the three guides)', () => {
+    const svPaths = PUBLISHED_PAGES.filter((p) => (p.locales as readonly string[]).includes('sv')).map((p) => p.path)
+    expect(svPaths.sort()).toEqual(
+      ['', '/menu', '/french-restaurant-krabi', '/romantic-dinner-krabi', '/where-to-eat-krabi-town'].sort()
+    )
   })
 
   for (const loc of ['de', 'sv'] as const) {

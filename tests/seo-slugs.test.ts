@@ -129,6 +129,7 @@ describe('resolvePageSeo', () => {
         fr: localeUrl('fr', '/french-restaurant-krabi'),
         en: localeUrl('en', '/french-restaurant-krabi'),
         de: localeUrl('de', '/french-restaurant-krabi'),
+        sv: localeUrl('sv', '/french-restaurant-krabi'),
         'x-default': localeUrl('fr', '/french-restaurant-krabi'),
       },
     })
@@ -165,8 +166,8 @@ describe('resolvePageSeo', () => {
   })
 
   it('publishes the French landing in fr and en (PAGE-08)', () => {
-    expect([...publishedLocales('/french-restaurant-krabi')]).toEqual(['fr', 'en', 'de'])
-    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en', 'de'])
+    expect([...publishedLocales('/french-restaurant-krabi')]).toEqual(['fr', 'en', 'de', 'sv'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === '/french-restaurant-krabi')?.locales).toEqual(['fr', 'en', 'de', 'sv'])
   })
 })
 
@@ -189,22 +190,36 @@ describe('de/sv locales (D-05)', () => {
   it('indexes validated de pages and noindexes unpublished de/sv pages', () => {
     expect(resolvePageSeo('', 'de').index).toBe(true)
     expect(resolvePageSeo('/privacy', 'de').index).toBe(false)
-    expect(resolvePageSeo('', 'sv').index).toBe(false)
-    expect(resolvePageSeo('/menu', 'sv').index).toBe(false)
+    expect(resolvePageSeo('', 'sv').index).toBe(true)
+    expect(resolvePageSeo('/menu', 'sv').index).toBe(true)
+    expect(resolvePageSeo('/privacy', 'sv').index).toBe(false)
+    expect(resolvePageSeo('/getting-here-from-ao-nang', 'sv').index).toBe(false)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'sv').index).toBe(false)
   })
 
-  it('lists de URLs of validated pages and no sv URL in the sitemap', async () => {
+  it('lists de/sv URLs of validated pages and no sv URL for unpublished pages', async () => {
     const sitemap = (await import('../src/app/sitemap')).default
     const urls = sitemap().map((e) => e.url)
-    for (const u of urls) expect(u).not.toMatch(/\/sv(\/|$)/)
+    const svAllowed = new Set(
+      PUBLISHED_PAGES.filter((p) => p.locales.includes('sv')).map((p) => localeUrl('sv', p.path))
+    )
+    for (const u of urls.filter((x) => /\/sv(\/|$)/.test(x))) expect(svAllowed.has(u), u).toBe(true)
+    for (const p of svAllowed) expect(urls).toContain(p)
+    expect(urls.some((u) => u.includes('/sv/privacy'))).toBe(false)
     expect(urls).toContain(localeUrl('de', '/menu'))
     expect(urls).toContain(localeUrl('de'))
     expect(urls.some((u) => u.includes('/de/privacy'))).toBe(false)
   })
 
-  it('switcherTargets on /de/menu returns de current plus published fr/en', () => {
+  it('switcherTargets on /sv/menu returns sv current plus published fr/en/de', () => {
+    const t = switcherTargets('/sv/menu')
+    expect(t.map((x) => x.locale).sort()).toEqual(['de', 'en', 'fr', 'sv'])
+    expect(t.find((x) => x.current)?.locale).toBe('sv')
+  })
+
+  it('switcherTargets on /de/menu returns de current plus published fr/en/sv', () => {
     const t = switcherTargets('/de/menu')
-    expect(t.map((x) => x.locale).sort()).toEqual(['de', 'en', 'fr'])
+    expect(t.map((x) => x.locale).sort()).toEqual(['de', 'en', 'fr', 'sv'])
     expect(t.find((x) => x.current)?.locale).toBe('de')
   })
 
@@ -214,6 +229,10 @@ describe('de/sv locales (D-05)', () => {
       '/romantic-dinner-krabi',
       '/where-to-eat-krabi-town',
     ])
-    expect(guidesFor('sv')).toEqual([])
+    expect(guidesFor('sv').map((g) => g.key)).toEqual([
+      '/french-restaurant-krabi',
+      '/romantic-dinner-krabi',
+      '/where-to-eat-krabi-town',
+    ])
   })
 })
