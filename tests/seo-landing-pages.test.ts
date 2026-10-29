@@ -14,6 +14,7 @@ const messages: Record<string, Record<string, Record<string, unknown>>> = {
   fr: JSON.parse(read('messages/fr.json')),
   en: JSON.parse(read('messages/en.json')),
   de: JSON.parse(read('messages/de.json')),
+  sv: JSON.parse(read('messages/sv.json')),
 }
 
 function values(o: unknown): string[] {
@@ -106,8 +107,8 @@ describe('relatedFor', () => {
 
 describe('romantic dinner (D-12)', () => {
   const KEY = '/romantic-dinner-krabi'
-  it('is published in fr, en and de (owner-validated DE, plan 13)', () => {
-    expect([...(PUBLISHED_PAGES.find((p) => p.path === KEY)?.locales ?? [])].sort()).toEqual(['de', 'en', 'fr'])
+  it('is published in fr, en, de and sv (owner-validated DE plan 13, SV plan 15)', () => {
+    expect([...(PUBLISHED_PAGES.find((p) => p.path === KEY)?.locales ?? [])].sort()).toEqual(['de', 'en', 'fr', 'sv'])
   })
   it('has an occasion section', () => {
     expect(LANDING[KEY]!.sections.some((s) => s.id === 'occasion')).toBe(true)
@@ -126,8 +127,8 @@ describe('where-to-eat (D-11)', () => {
   it('has a section with 3 cards', () => {
     expect(LANDING[KEY]?.sections.some((s) => s.cards === 3)).toBe(true)
   })
-  it('is published in fr, en and de and linked from romantic dinner', () => {
-    expect(PUBLISHED_PAGES.find((p) => p.path === KEY)?.locales).toEqual(['fr', 'en', 'de'])
+  it('is published in fr, en, de and sv and linked from romantic dinner', () => {
+    expect(PUBLISHED_PAGES.find((p) => p.path === KEY)?.locales).toEqual(['fr', 'en', 'de', 'sv'])
     expect(relatedFor('/romantic-dinner-krabi', 'en')).toContain(KEY)
   })
   for (const locale of ['en', 'fr'] as const) {

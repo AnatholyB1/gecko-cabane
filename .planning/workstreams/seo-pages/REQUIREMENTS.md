@@ -16,7 +16,7 @@
 ### Internationalisation (I18N)
 
 - [x] **I18N-01** (L1): `/de` existe pour les pages PAGE-01 à PAGE-04, `/menu` et les pages d'avis, rédigé par Claude et relu par un humain avant publication
-- [ ] **I18N-02** (L1): `/sv` existe ensuite, avec le même processus de relecture, et est relié par hreflang
+- [x] **I18N-02** (L1): `/sv` existe ensuite, avec le même processus de relecture, et est relié par hreflang
 
 ### Actions externes (OPS)
 

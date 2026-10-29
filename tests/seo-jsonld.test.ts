@@ -173,9 +173,9 @@ describe('buildRestaurantJsonLd on unpublished locales', () => {
     expect(ld.url).toBe(localeUrl('de'))
     expect(ld.hasMenu).toBe(localeUrl('de', '/menu'))
   })
-  it.each(['sv'] as const)('%s falls back to the EN url and hasMenu', (locale) => {
-    const ld = buildRestaurantJsonLd({ locale, description: 'x', hoursRows: week() })
-    expect(ld.url).toBe(localeUrl('en'))
-    expect(ld.hasMenu).toBe(localeUrl('en', '/menu'))
+  it('sv uses its own published url and hasMenu (plan 15)', () => {
+    const ld = buildRestaurantJsonLd({ locale: 'sv', description: 'x', hoursRows: week() })
+    expect(ld.url).toBe(localeUrl('sv'))
+    expect(ld.hasMenu).toBe(localeUrl('sv', '/menu'))
   })
 })

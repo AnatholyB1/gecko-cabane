@@ -2,7 +2,7 @@
 
 Page : where-to-eat-krabi-town
 pageKey : /where-to-eat-krabi-town
-Statut : à relire (brouillon rédigé par Claude, non publié)
+Statut : validé par le propriétaire le 2026-10-29 (sans relecteur natif identifié)
 
 Instructions pour le relecteur :
 - Lisez le texte SV en regard du texte français.
@@ -42,4 +42,4 @@ Instructions pour le relecteur :
 
 ## Validation écrite
 
-- [ ] Validé par écrit par : ____  Date : ____  Canal de la validation : ____
+- [x] Validé par écrit par : propriétaire (Gecko Cabane), aucun relecteur natif suédois identifié, aucune correction fournie  Date : 2026-10-29  Canal de la validation : conversation Claude Code (message « je valide les documents suédois »)
