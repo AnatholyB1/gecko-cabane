@@ -17,11 +17,12 @@ import { weeklyReportEmail } from '@/utils/kpi-report-email'
 import type { ApiResponse, KpiAlert, KpiNarrative, KpiReportMode, KpiSourcesStatus, WeeklyKpiRow } from '@/types/database'
 
 export const dynamic = 'force-dynamic'
-export const maxDuration = 60
+export const maxDuration = 120
 
 const ADMIN_KPI_URL = 'https://geckocabanerestaurant.com/admin/kpi'
 
-// Internal budget (maxDuration = 60 s): below 15 s left before 50 s, skip the AI call.
+// Internal AI budget, counted from the start of the run: below 15 s left before 50 s, skip the AI call.
+// (maxDuration is 120 s because the TripAdvisor Web Unlocker call alone can take up to ~50 s.)
 const BUDGET_MS = 50_000
 const MIN_AI_MS = 15_000
 
