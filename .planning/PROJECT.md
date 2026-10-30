@@ -34,7 +34,7 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - [ ] **Conversion P2** : performance mobile (T7), preuve sociale (C2), histoire du couple (C3), bloc « Comment venir » (C4), transparence prix et paiement (R2)
 - [ ] **Plan de pages SEO** : 7 pages par langue (accueil, menu, french-restaurant-krabi, romantic-dinner, where-to-eat-krabi-town, getting-here-from-ao-nang, wine-belgian-beer), FR + EN puis DE
 - [ ] **Newsletter** (N1–N5) : collecte avec consentement, double opt-in, séquences automatiques, segments (Brevo)
-- [ ] **KPI hebdomadaires** : collecte n8n → table `weekly_kpis`, synthèse via API Claude, envoi email + WhatsApp, tableau de bord
+- [ ] **KPI hebdomadaires** : collecte par cron dans l'application → table `gecko_weekly_kpis`, synthèse via API Claude, envoi email (WhatsApp reporté), tableau de bord
 - [ ] **Allemand** (L1) : /de rédigé par Claude, relu par un humain avant publication ; suédois ensuite
 - [ ] **Actions hors code, via intégrations/MCP/CLI/extension Chrome** : Google Business Profile, TripAdvisor, Search Console, cohérence NAP, citations et blogs, partenariats hôtels (chaque action publique validée par le propriétaire)
 

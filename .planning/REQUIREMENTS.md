@@ -85,13 +85,13 @@
 ### KPI et reporting (KPI)
 
 - [~] **KPI-01**: GA4 ou Plausible est installé avec les événements « réservation envoyée » et « clic WhatsApp » *(code livré ; script Plausible redéployé le 2026-10-29, objectifs et événements non vérifiés)*
-- [ ] **KPI-02**: Chaque lundi 7h (Krabi), un workflow n8n collecte réservations, no-show, Search Console, Google Business Profile, avis, rang TripAdvisor (Bright Data), clics `/review`, Resend (newsletter), et écrit dans `weekly_kpis` (Supabase)
+- [ ] **KPI-02**: Chaque lundi 7h (Krabi), un job cron de l'application (Vercel Cron, `/api/cron/weekly-kpi`) collecte réservations, no-show, Search Console, rang TripAdvisor (Bright Data), clics `/review`, newsletter (Resend) et la saisie manuelle des avis Google, et écrit dans `gecko_weekly_kpis` (Supabase) *(réinterprété le 2026-10-30, D-01 : l'ancien workflow externe est remplacé par un cron dans l'application ; Google Business Profile automatique hors v1, D-03)*
 - [ ] **KPI-03**: Le calcul compare à S-1 (et N-1 dès la 2e saison) et détecte les seuils d'alerte de la spec
 - [ ] **KPI-04**: L'API Claude rédige 3 phrases de lecture et 3 actions recommandées, en français
-- [ ] **KPI-05**: Le rapport arrive le lundi à 8h par email et résumé WhatsApp au propriétaire et à l'équipe
+- [ ] **KPI-05**: Le rapport arrive le lundi à 8h par email au propriétaire et à l'équipe *(D-04 : résumé WhatsApp reporté, hors v1)*
 - [ ] **KPI-06**: Un tableau de bord en ligne garde l'historique des KPI
 - [ ] **KPI-07**: Un avis ≤ 3 étoiles ou un retour privé de `/review` déclenche une alerte immédiate
-- [ ] **KPI-08**: Le rapport est testé 2 semaines avant d'être déclaré fiable
+- [ ] **KPI-08**: Le rapport est testé 2 semaines avant d'être déclaré fiable *(mode TEST, clôture au plus tôt mi-novembre 2026, D-09)*
 
 ### Internationalisation (I18N)
 
@@ -191,19 +191,19 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | NEWS-05 | Phase 7 | Code livré, lancement bloqué (owner) |
 | NEWS-06 | Phase 7 | Code livré, lancement bloqué (owner) |
 | NEWS-07 | Phase 7 | Code livré, lancement bloqué (owner) |
-| KPI-02 | Phase 8 | Pending |
-| KPI-03 | Phase 8 | Pending |
-| KPI-04 | Phase 8 | Pending |
-| KPI-05 | Phase 8 | Pending |
-| KPI-06 | Phase 8 | Pending |
-| KPI-07 | Phase 8 | Pending |
+| KPI-02 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-03 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-04 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-05 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-06 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-07 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
 | KPI-08 | Phase 8 | Pending |
 
 **Coverage:**
 - v1 requirements: 65 total (24 marquées [P1]) ; le décompte initial de 62 était erroné
 - Mapped to phases: 65
 - Unmapped: 0
-- Etat au 2026-10-30 : 40 faites et vérifiées, 13 code livré en attente de vérification/propriétaire, 12 ouvertes (dont KPI-02 à KPI-08 : phase 8 non démarrée)
+- Etat au 2026-10-30 : 40 faites et vérifiées, 13 code livré en attente de vérification/propriétaire, 12 ouvertes (dont KPI-02 à KPI-07 : code livré le 2026-10-30, activation en attente (018) ; KPI-08 ouverte jusqu'à mi-novembre)
 
 ---
 *Requirements defined: 2026-10-16*

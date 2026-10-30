@@ -94,6 +94,13 @@ export default async function AdminPage() {
             <span className="text-sm text-(--warm-gold) font-medium">Gérer →</span>
           </Link>
 
+          <Link prefetch={false} href="/admin/kpi" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-(--tropical) hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-lg font-bold text-(--primary-dark) mb-2">KPI hebdomadaires</h3>
+            <p className="text-(--warm-gray) text-sm mb-4">Historique et rapport du lundi</p>
+            <span className="text-sm text-(--tropical) font-medium">Consulter →</span>
+          </Link>
+
           <Link prefetch={false} href="/admin/settings" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-gray-400 hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">⚙️</div>
             <h3 className="text-lg font-bold text-(--primary-dark) mb-2">Paramètres</h3>
@@ -153,6 +160,14 @@ export default async function AdminPage() {
             >
               <span className="text-2xl">⭐</span>
               <span className="text-(--primary-dark) font-medium">Avis</span>
+            </Link>
+            <Link
+              prefetch={false}
+              href="/admin/kpi"
+              className="flex items-center gap-3 p-4 bg-(--accent-light) rounded-xl hover:bg-(--accent-light)/70 transition-colors text-left"
+            >
+              <span className="text-2xl">📊</span>
+              <span className="text-(--primary-dark) font-medium">KPI hebdomadaires</span>
             </Link>
             <Link
               prefetch={false}
