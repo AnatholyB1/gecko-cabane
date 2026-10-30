@@ -111,21 +111,37 @@ export async function checkNewsletterRateLimits(
   return { limited }
 }
 
-/** Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket. */
+/** Shared bucket used when the caller cannot be identified (no secret / no IP): tight global cap. */
+export const FEEDBACK_GLOBAL_LIMIT = { key: 'feedback:global', limit: 10, windowSeconds: 3600 } as const
+
+/**
+ * Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket.
+ *
+ * Fails CLOSED on missing identity: each accepted message sends an email to the owner, so
+ * without RATE_LIMIT_SECRET or a client IP the request is counted against one shared global
+ * bucket (10/h, no PII in the key) instead of being waved through. A limiter RPC outage still
+ * fails open (reported to Sentry): the form must not die because of a database blip.
+ */
 export async function checkFeedbackRateLimit(
   admin: SupabaseClient,
   ip: string | null
 ): Promise<{ limited: boolean }> {
   const secret = process.env.RATE_LIMIT_SECRET
-  if (!secret) {
-    Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
-    return { limited: false }
+  let key: string
+  let limit: number
+  let windowSeconds: number
+  if (!secret || !ip) {
+    if (!secret) Sentry.captureMessage('RATE_LIMIT_SECRET is not set: feedback uses the global bucket', 'error')
+    key = FEEDBACK_GLOBAL_LIMIT.key
+    limit = FEEDBACK_GLOBAL_LIMIT.limit
+    windowSeconds = FEEDBACK_GLOBAL_LIMIT.windowSeconds
+  } else {
+    key = hashKey('feedback', ip, secret)
+    ;({ limit, windowSeconds } = RATE_LIMITS.feedback)
   }
-  if (!ip) return { limited: false }
-  const { limit, windowSeconds } = RATE_LIMITS.feedback
   try {
     const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
-      p_key: hashKey('feedback', ip, secret),
+      p_key: key,
       p_limit: limit,
       p_window_seconds: windowSeconds,
     })

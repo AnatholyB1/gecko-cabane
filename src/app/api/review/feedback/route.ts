@@ -48,9 +48,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiResponse<never>>(
         {
           error:
-            r.locale === 'en'
-              ? 'Too many messages from your connection. Message us directly on WhatsApp: +66 81 958 5945.'
-              : 'Trop de messages depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.',
+            r.locale === 'fr'
+              ? 'Trop de messages depuis votre connexion. Écrivez-nous directement sur WhatsApp : +66 81 958 5945.'
+              : 'Too many messages from your connection. Message us directly on WhatsApp: +66 81 958 5945.',
           code: 'rate_limited',
         },
         { status: 429 }
