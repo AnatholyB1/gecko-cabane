@@ -10,6 +10,8 @@ import {
 } from '@/utils/newsletter-links'
 import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
 import { newsletterLegacyConfirmEmail } from '@/utils/newsletter-emails'
+import { fetchAllPages } from '@/utils/paginate'
+import { sendIdempotencyKey } from '@/utils/newsletter-send'
 import type { ApiResponse } from '@/types/database'
 
 export const dynamic = 'force-dynamic'
@@ -54,13 +56,20 @@ export async function GET(request: NextRequest) {
     // Service role justified: the consent ledger has no public policy. This server-only
     // route is gated by CRON_SECRET and returns counts only.
     const admin = createAdminClient()
-    const { data, error } = await admin.from('gecko_marketing_consents').select('*')
-    if (error) {
+    let rows: LedgerRow[]
+    try {
+      rows = await fetchAllPages<LedgerRow>((from, to) =>
+        admin
+          .from('gecko_marketing_consents')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(from, to)
+      )
+    } catch (error) {
       Sentry.captureException(error)
       return NextResponse.json<ApiResponse<LegacyCounts>>({ error: 'Erreur serveur' }, { status: 500 })
     }
 
-    const rows = (data ?? []) as LedgerRow[]
     const totalEligible = selectLegacyConfirmations(rows, Number.POSITIVE_INFINITY).length
     const candidates = selectLegacyConfirmations(rows, limit)
 
@@ -98,17 +107,20 @@ export async function GET(request: NextRequest) {
 
         let sendFailed = false
         try {
-          const res = await resend.emails.send({
-            from: RESEND_FROM_EMAIL,
-            to: row.email,
-            subject: mail.subject,
-            html: mail.html,
-            text: mail.text,
-            headers: {
-              'List-Unsubscribe': `<${oneClick}>`,
-              'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          const res = await resend.emails.send(
+            {
+              from: RESEND_FROM_EMAIL,
+              to: row.email,
+              subject: mail.subject,
+              html: mail.html,
+              text: mail.text,
+              headers: {
+                'List-Unsubscribe': `<${oneClick}>`,
+                'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+              },
             },
-          })
+            { idempotencyKey: sendIdempotencyKey(row.email, 'legacy_confirm', String(row.id)) }
+          )
           sendFailed = !!res.error
         } catch {
           sendFailed = true
