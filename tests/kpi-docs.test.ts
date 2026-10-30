@@ -53,3 +53,52 @@ describe('KPI traceability (D-01, D-03, D-04, D-09)', () => {
     expect(read('.planning/PROJECT.md')).not.toContain('collecte n8n')
   })
 })
+
+describe('KPI owner runbook (T-08-15, T-08-16)', () => {
+  const VARS = [
+    'CRON_SECRET',
+    'RESEND_API_KEY',
+    'RESTAURANT_NOTIFICATION_EMAIL',
+    'GSC_SERVICE_ACCOUNT_JSON',
+    'GSC_SITE_URL',
+    'BRIGHTDATA_API_KEY',
+    'BRIGHTDATA_ZONE',
+    'TRIPADVISOR_URL',
+    'ANTHROPIC_API_KEY',
+    'ANTHROPIC_MODEL',
+    'KPI_REPORT_MODE',
+    'KPI_REPORT_RECIPIENTS',
+  ]
+  const setup = read('docs/kpi/KPI-SETUP.md')
+  const checklist = read('.planning/DEPLOY-CHECKLIST-v1.0.md')
+
+  it.each(VARS)('%s is named in KPI-SETUP.md and in the deploy checklist', (name) => {
+    expect(setup).toContain(name)
+    expect(checklist).toContain(name)
+  })
+
+  it('contains no secret material', () => {
+    expect(setup).not.toContain('BEGIN PRIVATE KEY')
+    expect(setup).not.toContain('sk-ant-')
+    expect(setup).not.toMatch(/"private_key"\s*:\s*"[^"]+/)
+  })
+
+  it('documents migration repair, TEST mode and forbids db push', () => {
+    expect(setup).toContain('migration repair')
+    expect(setup).toContain('[TEST]')
+    const pushLines = setup.split(/\r?\n/).filter((x) => x.includes('db push'))
+    for (const l of pushLines) {
+      expect(l).toMatch(/jamais/i)
+    }
+  })
+
+  it('checklist links the runbook and lists migration 018', () => {
+    expect(checklist).toContain('docs/kpi/KPI-SETUP.md')
+    expect(checklist).toContain('Migration 018')
+  })
+
+  it('records the verifier notes (TripAdvisor parser sample check, manual fields confirmation)', () => {
+    expect(setup).toContain('échantillon réel')
+    expect(setup).toContain('confirmer les champs')
+  })
+})
