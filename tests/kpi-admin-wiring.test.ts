@@ -59,6 +59,19 @@ describe('admin home', () => {
   })
 })
 
+describe('/admin/kpi initial render (loading state, no data yet)', () => {
+  it('renders the loading state and the TEST counter at 0 / 2 without crashing', async () => {
+    const { createElement } = await import('react')
+    const { renderToStaticMarkup } = await import('react-dom/server')
+    const mod = await import('../src/app/admin/kpi/page')
+    const html = renderToStaticMarkup(createElement(mod.default))
+    expect(html).toContain('KPI hebdomadaires')
+    expect(html).toContain('Chargement')
+    expect(html).toContain('Rapports TEST envoyés')
+    expect(html).not.toContain('Aucune semaine enregistrée')
+  })
+})
+
 describe('no public exposure', () => {
   it('no public page links to /admin/kpi or /api/kpi', () => {
     const offenders = walk(join(root, 'src/app/[locale]'))
