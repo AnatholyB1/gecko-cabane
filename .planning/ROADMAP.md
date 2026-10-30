@@ -19,7 +19,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 - [ ] **Phase 5: Conversion et mesure** - Code livré 13/13 (workstream conversion) ; ouverts : SEO-08 (PageSpeed 79, cible 85), CONV-02 (photo du couple), REV-07 (email non vérifié) ; migrations 015/016, LINE et Plausible à confirmer
 - [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - 14/15 (workstream seo-pages) : pages FR/EN, /de et /sv publiés, dossiers prêts ; reste 06-10 (NAP/TripAdvisor, OPS-04/05) bloqué sur accord du propriétaire
 - [ ] **Phase 7: Newsletter** - Resend (remplace Brevo, décision du 2026-10-29), double opt-in, formulaires, séquences et segments ; code livré 8/11 (workstream newsletter), lancement (07-10, 07-11) et supports imprimés (07-02) bloqués sur le propriétaire
-- [ ] **Phase 8: Reporting KPI hebdomadaire** - Cron dans l'appli, synthèse Claude, rapport email, tableau de bord, alertes (non démarrée)
+- [ ] **Phase 8: Reporting KPI hebdomadaire** - Cron dans l'appli, synthèse Claude, rapport email, tableau de bord, alertes (code livré 2026-10-30 sur milestone/v1.0-phase8 ; activation en attente : plan 08-12 puis KPI-08 au plus tôt le 2026-11-16)
 
 ## Phase Details
 

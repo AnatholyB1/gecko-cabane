@@ -38,3 +38,12 @@ Gate après 08-07 : 1214 tests verts (1 skip), tsc propre, lint 0 erreur (6 aver
 ## Risques ouverts
 
 - Un test de la suite est instable sous charge (vu 3 fois, sans nom relevé ; 08-04 a signalé `tests/newsletter-cron-route.test.ts` « J+2 ... Idempotency-Key ») ; 3 relances consécutives vertes. A traiter dans la passe d'audit, pas de skip.
+
+## Etat final (2026-10-30, soir)
+
+- Vague 3 reprise après la limite d'usage : 08-08, 08-09, 08-10 mergés ; vague 4 : 08-11 mergé.
+- Audits (revue, sécurité, vérification objectif) : 3 BLOCKER de revue corrigés (claim/relance/idempotence), F-02..F-05 corrigés, rapports `AUDIT-*.md`, `08-VERIFICATION.md`, `AUDIT-FIXES.md`. Crons ajoutés lundi 02:00 et 04:00 UTC (rattrapage idempotent).
+- Test instable `newsletter-cron-route` : timeout rallongé à 20 s (cold import), 2 runs complets verts.
+- Gate final : 1333 tests verts (1 skip), tsc propre, lint 0 erreur, build OK.
+- Reporté (voir AUDIT-FIXES.md) : F-01 `sendDefaultPii: true` (Sentry, préexistant) à traiter avant la bascule live KPI-08 ; alerte sur semaines GSC partielles.
+- Reste : 08-12 [BLOCKING] appliquer 018 en prod (accord explicite), variables Vercel (CRON_SECRET existant, KPI_*, ANTHROPIC_*, GSC, BRIGHTDATA_*), `?dry=1` ; 08-13 KPI-08.

@@ -191,19 +191,19 @@ Chaque action publique est préparée par Claude et exécutée après accord du 
 | NEWS-05 | Phase 7 | Code livré, lancement bloqué (owner) |
 | NEWS-06 | Phase 7 | Code livré, lancement bloqué (owner) |
 | NEWS-07 | Phase 7 | Code livré, lancement bloqué (owner) |
-| KPI-02 | Phase 8 | Pending |
-| KPI-03 | Phase 8 | Pending |
-| KPI-04 | Phase 8 | Pending |
-| KPI-05 | Phase 8 | Pending |
-| KPI-06 | Phase 8 | Pending |
-| KPI-07 | Phase 8 | Pending |
+| KPI-02 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-03 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-04 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-05 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-06 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
+| KPI-07 | Phase 8 | Code livré (en attente de l activation : migration 018, accès propriétaire) |
 | KPI-08 | Phase 8 | Pending |
 
 **Coverage:**
 - v1 requirements: 65 total (24 marquées [P1]) ; le décompte initial de 62 était erroné
 - Mapped to phases: 65
 - Unmapped: 0
-- Etat au 2026-10-30 : 40 faites et vérifiées, 13 code livré en attente de vérification/propriétaire, 12 ouvertes (dont KPI-02 à KPI-08 : phase 8 non démarrée)
+- Etat au 2026-10-30 : 40 faites et vérifiées, 13 code livré en attente de vérification/propriétaire, 12 ouvertes (dont KPI-02 à KPI-07 : code livré le 2026-10-30, activation en attente (018) ; KPI-08 ouverte jusqu'à mi-novembre)
 
 ---
 *Requirements defined: 2026-10-16*
