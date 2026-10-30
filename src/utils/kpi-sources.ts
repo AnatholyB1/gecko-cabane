@@ -91,6 +91,7 @@ export async function collectExternalKpis(
     let summary: GoogleReviewsSummary | null = null
     try {
       summary = await fetchGoogleReviewsSummary({
+        serviceAccountJson: env.GSC_SERVICE_ACCOUNT_JSON,
         apiKey: env.GOOGLE_PLACES_API_KEY,
         placeId: env.GOOGLE_PLACE_ID,
         fetchImpl: deps.fetchImpl,

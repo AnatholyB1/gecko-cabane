@@ -20,7 +20,7 @@ import { createSign } from 'node:crypto'
 
 export const GSC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly'
 
-const TOKEN_URL = 'https://oauth2.googleapis.com/token'
+export const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const QUERY_BASE = 'https://www.googleapis.com/webmasters/v3/sites'
 const DEFAULT_TIMEOUT_MS = 10_000
 
@@ -53,12 +53,12 @@ function b64url(input: string): string {
   return Buffer.from(input, 'utf8').toString('base64url')
 }
 
-export function signServiceAccountJwt(sa: ServiceAccount, nowSec: number): string {
+export function signServiceAccountJwt(sa: ServiceAccount, nowSec: number, scope: string = GSC_SCOPE): string {
   const header = b64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))
   const claims = b64url(
     JSON.stringify({
       iss: sa.client_email,
-      scope: GSC_SCOPE,
+      scope,
       aud: TOKEN_URL,
       iat: nowSec,
       exp: nowSec + 3600,

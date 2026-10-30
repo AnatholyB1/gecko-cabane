@@ -198,6 +198,7 @@ export async function GET(request: NextRequest) {
         const grDiag =
           params.get('diag') === 'gr'
             ? await diagnoseGoogleReviews({
+                serviceAccountJson: process.env.GSC_SERVICE_ACCOUNT_JSON,
                 apiKey: process.env.GOOGLE_PLACES_API_KEY,
                 placeId: process.env.GOOGLE_PLACE_ID,
               })

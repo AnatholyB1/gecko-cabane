@@ -10,6 +10,8 @@ import {
   PLACES_ENDPOINT,
   DEFAULT_GOOGLE_PLACE_ID,
 } from '../src/utils/kpi-google-reviews'
+import { generateKeyPairSync } from 'node:crypto'
+import { TOKEN_URL } from '../src/utils/kpi-gsc'
 import { collectExternalKpis } from '../src/utils/kpi-sources'
 import type { WeeklyKpiRow } from '../src/types/database'
 
@@ -69,7 +71,7 @@ describe('fetchGoogleReviewsSummary', () => {
 describe('diagnoseGoogleReviews', () => {
   it('stages sans appel', async () => {
     const f = vi.fn()
-    expect((await diagnoseGoogleReviews({ fetchImpl: asFetch(f) })).stage).toBe('no_api_key')
+    expect((await diagnoseGoogleReviews({ fetchImpl: asFetch(f) })).stage).toBe('no_credentials')
     expect((await diagnoseGoogleReviews({ apiKey: 'k', placeId: '../x', fetchImpl: asFetch(f) })).stage).toBe('bad_place_id')
     expect(f).not.toHaveBeenCalled()
   })
@@ -128,5 +130,65 @@ describe('collectExternalKpis - avis Google', () => {
 'unavailable')
     expect(r.values).toMatchObject({ google_reviews_total: null, google_new_reviews: null })
     expect(r.status.search_console).toBe('unavailable')
+  })
+})
+
+describe('compte de service (jeton OAuth, sans cle API)', () => {
+  const { privateKey } = generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+    publicKeyEncoding: { type: 'spki', format: 'pem' },
+  })
+  const saJson = JSON.stringify({ client_email: 'sa@gecko-cabane.iam.gserviceaccount.com', private_key: privateKey })
+  const placesOk = () => ok({ userRatingCount: 1065, rating: 4.7 })
+  const route = (tokenRes: Response) =>
+    vi.fn().mockImplementation(async (u: string) => (String(u) === TOKEN_URL ? tokenRes.clone() : placesOk()))
+
+  it('jeton puis GET Places avec Authorization Bearer, sans en-tete de cle', async () => {
+    const f = route(ok({ access_token: 'tok-123' }))
+    const r = await fetchGoogleReviewsSummary({ serviceAccountJson: saJson, fetchImpl: asFetch(f) })
+    expect(r).toEqual({ total: 1065, rating: 4.7 })
+    expect(f).toHaveBeenCalledTimes(2)
+    const [tokenUrl, tokenInit] = f.mock.calls[0]
+    expect(tokenUrl).toBe(TOKEN_URL)
+    expect(String(tokenInit.body)).toContain('jwt-bearer')
+    const [, placesInit] = f.mock.calls[1]
+    expect(placesInit.headers.authorization).toBe('Bearer tok-123')
+    expect(placesInit.headers['x-goog-api-key']).toBeUndefined()
+  })
+  it('le compte de service prime sur la cle API', async () => {
+    const f = route(ok({ access_token: 'tok' }))
+    await fetchGoogleReviewsSummary({ serviceAccountJson: saJson, apiKey: 'k', fetchImpl: asFetch(f) })
+    expect(f.mock.calls[1][1].headers['x-goog-api-key']).toBeUndefined()
+  })
+  it('refus du jeton => null, Places jamais appele', async () => {
+    const f = route(ok({ error: 'invalid_grant' }, 400))
+    expect(await fetchGoogleReviewsSummary({ serviceAccountJson: saJson, fetchImpl: asFetch(f) })).toBeNull()
+    expect(f).toHaveBeenCalledTimes(1)
+  })
+  it('JSON de compte de service invalide et pas de cle => null, aucun appel', async () => {
+    const f = vi.fn()
+    expect(await fetchGoogleReviewsSummary({ serviceAccountJson: '{nope', fetchImpl: asFetch(f) })).toBeNull()
+    expect(f).not.toHaveBeenCalled()
+  })
+  it('diagnostic : jeton refuse => stage token_http + code Google, sans secret', async () => {
+    const f = route(ok({ error: 'invalid_grant' }, 400))
+    const d = await diagnoseGoogleReviews({ serviceAccountJson: saJson, fetchImpl: asFetch(f) })
+    expect(d).toMatchObject({ stage: 'token_http', http_status: 400, google_status: 'invalid_grant' })
+    expect(JSON.stringify(d)).not.toContain('PRIVATE KEY')
+  })
+  it('diagnostic : PERMISSION_DENIED sur Places est restitue', async () => {
+    const f = vi.fn().mockImplementation(async (u: string) =>
+      String(u) === TOKEN_URL ? ok({ access_token: 't' }) : ok({ error: { status: 'PERMISSION_DENIED', message: 'caller lacks permission' } }, 403))
+    expect(await diagnoseGoogleReviews({ serviceAccountJson: saJson, fetchImpl: asFetch(f) })).toMatchObject({
+      stage: 'http_error', http_status: 403, google_status: 'PERMISSION_DENIED',
+    })
+  })
+  it('collecteur : GSC_SERVICE_ACCOUNT_JSON suffit pour remplir le total', async () => {
+    const f = vi.fn().mockImplementation(async (u: string) =>
+      String(u) === TOKEN_URL ? ok({ access_token: 't' }) : String(u).startsWith(PLACES_ENDPOINT) ? placesOk() : ok({}, 500))
+    const r = await collectExternalKpis(week, null, { GSC_SERVICE_ACCOUNT_JSON: saJson }, { skipPaid: true, previous: row({ google_reviews_total: 1060 }), fetchImpl: asFetch(f) })
+    expect(r.values).toMatchObject({ google_reviews_total: 1065, google_new_reviews: 5 })
+    expect(r.status.google_reviews).toBe('ok')
   })
 })

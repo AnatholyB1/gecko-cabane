@@ -1,8 +1,11 @@
 /**
  * Total d'avis Google pour le rapport KPI hebdomadaire (Places API (New), Place Details).
  *
- * Variables d'environnement (serveur uniquement) :
- *   GOOGLE_PLACES_API_KEY (restreinte a Places API (New)), GOOGLE_PLACE_ID (optionnel).
+ * Authentification (serveur uniquement), par ordre de preference :
+ *   - compte de service deja utilise pour Search Console (GSC_SERVICE_ACCOUNT_JSON), jeton OAuth
+ *     portee cloud-platform : aucune cle supplementaire a stocker ;
+ *   - sinon GOOGLE_PLACES_API_KEY (cle restreinte a Places API (New)).
+ *   GOOGLE_PLACE_ID est optionnel.
  *
  * Champs demandes : rating et userRatingCount uniquement (pas de reviews : SKU moins cher, et
  * l'API ne renvoie de toute facon que 5 avis tries par pertinence, pas par date). Les nouveaux
@@ -13,7 +16,10 @@
  * une valeur inventee. Aucun log : la cle ne transite que par l'en-tete X-Goog-Api-Key.
  */
 
+import { TOKEN_URL, parseServiceAccount, signServiceAccountJwt } from './kpi-gsc'
+
 export const PLACES_ENDPOINT = 'https://places.googleapis.com/v1/places'
+const CLOUD_SCOPE = 'https://www.googleapis.com/auth/cloud-platform'
 
 // Place ID derive de l'identifiant Maps de la fiche ; a confirmer par un premier appel reel.
 export const DEFAULT_GOOGLE_PLACE_ID = 'ChIJozpAo2GUUTARABLcICH3H7I'
@@ -47,29 +53,62 @@ export function parsePlaceSummary(json: unknown): GoogleReviewsSummary | null {
   return { total: userRatingCount, rating: r }
 }
 
-function placeRequest(opts: { apiKey: string; placeId: string; fetchImpl?: typeof fetch; timeoutMs?: number }) {
+type PlaceAuth = { apiKey?: string; serviceAccountJson?: string }
+type PlaceOpts = PlaceAuth & { placeId?: string; fetchImpl?: typeof fetch; timeoutMs?: number; now?: Date }
+
+export function hasPlaceAuth(a: PlaceAuth): boolean {
+  return !!(a.apiKey || parseServiceAccount(a.serviceAccountJson))
+}
+
+// OAuth access token from the service account (same JWT flow as Search Console, wider scope).
+async function serviceAccountToken(opts: PlaceOpts): Promise<{ token?: string; stage?: string; status?: number; error?: string }> {
+  const sa = parseServiceAccount(opts.serviceAccountJson)
+  if (!sa) return { stage: 'bad_service_account' }
   const doFetch = opts.fetchImpl ?? fetch
+  const nowSec = Math.floor((opts.now ?? new Date()).getTime() / 1000)
+  let assertion: string
+  try {
+    assertion = signServiceAccountJwt(sa, nowSec, CLOUD_SCOPE)
+  } catch {
+    return { stage: 'sign_error' }
+  }
+  const res = await doFetch(TOKEN_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion }).toString(),
+    signal: AbortSignal.timeout(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS),
+  })
+  if (!res.ok) {
+    const j = (await res.json().catch(() => null)) as { error?: unknown } | null
+    return { stage: 'token_http', status: res.status, error: typeof j?.error === 'string' ? j.error.slice(0, 160) : undefined }
+  }
+  const j = (await res.json().catch(() => null)) as { access_token?: unknown } | null
+  return typeof j?.access_token === 'string' ? { token: j.access_token } : { stage: 'token_shape' }
+}
+
+async function placeRequest(opts: PlaceOpts & { placeId: string }): Promise<Response | { tokenError: { stage?: string; status?: number; error?: string } }> {
+  const doFetch = opts.fetchImpl ?? fetch
+  const headers: Record<string, string> = { 'x-goog-fieldmask': 'userRatingCount,rating' }
+  if (parseServiceAccount(opts.serviceAccountJson)) {
+    const t = await serviceAccountToken(opts)
+    if (!t.token) return { tokenError: t }
+    headers.authorization = `Bearer ${t.token}`
+  } else if (opts.apiKey) {
+    headers['x-goog-api-key'] = opts.apiKey
+  }
   return doFetch(`${PLACES_ENDPOINT}/${encodeURIComponent(opts.placeId)}`, {
     method: 'GET',
-    headers: {
-      'x-goog-api-key': opts.apiKey,
-      'x-goog-fieldmask': 'userRatingCount,rating',
-    },
+    headers,
     signal: AbortSignal.timeout(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS),
   })
 }
 
-export async function fetchGoogleReviewsSummary(opts: {
-  apiKey?: string
-  placeId?: string
-  fetchImpl?: typeof fetch
-  timeoutMs?: number
-}): Promise<GoogleReviewsSummary | null> {
+export async function fetchGoogleReviewsSummary(opts: PlaceOpts): Promise<GoogleReviewsSummary | null> {
   const placeId = opts.placeId ?? DEFAULT_GOOGLE_PLACE_ID
-  if (!opts.apiKey || !isValidPlaceId(placeId)) return null
+  if (!hasPlaceAuth(opts) || !isValidPlaceId(placeId)) return null
   try {
-    const res = await placeRequest({ ...opts, apiKey: opts.apiKey, placeId })
-    if (!res.ok) return null
+    const res = await placeRequest({ ...opts, placeId })
+    if ('tokenError' in res || !res.ok) return null
     return parsePlaceSummary(await res.json())
   } catch {
     return null
@@ -77,19 +116,18 @@ export async function fetchGoogleReviewsSummary(opts: {
 }
 
 // Dry run only: names the failing stage and Google's error status, never the key or the page body.
-export async function diagnoseGoogleReviews(opts: {
-  apiKey?: string
-  placeId?: string
-  fetchImpl?: typeof fetch
-  timeoutMs?: number
-}): Promise<GoogleReviewsDiagnosis> {
+export async function diagnoseGoogleReviews(opts: PlaceOpts): Promise<GoogleReviewsDiagnosis> {
   const placeId = opts.placeId ?? DEFAULT_GOOGLE_PLACE_ID
-  if (!opts.apiKey) return { stage: 'no_api_key' }
+  if (!hasPlaceAuth(opts)) return { stage: 'no_credentials' }
   if (!isValidPlaceId(placeId)) return { stage: 'bad_place_id' }
   const clip = (v: unknown) => (typeof v === 'string' ? v.slice(0, 160) : undefined)
   const startedAt = Date.now()
   try {
-    const res = await placeRequest({ ...opts, apiKey: opts.apiKey, placeId })
+    const res = await placeRequest({ ...opts, placeId })
+    if ('tokenError' in res) {
+      const t = res.tokenError
+      return { stage: t.stage ?? 'token', http_status: t.status, google_status: t.error, duration_ms: Date.now() - startedAt }
+    }
     const base = { http_status: res.status, duration_ms: Date.now() - startedAt }
     const json: unknown = await res.json().catch(() => null)
     if (!res.ok) {
