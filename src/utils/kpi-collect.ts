@@ -185,6 +185,7 @@ export function preserveExistingValues(
 // ---------------------------------------------------------------------------
 
 // Minimal ledger columns for resolveActiveSubscribers (no locale, country, reservation link...).
+type LedgerMin = Pick<LedgerRow, 'id' | 'email' | 'consent' | 'consented_at' | 'confirmed_at' | 'confirmation_sent_at'>
 const LEDGER_COLUMNS = 'id, email, consent, consented_at, confirmed_at, confirmation_sent_at'
 const RESERVATION_COLUMNS = 'id, status, reservation_date, party_size, created_at, source'
 
@@ -240,7 +241,7 @@ export async function collectDbKpis(
       if (error) throw new Error(error.message)
       return (data ?? []) as ReviewClickRow[]
     })(),
-    fetchAllPages<LedgerRow>((a, b) =>
+    fetchAllPages<LedgerMin>((a, b) =>
       admin
         .from('gecko_marketing_consents')
         .select(LEDGER_COLUMNS, { count: 'exact' })
@@ -283,7 +284,7 @@ export async function collectDbKpis(
     })
   }
   // Only the count leaves this scope: the ledger rows (emails) are discarded here.
-  values.newsletter_active_total = ledgerRes.status === 'fulfilled' ? resolveActiveSubscribers(ledgerRes.value).size : null
+  values.newsletter_active_total = ledgerRes.status === 'fulfilled' ? resolveActiveSubscribers(ledgerRes.value as LedgerRow[]).size : null
   const nlOk = Number(eventsRes.status === 'fulfilled') + Number(ledgerRes.status === 'fulfilled')
   status.newsletter = (['unavailable', 'partial', 'ok'] as KpiSourceState[])[nlOk]
 
