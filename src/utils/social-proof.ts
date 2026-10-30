@@ -28,8 +28,15 @@ export type SocialReview = {
 export const MAX_REVIEWS = 4
 
 export const SOCIAL_PROOF = {
+  // Owner-supplied real figures (2026-10-30): Google 4.7 from 1065 reviews, TripAdvisor 4.7 from 814 reviews.
+  // Each rating is displayed with its own source name; never merge or relabel them.
+  ratings: {
+    google: { rating: 4.7, reviewCount: 1065 },
+    tripadvisor: { rating: 4.7, reviewCount: 814 },
+  },
+  // The schema.org aggregateRating mirrors the Google figures only (one source, never summed).
   rating: 4.7,
-  reviewCount: 1062,
+  reviewCount: 1065,
   bestRating: 5,
   ratingSource: 'google' as const,
   // The year stays null until the owner confirms it; the badge renders without a year.
@@ -69,6 +76,12 @@ export const SOCIAL_PROOF = {
 export type SocialProofConfig = typeof SOCIAL_PROOF
 
 // D-14 locked: single switch for the structured-data rating.
+// Policy note: Google's review-snippet guidelines ignore (and may penalise with a manual action)
+// aggregateRating that a business marks up about ITSELF on its own LocalBusiness/Restaurant page
+// ("self-serving reviews"), and ratings aggregated from third-party sites. Stars are therefore
+// unlikely to appear in search results and the markup carries a small risk. The figures are real
+// and visibly displayed on the page (SocialProof), so the markup is not a hidden claim; flip this
+// to false to remove it without touching the visible badge.
 export const SHOW_AGGREGATE_RATING = true
 
 const ALLOWED_HOSTS = ['www.google.com', 'google.com', 'g.page', 'maps.app.goo.gl']

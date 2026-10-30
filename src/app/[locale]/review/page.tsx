@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { after } from 'next/server'
+import { headers } from 'next/headers'
 import UtilityCard from '@/components/ui/UtilityCard'
 import { primaryLightClass as primaryClass, secondaryLightClass as secondaryClass } from '@/components/ui/buttonClasses'
-import { isReviewToken, normalizeReviewSource } from '@/utils/review-links'
-import { markReviewClicked } from '@/utils/review-tracking'
-import { recordReviewHit } from '@/utils/review-stats'
+import { isReviewToken } from '@/utils/review-links'
+import { markReviewClicked, resolveVerifiedSource } from '@/utils/review-tracking'
+import { recordReviewHitThrottled } from '@/utils/review-stats'
+import { getClientIp } from '@/utils/rate-limit'
 import ReviewFeedbackForm from '@/components/ReviewFeedbackForm'
 import { FEEDBACK_MESSAGE_MAX } from '@/utils/review-feedback'
 import { LOCALES, type SeoLocale } from '@/utils/seo'
@@ -46,8 +48,11 @@ export default async function ReviewPage({ params, searchParams }: Props) {
   // D-13: first click stops the J+5 reminder; output is identical for any rid.
   if (isReviewToken(rid)) await markReviewClicked(rid)
   // D-07: count the visit per source, non-blocking.
-  const source = normalizeReviewSource(sp.src, rid)
-  after(() => recordReviewHit(source, 'visit'))
+  // REV-06: "email" only for a rid that really exists; throttled per IP, counted after the response.
+  const source = await resolveVerifiedSource(sp.src, rid)
+  const ip = getClientIp(await headers())
+  after(() => recordReviewHitThrottled(source, 'visit', ip))
+  const goRid = source === 'email' && rid ? `&rid=${rid}` : ''
   const locale = resolveLocale(raw)
   const t = await getTranslations({ locale, namespace: 'review' })
 
@@ -60,7 +65,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
           </p>
 
           <div className="flex flex-col gap-4 mt-6">
-            <a href={`/api/review/go?t=google&src=${source}`} target="_blank" rel="noopener noreferrer" className={primaryClass}>
+            <a href={`/api/review/go?t=google&src=${source}${goRid}`} target="_blank" rel="noopener noreferrer" className={primaryClass}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                 <path d="M20 12a8 8 0 1 1-2.5-5.8" />
                 <path d="M12 12h8" />
@@ -69,7 +74,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
               <ExternalArrow />
               <span className="sr-only">{t('newTab')}</span>
             </a>
-            <a href={`/api/review/go?t=tripadvisor&src=${source}`} target="_blank" rel="noopener noreferrer" className={secondaryClass}>
+            <a href={`/api/review/go?t=tripadvisor&src=${source}${goRid}`} target="_blank" rel="noopener noreferrer" className={secondaryClass}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <circle cx="7.5" cy="13" r="3.5" />
                 <circle cx="16.5" cy="13" r="3.5" />

@@ -29,7 +29,7 @@ export function getClientIp(h: Headers): string | null {
   return first || null
 }
 
-export type HashKind = 'ip' | 'email' | 'phone' | 'feedback' | 'nl-ip' | 'nl-email'
+export type HashKind = 'ip' | 'email' | 'phone' | 'feedback' | 'nl-ip' | 'nl-email' | 'review-hit'
 
 export function hashKey(kind: HashKind, value: string, secret: string): string {
   const normalized = kind === 'email' || kind === 'nl-email' ? value.toLowerCase() : value
@@ -111,21 +111,37 @@ export async function checkNewsletterRateLimits(
   return { limited }
 }
 
-/** Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket. */
+/** Shared bucket used when the caller cannot be identified (no secret / no IP): tight global cap. */
+export const FEEDBACK_GLOBAL_LIMIT = { key: 'feedback:global', limit: 10, windowSeconds: 3600 } as const
+
+/**
+ * Review feedback ("Un souci ?", D-23): 3 messages per hour per hashed IP, separate bucket.
+ *
+ * Fails CLOSED on missing identity: each accepted message sends an email to the owner, so
+ * without RATE_LIMIT_SECRET or a client IP the request is counted against one shared global
+ * bucket (10/h, no PII in the key) instead of being waved through. A limiter RPC outage still
+ * fails open (reported to Sentry): the form must not die because of a database blip.
+ */
 export async function checkFeedbackRateLimit(
   admin: SupabaseClient,
   ip: string | null
 ): Promise<{ limited: boolean }> {
   const secret = process.env.RATE_LIMIT_SECRET
-  if (!secret) {
-    Sentry.captureMessage('RATE_LIMIT_SECRET is not set: rate limiting disabled', 'error')
-    return { limited: false }
+  let key: string
+  let limit: number
+  let windowSeconds: number
+  if (!secret || !ip) {
+    if (!secret) Sentry.captureMessage('RATE_LIMIT_SECRET is not set: feedback uses the global bucket', 'error')
+    key = FEEDBACK_GLOBAL_LIMIT.key
+    limit = FEEDBACK_GLOBAL_LIMIT.limit
+    windowSeconds = FEEDBACK_GLOBAL_LIMIT.windowSeconds
+  } else {
+    key = hashKey('feedback', ip, secret)
+    ;({ limit, windowSeconds } = RATE_LIMITS.feedback)
   }
-  if (!ip) return { limited: false }
-  const { limit, windowSeconds } = RATE_LIMITS.feedback
   try {
     const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
-      p_key: hashKey('feedback', ip, secret),
+      p_key: key,
       p_limit: limit,
       p_window_seconds: windowSeconds,
     })
@@ -137,5 +153,41 @@ export async function checkFeedbackRateLimit(
   } catch (e) {
     Sentry.captureException(e)
     return { limited: false }
+  }
+}
+
+/** Review counters (REV-06): per hashed IP, and a shared bucket when the caller is unidentified. */
+export const REVIEW_HIT_LIMITS = {
+  ip: { limit: 30, windowSeconds: 3600 },
+  global: { key: 'review-hit:global', limit: 600, windowSeconds: 3600 },
+} as const
+
+/**
+ * Throttle for the review counters only. `limited: true` means "do not count this hit"; it must
+ * never block a visitor or a redirect. Unidentified callers (no secret / no IP) share one global
+ * bucket; an RPC outage skips the count (fail closed for the counter, harmless for the visitor).
+ */
+export async function checkReviewHitRateLimit(
+  admin: SupabaseClient,
+  ip: string | null
+): Promise<{ limited: boolean }> {
+  const secret = process.env.RATE_LIMIT_SECRET
+  const identified = Boolean(secret && ip)
+  const key = identified ? hashKey('review-hit', ip as string, secret as string) : REVIEW_HIT_LIMITS.global.key
+  const { limit, windowSeconds } = identified ? REVIEW_HIT_LIMITS.ip : REVIEW_HIT_LIMITS.global
+  try {
+    const { data, error } = await admin.rpc('gecko_rate_limit_hit', {
+      p_key: key,
+      p_limit: limit,
+      p_window_seconds: windowSeconds,
+    })
+    if (error) {
+      Sentry.captureException(error)
+      return { limited: true }
+    }
+    return { limited: data === false }
+  } catch (e) {
+    Sentry.captureException(e)
+    return { limited: true }
   }
 }

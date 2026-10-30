@@ -28,7 +28,7 @@ export const feedbackRequestSchema = z.object({
   rid: z
     .unknown()
     .transform((v) => (typeof v === 'string' && isReviewToken(v) ? v : null)),
-  locale: z.enum(['fr', 'en']).catch('fr'),
+  locale: z.enum(['fr', 'en', 'de', 'sv']).catch('fr'),
   company_url: z.string().max(200).optional(),
   form_started_at: z.number().int().optional(),
 })
@@ -45,7 +45,7 @@ export function feedbackEmail(args: {
   email?: string
   src: ReviewSource | null
   rid: string | null
-  locale: 'fr' | 'en'
+  locale: 'fr' | 'en' | 'de' | 'sv'
 }): { subject: string; html: string; text: string } {
   const source = args.src ?? 'inconnue'
   const subject = stripLineBreaks(`Un souci ? Message reçu depuis /review (source : ${source})`)

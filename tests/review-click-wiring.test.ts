@@ -78,8 +78,8 @@ describe('review page', () => {
   })
   it('counts the visit per source after the response', () => {
     expect(src).toContain('after(')
-    expect(src).toContain("recordReviewHit(source, 'visit')")
-    expect(src).toContain('normalizeReviewSource(')
+    expect(src).toContain("recordReviewHitThrottled(source, 'visit'")
+    expect(src).toContain('resolveVerifiedSource(')
   })
   it('renders no guest data', () => {
     expect(src).not.toContain('customer_name')

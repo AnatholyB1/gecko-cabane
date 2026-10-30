@@ -32,9 +32,21 @@ const fixture: SocialReview = {
 describe('social-proof config', () => {
   it('has the rating constants', () => {
     expect(SOCIAL_PROOF.rating).toBe(4.7)
-    expect(SOCIAL_PROOF.reviewCount).toBe(1062)
+    expect(SOCIAL_PROOF.reviewCount).toBe(1065)
     expect(SOCIAL_PROOF.bestRating).toBe(5)
     expect(typeof SHOW_AGGREGATE_RATING).toBe('boolean')
+  })
+
+  it('carries the owner-supplied figures per source; schema mirrors Google only', () => {
+    expect(SOCIAL_PROOF.ratings.google).toEqual({ rating: 4.7, reviewCount: 1065 })
+    expect(SOCIAL_PROOF.ratings.tripadvisor).toEqual({ rating: 4.7, reviewCount: 814 })
+    expect(SOCIAL_PROOF.ratingSource).toBe('google')
+    expect(SOCIAL_PROOF.reviewCount).toBe(SOCIAL_PROOF.ratings.google.reviewCount)
+  })
+
+  it('documents the Google self-serving review-snippet policy next to the flag', () => {
+    const src = readFileSync(join(__dirname, '..', 'src/utils/social-proof.ts'), 'utf8')
+    expect(src).toMatch(/self-serving/)
   })
 
   it('every shipped review is valid and within the cap', () => {
@@ -66,7 +78,7 @@ describe('social-proof config', () => {
     expect(aggregateRatingFor(cfg, true)).toEqual({
       '@type': 'AggregateRating',
       ratingValue: 4.7,
-      reviewCount: 1062,
+      reviewCount: 1065,
       bestRating: 5,
       worstRating: 1,
     })
@@ -100,7 +112,7 @@ describe('owner-selected reviews (05-12/05-13)', () => {
     expect(aggregateRatingFor()).toEqual({
       '@type': 'AggregateRating',
       ratingValue: 4.7,
-      reviewCount: 1062,
+      reviewCount: 1065,
       bestRating: 5,
       worstRating: 1,
     })
@@ -144,7 +156,16 @@ describe('SocialProof wiring', () => {
       expect(comp).toContain(s)
     }
     expect(comp).not.toContain('dangerouslySetInnerHTML')
-    for (const n of ['4,7', '4.7', '1062', '1 062']) expect(comp).not.toContain(n)
+    for (const n of ['4,7', '4.7', '1062', '1065', '814']) expect(comp).not.toContain(n)
+  })
+
+  it('displays one rating block per source with its true name and own figures', () => {
+    expect(comp).toContain('SOCIAL_PROOF.ratings[key]')
+    expect(comp).toContain("'Google'")
+    expect(comp).toContain("'TripAdvisor'")
+    expect(comp).toContain('data-rating-source')
+    // Travellers' Choice is a TripAdvisor badge: only inside the TripAdvisor block
+    expect(comp).toContain("s.key === 'tripadvisor' && travellersChoice.awarded")
   })
 
   // Phase 5: SOCIAL block folded into SocialProof, rating shown once

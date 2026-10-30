@@ -73,3 +73,22 @@ Exigences : KPI-01, RESA-05, RESA-06, CONV-01, CONV-03, MENU-03, REV-05, REV-06 
 - Le rendu reel de l'iframe Maps (URL legacy sans cle `output=embed`).
 - La conformite des signatures du webhook Resend et de la phase newsletter (hors perimetre).
 - Le rendu visuel mobile (aucun navigateur lance ; le rapport de phase cite un test Chromium 390 px, non reverifie).
+
+## FIXES (branche `fix/v1.0-phase5`, base `milestone/v1.0`)
+
+Corriges (code + tests, y compris chemins d'echec) :
+
+- HIGH aggregateRating / preuve sociale : chiffres reels fournis par le proprietaire (Google 4,7 / 1 065 avis ; TripAdvisor 4,7 / 814 avis) dans `social-proof.ts` (`ratings.google`, `ratings.tripadvisor`). `SocialProof.tsx` affiche un bloc par source avec son nom et ses chiffres ; le badge Travellers' Choice est dans le bloc TripAdvisor. Le schema (`aggregateRating`) reprend uniquement les chiffres Google (jamais additionnes). Drapeau `SHOW_AGGREGATE_RATING` inchange (true) ; commentaire ajoute sur la politique Google "self-serving review snippets". Cle morte `home.reviewsLine` mise a jour en fr/en (de/sv : branche i18n).
+- HIGH i18n scope : `socialProof`, `payment`, `line` ajoutes au scope "home", `reviewFeedback` au scope "review" dans `scripts/translation-scope.json`. DEPENDANCE : la porte `i18n-publication-gate` (de/sv "complete keys") et `review-docs` (docs/ph6 : tables de cles et signature) restent ROUGES (9 tests) tant que `fix/v1.0-i18n` n'a pas fourni les cles de/sv et les documents de relecture. C'est voulu : la porte fait maintenant son travail. Ne pas merger sans cette branche (`npm run build` lance vitest).
+- MEDIUM locale "Un souci ?" : le schema accepte fr/en/de/sv (le formulaire envoyait deja la vraie locale) ; l'email proprietaire affiche la vraie langue ; le 429 est en francais pour fr, anglais sinon.
+- MEDIUM limiteur "Un souci ?" fail closed : sans `RATE_LIMIT_SECRET` ou sans IP, la requete est comptee dans un seau global `feedback:global` (10/h, sans donnee personnelle). Une panne RPC reste fail-open (documente, Sentry).
+- MEDIUM `/api/review/go` : verification, limitation (30/h par IP hachee, seau global `review-hit:global` 600/h sans IP/secret) et ecriture passent dans `after()` : la redirection n'attend plus la base. "email" n'est credite que si le `rid` existe en base (`resolveVerifiedSource`) ; un `src=email` nu ou un UUID inconnu compte "unknown". La page `/review` applique la meme verification et la meme limitation, et transmet le `rid` verifie aux boutons.
+
+Documente seulement (non corrige) :
+
+- LOW / INFO de la passe 1 et 2 (lien WhatsApp de repli sans evenement, annee Travellers' Choice, machine d'etats PUT reservations, `getClientIp` hors Vercel, origine telephone des invitations d'avis, Plausible en de/sv, referrerPolicy Maps) : inchanges.
+- MEDIUM "Jean-Louis305" (pseudonyme TripAdvisor affiche comme prenom) : necessite l'accord du proprietaire, inchange.
+- MEDIUM message 429 reservations en de/sv : repli EN accepte, inchange.
+- HIGH SEO-08 PageSpeed mobile 79 / LCP 4,4 s : OUVERT. Demande un chantier performance separe ; aucune mesure post-correction.
+
+Non prouve apres correctifs : migrations 015/016 en production, reception reelle de l'email "Un souci ?", `RATE_LIMIT_SECRET` defini en production, rendu visuel mobile du nouveau bloc a deux sources, exactitude du badge Travellers' Choice.
