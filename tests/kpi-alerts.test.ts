@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ALERT_THRESHOLDS, compareWeeks, detectAlerts } from '../src/utils/kpi-alerts'
+import { ALERT_THRESHOLDS, compareWeeks, detectAlerts, type AlertThresholds } from '../src/utils/kpi-alerts'
 import type { WeeklyKpiRow } from '../src/types/database'
 
 function row(over: Partial<WeeklyKpiRow> = {}): WeeklyKpiRow {
@@ -43,7 +43,7 @@ function row(over: Partial<WeeklyKpiRow> = {}): WeeklyKpiRow {
   } as WeeklyKpiRow
 }
 
-const codes = (c: WeeklyKpiRow, p: WeeklyKpiRow | null, t?: typeof ALERT_THRESHOLDS) =>
+const codes = (c: WeeklyKpiRow, p: WeeklyKpiRow | null, t?: AlertThresholds) =>
   detectAlerts(c, p, t).map((a) => a.code)
 
 describe('compareWeeks', () => {
