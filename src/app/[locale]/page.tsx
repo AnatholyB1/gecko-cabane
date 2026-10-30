@@ -56,10 +56,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         role="navigation"
         aria-label={t('common.mainNav')}
       >
-        <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex justify-between items-center">
+        <div className="max-w-[1200px] mx-auto px-2 min-[360px]:px-3 min-[400px]:px-4 sm:px-6 h-[72px] flex justify-between items-center gap-1.5 min-[360px]:gap-2">
           <a
             href="#"
-            className="font-cinzel-decorative font-bold text-gc-gold text-xl tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
+            className="font-cinzel-decorative font-bold text-gc-gold whitespace-nowrap text-[13px] min-[360px]:text-[14px] min-[400px]:text-[17px] sm:text-xl tracking-[0.05em] min-[400px]:tracking-[0.08em] sm:tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
             aria-label={t('common.homeAriaLabel')}
           >
             GECKO CABANE
@@ -93,12 +93,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               ),
             )}
           </ul>
-          <div className="flex items-center gap-4 sm:gap-6">
-            <GuidesMenu items={guideItems} toggleLabel={t('guides.toggle')} navLabel={t('guides.ariaLabel')} />
+          <div className="flex items-center gap-2 min-[400px]:gap-3 sm:gap-6">
+            <div className="max-[479px]:hidden">
+              <GuidesMenu items={guideItems} toggleLabel={t('guides.toggle')} navLabel={t('guides.ariaLabel')} />
+            </div>
             <LanguageSwitcher />
             <a
               href="#reservation"
-              className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-5 py-2.5 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+              className="font-cinzel text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-2 min-[360px]:px-2.5 min-[400px]:px-3.5 sm:px-5 py-2.5 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
               aria-label={t('common.bookTable')}
             >
               {t('common.book')}

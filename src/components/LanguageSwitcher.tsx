@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { switcherTargets } from '@/utils/seo'
 
 const BASE =
-  'inline-flex items-center min-h-11 px-1.5 font-raleway text-[12px] tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
+  'inline-flex items-center min-h-11 px-1 sm:px-1.5 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
 
 /**
  * Slug-aware switcher (D-05): only offers locales in which the current page is
@@ -20,7 +20,7 @@ export default function LanguageSwitcher() {
   if (targets.length < 2) return null
 
   return (
-    <nav aria-label={t('changeLanguage')} className="flex items-center gap-1">
+    <nav aria-label={t('changeLanguage')} className="flex items-center gap-0 sm:gap-1">
       {targets.map((target) => {
         const label = t('switchTo', { language: t(target.locale) })
         return target.current ? (
