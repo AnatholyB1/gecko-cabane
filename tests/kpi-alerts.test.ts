@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 import { ALERT_THRESHOLDS, compareWeeks, detectAlerts, type AlertThresholds } from '../src/utils/kpi-alerts'
 import type { WeeklyKpiRow } from '../src/types/database'
 
@@ -128,5 +130,26 @@ describe('detectAlerts', () => {
     expect(al[0].message.length).toBeGreaterThan(10)
     expect(al[0].message).toMatch(/6/)
     expect(al[0].message).toMatch(/10/)
+  })
+})
+
+describe('coherence KPI-SETUP.md section 9 <-> ALERT_THRESHOLDS', () => {
+  const doc = readFileSync(join(process.cwd(), 'docs/kpi/KPI-SETUP.md'), 'utf-8')
+  const start = doc.indexOf("## 9. Seuils d'alerte validés")
+  const section = start >= 0 ? doc.slice(start, doc.indexOf('## 10.', start)) : ''
+
+  it('section 9 validee et datee', () => {
+    expect(start).toBeGreaterThanOrEqual(0)
+    expect(section).toMatch(/2026-\d{2}-\d{2}/)
+  })
+  it('chaque seuil numerique apparait dans la section 9', () => {
+    const isPct = (k: string) => /Pct$|RateMax$/.test(k)
+    for (const [key, value] of Object.entries(ALERT_THRESHOLDS)) {
+      const text = isPct(key) ? `${Math.round(value * 100)} %` : String(value)
+      expect(section, `${key} = ${text}`).toContain(text)
+    }
+  })
+  it('lowRatingMax verrouille a 3 (D-08)', () => {
+    expect(ALERT_THRESHOLDS.lowRatingMax).toBe(3)
   })
 })
