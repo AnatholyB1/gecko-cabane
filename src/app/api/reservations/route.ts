@@ -13,6 +13,7 @@ import { sanitizeUtm, isReservationSource } from '@/utils/reservation-source'
 import { emailLocaleFor } from '@/utils/review-invitations'
 import { checkSlot, type SettingsMap } from '@/utils/reservation-rules'
 import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
+import { sendReservationOptInConfirmation } from '@/utils/newsletter-reservation-confirm'
 import { checkReservationRateLimits, getClientIp } from '@/utils/rate-limit'
 import {
   type EmailLocale,
@@ -208,6 +209,10 @@ export async function POST(request: NextRequest) {
     }
     after(async () => {
       try {
+        // Reservation-form opt-in stays pending until the guest clicks the double opt-in link.
+        if (r.marketing_consent) {
+          await sendReservationOptInConfirmation(admin, { email: r.customer_email, reservationId: id })
+        }
         const resend = getResendClient()
         if (resend) {
           const sends: Promise<unknown>[] = []

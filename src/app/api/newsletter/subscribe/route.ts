@@ -23,6 +23,7 @@ import { isHoneypotFilled, checkFillTime } from '@/utils/anti-bot'
 import { checkNewsletterRateLimits, getClientIp } from '@/utils/rate-limit'
 import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
 import { newsletterConfirmEmail } from '@/utils/newsletter-emails'
+import { sendIdempotencyKey } from '@/utils/newsletter-send'
 
 export const dynamic = 'force-dynamic'
 
@@ -140,17 +141,20 @@ export async function POST(request: NextRequest) {
       return fail('Erreur serveur', 'server_error', 500)
     }
     try {
-      const { error: sendError } = await resend.emails.send({
-        from: RESEND_FROM_EMAIL,
-        to: email,
-        subject: mail.subject,
-        html: mail.html,
-        text: mail.text,
-        headers: {
-          'List-Unsubscribe': `<${oneClick}>`,
-          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      const { error: sendError } = await resend.emails.send(
+        {
+          from: RESEND_FROM_EMAIL,
+          to: email,
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
+          headers: {
+            'List-Unsubscribe': `<${oneClick}>`,
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          },
         },
-      })
+        { idempotencyKey: sendIdempotencyKey(email, 'subscribe_confirm', String(rowId)) }
+      )
       if (sendError) throw new Error(sendError.message)
     } catch (e) {
       Sentry.captureException(e)

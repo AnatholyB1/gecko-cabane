@@ -29,6 +29,10 @@ export interface EmailState {
   activeRow: LedgerRow | null
   pendingRow: LedgerRow | null
   lastWithdrawalAt: string | null
+  /** pending consent rows after the last withdrawal (each one is a confirmation attempt) */
+  pendingCount: number
+  /** latest confirmation_sent_at among those pending rows, ms epoch, or null */
+  lastPendingSentMs: number | null
 }
 
 /** Compare by consented_at then id. */
@@ -62,6 +66,13 @@ export function resolveEmailState(rows: LedgerRow[]): EmailState {
     ? null
     : latest(rows.filter((r) => r.consent && r.confirmed_at === null && after(r)))
 
+  const pendingRows = rows.filter((r) => r.consent && r.confirmed_at === null && after(r))
+  let lastPendingSentMs: number | null = null
+  for (const r of pendingRows) {
+    const t = r.confirmation_sent_at ? Date.parse(r.confirmation_sent_at) : NaN
+    if (Number.isFinite(t) && (lastPendingSentMs === null || t > lastPendingSentMs)) lastPendingSentMs = t
+  }
+
   let status: EmailStatus = 'none'
   if (activeRow) status = 'active'
   else if (pendingRow) status = 'pending'
@@ -72,6 +83,8 @@ export function resolveEmailState(rows: LedgerRow[]): EmailState {
     activeRow,
     pendingRow,
     lastWithdrawalAt: lastWithdrawal ? lastWithdrawal.consented_at : null,
+    pendingCount: pendingRows.length,
+    lastPendingSentMs,
   }
 }
 
@@ -85,14 +98,32 @@ export function resolveActiveSubscribers(rows: LedgerRow[]): Map<string, LedgerR
 }
 
 const RESEND_WINDOW_MS = 24 * 3600 * 1000
+/** Confirmation mails one address can ever receive while still unconfirmed. */
+export const MAX_PENDING_CONFIRMATIONS = 3
 
-export type SubscribeAction = 'skip_active' | 'skip_recent_pending' | 'create'
+export type SubscribeAction =
+  | 'skip_active'
+  | 'skip_recent_pending'
+  | 'skip_withdrawn'
+  | 'skip_pending_cap'
+  | 'create'
 
+/**
+ * Whether a public subscribe request may produce a (new) confirmation mail.
+ * - active: nothing to do.
+ * - ever withdrawn (unsubscribe, complaint, bounce): never mailed again from this public
+ *   form, so a third party cannot make us write to someone who opted out. Silent uniform
+ *   response; a returning guest asks the restaurant, the owner can add a row by hand.
+ * - pending: at most one resend per 24 h and at most MAX_PENDING_CONFIRMATIONS in total.
+ */
 export function decideSubscribeAction(state: EmailState, nowMs: number): SubscribeAction {
   if (state.status === 'active') return 'skip_active'
-  if (state.status === 'pending' && state.pendingRow?.confirmation_sent_at) {
-    const sent = Date.parse(state.pendingRow.confirmation_sent_at)
-    if (Number.isFinite(sent) && nowMs - sent < RESEND_WINDOW_MS) return 'skip_recent_pending'
+  if (state.lastWithdrawalAt !== null) return 'skip_withdrawn'
+  if (state.status === 'pending') {
+    if (state.lastPendingSentMs !== null && nowMs - state.lastPendingSentMs < RESEND_WINDOW_MS) {
+      return 'skip_recent_pending'
+    }
+    if (state.pendingCount >= MAX_PENDING_CONFIRMATIONS) return 'skip_pending_cap'
   }
   return 'create'
 }
