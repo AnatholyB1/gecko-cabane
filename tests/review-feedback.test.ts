@@ -64,6 +64,14 @@ describe('feedbackRequestSchema', () => {
     expect(r.locale).toBe('fr')
   })
 
+  it.each(['fr', 'en', 'de', 'sv'])('keeps the real locale %s', (loc) => {
+    expect(feedbackRequestSchema.parse({ message: 'hello there', locale: loc }).locale).toBe(loc)
+  })
+
+  it('falls back to fr for an unknown locale', () => {
+    expect(feedbackRequestSchema.parse({ message: 'hello there', locale: 'xx' }).locale).toBe('fr')
+  })
+
   it('enforces message length', () => {
     expect(code({ message: 'abcd' })).toBe('invalid_message')
     expect(code({ message: 'a'.repeat(1001) })).toBe('invalid_message')
@@ -176,6 +184,19 @@ describe('POST /api/review/feedback', () => {
     expect(res.status).toBe(429)
     expect((await res.json()).code).toBe('rate_limited')
     expect(afterCallbacks).toHaveLength(0)
+  })
+
+  it.each(['de', 'sv', 'en'])('429 is in English for %s', async (loc) => {
+    checkLimit.mockResolvedValue({ limited: true })
+    const res = await POST(req(valid({ locale: loc })))
+    expect(res.status).toBe(429)
+    expect((await res.json()).error).toContain('Too many messages')
+  })
+
+  it('tells the owner the real visitor language (sv)', async () => {
+    await POST(req(valid({ locale: 'sv' })))
+    await afterCallbacks[0]()
+    expect(send.mock.calls[0][0].text).toContain('Langue : sv')
   })
 
   it('emails the owner after the response', async () => {

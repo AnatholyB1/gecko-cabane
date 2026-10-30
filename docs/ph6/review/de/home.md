@@ -167,6 +167,22 @@ Instructions pour le relecteur :
 > Lignes ajoutées le 2026-10-29 (fusion phases 5 et 6) : relecture déclarée terminée par le propriétaire le 2026-10-29 (conversation Claude Code, message « TOUT EST RELU. je donne mon accord pour tout »). Validation globale, sans relecteur natif identifié.
 
 > Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
+| `line.ariaLabel` | Nous écrire sur LINE | Schreiben Sie uns auf LINE | NOUVELLE CLÉ, non relue |
+| `line.label` | Nous écrire sur LINE | Schreiben Sie uns auf LINE | NOUVELLE CLÉ, non relue |
+| `socialProof.eyebrow` | Ils nous recommandent | Gäste empfehlen uns | NOUVELLE CLÉ, non relue |
+| `socialProof.title` | Ce que disent nos clients | Was unsere Gäste sagen | NOUVELLE CLÉ, non relue |
+| `socialProof.ratingAria` | Note {rating} sur 5, {count} avis | Bewertung {rating} von 5, {count} Bewertungen | NOUVELLE CLÉ, non relue |
+| `socialProof.countLabel` | sur {count} avis | aus {count} Bewertungen | NOUVELLE CLÉ, non relue |
+| `socialProof.travellersChoice` | Travellers' Choice | Travellers' Choice | NOUVELLE CLÉ, non relue |
+| `socialProof.travellersChoiceYear` | Travellers' Choice {year} | Travellers' Choice {year} | NOUVELLE CLÉ, non relue |
+| `socialProof.originalLanguage` | Avis original en {language} | Originalbewertung auf {language} | NOUVELLE CLÉ, non relue |
+| `socialProof.viewSource` | Voir l'avis de {name} sur {source} | Bewertung von {name} auf {source} ansehen | NOUVELLE CLÉ, non relue |
+| `socialProof.starsSr` | {rating} sur 5 | {rating} von 5 | NOUVELLE CLÉ, non relue |
+| `socialProof.leaveReview` | Laisser un avis | Bewertung abgeben | NOUVELLE CLÉ, non relue |
+| `socialProof.googleReviews` | Lire les avis sur Google | Bewertungen auf Google lesen | NOUVELLE CLÉ, non relue |
+| `socialProof.tripadvisorReviews` | Lire les avis sur TripAdvisor | Bewertungen auf TripAdvisor lesen | NOUVELLE CLÉ, non relue |
+| `socialProof.facebook` | Suivre Gecko Cabane sur Facebook | Gecko Cabane auf Facebook folgen | NOUVELLE CLÉ, non relue |
+| `payment.note` | Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte. | Bargeld, Karten, PromptPay – bei Kartenzahlung fällt eine Gebühr von 5 % an. | NOUVELLE CLÉ, non relue |
 
 ## Validation écrite
 

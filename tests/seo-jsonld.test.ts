@@ -114,7 +114,7 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
     } else {
       expect(ld).not.toHaveProperty('aggregateRating')
     }
-    const forced = { '@type': 'AggregateRating' as const, ratingValue: 4.7, reviewCount: 1062, bestRating: 5, worstRating: 1 }
+    const forced = { '@type': 'AggregateRating' as const, ratingValue: 4.7, reviewCount: 1065, bestRating: 5, worstRating: 1 }
     const withRating = buildRestaurantJsonLd({ locale: 'fr', description: 'd', hoursRows: [], aggregateRating: forced })
     expect(withRating.aggregateRating).toEqual(forced)
   })

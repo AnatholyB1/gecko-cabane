@@ -4,6 +4,8 @@
 
 Objectif : faire de geckocabanerestaurant.com la première source de réservations des touristes européens de Krabi. Les 24 exigences [P1] doivent être en ligne avant le **1er novembre 2026** (aujourd'hui : 16 octobre) ; elles sont donc regroupées dans les phases 1 à 4. Les phases 5 à 8 (conversion, contenu, newsletter, KPI) suivent la haute saison de démarrage.
 
+**Mise à jour 2026-10-30 (synchronisation de jalon)** : les phases 5, 6 et 7 ont été livrées en parallèle par les workstreams `.planning/workstreams/{conversion,seo-pages,newsletter}/` (branches `ws/*`, fusionnées dans master). Le code est livré et le gate est vert, mais chaque phase garde des éléments bloqués sur le propriétaire ; elles ne sont donc pas cochées. Détail des actions : `.planning/DEPLOY-CHECKLIST-v1.0.md`. La phase 8 n'est pas démarrée.
+
 Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité utilisable de bout en bout).
 
 ## Phases
@@ -13,11 +15,11 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
  (completed 2026-10-17)
 - [x] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
  (completed 2026-10-17)
-- [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code, fiche Google Business Profile à jour
-- [ ] **Phase 5: Conversion et mesure** - Preuve sociale, histoire du couple, accès, LINE, paiement, performance mobile, suivi des clics d'avis
-- [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - Pages restantes FR/EN, /de relu, /sv, posts Google, TripAdvisor, NAP, blogs, hôtels
-- [ ] **Phase 7: Newsletter** - Brevo, double opt-in, formulaires, séquences et segments
-- [ ] **Phase 8: Reporting KPI hebdomadaire** - Workflow n8n, synthèse Claude, rapport email + WhatsApp, tableau de bord, alertes
+- [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code livrés et déployés (6/7) ; fiche Google Business Profile (04-03, OPS-01) reportée par le propriétaire
+- [ ] **Phase 5: Conversion et mesure** - Code livré 13/13 (workstream conversion) ; ouverts : SEO-08 (PageSpeed 79, cible 85), CONV-02 (photo du couple), REV-07 (email non vérifié) ; migrations 015/016, LINE et Plausible à confirmer
+- [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - 14/15 (workstream seo-pages) : pages FR/EN, /de et /sv publiés, dossiers prêts ; reste 06-10 (NAP/TripAdvisor, OPS-04/05) bloqué sur accord du propriétaire
+- [ ] **Phase 7: Newsletter** - Resend (remplace Brevo, décision du 2026-10-29), double opt-in, formulaires, séquences et segments ; code livré 8/11 (workstream newsletter), lancement (07-10, 07-11) et supports imprimés (07-02) bloqués sur le propriétaire
+- [ ] **Phase 8: Reporting KPI hebdomadaire** - Workflow n8n, synthèse Claude, rapport email + WhatsApp, tableau de bord, alertes (non démarrée)
 
 ## Phase Details
 
@@ -166,14 +168,14 @@ Plans:
   4. Un QR code vers `/review?src=qr` avec textes FR/EN/DE est prêt à imprimer pour l'addition et le chevalet
   5. La fiche Google Business Profile est à jour (catégories, attributs, lien de réservation, carte, 20 photos), après accord du propriétaire
 
-**Plans**: 7 plans
+**Plans**: 6/7 plans (04-03 reportée ; 04-VERIFICATION : 4/5 critères, SC5 en échec)
 
 Plans:
 **Wave 1**
 
 - [x] 04-01-PLAN.md — /review, /avis, /bewertung aliases + noindex /{locale}/review page, Google then TripAdvisor (REV-01)
 - [x] 04-02-PLAN.md — QR to /review?src=qr, bill insert + A6 table tent PDFs FR/EN/DE (REV-04) [checkpoint]
-- [ ] 04-03-PLAN.md — Google Business Profile dossier + owner-approved Chrome session (OPS-01) [checkpoint]
+- [ ] 04-03-PLAN.md — Google Business Profile dossier + owner-approved Chrome session (OPS-01) [checkpoint] — dossier rédigé, rien appliqué : reporté par le propriétaire (accès au compte GBP)
 - [x] 04-04-PLAN.md — TDD: migration 014 (review_token + tracking columns), eligibility/Krabi date logic, invitation email (REV-02, REV-03)
 
 **Wave 2** *(blocked on Wave 1 completion)*
@@ -200,7 +202,10 @@ Plans:
   4. Les modes de paiement et frais carte sont visibles sur la carte et la réservation ; un bouton LINE est présent
   5. Les réservations portent un champ source, les événements « réservation envoyée » et « clic WhatsApp » sont mesurés, les clics `/review` sont comptés par source, et « Un souci ? » envoie un email au propriétaire
 
-**Plans**: TBD
+**Plans**: 13/13 livrés (workstream `conversion`, 6 vagues ; détail dans `.planning/workstreams/conversion/ROADMAP.md`)
+
+Statut des exigences : MENU-03, CONV-01, CONV-03, REV-05 faites et vérifiées ; RESA-05, RESA-06, REV-06, REV-07, KPI-01 livrées en code mais non vérifiées en production (LINE sans URL, migrations 015/016, compte Plausible, email « Un souci ? ») ; SEO-08 et CONV-02 ouvertes.
+Preuves : `05-PHASE-REPORT.md` (gate 604 tests, test navigateur 390 px), `05-13-SUMMARY.md` (Lighthouse preview 79 / LCP 4,4 s).
 **UI hint**: yes
 
 ### Phase 6: Plan de pages SEO, allemand/suédois et présence externe
@@ -217,12 +222,15 @@ Plans:
   4. TripAdvisor est à jour avec le lien du site vers `.com`, et nom, adresse, téléphone sont identiques sur toutes les plateformes
   5. Posts Google, modèles de réponse aux avis, liste de blogs et dossier concierge sont prêts, rien n'est envoyé sans accord du propriétaire
 
-**Plans**: TBD
+**Plans**: 14/15 livrés (workstream `seo-pages` ; détail dans `.planning/workstreams/seo-pages/ROADMAP.md`)
+
+Statut des exigences : PAGE-03 à PAGE-08, I18N-01, I18N-02 (DE et SV publiés après validation écrite du propriétaire, sans relecteur natif identifié), OPS-03, OPS-06, OPS-07 faites ; OPS-02 préparée (semaine 3 et soirée à compléter) ; OPS-04 et OPS-05 bloquées (plan 06-10, corrections externes sans accord).
+Preuves : `06-REPORT.md` (gate 583 tests), `OWNER-CHECKLIST.md`, commits 989dc50 (SV), e330bb6 (DE).
 **UI hint**: yes
 
 ### Phase 7: Newsletter
 
-**Goal**: Le restaurant construit une liste de contacts consentants et leur envoie des séquences pertinentes
+**Goal**: Le restaurant construit une liste de contacts consentants et leur envoie des séquences pertinentes (envoi par l'application via Resend)
 **Mode:** mvp
 **Depends on**: Phase 1
 **Requirements**: NEWS-01, NEWS-02, NEWS-03, NEWS-04, NEWS-05, NEWS-06, NEWS-07
@@ -234,18 +242,21 @@ Plans:
   4. Les séquences bienvenue, J+1, J+3, retour octobre et saison verte partent, avec 1 email/mois maximum hors séquences
   5. Les contacts sont segmentés par langue, pays, résident/touriste et dernière visite
 
-**Plans**: TBD
+**Plans**: 8/11 livrés (workstream `newsletter` ; détail dans `.planning/workstreams/newsletter/ROADMAP.md`). Décision du 2026-10-29 : Resend remplace Brevo (contacts en miroir du registre, webhook Svix, séquences envoyées par `/api/cron/newsletter-sync`, migration renumérotée 017).
+
+Statut des exigences : NEWS-01, NEWS-02, NEWS-07 livrées en code, rien vérifié en production ; NEWS-03, NEWS-04, NEWS-05 attendent le contenu imprimé (07-02) ; NEWS-06 attend l'activation (07-11). 07-LAUNCH.md : réponse du propriétaire vide.
+Preuves : `07-REPORT.md` (gate 986 tests), `OWNER-CHECKLIST.md`, commits ad210b1, f9d8f51.
 **UI hint**: yes
 
 ### Phase 8: Reporting KPI hebdomadaire
 
 **Goal**: Le propriétaire reçoit chaque lundi un rapport fiable avec lecture et actions recommandées
 **Mode:** mvp
-**Depends on**: Phase 5, Phase 7
+**Depends on**: Phase 5, Phase 7 (statut : non démarrée)
 **Requirements**: KPI-02, KPI-03, KPI-04, KPI-05, KPI-06, KPI-07, KPI-08
 **Success Criteria** (what must be TRUE):
 
-  1. Chaque lundi 7h (Krabi), `weekly_kpis` reçoit réservations, no-show, Search Console, Google Business Profile, avis, rang TripAdvisor, clics `/review` et Brevo
+  1. Chaque lundi 7h (Krabi), `weekly_kpis` reçoit réservations, no-show, Search Console, Google Business Profile, avis, rang TripAdvisor, clics `/review` et Resend (newsletter)
   2. Le rapport arrive à 8h par email et en résumé WhatsApp, avec comparaison à S-1, seuils d'alerte, 3 phrases de lecture et 3 actions en français
   3. Un tableau de bord en ligne affiche l'historique des KPI
   4. Un avis ≤ 3 étoiles ou un retour privé de `/review` déclenche une alerte immédiate
@@ -258,11 +269,13 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 11/11 | Complete    | 2026-10-16 |
-| 2. Fondations SEO techniques | 8/8 | Complete    | 2026-10-17 |
-| 3. Carte HTML et pages clés | 8/8 | Complete    | 2026-10-17 |
-| 4. Tunnel d'avis et fiche Google | 6/7 | In Progress|  |
-| 5. Conversion et mesure | 0/TBD | Not started | - |
-| 6. Pages SEO, DE/SV, présence externe | 0/TBD | Not started | - |
-| 7. Newsletter | 0/TBD | Not started | - |
+| 1. Réservation sûre et sans friction | 11/11 | Complete | 2026-10-16 |
+| 2. Fondations SEO techniques | 8/8 | Complete | 2026-10-17 |
+| 3. Carte HTML et pages clés | 8/8 | Complete | 2026-10-17 |
+| 4. Tunnel d'avis et fiche Google | 6/7 | In Progress (04-03 / OPS-01 reporté par le propriétaire) | - |
+| 5. Conversion et mesure | 13/13 | Code livré; SEO-08 et CONV-02 ouverts, vérifications de production en attente propriétaire | - |
+| 6. Pages SEO, DE/SV, présence externe | 14/15 | Blocked on owner (06-10 : OPS-04, OPS-05) | - |
+| 7. Newsletter | 8/11 | Code livré; 07-02, 07-10, 07-11 bloqués propriétaire | - |
 | 8. Reporting KPI hebdomadaire | 0/TBD | Not started | - |
+
+*Dernière synchronisation : 2026-10-30, preuves = workstreams, rapports de phase et git log (HEAD c12faf4).*

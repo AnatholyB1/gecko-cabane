@@ -15,6 +15,8 @@ import { buildUnsubscribeUrl, buildOneClickUnsubscribeUrl, toPageLocale } from '
 import { upsertResendContact, updateResendContactProperties } from '@/utils/resend-contacts'
 import { getResendClient, RESEND_FROM_EMAIL } from '@/utils/resend'
 import { REVIEW_ELIGIBLE_STATUSES, krabiToday, addDays } from '@/utils/review-invitations'
+import { fetchAllPages } from '@/utils/paginate'
+import { sendIdempotencyKey, hasTimeForSend } from '@/utils/newsletter-send'
 import type { ApiResponse } from '@/types/database'
 
 export const dynamic = 'force-dynamic'
@@ -32,10 +34,12 @@ type SyncCounts = {
   sent?: number
   failed?: number
   skipped?: number
+  ambiguous?: number
 }
 
 const CALL_PAUSE_MS = 600 // Resend default limit is 2 requests per second
-const CALL_BUDGET = 80 // one run must finish inside maxDuration
+const CALL_BUDGET = 80 // upper bound on calls; the time budget below is the real limit
+const TIME_BUDGET_MS = 50_000 // maxDuration is 60 s: leave 10 s of margin
 const CHUNK = 100
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -60,15 +64,23 @@ export async function GET(request: NextRequest) {
     const admin = createAdminClient()
     const today = krabiToday(new Date())
 
-    const { data: ledger, error: ledgerError } = await admin
-      .from('gecko_marketing_consents')
-      .select('*')
-    if (ledgerError) {
+    // Fail closed: the whole append-only ledger must be read (range pages + exact count),
+    // otherwise a withdrawal row could be missing and an unsubscribed person mailed.
+    let ledger: LedgerRow[]
+    try {
+      ledger = await fetchAllPages<LedgerRow>((from, to) =>
+        admin
+          .from('gecko_marketing_consents')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(from, to)
+      )
+    } catch (ledgerError) {
       Sentry.captureException(ledgerError)
       return NextResponse.json<ApiResponse<SyncCounts>>({ error: 'Erreur serveur' }, { status: 500 })
     }
 
-    const actives = resolveActiveSubscribers((ledger ?? []) as LedgerRow[])
+    const actives = resolveActiveSubscribers(ledger)
     const emails = [...new Set([...actives.values()].flatMap((r) => [r.email, r.email.toLowerCase()]))]
 
     const reservations: SyncReservation[] = []
@@ -92,17 +104,24 @@ export async function GET(request: NextRequest) {
     const updates = selectSyncUpdates(syncedActives, reservations, today)
 
     // Send log: what was already sent, and the latest campaign per contact (cap, D-08).
-    const { data: sendLog, error: sendLogError } = await admin
-      .from('gecko_newsletter_sends')
-      .select('email, kind, period, sent_at')
-      .gte('sent_at', `${addDays(today, -400)}T00:00:00Z`)
-    if (sendLogError) {
+    type SendLogRow = { email: string; kind: SequenceKind; period: string; sent_at: string }
+    let sendLog: SendLogRow[]
+    try {
+      sendLog = await fetchAllPages<SendLogRow>((from, to) =>
+        admin
+          .from('gecko_newsletter_sends')
+          .select('email, kind, period, sent_at', { count: 'exact' })
+          .gte('sent_at', `${addDays(today, -400)}T00:00:00Z`)
+          .order('id', { ascending: true })
+          .range(from, to)
+      )
+    } catch (sendLogError) {
       Sentry.captureException(sendLogError)
       return NextResponse.json<ApiResponse<SyncCounts>>({ error: 'Erreur serveur' }, { status: 500 })
     }
     const sent = new Set<string>()
     const lastCampaign = new Map<string, string>()
-    for (const s of (sendLog ?? []) as { email: string; kind: SequenceKind; period: string; sent_at: string }[]) {
+    for (const s of sendLog) {
       sent.add(sendKey(s.email, s.kind, s.period))
       if (isCampaign(s.kind)) {
         const day = krabiToday(new Date(s.sent_at))
@@ -148,7 +167,10 @@ export async function GET(request: NextRequest) {
       })
     }
 
+    const deadline = Date.now() + TIME_BUDGET_MS
+    const canRun = () => budget > 0 && hasTimeForSend(Date.now(), deadline)
     let budget = CALL_BUDGET
+    let ambiguous = 0
     let synced = 0
     let sentCount = 0
     let failed = 0
@@ -170,7 +192,8 @@ export async function GET(request: NextRequest) {
     // 1. Sequences first: they are time-boxed.
     if (secret) {
       for (const p of planned) {
-        if (budget <= 0) {
+        // Never claim a contact whose send cannot finish before the deadline.
+        if (!canRun()) {
           skipped++
           continue
         }
@@ -188,25 +211,36 @@ export async function GET(request: NextRequest) {
         const locale = toPageLocale(p.language)
         const mail = sequenceEmail(p.kind, locale, buildUnsubscribeUrl(secret, locale, p.rowId))
         let ok = false
+        let thrown = false
         try {
-          const { error } = await resend.emails.send({
-            from: RESEND_FROM_EMAIL,
-            to: p.email,
-            subject: mail.subject,
-            html: mail.html,
-            text: mail.text,
-            headers: {
-              'List-Unsubscribe': `<${buildOneClickUnsubscribeUrl(secret, p.rowId)}>`,
-              'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          const { error } = await resend.emails.send(
+            {
+              from: RESEND_FROM_EMAIL,
+              to: p.email,
+              subject: mail.subject,
+              html: mail.html,
+              text: mail.text,
+              headers: {
+                'List-Unsubscribe': `<${buildOneClickUnsubscribeUrl(secret, p.rowId)}>`,
+                'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+              },
             },
-          })
+            // Stable per (campaign, contact): Resend de-duplicates a replay of the same send.
+            { idempotencyKey: sendIdempotencyKey(p.email, p.kind, p.period) }
+          )
           ok = !error
           if (error) Sentry.captureMessage(`Newsletter send failed: ${error.name}`, 'warning')
         } catch (e) {
+          thrown = true
           Sentry.captureException(e)
         }
         if (ok) {
           sentCount++
+        } else if (thrown) {
+          // Ambiguous (timeout, network): Resend may have accepted the mail. KEEP the claim:
+          // the contact is skipped rather than risking a duplicate. Reported, never silent.
+          ambiguous++
+          Sentry.captureMessage('Newsletter send outcome unknown: claim kept (no retry)', 'warning')
         } else {
           failed++
           // Release the claim so the next run retries inside the window.
@@ -227,7 +261,7 @@ export async function GET(request: NextRequest) {
 
     // 2. Contact mirror: retry failed confirmations, then segment changes.
     for (const { row } of profiles.filter(({ row }) => row.contact_synced_at === null)) {
-      if (budget <= 0) {
+      if (!canRun()) {
         skipped++
         continue
       }
@@ -243,7 +277,7 @@ export async function GET(request: NextRequest) {
       await sleep(CALL_PAUSE_MS)
     }
     for (const { row, profile } of updates) {
-      if (budget <= 0) {
+      if (!canRun()) {
         skipped++
         continue
       }
@@ -259,7 +293,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json<ApiResponse<SyncCounts>>({
-      data: { ...base, synced, sent: sentCount, failed, skipped },
+      data: { ...base, synced, sent: sentCount, failed, skipped, ambiguous },
     })
   } catch (err) {
     Sentry.captureException(err)

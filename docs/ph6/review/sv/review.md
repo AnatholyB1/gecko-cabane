@@ -21,6 +21,20 @@ Instructions pour le relecteur :
 | `review.newTab` | (s'ouvre dans un nouvel onglet) | (öppnas i ny flik) |  |
 | `review.note` | Merci, c'est un vrai plaisir de vous accueillir. | Tack, det var ett riktigt nöje att få ta emot dig. |  |
 | `review.back` | Retour au site | Tillbaka till webbplatsen |  |
+| `reviewFeedback.title` | Un souci ? | Något som inte stämde? | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.lead` | Quelque chose ne s'est pas bien passé ? Dites-le-nous directement, nous lisons chaque message. | Gick något inte som det skulle? Berätta det direkt för oss, vi läser varje meddelande. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.messageLabel` | Votre message | Ditt meddelande | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.counter` | {count}/{max} | {count}/{max} | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.emailLabel` | Email (facultatif) | E-post (valfritt) | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.emailHelp` | Uniquement pour vous répondre si vous le souhaitez. | Används bara för att svara dig om du vill det. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.submit` | Envoyer le message | Skicka meddelandet | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.pending` | Envoi… | Skickar … | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.success` | Merci, message transmis. | Tack, ditt meddelande har skickats. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.errorMessage` | Votre message doit contenir entre 5 et 1 000 caractères. | Ditt meddelande måste vara mellan 5 och 1 000 tecken långt. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.errorEmail` | Cette adresse email ne semble pas valide. | Den här e-postadressen verkar inte vara giltig. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.errorGeneric` | Le message n'a pas pu être envoyé. Réessayez, ou appelez-nous au +66 81 958 5945. | Ditt meddelande kunde inte skickas. Försök igen eller ring oss på +66 81 958 5945. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.errorRateLimited` | Trop de messages depuis votre connexion. | För många meddelanden från din anslutning. | NOUVELLE CLÉ, non relue |
+| `reviewFeedback.whatsappLink` | Écrire sur WhatsApp | Skriv på WhatsApp | NOUVELLE CLÉ, non relue |
 
 ## Validation écrite
 

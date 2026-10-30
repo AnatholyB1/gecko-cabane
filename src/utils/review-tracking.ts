@@ -14,6 +14,7 @@
 
 import * as Sentry from '@sentry/nextjs'
 import { createAdminClient } from '@/utils/supabase/server'
+import { isReviewToken, sanitizeReviewSource, type ReviewStatSource } from '@/utils/review-links'
 
 /** Locale stored on the reservation for this token, or null (unknown token or DB error). */
 export async function lookupReviewLocale(token: string): Promise<string | null> {
@@ -46,4 +47,15 @@ export async function markReviewClicked(token: string): Promise<void> {
   } catch (err) {
     Sentry.captureException(err)
   }
+}
+
+/**
+ * Counter source with a verified origin. "email" is credited only when `rid` is a well-formed
+ * token that really exists on a reservation; a bare `src=email` or an unknown UUID counts as
+ * 'unknown' (a forged link must not inflate the email metric). A DB error also yields no credit.
+ */
+export async function resolveVerifiedSource(src: unknown, rid: unknown): Promise<ReviewStatSource> {
+  if (typeof rid === 'string' && isReviewToken(rid) && (await lookupReviewLocale(rid)) !== null) return 'email'
+  const clean = sanitizeReviewSource(typeof src === 'string' ? src : null)
+  return clean === null || clean === 'email' ? 'unknown' : clean
 }
