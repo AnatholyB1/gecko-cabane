@@ -31,6 +31,7 @@ const GUARDED_ROUTE_FILES = [
   'src/app/api/reservations/route.ts',
   'src/app/api/reservations/manual/route.ts',
   'src/app/api/review/stats/route.ts',
+  'src/app/api/kpi/route.ts',
 ]
 
 function read(file: string): string {
@@ -89,6 +90,15 @@ describe('admin routes are guarded by requireAdmin()', () => {
     const body = src.slice(start, next === -1 ? undefined : next)
     expect(start).toBeGreaterThanOrEqual(0)
     expect(body.includes('requireAdmin()'), 'GET in review/stats must call requireAdmin()').toBe(true)
+  })
+
+  it('GET /api/kpi is admin-only (weekly KPIs are admin data)', () => {
+    const src = read('src/app/api/kpi/route.ts')
+    const start = src.indexOf('export async function GET')
+    const next = src.indexOf('export async function', start + 1)
+    const body = src.slice(start, next === -1 ? undefined : next)
+    expect(start).toBeGreaterThanOrEqual(0)
+    expect(body.includes('requireAdmin()'), 'GET in kpi must call requireAdmin()').toBe(true)
   })
 
   it('no route returns raw Supabase error.message to the client', () => {
