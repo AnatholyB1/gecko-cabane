@@ -242,6 +242,10 @@
     "label": "Frågor? Skriv till oss",
     "prefill": "Hej Gecko Cabane, jag skulle vilja boka ett bord."
   },
+  "line": {
+    "ariaLabel": "Skriv till oss på LINE",
+    "label": "Skriv till oss på LINE"
+  },
   "review": {
     "metaTitle": "Lämna en recension",
     "title": "Din åsikt betyder mycket för oss",
@@ -251,6 +255,77 @@
     "newTab": "(öppnas i ny flik)",
     "note": "Tack, det var ett riktigt nöje att få ta emot dig.",
     "back": "Tillbaka till webbplatsen"
+  },
+  "privacy": {
+    "metaTitle": "Integritetspolicy",
+    "metaDescription": "Så samlar Gecko Cabane, den fransk-thailändska restaurangen i Krabi, in och skyddar dina personuppgifter (thailändska PDPA B.E. 2562 och GDPR).",
+    "title": "Integritetspolicy",
+    "lastUpdated": "Senast uppdaterad: 17 oktober 2026",
+    "back": "Tillbaka till startsidan",
+    "who": {
+      "title": "Vilka vi är",
+      "body": "Gecko Cabane, fransk-thailändsk restaurang på Maharat Road i Krabi Town, Thailand. Vi ansvarar för de personuppgifter du lämnar till oss via den här webbplatsen."
+    },
+    "data": {
+      "title": "Vilka uppgifter vi samlar in",
+      "body": "När du begär en bordsbokning samlar vi in:",
+      "item1": "ditt namn;",
+      "item2": "ditt telefonnummer;",
+      "item3": "din e-postadress;",
+      "item4": "uppgifter om bokningen: datum, tid, antal gäster och eventuellt tillfälle;",
+      "item5": "om du kryssar i rutan, ditt samtycke till att få våra nyheter, registrerat med datum, källa och version av samtyckestexten;",
+      "item6": "tekniska uppgifter för skydd mot missbruk, som lagras enbart som oåterkalleliga hashvärden och raderas efter 2 dagar;",
+      "item7": "om du använder formuläret ”Något som inte stämde?” på recensionssidan: ditt meddelande och, om du anger den, din e-postadress, som skickas med e-post till restaurangen och inte sparas på webbplatsen."
+    },
+    "purpose": {
+      "title": "Varför vi använder dem",
+      "body": "Vi använder dina uppgifter för att:",
+      "item1": "hantera och bekräfta din bokning;",
+      "item2": "kontakta dig om bokningen;",
+      "item3": "skicka vårt nyhetsbrev, men bara om du har kryssat i samtyckesrutan. Vi säljer aldrig dina uppgifter."
+    },
+    "newsletter": {
+      "title": "Nyhetsbrev",
+      "body": "Så fungerar vårt nyhetsbrev och vad vi sparar när du prenumererar:",
+      "item1": "du kan prenumerera via sidfoten, popup-fönstret, sidan som QR-koden på notan leder till, wifi-sidan eller rutan i bokningsformuläret;",
+      "item2": "dubbel bekräftelse: inget skickas förrän du klickar på bekräftelselänken. Vi sparar datum, källa, språk och version av samtyckestexten (newsletter-2026-10-17);",
+      "item3": "Resend (transaktionsmejl och nyhetsbrev) behandlar din adress för vår räkning, enbart för utskicket;",
+      "item4": "För att anpassa våra meddelanden sparar vi ditt språk, ditt land, om du bor i Krabi (ikryssad ruta eller thailändskt nummer) och datumet för ditt senaste besök. Landet kommer från ditt telefonnummer om du har bokat, annars från en ungefärlig nätverksbaserad platsbestämning, enbart för anmälningar via webbplatsen: bara landet sparas och IP-adressen lagras inte. Anmälningar som görs på restaurangen via QR-koden på notan eller wifi-sidan använder ingen nätverksplats, eftersom den alltid skulle visa Thailand;",
+      "item5": "popup-fönstret kommer ihåg i din webbläsare i 90 dagar att det har visats (utan identifierare);",
+      "item6": "högst ett nyhetsbrev i månaden, utöver välkomstmejlet och mejlen efter besöket. Varje mejl innehåller en avanmälningslänk, och avanmälan registreras direkt;",
+      "item7": "rättslig grund: ditt samtycke enligt PDPA B.E. 2562 och GDPR. Du kan när som helst återkalla det."
+    },
+    "rights": {
+      "title": "Rättslig grund och dina rättigheter",
+      "body": "Vi behandlar din bokning för att kunna genomföra din begäran och skickar nyhetsbrevet på grundval av ditt samtycke. Enligt Thailands Personal Data Protection Act (PDPA B.E. 2562) och GDPR har du rätt att:",
+      "item1": "få tillgång till dina uppgifter;",
+      "item2": "få dem rättade;",
+      "item3": "få dem raderade;",
+      "item4": "invända mot behandlingen;",
+      "item5": "när som helst återkalla ditt samtycke, utan att ange skäl;",
+      "item6": "lämna in klagomål till behörig dataskyddsmyndighet."
+    },
+    "retention": {
+      "title": "Hur länge vi sparar uppgifterna",
+      "body": "Vi sparar dina uppgifter bara så länge det behövs:",
+      "item1": "bokningsuppgifter: 24 månader efter ditt besök;",
+      "item2": "samtycke till nyhetsbrevet: tills du återkallar det;",
+      "item3": "tekniska hashvärden mot missbruk: 2 dagar."
+    },
+    "sharing": {
+      "title": "Delning av uppgifter",
+      "body": "Dina uppgifter säljs aldrig. De behandlas av leverantörer, indelade efter kategori:",
+      "item1": "webbhotell för webbplatsen;",
+      "item2": "hosting av databasen;",
+      "item3": "utskick av transaktionsmejl;",
+      "item4": "besöksstatistik utan cookies (Plausible Analytics): sidvisningar och klick, utan personlig identifierare, hostad inom Europeiska unionen."
+    },
+    "contact": {
+      "title": "Utöva dina rättigheter och avanmäla dig",
+      "body": "För att utöva dina rättigheter eller återkalla ditt samtycke kan du mejla oss på geckocabanerestaurant@gmail.com eller skriva på WhatsApp till +66 81 958 5945. Varje nyhetsbrev innehåller en avanmälningslänk.",
+      "emailLabel": "E-post",
+      "phoneLabel": "Telefon / WhatsApp"
+    }
   },
   "announcement": {
     "from": "Från {date}",
@@ -277,7 +352,11 @@
     "romanticDinnerTitle": "Romantisk middag i Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "Ett lugnt bord för två på Maharat Road i Krabi Town: franskt kök med thailändska favoriter i en sal med 40 platser. Boka online och ange tillfälle.",
     "whereToEatTitle": "Var man äter i Krabi Town – Gecko Cabane",
-    "whereToEatDescription": "En lokal guide till maten i Krabi Town: nattmarknaden, Walking Street och floden, vad du bör prova och när du ska gå, plus middag på Gecko Cabane."
+    "whereToEatDescription": "En lokal guide till maten i Krabi Town: nattmarknaden, Walking Street och floden, vad du bör prova och när du ska gå, plus middag på Gecko Cabane.",
+    "gettingHereTitle": "Från Ao Nang till Krabi Town – Gecko Cabane",
+    "gettingHereDescription": "Så tar du dig till Gecko Cabane i Krabi Town från Ao Nang med taxi, songthaew, privat transfer eller skoter, med vägbeskrivning i Google Maps till Maharat Road.",
+    "wineBeerTitle": "Vin och belgisk öl i Krabi Town – Gecko Cabane",
+    "wineBeerDescription": "Vilka viner och belgiska öl som passar till franska och thailändska rätter på Gecko Cabane i Krabi Town: en kort guide, med hela listan på vår menysida."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -336,6 +415,110 @@
     "backToTop": "Tillbaka till toppen",
     "emptyTitle": "Menyn kommer snart",
     "emptyBody": "Vår meny uppdateras. Ring oss på +66 81 958 5945 eller boka online."
+  },
+  "newsletter": {
+    "form": {
+      "emailLabel": "E-postadress",
+      "consent": "Jag samtycker till att få nyheter och erbjudanden från Gecko Cabane via e-post. Jag kan avanmäla mig när som helst. Se vår <link>integritetspolicy</link> (PDPA B.E. 2562, GDPR).",
+      "resident": "Jag bor i Krabi",
+      "submit": "Prenumerera på nyhetsbrevet",
+      "submitRecipe": "Få receptet",
+      "submitting": "Skickar …",
+      "successTitle": "Kolla din inkorg",
+      "successBody": "Vi har skickat ett mejl till dig. Klicka på knappen i mejlet för att bekräfta din prenumeration. Titta gärna även i skräpposten.",
+      "errorEmail": "Den här e-postadressen verkar inte vara giltig. Kontrollera den och försök igen.",
+      "errorConsent": "Kryssa i rutan för att samtycka till att få våra mejl.",
+      "errorServer": "Anmälan misslyckades. Försök igen om en stund eller skriv till oss på WhatsApp.",
+      "errorRateLimit": "För många försök. Försök igen om några minuter."
+    },
+    "footer": {
+      "title": "Håll kontakten med köket",
+      "pitch": "Högst ett brev i månaden: nyheter från menyn, årstider och berättelser från köket."
+    },
+    "popup": {
+      "title": "Innan du går: vår matguide för Krabi",
+      "body": "Prenumerera och få våra favoritställen när du har bekräftat din e-postadress.",
+      "close": "Stäng",
+      "regionLabel": "Anmälan till nyhetsbrevet"
+    },
+    "page": {
+      "metaTitle": "Recept på krabbcurry",
+      "title": "Vårt recept på krabbcurry",
+      "body": "Lämna din e-postadress så skickar vi receptet så fort du har bekräftat din prenumeration.",
+      "teaser": "Receptet kommer med e-post när du har bekräftat din adress."
+    },
+    "confirm": {
+      "metaTitle": "Bekräfta din prenumeration",
+      "title": "Bekräfta din prenumeration",
+      "button": "Bekräfta min prenumeration",
+      "confirming": "Bekräftar …",
+      "success": "Tack, din prenumeration är bekräftad.",
+      "already": "Din prenumeration var redan bekräftad. Tack.",
+      "recipeCta": "Få receptet på krabbcurry",
+      "guideCta": "Ladda ner matguiden",
+      "back": "Tillbaka till webbplatsen",
+      "invalid": "Länken är inte längre giltig. Anmäl dig igen längst ned på startsidan.",
+      "invalidCta": "Anmäl dig via startsidan",
+      "error": "Anmälan misslyckades. Försök igen om en stund eller skriv till oss på WhatsApp."
+    },
+    "unsubscribe": {
+      "metaTitle": "Avanmäl dig",
+      "title": "Avanmäl dig",
+      "button": "Avanmäl mig",
+      "unsubscribing": "Avanmäler …",
+      "intro": "Aktuell adress: {email}",
+      "success": "Du är avanmäld. Du kommer inte längre att få mejl från oss, i enlighet med PDPA B.E. 2562 och GDPR.",
+      "legal": "Dina uppgifter behandlas i enlighet med PDPA B.E. 2562 och GDPR.",
+      "resubscribe": "Ångrat dig? Prenumerera igen",
+      "invalid": "Länken är inte giltig. Mejla oss för att avanmäla dig: {email}",
+      "error": "Avanmälan misslyckades. Försök igen om en stund eller skriv till oss på WhatsApp."
+    }
+  },
+  "wifi": {
+    "metaTitle": "Wifi",
+    "title": "Wifi på restaurangen",
+    "network": "Nätverk",
+    "password": "Lösenord",
+    "copy": "Kopiera lösenordet",
+    "copied": "Kopierat",
+    "unavailableTitle": "Lösenordet är inte tillgängligt",
+    "unavailableBody": "Fråga någon i personalen om wifi-lösenordet.",
+    "optionalTitle": "Få våra nyheter (valfritt)",
+    "optionalBody": "Du behöver inte prenumerera för att använda wifi."
+  },
+  "socialProof": {
+    "eyebrow": "Gäster rekommenderar oss",
+    "title": "Vad våra gäster säger",
+    "ratingAria": "Betyg {rating} av 5, {count} omdömen",
+    "countLabel": "baserat på {count} omdömen",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Originalomdöme på {language}",
+    "viewSource": "Se {name}s omdöme på {source}",
+    "starsSr": "{rating} av 5",
+    "leaveReview": "Lämna ett omdöme",
+    "googleReviews": "Läs omdömena på Google",
+    "tripadvisorReviews": "Läs omdömena på TripAdvisor",
+    "facebook": "Följ Gecko Cabane på Facebook"
+  },
+  "payment": {
+    "note": "Kontanter, kort, PromptPay – en avgift på 5 % tillkommer vid kortbetalning."
+  },
+  "reviewFeedback": {
+    "title": "Något som inte stämde?",
+    "lead": "Gick något inte som det skulle? Berätta det direkt för oss, vi läser varje meddelande.",
+    "messageLabel": "Ditt meddelande",
+    "counter": "{count}/{max}",
+    "emailLabel": "E-post (valfritt)",
+    "emailHelp": "Används bara för att svara dig om du vill det.",
+    "submit": "Skicka meddelandet",
+    "pending": "Skickar …",
+    "success": "Tack, ditt meddelande har skickats.",
+    "errorMessage": "Ditt meddelande måste vara mellan 5 och 1 000 tecken långt.",
+    "errorEmail": "Den här e-postadressen verkar inte vara giltig.",
+    "errorGeneric": "Ditt meddelande kunde inte skickas. Försök igen eller ring oss på +66 81 958 5945.",
+    "errorRateLimited": "För många meddelanden från din anslutning.",
+    "whatsappLink": "Skriv på WhatsApp"
   },
   "seoLanding": {
     "discoverTitle": "Upptäck mer",
@@ -430,6 +613,95 @@
       }
     },
     "closingTitle": "Planera din kväll i Krabi Town"
+  },
+  "gettingHere": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Från Ao Nang till Krabi Town",
+    "subtitle": "Bor du i Ao Nang och vill äta middag i Krabi Town? Så tar du dig till oss och hittar vår dörr.",
+    "heroAlt": "Ingången till Gecko Cabane på Maharat Road i Krabi Town",
+    "sections": {
+      "overview": {
+        "title": "Från stranden till middag i stan",
+        "p1": "Ao Nang och Krabi Town är två skilda platser, och resan mellan dem kräver lite planering. Många gäster gör resan för en kväll ute, och det är enkelt när man vet vilka alternativen är.",
+        "p2": "Vi har ingen egen skjuts, så den här sidan beskriver de vanliga sätten att ta sig hit. Priser och restider varierar med trafik, säsong och förare, så kom alltid överens om priset innan ni åker."
+      },
+      "options": {
+        "title": "Så tar du dig hit",
+        "p1": "Taxi, antingen med mätare eller bokad via en samåkningsapp, är det mest direkta valet. Songthaew, delade pickuper på fasta rutter, kostar mindre men går långsammare och slutar oftast gå tidigt på kvällen.",
+        "p2": "En privat transfer via ditt hotell ger dig ett fast pris och en förare som väntar eller kommer tillbaka när du själv vill. Om du är van vid två hjul fungerar en hyrd skoter också, men vägen är trafikerad efter mörkrets inbrott.",
+        "p3": "Vårt tips är enkelt: boka en resa med appen Grab och ange ”Gecko Cabane Restaurant” som destination, som du hittar i Google Maps. Appen visar priset och beräknad ankomsttid innan du bekräftar, och resan till Krabi Town är kort och enkel."
+      },
+      "arrive": {
+        "title": "Så hittar du oss på Maharat Road",
+        "alt": "Skylten till Gecko Cabane på Maharat Road i Krabi Town",
+        "p1": "Gecko Cabane ligger på Maharat Road i centrala Krabi Town. Visa föraren gatunamnet eller öppna vår plats i din kartapp.",
+        "p2": "Titta efter träskylten och ingången med växter utanför. Hittar du inte hit kan du ringa restaurangen, så guidar vi dig.",
+        "link": "Öppna vägbeskrivning i Google Maps"
+      },
+      "back": {
+        "title": "Hem efter middagen",
+        "p1": "Planera hemresan innan kvällen är slut. Fråga oss om hemresan när du bokar, så berättar vi vad vi kan föreslå just då.",
+        "link": "Boka bord"
+      }
+    },
+    "facts": {
+      "modes": {
+        "taxi": "Taxi eller samåkningsapp",
+        "songthaew": "Songthaew",
+        "transfer": "Privat transfer",
+        "scooter": "Skoter"
+      },
+      "duration": "{min}–{max} min",
+      "price": "{min}–{max} THB",
+      "approx": "Uppgifterna är ungefärliga, bekräfta dem på plats."
+    },
+    "closingTitle": "Kom på middag i Krabi Town"
+  },
+  "wineBeer": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Vin och belgisk öl i Krabi Town",
+    "subtitle": "En kort guide till vin och belgisk öl som passar till en fransk-thailändsk middag.",
+    "heroAlt": "Boeuf bourguignon som serveras på Gecko Cabane i Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "En kort lista, vald för att passa köket",
+        "p1": "Fransk mat och ett glas vin hör ihop, så Gecko Cabane har en kort lista med röda, vita och roséviner som valts för att passa rätterna på menyn.",
+        "p2": "Listan är medvetet kort. Det gör det lättare att välja, och varje flaska har en anledning att finnas där."
+      },
+      "belgian": {
+        "title": "Varför belgisk öl",
+        "p1": "Vårt kök drivs av ett fransk-thailändskt par, och belgisk öl är ett naturligt sällskap till fransk husmanskost. Klosteröl, ljusa ales och veteöl passar bra till långkoket och krämiga rätter.",
+        "p2": "Om du hellre dricker öl än vin kan du fråga oss vilken stil som passar din rätt. Vi berättar gärna om skillnaderna."
+      },
+      "pairings": {
+        "title": "Vad passar till vad",
+        "p1": "Det här är förslag, inte regler. Välj det du tycker om.",
+        "cards": {
+          "c1": {
+            "title": "Boeuf bourguignon",
+            "text": "Långkokt i rödvin passar det till ett rött vin eller ett klosteröl med fyllighet."
+          },
+          "c2": {
+            "title": "Kyckling i gräddsås",
+            "text": "En rik, krämig sås passar bra med ett torrt vitt vin eller en lätt ljus ale."
+          },
+          "c3": {
+            "title": "Massamancurry",
+            "text": "Den milda hettan och sötman i en mild curry passar till ett rosévin eller ett veteöl."
+          },
+          "c4": {
+            "title": "Len soppa",
+            "text": "En len soppa som förrätt passar till ett friskt vitt vin eller en ljus ale."
+          }
+        }
+      },
+      "list": {
+        "title": "Se hela listan",
+        "p1": "Hela listan över viner och öl, med aktuella priser, finns på vår menysida.",
+        "link": "Se vin och öl på menyn"
+      }
+    },
+    "closingTitle": "Kom och ät middag hos oss i Krabi Town"
   },
   "guides": {
     "toggle": "Guider",

@@ -122,3 +122,18 @@ describe('i18n — de/sv fallback files', () => {
     }
   })
 })
+
+describe('i18n — de/sv completeness (no silent fallback)', () => {
+  const required = [...new Set([...flattenKeys(fr), ...flattenKeys(en)])].filter((k) => k !== '')
+  it.each([
+    ['de', de],
+    ['sv', sv],
+  ] as const)('%s.json contains every key present in fr.json or en.json (all namespaces)', (name, file) => {
+    const have = new Set(flattenKeys(file))
+    const missing = required.filter((k) => !have.has(k))
+    expect(
+      missing,
+      missing.length ? 'Keys MISSING in ' + name + '.json: ' + missing.join(', ') : ''
+    ).toHaveLength(0)
+  })
+})

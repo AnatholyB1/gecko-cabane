@@ -242,6 +242,10 @@
     "label": "Fragen? Schreiben Sie uns",
     "prefill": "Guten Tag Gecko Cabane, ich möchte gern einen Tisch reservieren."
   },
+  "line": {
+    "ariaLabel": "Schreiben Sie uns auf LINE",
+    "label": "Schreiben Sie uns auf LINE"
+  },
   "review": {
     "metaTitle": "Bewertung abgeben",
     "title": "Ihre Meinung ist uns wichtig",
@@ -251,6 +255,77 @@
     "newTab": "(öffnet in neuem Tab)",
     "note": "Danke, es war uns eine echte Freude, Sie zu bewirten.",
     "back": "Zurück zur Website"
+  },
+  "privacy": {
+    "metaTitle": "Datenschutzerklärung",
+    "metaDescription": "Wie Gecko Cabane, das französisch-thailändische Restaurant in Krabi, Ihre personenbezogenen Daten erhebt und schützt (thailändisches PDPA B.E. 2562 und DSGVO).",
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert: 17. Oktober 2026",
+    "back": "Zurück zur Startseite",
+    "who": {
+      "title": "Wer wir sind",
+      "body": "Gecko Cabane, französisch-thailändisches Restaurant an der Maharat Road in Krabi Town, Thailand. Wir sind verantwortlich für die personenbezogenen Daten, die Sie uns über diese Website anvertrauen."
+    },
+    "data": {
+      "title": "Welche Daten wir erheben",
+      "body": "Wenn Sie eine Reservierung anfragen, erheben wir:",
+      "item1": "Ihren Namen;",
+      "item2": "Ihre Telefonnummer;",
+      "item3": "Ihre E-Mail-Adresse;",
+      "item4": "die Angaben zu Ihrer Reservierung: Datum, Uhrzeit, Personenzahl und gegebenenfalls den Anlass;",
+      "item5": "wenn Sie das Kästchen anklicken, Ihre Einwilligung, unsere Neuigkeiten zu erhalten, mit Datum, Quelle und Version des Einwilligungstextes;",
+      "item6": "technische Daten zum Schutz vor Missbrauch, die ausschließlich als nicht umkehrbare Prüfwerte (Hashes) gespeichert und nach 2 Tagen gelöscht werden;",
+      "item7": "wenn Sie das Formular „Etwas nicht in Ordnung?“ auf der Bewertungsseite nutzen: Ihre Nachricht und, falls angegeben, Ihre E-Mail-Adresse, die per E-Mail an das Restaurant gesendet und nicht auf der Website gespeichert werden."
+    },
+    "purpose": {
+      "title": "Wofür wir sie verwenden",
+      "body": "Wir verwenden Ihre Daten, um:",
+      "item1": "Ihre Reservierung zu bearbeiten und zu bestätigen;",
+      "item2": "Sie zu dieser Reservierung zu kontaktieren;",
+      "item3": "Ihnen unseren Newsletter zu senden, ausschließlich wenn Sie das Einwilligungskästchen angeklickt haben. Wir verkaufen Ihre Daten niemals."
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "body": "So funktioniert unser Newsletter und was wir bei einer Anmeldung speichern:",
+      "item1": "Sie können sich über die Fußzeile der Website, das Anmeldefenster, die Seite des QR-Codes auf der Rechnung, die WLAN-Seite oder das Kästchen im Reservierungsformular anmelden;",
+      "item2": "Double-Opt-in: Es wird nichts versendet, bevor Sie auf den Bestätigungslink klicken. Wir speichern Datum, Quelle, Sprache und Version des Einwilligungstextes (newsletter-2026-10-17);",
+      "item3": "Resend (Transaktions-E-Mails und Newsletter) verarbeitet Ihre Adresse in unserem Auftrag, ausschließlich für den Versand;",
+      "item4": "Um unsere Nachrichten passend zu gestalten, speichern wir Ihre Sprache, Ihr Land, ob Sie in Krabi wohnen (angekreuztes Kästchen oder thailändische Nummer) und das Datum Ihres letzten Besuchs. Das Land ergibt sich aus Ihrer Telefonnummer, wenn Sie reserviert haben, andernfalls aus einer ungefähren, netzwerkbasierten Standortbestimmung, nur bei Anmeldungen über die Website: Gespeichert wird allein das Land, die IP-Adresse wird nicht aufbewahrt. Anmeldungen im Restaurant über den QR-Code auf der Rechnung oder die WLAN-Seite nutzen keine Netzwerk-Ortung, da diese stets Thailand anzeigen würde;",
+      "item5": "Das Anmeldefenster merkt sich in Ihrem Browser 90 Tage lang, dass es angezeigt wurde (ohne Kennung);",
+      "item6": "höchstens ein Newsletter pro Monat, abgesehen von der Willkommens-E-Mail und den E-Mails nach dem Besuch. Jede E-Mail enthält einen Abmeldelink, und die Abmeldung wird sofort erfasst;",
+      "item7": "Rechtsgrundlage: Ihre Einwilligung gemäß PDPA B.E. 2562 und DSGVO. Sie können sie jederzeit widerrufen."
+    },
+    "rights": {
+      "title": "Rechtsgrundlage und Ihre Rechte",
+      "body": "Wir verarbeiten Ihre Reservierung, um Ihre Anfrage auszuführen, und senden den Newsletter auf Grundlage Ihrer Einwilligung. Nach dem thailändischen Personal Data Protection Act (PDPA B.E. 2562) und der DSGVO haben Sie das Recht:",
+      "item1": "auf Auskunft über Ihre Daten;",
+      "item2": "auf Berichtigung;",
+      "item3": "auf Löschung;",
+      "item4": "auf Widerspruch gegen die Verarbeitung;",
+      "item5": "Ihre Einwilligung jederzeit und ohne Angabe von Gründen zu widerrufen;",
+      "item6": "bei der zuständigen Datenschutzbehörde Beschwerde einzulegen."
+    },
+    "retention": {
+      "title": "Speicherdauer",
+      "body": "Wir speichern Ihre Daten nur so lange, wie es nötig ist:",
+      "item1": "Reservierungsdaten: 24 Monate nach Ihrem Besuch;",
+      "item2": "Einwilligung zum Newsletter: bis zu ihrem Widerruf;",
+      "item3": "technische Prüfwerte gegen Missbrauch: 2 Tage."
+    },
+    "sharing": {
+      "title": "Weitergabe von Daten",
+      "body": "Ihre Daten werden niemals verkauft. Sie werden von Dienstleistern verarbeitet, nach Kategorie:",
+      "item1": "Hosting der Website;",
+      "item2": "Hosting der Datenbank;",
+      "item3": "Versand von Transaktions-E-Mails;",
+      "item4": "Reichweitenmessung ohne Cookies (Plausible Analytics): Seitenaufrufe und Klicks, ohne personenbezogene Kennung, gehostet in der Europäischen Union."
+    },
+    "contact": {
+      "title": "Ihre Rechte ausüben und sich abmelden",
+      "body": "Um Ihre Rechte auszuüben oder Ihre Einwilligung zu widerrufen, schreiben Sie uns an geckocabanerestaurant@gmail.com oder per WhatsApp an +66 81 958 5945. Jeder Newsletter enthält einen Abmeldelink.",
+      "emailLabel": "E-Mail",
+      "phoneLabel": "Telefon / WhatsApp"
+    }
   },
   "announcement": {
     "from": "Ab {date}",
@@ -277,7 +352,11 @@
     "romanticDinnerTitle": "Romantisches Abendessen in Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "Ein ruhiger Tisch für zwei an der Maharat Road in Krabi Town: französische Küche mit thailändischen Klassikern, 40 Plätze. Online reservieren, Anlass angeben.",
     "whereToEatTitle": "Wo essen in Krabi Town – Gecko Cabane",
-    "whereToEatDescription": "Lokaler Guide zum Essen in Krabi Town: Nachtmarkt, Walking Street und Flusspromenade, was Sie probieren sollten und wann, dazu Abendessen im Gecko Cabane."
+    "whereToEatDescription": "Lokaler Guide zum Essen in Krabi Town: Nachtmarkt, Walking Street und Flusspromenade, was Sie probieren sollten und wann, dazu Abendessen im Gecko Cabane.",
+    "gettingHereTitle": "Von Ao Nang nach Krabi Town – Gecko Cabane",
+    "gettingHereDescription": "So erreichen Sie Gecko Cabane in Krabi Town von Ao Nang aus per Taxi, Songthaew, Privattransfer oder Roller, mit Google-Maps-Route zur Maharat Road.",
+    "wineBeerTitle": "Wein und belgisches Bier in Krabi Town – Gecko Cabane",
+    "wineBeerDescription": "Welche Weine und belgischen Biere zu französischen und thailändischen Gerichten bei Gecko Cabane in Krabi Town passen: ein kurzer Begleitführer, die vollständige Liste finden Sie auf unserer Menüseite."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
@@ -336,6 +415,110 @@
     "backToTop": "Zurück nach oben",
     "emptyTitle": "Die Speisekarte folgt in Kürze",
     "emptyBody": "Unsere Speisekarte wird gerade aktualisiert. Rufen Sie uns an unter +66 81 958 5945 oder reservieren Sie online."
+  },
+  "newsletter": {
+    "form": {
+      "emailLabel": "E-Mail-Adresse",
+      "consent": "Ich bin damit einverstanden, Neuigkeiten und Angebote von Gecko Cabane per E-Mail zu erhalten. Ich kann mich jederzeit abmelden. Siehe unsere <link>Datenschutzerklärung</link> (PDPA B.E. 2562, DSGVO).",
+      "resident": "Ich wohne in Krabi",
+      "submit": "Newsletter abonnieren",
+      "submitRecipe": "Rezept erhalten",
+      "submitting": "Wird gesendet …",
+      "successTitle": "Schauen Sie in Ihr Postfach",
+      "successBody": "Wir haben Ihnen eine E-Mail geschickt. Klicken Sie auf die Schaltfläche darin, um Ihre Anmeldung zu bestätigen. Werfen Sie bitte auch einen Blick in Ihren Spam-Ordner.",
+      "errorEmail": "Diese E-Mail-Adresse scheint nicht gültig zu sein. Bitte prüfen Sie sie und versuchen Sie es erneut.",
+      "errorConsent": "Bitte setzen Sie das Häkchen, um dem Erhalt unserer E-Mails zuzustimmen.",
+      "errorServer": "Die Anmeldung ist fehlgeschlagen. Versuchen Sie es gleich noch einmal oder schreiben Sie uns per WhatsApp.",
+      "errorRateLimit": "Zu viele Versuche. Bitte versuchen Sie es in ein paar Minuten erneut."
+    },
+    "footer": {
+      "title": "Bleiben Sie auf dem Laufenden",
+      "pitch": "Höchstens ein Brief pro Monat: Neues von der Karte, Jahreszeiten, Geschichten aus der Küche."
+    },
+    "popup": {
+      "title": "Bevor Sie gehen: unser Genussführer für Krabi",
+      "body": "Melden Sie sich an und erhalten Sie unsere Lieblingsadressen, sobald Sie Ihre E-Mail-Adresse bestätigt haben.",
+      "close": "Schließen",
+      "regionLabel": "Newsletter-Anmeldung"
+    },
+    "page": {
+      "metaTitle": "Rezept für Krabbencurry",
+      "title": "Unser Rezept für Krabbencurry",
+      "body": "Hinterlassen Sie uns Ihre E-Mail-Adresse: Sobald Sie Ihre Anmeldung bestätigt haben, schicken wir Ihnen das Rezept.",
+      "teaser": "Das Rezept kommt per E-Mail, sobald Sie Ihre Adresse bestätigt haben."
+    },
+    "confirm": {
+      "metaTitle": "Anmeldung bestätigen",
+      "title": "Anmeldung bestätigen",
+      "button": "Meine Anmeldung bestätigen",
+      "confirming": "Wird bestätigt …",
+      "success": "Vielen Dank, Ihre Anmeldung ist bestätigt.",
+      "already": "Ihre Anmeldung war bereits bestätigt. Vielen Dank.",
+      "recipeCta": "Rezept für Krabbencurry erhalten",
+      "guideCta": "Genussführer herunterladen",
+      "back": "Zurück zur Website",
+      "invalid": "Dieser Link ist nicht mehr gültig. Bitte melden Sie sich unten auf der Startseite erneut an.",
+      "invalidCta": "Über die Startseite anmelden",
+      "error": "Die Anmeldung ist fehlgeschlagen. Versuchen Sie es gleich noch einmal oder schreiben Sie uns per WhatsApp."
+    },
+    "unsubscribe": {
+      "metaTitle": "Abmelden",
+      "title": "Abmelden",
+      "button": "Mich abmelden",
+      "unsubscribing": "Abmeldung läuft …",
+      "intro": "Betroffene Adresse: {email}",
+      "success": "Sie sind abgemeldet. Sie erhalten keine E-Mails mehr von uns, gemäß PDPA B.E. 2562 und DSGVO.",
+      "legal": "Ihre Daten werden gemäß PDPA B.E. 2562 und DSGVO verarbeitet.",
+      "resubscribe": "Sie haben es sich anders überlegt? Melden Sie sich erneut an",
+      "invalid": "Dieser Link ist nicht gültig. Schreiben Sie uns, um sich abzumelden: {email}",
+      "error": "Die Abmeldung ist fehlgeschlagen. Versuchen Sie es gleich noch einmal oder schreiben Sie uns per WhatsApp."
+    }
+  },
+  "wifi": {
+    "metaTitle": "WLAN",
+    "title": "WLAN im Restaurant",
+    "network": "Netzwerk",
+    "password": "Passwort",
+    "copy": "Passwort kopieren",
+    "copied": "Kopiert",
+    "unavailableTitle": "Passwort nicht verfügbar",
+    "unavailableBody": "Bitte fragen Sie eine Mitarbeiterin oder einen Mitarbeiter nach dem WLAN-Passwort.",
+    "optionalTitle": "Erhalten Sie unsere Neuigkeiten (freiwillig)",
+    "optionalBody": "Sie müssen sich nicht anmelden, um das WLAN zu nutzen."
+  },
+  "socialProof": {
+    "eyebrow": "Gäste empfehlen uns",
+    "title": "Was unsere Gäste sagen",
+    "ratingAria": "Bewertung {rating} von 5, {count} Bewertungen",
+    "countLabel": "aus {count} Bewertungen",
+    "travellersChoice": "Travellers' Choice",
+    "travellersChoiceYear": "Travellers' Choice {year}",
+    "originalLanguage": "Originalbewertung auf {language}",
+    "viewSource": "Bewertung von {name} auf {source} ansehen",
+    "starsSr": "{rating} von 5",
+    "leaveReview": "Bewertung abgeben",
+    "googleReviews": "Bewertungen auf Google lesen",
+    "tripadvisorReviews": "Bewertungen auf TripAdvisor lesen",
+    "facebook": "Gecko Cabane auf Facebook folgen"
+  },
+  "payment": {
+    "note": "Bargeld, Karten, PromptPay – bei Kartenzahlung fällt eine Gebühr von 5 % an."
+  },
+  "reviewFeedback": {
+    "title": "Etwas nicht in Ordnung?",
+    "lead": "Ist etwas nicht gut gelaufen? Sagen Sie es uns direkt, wir lesen jede Nachricht.",
+    "messageLabel": "Ihre Nachricht",
+    "counter": "{count}/{max}",
+    "emailLabel": "E-Mail (freiwillig)",
+    "emailHelp": "Nur, um Ihnen zu antworten, falls Sie dies wünschen.",
+    "submit": "Nachricht senden",
+    "pending": "Wird gesendet …",
+    "success": "Vielen Dank, Ihre Nachricht wurde übermittelt.",
+    "errorMessage": "Ihre Nachricht muss zwischen 5 und 1.000 Zeichen lang sein.",
+    "errorEmail": "Diese E-Mail-Adresse scheint nicht gültig zu sein.",
+    "errorGeneric": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder rufen Sie uns an unter +66 81 958 5945.",
+    "errorRateLimited": "Zu viele Nachrichten von Ihrer Verbindung.",
+    "whatsappLink": "Per WhatsApp schreiben"
   },
   "seoLanding": {
     "discoverTitle": "Mehr entdecken",
@@ -430,6 +613,95 @@
       }
     },
     "closingTitle": "Planen Sie Ihren Abend in Krabi Town"
+  },
+  "gettingHere": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Von Ao Nang nach Krabi Town",
+    "subtitle": "Sie wohnen in Ao Nang und möchten in Krabi Town zu Abend essen? So kommen Sie zu uns und finden unsere Tür.",
+    "heroAlt": "Der Eingang von Gecko Cabane an der Maharat Road in Krabi Town",
+    "sections": {
+      "overview": {
+        "title": "Vom Strand zum Abendessen in die Stadt",
+        "p1": "Ao Nang und Krabi Town sind zwei getrennte Orte, und die Fahrt dazwischen will ein wenig geplant sein. Viele Gäste kommen für einen Abend zu uns, und mit den richtigen Informationen ist das ganz einfach.",
+        "p2": "Wir betreiben keinen Shuttle-Service, daher beschreibt diese Seite die üblichen Möglichkeiten. Preise und Fahrzeiten hängen von Verkehr, Saison und Fahrer ab; vereinbaren Sie den Preis deshalb immer vor der Abfahrt."
+      },
+      "options": {
+        "title": "So kommen Sie zu uns",
+        "p1": "Taxis, entweder mit Taxameter oder über eine Fahrdienst-App gebucht, sind die direkteste Wahl. Songthaews, gemeinsam genutzte Pick-ups auf festen Strecken, sind günstiger, aber langsamer und fahren abends meist nur bis früh.",
+        "p2": "Ein über Ihr Hotel organisierter Privattransfer bietet einen festen Preis und einen Fahrer, der wartet oder zu einer von Ihnen gewählten Zeit zurückkommt. Wer sich auf zwei Rädern wohlfühlt, kann auch einen Roller mieten, doch nach Einbruch der Dunkelheit ist die Straße stark befahren.",
+        "p3": "Unsere Empfehlung ist einfach: Buchen Sie eine Fahrt mit der Grab-App und geben Sie als Ziel „Gecko Cabane Restaurant“ ein, das Sie in Google Maps finden. Die App zeigt Ihnen vor der Bestätigung Preis und voraussichtliche Ankunftszeit, und die Fahrt nach Krabi Town ist kurz und unkompliziert."
+      },
+      "arrive": {
+        "title": "So finden Sie uns an der Maharat Road",
+        "alt": "Das Schild von Gecko Cabane an der Maharat Road in Krabi Town",
+        "p1": "Gecko Cabane liegt an der Maharat Road im Zentrum von Krabi Town. Nennen Sie dem Fahrer den Straßennamen oder öffnen Sie unseren Standort in Ihrer Karten-App.",
+        "p2": "Halten Sie Ausschau nach dem Holzschild und dem Eingang mit den Pflanzen davor. Wenn Sie uns nicht finden, rufen Sie das Restaurant an, wir lotsen Sie herein.",
+        "link": "Route in Google Maps öffnen"
+      },
+      "back": {
+        "title": "Der Rückweg nach dem Abendessen",
+        "p1": "Planen Sie Ihre Rückfahrt, bevor der Abend zu Ende geht. Fragen Sie uns bei der Reservierung nach der Rückfahrt, dann sagen wir Ihnen, was wir zu diesem Zeitpunkt empfehlen können.",
+        "link": "Tisch reservieren"
+      }
+    },
+    "facts": {
+      "modes": {
+        "taxi": "Taxi oder Fahrdienst",
+        "songthaew": "Songthaew",
+        "transfer": "Privattransfer",
+        "scooter": "Roller"
+      },
+      "duration": "{min}–{max} Min.",
+      "price": "{min}–{max} THB",
+      "approx": "Die Angaben sind ungefähr, bitte vor Ort bestätigen."
+    },
+    "closingTitle": "Kommen Sie zum Abendessen nach Krabi Town"
+  },
+  "wineBeer": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Wein und belgisches Bier in Krabi Town",
+    "subtitle": "Ein kurzer Führer zu Wein und belgischem Bier, die zu einem französisch-thailändischen Abendessen passen.",
+    "heroAlt": "Boeuf bourguignon, serviert bei Gecko Cabane in Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Eine kurze Liste, passend zur Küche gewählt",
+        "p1": "Französische Küche und ein Glas Wein gehören zusammen. Deshalb führt Gecko Cabane eine kurze Auswahl an Rot-, Weiß- und Roséweinen, die zu den Gerichten auf der Karte passen.",
+        "p2": "Die Liste ist bewusst klein. So fällt die Wahl leichter, und jede Flasche hat ihren Grund, dort zu stehen."
+      },
+      "belgian": {
+        "title": "Warum belgisches Bier",
+        "p1": "Unsere Küche wird von einem französisch-thailändischen Paar geführt, und belgisches Bier ist ein natürlicher Begleiter zur französischen Hausmannskost. Abteibiere, helle Ales und Weizenbiere passen gut zu geschmorten und cremigen Gerichten.",
+        "p2": "Wenn Sie lieber Bier als Wein trinken, fragen Sie uns, welcher Stil zu Ihrem Gericht passt. Wir erklären Ihnen die Unterschiede gern."
+      },
+      "pairings": {
+        "title": "Was passt zu was",
+        "p1": "Das sind Vorschläge, keine Regeln. Wählen Sie, was Ihnen schmeckt.",
+        "cards": {
+          "c1": {
+            "title": "Boeuf bourguignon",
+            "text": "In Rotwein langsam geschmort, passt es zu einem Rotwein oder einem Abteibier mit Tiefe."
+          },
+          "c2": {
+            "title": "Hähnchen in Sahnesauce",
+            "text": "Eine reichhaltige, cremige Sauce harmoniert mit einem trockenen Weißwein oder einem leichten hellen Ale."
+          },
+          "c3": {
+            "title": "Massaman-Curry",
+            "text": "Die sanfte Schärfe und Süße eines milden Currys passen zu einem Rosé oder einem Weizenbier."
+          },
+          "c4": {
+            "title": "Samtige Suppe",
+            "text": "Eine cremige Suppe als Vorspeise passt zu einem frischen Weißwein oder einem hellen Ale."
+          }
+        }
+      },
+      "list": {
+        "title": "Die vollständige Liste",
+        "p1": "Die komplette Liste der Weine und Biere mit aktuellen Preisen finden Sie auf unserer Menüseite.",
+        "link": "Weine und Biere auf der Karte ansehen"
+      }
+    },
+    "closingTitle": "Besuchen Sie uns zum Abendessen in Krabi Town"
   },
   "guides": {
     "toggle": "Guides",
