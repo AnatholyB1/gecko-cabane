@@ -146,13 +146,13 @@ describe('decideSubscribeAction', () => {
     ])
     expect(decideSubscribeAction(s, now)).toBe('create')
   })
-  it('create for none and withdrawn', () => {
+  it('create for none; never for a withdrawn address', () => {
     expect(decideSubscribeAction(resolveEmailState([]), now)).toBe('create')
     const w = resolveEmailState([
       row({ consented_at: T(1), confirmed_at: T(2) }),
       row({ consented_at: T(3), consent: false }),
     ])
-    expect(decideSubscribeAction(w, now)).toBe('create')
+    expect(decideSubscribeAction(w, now)).toBe('skip_withdrawn')
   })
 })
 
