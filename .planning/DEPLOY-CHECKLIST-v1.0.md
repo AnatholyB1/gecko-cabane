@@ -47,6 +47,10 @@ Les documents se contredisent sur l'état de la production. Contrôler en lectur
 - [ ] Contrôle à blanc des envois : `/api/cron/newsletter-sync?dry=1` (avec le secret du cron) avant et après chaque activation. Phase 7, NEWS-06.
 - [ ] Textes DE/SV de la newsletter : non produits ; les contacts de et sv reçoivent l'anglais. Décider de produire ces versions ou de l'accepter. Phase 7, NEWS-07.
 
+### Phase 8
+- [ ] Migration 018 (KPI) : appliquer après accord, voir docs/kpi/KPI-SETUP.md. Phase 8, KPI-02
+- [ ] Créer les accès Search Console, Bright Data et Anthropic, saisir les variables dans Vercel (jamais dans un chat), puis lancer `/api/cron/weekly-kpi?dry=1`. Voir docs/kpi/KPI-SETUP.md. Phase 8, KPI-02, KPI-04
+
 ## 2. Approbations (accord explicite avant exécution)
 
 ### Phase 4
@@ -102,5 +106,14 @@ Les documents se contredisent sur l'état de la production. Contrôler en lectur
 | `NEWSLETTER_SEQUENCES_ENABLED` | active J+2, J+3 (off par défaut) | 7 | NEWS-06 | non activer sans `?dry=1` |
 | `NEWSLETTER_CAMPAIGNS_ENABLED` | active retour d'octobre et saison verte (off par défaut) | 7 | NEWS-06 | redéployé le 2026-10-30 selon git log ; confirmer qu'un contrôle à blanc a eu lieu |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` (si utilisée) | numéro du bouton WhatsApp | 1 | RESA-04 | repli 66819585945 dans le code |
+| `GSC_SERVICE_ACCOUNT_JSON` | compte de service Search Console (JSON entier) | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `GSC_SITE_URL` | propriété Search Console (`sc-domain:...` ou URL préfixe) | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `BRIGHTDATA_API_KEY` | clé Bright Data (rang TripAdvisor) | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `BRIGHTDATA_ZONE` | zone Web Unlocker Bright Data | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `TRIPADVISOR_URL` | URL https de la fiche TripAdvisor | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `ANTHROPIC_API_KEY` | synthèse Claude du rapport | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `ANTHROPIC_MODEL` | modèle Claude (aucune valeur codée en dur) | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `KPI_REPORT_MODE` | `test` par défaut, `live` après 2 rapports TEST validés | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
+| `KPI_REPORT_RECIPIENTS` | destinataires en mode `live` (emails séparés par des virgules) | 8 | KPI-02 | à fournir par le propriétaire (voir docs/kpi/KPI-SETUP.md) |
 
 Rappels : `SUPABASE_SERVICE_ROLE_KEY` n'est jamais exposée côté client ; les variables `NEXT_PUBLIC_*` sont figées au build.
