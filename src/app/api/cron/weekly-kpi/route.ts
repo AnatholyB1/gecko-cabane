@@ -6,6 +6,7 @@ import { addDays } from '@/utils/review-invitations'
 import { previousWeek, parseWeekParam, weekEndOf, shouldSendNow } from '@/utils/kpi-week'
 import { collectDbKpis, preserveExistingValues } from '@/utils/kpi-collect'
 import { collectExternalKpis } from '@/utils/kpi-sources'
+import { diagnoseGsc, type GscDiagnosis } from '@/utils/kpi-gsc'
 import { compareWeeks, detectAlerts } from '@/utils/kpi-alerts'
 import { buildNarrativeInput, fallbackNarrative, generateNarrative } from '@/utils/kpi-narrative'
 import { getResendClient, RESEND_FROM_EMAIL, RESTAURANT_NOTIFICATION_EMAIL } from '@/utils/resend'
@@ -77,6 +78,7 @@ type KpiCronResult = {
   values?: Partial<WeeklyKpiRow>
   alerts?: KpiAlert[]
   narrative?: KpiNarrative
+  gsc_diag?: GscDiagnosis
 }
 
 // Weekly job (Monday 00:00 UTC = 07:00 Krabi collects; 01:00 UTC = 08:00 Krabi sends; 02:00 and
@@ -168,6 +170,14 @@ export async function GET(request: NextRequest) {
           previousRow,
           { dryRun: true, startedAt }
         )
+        // Dry run only: say why Search Console is unavailable (stage + Google error code, no secret).
+        const gscDiag =
+          status.search_console === 'ok'
+            ? undefined
+            : await diagnoseGsc({
+                serviceAccountJson: process.env.GSC_SERVICE_ACCOUNT_JSON,
+                siteUrl: process.env.GSC_SITE_URL,
+              })
         return NextResponse.json<ApiResponse<KpiCronResult>>({
           data: {
             week_start: week.start,
@@ -178,6 +188,7 @@ export async function GET(request: NextRequest) {
             values,
             alerts: reading.alerts,
             narrative: reading.narrative,
+            gsc_diag: gscDiag,
           },
         })
       }

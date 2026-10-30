@@ -98,6 +98,59 @@ export function aggregateGscRows(
   }
 }
 
+export type GscDiagnosis = { stage: string; status?: number; error?: string; detail?: string }
+
+// Dry-run only: names the failing stage and Google's error code, never the key or the account address.
+export async function diagnoseGsc(opts: {
+  serviceAccountJson?: string
+  siteUrl?: string
+  fetchImpl?: typeof fetch
+  now?: Date
+  timeoutMs?: number
+}): Promise<GscDiagnosis> {
+  const clip = (v: unknown) => (typeof v === 'string' ? v.slice(0, 160) : undefined)
+  try {
+    if (!opts.serviceAccountJson) return { stage: 'no_json' }
+    const sa = parseServiceAccount(opts.serviceAccountJson)
+    if (!sa) return { stage: 'bad_json' }
+    if (!opts.siteUrl) return { stage: 'no_site_url' }
+    const doFetch = opts.fetchImpl ?? fetch
+    const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS
+    const nowSec = Math.floor((opts.now ?? new Date()).getTime() / 1000)
+    let assertion: string
+    try {
+      assertion = signServiceAccountJwt(sa, nowSec)
+    } catch {
+      return { stage: 'sign_error' }
+    }
+    const tokenRes = await doFetch(TOKEN_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion }).toString(),
+      signal: AbortSignal.timeout(timeoutMs),
+    })
+    if (!tokenRes.ok) {
+      const j = (await tokenRes.json().catch(() => null)) as { error?: unknown; error_description?: unknown } | null
+      return { stage: 'token_http', status: tokenRes.status, error: clip(j?.error), detail: clip(j?.error_description) }
+    }
+    const tokenJson = (await tokenRes.json().catch(() => null)) as { access_token?: unknown } | null
+    if (typeof tokenJson?.access_token !== 'string') return { stage: 'token_shape' }
+    const queryRes = await doFetch(`${QUERY_BASE}/${encodeURIComponent(opts.siteUrl)}/searchAnalytics/query`, {
+      method: 'POST',
+      headers: { authorization: `Bearer ${tokenJson.access_token}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ startDate: '2026-01-01', endDate: '2026-01-01', dimensions: ['date'], rowLimit: 1 }),
+      signal: AbortSignal.timeout(timeoutMs),
+    })
+    if (!queryRes.ok) {
+      const j = (await queryRes.json().catch(() => null)) as { error?: { status?: unknown; message?: unknown } } | null
+      return { stage: 'query_http', status: queryRes.status, error: clip(j?.error?.status), detail: clip(j?.error?.message) }
+    }
+    return { stage: 'ok' }
+  } catch (e) {
+    return { stage: 'exception', detail: e instanceof Error ? e.name : 'unknown' }
+  }
+}
+
 export async function fetchGscWeek(
   week: { start: string; end: string },
   opts: {

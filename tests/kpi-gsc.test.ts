@@ -7,6 +7,7 @@ import { generateKeyPairSync, verify } from 'node:crypto'
 import {
   GSC_SCOPE,
   aggregateGscRows,
+  diagnoseGsc,
   fetchGscWeek,
   parseServiceAccount,
   signServiceAccountJwt,
@@ -197,5 +198,42 @@ describe('fetchGscWeek', () => {
     const ok = await fetchGscWeek(WEEK, { serviceAccountJson: saJson, siteUrl, fetchImpl: mockFetch() as unknown as typeof fetch, now })
     const dump = JSON.stringify([bad, ok, spies.map((s) => s.mock.calls)])
     expect(dump).not.toContain('PRIVATE KEY')
+  })
+})
+
+describe('diagnoseGsc', () => {
+  const siteUrl = 'sc-domain:geckocabanerestaurant.com'
+  const json = (status: number, body: unknown) =>
+    vi.fn(async () => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } }))
+
+  it('names the missing piece without exposing secrets', async () => {
+    expect((await diagnoseGsc({ siteUrl })).stage).toBe('no_json')
+    expect((await diagnoseGsc({ serviceAccountJson: '{oops', siteUrl })).stage).toBe('bad_json')
+    expect((await diagnoseGsc({ serviceAccountJson: saJson })).stage).toBe('no_site_url')
+  })
+
+  it('reports the Google error code of a refused token request, never the key or the address', async () => {
+    const fetchImpl = json(400, { error: 'invalid_grant', error_description: 'Invalid JWT Signature.' }) as unknown as typeof fetch
+    const d = await diagnoseGsc({ serviceAccountJson: saJson, siteUrl, fetchImpl })
+    expect(d).toMatchObject({ stage: 'token_http', status: 400, error: 'invalid_grant' })
+    const out = JSON.stringify(d)
+    expect(out).not.toContain('PRIVATE KEY')
+    expect(out).not.toContain('iam.gserviceaccount.com')
+  })
+
+  it('reports a refused query (permission) and ok when everything passes', async () => {
+    const calls = [
+      new Response(JSON.stringify({ access_token: 'tok' }), { status: 200 }),
+      new Response(JSON.stringify({ error: { status: 'PERMISSION_DENIED', message: 'User does not have sufficient permission' } }), { status: 403 }),
+    ]
+    const fetchImpl = vi.fn(async () => calls.shift() as Response) as unknown as typeof fetch
+    expect(await diagnoseGsc({ serviceAccountJson: saJson, siteUrl, fetchImpl })).toMatchObject({
+      stage: 'query_http',
+      status: 403,
+      error: 'PERMISSION_DENIED',
+    })
+    const ok = [new Response(JSON.stringify({ access_token: 'tok' }), { status: 200 }), new Response('{}', { status: 200 })]
+    const f2 = vi.fn(async () => ok.shift() as Response) as unknown as typeof fetch
+    expect((await diagnoseGsc({ serviceAccountJson: saJson, siteUrl, fetchImpl: f2 })).stage).toBe('ok')
   })
 })
