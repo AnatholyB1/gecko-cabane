@@ -46,7 +46,8 @@ export function weeklyReportEmail(input: {
   }))
   const gscNote = row.gsc_partial ? `Search Console : données partielles, ${row.gsc_days_covered ?? 0} jours` : null
   const clicks = clicksLines(row.review_clicks_week)
-  const note = row.manual_note?.trim() ? row.manual_note.trim() : null
+  // Free-text note may hold customer data (review text, names): owner-only test report, never the live list.
+  const note = isTest && row.manual_note?.trim() ? row.manual_note.trim() : null
 
   // ---------- HTML ----------
   const list = (items: string[]) =>

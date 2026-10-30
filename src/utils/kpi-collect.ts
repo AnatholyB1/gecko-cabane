@@ -7,8 +7,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { fetchAllPages } from '@/utils/paginate'
 import { resolveActiveSubscribers, type LedgerRow } from '@/utils/newsletter-ledger'
-import { krabiToday } from '@/utils/review-invitations'
-import { weekUtcBounds } from '@/utils/kpi-week'
+import { previousWeek, weekUtcBounds } from '@/utils/kpi-week'
 import type { KpiSourcesStatus, KpiSourceState, WeeklyKpiRow } from '@/types/database'
 
 type Week = { start: string; end: string }
@@ -101,7 +100,9 @@ export function snapshotReviewClicks(rows: ReviewClickRow[], month: string): Rec
 /**
  * Weekly delta of the monthly /review counters. Same month: current - previous snapshot.
  * Month rollover: current cumul + (last cumul of the previous month - old snapshot).
- * Missing reference data => null (unknown, not 0).
+ * Missing reference data => null (unknown, not 0). A negative raw delta means the counter was
+ * reset or decremented: the whole delta is then unknown (null), never clamped to 0.
+ * The delta is an approximation: it spans two run instants (Monday to Monday), not Monday-Sunday.
  */
 export function computeReviewClickDelta(
   current: Record<string, number>,
@@ -114,21 +115,77 @@ export function computeReviewClickDelta(
   const out: Record<string, number> = {}
   if (previousMonth === currentMonth) {
     for (const key of new Set([...Object.keys(current), ...Object.keys(previous)])) {
-      out[key] = Math.max(0, (current[key] ?? 0) - (previous[key] ?? 0))
+      const d = (current[key] ?? 0) - (previous[key] ?? 0)
+      if (d < 0) return null
+      out[key] = d
     }
     return out
   }
   if (!lastOfPreviousMonth) return null
   for (const key of new Set([...Object.keys(current), ...Object.keys(previous), ...Object.keys(lastOfPreviousMonth)])) {
-    out[key] = Math.max(0, (current[key] ?? 0) + (lastOfPreviousMonth[key] ?? 0) - (previous[key] ?? 0))
+    const d = (current[key] ?? 0) + (lastOfPreviousMonth[key] ?? 0) - (previous[key] ?? 0)
+    if (d < 0) return null
+    out[key] = d
   }
   return out
+}
+
+function monthIndex(m: string): number {
+  const [y, mo] = m.split('-').map(Number)
+  return y * 12 + (mo - 1)
+}
+
+/**
+ * Keeps a re-collection from degrading a stored row: a value that came back null while the row
+ * already holds a non-null value is dropped from the write (the old value stays), the /review
+ * snapshot trio is never rewritten once stored (a re-run would shift the next week's base), and
+ * a source reported unavailable keeps its previous non-unavailable status when its data is kept.
+ */
+export function preserveExistingValues(
+  values: Partial<WeeklyKpiRow>,
+  status: KpiSourcesStatus,
+  existing: WeeklyKpiRow | null
+): { values: Partial<WeeklyKpiRow>; status: KpiSourcesStatus } {
+  if (!existing) return { values, status }
+  const out: Record<string, unknown> = { ...values }
+  const kept = new Set<string>()
+  for (const [key, v] of Object.entries(out)) {
+    const old = (existing as unknown as Record<string, unknown>)[key]
+    if (v === null && old != null) {
+      delete out[key]
+      kept.add(key)
+    }
+  }
+  if (existing.review_clicks_snapshot != null) {
+    delete out.review_clicks_snapshot
+    delete out.review_clicks_snapshot_month
+    delete out.review_clicks_week
+    kept.add('review_clicks_week')
+  }
+  const outStatus: KpiSourcesStatus = { ...status }
+  const sourceKeys: Record<string, string[]> = {
+    reservations: ['reservations_new', 'covers'],
+    newsletter: ['newsletter_subscribed', 'newsletter_active_total'],
+    review_clicks: ['review_clicks_week'],
+    search_console: ['gsc_clicks', 'gsc_impressions'],
+    tripadvisor: ['tripadvisor_rank'],
+  }
+  for (const [src, keys] of Object.entries(sourceKeys)) {
+    const k = src as keyof KpiSourcesStatus
+    const prev = existing.sources_status?.[k]
+    if (outStatus[k] === 'unavailable' && prev && prev !== 'unavailable' && keys.some((x) => kept.has(x))) {
+      outStatus[k] = prev
+    }
+  }
+  return { values: out as Partial<WeeklyKpiRow>, status: outStatus }
 }
 
 // ---------------------------------------------------------------------------
 // Collector
 // ---------------------------------------------------------------------------
 
+// Minimal ledger columns for resolveActiveSubscribers (no locale, country, reservation link...).
+const LEDGER_COLUMNS = 'id, email, consent, consented_at, confirmed_at, confirmation_sent_at'
 const RESERVATION_COLUMNS = 'id, status, reservation_date, party_size, created_at, source'
 
 export async function collectDbKpis(
@@ -138,7 +195,12 @@ export async function collectDbKpis(
   now: Date = new Date()
 ): Promise<{ values: Partial<WeeklyKpiRow>; status: KpiSourcesStatus }> {
   const { fromIso, toIso } = weekUtcBounds(week.start)
-  const currentMonth = `${krabiToday(now).slice(0, 7)}-01`
+  // Month of the collected week (its last day), not of the run instant: a run on the 1st for a
+  // week ending on the last day of the previous month snapshots that month's final cumul.
+  const currentMonth = `${week.end.slice(0, 7)}-01`
+  // Counters are live cumuls: only the week that just ended (relative to `now`) gets a snapshot
+  // and a delta. A catch-up for an older week would store today's cumul under an old row.
+  const freshWeek = previousWeek(now).start === week.start
   const prevSnapshotMonth = previousRow?.review_clicks_snapshot_month ?? null
   const months = prevSnapshotMonth && prevSnapshotMonth !== currentMonth ? [currentMonth, prevSnapshotMonth] : [currentMonth]
 
@@ -181,7 +243,7 @@ export async function collectDbKpis(
     fetchAllPages<LedgerRow>((a, b) =>
       admin
         .from('gecko_marketing_consents')
-        .select('*', { count: 'exact' })
+        .select(LEDGER_COLUMNS, { count: 'exact' })
         .order('id', { ascending: true })
         .range(a, b)
     ),
@@ -228,17 +290,21 @@ export async function collectDbKpis(
   // /review clicks (monthly counters => weekly delta against the stored snapshot)
   if (clicksRes.status === 'fulfilled') {
     const current = snapshotReviewClicks(clicksRes.value, currentMonth)
-    values.review_clicks_snapshot = current
-    values.review_clicks_snapshot_month = currentMonth
     const lastOfPrev =
       prevSnapshotMonth && prevSnapshotMonth !== currentMonth ? snapshotReviewClicks(clicksRes.value, prevSnapshotMonth) : null
-    const delta = computeReviewClickDelta(
-      current,
-      currentMonth,
-      previousRow?.review_clicks_snapshot ?? null,
-      prevSnapshotMonth,
-      lastOfPrev
-    )
+    // A skipped month (missed run) loses intermediate clicks: unknown, not a wrong number.
+    const consecutive =
+      !prevSnapshotMonth ||
+      monthIndex(currentMonth) - monthIndex(prevSnapshotMonth) === 0 ||
+      monthIndex(currentMonth) - monthIndex(prevSnapshotMonth) === 1
+    const delta =
+      freshWeek && consecutive
+        ? computeReviewClickDelta(current, currentMonth, previousRow?.review_clicks_snapshot ?? null, prevSnapshotMonth, lastOfPrev)
+        : null
+    if (freshWeek) {
+      values.review_clicks_snapshot = current
+      values.review_clicks_snapshot_month = currentMonth
+    }
     values.review_clicks_week = delta
     status.review_clicks = delta ? 'ok' : 'partial'
   } else {

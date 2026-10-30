@@ -127,6 +127,14 @@ describe('weeklyReportEmail', () => {
     expect(e.html).not.toContain('<img src=x')
     expect(e.html).toContain('&lt;script&gt;')
   })
+  it('note manuelle libre: owner-only (test), jamais dans le rapport live', () => {
+    const r = row({ manual_note: 'Avis de Mme Dupont' })
+    expect(build(r, null, 'test').text).toContain('Dupont')
+    const live = build(r, null, 'live')
+    expect(live.text).not.toContain('Dupont')
+    expect(live.html).not.toContain('Dupont')
+    expect(live.html).not.toContain('Note manuelle')
+  })
   it('gsc partiel et clics /review', () => {
     const e = build(row({ gsc_partial: true, gsc_days_covered: 5, review_clicks_week: { google: 4 } }))
     expect(e.text).toContain('données partielles, 5 jours')

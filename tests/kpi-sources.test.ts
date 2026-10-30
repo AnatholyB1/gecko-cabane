@@ -7,6 +7,7 @@ const fetchTripadvisorRank = vi.fn()
 vi.mock('../src/utils/kpi-gsc', () => ({ fetchGscWeek: (...a: unknown[]) => fetchGscWeek(...a) }))
 vi.mock('../src/utils/kpi-tripadvisor', () => ({
   fetchTripadvisorRank: (...a: unknown[]) => fetchTripadvisorRank(...a),
+  isAllowedTripadvisorUrl: (u?: string) => !!u && u.startsWith('https://www.tripadvisor.'),
 }))
 
 import { collectExternalKpis } from '../src/utils/kpi-sources'
@@ -104,6 +105,13 @@ describe('TripAdvisor (Bright Data, 1 tentative par semaine)', () => {
     const existing = { tripadvisor_rank: null, tripadvisor_total: null, tripadvisor_checked_at: null } as WeeklyKpiRow
     await collectExternalKpis(week, existing, env, { now })
     expect(fetchTripadvisorRank).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('URL TripAdvisor refusee', () => {
+  it('tentative non consommee (pas de tripadvisor_checked_at)', async () => {
+    const { values } = await collectExternalKpis(week, null, { ...env, TRIPADVISOR_URL: 'https://evil.example.com/x' }, { now })
+    expect('tripadvisor_checked_at' in values).toBe(false)
   })
 })
 

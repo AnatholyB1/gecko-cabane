@@ -5,6 +5,7 @@ import {
   snapshotReviewClicks,
   computeReviewClickDelta,
   collectDbKpis,
+  preserveExistingValues,
 } from '../src/utils/kpi-collect'
 
 const WEEK = { start: '2026-10-26', end: '2026-11-01' }
@@ -89,7 +90,8 @@ describe('review clicks', () => {
 
 // Faux client chainable: chaque table renvoie un resultat fixe, les filtres sont ignores.
 type Result = { data: unknown[] | null; error: { message: string } | null; count?: number | null }
-function fakeAdmin(results: Record<string, Result[] | Result>, selects: Record<string, string[]> = {}) {
+type FilterLog = Record<string, [string, string, unknown][][]>
+function fakeAdmin(results: Record<string, Result[] | Result>, selects: Record<string, string[]> = {}, filterLog: FilterLog = {}) {
   const calls: Record<string, number> = {}
   return {
     from(table: string) {
@@ -98,16 +100,44 @@ function fakeAdmin(results: Record<string, Result[] | Result>, selects: Record<s
       const idx = calls[table] ?? 0
       calls[table] = idx + 1
       const res = list[Math.min(idx, list.length - 1)]
-      const out = { data: res.data, error: res.error, count: res.count ?? (res.data ? res.data.length : null) }
+      const filters: [string, string, unknown][] = []
+      ;(filterLog[table] ??= []).push(filters)
+      // Filters are applied to the rows (when the column exists on the row), as the database would.
+      const rows = (): unknown[] | null => {
+        if (!res.data) return res.data
+        return res.data.filter((r) =>
+          filters.every(([op, col, v]) => {
+            const x = (r as Record<string, unknown>)[col] as string
+            if (x === undefined) return true
+            if (op === 'gte') return x >= (v as string)
+            if (op === 'lt') return x < (v as string)
+            if (op === 'lte') return x <= (v as string)
+            return (v as string[]).includes(x)
+          })
+        )
+      }
+      const filter = (op: string, col: string, v: unknown) => {
+        filters.push([op, col, v])
+        return b
+      }
+      const out = {
+        get data() {
+          return rows()
+        },
+        error: res.error,
+        get count() {
+          return res.count ?? (res.data ? rows()!.length : null)
+        },
+      }
       const b: Record<string, unknown> = {
         select: (cols: string) => {
           ;(selects[table] ??= []).push(cols)
           return b
         },
-        gte: () => b,
-        lt: () => b,
-        lte: () => b,
-        in: () => b,
+        gte: (col: string, v: string) => filter('gte', col, v),
+        lt: (col: string, v: string) => filter('lt', col, v),
+        lte: (col: string, v: string) => filter('lte', col, v),
+        in: (col: string, v: string[]) => filter('in', col, v),
         order: () => b,
         range: () => b,
         then: (ok: (v: typeof out) => unknown, ko?: (e: unknown) => unknown) => Promise.resolve(out).then(ok, ko),
@@ -184,5 +214,174 @@ describe('collectDbKpis', () => {
     expect(status.review_clicks).toBe('partial')
     expect(status.reservations).toBe('ok')
     expect(JSON.stringify(selects.gecko_reservations)).not.toMatch(/customer_/)
+  })
+
+  it('F-04: registre de consentement: colonnes minimales, jamais select(*)', async () => {
+    const selects: Record<string, string[]> = {}
+    const admin = fakeAdmin(
+      {
+        gecko_reservations: { data: [], error: null },
+        gecko_newsletter_events: { data: [], error: null },
+        gecko_review_clicks: { data: [], error: null },
+        gecko_marketing_consents: { data: [ledgerActive], error: null },
+      },
+      selects
+    )
+    const { values } = await collectDbKpis(admin as never, WEEK, null, new Date('2026-11-02T00:05:00Z'))
+    expect(selects.gecko_marketing_consents[0]).not.toContain('*')
+    expect(selects.gecko_marketing_consents[0]).not.toMatch(/country|locale|reservation_id/)
+    expect(values.newsletter_active_total).toBe(1)
+  })
+
+  it('filtres de semaine respectes: creees vs servies dans la semaine, bornes passees', async () => {
+    const filterLog: FilterLog = {}
+    const base = { status: 'completed', party_size: 2, source: 'site' }
+    const admin = fakeAdmin(
+      {
+        gecko_reservations: {
+          data: [
+            { ...base, id: 1, reservation_date: '2026-12-20', created_at: '2026-10-27T03:00:00Z' },
+            { ...base, id: 2, reservation_date: '2026-10-28', created_at: '2026-09-01T03:00:00Z' },
+            { ...base, id: 3, reservation_date: '2026-12-21', created_at: '2026-09-02T03:00:00Z' },
+          ],
+          error: null,
+        },
+        gecko_newsletter_events: { data: [], error: null },
+        gecko_review_clicks: { data: [], error: null },
+        gecko_marketing_consents: { data: [], error: null },
+      },
+      {},
+      filterLog
+    )
+    const { values } = await collectDbKpis(admin as never, WEEK, null, new Date('2026-11-02T00:05:00Z'))
+    expect(values.reservations_new).toBe(1)
+    expect(values.completed).toBe(1)
+    expect(values.covers).toBe(2)
+    const [created, dated] = filterLog.gecko_reservations
+    expect(created).toEqual([
+      ['gte', 'created_at', '2026-10-25T17:00:00.000Z'],
+      ['lt', 'created_at', '2026-11-01T17:00:00.000Z'],
+    ])
+    expect(dated).toEqual([
+      ['gte', 'reservation_date', '2026-10-26'],
+      ['lte', 'reservation_date', '2026-11-01'],
+    ])
+  })
+
+  describe('compteurs /review', () => {
+    const clicks = [
+      { month: '2026-10-01', source: 'qr', kind: 'visit', hits: 9 },
+      { month: '2026-11-01', source: 'qr', kind: 'visit', hits: 2 },
+    ]
+    const mk = (data: unknown[], log: FilterLog = {}) =>
+      fakeAdmin(
+        {
+          gecko_reservations: { data: [], error: null },
+          gecko_newsletter_events: { data: [], error: null },
+          gecko_review_clicks: { data: data, error: null },
+          gecko_marketing_consents: { data: [], error: null },
+        },
+        {},
+        log
+      )
+    const prev = (month: string, snap: Record<string, number>) =>
+      ({ review_clicks_snapshot_month: month, review_clicks_snapshot: snap }) as never
+    const NOW = new Date('2026-11-02T00:05:00Z')
+
+    it('changement de mois: la semaine finissant le 1er novembre interroge novembre et octobre', async () => {
+      const log: FilterLog = {}
+      const { values, status } = await collectDbKpis(mk(clicks, log) as never, WEEK, prev('2026-10-01', { 'qr:visit': 4 }), NOW)
+      expect(log.gecko_review_clicks[0]).toEqual([['in', 'month', ['2026-11-01', '2026-10-01']]])
+      expect(values.review_clicks_snapshot_month).toBe('2026-11-01')
+      expect(values.review_clicks_week).toEqual({ 'qr:visit': 7 })
+      expect(status.review_clicks).toBe('ok')
+    })
+
+    it('mois derive de la semaine collectee, pas de now', async () => {
+      const { values } = await collectDbKpis(
+        mk([{ month: '2026-09-01', source: 'qr', kind: 'visit', hits: 3 }]) as never,
+        { start: '2026-08-31', end: '2026-09-06' },
+        prev('2026-09-01', { 'qr:visit': 1 }),
+        new Date('2026-09-07T00:05:00Z')
+      )
+      expect(values.review_clicks_snapshot_month).toBe('2026-09-01')
+      expect(values.review_clicks_week).toEqual({ 'qr:visit': 2 })
+    })
+
+    it('remise a zero du compteur => null (jamais 0), partial', async () => {
+      const { values, status } = await collectDbKpis(
+        mk([{ month: '2026-11-01', source: 'qr', kind: 'visit', hits: 1 }]) as never,
+        WEEK,
+        prev('2026-11-01', { 'qr:visit': 8 }),
+        NOW
+      )
+      expect(values.review_clicks_week).toBeNull()
+      expect(status.review_clicks).toBe('partial')
+    })
+
+    it('mois sautes (run manque) => null, partial', async () => {
+      const { values, status } = await collectDbKpis(mk(clicks) as never, WEEK, prev('2026-08-01', { 'qr:visit': 4 }), NOW)
+      expect(values.review_clicks_week).toBeNull()
+      expect(status.review_clicks).toBe('partial')
+    })
+
+    it('rattrapage d une semaine ancienne: ni delta ni snapshot ecrits', async () => {
+      const { values, status } = await collectDbKpis(
+        mk(clicks) as never,
+        { start: '2026-10-12', end: '2026-10-18' },
+        prev('2026-10-01', { 'qr:visit': 4 }),
+        NOW
+      )
+      expect(values.review_clicks_week).toBeNull()
+      expect('review_clicks_snapshot' in values).toBe(false)
+      expect('review_clicks_snapshot_month' in values).toBe(false)
+      expect(status.review_clicks).toBe('partial')
+    })
+  })
+})
+
+describe('computeReviewClickDelta: remise a zero', () => {
+  it('delta brut negatif (meme mois) => null', () => {
+    expect(computeReviewClickDelta({ 'qr:visit': 1 }, '2026-11-01', { 'qr:visit': 5 }, '2026-11-01', null)).toBeNull()
+  })
+  it('delta brut negatif (changement de mois) => null', () => {
+    expect(computeReviewClickDelta({ 'qr:visit': 0 }, '2026-11-01', { 'qr:visit': 9 }, '2026-10-01', { 'qr:visit': 2 })).toBeNull()
+  })
+  it('delta nul legitime reste 0', () => {
+    expect(computeReviewClickDelta({ 'qr:visit': 5 }, '2026-11-01', { 'qr:visit': 5 }, '2026-11-01', null)).toEqual({ 'qr:visit': 0 })
+  })
+})
+
+describe('preserveExistingValues', () => {
+  const existing = {
+    gsc_clicks: 100,
+    gsc_impressions: 900,
+    tripadvisor_rank: null,
+    review_clicks_snapshot: { 'qr:visit': 3 },
+    sources_status: { search_console: 'ok' },
+  } as never
+  it('ne remplace pas une valeur existante par null, garde le statut precedent', () => {
+    const r = preserveExistingValues(
+      { gsc_clicks: null, gsc_impressions: null, tripadvisor_rank: null, covers: 4 },
+      { search_console: 'unavailable', reservations: 'ok' },
+      existing
+    )
+    expect('gsc_clicks' in r.values).toBe(false)
+    expect(r.values.covers).toBe(4)
+    expect('tripadvisor_rank' in r.values).toBe(true)
+    expect(r.status.search_console).toBe('ok')
+  })
+  it('ne reecrit pas le snapshot /review deja stocke', () => {
+    const r = preserveExistingValues(
+      { review_clicks_snapshot: { 'qr:visit': 9 }, review_clicks_snapshot_month: '2026-11-01', review_clicks_week: { 'qr:visit': 6 } },
+      {},
+      existing
+    )
+    expect('review_clicks_snapshot' in r.values).toBe(false)
+    expect('review_clicks_week' in r.values).toBe(false)
+  })
+  it('sans ligne existante: inchange', () => {
+    const v = { gsc_clicks: null }
+    expect(preserveExistingValues(v, {}, null).values).toEqual(v)
   })
 })
