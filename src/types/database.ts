@@ -290,3 +290,125 @@ export interface GeckoAdmin {
   email: string
   created_at: string
 }
+
+// ---------------------------------------------------------------------------
+// KPI hebdomadaires (phase 8)
+// ---------------------------------------------------------------------------
+
+export type KpiReportMode = 'test' | 'live'
+
+export type KpiSourceKey =
+  | 'reservations'
+  | 'newsletter'
+  | 'review_clicks'
+  | 'search_console'
+  | 'tripadvisor'
+  | 'manual_reviews'
+
+export type KpiSourceState = 'ok' | 'partial' | 'unavailable'
+
+export type KpiSourcesStatus = Partial<Record<KpiSourceKey, KpiSourceState>>
+
+export interface KpiAlert {
+  code: string
+  severity: 'warning' | 'critical'
+  metric: string
+  message: string
+  current: number | null
+  previous: number | null
+}
+
+export interface KpiNarrative {
+  lecture: string[]
+  actions: string[]
+  source: 'ai' | 'fallback'
+}
+
+/** One row of gecko_weekly_kpis (migration 018): one property per column. */
+export interface WeeklyKpiRow {
+  week_start: string // date, Monday (Krabi)
+  week_end: string // date, Sunday
+
+  reservations_new: number | null
+  covers: number | null
+  completed: number | null
+  no_show: number | null
+  cancelled: number | null
+  no_show_rate: number | null
+  reservations_by_source: Record<string, number> | null
+  review_clicks_week: Record<string, number> | null
+  review_clicks_snapshot: Record<string, number> | null
+  review_clicks_snapshot_month: string | null
+  newsletter_popup_shown: number | null
+  newsletter_subscribed: number | null
+  newsletter_confirmed: number | null
+  newsletter_unsubscribed: number | null
+  newsletter_active_total: number | null
+  gsc_clicks: number | null
+  gsc_impressions: number | null
+  gsc_ctr: number | null
+  gsc_position: number | null
+  gsc_days_covered: number | null
+  gsc_partial: boolean | null
+  tripadvisor_rank: number | null
+  tripadvisor_total: number | null
+  tripadvisor_checked_at: string | null
+  sources_status: KpiSourcesStatus
+  alerts: KpiAlert[]
+  narrative: KpiNarrative | null
+  report_mode: KpiReportMode | null
+  report_sent_at: string | null
+  collected_at: string | null
+
+  google_reviews_total: number | null
+  google_new_reviews: number | null
+  google_min_rating: number | null
+  manual_note: string | null
+  manual_updated_at: string | null
+
+  created_at: string
+  updated_at: string
+}
+
+/** Columns written by the weekly cron (service role). */
+export const KPI_COLLECTOR_COLUMNS = [
+  'reservations_new',
+  'covers',
+  'completed',
+  'no_show',
+  'cancelled',
+  'no_show_rate',
+  'reservations_by_source',
+  'review_clicks_week',
+  'review_clicks_snapshot',
+  'review_clicks_snapshot_month',
+  'newsletter_popup_shown',
+  'newsletter_subscribed',
+  'newsletter_confirmed',
+  'newsletter_unsubscribed',
+  'newsletter_active_total',
+  'gsc_clicks',
+  'gsc_impressions',
+  'gsc_ctr',
+  'gsc_position',
+  'gsc_days_covered',
+  'gsc_partial',
+  'tripadvisor_rank',
+  'tripadvisor_total',
+  'tripadvisor_checked_at',
+  'sources_status',
+  'alerts',
+  'narrative',
+  'report_mode',
+  'report_sent_at',
+  'collected_at',
+] as const satisfies readonly (keyof WeeklyKpiRow)[]
+
+/** Columns an admin may write (manual entry, D-03). */
+export const KPI_MANUAL_COLUMNS = [
+  'google_reviews_total',
+  'google_new_reviews',
+  'google_min_rating',
+  'manual_note',
+  'manual_updated_at',
+] as const satisfies readonly (keyof WeeklyKpiRow)[]
