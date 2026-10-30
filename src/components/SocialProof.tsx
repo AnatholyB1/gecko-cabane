@@ -30,8 +30,12 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
   const facebookUrl = SAME_AS.find((u) => u.includes('facebook.com'))
   const reviews = visibleReviews()
   const { travellersChoice } = SOCIAL_PROOF
-  const rating = nf.format(SOCIAL_PROOF.rating)
-  const count = nf.format(SOCIAL_PROOF.reviewCount)
+  const sources = (['google', 'tripadvisor'] as const).map((key) => ({
+    key,
+    name: key === 'google' ? 'Google' : 'TripAdvisor',
+    rating: nf.format(SOCIAL_PROOF.ratings[key].rating),
+    count: nf.format(SOCIAL_PROOF.ratings[key].reviewCount),
+  }))
 
   const links = [
     { href: googleUrl, label: t('googleReviews') },
@@ -59,22 +63,33 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
           <GcDivider dark />
         </div>
 
-        <div
-          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-6"
-          aria-label={t('ratingAria', { rating, count })}
-        >
-          <span className="font-cinzel font-semibold text-[20px] text-gc-text-dark">{rating}</span>
-          <Stars count={5} />
-          <span className="font-cormorant italic text-[17px] text-gc-text-mid">
-            {t('countLabel', { count })}
-          </span>
-          {travellersChoice.awarded && (
-            <span className="inline-flex items-center border border-gc-gold px-4 py-2 min-h-11 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-text-dark">
-              {travellersChoice.year
-                ? t('travellersChoiceYear', { year: travellersChoice.year })
-                : t('travellersChoice')}
-            </span>
-          )}
+        <div className="flex flex-wrap items-start justify-center gap-x-12 gap-y-6 mb-6">
+          {sources.map((s) => (
+            <div
+              key={s.key}
+              data-rating-source={s.key}
+              className="flex flex-col items-center gap-2"
+              aria-label={`${s.name}: ${t('ratingAria', { rating: s.rating, count: s.count })}`}
+            >
+              <span className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass">
+                {s.name}
+              </span>
+              <span className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                <span className="font-cinzel font-semibold text-[20px] text-gc-text-dark">{s.rating}</span>
+                <Stars count={5} />
+                <span className="font-cormorant italic text-[17px] text-gc-text-mid">
+                  {t('countLabel', { count: s.count })}
+                </span>
+              </span>
+              {s.key === 'tripadvisor' && travellersChoice.awarded && (
+                <span className="inline-flex items-center border border-gc-gold px-4 py-2 min-h-11 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-text-dark">
+                  {travellersChoice.year
+                    ? t('travellersChoiceYear', { year: travellersChoice.year })
+                    : t('travellersChoice')}
+                </span>
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 mb-12">
