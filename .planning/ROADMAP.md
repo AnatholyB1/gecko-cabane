@@ -19,7 +19,7 @@ Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité u
 - [ ] **Phase 5: Conversion et mesure** - Code livré 13/13 (workstream conversion) ; ouverts : SEO-08 (PageSpeed 79, cible 85), CONV-02 (photo du couple), REV-07 (email non vérifié) ; migrations 015/016, LINE et Plausible à confirmer
 - [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - 14/15 (workstream seo-pages) : pages FR/EN, /de et /sv publiés, dossiers prêts ; reste 06-10 (NAP/TripAdvisor, OPS-04/05) bloqué sur accord du propriétaire
 - [ ] **Phase 7: Newsletter** - Resend (remplace Brevo, décision du 2026-10-29), double opt-in, formulaires, séquences et segments ; code livré 8/11 (workstream newsletter), lancement (07-10, 07-11) et supports imprimés (07-02) bloqués sur le propriétaire
-- [ ] **Phase 8: Reporting KPI hebdomadaire** - Cron dans l'appli, synthèse Claude, rapport email, tableau de bord, alertes (code livré 2026-10-30 sur milestone/v1.0-phase8 ; activation en attente : plan 08-12 puis KPI-08 au plus tôt le 2026-11-16)
+- [ ] **Phase 8: Reporting KPI hebdomadaire** - Cron dans l'appli, synthèse Claude, rapport email, tableau de bord, alertes (code livré et en production ; premier rapport TEST envoyé le 2026-10-30 ; reste KPI-08 : 2 semaines de TEST, au plus tôt le 2026-11-16)
 
 ## Phase Details
 
@@ -276,7 +276,7 @@ Plans:
 - [ ] 08-09-PLAN.md — Saisie manuelle des avis + alerte immédiate ≤ 3 étoiles
 - [ ] 08-10-PLAN.md — Validation des seuils par le propriétaire (checkpoint)
 - [ ] 08-11-PLAN.md — Câblage sources externes + alertes + lecture dans le cron
-- [ ] 08-12-PLAN.md — [BLOCKING] Application de 018 après accord, accès, contrôle à blanc
+- [x] 08-12-PLAN.md — [BLOCKING] Application de 018 après accord, accès, contrôle à blanc (constaté en production le 2026-10-31, voir 08-POST-DEPLOY.md)
 - [ ] 08-13-PLAN.md — KPI-08 : 2 semaines de TEST puis passage en live (pas avant le 2026-11-16)
 **UI hint**: yes
 
