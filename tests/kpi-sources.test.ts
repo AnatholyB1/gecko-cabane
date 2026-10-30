@@ -135,7 +135,7 @@ describe('sans configuration', () => {
     fetchGscWeek.mockResolvedValue(null)
     fetchTripadvisorRank.mockResolvedValue(null)
     const { values, status } = await collectExternalKpis(week, null, {}, { now })
-    expect(status).toEqual({ search_console: 'unavailable', tripadvisor: 'unavailable' })
+    expect(status).toEqual({ search_console: 'unavailable', tripadvisor: 'unavailable', google_reviews: 'unavailable' })
     expect(values.tripadvisor_checked_at).toBeUndefined()
   })
 })

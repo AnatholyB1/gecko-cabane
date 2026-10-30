@@ -239,8 +239,9 @@ describe('collecte', () => {
       'updated_at',
     ])
     for (const key of Object.keys(u.payload)) expect(allowed.has(key), key).toBe(true)
-    // colonnes de saisie manuelle jamais ecrasees
-    for (const key of ['google_reviews_total', 'google_new_reviews', 'google_min_rating', 'manual_note']) {
+    // colonnes de saisie manuelle jamais ecrasees (total et nouveaux avis Google : remplis par
+    // Places API seulement quand ils sont vides, voir kpi-sources)
+    for (const key of ['google_min_rating', 'manual_note']) {
       expect(key in u.payload).toBe(false)
     }
     expect(u.payload.week_start).toBe('2026-10-26')

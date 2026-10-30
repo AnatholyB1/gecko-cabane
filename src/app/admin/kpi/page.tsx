@@ -13,6 +13,7 @@ const SOURCE_LABELS: Record<KpiSourceKey, string> = {
   review_clicks: 'Clics /review',
   search_console: 'Search Console',
   tripadvisor: 'TripAdvisor',
+  google_reviews: 'Avis Google',
   manual_reviews: 'Avis saisis',
 }
 

@@ -8,6 +8,7 @@ import { collectDbKpis, preserveExistingValues } from '@/utils/kpi-collect'
 import { collectExternalKpis } from '@/utils/kpi-sources'
 import { diagnoseGsc, type GscDiagnosis } from '@/utils/kpi-gsc'
 import { diagnoseTripadvisor, type TripadvisorDiagnosis } from '@/utils/kpi-tripadvisor'
+import { diagnoseGoogleReviews, type GoogleReviewsDiagnosis } from '@/utils/kpi-google-reviews'
 import { compareWeeks, detectAlerts } from '@/utils/kpi-alerts'
 import { buildNarrativeInput, fallbackNarrative, generateNarrative } from '@/utils/kpi-narrative'
 import { getResendClient, RESEND_FROM_EMAIL, RESTAURANT_NOTIFICATION_EMAIL } from '@/utils/resend'
@@ -32,6 +33,8 @@ function externalEnv() {
     BRIGHTDATA_API_KEY: e.BRIGHTDATA_API_KEY,
     BRIGHTDATA_ZONE: e.BRIGHTDATA_ZONE,
     TRIPADVISOR_URL: e.TRIPADVISOR_URL,
+    GOOGLE_PLACES_API_KEY: e.GOOGLE_PLACES_API_KEY,
+    GOOGLE_PLACE_ID: e.GOOGLE_PLACE_ID,
   }
 }
 
@@ -81,6 +84,7 @@ type KpiCronResult = {
   narrative?: KpiNarrative
   gsc_diag?: GscDiagnosis
   ta_diag?: TripadvisorDiagnosis
+  gr_diag?: GoogleReviewsDiagnosis
 }
 
 // Weekly job (Monday 00:00 UTC = 07:00 Krabi collects; 01:00 UTC = 08:00 Krabi sends; 02:00 and
@@ -150,6 +154,7 @@ export async function GET(request: NextRequest) {
         // (a ?week= catch-up would record today's rank on a past week and burn extra calls).
         collectExternalKpis(week, existingRow, externalEnv(), {
           skipPaid: dryRun || week.start !== previousWeek(now).start,
+          previous: previousRow,
         }),
       ])
       if (dbRes.status === 'rejected') throw dbRes.reason
@@ -189,6 +194,14 @@ export async function GET(request: NextRequest) {
                 url: process.env.TRIPADVISOR_URL,
               })
             : undefined
+        // Places API call (fractions of a cent): only on explicit ?diag=gr.
+        const grDiag =
+          params.get('diag') === 'gr'
+            ? await diagnoseGoogleReviews({
+                apiKey: process.env.GOOGLE_PLACES_API_KEY,
+                placeId: process.env.GOOGLE_PLACE_ID,
+              })
+            : undefined
         return NextResponse.json<ApiResponse<KpiCronResult>>({
           data: {
             week_start: week.start,
@@ -201,6 +214,7 @@ export async function GET(request: NextRequest) {
             narrative: reading.narrative,
             gsc_diag: gscDiag,
             ta_diag: taDiag,
+            gr_diag: grDiag,
           },
         })
       }

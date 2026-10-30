@@ -8,6 +8,7 @@
 
 import type { KpiSourceState, KpiSourcesStatus, WeeklyKpiRow } from '@/types/database'
 import { fetchGscWeek, type GscWeekResult } from './kpi-gsc'
+import { fetchGoogleReviewsSummary, type GoogleReviewsSummary } from './kpi-google-reviews'
 import { fetchTripadvisorRank, isAllowedTripadvisorUrl, type TripadvisorRank } from './kpi-tripadvisor'
 
 export type ExternalKpiEnv = {
@@ -16,6 +17,8 @@ export type ExternalKpiEnv = {
   BRIGHTDATA_API_KEY?: string
   BRIGHTDATA_ZONE?: string
   TRIPADVISOR_URL?: string
+  GOOGLE_PLACES_API_KEY?: string
+  GOOGLE_PLACE_ID?: string
 }
 
 type Collected = { values: Partial<WeeklyKpiRow>; state: KpiSourceState }
@@ -48,7 +51,7 @@ export async function collectExternalKpis(
   week: { start: string; end: string },
   existing: WeeklyKpiRow | null,
   env: ExternalKpiEnv,
-  deps: { fetchImpl?: typeof fetch; now?: Date; skipPaid?: boolean } = {},
+  deps: { fetchImpl?: typeof fetch; now?: Date; skipPaid?: boolean; previous?: WeeklyKpiRow | null } = {},
 ): Promise<{ values: Partial<WeeklyKpiRow>; status: KpiSourcesStatus }> {
   const now = deps.now ?? new Date()
   const alreadyChecked = !!existing?.tripadvisor_checked_at
@@ -78,7 +81,33 @@ export async function collectExternalKpis(
     return { values, state: rank ? 'ok' : 'unavailable' }
   }
 
-  const [gsc, ta] = await Promise.allSettled([
+  // Avis Google : total via Places API (quelques centimes par mille appels, appele meme en controle
+  // a blanc). Une saisie manuelle deja presente n'est jamais ecrasee ; les nouveaux avis sont la
+  // difference avec le total de la semaine precedente (inconnue la premiere semaine => partiel).
+  const googleStep = async (): Promise<Collected> => {
+    if (existing?.google_reviews_total != null) {
+      return { values: {}, state: existing.google_new_reviews != null ? 'ok' : 'partial' }
+    }
+    let summary: GoogleReviewsSummary | null = null
+    try {
+      summary = await fetchGoogleReviewsSummary({
+        apiKey: env.GOOGLE_PLACES_API_KEY,
+        placeId: env.GOOGLE_PLACE_ID,
+        fetchImpl: deps.fetchImpl,
+      })
+    } catch {
+      summary = null
+    }
+    if (!summary) return { values: { google_reviews_total: null, google_new_reviews: null }, state: 'unavailable' }
+    const prevTotal = deps.previous?.google_reviews_total ?? null
+    const newReviews = prevTotal != null ? Math.max(0, summary.total - prevTotal) : null
+    return {
+      values: { google_reviews_total: summary.total, google_new_reviews: newReviews },
+      state: newReviews != null ? 'ok' : 'partial',
+    }
+  }
+
+  const [gsc, ta, gr] = await Promise.allSettled([
     fetchGscWeek(week, {
       serviceAccountJson: env.GSC_SERVICE_ACCOUNT_JSON,
       siteUrl: env.GSC_SITE_URL,
@@ -86,6 +115,7 @@ export async function collectExternalKpis(
       now,
     }).then(gscStep),
     tripadvisorStep(),
+    googleStep(),
   ])
 
   const g: Collected = gsc.status === 'fulfilled' ? gsc.value : { values: { ...GSC_NULL }, state: 'unavailable' }
@@ -97,8 +127,13 @@ export async function collectExternalKpis(
           state: 'unavailable',
         }
 
+  const r: Collected =
+    gr.status === 'fulfilled'
+      ? gr.value
+      : { values: { google_reviews_total: null, google_new_reviews: null }, state: 'unavailable' }
+
   return {
-    values: { ...g.values, ...t.values },
-    status: { search_console: g.state, tripadvisor: t.state },
+    values: { ...g.values, ...t.values, ...r.values },
+    status: { search_console: g.state, tripadvisor: t.state, google_reviews: r.state },
   }
 }

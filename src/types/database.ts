@@ -303,6 +303,7 @@ export type KpiSourceKey =
   | 'review_clicks'
   | 'search_console'
   | 'tripadvisor'
+  | 'google_reviews'
   | 'manual_reviews'
 
 export type KpiSourceState = 'ok' | 'partial' | 'unavailable'
@@ -370,7 +371,11 @@ export interface WeeklyKpiRow {
   updated_at: string
 }
 
-/** Columns written by the weekly cron (service role). */
+/**
+ * Columns written by the weekly cron (service role). google_reviews_total and google_new_reviews
+ * are also admin-editable (D-03 manual entry): the collector fills them from Places API only while
+ * they are empty, it never overwrites a stored value. google_min_rating and manual_note stay manual.
+ */
 export const KPI_COLLECTOR_COLUMNS = [
   'reservations_new',
   'covers',
@@ -396,6 +401,8 @@ export const KPI_COLLECTOR_COLUMNS = [
   'tripadvisor_rank',
   'tripadvisor_total',
   'tripadvisor_checked_at',
+  'google_reviews_total',
+  'google_new_reviews',
   'sources_status',
   'alerts',
   'narrative',

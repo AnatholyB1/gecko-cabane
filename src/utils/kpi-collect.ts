@@ -169,6 +169,7 @@ export function preserveExistingValues(
     review_clicks: ['review_clicks_week'],
     search_console: ['gsc_clicks', 'gsc_impressions'],
     tripadvisor: ['tripadvisor_rank'],
+    google_reviews: ['google_reviews_total'],
   }
   for (const [src, keys] of Object.entries(sourceKeys)) {
     const k = src as keyof KpiSourcesStatus
