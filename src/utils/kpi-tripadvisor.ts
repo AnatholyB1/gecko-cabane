@@ -22,7 +22,8 @@ export const BRIGHTDATA_ENDPOINT = 'https://api.brightdata.com/request'
 export type TripadvisorRank = { rank: number; total: number }
 
 const MAX_TOTAL = 100_000
-const DEFAULT_TIMEOUT_MS = 20_000
+// Web Unlocker needs ~30 s on the TripAdvisor page (measured 29 s, 880 KB); the collect run has the full 60 s.
+const DEFAULT_TIMEOUT_MS = 45_000
 
 // Total avec separateurs de milliers eventuels (virgule, point, espaces).
 const NUM = '\\d{1,3}(?:[,.\\u00a0\\u202f ]\\d{3})+|\\d+'
