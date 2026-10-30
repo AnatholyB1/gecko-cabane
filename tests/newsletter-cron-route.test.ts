@@ -115,6 +115,9 @@ async function callCron() {
   return { status: res.status, body: await res.json() }
 }
 
+// The first call imports the whole route graph (cold), which can exceed the 5 s default under load.
+vi.setConfig({ testTimeout: 20_000 })
+
 describe('newsletter-sync cron route', () => {
   beforeEach(() => {
     vi.useFakeTimers({ toFake: ['Date'] })
