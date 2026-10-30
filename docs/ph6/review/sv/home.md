@@ -165,6 +165,22 @@ Instructions pour le relecteur :
 | `contactSection.mapLoaded` | Carte chargée | Karta laddad |  |
 
 > Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
+| `line.ariaLabel` | Nous écrire sur LINE | Skriv till oss på LINE | NOUVELLE CLÉ, non relue |
+| `line.label` | Nous écrire sur LINE | Skriv till oss på LINE | NOUVELLE CLÉ, non relue |
+| `socialProof.eyebrow` | Ils nous recommandent | Gäster rekommenderar oss | NOUVELLE CLÉ, non relue |
+| `socialProof.title` | Ce que disent nos clients | Vad våra gäster säger | NOUVELLE CLÉ, non relue |
+| `socialProof.ratingAria` | Note {rating} sur 5, {count} avis | Betyg {rating} av 5, {count} omdömen | NOUVELLE CLÉ, non relue |
+| `socialProof.countLabel` | sur {count} avis | baserat på {count} omdömen | NOUVELLE CLÉ, non relue |
+| `socialProof.travellersChoice` | Travellers' Choice | Travellers' Choice | NOUVELLE CLÉ, non relue |
+| `socialProof.travellersChoiceYear` | Travellers' Choice {year} | Travellers' Choice {year} | NOUVELLE CLÉ, non relue |
+| `socialProof.originalLanguage` | Avis original en {language} | Originalomdöme på {language} | NOUVELLE CLÉ, non relue |
+| `socialProof.viewSource` | Voir l'avis de {name} sur {source} | Se {name}s omdöme på {source} | NOUVELLE CLÉ, non relue |
+| `socialProof.starsSr` | {rating} sur 5 | {rating} av 5 | NOUVELLE CLÉ, non relue |
+| `socialProof.leaveReview` | Laisser un avis | Lämna ett omdöme | NOUVELLE CLÉ, non relue |
+| `socialProof.googleReviews` | Lire les avis sur Google | Läs omdömena på Google | NOUVELLE CLÉ, non relue |
+| `socialProof.tripadvisorReviews` | Lire les avis sur TripAdvisor | Läs omdömena på TripAdvisor | NOUVELLE CLÉ, non relue |
+| `socialProof.facebook` | Suivre Gecko Cabane sur Facebook | Följ Gecko Cabane på Facebook | NOUVELLE CLÉ, non relue |
+| `payment.note` | Espèces, cartes, PromptPay — frais de 5 % pour les paiements par carte. | Kontanter, kort, PromptPay – en avgift på 5 % tillkommer vid kortbetalning. | NOUVELLE CLÉ, non relue |
 
 ## Validation écrite
 
