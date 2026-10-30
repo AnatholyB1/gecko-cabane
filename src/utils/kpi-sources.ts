@@ -8,7 +8,7 @@
 
 import type { KpiSourceState, KpiSourcesStatus, WeeklyKpiRow } from '@/types/database'
 import { fetchGscWeek, type GscWeekResult } from './kpi-gsc'
-import { fetchTripadvisorRank, type TripadvisorRank } from './kpi-tripadvisor'
+import { fetchTripadvisorRank, isAllowedTripadvisorUrl, type TripadvisorRank } from './kpi-tripadvisor'
 
 export type ExternalKpiEnv = {
   GSC_SERVICE_ACCOUNT_JSON?: string
@@ -53,7 +53,7 @@ export async function collectExternalKpis(
   const now = deps.now ?? new Date()
   const alreadyChecked = !!existing?.tripadvisor_checked_at
   const existingState: KpiSourceState = existing?.tripadvisor_rank != null ? 'ok' : 'unavailable'
-  const configured = !!(env.BRIGHTDATA_API_KEY && env.BRIGHTDATA_ZONE && env.TRIPADVISOR_URL)
+  const configured = !!(env.BRIGHTDATA_API_KEY && env.BRIGHTDATA_ZONE && isAllowedTripadvisorUrl(env.TRIPADVISOR_URL))
 
   const tripadvisorStep = async (): Promise<Collected> => {
     // Valeur deja stockee cette semaine, ou controle a blanc : aucun appel payant.

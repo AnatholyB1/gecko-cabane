@@ -47,6 +47,12 @@ Renseigner `ANTHROPIC_API_KEY` et `ANTHROPIC_MODEL` (aucun modèle codé en dur)
 
 Collecte le lundi 00:00 UTC (7h à Krabi), envoi le lundi 01:00 UTC (8h à Krabi). Sur un plan Vercel Hobby, l'exécution peut glisser jusqu'à environ 59 minutes (hypothèse A1) : l'envoi peut arriver vers 9h. Vérifier le plan Vercel.
 
+Rattrapage : deux entrées supplémentaires (lundi 02:00 et 04:00 UTC) relancent la route après un échec d'envoi. Elles sont sans risque de doublon (la semaine n'est réclamée qu'une fois, la lecture déjà générée est réutilisée telle quelle). `?week=AAAA-MM-JJ&send=1` reste le rattrapage manuel au-delà.
+
+Search Console : la latence de ses données est d'environ deux jours. Les clics et impressions collectés le lundi sont donc partiels (le dimanche est incomplet) et indiqués comme tels (`gsc_partial`). Ne pas les comparer à la lettre à ceux de la semaine précédente.
+
+Rapport live : la note manuelle libre n'est jamais incluse (donnée potentiellement personnelle) ; elle reste visible dans l'admin et dans le rapport TEST du propriétaire.
+
 ## 8. Contrôle à blanc
 
 Appeler `/api/cron/weekly-kpi?dry=1` avec l'en-tête `Authorization: Bearer` suivi du secret `CRON_SECRET`. Le mode à blanc n'écrit rien et n'envoie rien. Le faire avant et après chaque changement de variable.
