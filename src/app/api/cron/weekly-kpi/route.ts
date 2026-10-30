@@ -7,6 +7,7 @@ import { previousWeek, parseWeekParam, weekEndOf, shouldSendNow } from '@/utils/
 import { collectDbKpis, preserveExistingValues } from '@/utils/kpi-collect'
 import { collectExternalKpis } from '@/utils/kpi-sources'
 import { diagnoseGsc, type GscDiagnosis } from '@/utils/kpi-gsc'
+import { diagnoseTripadvisor, type TripadvisorDiagnosis } from '@/utils/kpi-tripadvisor'
 import { compareWeeks, detectAlerts } from '@/utils/kpi-alerts'
 import { buildNarrativeInput, fallbackNarrative, generateNarrative } from '@/utils/kpi-narrative'
 import { getResendClient, RESEND_FROM_EMAIL, RESTAURANT_NOTIFICATION_EMAIL } from '@/utils/resend'
@@ -79,6 +80,7 @@ type KpiCronResult = {
   alerts?: KpiAlert[]
   narrative?: KpiNarrative
   gsc_diag?: GscDiagnosis
+  ta_diag?: TripadvisorDiagnosis
 }
 
 // Weekly job (Monday 00:00 UTC = 07:00 Krabi collects; 01:00 UTC = 08:00 Krabi sends; 02:00 and
@@ -178,6 +180,15 @@ export async function GET(request: NextRequest) {
                 serviceAccountJson: process.env.GSC_SERVICE_ACCOUNT_JSON,
                 siteUrl: process.env.GSC_SITE_URL,
               })
+        // Paid (one Bright Data call): only on explicit ?diag=ta, never on a plain dry run.
+        const taDiag =
+          params.get('diag') === 'ta'
+            ? await diagnoseTripadvisor({
+                apiKey: process.env.BRIGHTDATA_API_KEY,
+                zone: process.env.BRIGHTDATA_ZONE,
+                url: process.env.TRIPADVISOR_URL,
+              })
+            : undefined
         return NextResponse.json<ApiResponse<KpiCronResult>>({
           data: {
             week_start: week.start,
@@ -189,6 +200,7 @@ export async function GET(request: NextRequest) {
             alerts: reading.alerts,
             narrative: reading.narrative,
             gsc_diag: gscDiag,
+            ta_diag: taDiag,
           },
         })
       }

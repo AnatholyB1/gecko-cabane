@@ -75,6 +75,59 @@ export function isAllowedTripadvisorUrl(url: string | undefined): boolean {
   }
 }
 
+export type TripadvisorDiagnosis = {
+  stage: string
+  http_status?: number
+  duration_ms?: number
+  bytes?: number
+  rank_pattern_found?: boolean
+  rank?: number
+  total?: number
+  brd_error?: string
+  error_name?: string
+}
+
+// Dry run only (paid, one call): same request as fetchTripadvisorRank, but says where it fails.
+// Never returns the API key or the page body; only Bright Data's own error headers, clipped.
+export async function diagnoseTripadvisor(opts: {
+  apiKey?: string
+  zone?: string
+  url?: string
+  fetchImpl?: typeof fetch
+  timeoutMs?: number
+}): Promise<TripadvisorDiagnosis> {
+  const { apiKey, zone, url } = opts
+  if (!apiKey) return { stage: 'no_api_key' }
+  if (!zone) return { stage: 'no_zone' }
+  if (!url) return { stage: 'no_url' }
+  if (!isAllowedTripadvisorUrl(url)) return { stage: 'url_refused' }
+  const startedAt = Date.now()
+  try {
+    const doFetch = opts.fetchImpl ?? fetch
+    const res = await doFetch(BRIGHTDATA_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({ zone, url, format: 'raw' }),
+      signal: AbortSignal.timeout(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS),
+    })
+    const brdCode = res.headers.get('x-brd-err-code')
+    const brdMsg = res.headers.get('x-brd-err-msg')
+    const brd_error = brdCode || brdMsg ? `${brdCode ?? ''} ${brdMsg ?? ''}`.trim().slice(0, 160) : undefined
+    const text = await res.text()
+    const base = { http_status: res.status, duration_ms: Date.now() - startedAt, bytes: text.length, brd_error }
+    if (!res.ok) return { stage: 'http_error', ...base }
+    const rank = parseTripadvisorRank(text)
+    return rank
+      ? { stage: 'ok', ...base, rank_pattern_found: true, rank: rank.rank, total: rank.total }
+      : { stage: 'rank_not_found', ...base, rank_pattern_found: false }
+  } catch (e) {
+    return { stage: 'exception', duration_ms: Date.now() - startedAt, error_name: e instanceof Error ? e.name : 'unknown' }
+  }
+}
+
 export async function fetchTripadvisorRank(opts: {
   apiKey?: string
   zone?: string

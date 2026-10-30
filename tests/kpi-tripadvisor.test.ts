@@ -8,6 +8,7 @@ import { join } from 'node:path'
 import {
   parseTripadvisorRank,
   fetchTripadvisorRank,
+  diagnoseTripadvisor,
   isAllowedTripadvisorUrl,
   BRIGHTDATA_ENDPOINT,
 } from '../src/utils/kpi-tripadvisor'
@@ -109,5 +110,47 @@ describe('fetchTripadvisorRank', () => {
   it('200 sans rang => null', async () => {
     const f = vi.fn().mockResolvedValue(new Response(fx('tripadvisor-norank.html'), { status: 200 }))
     expect(await fetchTripadvisorRank({ apiKey: 'k', zone: 'z', url: URL_OK, fetchImpl: asFetch(f) })).toBeNull()
+  })
+})
+
+describe('diagnoseTripadvisor', () => {
+  const run = (f: unknown, extra = {}) =>
+    diagnoseTripadvisor({ apiKey: 'secret-key', zone: 'z', url: URL_OK, fetchImpl: asFetch(f), ...extra })
+
+  it('configuration manquante => stage nomme, aucun appel', async () => {
+    const f = vi.fn()
+    expect((await diagnoseTripadvisor({ zone: 'z', url: URL_OK, fetchImpl: asFetch(f) })).stage).toBe('no_api_key')
+    expect((await diagnoseTripadvisor({ apiKey: 'k', url: URL_OK, fetchImpl: asFetch(f) })).stage).toBe('no_zone')
+    expect((await diagnoseTripadvisor({ apiKey: 'k', zone: 'z', fetchImpl: asFetch(f) })).stage).toBe('no_url')
+    expect((await diagnoseTripadvisor({ apiKey: 'k', zone: 'z', url: 'https://evil.example/x', fetchImpl: asFetch(f) })).stage).toBe('url_refused')
+    expect(f).not.toHaveBeenCalled()
+  })
+  it('200 avec rang => ok, une seule requete', async () => {
+    const f = vi.fn().mockResolvedValue(new Response('#6 of 437 Restaurants', { status: 200 }))
+    const d = await run(f)
+    expect(d).toMatchObject({ stage: 'ok', http_status: 200, rank_pattern_found: true, rank: 6, total: 437 })
+    expect(f).toHaveBeenCalledTimes(1)
+    expect(f.mock.calls[0][0]).toBe(BRIGHTDATA_ENDPOINT)
+  })
+  it('200 sans rang => rank_not_found', async () => {
+    const f = vi.fn().mockResolvedValue(new Response('<html>blocked</html>', { status: 200 }))
+    expect(await run(f)).toMatchObject({ stage: 'rank_not_found', rank_pattern_found: false, bytes: 20 })
+  })
+  it('non-2xx => http_error avec en-tetes Bright Data, sans la cle ni le corps', async () => {
+    const f = vi
+      .fn()
+      .mockResolvedValue(
+        new Response('page body', { status: 403, headers: { 'x-brd-err-code': 'client_10010', 'x-brd-err-msg': 'zone off' } })
+      )
+    const d = await run(f)
+    expect(d).toMatchObject({ stage: 'http_error', http_status: 403, brd_error: 'client_10010 zone off' })
+    expect(JSON.stringify(d)).not.toContain('secret-key')
+    expect(JSON.stringify(d)).not.toContain('page body')
+  })
+  it('exception (timeout) => exception + nom, sans message', async () => {
+    const f = vi.fn().mockRejectedValue(Object.assign(new Error('boom secret-key'), { name: 'TimeoutError' }))
+    const d = await run(f)
+    expect(d).toMatchObject({ stage: 'exception', error_name: 'TimeoutError' })
+    expect(JSON.stringify(d)).not.toContain('secret-key')
   })
 })
