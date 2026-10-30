@@ -262,7 +262,22 @@ Preuves : `07-REPORT.md` (gate 986 tests), `OWNER-CHECKLIST.md`, commits ad210b1
   4. Un avis ≤ 3 étoiles ou un retour privé de `/review` déclenche une alerte immédiate
   5. Le rapport a tourné 2 semaines en test avant d'être déclaré fiable
 
-**Plans**: TBD
+**Plans**: 13 plans (6 vagues)
+
+Plans:
+- [ ] 08-01-PLAN.md — Contrats : migration 018 en fichier, types KPI, formatage « non disponible »
+- [ ] 08-02-PLAN.md — Module Search Console (compte de service, JWT RS256 sans dépendance)
+- [ ] 08-03-PLAN.md — Module rang TripAdvisor via Bright Data (1 appel plafonné)
+- [ ] 08-04-PLAN.md — Traçabilité (cron dans l'appli, email seul) + marche à suivre propriétaire
+- [ ] 08-05-PLAN.md — Cron collecte DB → `gecko_weekly_kpis` (semaine Krabi, route, vercel.json)
+- [ ] 08-06-PLAN.md — Comparaison S-1, seuils d'alerte, lecture Claude avec repli
+- [ ] 08-07-PLAN.md — Tableau de bord /admin/kpi (historique)
+- [ ] 08-08-PLAN.md — Email du lundi 8h en mode TEST, envoi idempotent
+- [ ] 08-09-PLAN.md — Saisie manuelle des avis + alerte immédiate ≤ 3 étoiles
+- [ ] 08-10-PLAN.md — Validation des seuils par le propriétaire (checkpoint)
+- [ ] 08-11-PLAN.md — Câblage sources externes + alertes + lecture dans le cron
+- [ ] 08-12-PLAN.md — [BLOCKING] Application de 018 après accord, accès, contrôle à blanc
+- [ ] 08-13-PLAN.md — KPI-08 : 2 semaines de TEST puis passage en live (pas avant le 2026-11-16)
 **UI hint**: yes
 
 ## Progress
