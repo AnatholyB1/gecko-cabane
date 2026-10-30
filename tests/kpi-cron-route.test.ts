@@ -13,6 +13,18 @@ vi.mock('@sentry/nextjs', () => ({ captureException: (...a: unknown[]) => captur
 const sendMock = vi.fn()
 let ownerEmail: string | undefined = 'owner@example.com'
 let resendClient: { emails: { send: typeof sendMock } } | null = { emails: { send: sendMock } }
+let templateThrows = false
+vi.mock('../src/utils/kpi-report-email', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/utils/kpi-report-email')>()
+  return {
+    ...actual,
+    weeklyReportEmail: (...args: Parameters<typeof actual.weeklyReportEmail>) => {
+      if (templateThrows) throw new Error('template boom')
+      return actual.weeklyReportEmail(...args)
+    },
+  }
+})
+
 vi.mock('../src/utils/resend', () => ({
   getResendClient: () => resendClient,
   RESEND_FROM_EMAIL: 'Gecko <noreply@example.com>',
@@ -28,6 +40,9 @@ const state = {
   rows: {} as Record<string, Record<string, unknown>>,
   upsertError: null as { message: string } | null,
   reservationsError: false,
+  readError: false,
+  claimError: false,
+  releaseError: false,
 }
 
 vi.mock('../src/utils/supabase/server', () => ({
@@ -59,6 +74,10 @@ vi.mock('../src/utils/supabase/server', () => ({
       b.select = (cols: string) => {
         state.selects.push({ table, cols })
         selected = true
+        if (updatePayload && table === 'gecko_weekly_kpis' && state.claimError) {
+          result = { data: null, error: { message: 'claim boom' } }
+          return b
+        }
         if (table === 'gecko_reservations' && state.reservationsError) result = { data: null, error: { message: 'boom' } }
         if (updatePayload && table === 'gecko_weekly_kpis') {
           result = { data: applyUpdate() ? [{ week_start: eqWeek }] : [], error: null }
@@ -73,7 +92,7 @@ vi.mock('../src/utils/supabase/server', () => ({
       b.maybeSingle = () =>
         Promise.resolve({
           data: table === 'gecko_weekly_kpis' ? (state.rows[eqWeek as string] ?? null) : null,
-          error: null,
+          error: table === 'gecko_weekly_kpis' && state.readError ? { message: 'read boom' } : null,
         })
       b.upsert = (payload: Record<string, unknown>, options: unknown) => {
         state.upserts.push({ table, payload, options })
@@ -85,7 +104,11 @@ vi.mock('../src/utils/supabase/server', () => ({
       }
       b.then = (ok: (v: unknown) => unknown, ko?: (e: unknown) => unknown) => {
         // update sans select (release) : applique a l'attente
-        if (updatePayload && !selected && table === 'gecko_weekly_kpis') applyUpdate()
+        if (updatePayload && !selected && table === 'gecko_weekly_kpis') {
+          if (state.releaseError && updatePayload.report_sent_at === null) {
+            result = { data: null, error: { message: 'release boom' } }
+          } else applyUpdate()
+        }
         return Promise.resolve(result).then(ok, ko)
       }
       return b
@@ -133,6 +156,10 @@ beforeEach(() => {
   state.rows = {}
   state.upsertError = null
   state.reservationsError = false
+  state.readError = false
+  state.claimError = false
+  state.releaseError = false
+  templateThrows = false
   sendMock.mockReset()
   sendMock.mockResolvedValue({ data: { id: 'x' }, error: null })
   ownerEmail = 'owner@example.com'
@@ -167,6 +194,12 @@ describe('garde', () => {
   })
   it('401 mauvais Bearer', async () => {
     expect((await GET(req('', { authorization: 'Bearer nope' }))).status).toBe(401)
+  })
+  it('401 Bearer de longueur differente ou presque identique, meme avec dry=1&send=1', async () => {
+    expect((await GET(req('?dry=1&send=1', { authorization: 'Bearer test-secre' }))).status).toBe(401)
+    expect((await GET(req('?dry=1&send=1', { authorization: 'Bearer test-secreT' }))).status).toBe(401)
+    expect((await GET(req('?dry=1&send=1', { authorization: 'Bearer test-secret-and-more' }))).status).toBe(401)
+    expect(state.selects).toHaveLength(0)
   })
   it('401 si CRON_SECRET absent', async () => {
     delete process.env.CRON_SECRET
@@ -510,13 +543,124 @@ describe('sources externes et lecture (08-11)', () => {
   })
 })
 
+describe('audit P8', () => {
+  const baseRow = (extra: Record<string, unknown> = {}) => ({
+    week_start: '2026-10-26',
+    week_end: '2026-11-01',
+    collected_at: '2026-11-02T00:05:00Z',
+    report_sent_at: null,
+    ...extra,
+  })
+
+  it('B-01: exception du gabarit => 500, aucune claim, semaine renvoyable', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    templateThrows = true
+    const res = await GET(req())
+    expect(res.status).toBe(500)
+    expect(sendMock).not.toHaveBeenCalled()
+    expect(state.updates.some((u) => 'report_sent_at' in u.payload)).toBe(false)
+    expect(state.rows['2026-10-26'].report_sent_at ?? null).toBeNull()
+    templateThrows = false
+    vi.setSystemTime(new Date('2026-11-02T02:05:00Z'))
+    const retry = await (await GET(req())).json()
+    expect(retry.data.sent).toBe(true)
+  })
+
+  it('B-02/B-03: echec puis relance de rattrapage, meme cle et meme corps, une seule lecture IA', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    setAi()
+    sendMock.mockResolvedValueOnce({ data: null, error: { message: 'down' } })
+    const first = await (await GET(req())).json()
+    expect(first.data.failed).toBe(true)
+    vi.setSystemTime(new Date('2026-11-02T02:05:00Z'))
+    const second = await (await GET(req())).json()
+    expect(second.data.sent).toBe(true)
+    expect(sendMock).toHaveBeenCalledTimes(2)
+    const [m1, o1] = sendMock.mock.calls[0]
+    const [m2, o2] = sendMock.mock.calls[1]
+    expect(o2.idempotencyKey).toBe(o1.idempotencyKey)
+    expect(m2.text).toBe(m1.text)
+    expect(m2.html).toBe(m1.html)
+    expect(callsTo(ANTHROPIC)).toHaveLength(1)
+  })
+
+  it('erreur de la liberation du claim: capturee', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    state.releaseError = true
+    sendMock.mockResolvedValue({ data: null, error: { message: 'down' } })
+    const body = await (await GET(req())).json()
+    expect(body.data.failed).toBe(true)
+    expect(captureException.mock.calls.some((c) => (c[0] as { message?: string })?.message === 'release boom')).toBe(true)
+  })
+
+  it('W-08: erreur DB a la claim => 500, pas de succes silencieux', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    state.claimError = true
+    const res = await GET(req())
+    expect(res.status).toBe(500)
+    expect(sendMock).not.toHaveBeenCalled()
+  })
+
+  it('W-04: erreur de lecture de la ligne existante => 500, aucun appel payant, aucune ecriture', async () => {
+    setBright()
+    state.readError = true
+    const res = await GET(req())
+    expect(res.status).toBe(500)
+    expect(callsTo(BRIGHT)).toHaveLength(0)
+    expect(state.upserts).toHaveLength(0)
+  })
+
+  it('F-05: ?week= passe => 0 appel Bright Data ; semaine precedente courante => 1', async () => {
+    setBright()
+    await GET(req('?week=2026-10-19'))
+    expect(callsTo(BRIGHT)).toHaveLength(0)
+    expect(state.upserts[0].payload.tripadvisor_checked_at).toBeUndefined()
+    await GET(req())
+    expect(callsTo(BRIGHT)).toHaveLength(1)
+  })
+
+  it('W-05/F-06: une source en echec n ecrase pas une valeur existante par null', async () => {
+    state.rows['2026-10-26'] = baseRow({
+      collected_at: null,
+      gsc_clicks: 120,
+      gsc_impressions: 4000,
+      sources_status: { search_console: 'ok' },
+    })
+    await GET(req())
+    const p = state.upserts[0].payload
+    expect('gsc_clicks' in p).toBe(false)
+    expect(state.rows['2026-10-26'].gsc_clicks).toBe(120)
+    expect((p.sources_status as Record<string, string>).search_console).toBe('ok')
+  })
+
+  it('F-02: note manuelle absente du rapport live, presente en test', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    state.rows['2026-10-26'] = baseRow({ manual_note: 'Avis de Mme Dupont' })
+    process.env.KPI_REPORT_MODE = 'live'
+    process.env.KPI_REPORT_RECIPIENTS = 'team@example.com'
+    await GET(req())
+    const live = sendMock.mock.calls[0][0]
+    expect(live.text).not.toContain('Dupont')
+    expect(live.html).not.toContain('Dupont')
+
+    state.rows['2026-10-26'] = baseRow({ manual_note: 'Avis de Mme Dupont' })
+    delete process.env.KPI_REPORT_MODE
+    sendMock.mockClear()
+    await GET(req())
+    expect(sendMock.mock.calls[0][0].text).toContain('Dupont')
+  })
+})
+
 describe('vercel.json', () => {
-  it('declare les deux planifications du lundi', () => {
+  it('declare les planifications du lundi (collecte, envoi, rattrapage)', () => {
     const cfg = JSON.parse(readFileSync(join(__dirname, '..', 'vercel.json'), 'utf8')) as {
       crons: { path: string; schedule: string }[]
     }
     expect(cfg.crons).toContainEqual({ path: '/api/cron/weekly-kpi', schedule: '0 0 * * 1' })
     expect(cfg.crons).toContainEqual({ path: '/api/cron/weekly-kpi', schedule: '0 1 * * 1' })
+    // catch-up windows after a failed send (still inside the Monday send window of shouldSendNow)
+    expect(cfg.crons).toContainEqual({ path: '/api/cron/weekly-kpi', schedule: '0 2 * * 1' })
+    expect(cfg.crons).toContainEqual({ path: '/api/cron/weekly-kpi', schedule: '0 4 * * 1' })
     expect(cfg.crons).toContainEqual({ path: '/api/cron/review-invitations', schedule: '0 4 * * *' })
   })
 })

@@ -1,9 +1,10 @@
+import { createHash, timingSafeEqual } from 'node:crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { createAdminClient } from '@/utils/supabase/server'
 import { addDays } from '@/utils/review-invitations'
 import { previousWeek, parseWeekParam, weekEndOf, shouldSendNow } from '@/utils/kpi-week'
-import { collectDbKpis } from '@/utils/kpi-collect'
+import { collectDbKpis, preserveExistingValues } from '@/utils/kpi-collect'
 import { collectExternalKpis } from '@/utils/kpi-sources'
 import { compareWeeks, detectAlerts } from '@/utils/kpi-alerts'
 import { buildNarrativeInput, fallbackNarrative, generateNarrative } from '@/utils/kpi-narrative'
@@ -55,6 +56,14 @@ async function buildReading(
   }
 }
 
+// Constant-time Bearer check: equal-length SHA-256 digests compared with timingSafeEqual.
+function isAuthorized(header: string | null, secret: string | undefined): boolean {
+  if (!secret || !header) return false
+  const a = createHash('sha256').update(header).digest()
+  const b = createHash('sha256').update(`Bearer ${secret}`).digest()
+  return timingSafeEqual(a, b)
+}
+
 type KpiCronResult = {
   week_start: string
   week_end: string
@@ -70,12 +79,12 @@ type KpiCronResult = {
   narrative?: KpiNarrative
 }
 
-// Weekly job (Monday 00:00 UTC = 07:00 Krabi; a second entry at 01:00 UTC is a safety net).
+// Weekly job (Monday 00:00 UTC = 07:00 Krabi collects; 01:00 UTC = 08:00 Krabi sends; 02:00 and
+// 04:00 UTC are catch-up windows for a failed send, idempotent thanks to the report_sent_at claim).
 // Collects the database-side KPIs of the week that just ended and upserts them by week_start.
 export async function GET(request: NextRequest) {
   // Fail closed: no secret configured or wrong header -> 401, before any work.
-  const cronSecret = process.env.CRON_SECRET
-  if (!cronSecret || request.headers.get('authorization') !== `Bearer ${cronSecret}`) {
+  if (!isAuthorized(request.headers.get('authorization'), process.env.CRON_SECRET)) {
     return NextResponse.json<ApiResponse<KpiCronResult>>({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -112,11 +121,17 @@ export async function GET(request: NextRequest) {
     if (prevError) Sentry.captureException(prevError) // non-fatal: deltas become unknown (null)
 
     // Send window: a row already collected is not collected again.
-    const { data: existingData } = await admin
+    const { data: existingData, error: existingError } = await admin
       .from('gecko_weekly_kpis')
       .select('*')
       .eq('week_start', week.start)
       .maybeSingle()
+    if (existingError) {
+      // Fail closed: without the stored row we cannot know whether the paid TripAdvisor call was
+      // already made this week, nor protect stored values from being overwritten.
+      Sentry.captureException(existingError)
+      return NextResponse.json<ApiResponse<KpiCronResult>>({ error: 'Erreur serveur' }, { status: 500 })
+    }
     const existingRow = (existingData as WeeklyKpiRow | null) ?? null
     const alreadyCollected = sendEligible && !!existingRow?.collected_at
 
@@ -127,7 +142,11 @@ export async function GET(request: NextRequest) {
       // Database and external sources in parallel. Bright Data is paid: never called in a dry run.
       const [dbRes, extRes] = await Promise.allSettled([
         collectDbKpis(admin, week, previousRow),
-        collectExternalKpis(week, existingRow, externalEnv(), { skipPaid: dryRun }),
+        // Paid TripAdvisor call: never in a dry run, and only for the week that just ended
+        // (a ?week= catch-up would record today's rank on a past week and burn extra calls).
+        collectExternalKpis(week, existingRow, externalEnv(), {
+          skipPaid: dryRun || week.start !== previousWeek(now).start,
+        }),
       ])
       if (dbRes.status === 'rejected') throw dbRes.reason
       if (extRes.status === 'rejected') Sentry.captureException(extRes.reason)
@@ -135,8 +154,13 @@ export async function GET(request: NextRequest) {
         extRes.status === 'fulfilled'
           ? extRes.value
           : { values: {} as Partial<WeeklyKpiRow>, status: { search_console: 'unavailable', tripadvisor: 'unavailable' } as KpiSourcesStatus }
-      const values: Partial<WeeklyKpiRow> = { ...dbRes.value.values, ...ext.values }
-      const status: KpiSourcesStatus = { ...dbRes.value.status, ...ext.status }
+      const merged = preserveExistingValues(
+        { ...dbRes.value.values, ...ext.values },
+        { ...dbRes.value.status, ...ext.status },
+        existingRow
+      )
+      const values: Partial<WeeklyKpiRow> = merged.values
+      const status: KpiSourcesStatus = merged.status
 
       if (dryRun) {
         const reading = await buildReading(
@@ -215,14 +239,26 @@ export async function GET(request: NextRequest) {
         return NextResponse.json<ApiResponse<KpiCronResult>>({ data: result })
       }
 
-      // Re-read row (manual entry included): comparison with S-1, alerts and reading, stored before the claim.
-      const reading = await buildReading(loaded, (prev as WeeklyKpiRow | null) ?? null, { dryRun: false, startedAt })
+      // Reading: reused as stored when a previous attempt already produced it (a retry after a
+      // failed send then sends the same body, so the Resend idempotency key stays valid and no
+      // second AI call is paid). Otherwise built from the re-read row (manual entry included).
+      const previousRow = (prev as WeeklyKpiRow | null) ?? null
+      let reading: { alerts: KpiAlert[]; narrative: KpiNarrative }
+      if (loaded.narrative && loaded.alerts) {
+        reading = { alerts: loaded.alerts, narrative: loaded.narrative }
+      } else {
+        reading = await buildReading(loaded, previousRow, { dryRun: false, startedAt })
+        const { error: readingError } = await admin
+          .from('gecko_weekly_kpis')
+          .update({ alerts: reading.alerts, narrative: reading.narrative, updated_at: now.toISOString() })
+          .eq('week_start', week.start)
+        if (readingError) Sentry.captureException(readingError) // non-fatal: sent from memory
+      }
       const row: WeeklyKpiRow = { ...loaded, alerts: reading.alerts, narrative: reading.narrative }
-      const { error: readingError } = await admin
-        .from('gecko_weekly_kpis')
-        .update({ alerts: reading.alerts, narrative: reading.narrative, updated_at: now.toISOString() })
-        .eq('week_start', week.start)
-      if (readingError) Sentry.captureException(readingError) // non-fatal: sent from memory
+
+      // Render BEFORE the claim: a template exception (caught by the outer handler) must never
+      // leave the week marked as sent.
+      const { subject, html, text } = weeklyReportEmail({ row, previous: previousRow, mode, adminUrl: ADMIN_KPI_URL })
 
       // Claim BEFORE sending: a duplicate cron delivery matches no row.
       const { data: claimed, error: claimError } = await admin
@@ -231,16 +267,13 @@ export async function GET(request: NextRequest) {
         .eq('week_start', week.start)
         .is('report_sent_at', null)
         .select('week_start')
-      if (claimError || !claimed || claimed.length === 0) {
-        if (claimError) Sentry.captureException(claimError)
+      if (claimError) {
+        Sentry.captureException(claimError)
+        return NextResponse.json<ApiResponse<KpiCronResult>>({ error: 'Erreur serveur' }, { status: 500 })
+      }
+      if (!claimed || claimed.length === 0) {
         result.skipped = true
       } else {
-        const { subject, html, text } = weeklyReportEmail({
-          row,
-          previous: (prev as WeeklyKpiRow | null) ?? null,
-          mode,
-          adminUrl: ADMIN_KPI_URL,
-        })
         let sendFailed = false
         try {
           const res = await resend.emails.send(
@@ -252,11 +285,12 @@ export async function GET(request: NextRequest) {
           sendFailed = true
         }
         if (sendFailed) {
-          // Release the claim so the next run retries.
-          await admin
+          // Release the claim so a catch-up run (02:00 / 04:00 UTC, or ?send=1) retries.
+          const { error: releaseError } = await admin
             .from('gecko_weekly_kpis')
             .update({ report_sent_at: null, report_mode: null })
             .eq('week_start', week.start)
+          if (releaseError) Sentry.captureException(releaseError)
           Sentry.captureException(new Error('kpi report send failed'), { extra: { week_start: week.start } })
           result.failed = true
         } else {
