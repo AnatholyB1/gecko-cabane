@@ -95,6 +95,31 @@ vi.mock('../src/utils/supabase/server', () => ({
 
 import { GET } from '../src/app/api/cron/weekly-kpi/route'
 
+const ENV_KEYS = [
+  'BRIGHTDATA_API_KEY',
+  'BRIGHTDATA_ZONE',
+  'TRIPADVISOR_URL',
+  'ANTHROPIC_API_KEY',
+  'ANTHROPIC_MODEL',
+]
+const AI_TEXT = JSON.stringify({
+  lecture: ['Lecture un.', 'Lecture deux.', 'Lecture trois.'],
+  actions: ['Action un.', 'Action deux.', 'Action trois.'],
+})
+let fetchMock: ReturnType<typeof vi.fn>
+const callsTo = (prefix: string) => fetchMock.mock.calls.filter((c) => String(c[0]).startsWith(prefix))
+const BRIGHT = 'https://api.brightdata.com'
+const ANTHROPIC = 'https://api.anthropic.com'
+const setBright = () => {
+  process.env.BRIGHTDATA_API_KEY = 'bd-key'
+  process.env.BRIGHTDATA_ZONE = 'zone'
+  process.env.TRIPADVISOR_URL = 'https://www.tripadvisor.com/Restaurant_Review-g1-d2-Reviews-Gecko.html'
+}
+const setAi = () => {
+  process.env.ANTHROPIC_API_KEY = 'ai-key'
+  process.env.ANTHROPIC_MODEL = 'model-x'
+}
+
 const auth = { authorization: 'Bearer test-secret' }
 const req = (qs = '', headers: Record<string, string> = auth) =>
   new NextRequest(`http://localhost/api/cron/weekly-kpi${qs}`, { headers })
@@ -115,9 +140,23 @@ beforeEach(() => {
   delete process.env.KPI_REPORT_MODE
   delete process.env.KPI_REPORT_RECIPIENTS
   captureException.mockClear()
+  for (const k of ENV_KEYS) delete process.env[k]
+  fetchMock = vi.fn(async (url: unknown) => {
+    const u = String(url)
+    if (u.startsWith('https://api.brightdata.com')) {
+      return new Response('<span>#3 of 40 Restaurants in Krabi</span>', { status: 200 })
+    }
+    if (u.startsWith('https://api.anthropic.com')) {
+      return new Response(JSON.stringify({ content: [{ text: AI_TEXT }] }), { status: 200 })
+    }
+    return new Response('{}', { status: 404 })
+  })
+  vi.stubGlobal('fetch', fetchMock)
 })
 afterEach(() => {
   vi.useRealTimers()
+  vi.unstubAllGlobals()
+  for (const k of ENV_KEYS) delete process.env[k]
 })
 
 describe('garde', () => {
@@ -229,8 +268,9 @@ describe('envoi du rapport', () => {
     expect(opts).toEqual({ idempotencyKey: 'kpi-report-2026-10-26-test' })
     expect(body.data.sent).toBe(true)
     expect(body.data.mode).toBe('test')
-    expect(state.updates[0].payload).toMatchObject({ report_mode: 'test' })
-    expect(typeof state.updates[0].payload.report_sent_at).toBe('string')
+    const claim = state.updates.find((u) => 'report_sent_at' in u.payload && u.payload.report_sent_at !== null)
+    expect(claim?.payload).toMatchObject({ report_mode: 'test' })
+    expect(typeof claim?.payload.report_sent_at).toBe('string')
   })
 
   it('01:05 avec ligne deja collectee: pas de recollecte', async () => {
@@ -344,6 +384,129 @@ describe('envoi du rapport', () => {
     await GET(req('?dry=1&send=1'))
     expect(sendMock).not.toHaveBeenCalled()
     expect(state.updates).toHaveLength(0)
+  })
+})
+
+describe('sources externes et lecture (08-11)', () => {
+  const sentRow = (extra: Record<string, unknown> = {}) => ({
+    week_start: '2026-10-26',
+    week_end: '2026-11-01',
+    collected_at: '2026-11-02T00:05:00Z',
+    report_sent_at: null,
+    ...extra,
+  })
+
+  it('collecte: TripAdvisor dans l upsert unique, status fusionne', async () => {
+    setBright()
+    await GET(req())
+    expect(state.upserts).toHaveLength(1)
+    const p = state.upserts[0].payload
+    expect(p).toMatchObject({ tripadvisor_rank: 3, tripadvisor_total: 40 })
+    expect(typeof p.tripadvisor_checked_at).toBe('string')
+    expect('gsc_clicks' in p).toBe(true)
+    const st = p.sources_status as Record<string, string>
+    expect(st.tripadvisor).toBe('ok')
+    expect(st.search_console).toBe('unavailable')
+    expect(st.reservations).toBeDefined()
+    expect(callsTo(BRIGHT)).toHaveLength(1)
+  })
+
+  it('second passage de collecte: 0 appel Bright Data', async () => {
+    setBright()
+    await GET(req())
+    fetchMock.mockClear()
+    await GET(req())
+    expect(callsTo(BRIGHT)).toHaveLength(0)
+    expect(state.rows['2026-10-26'].tripadvisor_rank).toBe(3)
+  })
+
+  it('envoi: alertes et narrative stockees avant la claim, repli sans cle IA, 0 appel anthropic', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    await GET(req())
+    const row = state.rows['2026-10-26'] as { narrative: { source: string; actions: string[] }; alerts: unknown[] }
+    expect(row.narrative.source).toBe('fallback')
+    expect(Array.isArray(row.alerts)).toBe(true)
+    expect(callsTo(ANTHROPIC)).toHaveLength(0)
+    const readingIdx = state.updates.findIndex((u) => 'narrative' in u.payload)
+    const claimIdx = state.updates.findIndex((u) => 'report_sent_at' in u.payload)
+    expect(readingIdx).toBeGreaterThanOrEqual(0)
+    expect(readingIdx).toBeLessThan(claimIdx)
+    const text = sendMock.mock.calls[0][0].text as string
+    for (const a of row.narrative.actions) expect(text).toContain(a)
+  })
+
+  it('cle + modele: narrative ai, corps Claude sans manual_note ni texte de note', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    setAi()
+    state.rows['2026-10-26'] = sentRow({ manual_note: 'Note secrete Dupont', google_min_rating: 2 })
+    await GET(req())
+    expect((state.rows['2026-10-26'].narrative as { source: string }).source).toBe('ai')
+    const calls = callsTo(ANTHROPIC)
+    expect(calls).toHaveLength(1)
+    const body = String((calls[0][1] as { body: string }).body)
+    expect(body).not.toContain('manual_note')
+    expect(body).not.toContain('Note secrete')
+    expect((state.rows['2026-10-26'].alerts as { code: string }[]).some((a) => a.code === 'low_rating')).toBe(true)
+  })
+
+  it('Claude en echec (fetch rejete): envoi quand meme avec le repli riche', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    setAi()
+    state.rows['2026-10-26'] = sentRow({ google_min_rating: 2 })
+    fetchMock.mockImplementation(async (url: unknown) => {
+      if (String(url).startsWith(ANTHROPIC)) throw new Error('timeout')
+      return new Response('{}', { status: 404 })
+    })
+    const body = await (await GET(req())).json()
+    expect(body.data.sent).toBe(true)
+    const n = state.rows['2026-10-26'].narrative as { source: string; lecture: string[] }
+    expect(n.source).toBe('fallback')
+    // repli riche: message d alerte reel, pas le texte generique de generateNarrative
+    expect(n.lecture.join(' ')).not.toMatch(/Alerte «/)
+  })
+
+  it('0 appel anthropic au second passage et lors d un ?send=1 manuel; lecture non ecrasee', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    setAi()
+    await GET(req())
+    expect(callsTo(ANTHROPIC)).toHaveLength(1)
+    const before = JSON.stringify(state.rows['2026-10-26'].narrative)
+    fetchMock.mockClear()
+    sendMock.mockClear()
+    vi.setSystemTime(new Date('2026-11-02T01:10:00Z'))
+    const second = await (await GET(req())).json()
+    const manual = await (await GET(req('?week=2026-10-26&send=1'))).json()
+    expect(callsTo(ANTHROPIC)).toHaveLength(0)
+    expect(second.data.skipped).toBe(true)
+    expect(manual.data.skipped).toBe(true)
+    expect(sendMock).not.toHaveBeenCalled()
+    expect(JSON.stringify(state.rows['2026-10-26'].narrative)).toBe(before)
+  })
+
+  it('?dry=1 a 00:05: 0 appel Bright Data, 0 appel anthropic, aucune ecriture', async () => {
+    setBright()
+    setAi()
+    const body = await (await GET(req('?dry=1'))).json()
+    expect(callsTo(BRIGHT)).toHaveLength(0)
+    expect(callsTo(ANTHROPIC)).toHaveLength(0)
+    expect(state.upserts).toHaveLength(0)
+    expect(state.updates).toHaveLength(0)
+    expect(body.data.narrative.source).toBe('fallback')
+    expect(Array.isArray(body.data.alerts)).toBe(true)
+    expect('tripadvisor_rank' in body.data.values).toBe(false)
+  })
+
+  it('?dry=1 a 01:05: alerts et narrative calculees sans ecriture ni envoi ni appel payant', async () => {
+    vi.setSystemTime(MONDAY_0805)
+    setBright()
+    setAi()
+    const body = await (await GET(req('?dry=1'))).json()
+    expect(body.data.narrative.actions).toHaveLength(3)
+    expect(callsTo(BRIGHT)).toHaveLength(0)
+    expect(callsTo(ANTHROPIC)).toHaveLength(0)
+    expect(state.updates).toHaveLength(0)
+    expect(state.upserts).toHaveLength(0)
+    expect(sendMock).not.toHaveBeenCalled()
   })
 })
 
