@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { KPI_METRICS, UNAVAILABLE_LABEL, formatDelta, formatKpiValue } from '@/utils/kpi-format'
 import type { KpiSourceKey, WeeklyKpiRow } from '@/types/database'
@@ -28,6 +28,123 @@ function formatWeek(row: WeeklyKpiRow): string {
   return `${row.week_start} → ${row.week_end}`
 }
 
+function ManualEntryForm({
+  row,
+  onSaved,
+}: {
+  row: WeeklyKpiRow
+  onSaved: (alerted: boolean) => void
+}) {
+  const [total, setTotal] = useState(row.google_reviews_total?.toString() ?? '')
+  const [newReviews, setNewReviews] = useState(row.google_new_reviews?.toString() ?? '')
+  const [minRating, setMinRating] = useState(row.google_min_rating?.toString() ?? '')
+  const [note, setNote] = useState(row.manual_note ?? '')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const toInt = (v: string): number | null => (v.trim() === '' ? null : Number(v))
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    setSaving(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/kpi', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          week_start: row.week_start,
+          google_reviews_total: toInt(total),
+          google_new_reviews: toInt(newReviews),
+          google_min_rating: toInt(minRating),
+          manual_note: note,
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok || !json.data) {
+        throw new Error(res.status === 400 ? 'Saisie invalide : vérifiez les valeurs.' : 'Erreur serveur')
+      }
+      onSaved(Boolean(json.data.alerted))
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message.startsWith('Saisie')
+          ? err.message
+          : 'Enregistrement impossible. Réessayez.'
+      )
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const input = 'w-full border rounded-lg px-3 py-2'
+  return (
+    <form onSubmit={submit} className="space-y-3">
+      <h3 className="font-bold">Saisie manuelle de la semaine</h3>
+      <p className="text-sm text-(--warm-gray)">
+        Avis Google (hors collecte automatique). Facultatif : le rapport part sans cette saisie. Une note
+        minimale de 3 ou moins envoie une alerte immédiate au propriétaire.
+      </p>
+      <div className="grid md:grid-cols-3 gap-3">
+        <label className="text-sm">
+          Total d&apos;avis Google
+          <input
+            type="number"
+            min={0}
+            max={100000}
+            value={total}
+            onChange={(e) => setTotal(e.target.value)}
+            className={input}
+          />
+        </label>
+        <label className="text-sm">
+          Nouveaux avis de la semaine
+          <input
+            type="number"
+            min={0}
+            max={1000}
+            value={newReviews}
+            onChange={(e) => setNewReviews(e.target.value)}
+            className={input}
+          />
+        </label>
+        <label className="text-sm">
+          Note minimale reçue
+          <select value={minRating} onChange={(e) => setMinRating(e.target.value)} className={input}>
+            <option value="">—</option>
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <label className="text-sm block">
+        Note libre (500 caractères maximum)
+        <textarea
+          value={note}
+          maxLength={500}
+          rows={3}
+          onChange={(e) => setNote(e.target.value)}
+          className={input}
+        />
+      </label>
+      {error && (
+        <div role="alert" className="p-3 rounded-lg bg-red-100 text-red-800">
+          {error}
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={saving}
+        className="px-4 py-2 rounded-lg bg-(--primary) text-white disabled:opacity-50 cursor-pointer"
+      >
+        {saving ? 'Enregistrement…' : 'Enregistrer la saisie'}
+      </button>
+    </form>
+  )
+}
+
 export default function AdminKpiPage() {
   const [weeks, setWeeks] = useState<WeeklyKpiRow[]>([])
   const [testReportsSent, setTestReportsSent] = useState(0)
@@ -35,33 +152,44 @@ export default function AdminKpiPage() {
   const [message, setMessage] = useState<Message>(null)
   const [selectedWeek, setSelectedWeek] = useState<string | null>(null)
 
+  const load = useCallback(async (isCancelled: () => boolean = () => false) => {
+    try {
+      const res = await fetch('/api/kpi?weeks=12')
+      const json = await res.json()
+      if (!res.ok || !json.data) throw new Error('load failed')
+      if (isCancelled()) return
+      setWeeks(json.data.weeks)
+      setTestReportsSent(json.data.testReportsSent)
+      setMessage(null)
+    } catch {
+      if (!isCancelled()) {
+        setMessage({
+          type: 'error',
+          text: 'Impossible de charger les KPI. Réessayez ou rechargez la page.',
+        })
+      }
+    } finally {
+      if (!isCancelled()) setLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     let cancelled = false
-    async function load() {
-      try {
-        const res = await fetch('/api/kpi?weeks=12')
-        const json = await res.json()
-        if (!res.ok || !json.data) throw new Error('load failed')
-        if (cancelled) return
-        setWeeks(json.data.weeks)
-        setTestReportsSent(json.data.testReportsSent)
-        setMessage(null)
-      } catch {
-        if (!cancelled) {
-          setMessage({
-            type: 'error',
-            text: 'Impossible de charger les KPI. Réessayez ou rechargez la page.',
-          })
-        }
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-    load()
+    load(() => cancelled)
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [load])
+
+  async function handleSaved(alerted: boolean) {
+    await load()
+    setMessage({
+      type: 'success',
+      text: alerted
+        ? 'Saisie enregistrée — alerte envoyée au propriétaire'
+        : 'Saisie enregistrée',
+    })
+  }
 
   const selectedIndex = Math.max(
     0,
@@ -265,6 +393,8 @@ export default function AdminKpiPage() {
                 <p className="text-(--warm-gray)">Aucune lecture enregistrée pour cette semaine.</p>
               )}
             </div>
+
+            <ManualEntryForm key={selected.week_start} row={selected} onSaved={handleSaved} />
           </section>
         )}
       </main>
