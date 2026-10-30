@@ -51,24 +51,24 @@ Collecte le lundi 00:00 UTC (7h à Krabi), envoi le lundi 01:00 UTC (8h à Krabi
 
 Appeler `/api/cron/weekly-kpi?dry=1` avec l'en-tête `Authorization: Bearer` suivi du secret `CRON_SECRET`. Le mode à blanc n'écrit rien et n'envoie rien. Le faire avant et après chaque changement de variable.
 
-## 9. Seuils d'alerte proposés (hypothèse A2, à valider)
+## 9. Seuils d'alerte validés
 
-La spec chiffrée des seuils est introuvable : ces valeurs sont des propositions.
+Validé par le propriétaire le 2026-10-30 (décision « Garder les défauts » : les valeurs proposées sont conservées sans changement). La spec chiffrée d'origine reste introuvable ; ces valeurs font foi. Elles sont définies à un seul endroit : `ALERT_THRESHOLDS` dans `src/utils/kpi-alerts.ts`.
 
-| Indicateur | Seuil d'alerte |
-|------------|----------------|
-| Réservations | baisse de 30 % ou plus vs S-1 (base d'au moins 5) |
-| No-show | plus de 15 % (au moins 2 cas) |
-| Clics Search Console | baisse de 30 % vs S-1 |
-| Position moyenne | dégradée de plus de 3 places |
-| Rang TripAdvisor | dégradé de 3 places ou plus |
-| Newsletter | désinscriptions supérieures aux confirmations |
-| Avis | 3 étoiles ou moins (alerte immédiate) |
-| Source indisponible | 2 semaines de suite |
+| Indicateur | Seuil d'alerte | Constante |
+|------------|----------------|-----------|
+| Réservations | baisse de 30 % ou plus vs S-1 (base d'au moins 5) | `reservationsDropPct`, `reservationsMinBase` |
+| No-show | plus de 15 % (au moins 2 cas) | `noShowRateMax`, `noShowMinCount` |
+| Clics Search Console | baisse de 30 % vs S-1 | `gscClicksDropPct` |
+| Position moyenne | dégradée de plus de 3 places | `gscPositionWorsen` |
+| Rang TripAdvisor | dégradé de 3 places ou plus | `tripadvisorRankWorsen` |
+| Newsletter | désinscriptions supérieures aux confirmations | (aucune valeur numérique) |
+| Avis | 3 étoiles ou moins (alerte immédiate, fixé par la décision D-08) | `lowRatingMax` |
+| Source indisponible | 2 semaines de suite | `sourceUnavailableWeeks` |
 
 ## 10. Questions ouvertes pour le propriétaire
 
-1. Valider ou corriger les seuils du tableau ci-dessus (spec introuvable).
+1. Seuils d'alerte : validés le 2026-10-30 (section 9), plus de question ouverte.
 2. Quel est le plan Vercel (Hobby ou Pro) ?
 3. Qui reçoit le rapport en mode live (liste `KPI_REPORT_RECIPIENTS`) ?
 4. Saisie manuelle hebdomadaire (avis Google, Google Business Profile hors v1) : confirmer les champs à saisir dans l'admin (nombre d'avis, note, avis récents) et qui les saisit chaque semaine. Les champs retenus par le code sont des propositions tant que le propriétaire ne les a pas confirmés.

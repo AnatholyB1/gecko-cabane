@@ -7,7 +7,7 @@
 import type { KpiAlert, KpiSourceKey, WeeklyKpiRow } from '@/types/database'
 import { KPI_METRICS, formatKpiValue } from './kpi-format'
 
-// [ASSUMED] A2 - seuils a valider par le proprietaire (specification introuvable).
+// Valide par le proprietaire le 2026-10-30 (option : garder les defauts proposes).
 // Voir docs/kpi/KPI-SETUP.md section 9. Seul endroit ou ces valeurs sont definies.
 export const ALERT_THRESHOLDS = {
   reservationsDropPct: 0.3,
