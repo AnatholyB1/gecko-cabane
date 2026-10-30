@@ -16,6 +16,7 @@ import {
   hashKey,
   checkReservationRateLimits,
   checkFeedbackRateLimit,
+  checkReviewHitRateLimit,
   RATE_LIMITS,
 } from '../src/utils/rate-limit'
 
@@ -153,5 +154,37 @@ describe('feedback bucket', () => {
   it('still fails open on an rpc outage (reported)', async () => {
     rpc.mockResolvedValue({ data: null, error: { message: 'down' } })
     expect(await checkFeedbackRateLimit(admin, '1.2.3.4')).toEqual({ limited: false })
+  })
+})
+
+describe('review hit throttle', () => {
+  const rpc = vi.fn()
+  const admin = { rpc: (...a: unknown[]) => rpc(...a) } as never
+  beforeEach(() => {
+    rpc.mockReset()
+    vi.stubEnv('RATE_LIMIT_SECRET', 'test-secret')
+  })
+  afterEach(() => vi.unstubAllEnvs())
+
+  it('uses a per-ip hashed key and limits when the rpc says so', async () => {
+    rpc.mockResolvedValue({ data: false, error: null })
+    expect(await checkReviewHitRateLimit(admin, '1.2.3.4')).toEqual({ limited: true })
+    expect(rpc.mock.calls[0][1].p_key).toMatch(/^review-hit:[0-9a-f]{64}$/)
+    expect(rpc.mock.calls[0][1]).toMatchObject({ p_limit: 30, p_window_seconds: 3600 })
+  })
+
+  it('uses the global bucket without ip or secret', async () => {
+    rpc.mockResolvedValue({ data: true, error: null })
+    expect(await checkReviewHitRateLimit(admin, null)).toEqual({ limited: false })
+    vi.stubEnv('RATE_LIMIT_SECRET', '')
+    await checkReviewHitRateLimit(admin, '1.2.3.4')
+    for (const c of rpc.mock.calls) expect(c[1].p_key).toBe('review-hit:global')
+  })
+
+  it('skips the count on rpc error or throw', async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: 'x' } })
+    expect(await checkReviewHitRateLimit(admin, '1.2.3.4')).toEqual({ limited: true })
+    rpc.mockRejectedValue(new Error('down'))
+    expect(await checkReviewHitRateLimit(admin, '1.2.3.4')).toEqual({ limited: true })
   })
 })
