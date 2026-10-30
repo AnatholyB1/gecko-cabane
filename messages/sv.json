@@ -132,7 +132,7 @@
     "networkError": "Anslutningen misslyckades. Kontrollera ditt nätverk och försök igen.",
     "rateLimited": "För många förfrågningar från din anslutning. Skriv direkt till oss på WhatsApp så svarar vi snabbt.",
     "rateLimitedWhatsapp": "Skriv till oss på WhatsApp",
-    "slotUnavailable": "Restaurangen är stängd vid den tiden (stängt på tisdagar). Välj ett annat datum eller en annan tid.",
+    "slotUnavailable": "Restaurangen är stängd vid den tiden. Välj ett annat datum eller en annan tid.",
     "slotFull": "Den här tiden är fullbokad. Välj en annan tid eller skriv till oss på WhatsApp.",
     "datePast": "Den tidpunkten har redan passerat. Välj ett senare datum eller en senare tid.",
     "partySizeDecrease": "Färre gäster",
@@ -173,8 +173,7 @@
     "subtitle": "Fransk-thailändsk restaurang",
     "location": "Mitt i Krabis djungel",
     "hoursTitle": "Öppettider",
-    "openHours": "Öppet kl. 12–22",
-    "closedDay": "Stängt på tisdagar",
+    "openHours": "Öppet varje dag kl. 12–22",
     "lastOrder": "Sista beställning: kl. 22",
     "contactTitle": "Kontakt",
     "rights": "Alla rättigheter förbehållna.",
@@ -322,7 +321,6 @@
     "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
     "hoursTitle": "Öppettider",
     "hoursLine": "{days}: {opens}–{closes}",
-    "closedNote": "Stängt på tisdagar.",
     "directionsLink": "Visa vägen",
     "phoneLabel": "Ring oss på +66 81 958 5945",
     "closingTitle": "Välkommen på middag i Krabi Town"
@@ -367,7 +365,7 @@
       "ambiance": {
         "title": "Ett lugnt rum för två",
         "p1": "Gecko Cabane har plats för högst 40 gäster, så matsalen förblir lugn och samtalet flyter lätt. Restaurangen drivs av ett fransk-thailändskt par som själva tar emot dig.",
-        "p2": "Här finns ingen show och ingen brådska. Du kommer för maten, ett glas vin eller ett belgiskt öl och tid att prata. Vi har stängt på tisdagar, och köket tar emot beställningar till klockan 22."
+        "p2": "Här finns ingen show och ingen brådska. Du kommer för maten, ett glas vin eller ett belgiskt öl och tid att prata. Vi har öppet varje dag, och köket tar emot beställningar till klockan 22."
       },
       "table": {
         "title": "Det här får du äta",
@@ -427,7 +425,7 @@
         "title": "När du vill sitta ner till middag",
         "alt": "En massamancurry serverad på Gecko Cabane",
         "p1": "Efter marknaden kräver vissa kvällar ett bord, en meny och ett lugnt rum. Gecko Cabane är en restaurang med 40 platser på Maharat Road som serverar franska och thailändska rätter, lagade av kocken Jariya.",
-        "p2": "Vi har stängt på tisdagar och köket tar emot beställningar till klockan 22. Du kan boka bord online på under en minut.",
+        "p2": "Vi har öppet varje dag och köket tar emot beställningar till klockan 22. Du kan boka bord online på under en minut.",
         "link": "Boka bord till middag"
       }
     },

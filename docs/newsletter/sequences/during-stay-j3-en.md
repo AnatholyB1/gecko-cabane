@@ -10,7 +10,7 @@ Hello,
 
 Your stay in Krabi goes on, and we hope it is going well.
 
-If you feel like coming back for dinner, here is our French-Thai menu by Jariya. We are on Maharat Road, in Krabi Town, closed on Tuesdays, with the kitchen open until 10:00 pm.
+If you feel like coming back for dinner, here is our French-Thai menu by Jariya. We are on Maharat Road, in Krabi Town, open every day, with the kitchen open until 10:00 pm.
 
 [See the menu](https://geckocabanerestaurant.com/en#menu)
 

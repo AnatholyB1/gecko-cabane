@@ -36,9 +36,11 @@ Instructions pour le relecteur :
 | `whereToEat.sections.dinner.title` | Quand on veut dîner à table | När du vill sitta ner till middag |  |
 | `whereToEat.sections.dinner.alt` | Un massaman servi au Gecko Cabane | En massamancurry serverad på Gecko Cabane |  |
 | `whereToEat.sections.dinner.p1` | Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya. | Efter marknaden kräver vissa kvällar ett bord, en meny och ett lugnt rum. Gecko Cabane är en restaurang med 40 platser på Maharat Road som serverar franska och thailändska rätter, lagade av kocken Jariya. |  |
-| `whereToEat.sections.dinner.p2` | Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute. | Vi har stängt på tisdagar och köket tar emot beställningar till klockan 22. Du kan boka bord online på under en minut. |  |
+| `whereToEat.sections.dinner.p2` | Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute. | Vi har öppet varje dag och köket tar emot beställningar till klockan 22. Du kan boka bord online på under en minut. |  |
 | `whereToEat.sections.dinner.link` | Réserver une table pour le dîner | Boka bord till middag |  |
 | `whereToEat.closingTitle` | Préparez votre soirée à Krabi Town | Planera din kväll i Krabi Town |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

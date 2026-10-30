@@ -259,9 +259,9 @@ export function buildPageMetadata(args: {
 // Restaurant JSON-LD
 // ---------------------------------------------------------------------------
 
-// Google asks for 5+ decimals. Pin 8.0614728, 98.9156616 (Google Maps, two independent
-// sources) rounded to 5 decimals; matches D-06 (8.0615, 98.9157) to rounding. 02-07.
-export const GEO = { latitude: 8.06147, longitude: 98.91566 } as const
+// Google asks for 5+ decimals. Owner-provided pin (Apple Maps place, 2026-10-30):
+// 8.061436, 98.915598 (replaces the earlier 8.06147, 98.91566).
+export const GEO = { latitude: 8.061436, longitude: 98.915598 } as const
 
 // D-09: owner-approved/delegated 2026-10-17 (see 02-LAUNCH.md "Owner approvals / Task 2 outcome")
 export const SAME_AS: readonly string[] = [
@@ -282,6 +282,16 @@ export const TRIPADVISOR_REVIEW_SLUG =
 
 export function googleReviewUrl(): string {
   return `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`
+}
+
+/** Google reviews page for the place (official URL, opens in the Maps app on phones). */
+export function googleReadReviewsUrl(): string {
+  return `https://search.google.com/local/reviews?placeid=${GOOGLE_PLACE_ID}`
+}
+
+/** Google Maps place page by place id (official Maps URLs format, works on iOS and Android). */
+export function googleMapsPlaceUrl(): string {
+  return `https://www.google.com/maps/search/?api=1&query=Gecko%20Cabane%20Restaurant&query_place_id=${GOOGLE_PLACE_ID}`
 }
 
 export function tripAdvisorReviewUrl(): string {

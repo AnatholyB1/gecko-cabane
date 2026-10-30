@@ -306,7 +306,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "Quelques mots de la part de Jariya et de toute l'équipe.",
       paragraphs: [
         "Merci d'avoir partagé un repas avec nous à Krabi Town, sur Maharat Road. Nous espérons que la cuisine franco-thaï de Jariya vous a plu.",
-        "Si vous êtes encore dans la région, notre table vous attend. Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00."
+        "Si vous êtes encore dans la région, notre table vous attend. Nous sommes ouverts tous les jours, et la cuisine reste ouverte jusqu'à 22h00."
       ],
       buttons: [
         {
@@ -327,7 +327,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "A few words from Jariya and the whole team.",
       paragraphs: [
         "Thank you for sharing a meal with us in Krabi Town, on Maharat Road. We hope you enjoyed Jariya's French-Thai cooking.",
-        "If you are still in the area, your table is waiting. We are closed on Tuesdays, and the kitchen stays open until 10:00 pm."
+        "If you are still in the area, your table is waiting. We are open every day, and the kitchen stays open until 10:00 pm."
       ],
       buttons: [
         {
@@ -350,7 +350,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "Nos horaires et notre carte, au cas où l'envie vous prendrait de revenir.",
       paragraphs: [
         "Votre séjour à Krabi continue, et nous espérons qu'il se passe bien.",
-        "Si l'envie vous prend de revenir dîner, retrouvez notre carte franco-thaï signée Jariya. Nous sommes sur Maharat Road, à Krabi Town, fermés le mardi, avec une cuisine ouverte jusqu'à 22h00.",
+        "Si l'envie vous prend de revenir dîner, retrouvez notre carte franco-thaï signée Jariya. Nous sommes sur Maharat Road, à Krabi Town, ouverts tous les jours, avec une cuisine ouverte jusqu'à 22h00.",
         "Pour un groupe ou une occasion particulière, vous pouvez aussi réserver en quelques instants."
       ],
       buttons: [
@@ -371,7 +371,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "Our hours and our menu, in case you feel like coming back.",
       paragraphs: [
         "Your stay in Krabi goes on, and we hope it is going well.",
-        "If you feel like coming back for dinner, here is our French-Thai menu by Jariya. We are on Maharat Road, in Krabi Town, closed on Tuesdays, with the kitchen open until 10:00 pm.",
+        "If you feel like coming back for dinner, here is our French-Thai menu by Jariya. We are on Maharat Road, in Krabi Town, open every day, with the kitchen open until 10:00 pm.",
         "For a group or a special occasion, you can also book in a few moments."
       ],
       buttons: [
@@ -394,7 +394,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "Des nouvelles de la cuisine de Jariya pendant la saison des pluies.",
       paragraphs: [
         "C'est la saison verte à Krabi, et la cuisine franco-thaï de Jariya vous attend à Krabi Town, sur Maharat Road.",
-        "Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00."
+        "Nous sommes ouverts tous les jours, et la cuisine reste ouverte jusqu'à 22h00."
       ],
       buttons: [
         {
@@ -414,7 +414,7 @@ const SEQUENCE_COPY: Record<Exclude<SequenceKind, 'october_return'>, Record<News
       preview: "News from Jariya's kitchen during the rainy season.",
       paragraphs: [
         "It is the green season in Krabi, and Jariya's French-Thai cooking is waiting for you in Krabi Town, on Maharat Road.",
-        "We are closed on Tuesdays, and the kitchen stays open until 10:00 pm."
+        "We are open every day, and the kitchen stays open until 10:00 pm."
       ],
       buttons: [
         {

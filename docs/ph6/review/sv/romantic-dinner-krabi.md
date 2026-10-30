@@ -21,7 +21,7 @@ Instructions pour le relecteur :
 | `romanticDinner.heroAlt` | L'enseigne du restaurant Gecko Cabane sur Maharat Road à Krabi Town | Gecko Cabanes skylt på Maharat Road i Krabi Town |  |
 | `romanticDinner.sections.ambiance.title` | Une salle calme, pour deux | Ett lugnt rum för två |  |
 | `romanticDinner.sections.ambiance.p1` | Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même. | Gecko Cabane har plats för högst 40 gäster, så matsalen förblir lugn och samtalet flyter lätt. Restaurangen drivs av ett fransk-thailändskt par som själva tar emot dig. |  |
-| `romanticDinner.sections.ambiance.p2` | Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. | Här finns ingen show och ingen brådska. Du kommer för maten, ett glas vin eller ett belgiskt öl och tid att prata. Vi har stängt på tisdagar, och köket tar emot beställningar till klockan 22. |  |
+| `romanticDinner.sections.ambiance.p2` | Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. | Här finns ingen show och ingen brådska. Du kommer för maten, ett glas vin eller ett belgiskt öl och tid att prata. Vi har öppet varje dag, och köket tar emot beställningar till klockan 22. |  |
 | `romanticDinner.sections.table.title` | Ce que vous mangerez | Det här får du äta |  |
 | `romanticDinner.sections.table.alt` | Bœuf bourguignon servi au Gecko Cabane | Boeuf bourguignon serverad på Gecko Cabane |  |
 | `romanticDinner.sections.table.p1` | La carte est celle d'une cuisine française de maison : un bœuf bourguignon mijoté longuement au vin rouge, un poulet à la crème. Quelques plats thaïs de la cheffe l'accompagnent, comme un massaman doux. | Menyn består av fransk husmanskost, till exempel boeuf bourguignon som sakta fått koka i rödvin, och kyckling i gräddsås. Vid sidan av finns några thailändska rätter av kocken, som en len massamancurry. |  |
@@ -34,6 +34,8 @@ Instructions pour le relecteur :
 | `romanticDinner.sections.occasion.p1` | Le formulaire de réservation comporte un champ « Occasion ». Anniversaire, fête ou premier voyage à deux : écrivez-le, nous le saurons à votre arrivée. | Bokningsformuläret har ett fält som heter "Tillfälle". Gäller det en bröllopsdag, en födelsedag eller en första gemensam resa, skriv det där så vet vi det när du kommer. |  |
 | `romanticDinner.sections.occasion.link` | Réserver et indiquer l'occasion | Boka bord och ange tillfälle |  |
 | `romanticDinner.closingTitle` | Rejoignez-nous pour le dîner à Krabi Town | Välkommen på middag i Krabi Town |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

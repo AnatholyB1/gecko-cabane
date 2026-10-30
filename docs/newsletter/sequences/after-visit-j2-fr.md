@@ -10,7 +10,7 @@ Bonjour,
 
 Merci d'avoir partagé un repas avec nous à Krabi Town, sur Maharat Road. Nous espérons que la cuisine franco-thaï de Jariya vous a plu.
 
-Si vous êtes encore dans la région, notre table vous attend. Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00.
+Si vous êtes encore dans la région, notre table vous attend. Nous sommes ouverts tous les jours, et la cuisine reste ouverte jusqu'à 22h00.
 
 [Réserver une table](https://geckocabanerestaurant.com/fr#reservation)
 

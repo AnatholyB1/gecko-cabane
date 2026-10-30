@@ -84,13 +84,13 @@ export default function HoursDisplay() {
 
   // Fallback to static hours if database is empty
   const displayHours = hours.length > 0 ? hours : [
-    { day_of_week: 1, day_name: DAY_NAMES[0], is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 2, day_name: DAY_NAMES[1], is_open: false, open_time: null, close_time: null },
-    { day_of_week: 3, day_name: DAY_NAMES[2], is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 4, day_name: DAY_NAMES[3], is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 5, day_name: DAY_NAMES[4], is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 6, day_name: DAY_NAMES[5], is_open: true, open_time: '11:00', close_time: '23:00' },
-    { day_of_week: 0, day_name: DAY_NAMES[6], is_open: true, open_time: '11:00', close_time: '23:00' },
+    { day_of_week: 1, day_name: DAY_NAMES[0], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 2, day_name: DAY_NAMES[1], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 3, day_name: DAY_NAMES[2], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 4, day_name: DAY_NAMES[3], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 5, day_name: DAY_NAMES[4], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 6, day_name: DAY_NAMES[5], is_open: true, open_time: '12:00', close_time: '22:00' },
+    { day_of_week: 0, day_name: DAY_NAMES[6], is_open: true, open_time: '12:00', close_time: '22:00' },
   ] as OpeningHours[]
 
   return (

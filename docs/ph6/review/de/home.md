@@ -112,7 +112,7 @@ Instructions pour le relecteur :
 | `reservationForm.networkError` | Connexion impossible. Vérifiez votre réseau puis réessayez. | Verbindung fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut. |  |
 | `reservationForm.rateLimited` | Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp, nous vous répondons vite. | Zu viele Anfragen von Ihrer Verbindung. Schreiben Sie uns direkt per WhatsApp, wir antworten schnell. |  |
 | `reservationForm.rateLimitedWhatsapp` | Écrire sur WhatsApp | Per WhatsApp schreiben |  |
-| `reservationForm.slotUnavailable` | Le restaurant est fermé à ce créneau (fermé le mardi). Choisissez une autre date ou heure. | Das Restaurant ist zu dieser Zeit geschlossen (dienstags Ruhetag). Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit. |  |
+| `reservationForm.slotUnavailable` | Le restaurant est fermé à ce créneau. Choisissez une autre date ou heure. | Das Restaurant ist zu dieser Zeit geschlossen. Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit. |  |
 | `reservationForm.slotFull` | Ce créneau est complet. Choisissez un autre horaire ou écrivez-nous sur WhatsApp. | Dieser Zeitraum ist ausgebucht. Wählen Sie eine andere Uhrzeit oder schreiben Sie uns per WhatsApp. |  |
 | `reservationForm.datePast` | Ce créneau est déjà passé. Choisissez une date ou une heure ultérieure. | Dieser Zeitpunkt liegt bereits in der Vergangenheit. Bitte wählen Sie ein späteres Datum oder eine spätere Uhrzeit. |  |
 | `reservationForm.partySizeDecrease` | Moins de couverts | Weniger Gäste |  |
@@ -165,6 +165,8 @@ Instructions pour le relecteur :
 | `contactSection.mapLoaded` | Carte chargée | Karte geladen |  |
 
 > Lignes ajoutées le 2026-10-29 (fusion phases 5 et 6) : relecture déclarée terminée par le propriétaire le 2026-10-29 (conversation Claude Code, message « TOUT EST RELU. je donne mon accord pour tout »). Validation globale, sans relecteur natif identifié.
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

@@ -48,10 +48,11 @@ Instructions pour le relecteur :
 | `frenchRestaurant.address` | 1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000 | 1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000 |  |
 | `frenchRestaurant.hoursTitle` | Horaires d'ouverture | Öffnungszeiten |  |
 | `frenchRestaurant.hoursLine` | {days} : {opens}-{closes} | {days}: {opens}–{closes} |  |
-| `frenchRestaurant.closedNote` | Fermé le mardi. | Dienstags geschlossen. |  |
 | `frenchRestaurant.directionsLink` | Itinéraire | Route anzeigen |  |
 | `frenchRestaurant.phoneLabel` | Appelez-nous au +66 81 958 5945 | Rufen Sie uns an: +66 81 958 5945 |  |
 | `frenchRestaurant.closingTitle` | Une table française vous attend à Krabi Town | Genießen Sie Ihr Abendessen in Krabi Town |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

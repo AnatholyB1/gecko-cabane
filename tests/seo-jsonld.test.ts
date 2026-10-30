@@ -84,7 +84,7 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
     expect(ld.acceptsReservations).toBe(true)
     expect(ld.paymentAccepted).toBe('Cash, Credit Card')
     expect(ld.currenciesAccepted).toBe('THB')
-    expect(ld.geo).toMatchObject({ latitude: 8.06147, longitude: 98.91566 })
+    expect(ld.geo).toMatchObject({ latitude: 8.061436, longitude: 98.915598 })
     expect(ld.address).toMatchObject({
       '@type': 'PostalAddress',
       streetAddress: '1/36-37 Soi Ruamjit, Maharat Road',

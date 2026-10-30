@@ -184,7 +184,7 @@ export default async function AdminPage() {
             </div>
             <div>
               <p className="opacity-80 text-sm mb-1">Horaires</p>
-              <p className="font-medium">11h - 23h (Fermé le mardi)</p>
+              <p className="font-medium">12h - 22h (ouvert tous les jours)</p>
             </div>
           </div>
         </div>

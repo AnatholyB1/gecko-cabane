@@ -132,7 +132,7 @@
     "networkError": "Verbindung fehlgeschlagen. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
     "rateLimited": "Zu viele Anfragen von Ihrer Verbindung. Schreiben Sie uns direkt per WhatsApp, wir antworten schnell.",
     "rateLimitedWhatsapp": "Per WhatsApp schreiben",
-    "slotUnavailable": "Das Restaurant ist zu dieser Zeit geschlossen (dienstags Ruhetag). Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit.",
+    "slotUnavailable": "Das Restaurant ist zu dieser Zeit geschlossen. Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit.",
     "slotFull": "Dieser Zeitraum ist ausgebucht. Wählen Sie eine andere Uhrzeit oder schreiben Sie uns per WhatsApp.",
     "datePast": "Dieser Zeitpunkt liegt bereits in der Vergangenheit. Bitte wählen Sie ein späteres Datum oder eine spätere Uhrzeit.",
     "partySizeDecrease": "Weniger Gäste",
@@ -173,8 +173,7 @@
     "subtitle": "Französisch-thailändisches Restaurant",
     "location": "Im Herzen des Dschungels von Krabi",
     "hoursTitle": "Öffnungszeiten",
-    "openHours": "Geöffnet von 12 bis 22 Uhr",
-    "closedDay": "Dienstags geschlossen",
+    "openHours": "Täglich geöffnet von 12 bis 22 Uhr",
     "lastOrder": "Letzte Bestellung: 22 Uhr",
     "contactTitle": "Kontakt",
     "rights": "Alle Rechte vorbehalten.",
@@ -322,7 +321,6 @@
     "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
     "hoursTitle": "Öffnungszeiten",
     "hoursLine": "{days}: {opens}–{closes}",
-    "closedNote": "Dienstags geschlossen.",
     "directionsLink": "Route anzeigen",
     "phoneLabel": "Rufen Sie uns an: +66 81 958 5945",
     "closingTitle": "Genießen Sie Ihr Abendessen in Krabi Town"
@@ -367,7 +365,7 @@
       "ambiance": {
         "title": "Ein ruhiger Raum für zwei",
         "p1": "Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von einem französisch-thailändischen Paar, das Sie persönlich willkommen heißt.",
-        "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Dienstags haben wir Ruhetag, und die Küche nimmt Bestellungen bis 22 Uhr entgegen."
+        "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen."
       },
       "table": {
         "title": "Was Sie essen werden",
@@ -427,7 +425,7 @@
         "title": "Wenn Sie sich zum Abendessen hinsetzen möchten",
         "alt": "Ein Massaman-Curry, serviert im Gecko Cabane",
         "p1": "Nach dem Markt braucht mancher Abend einen Tisch, eine Speisekarte und einen ruhigen Raum. Das Gecko Cabane ist ein Restaurant mit 40 Plätzen an der Maharat Road, das französische und thailändische Gerichte serviert, gekocht von Chefköchin Jariya.",
-        "p2": "Wir haben dienstags geschlossen, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren.",
+        "p2": "Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren.",
         "link": "Tisch zum Abendessen reservieren"
       }
     },

@@ -112,7 +112,7 @@ Instructions pour le relecteur :
 | `reservationForm.networkError` | Connexion impossible. Vérifiez votre réseau puis réessayez. | Anslutningen misslyckades. Kontrollera ditt nätverk och försök igen. |  |
 | `reservationForm.rateLimited` | Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp, nous vous répondons vite. | För många förfrågningar från din anslutning. Skriv direkt till oss på WhatsApp så svarar vi snabbt. |  |
 | `reservationForm.rateLimitedWhatsapp` | Écrire sur WhatsApp | Skriv till oss på WhatsApp |  |
-| `reservationForm.slotUnavailable` | Le restaurant est fermé à ce créneau (fermé le mardi). Choisissez une autre date ou heure. | Restaurangen är stängd vid den tiden (stängt på tisdagar). Välj ett annat datum eller en annan tid. |  |
+| `reservationForm.slotUnavailable` | Le restaurant est fermé à ce créneau. Choisissez une autre date ou heure. | Restaurangen är stängd vid den tiden. Välj ett annat datum eller en annan tid. |  |
 | `reservationForm.slotFull` | Ce créneau est complet. Choisissez un autre horaire ou écrivez-nous sur WhatsApp. | Den här tiden är fullbokad. Välj en annan tid eller skriv till oss på WhatsApp. |  |
 | `reservationForm.datePast` | Ce créneau est déjà passé. Choisissez une date ou une heure ultérieure. | Den tidpunkten har redan passerat. Välj ett senare datum eller en senare tid. |  |
 | `reservationForm.partySizeDecrease` | Moins de couverts | Färre gäster |  |
@@ -163,6 +163,8 @@ Instructions pour le relecteur :
 | `contactSection.mapPrivacy` | La carte se charge uniquement après votre clic. | Kartan laddas först när du klickar. |  |
 | `contactSection.mapTitle` | Carte : Gecko Cabane, Krabi Town | Karta: Gecko Cabane, Krabi Town |  |
 | `contactSection.mapLoaded` | Carte chargée | Karta laddad |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

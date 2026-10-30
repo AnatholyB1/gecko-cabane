@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedPageMetadata } from '@/utils/page-metadata'
-import { mapOpeningHours, PAGES, SAME_AS, toSeoLocale, type SeoLocale } from '@/utils/seo'
+import { googleMapsPlaceUrl, mapOpeningHours, PAGES, toSeoLocale, type SeoLocale } from '@/utils/seo'
 import { getOpeningHours } from '@/utils/opening-hours'
 import { getMenu } from '@/utils/menu'
 import SiteHeader from '@/components/SiteHeader'
@@ -14,7 +14,7 @@ import GcDivider from '@/components/ui/GcDivider'
 import RelatedGuides from '@/components/seo/RelatedGuides'
 import { BTN_GOLD, BTN_IVORY, H2, PROSE, TEXT_LINK } from '@/components/seo/styles'
 
-const GOOGLE_PLACE_URL = SAME_AS.find((u) => u.includes('google.com/maps'))
+const GOOGLE_PLACE_URL = googleMapsPlaceUrl()
 
 const DISHES = [
   { key: 'bourguignon', src: '/food-bourguignon.jpg' },
@@ -196,7 +196,6 @@ export default async function FrenchRestaurantPage({ params }: Props) {
                 </li>
               ))}
             </ul>
-            <p className={`${PROSE} mt-1`}>{t('closedNote')}</p>
             <div className="flex flex-wrap gap-x-8 mt-4">
               {GOOGLE_PLACE_URL && (
                 <a

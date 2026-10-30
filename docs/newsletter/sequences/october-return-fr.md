@@ -10,7 +10,7 @@ Bonjour,
 
 Vous avez dîné chez nous lors d'un précédent séjour à Krabi, et nous pensons à vous au moment où la saison commence.
 
-Jariya vous accueille de nouveau à Krabi Town, sur Maharat Road, pour sa cuisine franco-thaï. Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00.
+Jariya vous accueille de nouveau à Krabi Town, sur Maharat Road, pour sa cuisine franco-thaï. Nous sommes ouverts tous les jours, et la cuisine reste ouverte jusqu'à 22h00.
 
 Si vous revenez bientôt, vous pouvez déjà réserver votre table.
 

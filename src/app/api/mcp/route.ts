@@ -86,7 +86,7 @@ function buildMcpServer() {
   server.tool(
     "get_opening_hours",
     "Get the regular weekly opening hours and upcoming special hours (closures, holiday schedules) " +
-      "for Gecko Cabane restaurant. The restaurant is closed on Tuesdays and kitchen closes at 22:00.",
+      "for Gecko Cabane restaurant. The restaurant is open every day from 12:00 to 22:00 (kitchen until 22:00).",
     {},
     async () => {
       const supabase = await createClient()

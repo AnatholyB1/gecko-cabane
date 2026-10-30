@@ -19,7 +19,7 @@ import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import MapEmbed from '@/components/MapEmbed'
 import { COUPLE_PHOTO } from '@/utils/about-content'
 import { localizedPageMetadata } from '@/utils/page-metadata'
-import { isPublished, slugFor, toSeoLocale, guidesFor, googleDirectionsUrl, googleMapsEmbedUrl, type SeoLocale } from '@/utils/seo'
+import { isPublished, slugFor, toSeoLocale, guidesFor, googleDirectionsUrl, googleMapsEmbedUrl, googleMapsPlaceUrl, type SeoLocale } from '@/utils/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: rawLocale } = await params
@@ -717,7 +717,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     </div>
                   </div>
                   <a
-                    href="https://maps.google.com/?q=1/36-37+Soi+Ruamjit+Maharat+Road+Krabi+Town+81000+Thailand"
+                    href={googleMapsPlaceUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all inline-block focus:outline-none focus:ring-1 focus:ring-gc-gold"
@@ -762,7 +762,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </h4>
               <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85]">
                 {t('footer.openHours')}<br />
-                {t('footer.closedDay')}<br />
                 {t('footer.lastOrder')}
               </p>
               <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">

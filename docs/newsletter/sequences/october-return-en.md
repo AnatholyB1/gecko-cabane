@@ -10,7 +10,7 @@ Hello,
 
 You dined with us during a previous stay in Krabi, and we think of you as the season begins.
 
-Jariya welcomes you again in Krabi Town, on Maharat Road, for her French-Thai cooking. We are closed on Tuesdays, and the kitchen stays open until 10:00 pm.
+Jariya welcomes you again in Krabi Town, on Maharat Road, for her French-Thai cooking. We are open every day, and the kitchen stays open until 10:00 pm.
 
 If you are coming back soon, you can already book your table.
 

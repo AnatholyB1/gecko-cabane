@@ -27,11 +27,11 @@ const COMMISSION = 'Commission : [à définir par le propriétaire]'
 const PRESENTATION = {
   fr: {
     title: 'Gecko Cabane — Partenariat concierges',
-    body: "Gecko Cabane est un restaurant franco-thaï gastronomique au coeur de Krabi Town (Maharat Road). La cheffe Jariya y associe techniques françaises et saveurs thaïes dans une salle intime de 40 couverts maximum. La cuisine prend les commandes jusqu'à 22h ; le restaurant est fermé le mardi. Réservation en ligne, par téléphone ou par WhatsApp.",
+    body: "Gecko Cabane est un restaurant franco-thaï gastronomique au coeur de Krabi Town (Maharat Road). La cheffe Jariya y associe techniques françaises et saveurs thaïes dans une salle intime de 40 couverts maximum. La cuisine prend les commandes jusqu'à 22h ; le restaurant est ouvert tous les jours. Réservation en ligne, par téléphone ou par WhatsApp.",
   },
   en: {
     title: 'Gecko Cabane — Concierge partnership',
-    body: 'Gecko Cabane is a gastronomic French-Thai restaurant in the heart of Krabi Town (Maharat Road). Chef Jariya combines French technique with Thai flavours in an intimate dining room of 40 seats maximum. The kitchen takes orders until 10:00 PM; the restaurant is closed on Tuesdays. Book online, by phone or on WhatsApp.',
+    body: 'Gecko Cabane is a gastronomic French-Thai restaurant in the heart of Krabi Town (Maharat Road). Chef Jariya combines French technique with Thai flavours in an intimate dining room of 40 seats maximum. The kitchen takes orders until 10:00 PM; the restaurant is open every day. Book online, by phone or on WhatsApp.',
   },
 }
 

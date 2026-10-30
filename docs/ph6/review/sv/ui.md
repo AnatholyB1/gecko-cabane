@@ -30,8 +30,7 @@ Instructions pour le relecteur :
 | `footer.subtitle` | Restaurant Franco-Thaï gastronomique | Fransk-thailändsk restaurang |  |
 | `footer.location` | Au cœur de la jungle de Krabi | Mitt i Krabis djungel |  |
 | `footer.hoursTitle` | Horaires | Öppettider |  |
-| `footer.openHours` | Ouvert de 12h à 22h | Öppet kl. 12–22 |  |
-| `footer.closedDay` | Fermé le mardi | Stängt på tisdagar |  |
+| `footer.openHours` | Ouvert tous les jours de 12h à 22h | Öppet varje dag kl. 12–22 |  |
 | `footer.lastOrder` | Dernière commande : 22h | Sista beställning: kl. 22 |  |
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alla rättigheter förbehållna. |  |
@@ -99,6 +98,8 @@ Instructions pour le relecteur :
 | `nav.wineBeerHint` | La courte carte de vins et de bières belges qui accompagne le repas. | Den korta listan med viner och belgiska öl som passar till menyn. |  |
 | `guides.toggle` | Guides | Guider |  |
 | `guides.ariaLabel` | Guides de Krabi | Krabi-guider |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

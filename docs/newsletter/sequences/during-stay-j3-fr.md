@@ -10,7 +10,7 @@ Bonjour,
 
 Votre séjour à Krabi continue, et nous espérons qu'il se passe bien.
 
-Si l'envie vous prend de revenir dîner, retrouvez notre carte franco-thaï signée Jariya. Nous sommes sur Maharat Road, à Krabi Town, fermés le mardi, avec une cuisine ouverte jusqu'à 22h00.
+Si l'envie vous prend de revenir dîner, retrouvez notre carte franco-thaï signée Jariya. Nous sommes sur Maharat Road, à Krabi Town, ouverts tous les jours, avec une cuisine ouverte jusqu'à 22h00.
 
 [Voir la carte](https://geckocabanerestaurant.com/fr#menu)
 

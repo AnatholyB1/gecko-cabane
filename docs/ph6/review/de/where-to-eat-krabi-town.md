@@ -36,9 +36,11 @@ Instructions pour le relecteur :
 | `whereToEat.sections.dinner.title` | Quand on veut dîner à table | Wenn Sie sich zum Abendessen hinsetzen möchten |  |
 | `whereToEat.sections.dinner.alt` | Un massaman servi au Gecko Cabane | Ein Massaman-Curry, serviert im Gecko Cabane |  |
 | `whereToEat.sections.dinner.p1` | Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya. | Nach dem Markt braucht mancher Abend einen Tisch, eine Speisekarte und einen ruhigen Raum. Das Gecko Cabane ist ein Restaurant mit 40 Plätzen an der Maharat Road, das französische und thailändische Gerichte serviert, gekocht von Chefköchin Jariya. |  |
-| `whereToEat.sections.dinner.p2` | Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute. | Wir haben dienstags geschlossen, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren. |  |
+| `whereToEat.sections.dinner.p2` | Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute. | Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren. |  |
 | `whereToEat.sections.dinner.link` | Réserver une table pour le dîner | Tisch zum Abendessen reservieren |  |
 | `whereToEat.closingTitle` | Préparez votre soirée à Krabi Town | Planen Sie Ihren Abend in Krabi Town |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

@@ -103,7 +103,7 @@ Statuts de réservation : `pending` → `confirmed` → `completed` / `cancelled
 
 - Restaurant à **Krabi Town**, Thaïlande (Maharat Road).
 - **Chef Jariya** — cuisine Franco-Thaï gastronomique.
-- **40 couverts maximum**. Fermé le mardi. Cuisine jusqu'à 22h.
+- **40 couverts maximum**. Ouvert tous les jours, 12h-22h. Cuisine jusqu'à 22h.
 - Tél : `+66 81 958 5945`.
 - Droit applicable : lois thaïlandaises (DBD, PDPA B.E. 2562, Excise Act B.E. 2560).
 - Créé par [selenium-studio.com](https://selenium-studio.com) & [anatholy-bricon.com](https://anatholy-bricon.com).

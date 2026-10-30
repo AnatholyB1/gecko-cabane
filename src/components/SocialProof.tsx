@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import GcDivider from '@/components/ui/GcDivider'
-import { SAME_AS, type SeoLocale } from '@/utils/seo'
+import { SAME_AS, googleReadReviewsUrl, type SeoLocale } from '@/utils/seo'
 import { SOCIAL_PROOF, visibleReviews } from '@/utils/social-proof'
 
 const STAR_PATH = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
@@ -25,7 +25,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
   const t = await getTranslations({ locale, namespace: 'socialProof' })
   const nf = new Intl.NumberFormat(locale)
   const languageName = new Intl.DisplayNames([locale], { type: 'language' })
-  const googleUrl = SAME_AS.find((u) => u.includes('google.com/maps'))
+  const googleUrl = googleReadReviewsUrl()
   const tripadvisorUrl = SAME_AS.find((u) => u.includes('tripadvisor.'))
   const facebookUrl = SAME_AS.find((u) => u.includes('facebook.com'))
   const reviews = visibleReviews()

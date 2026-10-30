@@ -132,7 +132,7 @@
     "networkError": "Connection failed. Check your network and try again.",
     "rateLimited": "Too many requests from your connection. Message us directly on WhatsApp and we will reply quickly.",
     "rateLimitedWhatsapp": "Message us on WhatsApp",
-    "slotUnavailable": "The restaurant is closed at that time (closed on Tuesdays). Please choose another date or time.",
+    "slotUnavailable": "The restaurant is closed at that time. Please choose another date or time.",
     "slotFull": "This time slot is full. Choose another time or message us on WhatsApp.",
     "datePast": "This time has already passed. Please choose a later date or time.",
     "partySizeDecrease": "Fewer guests",
@@ -173,8 +173,7 @@
     "subtitle": "Gastronomic Franco-Thai Restaurant",
     "location": "In the heart of Krabi's jungle",
     "hoursTitle": "Hours",
-    "openHours": "Open from 12pm to 10pm",
-    "closedDay": "Closed on Tuesdays",
+    "openHours": "Open every day, 12pm to 10pm",
     "lastOrder": "Last order: 10pm",
     "contactTitle": "Contact",
     "rights": "All rights reserved.",
@@ -401,7 +400,6 @@
     "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
     "hoursTitle": "Opening hours",
     "hoursLine": "{days}: {opens}-{closes}",
-    "closedNote": "Closed on Tuesdays.",
     "directionsLink": "Get directions",
     "phoneLabel": "Call us on +66 81 958 5945",
     "closingTitle": "Join us for dinner in Krabi Town"
@@ -550,7 +548,7 @@
       "ambiance": {
         "title": "A quiet room for two",
         "p1": "Gecko Cabane seats 40 guests at most, so the dining room stays calm and conversation comes easily. It is run by a French-Thai couple who welcome you themselves.",
-        "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. We are closed on Tuesdays, and the kitchen takes orders until 10 pm."
+        "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. We are open every day, and the kitchen takes orders until 10 pm."
       },
       "table": {
         "title": "What you will eat",
@@ -610,7 +608,7 @@
         "title": "When you want to sit down for dinner",
         "alt": "A massaman curry served at Gecko Cabane",
         "p1": "After the market, some evenings call for a table, a menu and a quiet room. Gecko Cabane is a 40-seat restaurant on Maharat Road serving French and Thai dishes, cooked by Chef Jariya.",
-        "p2": "We are closed on Tuesdays and the kitchen takes orders until 10 pm. You can book a table online in under a minute.",
+        "p2": "We are open every day and the kitchen takes orders until 10 pm. You can book a table online in under a minute.",
         "link": "Book a table for dinner"
       }
     },

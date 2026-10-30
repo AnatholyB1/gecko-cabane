@@ -132,7 +132,7 @@
     "networkError": "Connexion impossible. Vérifiez votre réseau puis réessayez.",
     "rateLimited": "Trop de demandes depuis votre connexion. Écrivez-nous directement sur WhatsApp, nous vous répondons vite.",
     "rateLimitedWhatsapp": "Écrire sur WhatsApp",
-    "slotUnavailable": "Le restaurant est fermé à ce créneau (fermé le mardi). Choisissez une autre date ou heure.",
+    "slotUnavailable": "Le restaurant est fermé à ce créneau. Choisissez une autre date ou heure.",
     "slotFull": "Ce créneau est complet. Choisissez un autre horaire ou écrivez-nous sur WhatsApp.",
     "datePast": "Ce créneau est déjà passé. Choisissez une date ou une heure ultérieure.",
     "partySizeDecrease": "Moins de couverts",
@@ -173,8 +173,7 @@
     "subtitle": "Restaurant Franco-Thaï gastronomique",
     "location": "Au cœur de la jungle de Krabi",
     "hoursTitle": "Horaires",
-    "openHours": "Ouvert de 12h à 22h",
-    "closedDay": "Fermé le mardi",
+    "openHours": "Ouvert tous les jours de 12h à 22h",
     "lastOrder": "Dernière commande : 22h",
     "contactTitle": "Contact",
     "rights": "Tous droits réservés.",
@@ -397,7 +396,6 @@
     "address": "1/36-37 Soi Ruamjit, Maharat Road, Krabi Town 81000",
     "hoursTitle": "Horaires d'ouverture",
     "hoursLine": "{days} : {opens}-{closes}",
-    "closedNote": "Fermé le mardi.",
     "directionsLink": "Itinéraire",
     "phoneLabel": "Appelez-nous au +66 81 958 5945",
     "closingTitle": "Une table française vous attend à Krabi Town"
@@ -546,7 +544,7 @@
       "ambiance": {
         "title": "Une salle calme, pour deux",
         "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
-        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h."
+        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h."
       },
       "table": {
         "title": "Ce que vous mangerez",
@@ -606,7 +604,7 @@
         "title": "Quand on veut dîner à table",
         "alt": "Un massaman servi au Gecko Cabane",
         "p1": "Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya.",
-        "p2": "Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute.",
+        "p2": "Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute.",
         "link": "Réserver une table pour le dîner"
       }
     },

@@ -21,7 +21,7 @@ Instructions pour le relecteur :
 | `romanticDinner.heroAlt` | L'enseigne du restaurant Gecko Cabane sur Maharat Road à Krabi Town | Das Schild des Gecko Cabane an der Maharat Road in Krabi Town |  |
 | `romanticDinner.sections.ambiance.title` | Une salle calme, pour deux | Ein ruhiger Raum für zwei |  |
 | `romanticDinner.sections.ambiance.p1` | Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même. | Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von einem französisch-thailändischen Paar, das Sie persönlich willkommen heißt. |  |
-| `romanticDinner.sections.ambiance.p2` | Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes fermés le mardi et la cuisine prend les commandes jusqu'à 22 h. | Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Dienstags haben wir Ruhetag, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. |  |
+| `romanticDinner.sections.ambiance.p2` | Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. | Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. |  |
 | `romanticDinner.sections.table.title` | Ce que vous mangerez | Was Sie essen werden |  |
 | `romanticDinner.sections.table.alt` | Bœuf bourguignon servi au Gecko Cabane | Boeuf Bourguignon, serviert im Gecko Cabane |  |
 | `romanticDinner.sections.table.p1` | La carte est celle d'une cuisine française de maison : un bœuf bourguignon mijoté longuement au vin rouge, un poulet à la crème. Quelques plats thaïs de la cheffe l'accompagnent, comme un massaman doux. | Die Karte bietet französische Hausmannskost, etwa Boeuf Bourguignon, langsam in Rotwein geschmort, und Hähnchen in Sahnesauce. Dazu gibt es einige thailändische Gerichte der Chefin, wie ein mildes Massaman-Curry. |  |
@@ -34,6 +34,8 @@ Instructions pour le relecteur :
 | `romanticDinner.sections.occasion.p1` | Le formulaire de réservation comporte un champ « Occasion ». Anniversaire, fête ou premier voyage à deux : écrivez-le, nous le saurons à votre arrivée. | Das Reservierungsformular enthält ein Feld „Anlass“. Ob Jahrestag, Geburtstag oder die erste gemeinsame Reise: Tragen Sie es dort ein, dann wissen wir bei Ihrer Ankunft Bescheid. |  |
 | `romanticDinner.sections.occasion.link` | Réserver et indiquer l'occasion | Tisch reservieren und Anlass angeben |  |
 | `romanticDinner.closingTitle` | Rejoignez-nous pour le dîner à Krabi Town | Genießen Sie Ihr Abendessen in Krabi Town |  |
+
+> Lignes modifiées le 2026-10-30 (restaurant ouvert tous les jours) à la demande du propriétaire : relecture non faite par un locuteur natif.
 
 ## Validation écrite
 

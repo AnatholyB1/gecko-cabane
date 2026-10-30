@@ -10,7 +10,7 @@ Bonjour,
 
 C'est la saison verte à Krabi, et la cuisine franco-thaï de Jariya vous attend à Krabi Town, sur Maharat Road.
 
-Nous sommes fermés le mardi, et la cuisine reste ouverte jusqu'à 22h00.
+Nous sommes ouverts tous les jours, et la cuisine reste ouverte jusqu'à 22h00.
 
 [Voir la carte](https://geckocabanerestaurant.com/fr#menu)
 

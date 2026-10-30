@@ -16,14 +16,14 @@ const map = read('src/components/MapEmbed.tsx')
 describe('seo url helpers', () => {
   it('builds the directions url', () => {
     expect(googleDirectionsUrl()).toBe(
-      'https://www.google.com/maps/dir/?api=1&destination=8.06147,98.91566&destination_place_id=' + GOOGLE_PLACE_ID,
+      'https://www.google.com/maps/dir/?api=1&destination=8.061436,98.915598&destination_place_id=' + GOOGLE_PLACE_ID,
     )
   })
   it('builds the embed url', () => {
     const u = googleMapsEmbedUrl()
     expect(u.startsWith('https://www.google.com/maps?')).toBe(true)
     expect(u).toContain('output=embed')
-    expect(u).toContain('8.06147,98.91566')
+    expect(u).toContain('8.061436,98.915598')
   })
 })
 
