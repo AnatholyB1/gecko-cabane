@@ -109,7 +109,7 @@ export function KitClient() {
   }
 
   return (
-    <main className="adm-kit" id="kit">
+    <div className="adm-kit" id="kit">
       <header className="k-top">
         <p className="adm-eyebrow">Kit interne · phase 11</p>
         <h1 className="adm-display">Système de design de l’admin</h1>
@@ -320,6 +320,6 @@ export function KitClient() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

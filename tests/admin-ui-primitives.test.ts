@@ -75,11 +75,12 @@ describe('DSN-03 Field / Input / Select / Textarea', () => {
     expect(html).not.toContain('aria-invalid')
   })
 
-  it('Input en erreur : aria-invalid, message role="alert" avec icône, décrit le champ', () => {
+  it('Input en erreur : aria-invalid, message relié par aria-describedby (sans role="alert", F-11), icône', () => {
     const html = render(h(Input, { label: 'Téléphone', id: 'tel', error: 'Numéro incomplet.' }))
     expect(html).toContain('aria-invalid="true"')
     expect(html).toContain('aria-describedby="tel-error"')
-    expect(html).toMatch(/<p class="adm-error" id="tel-error" role="alert"><svg[^>]*aria-hidden="true"/)
+    expect(html).toMatch(/<p class="adm-error" id="tel-error"><svg[^>]*aria-hidden="true"/)
+    expect(html).not.toContain('role="alert"')
     expect(html).toContain('Numéro incomplet.')
   })
 
@@ -159,9 +160,16 @@ describe('DSN-03 DataTable', () => {
     expect(html).toContain('<span class="adm-sr-only">Actions</span>')
   })
 
+  it('rôles de tableau explicites (F-06) : la sémantique survit au display: block mobile', () => {
+    expect(html).toContain('<table class="adm-table" role="table">')
+    expect(html).toContain('<thead role="rowgroup"><tr role="row">')
+    expect(html).toContain('role="columnheader"')
+    expect(html).toContain('<tbody role="rowgroup"><tr role="row">')
+  })
+
   it('chaque cellule porte data-label et la classe de son rôle (mise en carte sous 768 px)', () => {
-    expect(html).toContain('<td class="t-name" data-label="Client">Martin L.</td>')
-    expect(html).toContain('<td class="t-num adm-num" data-label="Couverts">4</td>')
+    expect(html).toContain('<td role="cell" class="t-name" data-label="Client">Martin L.</td>')
+    expect(html).toContain('<td role="cell" class="t-num adm-num" data-label="Couverts">4</td>')
     expect(html).toContain('t-actions')
   })
 })
@@ -205,5 +213,11 @@ describe('DSN-04 LoadingState / EmptyState / ErrorState', () => {
     expect(withRetry).toContain('Connexion perdue')
     expect(withRetry).toContain('Réessayer')
     expect(render(h(ErrorState, { error: new Error('x') }))).not.toContain('Réessayer')
+  })
+
+  it('401 : lien « Se reconnecter » vers /admin/login (F-14), absent pour les autres statuts', () => {
+    const expired = render(h(ErrorState, { error: new AdminFetchError('Session expirée. Reconnectez-vous.', 401) }))
+    expect(expired).toMatch(/<a [^>]*href="\/admin\/login"[^>]*>Se reconnecter<\/a>/)
+    expect(render(h(ErrorState, { error: new AdminFetchError('x', 500) }))).not.toContain('Se reconnecter')
   })
 })

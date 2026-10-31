@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { Inbox, RefreshCw, WifiOff, type LucideIcon } from 'lucide-react'
-import { describeError } from './admin-fetch'
+import { buttonClass } from './Button'
+import { AdminFetchError, describeError } from './admin-fetch'
 
 /** Squelette de la forme finale (pas de saut de mise en page) ; annoncé « Chargement… » aux lecteurs d'écran. */
 export function LoadingState({ label = 'Chargement…', variant = 'card' }: { label?: string; variant?: 'card' | 'table' }) {
@@ -63,6 +65,12 @@ export function ErrorState({
           <RefreshCw className="i i-sm" aria-hidden="true" focusable="false" />
           {retryLabel}
         </button>
+      ) : null}
+      {error instanceof AdminFetchError && error.status === 401 ? (
+        // Session expirée : « Réessayer » ne peut pas aboutir, on propose la reconnexion (audit F-14).
+        <Link className={buttonClass({ variant: 'primary' })} href="/admin/login" prefetch={false}>
+          Se reconnecter
+        </Link>
       ) : null}
     </div>
   )
