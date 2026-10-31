@@ -3,7 +3,6 @@
  * Utilisées après connexion admin (`redirect`) et au retour OAuth (`next`).
  */
 
-// eslint-disable-next-line no-control-regex
 const CONTROL_OR_SPACE = /[\x00-\x20\x7f]/
 
 /** Chemin interne : un seul `/` en tête, ni `\`, ni `@`, ni caractère de contrôle, y compris une fois décodé. */

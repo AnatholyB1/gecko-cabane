@@ -7,5 +7,7 @@ import { isYmd, krabiTodayYmd } from '@/utils/krabi-time'
  */
 export default async function AdminReservationsPage({ searchParams }: { searchParams: Promise<{ date?: string }> }) {
   const { date } = await searchParams
-  return <ReservationsView initialDate={date && isYmd(date) ? date : krabiTodayYmd()} />
+  const initialDate = date && isYmd(date) ? date : krabiTodayYmd()
+  // `key` : un changement de `?date=` sur le composant monté repart de la nouvelle date.
+  return <ReservationsView key={initialDate} initialDate={initialDate} />
 }

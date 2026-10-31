@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { adminFetch, AdminFetchError, isAbortError } from './admin-fetch'
 
 /**
@@ -73,17 +73,57 @@ export function startAdminQuery<T>(
 }
 
 export type UseAdminQueryResult<T> = QueryView<T> & {
-  /** Relance la requête (les données actuelles restent affichées pendant le rechargement). */
-  refetch: () => void
+  /**
+   * Relance la requête (les données actuelles restent affichées pendant le rechargement).
+   * La promesse ne rejette jamais : `true` quand les données rechargées sont arrivées, `false` si
+   * le rechargement a échoué (ou si le composant est démonté avant la réponse).
+   */
+  refetch: () => Promise<boolean>
+}
+
+/** Numéro de tentative d'une clé `url#N` (NaN si la clé n'en porte pas). */
+export function attemptOfKey(key: string): number {
+  const i = key.lastIndexOf('#')
+  return i < 0 ? NaN : Number(key.slice(i + 1))
 }
 
 export function useAdminQuery<T>(url: string): UseAdminQueryResult<T> {
   const [attempt, setAttempt] = useState(0)
   const [state, dispatch] = useReducer(queryReducer<T>, initialQueryState as QueryState<T>)
   const key = `${url}#${attempt}`
+  const attemptRef = useRef(0)
+  const waiters = useRef<{ attempt: number; resolve: (ok: boolean) => void }[]>([])
 
   useEffect(() => startAdminQuery<T>(url, key, dispatch), [url, key])
 
-  const refetch = useCallback(() => setAttempt((n) => n + 1), [])
+  // Une réponse (succès ou échec) de la tentative N règle toutes les promesses de `refetch` <= N.
+  useEffect(() => {
+    const done = attemptOfKey(state.key)
+    if (Number.isNaN(done)) return
+    const ok = state.error === null
+    waiters.current = waiters.current.filter((w) => {
+      if (w.attempt > done) return true
+      w.resolve(ok)
+      return false
+    })
+  }, [state])
+  useEffect(
+    () => () => {
+      waiters.current.forEach((w) => w.resolve(false))
+      waiters.current = []
+    },
+    [],
+  )
+
+  const refetch = useCallback(
+    () =>
+      new Promise<boolean>((resolve) => {
+        const next = attemptRef.current + 1
+        attemptRef.current = next
+        waiters.current.push({ attempt: next, resolve })
+        setAttempt(next)
+      }),
+    [],
+  )
   return { ...deriveQueryView(state, url, key), refetch }
 }

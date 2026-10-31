@@ -107,12 +107,16 @@ describe('RSV-01 actions en un tap selon nextActions', () => {
 })
 
 describe('RSV-05 ligne occupée et heures de Krabi', () => {
-  it('pendant la requête : ligne aria-busy, tous les boutons disabled, le bouton pressé affiche son libellé progressif', () => {
+  it('pendant la requête : ligne aria-busy, tous les boutons aria-disabled (focus conservé), le bouton pressé affiche son libellé progressif', () => {
     const html = row(res({ status: 'confirmed' }), { busyTo: 'completed' })
     expect(html).toContain('aria-busy="true"')
     const buttons = html.match(/<button[^>]*>/g) ?? []
     expect(buttons.length).toBe(3)
-    for (const b of buttons) expect(b).toContain('disabled=""')
+    // aria-disabled et non disabled : un bouton disabled perd le focus clavier (audit P15)
+    for (const b of buttons) {
+      expect(b).toContain('aria-disabled="true"')
+      expect(b).not.toContain(' disabled=""')
+    }
     expect(html).toContain('Clôture…')
   })
   it('sans requête en cours : aucun bouton désactivé', () => {
@@ -263,6 +267,6 @@ describe('câblage', () => {
     expect(src).toContain('data-slot="acc-03-complet-ce-soir"')
   })
   it('lecture seule des routes d’API et des emails : aucun fichier gelé touché', () => {
-    expect(read('src/utils/resend.ts')).not.toMatch(/allergies/)
+    expect(read('src/utils/resend.ts')).not.toMatch(/allergies/) // contenu complet comparé à c6bc779 dans tests/p15-audit-fixes.test.ts
   })
 })

@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { ChevronDown, MessageCircle, Phone, RefreshCw, TriangleAlert, Users, CircleAlert, PartyPopper, NotebookText } from 'lucide-react'
 import type { Reservation } from '@/types/database'
 import { Button, buttonClass } from '../Button'
@@ -46,11 +46,29 @@ export function ReservationRow({
   const links = phoneLinks(r.customer_phone)
   const labels = contactLabels(r.customer_name)
   const busy = busyTo !== undefined
+  const rowRef = useRef<HTMLElement>(null)
+  /** Une action vient d'être lancée depuis cette ligne : le focus clavier doit y rester. */
+  const keepFocus = useRef(false)
+  // Le bouton pressé disparaît quand le statut change (autres boutons) : sans cela le focus
+  // retomberait sur <body>. On le rend à la ligne elle-même, qui reste dans le flux de lecture.
+  useEffect(() => {
+    if (!keepFocus.current) return
+    const active = document.activeElement
+    if (active === null || active === document.body) rowRef.current?.focus({ preventScroll: true })
+    if (!busy) keepFocus.current = false
+  }, [r.status, busy])
+  const fire = (a: ReservationAction) => {
+    if (busy) return
+    keepFocus.current = true
+    onAction(r, a)
+  }
   const meta = [SOURCE_LABELS[r.source ?? 'site'], r.locale?.toUpperCase(), r.customer_phone].filter(Boolean).join(' · ')
   const hasNotes = Boolean(r.occasion || r.allergies || r.admin_notes)
 
   return (
     <article
+      ref={rowRef}
+      tabIndex={-1}
       className={`rv-row${actions.length === 0 ? ' rv-row--noactions' : ''}`}
       data-status={r.status}
       data-reservation-id={r.id}
@@ -124,7 +142,7 @@ export function ReservationRow({
             <CircleAlert className="i i-sm" aria-hidden="true" focusable="false" />
             {failure.message} La réservation n&apos;a pas été modifiée.
           </span>
-          <Button size="sm" variant="secondary" disabled={busy} onClick={() => onAction(r, failure.action)}>
+          <Button size="sm" variant="secondary" aria-disabled={busy || undefined} onClick={() => fire(failure.action)}>
             <RefreshCw className="i i-sm" aria-hidden="true" focusable="false" />
             Réessayer
           </Button>
@@ -138,11 +156,11 @@ export function ReservationRow({
               <Button
                 key={a.to}
                 variant={VARIANT[a.emphasis]}
-                disabled={busy}
+                aria-disabled={busy || undefined}
                 loading={pressed}
                 loadingLabel={a.busyLabel}
                 aria-label={actionAriaLabel(a, r.customer_name, time)}
-                onClick={() => onAction(r, a)}
+                onClick={() => fire(a)}
               >
                 {a.label}
               </Button>

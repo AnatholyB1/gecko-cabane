@@ -224,3 +224,18 @@
 .adm-portal input[type="date"]::-webkit-calendar-picker-indicator, .adm-portal input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: 1; }
 .adm-portal input:focus-visible, .adm-portal select:focus-visible, .adm-portal textarea:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: 1px; }
 .adm-portal input, .adm-portal textarea, .adm-portal select { font-family: inherit; color: var(--adm-ink); background-color: var(--adm-surface); }
+
+/* --- Correctifs audit P15 ---------------------------------------------------------------- */
+/* Carte « à confirmer » : « Voir les N autres » */
+.rv-attn__more { padding: var(--adm-space-3) var(--adm-space-4); border-top: 1px solid var(--adm-line); display: flex; }
+.rv-attn__more .adm-btn { flex: 1 1 auto; }
+/* Zoom 200 % sur 390 px (195 px de large CSS) : rien ne force la largeur, tout se replie. */
+.rv-gauges { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rv-gauges > *, .rv-datebar > *, .rv-controls > * { min-width: 0; }
+.rv-gauge__n { flex-wrap: wrap; }
+.rv-gauge__n b { font-size: clamp(28px, 12vw, 40px); }
+.rv-seg { max-width: 100%; flex-wrap: wrap; }
+.rv-seg button { flex: 1 1 auto; min-width: 0; padding: 0 10px; }
+.rv-date { max-width: min(190px, 100%); }
+@media (max-width: 239.98px) { .rv-gauges { grid-template-columns: minmax(0, 1fr); } }
+.rv-row:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: -2px; }
