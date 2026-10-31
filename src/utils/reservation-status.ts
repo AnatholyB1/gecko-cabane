@@ -41,7 +41,7 @@ export type ReservationAction = {
   label: string
   /** Progressive label shown while the request is in flight. */
   busyLabel: string
-  /** Only cancellation asks for a confirmation dialog. */
+  /** Cancellation and "Absent" ask for a confirmation dialog (owner decision 2026-10-31: no_show is irreversible, no "Rétablir"). */
   needsConfirm: boolean
   /** One 'primary' per row at most. */
   emphasis: 'primary' | 'secondary' | 'danger-outline'
@@ -49,7 +49,7 @@ export type ReservationAction = {
 
 const CONFIRM: ReservationAction = { to: 'confirmed', label: 'Confirmer', busyLabel: 'Confirmation…', needsConfirm: false, emphasis: 'primary' }
 const COMPLETE: ReservationAction = { to: 'completed', label: 'Terminer', busyLabel: 'Clôture…', needsConfirm: false, emphasis: 'primary' }
-const NO_SHOW: ReservationAction = { to: 'no_show', label: 'Absent', busyLabel: 'Enregistrement…', needsConfirm: false, emphasis: 'secondary' }
+const NO_SHOW: ReservationAction = { to: 'no_show', label: 'Absent', busyLabel: 'Enregistrement…', needsConfirm: true, emphasis: 'secondary' }
 const CANCEL: ReservationAction = { to: 'cancelled', label: 'Annuler', busyLabel: 'Annulation…', needsConfirm: true, emphasis: 'danger-outline' }
 
 const ACTIONS: Record<ReservationStatus, readonly ReservationAction[]> = {

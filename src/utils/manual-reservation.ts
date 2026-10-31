@@ -19,6 +19,8 @@ export type ManualReservation = {
   admin_notes: string | null
   locale: 'fr' | 'en'
   source: (typeof MANUAL_SOURCES)[number]
+  /** Phase 15 (migration 019). Present ONLY when provided and non-empty: older payloads yield the exact same value as before. */
+  allergies?: string
 }
 
 type Result = { ok: true; value: ManualReservation } | { ok: false; error: string }
@@ -78,6 +80,13 @@ export function validateManualReservation(body: unknown): Result {
     notes = b.admin_notes.trim() === '' ? null : b.admin_notes
   }
 
+  // Additive (phase 15): an absent or blank value leaves the output byte-identical to the previous version.
+  let allergies: string | undefined
+  if (b.allergies !== undefined && b.allergies !== null) {
+    if (typeof b.allergies !== 'string' || b.allergies.length > 500) return { ok: false, error: 'Allergies invalides' }
+    if (b.allergies.trim() !== '') allergies = b.allergies.trim()
+  }
+
   return {
     ok: true,
     value: {
@@ -90,6 +99,7 @@ export function validateManualReservation(body: unknown): Result {
       admin_notes: notes,
       locale: b.locale === 'en' ? 'en' : 'fr',
       source,
+      ...(allergies !== undefined ? { allergies } : {}),
     },
   }
 }
