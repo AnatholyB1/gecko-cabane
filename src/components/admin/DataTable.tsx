@@ -1,0 +1,69 @@
+import type { ReactNode } from 'react'
+
+/**
+ * Rôle d'une colonne : pilote la mise en page en cartes sous 768 px
+ * (heure en tête, statut à droite, nom pleine largeur, nombres et texte libellés, actions en bas).
+ */
+export type ColumnRole = 'time' | 'name' | 'status' | 'num' | 'text' | 'actions'
+
+export type DataTableColumn<T> = {
+  key: string
+  /** En-tête (la colonne d'actions : texte lisible seulement par les lecteurs d'écran). */
+  header: string
+  role?: ColumnRole
+  cell: (row: T) => ReactNode
+}
+
+const ROLE_CLASS: Record<ColumnRole, string> = {
+  time: 't-time adm-num',
+  name: 't-name',
+  status: 't-status',
+  num: 't-num adm-num',
+  text: 't-text',
+  actions: 't-actions',
+}
+
+/**
+ * Tableau de données : `<table>` dès 768 px, cartes empilées en dessous (même balisage).
+ * Les états chargement / vide / erreur sont rendus par la page avec LoadingState,
+ * EmptyState, ErrorState, jamais ici.
+ */
+export function DataTable<T>({
+  columns,
+  rows,
+  rowKey,
+  caption,
+}: {
+  columns: DataTableColumn<T>[]
+  rows: T[]
+  rowKey: (row: T) => string | number
+  caption: ReactNode
+}) {
+  return (
+    <div className="adm-tablewrap">
+      <table className="adm-table">
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            {columns.map((c) => (
+              <th key={c.key} scope="col" className={c.role === 'num' ? 't-num' : undefined}>
+                {c.role === 'actions' ? <span className="adm-sr-only">{c.header}</span> : c.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={rowKey(row)}>
+              {columns.map((c) => (
+                <td key={c.key} className={ROLE_CLASS[c.role ?? 'text']} data-label={c.header}>
+                  {c.cell(row)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
