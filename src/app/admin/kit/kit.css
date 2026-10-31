@@ -1,0 +1,24 @@
+/* Page kit interne (DSN-07) : mise en page de la démonstration uniquement. */
+.adm-kit { max-width: 1120px; margin: 0 auto; padding: 0 var(--adm-gutter) 96px; }
+.k-top { padding: 24px 0 8px; display: grid; gap: 8px; }
+.k-top h1 { font-size: var(--adm-text-2xl); }
+@media (min-width: 768px) { .k-top h1 { font-size: var(--adm-text-3xl); } }
+.k-vp { display: inline-flex; gap: 8px; align-items: center; font-size: var(--adm-text-sm); color: var(--adm-muted); }
+.k-vp b { color: var(--adm-ink); }
+.k-sec { padding: 40px 0 8px; }
+.k-sec > h2 { font-size: var(--adm-text-xl); font-weight: 600; margin-bottom: 4px; }
+.k-sec > .adm-muted { margin: 0 0 20px; max-width: 70ch; }
+.k-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.k-grid { display: grid; gap: 24px; }
+@media (min-width: 768px) { .k-grid.two { grid-template-columns: 1fr 1fr; } .k-grid.three { grid-template-columns: repeat(3, 1fr); } }
+.k-cap { font-size: var(--adm-text-sm); color: var(--adm-muted); margin: 0 0 8px; font-weight: 600; }
+.k-sw { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 768px) { .k-sw { grid-template-columns: repeat(4, 1fr); } }
+.k-chip { border: 1px solid var(--adm-line); border-radius: var(--adm-radius); overflow: hidden; background: var(--adm-surface); }
+.k-chip i { display: block; height: 44px; border-bottom: 1px solid var(--adm-line); }
+.k-chip div { padding: 8px 10px; font-size: var(--adm-text-sm); line-height: 1.35; }
+.k-chip code { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.k-type p { margin: 0 0 6px; }
+.k-ph { display: grid; place-items: center; min-height: 120px; border: 1px dashed var(--adm-line-strong); border-radius: var(--adm-radius); color: var(--adm-muted); font-size: var(--adm-text-sm); background: var(--adm-surface-2); text-align: center; padding: 8px; }
+.adm-kit code { overflow-wrap: anywhere; }
+.adm-card.k-flush-top { padding-top: 0; padding-bottom: var(--adm-space-5); }

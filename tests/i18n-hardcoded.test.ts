@@ -12,6 +12,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { join, relative } from 'path'
+import { isAdminComponentPath } from './helpers/admin-exemption'
 
 // Unaccented French phrases that the accent scan cannot catch (D-12, SEO-04).
 const BANNED_PHRASES = [
@@ -36,6 +37,18 @@ const ACCENTED = /[àâäçéèêëîïôöùûüœÀÂÉÈÊËÎÏÔÙÛÜÇŒ]
 
 const cwd = process.cwd()
 
+/**
+ * Files scanned by the guards below. src/components/admin/ is exempt (admin UI is
+ * fixed French by project rule); the exemption is limited to that folder and is
+ * checked by tests/admin-component-exemption.test.ts.
+ */
+function scannedFiles(): string[] {
+  return [
+    ...walk(join(cwd, 'src', 'components')),
+    ...walk(join(cwd, 'src', 'app', '[locale]')),
+  ].filter((f) => !isAdminComponentPath(relative(cwd, f)))
+}
+
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
     const full = join(dir, name)
@@ -58,10 +71,7 @@ function stripComments(src: string): string[] {
 
 describe('i18n — no hard-coded French literals', () => {
   it('src/components and src/app/[locale] contain no accented French literal', () => {
-    const files = [
-      ...walk(join(cwd, 'src', 'components')),
-      ...walk(join(cwd, 'src', 'app', '[locale]')),
-    ]
+    const files = scannedFiles()
 
     const offenders: string[] = []
     for (const file of files) {
@@ -81,10 +91,7 @@ describe('i18n — no hard-coded French literals', () => {
   })
 
   it('no banned unaccented French phrase in scanned sources', () => {
-    const files = [
-      ...walk(join(cwd, 'src', 'components')),
-      ...walk(join(cwd, 'src', 'app', '[locale]')),
-    ]
+    const files = scannedFiles()
     for (const file of files) {
       const code = stripComments(readFileSync(file, 'utf-8')).join('\n')
       const hits = BANNED_PHRASES.filter((p) => code.includes(p))
