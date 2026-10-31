@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { ArrowDown, ArrowUp, Check, Circle, Lock, Minus, Send, ShieldCheck, Clock, Info, CircleAlert, TriangleAlert } from 'lucide-react'
 import { UNAVAILABLE_LABEL, KPI_METRICS } from '@/utils/kpi-format'
-import type { ApiResponse, WeeklyKpiRow } from '@/types/database'
+import type { ApiResponse, KpiReportMode, WeeklyKpiRow } from '@/types/database'
 import { adminFetch, AdminFetchError } from '../admin-fetch'
 import { useAdminQuery } from '../use-admin-query'
 import { useConfirm } from '../ConfirmDialog'
@@ -26,7 +26,7 @@ import {
   formatWeek,
   krabiToday,
   liveConditions,
-  reportModeOf,
+  serverModeOf,
   savedMessage,
   shouldConfirmAlert,
   submitManualEntry,
@@ -34,7 +34,8 @@ import {
   type ManualPayload,
 } from './kpi-guard'
 
-type KpiBody = ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number }>
+type KpiBody = ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number; mode?: KpiReportMode }>
+type ServerMode = KpiReportMode | null
 
 /** En-têtes courts du tableau (les libellés complets restent dans le détail de la semaine). */
 const SHORT_LABELS: Record<string, string> = {
@@ -49,7 +50,14 @@ const SHORT_LABELS: Record<string, string> = {
 
 const LOAD_ERROR = 'Impossible de charger les KPI. Réessayez ou rechargez la page.'
 
-function ModeBadge({ mode }: { mode: 'test' | 'live' }) {
+function ModeBadge({ mode }: { mode: ServerMode }) {
+  if (mode === null) {
+    return (
+      <Badge tone="neutral" icon={Info}>
+        mode inconnu
+      </Badge>
+    )
+  }
   return mode === 'live' ? (
     <Badge tone="ok" icon={ShieldCheck}>
       live
@@ -62,7 +70,7 @@ function ModeBadge({ mode }: { mode: 'test' | 'live' }) {
 }
 
 /** Bandeau garde-fou : TOUJOURS visible, même en chargement ou en erreur. Aucun bouton d'envoi ici. */
-function GuardBanner({ mode, testReportsSent }: { mode: 'test' | 'live'; testReportsSent: number | null }) {
+export function GuardBanner({ mode, testReportsSent }: { mode: ServerMode; testReportsSent: number | null }) {
   return (
     <section className={`adm-rep-guard${mode === 'live' ? ' adm-rep-guard--live' : ''}`} aria-labelledby="rep-guard-t">
       <p className="adm-rep-guard__row">
@@ -74,11 +82,14 @@ function GuardBanner({ mode, testReportsSent }: { mode: 'test' | 'live'; testRep
       </h2>
       <p>{LIVE_PASSAGE_SENTENCE}</p>
       <p className="adm-rep-guard__rule">{GUARD_PHRASE}</p>
+      {mode === null ? (
+        <p className="adm-rep-hint">Le mode du serveur n&apos;a pas pu être lu : aucun état (TEST ou live) n&apos;est affiché tant qu&apos;il est inconnu.</p>
+      ) : null}
     </section>
   )
 }
 
-function SendPanel({ testReportsSent, mode }: { testReportsSent: number | null; mode: 'test' | 'live' }) {
+export function SendPanel({ testReportsSent, mode }: { testReportsSent: number | null; mode: ServerMode }) {
   const conditions = liveConditions(testReportsSent, krabiToday())
   return (
     <Card>
@@ -103,7 +114,11 @@ function SendPanel({ testReportsSent, mode }: { testReportsSent: number | null; 
         <div className="adm-rep-lock">
           <h3 className="adm-rep-sub adm-rep-guard__row">
             Passage en live{' '}
-            {mode === 'live' ? (
+            {mode === null ? (
+              <Badge tone="neutral" icon={Info}>
+                mode inconnu
+              </Badge>
+            ) : mode === 'live' ? (
               <Badge tone="ok" icon={ShieldCheck}>
                 live
               </Badge>
@@ -161,6 +176,7 @@ function ManualEntryForm({ row, onSaved }: { row: WeeklyKpiRow; onSaved: (alerte
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
+    if (saving) return
     setSaving(true)
     setError(null)
     const payload: ManualPayload = {
@@ -227,7 +243,7 @@ function ManualEntryForm({ row, onSaved }: { row: WeeklyKpiRow; onSaved: (alerte
         <h3 className="adm-rep-sub" id="rep-saisie-t">
           Saisie manuelle de la semaine
         </h3>
-        <p className="adm-rep-lead">Avis Google (hors collecte automatique). Facultatif : le rapport part sans cette saisie.</p>
+        <p className="adm-rep-lead">Le total d&apos;avis Google est relevé automatiquement par la collecte du lundi quand la semaine n&apos;a pas de saisie ; une saisie ici est prioritaire et n&apos;est jamais écrasée par la collecte. Facultatif : le rapport part sans cette saisie.</p>
       </div>
       <div className="adm-rep-grid3">
         <Input label="Total d'avis Google" type="number" inputMode="numeric" min={0} max={100000} value={total} onChange={(e) => setTotal(e.target.value)} />
@@ -268,7 +284,8 @@ export function KpiPanel() {
 
   const weeks = q.data?.data?.weeks ?? []
   const testReportsSent = q.status === 'ready' ? (q.data?.data?.testReportsSent ?? 0) : null
-  const mode = reportModeOf(weeks)
+  // Mode du SERVEUR (GET /api/kpi). Inconnu tant qu'il n'est pas lu, et dès que la lecture échoue : jamais « TEST » par défaut.
+  const mode = q.status === 'error' ? null : serverModeOf(q.data?.data?.mode)
 
   const selectedIndex = Math.max(0, weeks.findIndex((w) => w.week_start === selectedWeek))
   const selected: WeeklyKpiRow | undefined = weeks[selectedIndex]

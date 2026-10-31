@@ -2,10 +2,11 @@ import { NextRequest, NextResponse, after } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { requireAdmin } from '@/utils/auth'
 import { weekEndOf } from '@/utils/kpi-week'
+import { resolveReportMode } from '@/utils/kpi-mode'
 import { manualKpiSchema, shouldAlertLowRating, lowRatingAlertEmail } from '@/utils/kpi-manual'
 import { getResendClient, RESEND_FROM_EMAIL, RESTAURANT_NOTIFICATION_EMAIL } from '@/utils/resend'
 import { SITE_URL } from '@/utils/seo'
-import type { ApiResponse, WeeklyKpiRow } from '@/types/database'
+import type { ApiResponse, KpiReportMode, WeeklyKpiRow } from '@/types/database'
 
 /**
  * Admin-only weekly KPI history (KPI-06, D-05).
@@ -48,8 +49,11 @@ export async function GET(request: NextRequest) {
       (r) => r.report_mode === 'test' && r.report_sent_at != null
     ).length
 
-    return NextResponse.json<ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number }>>({
-      data: { weeks: rows, testReportsSent },
+    // Lecture seule du reglage serveur (KPI_REPORT_MODE), pour l'affichage de l'admin : aucun autre effet.
+    const mode: KpiReportMode = resolveReportMode(process.env.KPI_REPORT_MODE)
+
+    return NextResponse.json<ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number; mode: KpiReportMode }>>({
+      data: { weeks: rows, testReportsSent, mode },
     })
   } catch (e) {
     Sentry.captureException(e)

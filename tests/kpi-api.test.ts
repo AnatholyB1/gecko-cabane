@@ -73,7 +73,7 @@ describe('GET /api/kpi', () => {
     expect(f.calls.select).toBe('*')
     expect(f.calls.order).toEqual(['week_start', { ascending: false }])
     expect(f.calls.limit).toBe(12)
-    expect(await res.json()).toEqual({ data: { weeks: [], testReportsSent: 0 } })
+    expect(await res.json()).toEqual({ data: { weeks: [], testReportsSent: 0, mode: 'test' } })
   })
 
   it.each([
@@ -102,6 +102,30 @@ describe('GET /api/kpi', () => {
     const json = await (await GET(req())).json()
     expect(json.data.testReportsSent).toBe(1)
     expect(json.data.weeks).toHaveLength(4)
+  })
+
+  it('exposes the server report mode read-only: live only when KPI_REPORT_MODE is exactly "live"', async () => {
+    const f = fakeSupabase({ data: [], error: null })
+    requireAdmin.mockResolvedValue({ ok: true, supabase: f.supabase, user: { id: 'u' } })
+    const prev = process.env.KPI_REPORT_MODE
+    try {
+      for (const [raw, expected] of [
+        ['live', 'live'],
+        [' live ', 'live'],
+        ['LIVE', 'test'],
+        ['test', 'test'],
+        ['', 'test'],
+        [undefined, 'test'],
+      ] as const) {
+        if (raw === undefined) delete process.env.KPI_REPORT_MODE
+        else process.env.KPI_REPORT_MODE = raw
+        const json = await (await GET(req())).json()
+        expect(json.data.mode, String(raw)).toBe(expected)
+      }
+    } finally {
+      if (prev === undefined) delete process.env.KPI_REPORT_MODE
+      else process.env.KPI_REPORT_MODE = prev
+    }
   })
 
   it('returns a generic 500 and reports to Sentry on Supabase error', async () => {
