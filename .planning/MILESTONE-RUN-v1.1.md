@@ -36,6 +36,13 @@ Direction « luxe discret » validée · 5 entrées de nav à 12 px · mobile : 
 | P15 UI Aujourd'hui + Réservations | phase/15-ui | merge | idem | migration 019 (allergies) écrite, NON appliquée |
 | P14 carte | phase/14-carte | a399cdf (après correctif délai) | 121 fichiers / 1781 tests ; lint, tsc, build verts | |
 
+| Audits P15/P11-12/P14-16 + corrections | fix/p15-audit, fix/p11-p12-audit, fix/p14-p16-audit | 1eb5415 + merge | 126 fichiers / 1981 tests, 3 passages verts ; lint, tsc, build verts | test de nav rendu déterministe ; testTimeout 30 s global |
+
+## Décision du propriétaire (2026-10-31, totaux d'avis)
+Retirer la saisie manuelle Google (collecte KPI hebdomadaire = source), garder TripAdvisor manuel. À faire en passe qualité (17c).
+
+## Phase 17 en cours : 17a Complet ce soir (3118) · 17b Accès / invitation / revoke tables (3119) ; 17c qualité finale ensuite.
+
 ## Audits lancés (6 agents, ports 3110-3114) : P15 ×3, P11+P12, P14+P16
 ## En cours (vague 2, ancien)
 - P12 shell (`phase/12-shell-nav`, 3107) ; P15a logique réservations/Aujourd'hui (`phase/15a-logic`, 3108).
