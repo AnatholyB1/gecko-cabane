@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Git worktrees live under the project (their own node_modules/.next).
     ".claude/**",
+    // Planning docs, mockup prototypes and their generator scripts are not app code.
+    ".planning/**",
   ]),
 ]);
 
