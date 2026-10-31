@@ -5,9 +5,10 @@ import type { ReactNode } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
 import { Plus, X } from 'lucide-react'
 import { Button } from '../Button'
+import { useConfirm } from '../ConfirmDialog'
 import { useToast } from '../Toast'
 import { krabiTodayYmd } from '@/utils/krabi-time'
-import ManualReservationForm from './ManualReservationForm'
+import ManualReservationForm, { isManualFormDirty } from './ManualReservationForm'
 import './reservations.css'
 
 type Listener = () => void
@@ -50,7 +51,12 @@ export function useOnReservationCreated(refetch: () => void) {
  */
 export function NewReservationProvider({ children, portalClass = 'adm-portal' }: { children: ReactNode; portalClass?: string }) {
   const toast = useToast()
+  const confirm = useConfirm()
   const [isOpen, setIsOpen] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const submittingRef = useRef(false)
+  const popupRef = useRef<HTMLDivElement>(null)
+  const closing = useRef(false)
   const [date, setDate] = useState(() => krabiTodayYmd())
   const hint = useRef<string | null>(null)
   const listeners = useRef(new Set<Listener>())
@@ -75,11 +81,42 @@ export function NewReservationProvider({ children, portalClass = 'adm-portal' }:
     const url = new URL(window.location.href)
     if (url.searchParams.get('nouvelle') !== '1') return
     url.searchParams.delete('nouvelle')
-    window.history.replaceState(null, '', url.pathname + (url.search ? url.search : '') + url.hash)
+    window.history.replaceState(window.history.state, '', url.pathname + (url.search ? url.search : '') + url.hash)
     queueMicrotask(() => open())
   }, [open])
 
+  function onPendingChange(pending: boolean) {
+    submittingRef.current = pending
+    setSubmitting(pending)
+  }
+
+  /**
+   * Fermeture demandée (Échap, fond, croix, « Fermer ») : refusée pendant l'envoi ; avec une saisie
+   * non vide, demande confirmation avant d'abandonner le formulaire.
+   */
+  async function requestClose() {
+    if (submittingRef.current || closing.current) return
+    const form = popupRef.current?.querySelector('form')
+    if (form && isManualFormDirty(new FormData(form))) {
+      closing.current = true
+      try {
+        const leave = await confirm({
+          title: 'Abandonner cette réservation ?',
+          description: 'Les informations saisies seront perdues.',
+          confirmLabel: 'Abandonner',
+          cancelLabel: 'Continuer la saisie',
+        })
+        if (!leave || submittingRef.current) return
+      } finally {
+        closing.current = false
+      }
+    }
+    setIsOpen(false)
+  }
+
   function created() {
+    submittingRef.current = false
+    setSubmitting(false)
     setIsOpen(false)
     toast.success('Réservation ajoutée')
     listeners.current.forEach((l) => l())
@@ -88,20 +125,33 @@ export function NewReservationProvider({ children, portalClass = 'adm-portal' }:
   return (
     <Ctx.Provider value={{ open, setDayHint, subscribe }}>
       {children}
-      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog.Root
+        open={isOpen}
+        onOpenChange={(next) => {
+          if (next) setIsOpen(true)
+          else void requestClose()
+        }}
+      >
         <Dialog.Portal className={portalClass}>
           <Dialog.Backdrop className="adm-scrim" />
-          <Dialog.Popup className="rv-sheet" initialFocus={firstField}>
+          <Dialog.Popup className="rv-sheet" initialFocus={firstField} ref={popupRef}>
             <div className="rv-sheet__head">
               <Dialog.Title className="rv-sheet__title">Nouvelle réservation</Dialog.Title>
-              <Dialog.Close className="adm-btn adm-btn--ghost adm-btn--icon" aria-label="Fermer">
+              <Dialog.Close className="adm-btn adm-btn--ghost adm-btn--icon" aria-label="Fermer" disabled={submitting}>
                 <X className="i" aria-hidden="true" focusable="false" />
               </Dialog.Close>
             </div>
             <Dialog.Description className="adm-sr-only">
               Saisir une réservation prise par téléphone, WhatsApp ou sans réservation. Heures de Krabi.
             </Dialog.Description>
-            <ManualReservationForm defaultDate={date} onCreated={created} onCancel={() => setIsOpen(false)} firstFieldRef={firstField} />
+            <ManualReservationForm
+              defaultDate={date}
+              onCreated={created}
+              onCancel={() => void requestClose()}
+              firstFieldRef={firstField}
+              onPendingChange={onPendingChange}
+              onFailed={(message) => toast.error(message, 'Vos informations sont conservées : corrigez puis réessayez.')}
+            />
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>

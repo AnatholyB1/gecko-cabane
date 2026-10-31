@@ -2,6 +2,7 @@
 
 import { createClient, isGeckoAdmin } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { safeAdminRedirect } from '@/utils/safe-redirect'
 
 export async function loginAction(formData: FormData) {
   const email = formData.get('email') as string
@@ -23,5 +24,5 @@ export async function loginAction(formData: FormData) {
     redirect(`/admin/login?error=${encodeURIComponent("Ce compte n'a pas accès à l'administration Gecko Cabane.")}`)
   }
 
-  redirect(redirectTo || '/admin')
+  redirect(safeAdminRedirect(redirectTo))
 }

@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
+import { safeAdminRedirect } from '@/utils/safe-redirect'
 
 // Force Turbopack build-cache invalidation when NEXT_PUBLIC_SUPABASE_* env
 // vars change on Vercel (see src/utils/supabase/server.ts for details).
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
     )
   }
 
-  const destination = redirectTo || '/admin'
+  const destination = safeAdminRedirect(redirectTo)
   const response = NextResponse.redirect(new URL(destination, request.url))
 
   // Stamp the session cookies onto the redirect so the browser receives them.

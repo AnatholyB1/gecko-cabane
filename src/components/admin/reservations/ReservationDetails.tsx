@@ -8,6 +8,7 @@ import { Button } from '../Button'
 import { useConfirm } from '../ConfirmDialog'
 import { Select, Textarea } from '../Input'
 import { useToast } from '../Toast'
+import { mailtoLink } from '@/utils/phone-links'
 import { krabiToday } from '@/utils/review-invitations'
 import { getReviewBadges, showNoShowDeadline } from '@/utils/review-badges'
 import { formatOrigin, RESERVATION_SOURCES, SOURCE_LABELS } from '@/utils/reservation-source'
@@ -91,6 +92,7 @@ export function ReservationDetails({
   }
 
   const locked = disabled || saving !== null
+  const mailto = mailtoLink(r.customer_email)
 
   return (
     <div className="rv-detail">
@@ -105,7 +107,7 @@ export function ReservationDetails({
         </div>
         <div>
           <dt>Email</dt>
-          <dd>{r.customer_email ? <a href={`mailto:${r.customer_email}`}>{r.customer_email}</a> : 'Non renseigné'}</dd>
+          <dd>{mailto ? <a href={mailto}>{r.customer_email}</a> : (r.customer_email || 'Non renseigné')}</dd>
         </div>
         {origin ? (
           <div>

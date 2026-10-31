@@ -9,9 +9,7 @@ import type { ComponentType } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
-
-// Le vrai NAV (pas la version éditée par le mock ci-dessous).
-const { NAV: REAL_NAV } = await vi.importActual<typeof import('../src/app/admin/(app)/nav')>('@/app/admin/(app)/nav')
+import { NAV as REAL_NAV } from '../src/app/admin/(app)/nav'
 
 const root = join(__dirname, '..')
 // Les imports dynamiques à froid dépassent 5 s quand la suite complète tourne en parallèle.
@@ -25,36 +23,24 @@ vi.mock('next/navigation', () => ({
 const h = (type: unknown, props: Record<string, unknown> | null = null) =>
   createElement(type as ComponentType<Record<string, unknown>>, props)
 
-const NAV_MODULE = '@/app/admin/(app)/nav'
+// Pas de mock de module (doMock + resetModules était non déterministe sous charge) : les composants
+// lisent le tableau NAV exporté, que le test modifie en place puis restaure.
+type NavList = typeof REAL_NAV
+const ORIGINAL_NAV: NavList = [...REAL_NAV]
+const restoreNav = () => REAL_NAV.splice(0, REAL_NAV.length, ...ORIGINAL_NAV)
 
-// F-M5 : `NAV` est une propriété calculée à chaque lecture à partir de `navState.edit`. L'ancienne version
-// (`vi.doMock` + `vi.resetModules` + imports dynamiques) lisait parfois le vrai NAV sous charge (échec
-// aléatoire d'un test sur ~4 passes complètes) ; ici l'ordre de chargement des modules n'a plus d'effet.
-const navState = vi.hoisted(() => ({ edit: ((nav: unknown) => nav) as (nav: never) => unknown }))
-vi.mock('@/app/admin/(app)/nav', async (importOriginal) => {
-  const real = await importOriginal<typeof import('../src/app/admin/(app)/nav')>()
-  return {
-    ...real,
-    get NAV() {
-      return navState.edit(real.NAV as never)
-    },
-  }
-})
-
-afterEach(() => {
-  navState.edit = (nav) => nav
-})
+afterEach(restoreNav)
 beforeEach(() => {
+  restoreNav()
   mockPath = '/admin'
 })
 
-async function renderSurfaces(edit: (nav: typeof REAL_NAV) => typeof REAL_NAV) {
-  navState.edit = edit as unknown as typeof navState.edit
+async function renderSurfaces(edit: (nav: NavList) => NavList) {
+  REAL_NAV.splice(0, REAL_NAV.length, ...edit([...ORIGINAL_NAV]))
   const { MainNav } = await import('../src/components/admin/shell/MainNav')
   const { SectionTabs } = await import('../src/components/admin/shell/SectionTabs')
   const { HomeCards, SectionCards } = await import('../src/components/admin/shell/HomeCards')
-  const nav = (await import(NAV_MODULE)).NAV as typeof REAL_NAV
-  const site = nav.find((n) => n.id === 'site')!
+  const site = REAL_NAV.find((n) => n.id === 'site')!
   return {
     main: renderToStaticMarkup(h(MainNav)),
     tabs: renderToStaticMarkup(h(SectionTabs)),
@@ -76,7 +62,7 @@ describe('NAV-03 une seule modification de nav.ts', () => {
     }
     expect(out.home).toContain('Phrase de test.')
     // six entrées : le sixième lien de barre existe
-    expect(out.main.match(/class="adm-nav-link"/g)).toHaveLength(REAL_NAV.length + 1)
+    expect(out.main.match(/class="adm-nav-link"/g)).toHaveLength(ORIGINAL_NAV.length + 1)
   })
 
   it('ajouter une sous-entrée à « Site public » la fait apparaître dans la sous-navigation, les onglets et les cartes de section', async () => {
@@ -102,7 +88,7 @@ describe('NAV-03 une seule modification de nav.ts', () => {
       expect(html).not.toContain('href="/admin/menu"')
       expect(html).not.toContain('>Carte<')
     }
-    expect(out.main.match(/class="adm-nav-link"/g)).toHaveLength(REAL_NAV.length - 1)
+    expect(out.main.match(/class="adm-nav-link"/g)).toHaveLength(ORIGINAL_NAV.length - 1)
   })
 
   it('retirer une sous-entrée la retire de la sous-navigation et des onglets', async () => {
@@ -132,7 +118,7 @@ describe('NAV-03 aucun libellé ni lien interne en dur dans les composants du sh
   })
 
   it('aucun libellé d’entrée ou de sous-entrée de nav.ts recopié', () => {
-    const labels = REAL_NAV.flatMap((n) => [n.label, ...(n.children ?? []).map((c) => c.label)])
+    const labels = ORIGINAL_NAV.flatMap((n) => [n.label, ...(n.children ?? []).map((c) => c.label)])
     for (const f of files) {
       const src = readFileSync(join(dir, f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
       for (const l of labels) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent, Ref } from 'react'
 import { CircleAlert, Minus, Plus } from 'lucide-react'
 import { adminFetch, AdminFetchError } from '../admin-fetch'
@@ -30,6 +30,12 @@ const SERVER_FIELD: Record<string, FieldName> = {
 
 type Errors = Partial<Record<FieldName, string>>
 
+/** Saisie non vide ? (source choisie ou un champ libre rempli ; date, heure et couverts ont des valeurs par défaut). */
+export function isManualFormDirty(fd: FormData): boolean {
+  const text = (k: string) => String(fd.get(k) ?? '').trim()
+  return ['source', 'customer_name', 'customer_phone', 'customer_email', 'allergies', 'admin_notes', 'reservation_time'].some((k) => text(k) !== '')
+}
+
 /** Validation côté client (miroir léger des règles serveur ; le serveur reste l'autorité). */
 export function validateManualForm(fd: FormData): Errors {
   const e: Errors = {}
@@ -54,16 +60,27 @@ export default function ManualReservationForm({
   onCreated,
   onCancel,
   firstFieldRef,
+  onPendingChange,
+  onFailed,
 }: {
   defaultDate: string
   onCreated: () => void
   onCancel: () => void
   firstFieldRef?: Ref<HTMLInputElement>
+  /** Envoi en cours : le dialogue ne doit pas se fermer (la saisie et la réponse seraient perdues). */
+  onPendingChange?: (pending: boolean) => void
+  /** Échec de l'envoi : le parent double le bandeau d'un toast (le bandeau est en haut d'un long formulaire). */
+  onFailed?: (message: string) => void
 }) {
+  const bannerRef = useRef<HTMLDivElement>(null)
   const [pending, setPending] = useState(false)
   const [errors, setErrors] = useState<Errors>({})
   const [banner, setBanner] = useState<string | null>(null)
   const [party, setParty] = useState('2')
+
+  useEffect(() => {
+    if (banner) bannerRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [banner])
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -77,6 +94,7 @@ export default function ManualReservationForm({
     }
     setBanner(null)
     setPending(true)
+    onPendingChange?.(true)
     try {
       await adminFetch(MANUAL_RESERVATION_URL, { method: 'POST', json: manualReservationBody(fd) })
       onCreated()
@@ -86,8 +104,10 @@ export default function ManualReservationForm({
       if (field) setErrors({ [field]: message })
       const detail = field || message === FALLBACK_ERROR ? '' : ` (${message})`
       setBanner(`${FALLBACK_ERROR}${detail} Vos informations sont conservées.`)
+      onFailed?.(`${FALLBACK_ERROR}${detail}`)
     } finally {
       setPending(false)
+      onPendingChange?.(false)
     }
   }
 
@@ -103,7 +123,7 @@ export default function ManualReservationForm({
   return (
     <form onSubmit={handleSubmit} noValidate className="rv-form" aria-busy={pending || undefined}>
       {banner ? (
-        <div className="rv-banner" role="alert">
+        <div className="rv-banner" role="alert" ref={bannerRef}>
           <CircleAlert className="i" aria-hidden="true" focusable="false" />
           <span>{banner}</span>
         </div>
