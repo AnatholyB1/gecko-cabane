@@ -28,6 +28,7 @@ describe('DSN-03 Button', () => {
     expect(buttonClass()).toBe('adm-btn')
     expect(buttonClass({ variant: 'primary' })).toBe('adm-btn adm-btn--primary')
     expect(buttonClass({ variant: 'danger', size: 'sm' })).toBe('adm-btn adm-btn--danger adm-btn--sm')
+    expect(buttonClass({ variant: 'danger-outline' })).toBe('adm-btn adm-btn--danger-outline')
     expect(buttonClass({ iconOnly: true, block: true })).toBe('adm-btn adm-btn--icon adm-btn--block')
   })
 

@@ -25,7 +25,7 @@ const REQUIRED = [
   '--adm-bg', '--adm-surface', '--adm-surface-2', '--adm-ink', '--adm-muted', '--adm-line',
   '--adm-brand', '--adm-accent', '--adm-ok', '--adm-warn', '--adm-danger', '--adm-info',
   '--adm-radius', '--adm-radius-lg', '--adm-space-4', '--adm-font-sans', '--adm-font-display',
-  '--adm-focus', '--adm-target',
+  '--adm-focus', '--adm-target', '--adm-ok-line', '--adm-warn-line', '--adm-danger-line', '--adm-info-line',
 ]
 
 describe('DSN-02 jetons --adm-*', () => {
