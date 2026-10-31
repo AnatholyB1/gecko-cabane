@@ -21,6 +21,7 @@ import { NewReservationButton, useDayHint, useOnReservationCreated } from './New
 import { ReservationRow } from './ReservationRow'
 import { dayUrl } from './requests'
 import { useReservationActions } from './use-reservation-actions'
+import { useNow } from './use-clock'
 import './reservations.css'
 
 const CHIPS: { id: StatusFilter; label: string }[] = [
@@ -37,20 +38,22 @@ export function ReservationsView({ initialDate }: { initialDate: string }) {
   const [date, setDate] = useState(initialDate)
   const [status, setStatus] = useState<StatusFilter>('all')
   const [query, setQuery] = useState('')
-  const today = krabiTodayYmd()
+  // Horloge partagée : Hier / Aujourd'hui / Demain suivent minuit à Krabi sans recharger la page.
+  const now = useNow()
+  const today = krabiTodayYmd(now)
   useDayHint(date)
 
   const res = useAdminQuery<ApiResponse<Reservation[]>>(dayUrl(date))
   const refetch = res.refetch
   useOnReservationCreated(refetch)
-  const { busy, failures, run } = useReservationActions(refetch)
+  const { busy, failures, run, withStatus } = useReservationActions(refetch, res.data)
 
-  const rows = res.data?.data
+  const rows = res.data?.data?.map(withStatus)
   const counts = rows ? statusCounts(rows) : null
   const shown = rows ? filterReservations(rows, status, query) : []
   const groups = groupByService(shown)
   const sum = rows ? daySummary(rows) : null
-  const rel = relativeDayLabel(date)
+  const rel = relativeDayLabel(date, now)
 
   function go(next: string) {
     if (isYmd(next)) setDate(next)
