@@ -1,7 +1,7 @@
 'use client'
 
+import { PageHeader } from '@/components/admin/PageHeader'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { OpeningHours, SpecialHours } from '@/types/database'
 
@@ -170,7 +170,7 @@ export default function HoursAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-(--background) flex items-center justify-center">
+      <div className="min-h-[50vh] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
           <p className="mt-4 text-(--warm-gray)">Chargement...</p>
@@ -180,38 +180,10 @@ export default function HoursAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      {/* Admin Header */}
-      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl">🦎</span>
-            <div>
-              <h1 className="text-xl font-bold">Gecko Cabane Admin</h1>
-              <p className="text-sm opacity-80">Gestion des horaires</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
-            >
-              ← Retour
-            </Link>
-            <form action="/api/auth/logout" method="POST">
-              <button
-                type="submit"
-                className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors cursor-pointer"
-              >
-                Déconnexion
-              </button>
-            </form>
-          </div>
-        </div>
-      </header>
+    <div>
+      <PageHeader title="Horaires" />
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto py-8">
         {/* Message */}
         {message && (
           <div className={`mb-6 p-4 rounded-xl ${
@@ -287,7 +259,7 @@ export default function HoursAdminPage() {
         </div>
 
         {/* Special Hours */}
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div id="exceptions" className="bg-white rounded-2xl shadow-lg p-8 scroll-mt-24">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-(--primary-dark) flex items-center gap-3">
               <span>📅</span> Horaires spéciaux
@@ -432,7 +404,7 @@ export default function HoursAdminPage() {
             </div>
           )}
         </div>
-      </main>
+      </div>
     </div>
   )
 }

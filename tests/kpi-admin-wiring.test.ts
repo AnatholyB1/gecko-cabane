@@ -53,9 +53,12 @@ describe('/admin/kpi page', () => {
   })
 })
 
-describe('admin home', () => {
-  it('links /admin/kpi from the card and the quick actions', () => {
-    expect(count(read('src/app/admin/(app)/page.tsx'), 'href="/admin/kpi"')).toBe(2)
+describe('admin navigation', () => {
+  it('reaches /admin/kpi from nav.ts (single source for nav bar, tabs and home cards)', () => {
+    const nav = read('src/app/admin/(app)/nav.ts')
+    expect(count(nav, "href: '/admin/kpi'")).toBe(1)
+    // the old hand-written home page no longer carries admin links: the home cards come from nav.ts
+    expect(read('src/app/admin/(app)/page.tsx')).not.toContain('/admin/kpi')
   })
 })
 

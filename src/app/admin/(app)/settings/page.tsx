@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
+import { PageHeader } from '@/components/admin/PageHeader'
 import type { RestaurantSetting } from '@/types/database'
 
 const SETTING_META: Record<string, { label: string; description: string; unit: string; min: number; max: number }> = {
@@ -70,17 +70,10 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      <header className="bg-(--primary) text-white py-5 px-6 shadow-lg">
-        <div className="max-w-4xl mx-auto">
-          <Link href="/admin" className="text-(--accent-light) hover:text-white mb-1 inline-block text-sm">
-            ← Retour au tableau de bord
-          </Link>
-          <h1 className="text-3xl font-bold">⚙️ Paramètres du restaurant</h1>
-        </div>
-      </header>
+    <div>
+      <PageHeader title="Capacité" description="Couverts maximum et durée d'occupation d'un créneau." />
 
-      <main className="max-w-4xl mx-auto py-8 px-6">
+      <div className="max-w-4xl mx-auto py-8">
         {message && (
           <div
             className={`mb-6 p-4 rounded-lg ${
@@ -167,7 +160,7 @@ export default function AdminSettingsPage() {
             </button>
           </div>
         )}
-      </main>
+      </div>
     </div>
   )
 }

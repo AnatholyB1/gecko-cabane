@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import Link from 'next/link'
 import { KPI_METRICS, UNAVAILABLE_LABEL, formatDelta, formatKpiValue } from '@/utils/kpi-format'
 import type { KpiSourceKey, WeeklyKpiRow } from '@/types/database'
 
@@ -202,13 +201,10 @@ export default function AdminKpiPage() {
   const cell = 'px-3 py-2 text-right tabular-nums whitespace-nowrap'
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+    <div>
+      <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
         <div>
-          <Link href="/admin" prefetch={false} className="text-sm text-(--tropical)">
-            ← Tableau de bord
-          </Link>
-          <h1 className="text-2xl font-bold text-(--primary-dark) mt-2">KPI hebdomadaires</h1>
+          <h1 className="text-2xl font-bold text-(--primary-dark)">KPI hebdomadaires</h1>
           <p className="text-(--warm-gray)">
             Historique semaine par semaine (12 dernières semaines). Une valeur absente s&apos;affiche «{' '}
             {UNAVAILABLE_LABEL} », jamais 0.
@@ -398,7 +394,7 @@ export default function AdminKpiPage() {
             <ManualEntryForm key={selected.week_start} row={selected} onSaved={handleSaved} />
           </section>
         )}
-      </main>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
 import {
   buildMonthTable,
   lastMonths,
@@ -152,13 +151,10 @@ export default function AdminAvisPage() {
   const num = 'px-3 py-2 text-right tabular-nums'
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      <main className="max-w-4xl mx-auto px-6 py-8 space-y-8">
+    <div>
+      <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
         <div>
-          <Link href="/admin" prefetch={false} className="text-sm text-(--tropical)">
-            ← Tableau de bord
-          </Link>
-          <h1 className="text-2xl font-bold text-(--primary-dark) mt-2">Avis</h1>
+          <h1 className="text-2xl font-bold text-(--primary-dark)">Avis</h1>
           <p className="text-(--warm-gray)">
             D&apos;où viennent les visiteurs de la page d&apos;avis, et comment évoluent vos avis Google et
             TripAdvisor.
@@ -301,7 +297,7 @@ export default function AdminAvisPage() {
             <WhatsAppCard key={t.lang} {...t} />
           ))}
         </section>
-      </main>
+      </div>
     </div>
   )
 }
