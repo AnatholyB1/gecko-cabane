@@ -8,6 +8,9 @@ const intlMiddleware = createIntlMiddleware(routing)
 const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
 const NEWSLETTER_ALIASES = new Set(['/newsletter', '/wifi'])
 
+const PUBLIC_ADMIN_PAGES = new Set(['/admin/login', '/admin/mot-de-passe-oublie', '/admin/invitation', '/admin/reinitialiser'])
+const BOUNCE_WHEN_SIGNED_IN = new Set(['/admin/login', '/admin/mot-de-passe-oublie'])
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -77,8 +80,9 @@ export async function middleware(request: NextRequest) {
 
   // ── Auth guard ────────────────────────────────────────────────────────────
   const isAdminRoute = pathname.startsWith('/admin')
-  const isAuthPage =
-    pathname === '/admin/login' || pathname === '/admin/signup'
+  // Pages d'accès publiques (sans session) : connexion, mot de passe oublié, et les deux pages
+  // à jeton (invitation, réinitialisation). L'inscription publique n'existe plus (ACC-02).
+  const isAuthPage = PUBLIC_ADMIN_PAGES.has(pathname)
 
   // Unauthenticated user hitting a protected admin page → redirect to login
   if (isAdminRoute && !isAuthPage && !user) {
@@ -95,13 +99,15 @@ export async function middleware(request: NextRequest) {
     if (error || isAdmin !== true) {
       await supabase.auth.signOut()
       const loginUrl = new URL('/admin/login', request.url)
-      loginUrl.searchParams.set('error', "Ce compte n'a pas accès à l'administration Gecko Cabane.")
+      // Un CODE, jamais un texte libre dans l'adresse (la page de connexion choisit la phrase).
+      loginUrl.searchParams.set('e', 'noaccess')
       return withCookies(NextResponse.redirect(loginUrl))
     }
   }
 
-  // Authenticated user hitting login/signup → bounce to dashboard
-  if (isAuthPage && user) {
+  // Authenticated user hitting login / forgot-password → bounce to dashboard. The token pages stay
+  // reachable while signed in (an admin may open an invitation or reset link).
+  if (isAuthPage && user && BOUNCE_WHEN_SIGNED_IN.has(pathname)) {
     return withCookies(NextResponse.redirect(new URL('/admin', request.url)))
   }
 

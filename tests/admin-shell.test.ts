@@ -142,7 +142,7 @@ describe('NAV-02 en-tête et menu du compte', () => {
     expect(src).toMatch(/if \(focusInside\) buttonRef\.current\?\.focus\(\)/)
   })
 
-  it('menu du compte : e-mail, lien site public, déconnexion par formulaire, Accès désactivé', async () => {
+  it('menu du compte : e-mail, lien site public, déconnexion par formulaire, Accès actif (ACC-02)', async () => {
     const { AccountMenu } = await load()
     const html = renderToStaticMarkup(h(AccountMenu, { email: 'chef@example.com', logoutAction: logout }))
     expect(html).not.toContain('aria-haspopup')
@@ -155,9 +155,11 @@ describe('NAV-02 en-tête et menu du compte', () => {
     expect(html).toContain('<form')
     expect(html).toContain('type="submit"')
     expect(html).toContain('Déconnexion')
-    const planned = ACCOUNT_LINKS.find((l) => l.planned)!
-    expect(html).toContain('aria-disabled="true"')
-    expect(html).not.toContain(`href="${planned.href}"`)
+    // ACC-02 : l'entrée Accès est livrée, c'est un vrai lien (plus de « Bientôt »).
+    expect(ACCOUNT_LINKS.some((l) => l.planned)).toBe(false)
+    expect(html).toContain('href="/admin/acces"')
+    expect(html).not.toContain('aria-disabled="true"')
+    expect(html).not.toContain('Bientôt')
   })
 
   it('le shell : lien d’évitement, nav, header, un seul main', async () => {

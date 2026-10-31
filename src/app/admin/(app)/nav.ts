@@ -127,7 +127,7 @@ export type AccountLink = {
 
 export const ACCOUNT_LINKS: AccountLink[] = [
   { id: 'public-site', label: 'Voir le site public', href: '/', icon: ExternalLink, external: true },
-  { id: 'access', label: 'Accès', href: '/admin/acces', icon: KeyRound, planned: 'phase 17' },
+  { id: 'access', label: 'Accès', href: '/admin/acces', icon: KeyRound },
 ]
 
 // ---------------------------------------------------------------------------

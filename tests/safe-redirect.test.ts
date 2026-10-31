@@ -56,7 +56,6 @@ describe('safeNextPath', () => {
 describe('câblage', () => {
   it.each([
     ['src/app/admin/login/actions.ts', 'safeAdminRedirect(redirectTo)'],
-    ['src/app/api/auth/login/route.ts', 'safeAdminRedirect(redirectTo)'],
     ['src/app/auth/callback/route.ts', "safeNextPath(searchParams.get('next'))"],
   ])('%s utilise le validateur', (file, snippet) => {
     const src = readFileSync(file, 'utf8')

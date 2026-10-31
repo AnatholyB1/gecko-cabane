@@ -72,22 +72,29 @@ describe('NAV-01 route group admin/(app)', () => {
   })
 })
 
-describe('NAV-05 connexion et inscription hors shell', () => {
-  it('login et signup sont à la racine d’admin, pas dans (app)', () => {
+describe('NAV-05 connexion et écrans d’accès hors shell', () => {
+  it('login est à la racine d’admin, pas dans (app) ; signup n’existe plus (ACC-02)', () => {
     expect(has('src/app/admin/login/page.tsx')).toBe(true)
     expect(has('src/app/admin/(app)/login')).toBe(false)
+    expect(has('src/app/admin/signup')).toBe(false)
     expect(has('src/app/admin/(app)/signup')).toBe(false)
   })
 
-  it('la page de connexion n’importe ni le shell ni AdminRoot', () => {
-    const src = read('src/app/admin/login/page.tsx')
-    expect(src).not.toMatch(/AdminShell|AdminRoot|components\/admin/)
+  it('les écrans d’accès publics sont hors du groupe (app) et sans shell', () => {
+    for (const p of ['login', 'mot-de-passe-oublie', 'invitation', 'reinitialiser']) {
+      expect(has(`src/app/admin/${p}/page.tsx`), p).toBe(true)
+      expect(has(`src/app/admin/(app)/${p}`), p).toBe(false)
+      expect(read(`src/app/admin/${p}/page.tsx`), p).not.toMatch(/AdminShell|AdminRoot|components\/admin\/shell/)
+    }
+    expect(read('src/app/admin/_auth/AuthFrame.tsx')).not.toMatch(/AdminShell|AdminRoot|components\/admin\/shell/)
   })
 
-  it('le middleware garde /admin et laisse /admin/login et /admin/signup publics', () => {
+  it('le middleware garde /admin et laisse publics login, mot de passe oublié, invitation, réinitialisation', () => {
     const src = read('src/middleware.ts')
-    expect(src).toContain("pathname === '/admin/login'")
-    expect(src).toContain("pathname === '/admin/signup'")
+    for (const p of ['/admin/login', '/admin/mot-de-passe-oublie', '/admin/invitation', '/admin/reinitialiser']) {
+      expect(src).toContain(`'${p}'`)
+    }
     expect(src).toContain("pathname.startsWith('/admin')")
+    expect(src).not.toContain('/admin/signup')
   })
 })

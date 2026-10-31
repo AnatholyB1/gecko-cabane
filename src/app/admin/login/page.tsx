@@ -1,91 +1,51 @@
-import { createClient } from '@/utils/supabase/server'
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { loginAction } from './actions'
+import { createClient } from '@/utils/supabase/server'
+import { safeAdminRedirect } from '@/utils/safe-redirect'
+import { Notice } from '@/components/admin/reputation/Notice'
+import { AuthFrame } from '../_auth/AuthFrame'
+import { LoginForm } from './LoginForm'
+import { isLoginErrorCode, isLoginNoticeCode, LOGIN_NOTICES } from './messages'
 
+export const metadata: Metadata = { title: 'Connexion | Gecko Cabane' }
+
+/**
+ * Connexion (hors shell). L'URL ne porte que des CODES (`e`, `m`) et la cible `redirect`, validée
+ * par safe-redirect : un texte libre dans l'adresse n'est jamais affiché.
+ */
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; message?: string; redirect?: string }>
+  searchParams: Promise<{ e?: string; m?: string; redirect?: string }>
 }) {
   const params = await searchParams
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   // If already logged in, redirect to admin
   if (user) {
     redirect('/admin')
   }
 
+  const target = params.redirect ? safeAdminRedirect(params.redirect) : null
+  const initialError = isLoginErrorCode(params.e) ? params.e : null
+  const notice = !initialError && isLoginNoticeCode(params.m) ? LOGIN_NOTICES[params.m] : null
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-(--jungle-dark) via-(--primary) to-(--accent) flex items-center justify-center p-6">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-4">🦎</div>
-          <h1 className="text-3xl font-bold text-(--primary-dark)">Connexion Admin</h1>
-          <p className="text-(--warm-gray) mt-2">Gecko Cabane Restaurant</p>
+    <AuthFrame>
+      <p className="auth-eyebrow">Connexion</p>
+      <h1 className="auth-title">Bienvenue</h1>
+      <p className="auth-lede">Connectez-vous pour accéder à l&apos;administration.</p>
+      {notice ? (
+        <div className="auth-notice">
+          <Notice tone="ok" role="status" title={notice.title}>
+            {notice.body}
+          </Notice>
         </div>
-
-        {/* Error Message */}
-        {params.error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-            <p className="text-red-700 text-sm">❌ {params.error}</p>
-          </div>
-        )}
-
-        {/* Success Message */}
-        {params.message && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
-            <p className="text-green-700 text-sm">✅ {params.message}</p>
-          </div>
-        )}
-
-        <form action={loginAction} className="space-y-6">
-          {params.redirect && (
-            <input type="hidden" name="redirect" value={params.redirect} />
-          )}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-(--primary-dark) mb-2">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="w-full px-4 py-3 border border-(--accent-light) rounded-xl focus:ring-2 focus:ring-(--primary) focus:border-transparent outline-none transition-all"
-              placeholder="vous@exemple.com"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-(--primary-dark) mb-2">
-              Mot de passe
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              className="w-full px-4 py-3 border border-(--accent-light) rounded-xl focus:ring-2 focus:ring-(--primary) focus:border-transparent outline-none transition-all"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-(--primary) text-white py-3 rounded-xl font-semibold hover:bg-(--primary-dark) transition-colors focus:ring-2 focus:ring-(--primary) focus:ring-offset-2"
-          >
-            Se connecter
-          </button>
-        </form>
-
-        <div className="mt-8 pt-6 border-t border-(--accent-light) text-center">
-          <Link href="/" className="text-(--warm-gray) hover:text-(--primary) transition-colors">
-            ← Retour au site
-          </Link>
-        </div>
-      </div>
-    </div>
+      ) : null}
+      <LoginForm redirectTo={target} initialError={initialError} />
+    </AuthFrame>
   )
 }

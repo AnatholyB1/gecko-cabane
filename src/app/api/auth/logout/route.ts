@@ -7,7 +7,7 @@ function buildLogoutResponse(
   request: Request,
   pendingCookies: { name: string; value: string; options: Record<string, unknown> }[]
 ) {
-  const response = NextResponse.redirect(new URL('/admin/login', request.url))
+  const response = NextResponse.redirect(new URL('/admin/login?m=deconnecte', request.url))
   pendingCookies.forEach(({ name, value, options }) =>
     response.cookies.set(name, value, options as Parameters<typeof response.cookies.set>[2])
   )

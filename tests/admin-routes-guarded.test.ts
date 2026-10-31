@@ -27,6 +27,10 @@ const GUARDED_ROUTE_FILES = [
   'src/app/api/reservations/manual/route.ts',
   'src/app/api/review/stats/route.ts',
   'src/app/api/kpi/route.ts',
+  'src/app/api/access/route.ts',
+  'src/app/api/access/invitations/route.ts',
+  'src/app/api/access/invitations/[id]/route.ts',
+  'src/app/api/access/admins/[id]/route.ts',
   'src/app/api/service-closure/route.ts',
 ]
 
