@@ -9,7 +9,10 @@ import { ACCOUNT_LINKS } from '@/app/admin/(app)/nav'
  * Menu du compte : e-mail, liens de `nav.ts` (Voir le site public, Accès) et
  * déconnexion. `logoutAction` est la Server Action de l'admin, passée par le
  * layout (un composant de `src/components` n'importe pas `src/app`).
- * Échap ferme et rend le focus à l'avatar ; un clic hors du menu le ferme.
+ * Simple disclosure (bouton `aria-expanded` + liste de liens et d'un bouton), pas de
+ * `role="menu"` : le motif ARIA menu promet des flèches que ce composant n'implémente pas.
+ * Échap ferme (et rend le focus à l'avatar seulement s'il était dans le menu) ; un clic hors
+ * du menu ou la sortie du focus le ferme.
  */
 export function AccountMenu({
   email,
@@ -25,13 +28,12 @@ export function AccountMenu({
 
   useEffect(() => {
     if (!open) return
-    const first = rootRef.current?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])')
-    first?.focus()
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setOpen(false)
-        buttonRef.current?.focus()
-      }
+      if (e.key !== 'Escape') return
+      const root = rootRef.current
+      const focusInside = !!root && root.contains(document.activeElement)
+      setOpen(false)
+      if (focusInside) buttonRef.current?.focus() // ne vole pas le focus s'il est ailleurs
     }
     const onClick = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
@@ -45,12 +47,18 @@ export function AccountMenu({
   }, [open])
 
   return (
-    <div className="adm-account" ref={rootRef}>
+    <div
+      className="adm-account"
+      ref={rootRef}
+      onBlur={(e) => {
+        const next = e.relatedTarget as Node | null
+        if (next && rootRef.current && !rootRef.current.contains(next)) setOpen(false)
+      }}
+    >
       <button
         ref={buttonRef}
         className="adm-account__btn"
         type="button"
-        aria-haspopup="menu"
         aria-expanded={open}
         aria-controls="adm-account-menu"
         aria-label={`Compte : ${email}`}
@@ -58,7 +66,7 @@ export function AccountMenu({
       >
         {initials}
       </button>
-      <div className="adm-menu" id="adm-account-menu" role="menu" hidden={!open}>
+      <div className="adm-menu" id="adm-account-menu" hidden={!open}>
         <div className="adm-menu__who">
           <p className="adm-small adm-muted">Connecté</p>
           <p className="adm-small adm-menu__email">{email}</p>
@@ -67,7 +75,7 @@ export function AccountMenu({
           const Icon = l.icon
           if (l.planned) {
             return (
-              <span key={l.id} className="adm-menu__item adm-menu__item--planned" role="menuitem" aria-disabled="true">
+              <span key={l.id} className="adm-menu__item adm-menu__item--planned" aria-disabled="true">
                 <Icon className="i i-sm" aria-hidden="true" focusable="false" strokeWidth={1.75} />
                 {l.label}
                 <span className="adm-menu__soon">Bientôt</span>
@@ -75,14 +83,14 @@ export function AccountMenu({
             )
           }
           return (
-            <Link key={l.id} className="adm-menu__item" role="menuitem" href={l.href} prefetch={false} onClick={() => setOpen(false)}>
+            <Link key={l.id} className="adm-menu__item" href={l.href} prefetch={false} onClick={() => setOpen(false)}>
               <Icon className="i i-sm" aria-hidden="true" focusable="false" strokeWidth={1.75} />
               {l.label}
             </Link>
           )
         })}
         <form action={logoutAction}>
-          <button className="adm-menu__item" role="menuitem" type="submit">
+          <button className="adm-menu__item" type="submit">
             <LogOut className="i" aria-hidden="true" focusable="false" strokeWidth={1.75} />
             Déconnexion
           </button>

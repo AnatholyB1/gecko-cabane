@@ -29,7 +29,8 @@ vi.mock('next/navigation', () => ({
 }))
 
 // Normalise les fins de ligne : un checkout Windows (autocrlf) donne du CRLF.
-const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8').replace(/\r\n/g, '\n')
+// Normalise fins de ligne ET espaces : les assertions ne dépendent plus du formatage du CSS (audit F-19).
+const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8').replace(/\s+/g, ' ')
 const h = (type: unknown, props: Record<string, unknown> | null = null) =>
   createElement(type as ComponentType<Record<string, unknown>>, props)
 
@@ -132,14 +133,23 @@ describe('NAV-02 en-tête et menu du compte', () => {
     expect(html).toContain('<header class="adm-header">')
   })
 
+  it('menu du compte : disclosure sans rôle menu, fermeture sur sortie du focus et Échap sans voler le focus (F-04)', () => {
+    const src = readFileSync(join(__dirname, '..', 'src/components/admin/shell/AccountMenu.tsx'), 'utf8')
+    expect(src).not.toMatch(/role="menu|aria-haspopup|menuitem/)
+    expect(src).toMatch(/onBlur=/)
+    expect(src).toMatch(/relatedTarget/)
+    // Échap rend le focus à l'avatar seulement si le focus est dans le menu
+    expect(src).toMatch(/if \(focusInside\) buttonRef\.current\?\.focus\(\)/)
+  })
+
   it('menu du compte : e-mail, lien site public, déconnexion par formulaire, Accès désactivé', async () => {
     const { AccountMenu } = await load()
     const html = renderToStaticMarkup(h(AccountMenu, { email: 'chef@example.com', logoutAction: logout }))
-    expect(html).toContain('aria-haspopup="menu"')
+    expect(html).not.toContain('aria-haspopup')
+    expect(html).not.toContain('role="menu')
     expect(html).toContain('aria-expanded="false"')
     expect(html).toContain('aria-label="Compte : chef@example.com"')
-    expect(html).toContain('role="menu"')
-    expect(html).toMatch(/role="menu"[^>]*hidden/)
+    expect(html).toMatch(/id="adm-account-menu"[^>]*hidden/)
     expect(html).toContain('chef@example.com')
     expect(html).toContain('Voir le site public')
     expect(html).toContain('<form')
@@ -222,14 +232,14 @@ describe('NAV-02 mise en page responsive (admin.css)', () => {
   })
 
   it('tablette (768) : rail de 88 px, contenu décalé', () => {
-    const tablet = block(/@media \(min-width: 768px\) \{\n  \.adm-nav \{[\s\S]*?\n\}/)
+    const tablet = block(/@media \(min-width: 768px\) \{ \.adm-nav \{[\s\S]*?\} \}/)
     expect(tablet).toMatch(/\.adm-nav \{[^}]*width: var\(--adm-rail-w\)/)
     expect(tablet).toMatch(/\.adm-col \{ margin-left: var\(--adm-rail-w\)/)
     expect(css).toMatch(/--adm-rail-w: 88px/)
   })
 
   it('ordinateur (1024) : barre latérale de 256 px, sous-navigation, onglets masqués', () => {
-    const desktop = block(/@media \(min-width: 1024px\) \{\n  \.adm-nav \{[\s\S]*?\n\}/)
+    const desktop = block(/@media \(min-width: 1024px\) \{ \.adm-nav \{[\s\S]*?\} \}/)
     expect(desktop).toMatch(/width: var\(--adm-sidebar-w\)/)
     expect(desktop).toMatch(/\.adm-subnav \{ display: grid/)
     expect(desktop).toMatch(/\.adm-tabs \{ display: none/)
@@ -241,6 +251,26 @@ describe('NAV-02 mise en page responsive (admin.css)', () => {
       const src = readFileSync(join(__dirname, '..', `src/components/admin/shell/${f}.tsx`), 'utf8')
       expect(src, f).not.toMatch(/matchMedia|innerWidth|ResizeObserver|useMediaQuery/)
     }
+  })
+
+  it('le focus clavier n’est jamais masqué par l’en-tête ni la barre du bas (F-02, WCAG 2.4.11)', () => {
+    expect(css).toMatch(/html:has\(\.adm-root\) \{ scroll-padding-top: calc\(var\(--adm-header-h, 60px\) \+ 8px\)/)
+    expect(css).toMatch(/max-width: 767\.98px\) \{ html:has\(\.adm-root\) \{ scroll-padding-bottom: calc\(var\(--adm-bottombar-h, 64px\) \+ 16px/)
+  })
+
+  it('la barre de défilement de la fenêtre du site public est neutralisée dans l’admin seulement (F-05)', () => {
+    expect(css).toMatch(/html:has\(\.adm-root\) \{ color-scheme: light;/)
+    expect(css).toMatch(/html:has\(\.adm-root\)::-webkit-scrollbar-track \{ background: initial/)
+    const globals = readFileSync(join(__dirname, '..', 'src/app/globals.css'), 'utf8')
+    expect(globals).toMatch(/::-webkit-scrollbar-track \{ background: var\(--gc-void\)/) // le site public garde la sienne
+  })
+
+  it('l’état désactivé primaire est lisible : blanc sur fond >= 4,5:1 (F-10)', () => {
+    expect(css).toMatch(/\.adm-btn--primary:disabled \{ --_bg: #667A6D; --_fg: #fff;/)
+  })
+
+  it('les toasts surnuméraires sortent de la tabulation (F-20)', () => {
+    expect(css).toMatch(/\.adm-toast\[data-limited\] \{ opacity: 0; visibility: hidden;/)
   })
 
   it('les toasts passent au-dessus de la barre du bas sur téléphone', () => {
