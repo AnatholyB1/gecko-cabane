@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: awaiting-owner
-stopped_at: "2026-10-31 : phases 1-3 terminées, 4 à 7 livrées avec actions propriétaire en attente, phase 8 en production (reste 08-13)"
+status: milestone-closed-with-deferred-items
+stopped_at: "2026-10-31 : milestone v1.0 clos avec dette reportée (voir Deferred Items) ; prochain : /gsd-new-milestone"
 last_updated: "2026-10-31T00:00:00.000Z"
 last_activity: 2026-10-31
 progress:
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-10-16)
 ## Current Position
 
 Phases 1 à 3 : terminées. Phases 4 à 7 : code livré et fusionné dans master (HEAD c12faf4, déploiements du 2026-10-29 et 2026-10-30), restes bloqués sur le propriétaire. Phase 8 : en production, rapport en mode TEST (reste 08-13).
-Status: awaiting-owner
+Status: milestone v1.0 clos le 2026-10-31 (dette reportée, voir Deferred Items)
 
 | Phase | Plans | Etat |
 |-------|-------|------|
@@ -67,3 +67,25 @@ Progress: [█████████░] 93% des plans (68/73 pour les phases 
 Last session: 2026-10-30 (synchronisation des fichiers de suivi)
 Stopped at: attente des actions propriétaire ; puis planification de la phase 8
 Resume file: .planning/DEPLOY-CHECKLIST-v1.0.md
+
+## Deferred Items
+
+Éléments reconnus et reportés à la clôture du milestone v1.0 (2026-10-31) :
+
+| Catégorie | Élément | Statut |
+|-----------|---------|--------|
+| Vérification | 02-VERIFICATION | human_needed |
+| Vérification | 04-VERIFICATION | gaps_found |
+| Vérification | 08-VERIFICATION | gaps_found |
+| Plan | 04-03 fiche Google (OPS-01) | reporté par le propriétaire |
+| Plan | 06-10 TripAdvisor et NAP (OPS-04, OPS-05) | bloqué, accord requis |
+| Plan | 07-02, 07-10, 07-11 newsletter | bloqués |
+| Plan | 08-13 KPI-08 (2 semaines de TEST puis live) | pas avant le 2026-11-16 |
+| Exigence | SEO-08, CONV-02 | ouvertes |
+| Audit | audit de milestone | non exécuté |
+
+## Operator Next Steps
+
+- Lundi 2026-11-02 : observer le premier cron KPI automatique (00:00 UTC collecte, 01:00 UTC envoi, TEST)
+- Supprimer la clé Google `gecko-cabane-places-server` (inutile) ; restreindre ou supprimer l'ancienne « Maps API Key »
+- Démarrer le prochain milestone avec `/gsd-new-milestone`

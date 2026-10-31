@@ -1,5 +1,20 @@
 # Roadmap: Gecko Cabane — SEO, conversion et réputation
 
+## Milestones
+
+- ✅ **v1.0 SEO, conversion et réputation** — Phases 1-8 (livré 2026-10-31, clos avec dette reportée) — archive : `.planning/milestones/v1.0-ROADMAP.md`, exigences : `.planning/milestones/v1.0-REQUIREMENTS.md`
+- 📋 **v1.1** — à définir (`/gsd-new-milestone`) ; reprend les éléments reportés ci-dessous
+
+### Reportés de v1.0 vers v1.1
+
+- Phase 4 : 04-03 fiche Google Business Profile (OPS-01)
+- Phase 5 : SEO-08 (PageSpeed 85, LCP 2,5 s), CONV-02 (photo du couple), vérification REV-07 et migrations 015/016
+- Phase 6 : 06-10 TripAdvisor et NAP (OPS-04, OPS-05), relecture native DE/SV
+- Phase 7 : 07-02, 07-10, 07-11, activation des envois newsletter
+- Phase 8 : 08-13 (2 semaines de TEST puis `KPI_REPORT_MODE=live`, pas avant le 2026-11-16)
+
+La suite de ce fichier conserve l'historique détaillé de v1.0.
+
 ## Overview
 
 Objectif : faire de geckocabanerestaurant.com la première source de réservations des touristes européens de Krabi. Les 24 exigences [P1] doivent être en ligne avant le **1er novembre 2026** (aujourd'hui : 16 octobre) ; elles sont donc regroupées dans les phases 1 à 4. Les phases 5 à 8 (conversion, contenu, newsletter, KPI) suivent la haute saison de démarrage.

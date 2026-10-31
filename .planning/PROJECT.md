@@ -22,21 +22,24 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - ✓ Carte complète en base (4 pages, 27 catégories, 162 lignes) avec pictos Lucide végétarien/épicé — 2026-10-16
 - ✓ Galerie avec 4 photos réelles de plats — 2026-10-16
 
-### Active
+### Validated (v1.0)
 
-<!-- Specs détaillées dans "Specs site Gecko Cabane – SEO et conversion.md" (IDs T/C/R/L/N/A). -->
+- ✓ Sécurité de la réservation : fuite PII fermée, limiteur de débit, rôle admin, migrations alignées sur `gecko_*`, SMS retiré, email obligatoire, WhatsApp — v1.0
+- ✓ SEO technique : canonical, hreflang, JSON-LD Restaurant, sitemap, EN 100 % anglais, Search Console — v1.0
+- ✓ Carte HTML `/menu` indexable (prix en bahts, pictos, vins et bières belges) — v1.0
+- ✓ Tunnel d'avis : `/review` `/avis` `/bewertung`, honorée/no-show, email J+1 et relance J+5, QR code — v1.0
+- ✓ Pages SEO FR/EN et allemand/suédois publiés après validation écrite du propriétaire — v1.0
+- ✓ Newsletter sur Resend (double opt-in, journal de consentement, séquences et campagne codées, envois désactivés par défaut) — v1.0
+- ✓ Rapport KPI hebdomadaire en production (cron, Search Console, TripAdvisor via Bright Data, avis Google via Places API, rédaction Claude, email TEST, tableau de bord) — v1.0
 
-- [ ] **Sécurité et fiabilité (phase 1)** : fermer la fuite PII `GET /api/reservations?phone=`, ajouter des rate limits (SMS/OTP, réservations), contrôle de rôle admin sur les routes API admin, réaligner les migrations sur le schéma réel `gecko_*`, retirer le préfixe `NEXT_PUBLIC_` des webhooks, déclarer `zod`
-- [ ] **SEO technique P1** : canonical par page (T1), GPS et URLs du schema (T2), schema Restaurant complet (T3), version EN 100 % anglaise (T4), hreflang fr/en/de (T5), sitemap + robots + Search Console/Bing (T6)
-- [ ] **Carte HTML** (C1) : page `/menu` lisible par Google, prix en bahts, pictos, section vins et bières belges
-- [ ] **Réservation sans friction** (R1) : SMS facultatif, email obligatoire (N1), bouton WhatsApp flottant et LINE
-- [ ] **Tunnel d'avis P1** (A1–A4) : pages `/review` `/avis` `/bewertung`, statut honorée/no-show dans l'admin, email J+1 à 11h (heure de Krabi), QR code
-- [ ] **Conversion P2** : performance mobile (T7), preuve sociale (C2), histoire du couple (C3), bloc « Comment venir » (C4), transparence prix et paiement (R2)
-- [ ] **Plan de pages SEO** : 7 pages par langue (accueil, menu, french-restaurant-krabi, romantic-dinner, where-to-eat-krabi-town, getting-here-from-ao-nang, wine-belgian-beer), FR + EN puis DE
-- [ ] **Newsletter** (N1–N5) : collecte avec consentement, double opt-in, séquences automatiques, segments (Brevo)
-- [ ] **KPI hebdomadaires** : collecte par cron dans l'application → table `gecko_weekly_kpis`, synthèse via API Claude, envoi email (WhatsApp reporté), tableau de bord
-- [ ] **Allemand** (L1) : /de rédigé par Claude, relu par un humain avant publication ; suédois ensuite
-- [ ] **Actions hors code, via intégrations/MCP/CLI/extension Chrome** : Google Business Profile, TripAdvisor, Search Console, cohérence NAP, citations et blogs, partenariats hôtels (chaque action publique validée par le propriétaire)
+### Active (reporté à v1.1)
+
+- [ ] **Performance mobile** (SEO-08) : PageSpeed 85 et LCP 2,5 s (mesuré 79 et 4,4 s)
+- [ ] **Histoire du couple** (CONV-02) : photo, année d'ouverture, histoire
+- [ ] **KPI-08** : 2 semaines de rapports TEST puis `KPI_REPORT_MODE=live` (pas avant le 2026-11-16)
+- [ ] **Actions hors code** (accord du propriétaire requis) : Google Business Profile (OPS-01), TripAdvisor et cohérence NAP (OPS-04, OPS-05), citations, partenariats hôtels
+- [ ] **Newsletter** : lever les blocages 07-02, 07-10, 07-11 et activer les envois
+- [ ] **Relecture native** des textes DE et SV
 
 ### Out of Scope
 
@@ -49,7 +52,7 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 ## Context
 
 - **Constat SEO (relevé Bright Data du 16 oct. 2026)** : 4e en France sur « restaurant français krabi », absent en anglais sur « french restaurant krabi » (cible la plus facile). Sur les requêtes larges, Google montre TripAdvisor, Trip.com et blogs : on y gagne en étant cité.
-- **Réputation** : Google 4,7 (1 062 avis) ; TripAdvisor 6e sur 434 à Krabi Town, objectif top 3 ; lien du site TripAdvisor pointe vers tripadvisor.be (à corriger).
+- **Réputation** : Google 4,7 (1 065 avis) ; TripAdvisor 6e sur 434 à Krabi Town, objectif top 3 ; lien du site TripAdvisor pointe vers tripadvisor.be (à corriger).
 - **Dette connue** (cartographie `.planning/codebase/`) : canonical et schema sur `gecko-cabane.com` (mauvais domaine), migrations ne correspondant pas au schéma réel, aucun test automatisé réel, config vitest sans alias `@/`.
 - **Déjà en place** : Resend envoie depuis `reservations@geckocabanerestaurant.com` ; webhooks sortants n8n pour la réservation ; MCP exposé ; base Supabase partagée avec le portfolio (tables préfixées `gecko_`).
 - **Cibles avril 2027** : 30 % des couverts du soir via le site ; top 3 sur « french restaurant krabi » (UK) ; 1er sur « restaurant français krabi » (FR) ; 1 200 avis Google à ≥ 4,7 ; TripAdvisor top 3 ; 1 500 contacts newsletter consentants, ouverture ≥ 40 %.
@@ -92,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-16 after initialization*
+*Last updated: 2026-10-31 after v1.0 milestone*
