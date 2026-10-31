@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
 import { X } from 'lucide-react'
 import { buttonClass } from '../Button'
+import { trapTab } from '../focus-loop'
 import { admSans } from '../font'
 
 /**
@@ -41,6 +42,7 @@ export function Sheet({
         <Dialog.Popup
           ref={popup}
           className="mn-sheet"
+          onKeyDown={(e) => trapTab(e, e.currentTarget)}
           initialFocus={() => popup.current?.querySelector<HTMLElement>('input:not([type=hidden]):not([type=file]), select, textarea') ?? true}
         >
           <div className="mn-sheet__h">

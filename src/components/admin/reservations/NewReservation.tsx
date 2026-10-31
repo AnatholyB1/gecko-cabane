@@ -6,6 +6,7 @@ import { Dialog } from '@base-ui/react/dialog'
 import { Plus, X } from 'lucide-react'
 import { Button } from '../Button'
 import { useConfirm } from '../ConfirmDialog'
+import { trapTab } from '../focus-loop'
 import { useToast } from '../Toast'
 import { krabiTodayYmd } from '@/utils/krabi-time'
 import ManualReservationForm, { isManualFormDirty } from './ManualReservationForm'
@@ -134,7 +135,7 @@ export function NewReservationProvider({ children, portalClass = 'adm-portal' }:
       >
         <Dialog.Portal className={portalClass}>
           <Dialog.Backdrop className="adm-scrim" />
-          <Dialog.Popup className="rv-sheet" initialFocus={firstField} ref={popupRef}>
+          <Dialog.Popup className="rv-sheet" initialFocus={firstField} ref={popupRef} onKeyDown={(e) => trapTab(e, e.currentTarget)}>
             <div className="rv-sheet__head">
               <Dialog.Title className="rv-sheet__title">Nouvelle réservation</Dialog.Title>
               <Dialog.Close className="adm-btn adm-btn--ghost adm-btn--icon" aria-label="Fermer" disabled={submitting}>
@@ -175,7 +176,7 @@ export function NewReservationLink({ href, label, ariaLabel }: { href: string; l
       }}
     >
       <Plus className="i i-sm" aria-hidden="true" focusable="false" strokeWidth={1.75} />
-      {label}
+      <span className="adm-newres__label">{label}</span>
     </a>
   )
 }

@@ -25,6 +25,8 @@ function adminRoutes(): string[] {
   const base = join(root, 'src/app/admin')
   return walk(base)
     .filter((f) => /[\\/]page\.tsx$/.test(f))
+    // `[...rest]` n'est que la 404 de l'admin : elle ne compte pas comme une page existante.
+    .filter((f) => !/\[\.\.\.[^\]]+\]/.test(f))
     .map((f) => {
       const segs = posix(f)
         .replace(/^src\/app\/admin\/?/, '')
