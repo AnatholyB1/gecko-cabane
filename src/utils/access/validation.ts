@@ -15,7 +15,12 @@ export function isValidEmail(value: string): boolean {
 }
 
 export const PASSWORD_MIN = 12
-export const PASSWORD_MAX = 72 // limite bcrypt de Supabase Auth
+export const PASSWORD_MAX = 72 // limite bcrypt de Supabase Auth, en OCTETS (UTF-8), pas en caractères
+
+/** Longueur UTF-8 en octets : c'est elle que borne bcrypt. */
+export function passwordBytes(password: string): number {
+  return new TextEncoder().encode(password).length
+}
 
 export type PasswordRule = { id: 'length' | 'mix' | 'same'; label: string; ok: boolean }
 
@@ -32,7 +37,9 @@ export function passwordRules(password: string, confirm: string): PasswordRule[]
 export function validatePassword(password: unknown, confirm?: unknown): string | null {
   if (typeof password !== 'string') return 'Mot de passe manquant.'
   if (password.length < PASSWORD_MIN) return `Le mot de passe doit contenir au moins ${PASSWORD_MIN} caractères.`
-  if (password.length > PASSWORD_MAX) return `Le mot de passe ne peut pas dépasser ${PASSWORD_MAX} caractères.`
+  if (passwordBytes(password) > PASSWORD_MAX) {
+    return `Le mot de passe est trop long (${PASSWORD_MAX} octets au maximum : moins de ${PASSWORD_MAX} caractères si certains sont accentués).`
+  }
   if (!/\p{L}/u.test(password) || !/\d/.test(password)) return 'Le mot de passe doit contenir au moins une lettre et un chiffre.'
   if (confirm !== undefined && confirm !== password) return 'Les deux saisies ne sont pas identiques.'
   return null

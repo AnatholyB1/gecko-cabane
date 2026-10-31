@@ -14,6 +14,7 @@ import { NextResponse } from 'next/server'
 type Row = Record<string, unknown>
 const db: Record<string, Row[]> = {}
 let failUpsertOn: string | null = null
+let onUpsertFail: (() => void) | null = null
 let nextId = 100
 
 function table(name: string) {
@@ -30,7 +31,10 @@ function table(name: string) {
   return {
     select: () => query(),
     upsert: (row: Row, opts: { onConflict: string }) => {
-      if (failUpsertOn === name) return Promise.resolve({ error: { message: 'boom' } })
+      if (failUpsertOn === name) {
+        onUpsertFail?.()
+        return Promise.resolve({ error: { message: 'boom' } })
+      }
       const i = rows().findIndex((r) => r[opts.onConflict] === row[opts.onConflict])
       if (i >= 0) rows()[i] = { ...rows()[i], ...row }
       else rows().push({ id: nextId++, ...row })
@@ -94,6 +98,7 @@ function reset(opts: { special?: Row[]; closedDow?: number } = {}) {
     { key: 'table_block_duration_minutes', value: '120' },
   ]
   failUpsertOn = null
+  onUpsertFail = null
 }
 /** État de la base sans `updated_at` (horodatage de dernière écriture, non restituable par nature). */
 const snapshot = () =>
@@ -328,6 +333,61 @@ describe('validation and errors', () => {
   })
 })
 
+describe('final audit: explicit marker, concurrency, origin', () => {
+  const handMade = { date: DATE, title: CLOSURE_TITLE, is_open: true, open_time: '12:00:00', close_time: '22:00:00', note: 'créée à la main' }
+  const memoryRows = () => db.gecko_restaurant_settings.filter((r) => String(r.key).startsWith('service_closure_prev:'))
+
+  it('a hand-made exception titled « Dîner complet » (no memory key) is not a closure', async () => {
+    reset({ special: [handMade] })
+    expect(await state()).toEqual({ date: DATE, closed: false })
+    const before = snapshot()
+    expect((await reopen()).status).toBe(200) // noop : l'exception n'est ni supprimée ni modifiée
+    expect(snapshot()).toEqual(before)
+    // la fermer la traite comme une exception ordinaire (mémorisée) et la rouvrir la restitue
+    expect((await close()).status).toBe(200)
+    expect(await state()).toEqual({ date: DATE, closed: true })
+    expect(db.gecko_special_hours[0]).toMatchObject({ close_time: '16:00:00', note: null })
+    await reopen()
+    expect(snapshot()).toEqual(before)
+  })
+
+  it('the marker is the memory key: closure row + key = closed; the key alone = open', async () => {
+    await close()
+    expect(await state()).toEqual({ date: DATE, closed: true })
+    db.gecko_special_hours = []
+    expect(await state()).toEqual({ date: DATE, closed: false })
+  })
+
+  it('a failed closure does not erase the memory of a concurrent successful closure', async () => {
+    reset()
+    failUpsertOn = 'gecko_special_hours'
+    onUpsertFail = () => {
+      // l'autre requête réussit entre-temps : sa ligne et sa mémoire existent
+      db.gecko_special_hours.push({ id: 900, date: DATE, title: CLOSURE_TITLE, is_open: true, open_time: '12:00:00', close_time: '16:00:00', note: null })
+    }
+    expect((await close()).status).toBe(500)
+    expect(memoryRows()).toHaveLength(1)
+    failUpsertOn = null
+    expect((await reopen()).status).toBe(200)
+    expect(db.gecko_special_hours).toHaveLength(0)
+    expect(memoryRows()).toHaveLength(0)
+  })
+
+  it('POST requires a same-origin request and a JSON content type; DELETE a same-origin request', async () => {
+    const before = snapshot()
+    const post = (headers: Record<string, string>, body = JSON.stringify({ date: DATE })) =>
+      POST(new Request('http://localhost/api/service-closure', { method: 'POST', headers, body }))
+    expect((await post({ 'Content-Type': 'application/json', Origin: 'https://evil.example' })).status).toBe(403)
+    expect((await post({ 'Content-Type': 'application/json', 'Sec-Fetch-Site': 'cross-site' })).status).toBe(403)
+    expect((await post({ 'Content-Type': 'text/plain' })).status).toBe(400)
+    expect((await post({})).status).toBe(400)
+    const del = DELETE(new Request(`http://localhost/api/service-closure?date=${DATE}`, { method: 'DELETE', headers: { Origin: 'https://evil.example' } }))
+    expect((await del).status).toBe(403)
+    expect(snapshot()).toEqual(before)
+    expect((await post({ 'Content-Type': 'application/json', Origin: 'http://localhost' })).status).toBe(200)
+  })
+})
+
 describe('pure planning', () => {
   const regular = [0, 1, 2, 3, 4, 5, 6].map((d) => weekly(d))
   const now = new Date('2026-11-02T05:00:00Z')
@@ -343,7 +403,7 @@ describe('pure planning', () => {
     const plan = planClose({ date: DATE, regular, special: null, now })
     expect(plan).toMatchObject({ ok: true, alreadyClosed: false, prev: null })
     const row = { date: DATE, ...(plan as { next: Row }).next } as never
-    expect(planClose({ date: DATE, regular, special: row, now })).toEqual({ ok: true, alreadyClosed: true })
+    expect(planClose({ date: DATE, regular, special: row, memoryRaw: serializeMemory(null), now })).toEqual({ ok: true, alreadyClosed: true })
     expect(planReopen(row, serializeMemory(null))).toEqual({ action: 'delete' })
     expect(planReopen(null, serializeMemory(null))).toEqual({ action: 'noop' })
   })
