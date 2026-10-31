@@ -146,7 +146,7 @@
 | RSV-06 | Phase 15 | Pending (HUMAN) : code gelé (diff vide), UAT sur preview hors service 12h-22h non exécuté |
 | REP-01 | Phase 16 | Complete |
 | REP-02 | Phase 16 | Complete |
-| REP-03 | Phase 16 | Pending : décision « retirer Google, garder TripAdvisor » non appliquée (17c non réalisée) |
+| REP-03 | Phase 16 | Complete (17c : saisie Google retirée, TripAdvisor gardée, tests/review-totals.test.ts) |
 | ACC-01 | Phase 17 | Pending (HUMAN) : migration 020 écrite, non appliquée ; exige accord écrit et vérification de l’autre application |
 | ACC-02 | Phase 17 | Complete |
 | ACC-03 | Phase 17 | Complete |
