@@ -176,6 +176,7 @@ describe('QA-02 : hiérarchie des titres et débordement à 195 px', () => {
     const access = read('src/components/admin/access/access.css')
     expect(access).toMatch(/\.adm-access \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
     expect(access).toMatch(/\.adm-access__panel \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    expect(access).toMatch(/@media \(max-width: 359px\) \{\s*\.adm-access__person \{ grid-template-columns: minmax\(0, 1fr\); \}/)
     const admin = read('src/app/admin/admin.css')
     expect(admin).toMatch(/\.adm-field \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
     expect(admin).toMatch(/\.adm-input, \.adm-select, \.adm-textarea \{[^}]*min-width: 0/)

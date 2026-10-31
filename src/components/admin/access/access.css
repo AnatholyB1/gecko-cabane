@@ -17,6 +17,11 @@
   display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center;
   padding: var(--adm-space-4) 0; border-bottom: 1px solid var(--adm-line);
 }
+/* Très petit écran (zoom 200 % sur téléphone) : une seule colonne, l'étiquette passe sous l'adresse. */
+@media (max-width: 359px) {
+  .adm-access__person { grid-template-columns: minmax(0, 1fr); }
+  .adm-access .adm-badge { max-width: 100%; justify-self: start; white-space: normal; }
+}
 .adm-access__who { font-weight: 600; overflow-wrap: anywhere; }
 .adm-access__meta { color: var(--adm-muted); font-size: var(--adm-text-sm); }
 .adm-access__acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
