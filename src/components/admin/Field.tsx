@@ -22,6 +22,10 @@ export function fieldAria(id: string, { hint, error }: Pick<FieldMessages, 'hint
   }
 }
 
+/**
+ * Pas de `role="alert"` ici : le message est déjà annoncé via `aria-describedby` (double lecture,
+ * rafale assertive quand plusieurs champs échouent, audit F-11). Les pages annoncent un résumé unique.
+ */
 /** Enveloppe libellé + aide + erreur autour d'un contrôle d'identifiant `id`. */
 export function Field({ id, label, hint, error, optional, children }: FieldMessages & { id: string; children: ReactNode }) {
   return (
@@ -37,7 +41,7 @@ export function Field({ id, label, hint, error, optional, children }: FieldMessa
         </p>
       ) : null}
       {error ? (
-        <p className="adm-error" id={errorId(id)} role="alert">
+        <p className="adm-error" id={errorId(id)}>
           <CircleAlert className="i i-sm" aria-hidden="true" focusable="false" />
           <span>{error}</span>
         </p>

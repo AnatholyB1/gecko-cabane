@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useCallback, useContext, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { AlertDialog } from '@base-ui/react/alert-dialog'
 import { TriangleAlert } from 'lucide-react'
@@ -28,6 +28,28 @@ type ConfirmDialogProps = ConfirmOptions & {
  * `role="alertdialog"`, focus piégé, focus initial sur « Garder », focus rendu
  * au déclencheur, Échap et clic sur le fond ferment.
  */
+/**
+ * Rend l'application (`.adm-app`, le conteneur du shell, pas le portail) inerte tant que
+ * `active` est vrai. Base UI ne pose que `aria-hidden` sur le reste de la page : en frappes
+ * rapides (Tab en rafale) le focus s'échappait derrière le voile (audit F-01). `inert`
+ * retire aussi ces arrêts de la tabulation. Restauré à la fermeture, au démontage et à la
+ * navigation (le nettoyage de l'effet s'exécute dans tous les cas). N'enlève `inert` que si
+ * c'est ce dialogue qui l'a posé.
+ */
+export function inertApp(scope: Pick<ParentNode, 'querySelector'>): (() => void) | undefined {
+  const el = scope.querySelector('.adm-app')
+  if (!el || el.hasAttribute('inert')) return undefined
+  el.setAttribute('inert', '')
+  return () => el.removeAttribute('inert')
+}
+
+export function useInertApp(active: boolean) {
+  useEffect(() => {
+    if (!active) return
+    return inertApp(document)
+  }, [active])
+}
+
 export function ConfirmDialog({
   open,
   onOpenChange,
@@ -40,6 +62,7 @@ export function ConfirmDialog({
   portalClass = 'adm-portal',
 }: ConfirmDialogProps) {
   const cancelRef = useRef<HTMLButtonElement>(null)
+  useInertApp(open)
   return (
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Portal className={portalClass}>
@@ -49,7 +72,10 @@ export function ConfirmDialog({
             <TriangleAlert className="i" aria-hidden="true" focusable="false" />
             {title}
           </AlertDialog.Title>
-          {description ? <AlertDialog.Description>{description}</AlertDialog.Description> : null}
+          {description ? (
+            // Chaîne : <p> natif. Contenu riche (<p>, <dl>) : <div>, un <p> ne peut pas contenir de bloc (audit F-08).
+            <AlertDialog.Description render={typeof description === 'string' ? undefined : <div />}>{description}</AlertDialog.Description>
+          ) : null}
           <div className="adm-dialog__actions">
             <AlertDialog.Close ref={cancelRef} className={buttonClass({ variant: 'secondary' })}>
               {cancelLabel}
@@ -70,7 +96,7 @@ const ConfirmContext = createContext<ConfirmFn | null>(null)
 
 /**
  * Fournisseur de `useConfirm()`. Migration d'un `confirm()` natif :
- *   if (!confirm('Supprimer ?')) return
+ *   if (!window-confirm-natif) return
  * devient
  *   if (!(await confirm({ title: 'Supprimer ce plat ?', confirmLabel: 'Supprimer' }))) return
  */
