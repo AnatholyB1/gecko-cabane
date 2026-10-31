@@ -29,10 +29,20 @@ export function getClientIp(h: Headers): string | null {
   return first || null
 }
 
-export type HashKind = 'ip' | 'email' | 'phone' | 'feedback' | 'nl-ip' | 'nl-email' | 'review-hit'
+export type HashKind =
+  | 'ip'
+  | 'email'
+  | 'phone'
+  | 'feedback'
+  | 'nl-ip'
+  | 'nl-email'
+  | 'review-hit'
+  | 'acc-ip'
+  | 'acc-user'
+  | 'acc-email'
 
 export function hashKey(kind: HashKind, value: string, secret: string): string {
-  const normalized = kind === 'email' || kind === 'nl-email' ? value.toLowerCase() : value
+  const normalized = kind === 'email' || kind === 'nl-email' || kind === 'acc-email' ? value.toLowerCase() : value
   return `${kind}:` + createHmac('sha256', secret).update(normalized).digest('hex')
 }
 

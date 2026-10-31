@@ -102,7 +102,10 @@ describe('URL conservées (09-NAVIGATION-CIBLE §3)', () => {
   const KEPT = [
     '/admin',
     '/admin/login',
-    '/admin/signup',
+    '/admin/mot-de-passe-oublie',
+    '/admin/invitation',
+    '/admin/reinitialiser',
+    '/admin/acces',
     '/admin/reservations',
     '/admin/menu',
     '/admin/menu/abc123',
@@ -119,6 +122,10 @@ describe('URL conservées (09-NAVIGATION-CIBLE §3)', () => {
   it('les pages d’entrée de section existent', () => {
     expect(exists('/admin/site')).toBe(true)
     expect(exists('/admin/reputation')).toBe(true)
+  })
+
+  it('/admin/signup n’existe pas (ACC-02 : l’inscription publique est supprimée)', () => {
+    expect(exists('/admin/signup')).toBe(false)
   })
 
   it('/admin/tables n’existe pas (suppression de la phase 10)', () => {
