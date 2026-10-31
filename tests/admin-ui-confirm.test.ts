@@ -2,7 +2,7 @@
  * DSN-06 : le dialogue de confirmation accessible remplace les `confirm()` natifs.
  * Les pages sont migrées par les phases 13 à 16 : ce test est un CLIQUET. Il inventorie les
  * `confirm()` natifs restants dans src/app/admin et échoue si l'un d'eux apparaît ailleurs
- * ou si leur nombre augmente. Quand une page est migrée, baisser (ou retirer) son entrée.
+ * ou si leur nombre augmente. Quand une page est migrée, baisser (ou retirer) son entrée. Phase 14 : la carte (menu/page.tsx, menu/[pageId]/page.tsx) est migrée vers useConfirm, entrées retirées.
  *
  * Le comportement du dialogue (rôle alertdialog, focus piégé et rendu, Échap) est prouvé en
  * navigateur sur /admin/kit : un portail Base UI n'existe pas en rendu serveur.
@@ -31,8 +31,6 @@ const NATIVE_CONFIRM = /(?<![\w.$])confirm\(\s*['"`]|\bwindow\.confirm\(/g
 /** Inventaire autorisé (relatif à la racine). À faire diminuer, jamais augmenter. */
 const BASELINE: Record<string, number> = {
   'src/app/admin/(app)/hours/page.tsx': 1,
-  'src/app/admin/(app)/menu/page.tsx': 1,
-  'src/app/admin/(app)/menu/[pageId]/page.tsx': 2,
 }
 
 function inventory(): Record<string, number> {
