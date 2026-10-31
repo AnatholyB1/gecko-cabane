@@ -21,3 +21,4 @@
 .k-type p { margin: 0 0 6px; }
 .k-ph { display: grid; place-items: center; min-height: 120px; border: 1px dashed var(--adm-line-strong); border-radius: var(--adm-radius); color: var(--adm-muted); font-size: var(--adm-text-sm); background: var(--adm-surface-2); text-align: center; padding: 8px; }
 .adm-kit code { overflow-wrap: anywhere; }
+.adm-card.k-flush-top { padding-top: 0; padding-bottom: var(--adm-space-5); }

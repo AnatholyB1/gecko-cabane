@@ -121,11 +121,8 @@ body:has(.adm-root) { background: #F7F4EC; }
   outline: 2px solid var(--adm-focus);
   outline-offset: 2px;
 }
-.adm-root h1, .adm-root h2, .adm-root h3, .adm-root h4,
-.adm-portal h1, .adm-portal h2, .adm-portal h3, .adm-portal h4 {
-  font-family: var(--adm-font-sans); margin: 0; font-weight: 600;
-}
-.adm-root p, .adm-portal p { margin: 0; }
+:where(.adm-root, .adm-portal) :is(h1, h2, h3, h4) { font-family: var(--adm-font-sans); margin: 0; font-weight: 600; }
+:where(.adm-root, .adm-portal) p { margin: 0; }  /* :where() = spécificité nulle : les classes de composant gardent la main */
 .adm-root .adm-display { font-family: var(--adm-font-display); font-weight: 600; letter-spacing: -0.005em; line-height: var(--adm-lh-tight); }
 
 @media (prefers-reduced-motion: reduce) {

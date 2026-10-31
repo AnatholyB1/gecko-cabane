@@ -250,7 +250,7 @@ export function KitClient() {
       <section className="k-sec" id="pageheader" aria-labelledby="t-ph">
         <h2 id="t-ph">PageHeader</h2>
         <p className="adm-muted">Titre en Cormorant, description, actions à droite (empilées sous 768 px), filet laiton de 40 px. Un seul h1 par page : ici le titre du kit est le h1, l’exemple ci-dessous est rendu en h2 (prop <code>as</code>).</p>
-        <Card>
+        <Card className="k-flush-top">
           <PageHeader
             as="h2"
             title="Horaires"
