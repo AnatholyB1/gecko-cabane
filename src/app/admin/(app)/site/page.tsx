@@ -1,14 +1,6 @@
-import { PageHeader } from '@/components/admin/PageHeader'
-import { SectionCards } from '@/components/admin/shell/HomeCards'
-import { NAV } from '../nav'
+import { SitePublic } from '@/components/admin/site/SitePublic'
 
-/** Entrée de section « Site public » : les sous-pages viennent de nav.ts, aucune URL existante ne change. */
+/** « Site public » (SITE-01) : horaires, exceptions, annonces et capacité en 4 onglets. */
 export default function AdminSitePage() {
-  const section = NAV.find((n) => n.id === 'site')
-  return (
-    <>
-      <PageHeader title={section?.label ?? ''} description={section?.description} />
-      <SectionCards items={section?.children ?? []} />
-    </>
-  )
+  return <SitePublic />
 }

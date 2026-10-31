@@ -77,13 +77,17 @@ describe('TAB-06 the floor plan feature stays removed', () => {
   })
 
   it('capacity settings keep their keys and no longer say "table"', () => {
-    const src = read('src/app/admin/(app)/settings/page.tsx')
-    expect(src).toContain('table_block_duration_minutes')
-    expect(src).toContain('max_covers')
-    expect(src).toContain("Durée d\\'occupation d\\'un créneau")
-    const labels = [...src.matchAll(/(?:label|description): '((?:[^'\\]|\\.)*)'/g)].map((m) => m[1])
-    expect(labels.length).toBeGreaterThan(0)
-    expect(labels.filter((l) => /\btables?\b/i.test(l))).toEqual([])
+    // Phase 13 : /admin/settings rend l'onglet « Capacité » de « Site public » (src/components/admin/site/).
+    const logic = read('src/components/admin/site/site-logic.ts')
+    const ui = read('src/components/admin/site/CapacitySection.tsx')
+    expect(logic).toContain("'table_block_duration_minutes'")
+    expect(logic).toContain("'max_covers'")
+    expect(ui).toMatch(/label="Durée d['’]occupation d['’]un créneau"/)
+    expect(read('src/app/admin/(app)/settings/page.tsx')).toContain('initialTab="capacite"')
+    // Aucun texte affiché ne dit « table » (les clés d'API sont des identifiants, pas du texte).
+    const shown = [...ui.matchAll(/(?:label|title|hint|unit|aria-label|decreaseLabel|increaseLabel)=(?:"([^"]*)"|\{`([^`]*)`\})/g)].map((m) => m[1] ?? m[2])
+    expect(shown.length).toBeGreaterThan(0)
+    expect(shown.filter((l) => /\btables?\b/i.test(l))).toEqual([])
   })
 
   it('SQL gecko_table* tables are still in the baseline (no migration drops them)', () => {

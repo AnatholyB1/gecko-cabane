@@ -80,14 +80,22 @@ describe('NAV-02 navigation principale', () => {
     expect(html.match(/aria-current/g)).toHaveLength(1)
   })
 
-  it('/admin/hours : section « Site public » courante (true), sous-entrées, Horaires actif', async () => {
+  it('/admin/hours (ancienne adresse) : section « Site public » courante (true), sous-entrées, Horaires actif', async () => {
     mockPath = '/admin/hours'
     const { MainNav } = await load()
     const html = renderToStaticMarkup(h(MainNav))
     expect(tag(html, '/admin/site')).toContain('aria-current="true"')
     expect(html).toContain('class="adm-subnav"')
-    expect(tag(html, '/admin/hours')).toContain('aria-current="page"')
-    expect(tag(html, '/admin/announcement')).not.toContain('aria-current')
+    expect(tag(html, '/admin/site#horaires')).toContain('aria-current="page"')
+    expect(tag(html, '/admin/site#annonces')).not.toContain('aria-current')
+  })
+
+  it('/admin/announcement (ancienne adresse) active la sous-entrée Annonces', async () => {
+    mockPath = '/admin/announcement'
+    const { MainNav } = await load()
+    const html = renderToStaticMarkup(h(MainNav))
+    expect(tag(html, '/admin/site#annonces')).toContain('aria-current="page"')
+    expect(tag(html, '/admin/site#horaires')).not.toContain('aria-current')
   })
 
   it('/admin/site : la section est la page courante', async () => {
@@ -99,16 +107,11 @@ describe('NAV-02 navigation principale', () => {
 })
 
 describe('NAV-02 onglets de section', () => {
-  it('rendus pour Site public (4 onglets), absents ailleurs (Réputation : segments dans la page)', async () => {
+  it('absents partout : « Site public » (onglets dans la page, phase 13) et Réputation (segments dans la page, phase 16)', async () => {
     const { SectionTabs } = await load()
-    mockPath = '/admin/announcement'
-    const html = renderToStaticMarkup(h(SectionTabs))
-    expect(html).toContain('aria-label="Sections de Site public"')
-    expect(html.match(/<a /g)).toHaveLength(4)
-    expect(tag(html, '/admin/announcement')).toContain('aria-current="page"')
-    // Phase 16 : les segments Avis / Rapport KPI sont dans la page Réputation (inPageSegments) :
-    // le layout n'ajoute pas une seconde rangée d'onglets pour cette section.
-    for (const p of ['/admin/kpi', '/admin/avis', '/admin/reputation']) {
+    // Site public : les 4 onglets sont dans la page (SitePublic), pas dans le layout ; idem pour les anciennes adresses.
+    // Réputation : les segments Avis / Rapport KPI sont dans la page (inPageSegments).
+    for (const p of ['/admin/site', '/admin/hours', '/admin/announcement', '/admin/settings', '/admin/kpi', '/admin/avis', '/admin/reputation']) {
       mockPath = p
       expect(renderToStaticMarkup(h(SectionTabs)), p).toBe('')
     }
@@ -165,14 +168,15 @@ describe('NAV-02 état actif (fonctions pures)', () => {
     expect(pathMatches('/admin', '/admin/menu')).toBe(false)
     expect(pathMatches('/admin/menu', '/admin/menu/1')).toBe(true)
     expect(pathMatches('/admin/menu', '/admin/menus')).toBe(false)
-    expect(pathMatches('/admin/hours#exceptions', '/admin/hours')).toBe(true)
+    expect(pathMatches('/admin/site#exceptions', '/admin/site')).toBe(true)
   })
 
   it('navCurrent : page / true / rien', () => {
     const site = NAV.find((n) => n.id === 'site')!
     const menu = NAV.find((n) => n.id === 'menu')!
     expect(navCurrent(site, '/admin/site')).toBe('page')
-    expect(navCurrent(site, '/admin/settings')).toBe('true')
+    expect(navCurrent(site, '/admin/settings')).toBe('true') // ancienne adresse conservée
+    expect(navCurrent(site, '/admin/hours')).toBe('true')
     expect(navCurrent(site, '/admin/menu')).toBeUndefined()
     expect(navCurrent(menu, '/admin/menu/x')).toBe('page')
     expect(isInSection(site, '/admin/hours')).toBe(true)
@@ -180,11 +184,16 @@ describe('NAV-02 état actif (fonctions pures)', () => {
     expect(currentSection(NAV, '/admin')?.id).toBe('today')
   })
 
-  it('Horaires / Exceptions partagent la page : l’ancre départage, à défaut la première', () => {
+  it('les 4 onglets de /admin/site partagent la page : l’ancre départage, à défaut la première', () => {
     const site = NAV.find((n) => n.id === 'site')!
+    expect(activeChildId(site, '/admin/site', '')).toBe('hours')
+    expect(activeChildId(site, '/admin/site', '#exceptions')).toBe('special-hours')
+    expect(activeChildId(site, '/admin/site', '#annonces')).toBe('announcement')
+    expect(activeChildId(site, '/admin/site', '#capacite')).toBe('capacity')
+    expect(activeChildId(site, '/admin/site', '#autre')).toBe('hours')
+    // anciennes adresses conservées : la sous-entrée correspondante
     expect(activeChildId(site, '/admin/hours', '')).toBe('hours')
-    expect(activeChildId(site, '/admin/hours', '#exceptions')).toBe('special-hours')
-    expect(activeChildId(site, '/admin/hours', '#autre')).toBe('hours')
+    expect(activeChildId(site, '/admin/announcement', '')).toBe('announcement')
     expect(activeChildId(site, '/admin/settings', '')).toBe('capacity')
     expect(activeChildId(site, '/admin/menu', '')).toBeUndefined()
   })
