@@ -157,7 +157,8 @@ export function TodayView({ initialNowIso }: { initialNowIso: string }) {
 
             <section className="rv-card rv-a-side" aria-labelledby="rv-c-t">
               <h2 className="rv-title" id="rv-c-t">Couverts occupés par heure</h2>
-              <ul className="rv-cap" role="list">
+              {/* Défilement horizontal sur petit écran : la liste doit être atteignable au clavier (axe scrollable-region-focusable). */}
+              <ul className="rv-cap" role="list" tabIndex={0} aria-labelledby="rv-c-t">
                 {summary.slots.map((s) => (
                   <li key={s.time} className={s.level === 'free' ? (s.used === 0 ? 'is-idle' : '') : `is-${s.level}`}>
                     <span className="rv-cap__flag">

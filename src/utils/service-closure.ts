@@ -14,7 +14,11 @@
 import { bangkokNow, dayOfWeek, toMinutes, type HoursRow } from './reservation-rules'
 import { SERVICE_SPLIT_MINUTES, isYmd, addDaysYmd } from './krabi-time'
 
-/** Titre de la ligne exceptionnelle posée par « Complet ce soir » : sa seule signature. */
+/**
+ * Titre de la ligne exceptionnelle posée par « Complet ce soir » (affiché publiquement). Ce titre ne
+ * suffit PAS à reconnaître une fermeture (une exception créée à la main peut le porter) : le marqueur
+ * est la clé mémoire `service_closure_prev:<date>`, non affichée (voir `isClosureRow`).
+ */
 export const CLOSURE_TITLE = 'Dîner complet'
 /** Fin de service posée : le déjeuner (dernier créneau 13:30) reste réservable, pas le dîner (dès 18:00). */
 export const CLOSURE_CLOSE_TIME = '16:00:00'
@@ -41,8 +45,18 @@ export type SpecialSnapshot = Pick<SpecialRow, 'title' | 'is_open' | 'open_time'
 
 export type WeeklyRow = HoursRow & { day_of_week: number }
 
-export function isClosureRow(row: Pick<SpecialRow, 'title'> | null | undefined): boolean {
+/** Vrai si la ligne porte le titre de fermeture (indice seulement, jamais une preuve). */
+export function hasClosureTitle(row: Pick<SpecialRow, 'title'> | null | undefined): boolean {
   return !!row && row.title === CLOSURE_TITLE
+}
+
+/**
+ * Une date est « fermée par Complet ce soir » si sa ligne exceptionnelle porte le titre de fermeture
+ * ET que la clé mémoire `service_closure_prev:<date>` existe (marqueur explicite, non affiché).
+ * `memoryRaw` : valeur lue de cette clé, ou null / undefined si la clé est absente.
+ */
+export function isClosureRow(row: Pick<SpecialRow, 'title'> | null | undefined, memoryRaw: string | null | undefined): boolean {
+  return hasClosureTitle(row) && typeof memoryRaw === 'string'
 }
 
 export type DateCheck = { ok: true } | { ok: false; code: 'invalid_date' | 'date_past' | 'date_too_far' }
@@ -72,13 +86,15 @@ export function planClose(input: {
   date: unknown
   regular: readonly WeeklyRow[]
   special: SpecialRow | null
+  /** Valeur de la clé mémoire de la date (absente : null). Sans elle, un titre identique n'est pas une fermeture. */
+  memoryRaw?: string | null
   now?: Date
 }): ClosePlan {
   const dateCheck = checkClosureDate(input.date, input.now)
   if (!dateCheck.ok) return dateCheck
   const date = input.date as string
 
-  if (isClosureRow(input.special)) return { ok: true, alreadyClosed: true }
+  if (isClosureRow(input.special, input.memoryRaw)) return { ok: true, alreadyClosed: true }
 
   const effective: HoursRow | null = input.special ?? input.regular.find((r) => r.day_of_week === dayOfWeek(date)) ?? null
   if (!effective || !effective.is_open || !effective.open_time || !effective.close_time) {
@@ -154,11 +170,12 @@ export function parseMemory(raw: string | null | undefined): { prev: SpecialSnap
 }
 
 /**
- * Réouverture. Pas de ligne de fermeture : rien à faire (idempotent). Mémoire absente ou illisible :
+ * Réouverture. Pas de fermeture reconnue (ligne absente, ou clé mémoire absente : exception
+ * créée à la main) : rien à faire, l'exception est conservée (idempotent). Mémoire présente mais illisible :
  * on supprime la ligne de fermeture (retour aux horaires hebdomadaires), c'est le seul état sûr.
  */
 export function planReopen(special: SpecialRow | null, memoryRaw: string | null | undefined): ReopenPlan {
-  if (!isClosureRow(special)) return { action: 'noop' }
+  if (!isClosureRow(special, memoryRaw)) return { action: 'noop' }
   const memory = parseMemory(memoryRaw)
   if (!memory || memory.prev === null) return { action: 'delete' }
   return { action: 'restore', snapshot: memory.prev }

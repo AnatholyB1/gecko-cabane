@@ -74,7 +74,7 @@
 
 /* Capacité par heure */
 .rv-cap { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; list-style: none; padding: 0; margin: 0; align-items: end; }
-.rv-cap li { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.rv-cap li { display: grid; justify-items: center; gap: 2px; text-align: center; min-width: 0; }
 .rv-cap__flag { height: 20px; display: grid; place-items: center; color: var(--adm-warn); }
 .rv-cap__n { font-weight: 600; font-variant-numeric: tabular-nums; min-height: 24px; }
 .rv-cap__bar { position: relative; width: 100%; max-width: 28px; height: 96px; background: var(--adm-surface-2); border: 1px solid var(--adm-line); border-radius: 6px; overflow: hidden; display: flex; align-items: flex-end; }

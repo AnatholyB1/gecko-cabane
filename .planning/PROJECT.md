@@ -34,10 +34,10 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 
 ### Active (v1.1 : refonte de l'admin)
 
-- [ ] **Audit d'utilité** de chaque page admin (garder, simplifier, fusionner, supprimer), validé avec le propriétaire avant implémentation
-- [ ] **Suppression de la gestion de salle** (`/admin/tables`, `/api/tables/*`, affectation réservation ↔ table) ; la réservation reste, sans placement
-- [ ] **Système de design admin** sobre et dense (tokens, composants partagés), responsive téléphone / tablette / ordinateur
-- [ ] **Refonte de chaque page admin conservée** avec états de chargement, vide et erreur, accessibilité
+- [ ] **Audit d'utilité** de chaque page admin (garder, simplifier, fusionner, supprimer), validé avec le propriétaire avant implémentation : audit et liste d'impact faits (AUDIT-03) ; validation écrite page par page (AUDIT-01/02) et retours de la cheffe et des serveurs (AUDIT-04) en attente du propriétaire
+- [x] **Suppression de la gestion de salle** (`/admin/tables`, `/api/tables/*`, affectation réservation ↔ table) ; la réservation reste, sans placement : vérifié par l'audit de fin de milestone (TAB-01 à TAB-06) ; tables SQL `gecko_table*` laissées en base, migration 020 (revoke seulement) écrite et non appliquée (ACC-01, accord du propriétaire requis)
+- [x] **Système de design admin** sobre et dense (tokens, composants partagés), responsive téléphone / tablette / ordinateur : vérifié (DSN-01 à DSN-07, NAV-01 à NAV-05)
+- [ ] **Refonte de chaque page admin conservée** avec états de chargement, vide et erreur, accessibilité : pages refaites et vérifiées (Aujourd'hui, Réservations, Site public, Carte, Réputation, Accès, « Complet ce soir ») ; restent l'UAT de preview (RSV-06), le retrait de la saisie Google (REP-03) et le passage clavier / lecteur d'écran (QA-02)
 
 ### Deferred (dette v1.0, hors périmètre de v1.1)
 
@@ -114,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-31 after starting milestone v1.1*
+*Last updated: 2026-10-31 after the v1.1 end-of-milestone audit and final review fixes*

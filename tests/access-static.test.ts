@@ -188,7 +188,7 @@ describe('ACC-02 migration 021 : table de jetons réservée au service role', ()
 })
 
 describe('emails', () => {
-  const link = 'https://geckocabanerestaurant.com/admin/invitation?token=' + 'A'.repeat(43)
+  const link = 'https://geckocabanerestaurant.com/admin/invitation#token=' + 'A'.repeat(43)
   it('invitation : lien dans le texte et le HTML, jamais dans le sujet, destinataire échappé', () => {
     const m = invitationEmail({ link, expiresAt: new Date('2026-11-08T00:00:00Z'), inviterEmail: '<script>x</script>@e.fr' })
     expect(m.text).toContain(link)

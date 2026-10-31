@@ -46,7 +46,7 @@ describe('inviteAdmin', () => {
     const { deps, store, mailer } = makeDeps({ baseUrl: 'https://geckocabanerestaurant.com/' })
     await inviteAdmin(deps, { actor, email: 'marie@example.com' })
     const link = mailer.sent[0].link
-    expect(link.startsWith('https://geckocabanerestaurant.com/admin/invitation?token=')).toBe(true)
+    expect(link.startsWith('https://geckocabanerestaurant.com/admin/invitation#token=')).toBe(true)
     const token = tokenFromLink(link)
     expect(token).toMatch(/^[A-Za-z0-9_-]{43}$/)
     expect(store.tokens[0].token_hash).toBe(hashToken(token))
@@ -316,7 +316,7 @@ describe('mot de passe oublié', () => {
     expect(mailer.sent).toHaveLength(1)
     expect(mailer.sent[0].type).toBe('reset')
     expect(mailer.sent[0].expiresAt.getTime() - NOW.getTime()).toBe(RESET_TTL_MS)
-    expect(mailer.sent[0].link).toContain('/admin/reinitialiser?token=')
+    expect(mailer.sent[0].link).toContain('/admin/reinitialiser#token=')
   })
 
   it('énumération : adresse inconnue, invalide, ou compte de l’autre application = même retour, aucun email, aucun jeton', async () => {

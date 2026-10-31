@@ -193,11 +193,11 @@ html:has(.adm-root)::-webkit-scrollbar-thumb { background: initial; opacity: 1; 
 @keyframes adm-spin { to { transform: rotate(360deg); } }
 
 /* --- Field / Input / Select / Textarea ---------------------------------- */
-.adm-field { display: grid; gap: 6px; }
+.adm-field { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; min-width: 0; }
 .adm-label { font-size: var(--adm-text-sm); font-weight: 600; }
 .adm-label .opt { font-weight: 400; color: var(--adm-muted); }
 .adm-input, .adm-select, .adm-textarea {
-  width: 100%; min-height: var(--adm-target); padding: 0 12px; border-radius: var(--adm-radius);
+  width: 100%; min-width: 0; max-width: 100%; min-height: var(--adm-target); padding: 0 12px; border-radius: var(--adm-radius);
   font: 400 var(--adm-text-base)/1.4 var(--adm-font-sans); color: var(--adm-ink); background-color: var(--adm-surface);
   border: 1px solid var(--adm-field-border);
   transition: border-color var(--adm-dur-1) var(--adm-ease), box-shadow var(--adm-dur-1) var(--adm-ease);
@@ -336,7 +336,7 @@ html:has(.adm-root)::-webkit-scrollbar-thumb { background: initial; opacity: 1; 
 .adm-state { display: grid; justify-items: center; text-align: center; gap: 10px; padding: var(--adm-space-7) var(--adm-space-4); }
 .adm-state__icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--adm-surface-2); color: var(--adm-brand); }
 .adm-state--error .adm-state__icon { background: var(--adm-danger-bg); color: var(--adm-danger); }
-.adm-state h3 { font-size: var(--adm-text-lg); font-weight: 600; }
+.adm-state :is(h2, h3) { font-size: var(--adm-text-lg); font-weight: 600; }
 .adm-state p { color: var(--adm-muted); max-width: 44ch; }
 .adm-state .adm-btn { margin-top: 6px; }
 

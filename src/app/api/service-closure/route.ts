@@ -1,8 +1,10 @@
 import * as Sentry from '@sentry/nextjs'
 import { NextResponse } from 'next/server'
 import { requireAdmin } from '@/utils/auth'
+import { isSameOrigin, readJsonObject } from '@/utils/access/http'
 import {
   checkClosureDate,
+  hasClosureTitle,
   isClosureRow,
   memoryKey,
   planClose,
@@ -37,6 +39,12 @@ type Supabase = Extract<Awaited<ReturnType<typeof requireAdmin>>, { ok: true }>[
 
 const serverError = () => NextResponse.json({ error: 'Internal server error' }, { status: 500 })
 
+/** Valeur brute de la clé mémoire d'une date (null si absente) : marqueur explicite d'une fermeture. */
+async function readMemory(supabase: Supabase, date: string) {
+  const { data, error } = await supabase.from('gecko_restaurant_settings').select('value').eq('key', memoryKey(date)).maybeSingle()
+  return { raw: (data as { value?: string } | null)?.value ?? null, error }
+}
+
 async function readSpecial(supabase: Supabase, date: string) {
   const { data, error } = await supabase.from('gecko_special_hours').select(SPECIAL_COLUMNS).eq('date', date).maybeSingle()
   return { row: (data ?? null) as SpecialRow | null, error }
@@ -54,12 +62,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: DATE_MESSAGES.invalid_date }, { status: 400 })
     }
 
-    const { row, error } = await readSpecial(auth.supabase, date as string)
-    if (error) {
-      Sentry.captureException(error)
+    const [{ row, error }, memory] = await Promise.all([readSpecial(auth.supabase, date as string), readMemory(auth.supabase, date as string)])
+    if (error || memory.error) {
+      Sentry.captureException(error ?? memory.error)
       return serverError()
     }
-    return NextResponse.json({ data: { date, closed: isClosureRow(row) } })
+    return NextResponse.json({ data: { date, closed: isClosureRow(row, memory.raw) } })
   } catch {
     return serverError()
   }
@@ -71,28 +79,24 @@ export async function POST(request: Request) {
     if (!auth.ok) return auth.response
     const { supabase } = auth
 
-    let body: unknown
-    try {
-      body = await request.json()
-    } catch {
-      return NextResponse.json({ error: 'Corps invalide' }, { status: 400 })
-    }
-    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
-      return NextResponse.json({ error: 'Corps invalide' }, { status: 400 })
-    }
-    const date = (body as { date?: unknown }).date
+    // Contrôle d'origine (CSRF) et Content-Type JSON obligatoire, comme les routes /api/access.
+    if (!isSameOrigin(request)) return NextResponse.json({ error: 'Requête refusée' }, { status: 403 })
+    const body = await readJsonObject(request)
+    if (!body) return NextResponse.json({ error: 'Corps invalide' }, { status: 400 })
+    const date = body.date
 
     const dateCheck = checkClosureDate(date, new Date())
     if (!dateCheck.ok) {
       return NextResponse.json({ error: DATE_MESSAGES[dateCheck.code] }, { status: 400 })
     }
 
-    const [hoursRes, special] = await Promise.all([
+    const [hoursRes, special, memoryBefore] = await Promise.all([
       supabase.from('gecko_opening_hours').select('day_of_week, is_open, open_time, close_time'),
       readSpecial(supabase, date as string),
+      readMemory(supabase, date as string),
     ])
-    if (hoursRes.error || special.error) {
-      Sentry.captureException(hoursRes.error ?? special.error)
+    if (hoursRes.error || special.error || memoryBefore.error) {
+      Sentry.captureException(hoursRes.error ?? special.error ?? memoryBefore.error)
       return serverError()
     }
 
@@ -100,6 +104,7 @@ export async function POST(request: Request) {
       date,
       regular: (hoursRes.data ?? []) as WeeklyRow[],
       special: special.row,
+      memoryRaw: memoryBefore.raw,
       now: new Date(),
     })
     if (!plan.ok) {
@@ -112,7 +117,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ data: { date, closed: true } })
     }
 
-    // 1) mémoriser l'état précédent, 2) poser la fermeture. Échec du 2) : on retire la mémoire.
+    // 1) mémoriser l'état précédent, 2) poser la fermeture. Échec du 2) : on retire la mémoire,
+    // sauf si une fermeture concurrente a réussi entre-temps (elle en a besoin pour rouvrir).
     const key = memoryKey(date as string)
     const saved = await supabase
       .from('gecko_restaurant_settings')
@@ -127,7 +133,9 @@ export async function POST(request: Request) {
       .upsert({ date, ...plan.next, updated_at: new Date().toISOString() }, { onConflict: 'date' })
     if (written.error) {
       Sentry.captureException(written.error)
-      await supabase.from('gecko_restaurant_settings').delete().eq('key', key)
+      const after = await readSpecial(supabase, date as string)
+      const concurrentClosure = !after.error && hasClosureTitle(after.row)
+      if (!concurrentClosure) await supabase.from('gecko_restaurant_settings').delete().eq('key', key)
       return serverError()
     }
 
@@ -143,6 +151,7 @@ export async function DELETE(request: Request) {
     if (!auth.ok) return auth.response
     const { supabase } = auth
 
+    if (!isSameOrigin(request)) return NextResponse.json({ error: 'Requête refusée' }, { status: 403 })
     const date = new URL(request.url).searchParams.get('date')
     const dateCheck = checkClosureDate(date, new Date())
     if (!dateCheck.ok) {
@@ -156,13 +165,13 @@ export async function DELETE(request: Request) {
     }
 
     const key = memoryKey(date as string)
-    const memory = await supabase.from('gecko_restaurant_settings').select('value').eq('key', key).maybeSingle()
+    const memory = await readMemory(supabase, date as string)
     if (memory.error) {
       Sentry.captureException(memory.error)
       return serverError()
     }
 
-    const plan = planReopen(special.row, (memory.data as { value?: string } | null)?.value ?? null)
+    const plan = planReopen(special.row, memory.raw)
     if (plan.action === 'delete') {
       const { error } = await supabase.from('gecko_special_hours').delete().eq('date', date as string)
       if (error) {
@@ -180,6 +189,7 @@ export async function DELETE(request: Request) {
     }
 
     // Mémoire retirée seulement après le rétablissement (un échec ici laisse une clé orpheline inoffensive).
+    // Une exception créée à la main (même titre, pas de clé mémoire) n'est ni modifiée ni supprimée.
     const cleaned = await supabase.from('gecko_restaurant_settings').delete().eq('key', key)
     if (cleaned.error) Sentry.captureException(cleaned.error)
 

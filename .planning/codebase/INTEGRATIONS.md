@@ -29,7 +29,7 @@
 - Supabase PostgreSQL
   - Connection: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server only); `.env.local` also holds `SUPABASE_JWT_SECRET` and `POSTGRES_*` vars (URL, PRISMA_URL, NON_POOLING, HOST, DATABASE, USER, PASSWORD) from the Vercel integration, unused in code
   - Client: `@supabase/ssr` / `supabase-js` via `src/utils/supabase/server.ts`, `client.ts`, `middleware.ts`
-  - Migrations: `supabase/migrations/001`-`006` (hours, announcement, menu, reservations, tables, phone verifications); Supabase CLI temp dir `supabase/.temp/` (untracked)
+  - Migrations: `supabase/migrations/007` (baseline gecko_) à `022` (001-006 archivées dans `supabase/legacy/`, jamais appliquées ; 019, 020, 021 et 022 écrites et NON appliquées par le code, voir `.planning/v1.1-MILESTONE-AUDIT.md`); Supabase CLI temp dir `supabase/.temp/` (untracked)
 
 **File Storage:**
 - Supabase Storage bucket `gecko-menu-images` (public read, authenticated upload/delete; created in `supabase/migrations/003_menu.sql`; used in `src/app/api/menu/upload/route.ts`)
@@ -41,12 +41,12 @@
 
 **Auth Provider:**
 - Supabase Auth (email/password for admins)
-  - Implementation: session refresh and admin route guard in `src/middleware.ts` (`/admin` protected, `/admin/login` and `/admin/signup` public); API routes `src/app/api/auth/login|logout|signup/`; OAuth callback `src/app/auth/callback/`
+  - Implementation: session refresh and admin route guard in `src/middleware.ts` (`/admin` protected ; pages publiques : `/admin/login`, `/admin/mot-de-passe-oublie`, `/admin/invitation`, `/admin/reinitialiser`) ; connexion par server action (`src/app/admin/login/actions.ts`), déconnexion `src/app/api/auth/logout` (POST, `signOut({ scope: 'local' })` car le pool Auth est partagé) ; invitation et réinitialisation par jetons à usage unique `src/app/api/access/*` (jeton dans le fragment d'URL) ; plus de `signup` ni de `login` en API ; OAuth callback `src/app/auth/callback/`
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Sentry (org `anatholy`, project `gecko-cabane`, EU ingest) - `sentry.server.config.ts`, `sentry.edge.config.ts`, `src/instrumentation.ts`, `src/instrumentation-client.ts`, `src/app/global-error.tsx`; tunnel `/monitoring` (excluded from middleware); logs enabled, `sendDefaultPii: true`, traces sample 0.2 in prod. Test route `src/app/api/sentry-example-api/route.ts` and `src/app/sentry-example-page/`
+- Sentry (org `anatholy`, project `gecko-cabane`, EU ingest) - `sentry.server.config.ts`, `sentry.edge.config.ts`, `src/instrumentation.ts`, `src/instrumentation-client.ts`, `src/app/global-error.tsx`; tunnel `/monitoring` (excluded from middleware); logs enabled, `sendDefaultPii: true` avec filtre `beforeSend` / `beforeSendTransaction` / `beforeBreadcrumb` qui masque tout `token=` (`src/utils/sentry-scrub.ts`), traces sample 0.2 in prod. Test route `src/app/api/sentry-example-api/route.ts` and `src/app/sentry-example-page/`
   - Build auth: `.env.sentry-build-plugin` (SENTRY_AUTH_TOKEN)
 
 **Logs:**

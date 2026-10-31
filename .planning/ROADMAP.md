@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 SEO, conversion et réputation** — Phases 1-8 (livré 2026-10-31, clos avec dette reportée) — archive : `.planning/milestones/v1.0-ROADMAP.md`, exigences : `.planning/milestones/v1.0-REQUIREMENTS.md`
-- 🚧 **v1.1 Refonte de l'admin** — Phases 9-17 (en cours)
+- 🚧 **v1.1 Refonte de l'admin** — Phases 9-17 (code livré et audité 2026-10-31 : 37 exigences sur 44 vérifiées ; restent des validations du propriétaire, l'UAT de preview, la migration 020 et la passe 17c — voir `.planning/v1.1-MILESTONE-AUDIT.md`)
 
 <details>
 <summary>✅ v1.0 SEO, conversion et réputation (Phases 1-8) — livré 2026-10-31</summary>
@@ -33,11 +33,11 @@ Granularité : standard. Numérotation : continue depuis v1.0 (phase 9 à 17).
 ## Phases
 
 - [ ] **Phase 9: Audit et validation propriétaire** - Verdicts par page, navigation cible, brief de design, liste d'impact des tests, usage réel recueilli (sans code)
-- [ ] **Phase 10: Suppression de la gestion de salle** - Plus de page, d'API ni de types « tables » ; la réservation et la disponibilité fonctionnent comme avant
-- [ ] **Phase 11: Fondation du système de design** - Tokens `--adm-*`, primitives, états, hook de requêtes et page kit validés avant toute page
-- [ ] **Phase 12: Shell et navigation** - Un shell partagé responsive autour de toutes les pages admin, une seule source de navigation
-- [ ] **Phase 13: Site public (Horaires, Annonces, Capacité)** - Une section de réglages avec retour de sauvegarde et erreurs lisibles
-- [ ] **Phase 14: Carte** - Édition de la carte sur un seul écran
+- [x] **Phase 10: Suppression de la gestion de salle** - Plus de page, d'API ni de types « tables » ; la réservation et la disponibilité fonctionnent comme avant
+- [x] **Phase 11: Fondation du système de design** - Tokens `--adm-*`, primitives, états, hook de requêtes et page kit validés avant toute page
+- [x] **Phase 12: Shell et navigation** - Un shell partagé responsive autour de toutes les pages admin, une seule source de navigation
+- [x] **Phase 13: Site public (Horaires, Annonces, Capacité)** - Une section de réglages avec retour de sauvegarde et erreurs lisibles
+- [x] **Phase 14: Carte** - Édition de la carte sur un seul écran
 - [ ] **Phase 15: Réservations et Aujourd'hui** - Accueil du service du jour et liste dense avec actions de statut en un tap
 - [ ] **Phase 16: Réputation (Avis et KPI)** - Avis et KPI regroupés dans le nouveau design, libellés TEST/live conservés
 - [ ] **Phase 17: Accès, sécurité et QA finale** - Révocation des lectures publiques orphelines, invitation d'admin, « Complet ce soir », passe accessibilité et garde-fous
@@ -155,15 +155,15 @@ Granularité : standard. Numérotation : continue depuis v1.0 (phase 9 à 17).
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 9. Audit et validation propriétaire | 0/TBD | Not started | - |
-| 10. Suppression de la gestion de salle | 0/TBD | Not started | - |
-| 11. Fondation du système de design | 0/TBD | Not started | - |
-| 12. Shell et navigation | 0/TBD | Not started | - |
-| 13. Site public | 0/TBD | Not started | - |
-| 14. Carte | 0/TBD | Not started | - |
-| 15. Réservations et Aujourd'hui | 0/TBD | Not started | - |
-| 16. Réputation (Avis et KPI) | 0/TBD | Not started | - |
-| 17. Accès, sécurité et QA finale | 0/TBD | Not started | - |
+| 9. Audit et validation propriétaire | n/a | Partiel : AUDIT-03 vérifié ; AUDIT-01/02 (validation écrite) et AUDIT-04 (retours cheffe/serveurs) en attente du propriétaire | - |
+| 10. Suppression de la gestion de salle | n/a | Complete | 2026-10-31 |
+| 11. Fondation du système de design | n/a | Complete | 2026-10-31 |
+| 12. Shell et navigation | n/a | Complete | 2026-10-31 |
+| 13. Site public | n/a | Complete | 2026-10-31 |
+| 14. Carte | n/a | Complete | 2026-10-31 |
+| 15. Réservations et Aujourd'hui | n/a | Code livré et vérifié ; RSV-06 (UAT sur preview hors service) en attente | - |
+| 16. Réputation (Avis et KPI) | n/a | Code livré ; REP-03 (retrait de la saisie Google) non fait, reporté à 17c | - |
+| 17. Accès, sécurité et QA finale | n/a | Code livré ; ACC-01 (migration 020, accord du propriétaire) et QA-02 (passage clavier/lecteur d'écran) en attente | - |
 
 ---
-*Roadmap v1.1 créé le 2026-10-31. Historique v1.0 : `.planning/milestones/v1.0-ROADMAP.md`.*
+*Roadmap v1.1 créé le 2026-10-31, mis à jour à la clôture du 2026-10-31 (phases cochées uniquement quand toutes leurs exigences sont VERIFIED dans l'audit). Historique v1.0 : `.planning/milestones/v1.0-ROADMAP.md`.*

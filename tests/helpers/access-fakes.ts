@@ -170,5 +170,8 @@ export function makeDeps(overrides: Partial<AccessDeps> = {}) {
 
 /** Extrait le jeton d'un lien envoyé par email. */
 export function tokenFromLink(link: string): string {
-  return new URL(link).searchParams.get('token') ?? ''
+  // Le jeton est dans le FRAGMENT (#token=…), jamais dans la query string.
+  const url = new URL(link)
+  if (url.search !== '') throw new Error('le lien ne doit pas porter de query string')
+  return new URLSearchParams(url.hash.slice(1)).get('token') ?? ''
 }

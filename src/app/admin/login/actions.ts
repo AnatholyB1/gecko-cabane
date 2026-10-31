@@ -37,7 +37,8 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
   // This Supabase project is shared with another app — a valid account
   // does not by itself grant gecko-cabane admin access.
   if (!(await isGeckoAdmin(supabase))) {
-    await supabase.auth.signOut()
+    // scope local : ne pas déconnecter ce compte des autres applications du pool partagé.
+    await supabase.auth.signOut({ scope: 'local' })
     return { error: 'noaccess', email }
   }
 

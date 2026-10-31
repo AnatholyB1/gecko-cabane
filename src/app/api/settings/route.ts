@@ -9,6 +9,8 @@ export async function GET() {
     const { data, error } = await supabase
       .from('gecko_restaurant_settings')
       .select('*')
+      // Lecture publique : la mémoire interne de « Complet ce soir » n'est pas exposée.
+      .not('key', 'like', 'service_closure_prev:%')
       .order('key')
 
     if (error) {

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Refonte de l'admin
-status: ready_to_plan
+status: audited_pending_owner
 last_updated: "2026-10-31T01:00:00.000Z"
 last_activity: 2026-10-31
 progress:
   total_phases: 9
-  completed_phases: 0
+  completed_phases: 5
   total_plans: 0
   completed_plans: 0
-  percent: 0
+  percent: 84
 ---
 
 # Project State
@@ -20,16 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-31)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Milestone v1.1 « Refonte de l'admin » : Phase 9 (audit et validation propriétaire)
+**Current focus:** Milestone v1.1 « Refonte de l'admin » : code livré et audité (37 exigences sur 44 vérifiées) ; reste ce qui dépend du propriétaire
 
 ## Current Position
 
-Phase: 9 of 17 (Audit et validation propriétaire)
-Plan: — (aucun plan créé)
-Status: Ready to plan
-Last activity: 2026-10-31 — Roadmap v1.1 créée (9 phases, 44 exigences)
+Phase: 17 of 17 (code livré) ; phases 10 à 14 complètes, phases 9, 15, 16 et 17 avec des restes qui dépendent du propriétaire
+Plan: — (milestone orchestré par branches, audits et corrections sans plans GSD)
+Status: Audité (`.planning/v1.1-MILESTONE-AUDIT.md`), corrections finales faites (`.planning/phases/17-acces-securite-qa/FINAL-REVIEW-FIXES.md`)
+Last activity: 2026-10-31 — audit de fin de milestone et revue finale
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░] 84% (37 exigences sur 44 vérifiées)
 
 ## Performance Metrics
 
@@ -63,7 +63,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Aucune télémétrie d'usage de l'admin : interroger la cheffe et les serveurs (AUDIT-04)
+- Aucune télémétrie d'usage de l'admin : retours de la cheffe et des serveurs jamais reçus (AUDIT-04)
+- Validation écrite du propriétaire page par page absente (AUDIT-01/02) : seules les décisions orales du 2026-10-31 sont consignées (`09-OWNER-VALIDATION.md`)
+- UAT sur preview, hors service 12h-22h Krabi (RSV-06, `15-UAT.md`) : emails de confirmation et d'annulation, cron J+1, couverts KPI
+- Migrations 019, 021 et 022 additives, 020 (revoke seulement) : écrites, JAMAIS appliquées par le code ; 021 est nécessaire à l'invitation et au mot de passe oublié ; 020 exige l'accord écrit du propriétaire et la vérification de l'autre application du projet Supabase partagé
+- 17c non réalisée : retrait de la saisie Google (REP-03), passage clavier / lecteur d'écran (QA-02)
 - Tests qui lisent le source (`admin-routes-guarded`, `kpi-admin-wiring`, `menu-admin-wiring`, `review-badges`) : liste d'impact en phase 9 avant toute suppression
 - Chemins `src/app/admin/**` codés en dur (tests, scripts, Sentry) : grep avant le `git mv` du route group (phase 12)
 - Aucun envoi KPI live avant le 2026-11-16 et sans accord du propriétaire
@@ -72,7 +76,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-10-31
-Stopped at: Roadmap v1.1 créée ; prochaine étape `/gsd:plan-phase 9`
+Stopped at: revue finale du milestone v1.1 ; prochaine étape : décisions du propriétaire, puis déploiement dans l'ordre de `v1.1-MILESTONE-AUDIT.md` §7
 Resume file: None
 
 ## Deferred Items
@@ -89,10 +93,11 @@ Dette v1.0 reconnue à la clôture (2026-10-31), hors périmètre de v1.1 :
 | Plan | 07-02, 07-10, 07-11 newsletter | bloqués |
 | Plan | 08-13 KPI-08 (2 semaines de TEST puis live) | pas avant le 2026-11-16 |
 | Exigence | SEO-08, CONV-02 | ouvertes |
-| Audit | audit de milestone | non exécuté |
+| Audit | audit de milestone v1.1 | exécuté 2026-10-31 (`v1.1-MILESTONE-AUDIT.md`) |
 
 ## Operator Next Steps
 
 - Lundi 2026-11-02 : observer le premier cron KPI automatique (00:00 UTC collecte, 01:00 UTC envoi, TEST)
 - Supprimer la clé Google `gecko-cabane-places-server` (inutile) ; restreindre ou supprimer l'ancienne « Maps API Key »
-- Lancer `/gsd:plan-phase 9`
+- Faire valider par écrit `09-OWNER-VALIDATION.md` (AUDIT-01/02), recueillir les retours AUDIT-04, jouer l'UAT `15-UAT.md` (RSV-06)
+- Appliquer 019, 021 puis 022 hors service ; 020 seulement sur accord écrit ; désactiver l'inscription publique dans Supabase Auth
