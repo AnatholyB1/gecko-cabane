@@ -10,7 +10,7 @@ import { ACCOUNT_LINKS } from '@/app/admin/(app)/nav'
  * déconnexion. `logoutAction` est la Server Action de l'admin, passée par le
  * layout (un composant de `src/components` n'importe pas `src/app`).
  * Simple disclosure (bouton `aria-expanded` + liste de liens et d'un bouton), pas de
- * `role="menu"` : le motif ARIA menu promet des flèches que ce composant n'implémente pas.
+ * rôle ARIA menu : ce motif promet des flèches que ce composant n'implémente pas.
  * Échap ferme (et rend le focus à l'avatar seulement s'il était dans le menu) ; un clic hors
  * du menu ou la sortie du focus le ferme.
  */
