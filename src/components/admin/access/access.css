@@ -1,6 +1,8 @@
 /* Écran « Accès » (ACC-02). Jetons --adm-* ; aucune ombre ; pas de carte dans une carte. */
-.adm-access { display: grid; gap: var(--adm-space-5); padding-bottom: var(--adm-space-7); }
-.adm-access__panel { display: grid; gap: var(--adm-space-3); align-content: start; }
+.adm-access { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--adm-space-5); padding-bottom: var(--adm-space-7); }
+.adm-access > * { min-width: 0; }
+.adm-access__panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--adm-space-3); align-content: start; }
+.adm-access__panel > * { min-width: 0; overflow-wrap: anywhere; }
 .adm-access__lede { max-width: 62ch; }
 .adm-access__form { display: grid; gap: var(--adm-space-3); max-width: 460px; margin-top: var(--adm-space-2); }
 .adm-access__feedback { margin-top: var(--adm-space-2); }

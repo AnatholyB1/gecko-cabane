@@ -24,14 +24,15 @@ export function LoadingState({ label = 'Chargement…', variant = 'card' }: { la
   )
 }
 
-/** Vide : icône, titre, une phrase utile, une action. */
-export function EmptyState({ icon: Icon = Inbox, title, description, action }: { icon?: LucideIcon; title: string; description?: string; action?: ReactNode }) {
+/** Vide : icône, titre, une phrase utile, une action. Titre `h2` par défaut (sous le `h1` de la page) ; `level={3}` sous un `h2` de section. */
+export function EmptyState({ icon: Icon = Inbox, title, description, action, level = 2 }: { icon?: LucideIcon; title: string; description?: string; action?: ReactNode; level?: 2 | 3 }) {
+  const Heading = level === 2 ? 'h2' : 'h3'
   return (
     <div className="adm-card adm-state">
       <div className="adm-state__icon">
         <Icon className="i i-lg" aria-hidden="true" focusable="false" />
       </div>
-      <h3>{title}</h3>
+      <Heading>{title}</Heading>
       {description ? <p>{description}</p> : null}
       {action}
     </div>
@@ -45,20 +46,24 @@ export function ErrorState({
   description,
   onRetry,
   retryLabel = 'Réessayer',
+  level = 2,
 }: {
   error?: unknown
   title?: string
   description?: string
   onRetry?: () => void
   retryLabel?: string
+  /** Niveau de titre : 2 sous le `h1` de la page (défaut), 3 sous un `h2` de section. */
+  level?: 2 | 3
 }) {
   const fallback = describeError(error)
+  const Heading = level === 2 ? 'h2' : 'h3'
   return (
     <div className="adm-card adm-state adm-state--error" role="alert">
       <div className="adm-state__icon">
         <WifiOff className="i i-lg" aria-hidden="true" focusable="false" />
       </div>
-      <h3>{title ?? fallback.title}</h3>
+      <Heading>{title ?? fallback.title}</Heading>
       <p>{description ?? fallback.description}</p>
       {onRetry ? (
         <button type="button" className="adm-btn" onClick={onRetry}>

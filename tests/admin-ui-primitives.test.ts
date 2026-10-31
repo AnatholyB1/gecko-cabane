@@ -202,7 +202,7 @@ describe('DSN-04 LoadingState / EmptyState / ErrorState', () => {
 
   it('vide : titre, phrase, action', () => {
     const html = render(h(EmptyState, { title: 'Aucune réservation ce jour', description: 'Elles apparaîtront ici.', action: h('button', null, 'Réservation') }))
-    expect(html).toContain('<h3>Aucune réservation ce jour</h3>')
+    expect(html).toContain('<h2>Aucune réservation ce jour</h2>')
     expect(html).toContain('Elles apparaîtront ici.')
     expect(html).toContain('<button>Réservation</button>')
   })

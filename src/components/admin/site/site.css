@@ -5,7 +5,8 @@
  */
 .adm-site .adm-site-card { background: var(--adm-surface); border: 1px solid var(--adm-line); border-radius: var(--adm-radius-lg); padding: 20px; min-width: 0; }
 @media (min-width: 768px) { .adm-site .adm-site-card { padding: 28px; } }
-.adm-site .adm-site-stack { display: grid; gap: 20px; margin-top: 16px; min-width: 0; }
+.adm-site .adm-site-stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 16px; min-width: 0; }
+.adm-site .adm-site-stack > * { min-width: 0; }
 .adm-site .adm-site-card > .adm-site-stack:first-child { margin-top: 0; }
 .adm-site .adm-site-split > .adm-site-stack { margin-top: 0; }
 .adm-site .adm-site-mt { margin-top: 16px; }
@@ -39,8 +40,8 @@
 .adm-site .adm-input, .adm-site .adm-select { min-height: 48px; }
 .adm-site .adm-textarea { min-height: 104px; }
 .adm-site input[readonly], .adm-site textarea[readonly] { cursor: default; }
-.adm-site .adm-site-row2 { display: grid; gap: 16px; }
-@media (min-width: 560px) { .adm-site .adm-site-row2 { grid-template-columns: 1fr 1fr; } }
+.adm-site .adm-site-row2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 560px) { .adm-site .adm-site-row2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 /* Interrupteur */
 .adm-site .adm-site-sw { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0; border: 0; background: none; font: 600 15px/1.2 var(--adm-font-sans); color: var(--adm-ink); cursor: pointer; }
@@ -49,17 +50,20 @@
 .adm-site .adm-site-sw__thumb svg { width: 14px; height: 14px; stroke-width: 2.5; }
 .adm-site .adm-site-sw[aria-checked="true"] .adm-site-sw__track { background: var(--adm-brand); border-color: var(--adm-brand); }
 .adm-site .adm-site-sw[aria-checked="true"] .adm-site-sw__thumb { left: 24px; border-color: #fff; color: var(--adm-brand); }
-.adm-site .adm-site-sw__text { min-width: 96px; text-align: left; }
+.adm-site .adm-site-sw { max-width: 100%; }
+.adm-site .adm-site-sw__text { min-width: 96px; text-align: left; overflow-wrap: anywhere; }
+@media (max-width: 279px) { .adm-site .adm-site-sw__text { min-width: 0; } }
 .adm-site .adm-site-sw[aria-readonly="true"] { cursor: default; }
 
 /* Horaires */
-.adm-site .adm-site-hrow { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--adm-line); }
+.adm-site .adm-site-hrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--adm-line); }
 .adm-site .adm-site-hrow:first-child { border-top: 0; }
 .adm-site .adm-site-hday { font-weight: 600; font-size: 17px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .adm-site .adm-site-htimes { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-bottom: 6px; }
 .adm-site .adm-site-hclosed { grid-column: 1 / -1; color: var(--adm-muted); padding-bottom: 6px; }
 .adm-site .adm-site-hrow__err { grid-column: 1 / -1; }
-.adm-site .adm-site-time { width: 132px; }
+.adm-site .adm-site-time { width: 132px; max-width: 100%; min-width: 0; }
+.adm-site .adm-site-hrow > * { min-width: 0; }
 .adm-site .adm-site-sep { color: var(--adm-muted); }
 @media (min-width: 768px) {
   .adm-site .adm-site-hrow { grid-template-columns: 170px 170px 1fr; padding: 8px 0; }
@@ -144,7 +148,7 @@
 .adm-site .adm-site-pv__status { margin-top: 10px; }
 .adm-site .adm-site-pv__status .adm-badge { white-space: normal; max-width: 100%; }
 .adm-site .adm-site-pv__sub { display: block; font-weight: 400; color: var(--adm-muted); font-size: 14px; }
-.adm-site .adm-site-pvh { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--adm-line); font-size: 15px; }
+.adm-site .adm-site-pvh { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; overflow-wrap: anywhere; padding: 8px 0; border-top: 1px solid var(--adm-line); font-size: 15px; }
 .adm-site .adm-site-pvh:first-child { border-top: 0; }
 .adm-site .adm-site-pvh.is-today { font-weight: 700; }
 

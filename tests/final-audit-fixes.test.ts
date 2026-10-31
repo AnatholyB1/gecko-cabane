@@ -6,6 +6,9 @@
 import { describe, it, expect, vi } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { EmptyState, ErrorState } from '../src/components/admin/states'
 import { FILTERED, scrubEvent, scrubString } from '../src/utils/sentry-scrub'
 import { parseTokenFragment } from '../src/utils/access/fragment'
 import { inviteLink, resetLink } from '../src/utils/access/service'
@@ -150,6 +153,36 @@ describe('basses : GET /api/settings n’expose pas la mémoire de fermeture', (
     vi.doUnmock('@/utils/supabase/server')
     vi.doUnmock('@/utils/auth')
     vi.doUnmock('@sentry/nextjs')
+  })
+})
+
+describe('QA-02 : hiérarchie des titres et débordement à 195 px', () => {
+  it('les états vide / erreur sont des h2 sous le h1 de la page (h3 sur demande, sous un h2 de section)', () => {
+    const html = renderToStaticMarkup(
+      createElement('div', null, createElement(EmptyState, { title: 'Vide' }), createElement(ErrorState, { title: 'Erreur', description: 'x' }), createElement(EmptyState, { title: 'Sous-section', level: 3 })),
+    )
+    expect(html).toContain('<h2>Vide</h2>')
+    expect(html).toContain('<h2>Erreur</h2>')
+    expect(html).toContain('<h3>Sous-section</h3>')
+    expect(html).not.toContain('<h3>Vide</h3>')
+    expect(read('src/app/admin/admin.css')).toContain('.adm-state :is(h2, h3)')
+  })
+
+  it('les grilles des écrans Site public, Annonces et Accès ont une colonne minmax(0, 1fr) (pas de débordement en min-content)', () => {
+    const site = read('src/components/admin/site/site.css')
+    expect(site).toMatch(/\.adm-site-stack \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    expect(site).toMatch(/\.adm-site-row2 \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    expect(site).toMatch(/\.adm-site-hrow \{[^}]*grid-template-columns: minmax\(0, 1fr\) auto/)
+    const access = read('src/components/admin/access/access.css')
+    expect(access).toMatch(/\.adm-access \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    expect(access).toMatch(/\.adm-access__panel \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    const admin = read('src/app/admin/admin.css')
+    expect(admin).toMatch(/\.adm-field \{[^}]*grid-template-columns: minmax\(0, 1fr\)/)
+    expect(admin).toMatch(/\.adm-input, \.adm-select, \.adm-textarea \{[^}]*min-width: 0/)
+  })
+
+  it('la liste des couverts par heure, qui défile en horizontal sur téléphone, est atteignable au clavier', () => {
+    expect(read('src/components/admin/reservations/TodayView.tsx')).toMatch(/className="rv-cap" role="list" tabIndex=\{0\} aria-labelledby="rv-c-t"/)
   })
 })
 
