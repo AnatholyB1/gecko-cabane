@@ -1,22 +1,4 @@
-/* Jetons partages D1-D4 (valeurs EXACTES, ne pas modifier ici). */
-:root {
-  --adm-bg: #F7F4EC;
-  --adm-surface: #FFFFFF;
-  --adm-surface-2: #F1ECE0;
-  --adm-ink: #1B2A22;
-  --adm-muted: #5E6B62;
-  --adm-line: #E2DCCB;
-  --adm-brand: #1F3D2F;
-  --adm-brand-ink: #FFFFFF;
-  --adm-accent: #B08D3C;        /* decor seulement, jamais du texte */
-  --adm-accent-text: #7A5C16;
-  --adm-ok: #2F6B45;
-  --adm-warn: #8A5A00;
-  --adm-danger: #A33A2B;
-  --adm-info: #2F5F7A;
-  --adm-r-sm: 8px;
-  --adm-r-md: 12px;
-  --adm-tap: 44px;
-  --adm-font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --adm-font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-}
+/* Gecko Cabane admin v1.1 : jeton unique.
+   Source de vérité : ../d1-system-shell/tokens.css (voir RECONCILIATION.md). Ce fichier ne redéfinit RIEN :
+   toute valeur propre à une tranche est interdite ici. Les polices (Inter, Cormorant) sont chargées par cet import. */
+@import url("../d1-system-shell/tokens.css");
