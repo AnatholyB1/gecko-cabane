@@ -28,7 +28,8 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: () => {}, replace: () => {}, prefetch: () => {} }),
 }))
 
-const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8')
+// Normalise les fins de ligne : un checkout Windows (autocrlf) donne du CRLF.
+const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8').replace(/\r\n/g, '\n')
 const h = (type: unknown, props: Record<string, unknown> | null = null) =>
   createElement(type as ComponentType<Record<string, unknown>>, props)
 
