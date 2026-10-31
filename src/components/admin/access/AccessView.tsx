@@ -202,7 +202,7 @@ export function AccessView() {
                       {a.email}
                       {a.isSelf ? ' (vous)' : ''}
                     </p>
-                    <p className="adm-access__meta">Depuis le {formatDay(a.since)}</p>
+                    <p className="adm-access__meta">Depuis le <span className="adm-nowrap">{formatDay(a.since)}</span></p>
                   </div>
                   <Badge tone="ok" icon={CircleCheck}>
                     Actif
@@ -221,7 +221,7 @@ export function AccessView() {
                   <div>
                     <p className="adm-access__who">{i.email}</p>
                     <p className="adm-access__meta">
-                      Envoyée le {formatDay(i.sentAt)}, {i.status === 'pending' ? 'expire' : 'expirée'} le {formatDay(i.expiresAt)}
+                      Envoyée le <span className="adm-nowrap">{formatDay(i.sentAt)}</span>, {i.status === 'pending' ? 'expire' : 'expirée'} le <span className="adm-nowrap">{formatDay(i.expiresAt)}</span>
                     </p>
                   </div>
                   {i.status === 'pending' ? (

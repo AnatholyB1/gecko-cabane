@@ -36,3 +36,4 @@
   .adm-access__acts { grid-column: auto; flex-wrap: nowrap; justify-content: flex-end; }
   .adm-access__steps { grid-template-columns: repeat(3, 1fr); }
 }
+.adm-nowrap { white-space: nowrap; }
