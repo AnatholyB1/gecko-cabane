@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@sentry/nextjs": "^10.45.0",
     "@sentry/profiling-node": "^10.45.0",
