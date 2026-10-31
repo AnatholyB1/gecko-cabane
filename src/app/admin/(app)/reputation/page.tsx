@@ -1,14 +1,7 @@
-import { PageHeader } from '@/components/admin/PageHeader'
-import { SectionCards } from '@/components/admin/shell/HomeCards'
-import { NAV } from '../nav'
+import { ReputationView, parseVue } from '@/components/admin/reputation/ReputationView'
 
-/** Entrée de section « Réputation » : les sous-pages viennent de nav.ts, aucune URL existante ne change. */
-export default function AdminReputationPage() {
-  const section = NAV.find((n) => n.id === 'reputation')
-  return (
-    <>
-      <PageHeader title={section?.label ?? ''} description={section?.description} />
-      <SectionCards items={section?.children ?? []} />
-    </>
-  )
+/** Réputation : Avis et Rapport KPI en segments (REP-01). `/admin/avis` et `/admin/kpi` rendent les mêmes composants. */
+export default async function AdminReputationPage({ searchParams }: { searchParams: Promise<{ vue?: string }> }) {
+  const { vue } = await searchParams
+  return <ReputationView vue={parseVue(vue)} hub />
 }

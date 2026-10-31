@@ -459,3 +459,118 @@ body:has(.adm-root) { background: #F7F4EC; }
 .adm-info__grid { display: grid; gap: var(--adm-space-4); margin: 0; }
 .adm-info__grid dd { margin: 0; font-weight: 500; }
 @media (min-width: 768px) { .adm-info__grid { grid-template-columns: repeat(2, 1fr); gap: var(--adm-space-5); } }
+
+/* ==========================================================================
+   RÉPUTATION (phase 16) : segments, garde-fou d'envoi, bande de synthèse,
+   avis, comparaison KPI. Port de reputation-*.html (D4), jetons P11.
+   AJOUT LOCALISÉ : les classes .adm-rep-* ne servent qu'à src/components/admin/reputation/.
+   ========================================================================== */
+
+/* Toast en haut (décision propriétaire 2026-10-31) : remplace l'ancrage en bas du bloc Toast ci-dessus. */
+.adm-toast-viewport { top: calc(var(--adm-header-h, 60px) + 8px); bottom: auto; }
+@media (min-width: 768px) { .adm-toast-viewport { top: calc(var(--adm-header-h, 60px) + 12px); bottom: auto; } }
+.adm-toast {
+  top: 0; bottom: auto; transform-origin: top center;
+  --offset-y: calc(var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y));
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) + (var(--shrink) * var(--height)))) scale(var(--scale));
+}
+.adm-toast[data-expanded] { transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y)); }
+.adm-toast[data-starting-style], .adm-toast[data-ending-style] { transform: translateY(-150%); }
+.adm-toast::after { top: auto; bottom: 100%; }
+
+.adm-rep { display: grid; gap: var(--adm-space-5); margin-top: var(--adm-space-5); }
+.adm-rep-seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--adm-line); border-radius: var(--adm-radius-lg); background: var(--adm-surface); margin-top: var(--adm-space-4); max-width: 100%; }
+.adm-rep-seg a { display: inline-flex; align-items: center; gap: 8px; min-height: var(--adm-target); padding: 0 18px; border-radius: var(--adm-radius); text-decoration: none; color: var(--adm-ink); font-weight: 500; }
+.adm-rep-seg a:hover { background: var(--adm-brand-tint); }
+.adm-rep-seg a[aria-current="page"] { background: var(--adm-brand); color: var(--adm-brand-ink); font-weight: 600; }
+
+.adm-rep-h2 { font-family: var(--adm-font-display); font-size: var(--adm-text-2xl); font-weight: 600; line-height: var(--adm-lh-tight); color: var(--adm-brand); margin: 0; }
+.adm-rep-sub { font-size: var(--adm-text-lg); font-weight: 600; margin: 0; }
+.adm-rep-lead { color: var(--adm-muted); max-width: 64ch; margin: 4px 0 0; }
+.adm-rep-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--adm-space-3) var(--adm-space-4); margin-bottom: var(--adm-space-4); }
+.adm-rep-stack { display: grid; gap: var(--adm-space-5); }
+.adm-rep-cols { display: grid; gap: var(--adm-space-5); }
+.adm-rep-grid3 { display: grid; gap: var(--adm-space-4); }
+@media (min-width: 768px) {
+  .adm-rep-cols { grid-template-columns: 1fr 1fr; gap: var(--adm-space-6); }
+  .adm-rep-grid3 { grid-template-columns: repeat(3, 1fr); }
+}
+.adm-rep-rule { border: 0; height: 1px; background: var(--adm-line); margin: var(--adm-space-5) 0 0; }
+.adm-rep-hint { font-size: var(--adm-text-sm); color: var(--adm-muted); margin: 8px 0 0; max-width: 64ch; }
+
+/* Garde-fou d'envoi (REP-02) : bandeau toujours en tête du rapport KPI */
+.adm-rep-guard { display: grid; gap: 10px; background: var(--adm-warn-bg); border: 1px solid var(--adm-warn-line); border-radius: var(--adm-radius-lg); padding: var(--adm-space-5); }
+.adm-rep-guard--live { background: var(--adm-ok-bg); border-color: var(--adm-ok-line); }
+.adm-rep-guard h2 { margin: 0; font-size: var(--adm-text-xl); font-weight: 600; }
+.adm-rep-guard p { margin: 0; }
+.adm-rep-guard__row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.adm-rep-guard__rule { font-weight: 600; }
+.adm-rep-checks { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.adm-rep-checks li { display: flex; gap: 10px; align-items: flex-start; }
+.adm-rep-checks svg { margin-top: 2px; color: var(--adm-muted); }
+.adm-rep-checks .done svg { color: var(--adm-ok); }
+.adm-rep-lock { display: grid; gap: 10px; align-content: start; }
+
+/* Avis (notice) : icône + titre court + phrase */
+.adm-rep-notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: var(--adm-radius); border: 1px solid var(--_line); background: var(--_bg); color: var(--adm-ink); }
+.adm-rep-notice svg { color: var(--_fg); margin-top: 2px; }
+.adm-rep-notice strong { display: block; color: var(--_fg); }
+.adm-rep-notice .body { display: block; }
+.adm-rep-notice--err { --_bg: var(--adm-danger-bg); --_line: var(--adm-danger-line); --_fg: var(--adm-danger); }
+.adm-rep-notice--warn { --_bg: var(--adm-warn-bg); --_line: var(--adm-warn-line); --_fg: var(--adm-warn); }
+.adm-rep-notice--ok { --_bg: var(--adm-ok-bg); --_line: var(--adm-ok-line); --_fg: var(--adm-ok); }
+.adm-rep-notice--info { --_bg: var(--adm-info-bg); --_line: var(--adm-info-line); --_fg: var(--adm-info); }
+.adm-rep-alerts { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+
+/* Bande de synthèse : dl 4 colonnes (2 sur mobile), filets internes, aucune carte */
+.adm-rep-band { display: grid; grid-template-columns: repeat(2, 1fr); margin: 0; border-block: 1px solid var(--adm-line); }
+.adm-rep-band > div { padding: var(--adm-space-4); border-bottom: 1px solid var(--adm-line); }
+.adm-rep-band > div:nth-child(odd) { border-right: 1px solid var(--adm-line); }
+.adm-rep-band > div:nth-last-child(-n+2) { border-bottom: 0; }
+.adm-rep-band dt { font-size: var(--adm-text-sm); color: var(--adm-muted); }
+.adm-rep-band dd { margin: 4px 0 0; font-family: var(--adm-font-display); font-size: 2.5rem; font-weight: 600; line-height: 1.1; color: var(--adm-brand); }
+.adm-rep-band dd small { font-family: var(--adm-font-sans); font-size: var(--adm-text-sm); font-weight: 400; color: var(--adm-muted); }
+@media (min-width: 768px) {
+  .adm-rep-band { grid-template-columns: repeat(var(--cols, 3), 1fr); }
+  .adm-rep-band > div { border-bottom: 0; border-right: 1px solid var(--adm-line); }
+  .adm-rep-band > div:last-child { border-right: 0; }
+}
+
+/* Semaines KPI */
+.adm-rep-weekbtn { display: inline-flex; align-items: center; gap: 8px; min-height: var(--adm-target); padding: 0 10px; margin: 0 -10px; border: 0; border-radius: var(--adm-radius); background: none; color: var(--adm-brand); font: inherit; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.adm-rep-weekbtn:hover { background: var(--adm-brand-tint); }
+.adm-rep-weekbtn[aria-pressed="true"] { font-weight: 700; background: var(--adm-brand-tint); text-decoration: none; }
+.adm-rep-cmp { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 var(--adm-space-6); }
+@media (min-width: 768px) { .adm-rep-cmp { grid-template-columns: 1fr 1fr; } }
+.adm-rep-cmp li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--adm-line); }
+.adm-rep-cmp .num { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 8px; text-align: right; }
+.adm-rep-delta { display: inline-flex; align-items: center; gap: 4px; font-size: var(--adm-text-sm); color: var(--adm-muted); }
+.adm-rep-delta.good { color: var(--adm-ok); }
+.adm-rep-delta.bad { color: var(--adm-danger); }
+.adm-rep-list { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+
+/* Messages WhatsApp repliés */
+.adm-rep-fold > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--adm-target); cursor: pointer; list-style: none; }
+.adm-rep-fold > summary::-webkit-details-marker { display: none; }
+.adm-rep-fold > summary svg { transition: transform var(--adm-dur-2) var(--adm-ease); }
+.adm-rep-fold[open] > summary svg { transform: rotate(180deg); }
+.adm-rep-tpl { display: grid; gap: 10px; align-content: start; }
+.adm-rep-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+/* Dialogue : récapitulatif en liste de définitions */
+.adm-rep-facts { margin: 12px 0 0; display: grid; gap: 8px; }
+.adm-rep-facts > div { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 8px 0; border-top: 1px solid var(--adm-line); }
+.adm-rep-facts dt { color: var(--adm-muted); min-width: 9rem; }
+.adm-rep-facts dd { margin: 0; font-weight: 600; }
+
+/* Tableaux larges (DataTable scrollLabel) : défilement horizontal focalisable, jamais de débordement de page */
+.adm-rep, .adm-rep-stack, .adm-rep-stack > * { min-width: 0; }
+.adm-tablewrap[data-scroll] { overflow-x: auto; }
+.adm-tablewrap[data-scroll] .adm-table { min-width: 0; }
+@media (min-width: 768px) {
+  .adm-rep .adm-table th, .adm-rep .adm-table td { padding-left: 10px; padding-right: 10px; }
+  .adm-rep .adm-table td.t-name, .adm-rep .adm-table th:first-child { min-width: 11.5rem; }
+}
+.adm-rep-weekbtn { white-space: nowrap; }
+.adm-rep-list { list-style: disc; }
+.adm-rep .adm-table td.t-name, .adm-rep .adm-table th:first-child { min-width: 0; }

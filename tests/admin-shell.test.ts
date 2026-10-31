@@ -99,17 +99,19 @@ describe('NAV-02 navigation principale', () => {
 })
 
 describe('NAV-02 onglets de section', () => {
-  it('rendus pour Site public (4 onglets) et Réputation, absents ailleurs', async () => {
+  it('rendus pour Site public (4 onglets), absents ailleurs (Réputation : segments dans la page)', async () => {
     const { SectionTabs } = await load()
     mockPath = '/admin/announcement'
-    let html = renderToStaticMarkup(h(SectionTabs))
+    const html = renderToStaticMarkup(h(SectionTabs))
     expect(html).toContain('aria-label="Sections de Site public"')
     expect(html.match(/<a /g)).toHaveLength(4)
     expect(tag(html, '/admin/announcement')).toContain('aria-current="page"')
-    mockPath = '/admin/kpi'
-    html = renderToStaticMarkup(h(SectionTabs))
-    expect(html).toContain('aria-label="Sections de Réputation"')
-    expect(tag(html, '/admin/kpi')).toContain('aria-current="page"')
+    // Phase 16 : les segments Avis / Rapport KPI sont dans la page Réputation (inPageSegments) :
+    // le layout n'ajoute pas une seconde rangée d'onglets pour cette section.
+    for (const p of ['/admin/kpi', '/admin/avis', '/admin/reputation']) {
+      mockPath = p
+      expect(renderToStaticMarkup(h(SectionTabs)), p).toBe('')
+    }
     for (const p of ['/admin', '/admin/menu', '/admin/reservations']) {
       mockPath = p
       expect(renderToStaticMarkup(h(SectionTabs))).toBe('')

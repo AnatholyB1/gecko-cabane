@@ -33,14 +33,23 @@ export function DataTable<T>({
   rows,
   rowKey,
   caption,
+  scrollLabel,
 }: {
   columns: DataTableColumn<T>[]
   rows: T[]
   rowKey: (row: T) => string | number
   caption: ReactNode
+  /**
+   * Phase 16 : tableau large. Quand le contenu dépasse (768 à 1023 px), le conteneur défile
+   * horizontalement et devient une région focalisable au clavier, nommée par ce libellé.
+   */
+  scrollLabel?: string
 }) {
   return (
-    <div className="adm-tablewrap">
+    <div
+      className="adm-tablewrap"
+      {...(scrollLabel ? { tabIndex: 0, role: 'region', 'aria-label': scrollLabel, 'data-scroll': '' } : {})}
+    >
       <table className="adm-table">
         <caption>{caption}</caption>
         <thead>
