@@ -1,5 +1,7 @@
 # Feuille de validation du propriétaire (AUDIT-01, AUDIT-02, AUDIT-03, AUDIT-04)
 
+> **État au 2026-10-31 : validation écrite INCOMPLÈTE.** Cette feuille n'a pas été signée page par page. Elle ne reprend que les décisions réellement consignées dans `.planning/MILESTONE-RUN-v1.1.md` (section « Décisions du propriétaire », 2026-10-31, galerie des maquettes) : suppression des tables, autorisation de lancer la phase 10, direction « luxe discret », cinq entrées de navigation, D1, D2, D8. Toute case vide signifie « pas validé explicitement », pas « refusé ». Restent à confirmer par le propriétaire : les verdicts de page (section 1), D3 à D7, D9, D10, la navigation de niveau 2 et les URL, la palette et la typographie, l'impact sur les tests, les retours de terrain (AUDIT-04) et la validation globale. Voir `.planning/v1.1-MILESTONE-AUDIT.md` (AUDIT-01/02 PARTIAL, AUDIT-04 HUMAN_NEEDED).
+
 **À remplir par le propriétaire.** Cocher `[x]` pour accepter la proposition, ou écrire la modification dans la colonne « Votre décision ». Cette feuille, renseignée et datée, est la validation écrite exigée avant la phase 10.
 Détail et justifications : `09-AUDIT.md`, `09-NAVIGATION-CIBLE.md`, `09-BRIEF-DESIGN.md`, `09-TEST-IMPACT.md`, `09-USAGE-QUESTIONNAIRE.md`.
 
@@ -9,31 +11,31 @@ Nom : ______________________  Date : ____ / ____ / 2026  Signature ou message de
 
 | OK | Page | Verdict proposé | Votre décision (si différente) |
 |----|------|-----------------|--------------------------------|
-| [ ] | Accueil `/admin` | SIMPLIFIER : devient « Aujourd'hui » (arrivées, couverts sur 40, à confirmer) | |
-| [ ] | Réservations `/admin/reservations` | SIMPLIFIER : on retire le placement en salle, liste dense, actions en un tap | |
-| [ ] | Tables `/admin/tables` | **SUPPRIMER** (votre décision déjà prise ; les tables restent en base) | |
-| [ ] | Carte, liste `/admin/menu` | FUSIONNER en un seul écran « Carte » | |
-| [ ] | Carte, page `/admin/menu/[pageId]` | FUSIONNER + SIMPLIFIER (boutons monter / descendre au lieu du glisser-déposer) | |
-| [ ] | Horaires `/admin/hours` | FUSIONNER dans « Site public » | |
-| [ ] | Annonce `/admin/announcement` | FUSIONNER dans « Site public » | |
-| [ ] | Paramètres `/admin/settings` | FUSIONNER dans « Site public » > Capacité, sans le mot « table » | |
-| [ ] | Avis `/admin/avis` | SIMPLIFIER dans « Réputation » (tableau de clics et modèles WhatsApp gardés) | |
-| [ ] | KPI `/admin/kpi` | GARDER dans « Réputation » (libellés TEST / live inchangés) | |
-| [ ] | Connexion `/admin/login` | GARDER (nouveau style) | |
-| [ ] | Inscription `/admin/signup` | SUPPRIMER après définition d'un processus d'invitation | |
+| [ ] | Accueil `/admin` | SIMPLIFIER : devient « Aujourd'hui » (arrivées, couverts sur 40, à confirmer) | Non validé explicitement page par page : case laissée vide. Maquette « Aujourd'hui » vue en galerie le 2026-10-31 (direction « luxe discret » validée) ; verdict de page non signé |
+| [ ] | Réservations `/admin/reservations` | SIMPLIFIER : on retire le placement en salle, liste dense, actions en un tap | Non validé explicitement page par page : case laissée vide. Décisions de galerie : mobile en ligne compacte + « Détails », toast en haut, flèches, « sur 40 » = pic simultané, colonne allergies, no_show « Non présenté » / bouton « Absent » / « Rétablir » (à vérifier contre PUT) |
+| [x] | Tables `/admin/tables` | **SUPPRIMER** (votre décision déjà prise ; les tables restent en base) | Décision du propriétaire du 2026-10-31 : suppression confirmée (« suppression des tables déjà décidée », P10 lancée sans attendre le reste de la phase 9). Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
+| [ ] | Carte, liste `/admin/menu` | FUSIONNER en un seul écran « Carte » | Non validé explicitement page par page : case laissée vide. Décisions de galerie : prix en ฿, « Gérer les pages » replié, `price_label` conservé |
+| [ ] | Carte, page `/admin/menu/[pageId]` | FUSIONNER + SIMPLIFIER (boutons monter / descendre au lieu du glisser-déposer) | Non validé explicitement page par page : case laissée vide. Flèches monter / descendre : décision de galerie (« flèches »), verdict de page non signé |
+| [ ] | Horaires `/admin/hours` | FUSIONNER dans « Site public » | Non validé explicitement page par page : case laissée vide |
+| [ ] | Annonce `/admin/announcement` | FUSIONNER dans « Site public » | Non validé explicitement page par page : case laissée vide |
+| [ ] | Paramètres `/admin/settings` | FUSIONNER dans « Site public » > Capacité, sans le mot « table » | Non validé explicitement page par page : case laissée vide |
+| [ ] | Avis `/admin/avis` | SIMPLIFIER dans « Réputation » (tableau de clics et modèles WhatsApp gardés) | Non validé explicitement page par page : case laissée vide. Décision connexe du 2026-10-31 : retirer la saisie manuelle Google, garder TripAdvisor (voir D1) |
+| [ ] | KPI `/admin/kpi` | GARDER dans « Réputation » (libellés TEST / live inchangés) | Non validé explicitement page par page : case laissée vide. Décisions de galerie : note moyenne masquée sans collecte, live côté serveur seulement, dialogue avant alerte note ≤ 3 |
+| [ ] | Connexion `/admin/login` | GARDER (nouveau style) | Non validé explicitement page par page : case laissée vide |
+| [ ] | Inscription `/admin/signup` | SUPPRIMER après définition d'un processus d'invitation | Non validé explicitement page par page : case laissée vide. Processus d'invitation décidé le 2026-10-31 (voir D2) ; la suppression elle-même n'a pas été confirmée ici |
 
 ## 2. Décisions à prendre (AUDIT-01, suite)
 
 | # | Question | Options | Votre choix |
 |---|----------|---------|-------------|
-| D1 | **Totaux d'avis saisis à la main** (page Avis). Le rapport KPI donne déjà le total Google automatiquement ; il ne donne pas le nombre d'avis TripAdvisor (seulement le rang). Personne d'autre ne les lit dans le code (à confirmer pour les lecteurs externes). | A : retirer la saisie (la table reste en base) · B : ne garder que le total TripAdvisor · C : tout garder | |
-| D2 | **Ajouter un nouvel admin** : aujourd'hui par le développeur (compte Supabase + ligne `gecko_admins`). Processus proposé : invitation par email depuis Supabase, puis ajout de la ligne ; pas d'écran d'invitation dans l'admin. | Accepter / autre processus : ________ | |
+| D1 | **Totaux d'avis saisis à la main** (page Avis). Le rapport KPI donne déjà le total Google automatiquement ; il ne donne pas le nombre d'avis TripAdvisor (seulement le rang). Personne d'autre ne les lit dans le code (à confirmer pour les lecteurs externes). | A : retirer la saisie (la table reste en base) · B : ne garder que le total TripAdvisor · C : tout garder | **B : ne garder que le total TripAdvisor** (décision du 2026-10-31 : « retirer la saisie manuelle Google, garder TripAdvisor » ; collecte KPI hebdomadaire = source Google). À faire en passe qualité 17c, non fait au moment de la clôture. Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
+| D2 | **Ajouter un nouvel admin** : aujourd'hui par le développeur (compte Supabase + ligne `gecko_admins`). Processus proposé : invitation par email depuis Supabase, puis ajout de la ligne ; pas d'écran d'invitation dans l'admin. | Accepter / autre processus : ________ | **Autre processus** (décision de galerie du 2026-10-31) : invitation par lien valable 7 jours, droits d'administrateur complets, « mot de passe oublié » en phase 17. Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
 | D3 | **Retirer dès la phase 10 la route `POST /api/auth/signup`** (non utilisée, appelle directement la création de compte dans la base partagée avec le portfolio). Vérifier aussi dans Supabase (Authentication, Providers) que « Allow new users to sign up » est désactivé. | Oui / Non | |
 | D4 | **Supprimer définitivement une réservation** : conserver derrière une confirmation, ou ne proposer que « Annuler » ? | Conserver / Annuler seulement | |
 | D5 | **Ancienne adresse `/admin/tables`** après suppression | 404 / redirection vers `/admin/reservations` | |
 | D6 | **Vue « semaine » et « toutes »** des réservations | Retirer (jour + recherche) / Garder | |
 | D7 | **Révocation de la lecture publique** des tables `gecko_table*` (ACC-01, phase 17) : exige votre accord et la certitude qu'aucune autre application du projet Supabase partagé ne les lit | Accord / Pas maintenant (dette notée) | |
-| D8 | **« Complet ce soir »** (fermer la réservation en un tap, ACC-03) : modèle à décider plus tard ; ne bloque pas les phases 10 à 16 | Garder pour la phase 17 / Abandonner | |
+| D8 | **« Complet ce soir »** (fermer la réservation en un tap, ACC-03) : modèle à décider plus tard ; ne bloque pas les phases 10 à 16 | Garder pour la phase 17 / Abandonner | **Garder pour la phase 17** : « Complet ce soir » = dîner seul, par date, réversible (galerie du 2026-10-31). Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
 | D9 | **Envoi du questionnaire** (AUDIT-04) par WhatsApp à la cheffe, aux serveurs et à vous-même | J'envoie moi-même / J'autorise l'envoi par ______ / Pas d'envoi | |
 | D10 | **Hors service pour les mises en ligne** de la refonte (12h-22h Krabi) et validation sur preview avant chaque fusion | Accord / autre règle : ________ | |
 
@@ -41,22 +43,22 @@ Nom : ______________________  Date : ____ / ____ / 2026  Signature ou message de
 
 | OK | Élément | Proposition | Votre décision |
 |----|---------|-------------|----------------|
-| [ ] | Entrées de premier niveau | Aujourd'hui · Réservations · Carte · Site public · Réputation (5 entrées, 2 niveaux au plus) | |
-| [ ] | Niveau 2 | Site public : Horaires, Annonces, Capacité · Réputation : Avis, KPI · Carte : pages en onglets | |
-| [ ] | URL | Aucune URL existante ne change (sauf `/admin/tables` et `/admin/signup` supprimées) ; `/admin/kpi` conservée car écrite dans les emails du rapport | |
-| [ ] | Bouton « + Réservation » | Présent sur toutes les pages | |
-| [ ] | Déconnexion | Un seul bouton, dans l'en-tête | |
+| [x] | Entrées de premier niveau | Aujourd'hui · Réservations · Carte · Site public · Réputation (5 entrées, 2 niveaux au plus) | Cinq entrées de navigation à 12 px validées en galerie le 2026-10-31. Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
+| [ ] | Niveau 2 | Site public : Horaires, Annonces, Capacité · Réputation : Avis, KPI · Carte : pages en onglets | Non validé explicitement : case laissée vide |
+| [ ] | URL | Aucune URL existante ne change (sauf `/admin/tables` et `/admin/signup` supprimées) ; `/admin/kpi` conservée car écrite dans les emails du rapport | Non validé explicitement : case laissée vide |
+| [ ] | Bouton « + Réservation » | Présent sur toutes les pages | Non validé explicitement pour toutes les pages : case laissée vide. Décision de galerie : « + Réservation » dans l'en-tête sur mobile |
+| [ ] | Déconnexion | Un seul bouton, dans l'en-tête | Non validé explicitement : case laissée vide |
 
 ## 4. Brief de design (AUDIT-02)
 
 | OK | Élément | Proposition | Votre décision |
 |----|---------|-------------|----------------|
-| [ ] | Direction | Outil de travail sobre, « luxe discret » | |
-| [ ] | Palette | Fond ivoire, texte vert très sombre, vert jungle `#0C3C2D` pour les actions, laiton rare (assombri `#7F5F08` pour le texte) | |
-| [ ] | Typographie | Sans-serif Inter, chiffres tabulaires | |
-| [ ] | Thème | Clair uniquement | |
-| [ ] | Cibles tactiles | 44 px minimum, 48 px pour confirmer / annuler / no-show | |
-| [ ] | Pas de décor du site public | Pas de Cinzel / Cormorant, pas de dégradé, pas d'emoji comme icône | |
+| [x] | Direction | Outil de travail sobre, « luxe discret » | Direction « luxe discret » validée le 2026-10-31 (galerie). Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31) |
+| [ ] | Palette | Fond ivoire, texte vert très sombre, vert jungle `#0C3C2D` pour les actions, laiton rare (assombri `#7F5F08` pour le texte) | Non confirmé séparément : case laissée vide |
+| [ ] | Typographie | Sans-serif Inter, chiffres tabulaires | Non confirmé séparément : case laissée vide |
+| [ ] | Thème | Clair uniquement | Non confirmé séparément : case laissée vide |
+| [ ] | Cibles tactiles | 44 px minimum, 48 px pour confirmer / annuler / no-show | Non confirmé séparément : case laissée vide |
+| [ ] | Pas de décor du site public | Pas de Cinzel / Cormorant, pas de dégradé, pas d'emoji comme icône | Non confirmé séparément : case laissée vide |
 
 ## 5. Impact sur les tests (AUDIT-03)
 
@@ -82,7 +84,7 @@ Si aucune réponse n'est reçue avant la phase 10, cochez ici pour avancer avec 
 - [ ] Je valide les verdicts de la section 1 (avec les modifications écrites ci-dessus).
 - [ ] Je valide la navigation cible (section 3).
 - [ ] Je valide le brief de design (section 4).
-- [ ] J'autorise le lancement de la phase 10 (suppression de la gestion de salle).
+- [x] J'autorise le lancement de la phase 10 (suppression de la gestion de salle). Décision du 2026-10-31 : « plan approuvé en entier ; P10 démarre sans attendre la validation complète de P9 ». Source : `.planning/MILESTONE-RUN-v1.1.md`, « Décisions du propriétaire » (2026-10-31).
 
 Commentaires libres :
 

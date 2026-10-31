@@ -11,7 +11,7 @@
 - Fix approach: Add migrations (007+) that capture the prefixed tables, `gecko_admins`, `gecko_is_admin()` and all policies. Update `claude.md` and `src/types/database.ts`.
 
 **Duplicated, untyped client-side data fetching in admin pages:**
-- Issue: Large `'use client'` pages (`src/app/admin/tables/page.tsx` 809 lines, `src/app/admin/reservations/page.tsx` 790, `src/app/admin/menu/[pageId]/page.tsx` 735, `src/app/[locale]/page.tsx` 755, `src/components/ReservationForm.tsx` 550) mix UI, fetch and business logic. This contradicts the "no business logic in UI" rule in `claude.md`.
+- Issue: Large `'use client'` pages (`src/app/[locale]/page.tsx` 755, `src/components/ReservationForm.tsx` 550) mix UI, fetch and business logic. [Mis à jour à la clôture de v1.1 : `src/app/admin/tables/page.tsx` a été supprimée (phase 10) et les pages admin refaites sur des primitives partagées (`src/components/admin/`), `useAdminQuery` et `adminFetch` (phases 11-16).] This contradicts the "no business logic in UI" rule in `claude.md`.
 - Impact: Hard to test or change. Errors are only `console.error`'d (about 30 sites) and are not reported to the user or Sentry.
 - Fix approach: Extract hooks and utilities and split the components. Route errors through `src/utils/sentry.ts`.
 
@@ -53,12 +53,14 @@
 - Recommendations: Add per-IP and per-phone throttling (Upstash, Vercel Firewall rules or a Supabase table). Add a CAPTCHA. Restrict allowed country codes.
 
 **API routes only check "logged in", not "gecko admin":**
-- Risk: The Supabase project is shared with another app (see `src/utils/supabase/server.ts` `isGeckoAdmin`). Admin API routes check only `supabase.auth.getUser()`. Examples: `src/app/api/menu/*`, `src/app/api/hours/route.ts`, `src/app/api/tables/**`, `src/app/api/settings/route.ts`, `src/app/api/announcement/route.ts`, `src/app/api/menu/upload/route.ts`, and reservation PUT/GET. `isGeckoAdmin` is called only in `src/app/admin/login/actions.ts`. Middleware guards only `/admin` pages and passes `/api` through.
+- Risk: The Supabase project is shared with another app (see `src/utils/supabase/server.ts` `isGeckoAdmin`). Admin API routes check only `supabase.auth.getUser()`. Examples: `src/app/api/menu/*`, `src/app/api/hours/route.ts`, `src/app/api/settings/route.ts`, `src/app/api/announcement/route.ts`, `src/app/api/menu/upload/route.ts`, and reservation PUT/GET. `isGeckoAdmin` is called only in `src/app/admin/login/actions.ts`. Middleware guards only `/admin` pages and passes `/api` through.
 - Current mitigation: RLS via `gecko_is_admin()` (not visible in the repo). The storage upload to `gecko-menu-images` depends on bucket policies.
 - Recommendations: Add a shared `requireAdmin()` helper that calls `isGeckoAdmin` in every mutating route.
+- [Résolu : `requireAdmin()` (`src/utils/auth`) garde les routes admin ; `tests/admin-routes-guarded.test.ts` échoue si une route mutante ne l'appelle pas. Les routes `/api/tables/**` n'existent plus (phase 10).]
 
-**Open admin signup:**
-- Risk: `src/app/api/auth/signup/route.ts` and `src/app/admin/signup/page.tsx` let anyone create an account in the shared auth pool. The password minimum is 6 characters and there is no rate limit. Without `gecko_admins` membership the account should be harmless, but it is attack surface and creates user pollution.
+**Open admin signup [résolu en v1.1, ACC-02] :**
+- Résolution : `src/app/api/auth/signup/route.ts`, `src/app/api/auth/login/route.ts` et `src/app/admin/signup/page.tsx` n'existent plus (`tests/access-static.test.ts`, `tests/signup-api-removal.test.ts`). Un nouvel administrateur est invité par lien à usage unique de 7 jours (`/api/access/*`, jeton dans le fragment d'URL `#token=`, migration `021` non appliquée par le code) ; « Mot de passe oublié » existe. À faire côté Supabase : désactiver « Allow new users to sign up ».
+- Risque d'origine : `src/app/api/auth/signup/route.ts` and `src/app/admin/signup/page.tsx` let anyone create an account in the shared auth pool. The password minimum is 6 characters and there is no rate limit. Without `gecko_admins` membership the account should be harmless, but it is attack surface and creates user pollution.
 - Recommendations: Remove or disable signup. Provision admins manually in `gecko_admins`.
 
 **Mass assignment in reservation update:**
@@ -72,7 +74,7 @@
 - Recommendations: Add an `escapeHtml()` helper and apply it to every interpolated value.
 
 **Open redirect and message injection via query params:**
-- Files: `src/app/api/auth/login/route.ts`, `src/app/api/auth/signup/route.ts`, `src/middleware.ts` (the `redirect` and `error` params)
+- Files: `src/middleware.ts` (the `redirect` and `error` params) ; `src/app/api/auth/login|signup` n'existent plus (v1.1) et la connexion n'affiche que des codes (`?e=`, `?m=`), `redirect` passant par `safeAdminRedirect` (`tests/safe-redirect.test.ts`)
 - Risk: Messages are passed in the URL and the `redirect` param is reflected. Verify that the redirect target is restricted to relative `/admin` paths.
 
 **Upload filename and content trust:**
