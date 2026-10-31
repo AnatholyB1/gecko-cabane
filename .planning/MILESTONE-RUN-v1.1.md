@@ -43,6 +43,13 @@ Retirer la saisie manuelle Google (collecte KPI hebdomadaire = source), garder T
 
 ## Phase 17 en cours : 17a Complet ce soir (3118) · 17b Accès / invitation / revoke tables (3119) ; 17c qualité finale ensuite.
 
+| 17a Complet ce soir | phase/17a-complet | merge | 127 fichiers / 2012 tests | option : horaire exceptionnel 16:00, sans toucher à l'API figée |
+| 17b Accès / invitation / revoke tables | phase/17b-access | merge | 132 fichiers / 2158 tests | migrations 020 et 021 écrites, NON appliquées |
+| 17c Qualité finale | phase/17c-quality | merge | 135 fichiers / 2174 tests | REP-03 : saisie Google retirée |
+| Audits finaux + corrections | fix/final-audit | merge | 136 fichiers / 2201 tests, 2 passages verts ; lint, tsc, build verts | jeton d'invitation hors Sentry, signOut local, migration 022 écrite NON appliquée |
+
+## Milestone prêt pour la recette. Reste humain : AUDIT-01/02/04, RSV-06 (UAT preview hors service), ACC-01 (accord pour 020), migrations 019 -> 021 -> 022 à appliquer par le propriétaire.
+
 ## Audits lancés (6 agents, ports 3110-3114) : P15 ×3, P11+P12, P14+P16
 ## En cours (vague 2, ancien)
 - P12 shell (`phase/12-shell-nav`, 3107) ; P15a logique réservations/Aujourd'hui (`phase/15a-logic`, 3108).

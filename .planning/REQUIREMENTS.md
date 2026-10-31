@@ -68,7 +68,7 @@
 
 - [x] **REP-01**: Avis et KPI sont regroupés sous « Réputation » avec le nouveau système de design
 - [x] **REP-02**: Les libellés TEST/live du rapport KPI sont conservés ; aucun envoi live avant le 2026-11-16 et sans accord du propriétaire
-- [ ] **REP-03**: La saisie manuelle des totaux d'avis est retirée seulement si l'audit confirme que la source KPI la remplace et que rien d'autre ne la lit
+- [x] **REP-03**: La saisie manuelle des totaux d'avis est retirée seulement si l'audit confirme que la source KPI la remplace et que rien d'autre ne la lit
 
 ### Sécurité et accès (ACC)
 
