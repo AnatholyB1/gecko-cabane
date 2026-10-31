@@ -239,3 +239,15 @@
 .rv-date { max-width: min(190px, 100%); }
 @media (max-width: 239.98px) { .rv-gauges { grid-template-columns: minmax(0, 1fr); } }
 .rv-row:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: -2px; }
+.rv-attn__head { flex-wrap: wrap; }
+.rv-card { grid-template-columns: minmax(0, 1fr); }
+.rv-today > * { min-width: 0; }
+@media (max-width: 259.98px) {
+  /* Une seule colonne : l'heure, le nom, les contacts et les boutons passent l'un sous l'autre. */
+  .rv-row { grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "time" "id" "sub" "contact" "notes" "actions" "detail"; }
+  .rv-row__contact { justify-self: start; flex-wrap: wrap; }
+  .rv-row__actions .adm-btn { min-width: 0; }
+  /* `position: relative` : les textes masqués (position absolue) restent dans la zone défilante au lieu d'élargir la page. */
+  .rv-cap { position: relative; overflow-x: auto; grid-template-columns: repeat(10, 30px); padding-bottom: 6px; }
+}
