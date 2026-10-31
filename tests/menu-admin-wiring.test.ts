@@ -37,10 +37,22 @@ describe('is_gluten_free wiring', () => {
     expect(src).toMatch(/is_gluten_free must be a boolean[\s\S]{0,40}status: 400/)
   })
 
-  it('admin page has the checkbox and sends the flag', () => {
-    const src = read('src/app/admin/(app)/menu/[pageId]/page.tsx')
-    expect(src).toContain('is_gluten_free: itemForm.is_gluten_free')
-    expect(src).toContain('item.is_gluten_free ?? false')
-    expect(src).toContain('Sans gluten (confirmé par la cheffe)')
+  // Phase 14 : l'écran unique de la carte vit dans src/components/admin/menu/. Mêmes assertions qu'avant sur
+  // la charge utile et le libellé figé, désormais lues dans les fichiers qui les portent.
+  it('admin screen has the checkbox and sends the flag', () => {
+    const logic = read('src/components/admin/menu/menu-logic.ts')
+    const sheet = read('src/components/admin/menu/ItemSheet.tsx')
+    expect(logic).toContain('is_gluten_free: itemForm.is_gluten_free')
+    expect(logic).toContain('item.is_gluten_free ?? false')
+    expect(sheet).toContain('Sans gluten (confirmé par la cheffe)')
+    // la feuille Détails utilise bien ces deux fonctions (la charge utile n'est pas du code mort)
+    expect(sheet).toContain('itemToForm(item)')
+    expect(sheet).toContain('data.updateItem(item.id, itemForm')
+    expect(sheet).toContain('checked={itemForm.is_gluten_free}')
+  })
+
+  it('les deux adresses de la carte rendent le même écran unique', () => {
+    expect(read('src/app/admin/(app)/menu/page.tsx')).toContain('<MenuScreen />')
+    expect(read('src/app/admin/(app)/menu/[pageId]/page.tsx')).toContain('<MenuScreen initialPageId=')
   })
 })
