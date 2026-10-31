@@ -12,6 +12,9 @@ import { join } from 'path'
 import { NAV as REAL_NAV } from '../src/app/admin/(app)/nav'
 
 const root = join(__dirname, '..')
+// Les imports dynamiques à froid dépassent 5 s quand la suite complète tourne en parallèle.
+vi.setConfig({ testTimeout: 30_000 })
+
 let mockPath = '/admin'
 vi.mock('next/navigation', () => ({
   usePathname: () => mockPath,
