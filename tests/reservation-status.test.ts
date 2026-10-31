@@ -77,19 +77,19 @@ describe('nextActions', () => {
   it('confirmed: Terminer (primary), Absent, Annuler', () => {
     expect(nextActions('confirmed').map((a) => [a.label, a.to, a.needsConfirm, a.emphasis])).toEqual([
       ['Terminer', 'completed', false, 'primary'],
-      ['Absent', 'no_show', false, 'secondary'],
+      ['Absent', 'no_show', true, 'secondary'],
       ['Annuler', 'cancelled', true, 'danger-outline'],
     ])
   })
   it.each(['completed', 'cancelled', 'no_show'] as const)('%s: no action', (s) => {
     expect(nextActions(s)).toEqual([])
   })
-  it.each(ALL)('%s: actions agree with canTransition, one primary max, only cancel asks confirmation', (s) => {
+  it.each(ALL)('%s: actions agree with canTransition, one primary max, only cancel and Absent ask confirmation', (s) => {
     const actions = nextActions(s)
     expect(actions.map((a) => a.to)).toEqual(UI_TRANSITIONS[s])
     for (const a of actions) expect(canTransition(s, a.to)).toBe(true)
     expect(actions.filter((a) => a.emphasis === 'primary').length).toBeLessThanOrEqual(1)
-    for (const a of actions) expect(a.needsConfirm).toBe(a.to === 'cancelled')
+    for (const a of actions) expect(a.needsConfirm).toBe(a.to === 'cancelled' || a.to === 'no_show')
     for (const a of actions) expect(a.busyLabel.length).toBeGreaterThan(0)
   })
   it('returns copies (mutating the result does not alter the table)', () => {

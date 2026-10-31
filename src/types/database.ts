@@ -170,6 +170,8 @@ export interface Reservation {
   utm_source: string | null
   utm_medium: string | null
   ref: string | null
+  // Added by migration 019 (phase 15). Absent until the migration is applied.
+  allergies?: string | null
 }
 
 export interface MarketingConsent {
