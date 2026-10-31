@@ -9,7 +9,9 @@ import type { ComponentType } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
-import { NAV as REAL_NAV } from '../src/app/admin/(app)/nav'
+
+// Le vrai NAV (pas la version éditée par le mock ci-dessous).
+const { NAV: REAL_NAV } = await vi.importActual<typeof import('../src/app/admin/(app)/nav')>('@/app/admin/(app)/nav')
 
 const root = join(__dirname, '..')
 // Les imports dynamiques à froid dépassent 5 s quand la suite complète tourne en parallèle.
@@ -25,20 +27,29 @@ const h = (type: unknown, props: Record<string, unknown> | null = null) =>
 
 const NAV_MODULE = '@/app/admin/(app)/nav'
 
+// F-M5 : `NAV` est une propriété calculée à chaque lecture à partir de `navState.edit`. L'ancienne version
+// (`vi.doMock` + `vi.resetModules` + imports dynamiques) lisait parfois le vrai NAV sous charge (échec
+// aléatoire d'un test sur ~4 passes complètes) ; ici l'ordre de chargement des modules n'a plus d'effet.
+const navState = vi.hoisted(() => ({ edit: ((nav: unknown) => nav) as (nav: never) => unknown }))
+vi.mock('@/app/admin/(app)/nav', async (importOriginal) => {
+  const real = await importOriginal<typeof import('../src/app/admin/(app)/nav')>()
+  return {
+    ...real,
+    get NAV() {
+      return navState.edit(real.NAV as never)
+    },
+  }
+})
+
 afterEach(() => {
-  vi.doUnmock(NAV_MODULE)
-  vi.resetModules()
+  navState.edit = (nav) => nav
 })
 beforeEach(() => {
-  vi.resetModules()
   mockPath = '/admin'
 })
 
 async function renderSurfaces(edit: (nav: typeof REAL_NAV) => typeof REAL_NAV) {
-  vi.doMock(NAV_MODULE, async (importOriginal) => {
-    const real = await importOriginal<typeof import('../src/app/admin/(app)/nav')>()
-    return { ...real, NAV: edit(real.NAV) }
-  })
+  navState.edit = edit as unknown as typeof navState.edit
   const { MainNav } = await import('../src/components/admin/shell/MainNav')
   const { SectionTabs } = await import('../src/components/admin/shell/SectionTabs')
   const { HomeCards, SectionCards } = await import('../src/components/admin/shell/HomeCards')
