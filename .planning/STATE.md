@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Refonte de l'admin
-status: planning
-last_updated: "2026-10-31T00:33:16.913Z"
+status: ready_to_plan
+last_updated: "2026-10-31T01:00:00.000Z"
 last_activity: 2026-10-31
 progress:
-  total_phases: 0
+  total_phases: 9
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,48 +17,67 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-10-16)
+See: .planning/PROJECT.md (updated 2026-10-31)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Clôture du jalon v1.0 : actions du propriétaire (voir `.planning/DEPLOY-CHECKLIST-v1.0.md`) puis phase 8 (reporting KPI)
+**Current focus:** Milestone v1.1 « Refonte de l'admin » : Phase 9 (audit et validation propriétaire)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-10-31 — Milestone v1.1 started
+Phase: 9 of 17 (Audit et validation propriétaire)
+Plan: — (aucun plan créé)
+Status: Ready to plan
+Last activity: 2026-10-31 — Roadmap v1.1 créée (9 phases, 44 exigences)
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed (v1.1): 0
+- Average duration: —
+- Total execution time: —
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
 
 ## Accumulated Context
 
 ### Decisions
 
-- Phases 1 à 4 portent les 24 exigences [P1] (échéance 1er novembre 2026) ; 23 sur 24 sont faites, OPS-01 (fiche Google) est reportée
-- Sécurité (SEC) couplée à la réservation (RESA) en phase 1
-- OPS-01 en phase 4 ; OPS-02 à 07 en phase 6 ; toute action publique exige l'accord du propriétaire
-- Phase 7 (2026-10-29) : Resend remplace Brevo pour la newsletter ; migration newsletter renumérotée 017 ; envois désactivés par défaut (`NEWSLETTER_SEQUENCES_ENABLED`, `NEWSLETTER_CAMPAIGNS_ENABLED`), 1 campagne / 30 jours codée
-- Phase 5 : `aggregateRating` réintroduit (D-14) avec 3 avis TripAdvisor repris mot pour mot ; interrupteur `SHOW_AGGREGATE_RATING`
-- Phase 6 : DE et SV publiés après validation écrite du propriétaire, sans relecteur natif identifié
-- Phase 8 (2026-10-31) : D-03 levée pour le total et les nouveaux avis Google (automatiques via Places API, saisie manuelle jamais écrasée) ; `google_min_rating` reste manuel ; TripAdvisor : délai 90 s, une tentative par semaine
-- 2026-10-30 : restaurant ouvert tous les jours 12h-22h (plus de fermeture le mardi) ; coordonnées Apple Maps
+- v1.1 : les phases continuent la numérotation de v1.0 (9 à 17) ; les dossiers `.planning/phases/01-08` et les workstreams ne sont pas touchés
+- v1.1 : API de réservation, `PUT /api/reservations` et machine à statuts figés (emails, cron J+1, KPI en dépendent)
+- v1.1 : Base UI retenu après spike en phase 11 ; repli `<dialog>` natif + `sonner`
+- v1.1 : tables SQL `gecko_table*` laissées en base ; la révocation de lecture publique (ACC-01) exige l'accord du propriétaire
+- v1.1 : ordre de migration du moins critique au plus critique (Site public, Carte, Réservations, Réputation) ; une PR par page, validation sur preview
+- v1.1 : ACC-01..03 et QA-* regroupés en phase 17 (ACC-02 supprime `/admin/signup` après le shell, qui le garde hors shell en phase 12)
+- 2026-10-30 : restaurant ouvert tous les jours 12h-22h ; coordonnées Apple Maps
+- Décisions v1.0 conservées dans `.planning/milestones/v1.0-ROADMAP.md`
+
+### Pending Todos
+
+None yet.
 
 ### Blockers/Concerns
 
-- Texte DE/SV : relecture par un natif toujours recommandée
-- Migrations 015, 016 (phase 5) et 017 (phase 7) : état en production contradictoire entre les documents (voir DEPLOY-CHECKLIST-v1.0.md, section de vérification) ; à contrôler en lecture seule avant de s'y fier
-- 07-LAUNCH.md : réponse du propriétaire vide alors que des redéploiements avec RESEND_WEBHOOK_SECRET et NEWSLETTER_CAMPAIGNS_ENABLED ont eu lieu
-- REQUIREMENTS.md : 65 exigences v1 (24 [P1])
-- État de chaque workstream (`.planning/workstreams/*/STATE.md`) en retard sur la réalité (pourcentages à 0) : à ne pas utiliser comme source
+- Aucune télémétrie d'usage de l'admin : interroger la cheffe et les serveurs (AUDIT-04)
+- Tests qui lisent le source (`admin-routes-guarded`, `kpi-admin-wiring`, `menu-admin-wiring`, `review-badges`) : liste d'impact en phase 9 avant toute suppression
+- Chemins `src/app/admin/**` codés en dur (tests, scripts, Sentry) : grep avant le `git mv` du route group (phase 12)
+- Aucun envoi KPI live avant le 2026-11-16 et sans accord du propriétaire
+- Texte DE/SV : relecture par un natif toujours recommandée (dette v1.0)
 
 ## Session Continuity
 
-Last session: 2026-10-30 (synchronisation des fichiers de suivi)
-Stopped at: attente des actions propriétaire ; puis planification de la phase 8
-Resume file: .planning/DEPLOY-CHECKLIST-v1.0.md
+Last session: 2026-10-31
+Stopped at: Roadmap v1.1 créée ; prochaine étape `/gsd:plan-phase 9`
+Resume file: None
 
 ## Deferred Items
 
-Éléments reconnus et reportés à la clôture du milestone v1.0 (2026-10-31) :
+Dette v1.0 reconnue à la clôture (2026-10-31), hors périmètre de v1.1 :
 
 | Catégorie | Élément | Statut |
 |-----------|---------|--------|
@@ -76,4 +95,4 @@ Resume file: .planning/DEPLOY-CHECKLIST-v1.0.md
 
 - Lundi 2026-11-02 : observer le premier cron KPI automatique (00:00 UTC collecte, 01:00 UTC envoi, TEST)
 - Supprimer la clé Google `gecko-cabane-places-server` (inutile) ; restreindre ou supprimer l'ancienne « Maps API Key »
-- Démarrer le prochain milestone avec `/gsd-new-milestone`
+- Lancer `/gsd:plan-phase 9`

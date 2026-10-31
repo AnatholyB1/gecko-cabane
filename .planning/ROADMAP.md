@@ -1,311 +1,169 @@
-# Roadmap: Gecko Cabane — SEO, conversion et réputation
+# Roadmap: Gecko Cabane
 
 ## Milestones
 
 - ✅ **v1.0 SEO, conversion et réputation** — Phases 1-8 (livré 2026-10-31, clos avec dette reportée) — archive : `.planning/milestones/v1.0-ROADMAP.md`, exigences : `.planning/milestones/v1.0-REQUIREMENTS.md`
-- 📋 **v1.1** — à définir (`/gsd-new-milestone`) ; reprend les éléments reportés ci-dessous
+- 🚧 **v1.1 Refonte de l'admin** — Phases 9-17 (en cours)
 
-### Reportés de v1.0 vers v1.1
+<details>
+<summary>✅ v1.0 SEO, conversion et réputation (Phases 1-8) — livré 2026-10-31</summary>
 
-- Phase 4 : 04-03 fiche Google Business Profile (OPS-01)
-- Phase 5 : SEO-08 (PageSpeed 85, LCP 2,5 s), CONV-02 (photo du couple), vérification REV-07 et migrations 015/016
-- Phase 6 : 06-10 TripAdvisor et NAP (OPS-04, OPS-05), relecture native DE/SV
-- Phase 7 : 07-02, 07-10, 07-11, activation des envois newsletter
-- Phase 8 : 08-13 (2 semaines de TEST puis `KPI_REPORT_MODE=live`, pas avant le 2026-11-16)
+Détail complet des phases, plans et preuves : `.planning/milestones/v1.0-ROADMAP.md`. Les phases 4 à 8 ont été livrées avec des restes bloqués sur le propriétaire ; ces éléments restent hors périmètre de v1.1 (voir REQUIREMENTS.md, « Future Requirements ») :
 
-La suite de ce fichier conserve l'historique détaillé de v1.0.
+- 04-03 fiche Google Business Profile (OPS-01)
+- SEO-08 (PageSpeed 85, LCP 2,5 s), CONV-02 (photo du couple)
+- 06-10 TripAdvisor et NAP (OPS-04, OPS-05), relecture native DE/SV
+- 07-02, 07-10, 07-11 : lancement de la newsletter
+- 08-13 / KPI-08 : 2 semaines de TEST puis `KPI_REPORT_MODE=live` (pas avant le 2026-11-16)
+
+Les dossiers `.planning/phases/01-04` et `08`, ainsi que les workstreams, restent en place.
+
+</details>
 
 ## Overview
 
-Objectif : faire de geckocabanerestaurant.com la première source de réservations des touristes européens de Krabi. Les 24 exigences [P1] doivent être en ligne avant le **1er novembre 2026** (aujourd'hui : 16 octobre) ; elles sont donc regroupées dans les phases 1 à 4. Les phases 5 à 8 (conversion, contenu, newsletter, KPI) suivent la haute saison de démarrage.
+Objectif de v1.1 : refaire l'admin en outil de travail sobre (cheffe sur téléphone, serveurs sur tablette, développeur sur ordinateur), supprimer la gestion de salle sans toucher à la réservation, et ne garder que ce qui sert. Contrainte forte : le site est en production et la haute saison démarre ; l'API de réservation et la machine à statuts restent figées (emails, cron d'avis J+1, KPI en dépendent), les tables SQL `gecko_table*` restent en base, le build doit être vert à chaque commit (Vitest gate le build).
 
-**Mise à jour 2026-10-30 (synchronisation de jalon)** : les phases 5, 6 et 7 ont été livrées en parallèle par les workstreams `.planning/workstreams/{conversion,seo-pages,newsletter}/` (branches `ws/*`, fusionnées dans master). Le code est livré et le gate est vert, mais chaque phase garde des éléments bloqués sur le propriétaire ; elles ne sont donc pas cochées. Détail des actions : `.planning/DEPLOY-CHECKLIST-v1.0.md`. La phase 8 n'est pas démarrée.
+Ordre : audit validé par le propriétaire, suppression des tables (appelants avant appelés), fondation design, shell, puis refonte page par page du moins critique au plus critique (Site public, Carte, Réservations + Aujourd'hui, Réputation), clôture sécurité et QA.
 
-Granularité : standard. Mode : MVP vertical (chaque phase livre une capacité utilisable de bout en bout).
+Si le temps manque : livrer d'abord les phases 10, 11, 12 et 15 ; le shell rend les autres pages livrables indépendamment.
+
+Granularité : standard. Numérotation : continue depuis v1.0 (phase 9 à 17).
 
 ## Phases
 
-- [x] **Phase 1: Réservation sûre et sans friction** - Fermer la fuite PII, limiter les abus, rendre le SMS facultatif, email obligatoire, bouton WhatsApp (completed 2026-10-16)
-- [x] **Phase 2: Fondations SEO techniques** - Canonical, schema complet, EN 100 % anglais, hreflang, sitemap, Search Console et Bing (code livré et vérifié 2026-10-17 ; en attente du propriétaire : sitemap GSC, import Bing, Rich Results Test)
- (completed 2026-10-17)
-- [x] **Phase 3: Carte HTML et pages d'atterrissage clés** - `/menu` indexable avec vins et bières belges, accueil enrichi, page « french restaurant krabi »
- (completed 2026-10-17)
-- [ ] **Phase 4: Tunnel d'avis et fiche Google** - `/review`, statut honorée/no-show, email J+1, QR code livrés et déployés (6/7) ; fiche Google Business Profile (04-03, OPS-01) reportée par le propriétaire
-- [ ] **Phase 5: Conversion et mesure** - Code livré 13/13 (workstream conversion) ; ouverts : SEO-08 (PageSpeed 79, cible 85), CONV-02 (photo du couple), REV-07 (email non vérifié) ; migrations 015/016, LINE et Plausible à confirmer
-- [ ] **Phase 6: Plan de pages SEO, allemand/suédois et présence externe** - 14/15 (workstream seo-pages) : pages FR/EN, /de et /sv publiés, dossiers prêts ; reste 06-10 (NAP/TripAdvisor, OPS-04/05) bloqué sur accord du propriétaire
-- [ ] **Phase 7: Newsletter** - Resend (remplace Brevo, décision du 2026-10-29), double opt-in, formulaires, séquences et segments ; code livré 8/11 (workstream newsletter), lancement (07-10, 07-11) et supports imprimés (07-02) bloqués sur le propriétaire
-- [ ] **Phase 8: Reporting KPI hebdomadaire** - Cron dans l'appli, synthèse Claude, rapport email, tableau de bord, alertes (code livré et en production ; premier rapport TEST envoyé le 2026-10-30 ; reste KPI-08 : 2 semaines de TEST, au plus tôt le 2026-11-16)
+- [ ] **Phase 9: Audit et validation propriétaire** - Verdicts par page, navigation cible, brief de design, liste d'impact des tests, usage réel recueilli (sans code)
+- [ ] **Phase 10: Suppression de la gestion de salle** - Plus de page, d'API ni de types « tables » ; la réservation et la disponibilité fonctionnent comme avant
+- [ ] **Phase 11: Fondation du système de design** - Tokens `--adm-*`, primitives, états, hook de requêtes et page kit validés avant toute page
+- [ ] **Phase 12: Shell et navigation** - Un shell partagé responsive autour de toutes les pages admin, une seule source de navigation
+- [ ] **Phase 13: Site public (Horaires, Annonces, Capacité)** - Une section de réglages avec retour de sauvegarde et erreurs lisibles
+- [ ] **Phase 14: Carte** - Édition de la carte sur un seul écran
+- [ ] **Phase 15: Réservations et Aujourd'hui** - Accueil du service du jour et liste dense avec actions de statut en un tap
+- [ ] **Phase 16: Réputation (Avis et KPI)** - Avis et KPI regroupés dans le nouveau design, libellés TEST/live conservés
+- [ ] **Phase 17: Accès, sécurité et QA finale** - Révocation des lectures publiques orphelines, invitation d'admin, « Complet ce soir », passe accessibilité et garde-fous
 
 ## Phase Details
 
-### Phase 1: Réservation sûre et sans friction
-
-**Goal**: Un touriste étranger réserve en moins de 60 secondes, et le flux de réservation n'expose plus de données personnelles ni n'est exploitable par des abus
-**Mode:** mvp
-**Depends on**: Nothing (first phase)
-**Requirements**: SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, RESA-01, RESA-02, RESA-03, RESA-04
+### Phase 9: Audit et validation propriétaire
+**Goal**: Le propriétaire a validé par écrit ce qui est gardé, simplifié, fusionné ou supprimé, et le cadre de la refonte (navigation, brief de design, impact sur les tests) est fixé avant d'écrire du code
+**Depends on**: Nothing (première phase de v1.1)
+**Requirements**: AUDIT-01, AUDIT-02, AUDIT-03, AUDIT-04
 **Success Criteria** (what must be TRUE):
+  1. Un document d'audit liste chaque page admin avec son verdict (garder / simplifier / fusionner / supprimer) et le propriétaire l'a validé par écrit
+  2. La navigation cible (2 niveaux au plus) et un brief de design « outil de travail sobre » d'une page (palette neutre ou accent de marque inclus) sont validés
+  3. Une liste d'impact recense les tests qui lisent le source de l'admin et des routes tables, avec ce qu'il faut changer pour chacun
+  4. Les retours de la cheffe et des serveurs sur l'usage réel de l'admin sont consignés, y compris l'état de la saisie manuelle des totaux d'avis et du flux d'invitation d'admin
+**Plans**: TBD
 
-  1. Un visiteur anonyme qui appelle `GET /api/reservations?phone=…` ne reçoit aucune donnée de réservation
-  2. Un touriste avec un numéro étranger remplit le formulaire, saisit son email et reçoit la confirmation par email en moins de 60 secondes, sans code SMS obligatoire
-  3. Le formulaire exige l'email et propose une case « Recevoir nos actualités et offres » non pré-cochée, dont le consentement est enregistré avec date et source
-  4. Des appels répétés aux endpoints SMS et réservation depuis une même IP ou un même numéro/email sont refusés après le seuil ; un utilisateur connecté non-admin Gecko reçoit un refus sur les routes admin
-  5. Un bouton WhatsApp flottant ouvre la conversation depuis toutes les pages publiques ; les migrations du dépôt s'appliquent sur une base vierge et reproduisent le schéma `gecko_*`
-
-**Plans**: 11 plans
-
-Plans:
-**Wave 1**
-
-- [x] 01-01-PLAN.md — requireAdmin() guard on all admin API routes + vitest alias (SEC-03)
-- [x] 01-02-PLAN.md — Floating WhatsApp button + localized /privacy page (RESA-04, D-13)
-- [x] 01-03-PLAN.md — Read-only prod dump -> idempotent 007 baseline, legacy migrations archived (SEC-04) [checkpoint]
-- [x] 01-04-PLAN.md — TDD: Krabi-time slot rules, international phone, zod schema, zod declared (D-04/05/06, SEC-06)
-- [x] 01-05-PLAN.md — Bilingual fr/en escaped transactional emails
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 01-06-PLAN.md — Booking API without SMS: migration 008 (capacity RPC, consents, locale), admin-only GET/PUT/DELETE, server-only webhooks (RESA-01/02, SEC-01/05)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 01-07-PLAN.md — OTP-free form (email required, consent, honeypot, 429 WhatsApp) + SMS backend/twilio removed
-- [x] 01-08-PLAN.md — Rate limits (migration 009) + honeypot/min fill time on POST (SEC-02)
-
-**Wave 4** *(blocked on Wave 3 completion)*
-
-- [x] 01-09-PLAN.md — [BLOCKING] Scratch-DB proof + push 008/009 to production [checkpoint]
-
-**Wave 5** *(blocked on Wave 4 completion)*
-
-- [x] 01-10-PLAN.md — Owner approvals, Vercel env, deploy, smoke tests, human <60 s check [checkpoint]
-
-**Wave 6** *(blocked on Wave 5 completion)*
-
-- [x] 01-11-PLAN.md — Post-launch: drop gecko_phone_verifications (010), retire Twilio [checkpoint]
-
+### Phase 10: Suppression de la gestion de salle
+**Goal**: Le plan de salle et le placement des réservations n'existent plus dans l'admin ni dans l'API, sans aucun effet sur la prise de réservation et la capacité
+**Depends on**: Phase 9
+**Requirements**: TAB-01, TAB-02, TAB-03, TAB-04, TAB-05, TAB-06
+**Success Criteria** (what must be TRUE):
+  1. Un test de contrat prouve que la création de réservation et le calcul de disponibilité ne référencent aucun objet table ; on réserve jusqu'à 40 couverts, le suivant est refusé
+  2. L'admin n'affiche plus de page Tables, de modal de placement ni de lien du tableau de bord vers les tables, et aucun lien ne mène à une 404
+  3. `/api/tables/*` répond 404, les types tables sont absents de `src/types/database.ts` et `tsc`, lint et Vitest passent
+  4. Les réglages de capacité et de durée d'occupation d'un créneau s'affichent sans le mot « table » et gardent leurs clés `max_covers` et `table_block_duration_minutes`
+  5. Un test négatif échoue si `/admin/tables` ou `/api/tables` réapparaissent ; les tables SQL `gecko_table*` sont toujours en base
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 2: Fondations SEO techniques
-
-**Goal**: Google et Bing indexent correctement le site dans ses versions FR et EN, sur le bon domaine, avec un schema complet
-**Mode:** mvp
-**Depends on**: Nothing (indépendante de la phase 1, exécutable en parallèle)
-**Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, SEO-06, SEO-07
+### Phase 11: Fondation du système de design
+**Goal**: Toute page admin peut être construite à partir de primitives communes, sobres, denses et accessibles, validées visuellement avant leur adoption
+**Depends on**: Phase 10
+**Requirements**: DSN-01, DSN-02, DSN-03, DSN-04, DSN-05, DSN-06, DSN-07
 **Success Criteria** (what must be TRUE):
-
-  1. Chaque page expose un canonical auto-référent sur `https://geckocabanerestaurant.com/{locale}/…` et `gecko-cabane.com` redirige en 301
-  2. Le Rich Results Test valide le schema Restaurant (geo, hasMenu, acceptsReservations, sameAs, paymentAccepted, priceRange) sans erreur, sans `aggregateRating` non affiché
-  3. `/en` est entièrement en anglais (title, meta, `og:locale` `en_US`, description du schema, titres de sections)
-  4. Chaque page déclare hreflang fr, en et x-default (pas de `de` tant que `/de` n'est pas publié) ; `sitemap.xml` liste toutes les pages publiées et `robots.txt` le déclare
-  5. Le domaine est vérifié dans Google Search Console et Bing Webmaster avec le sitemap soumis
-
-**Plans:** 8/8 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 02-01-PLAN.md — Pure SEO helper src/utils/seo.ts (canonical/hreflang/OG builder, Restaurant JSON-LD, hours mapper) + unit tests (wave 1)
-- [x] 02-02-PLAN.md — i18n of components and locale error/404 pages + hard-coded French guard test (wave 1)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 02-03-PLAN.md — sitemap.ts, robots.ts, middleware matcher/options fix, / -> /fr 308 (wave 2)
-- [x] 02-04-PLAN.md — i18n of home page literals (Our Story, The Menu, ...) + footer hours fix (wave 2)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 02-05-PLAN.md — Per-locale generateMetadata, slim root layout, gecko-cabane.com removal, admin noindex (wave 3)
-
-**Wave 4** *(blocked on Wave 3 completion)*
-
-- [x] 02-06-PLAN.md — Restaurant JSON-LD Server Component from DB hours, cache invalidation, per-locale OG image, verified sameAs (wave 4)
-
-**Wave 5** *(blocked on Wave 4 completion)*
-
-- [x] 02-07-PLAN.md — Deploy, www 301, live probes, owner Rich Results / geo / sameAs check (wave 5, checkpoint)
-
-**Wave 6** *(blocked on Wave 5 completion)*
-
-- [x] 02-08-PLAN.md — GSC domain verification via Vercel DNS TXT, sitemap submission, Bing import, traceability notes (wave 6, checkpoints)
-
-### Phase 3: Carte HTML et pages d'atterrissage clés
-
-**Goal**: Google peut lire la carte et les pages ciblant « french restaurant krabi » mènent à la réservation
-**Mode:** mvp
-**Depends on**: Phase 2
-**Requirements**: MENU-01, MENU-02, PAGE-01, PAGE-02
-**Success Criteria** (what must be TRUE):
-
-  1. `/menu` affiche plats, prix en bahts, pictos végétarien / sans gluten / épicé et allergènes en texte HTML sélectionnable
-  2. La carte comprend une section vins et bières belges
-  3. L'accueil EN a le title « Gecko Cabane – French-Thai Restaurant in Krabi Town » et présente avis, histoire et accès
-  4. `/en/french-restaurant-krabi` existe avec plats signatures, cave, couple franco-thaï et photos, et un lien vers la réservation
-
-**Plans**: 8 plans
-
-Plans:
-**Wave 1**
-
-- [x] 03-01-PLAN.md — /menu server-rendered (cached anon read, sections, sticky anchors, pictos, prices in baht, i18n) (MENU-01)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 03-02-PLAN.md — hasMenu in Restaurant JSON-LD + /menu in PUBLISHED_PATHS/sitemap (MENU-01, SEO-03)
-- [x] 03-03-PLAN.md — Migration 013 (is_gluten_free, inactive vins-bieres-belges page), admin checkbox, menu cache invalidation (MENU-01, MENU-02)
-- [x] 03-04-PLAN.md — Home teaser to /menu (MenuDisplay removed), Google rating line, directions link (PAGE-01)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 03-05-PLAN.md — EN-only SEO plumbing + /en/french-restaurant-krabi landing page (PAGE-02)
-
-**Wave 4** *(blocked on Wave 3 completion)*
-
-- [x] 03-06-PLAN.md — Owner approval, push 013, chef gluten sheet, deploy, live probes [checkpoint]
-
-**Wave 5-6** *(owner content; may land after the other plans)*
-
-- [x] 03-07-PLAN.md — Transcribe owner wine/Belgian beer list + chef sheet into approved SQL [checkpoint]
-- [x] 03-08-PLAN.md — Apply content, owner activates Belgian section, live verification [checkpoint]
+  1. Le spike Base UI conclut (build React Compiler, Toast, Select, retour du focus) ; en cas d'échec, le repli `<dialog>` natif + `sonner` est retenu et documenté
+  2. Une page kit interne affiche Button, Field, Input, Card, Badge, DataTable, PageHeader, dialogue de confirmation et Toast à 360, 768, 1024 et 1440 px, en sans-serif avec chiffres tabulaires et sans fuite des styles du site public
+  3. Les composants d'état chargement, vide et erreur et le hook `useAdminQuery`/`adminFetch` (avec annulation) sont utilisables par n'importe quelle page
+  4. Un dialogue accessible (Échap, focus piégé puis restitué) remplace tous les `confirm()` natifs de l'admin
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 4: Tunnel d'avis et fiche Google
-
-**Goal**: Chaque client honoré est invité à laisser un avis Google ou TripAdvisor, et la fiche Google est optimisée pour la haute saison
-**Mode:** mvp
-**Depends on**: Phase 1
-**Requirements**: REV-01, REV-02, REV-03, REV-04, OPS-01
+### Phase 12: Shell et navigation
+**Goal**: Toutes les pages admin partagent la même enveloppe et la même navigation, adaptées au téléphone, à la tablette et à l'ordinateur
+**Depends on**: Phase 11
+**Requirements**: NAV-01, NAV-02, NAV-03, NAV-04, NAV-05
 **Success Criteria** (what must be TRUE):
-
-  1. `/review`, `/avis` et `/bewertung` présentent deux boutons (Google d'abord, TripAdvisor ensuite) et ouvrent la fenêtre d'avis depuis un mobile
-  2. L'admin marque une réservation « honorée » ou « no-show » ; sans annulation elle est « honorée » par défaut
-  3. Une réservation honorée reçoit à J+1 11h (heure de Krabi) un email Resend dans sa langue avec lien `/review?rid=…&src=email`, et un seul rappel à J+5 si le lien n'a pas été cliqué
-  4. Un QR code vers `/review?src=qr` avec textes FR/EN/DE est prêt à imprimer pour l'addition et le chevalet
-  5. La fiche Google Business Profile est à jour (catégories, attributs, lien de réservation, carte, 20 photos), après accord du propriétaire
-
-**Plans**: 6/7 plans (04-03 reportée ; 04-VERIFICATION : 4/5 critères, SC5 en échec)
-
-Plans:
-**Wave 1**
-
-- [x] 04-01-PLAN.md — /review, /avis, /bewertung aliases + noindex /{locale}/review page, Google then TripAdvisor (REV-01)
-- [x] 04-02-PLAN.md — QR to /review?src=qr, bill insert + A6 table tent PDFs FR/EN/DE (REV-04) [checkpoint]
-- [ ] 04-03-PLAN.md — Google Business Profile dossier + owner-approved Chrome session (OPS-01) [checkpoint] — dossier rédigé, rien appliqué : reporté par le propriétaire (accès au compte GBP)
-- [x] 04-04-PLAN.md — TDD: migration 014 (review_token + tracking columns), eligibility/Krabi date logic, invitation email (REV-02, REV-03)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 04-05-PLAN.md — Vercel Cron 04:00 UTC route, Bearer CRON_SECRET, atomic claim/release (REV-03)
-- [x] 04-06-PLAN.md — rid -> locale + click mark, admin tracking badges and no-show deadline (REV-01, REV-02, REV-03)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 04-07-PLAN.md — Launch: owner approval, [BLOCKING] migration 014 push, CRON_SECRET, deploy, probes, device test [checkpoint]
+  1. Un admin connecté voit le même shell sur toutes les pages hors connexion ; connexion et inscription s'affichent sans shell
+  2. La navigation est une barre du bas sur téléphone, un rail d'icônes sur tablette et une barre latérale sur ordinateur, avec un lien actif visible
+  3. Une seule modification de `nav.ts` ajoute ou retire une entrée partout (barre, rail, barre latérale, cartes d'accueil)
+  4. Les URL admin conservées répondent toujours et un test de liens échoue si un lien interne est mort
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 5: Conversion et mesure
-
-**Goal**: Le site rassure, convertit mieux sur mobile, et mesure d'où viennent réservations et avis
-**Mode:** mvp
-**Depends on**: Phase 4
-**Requirements**: SEO-08, MENU-03, RESA-05, RESA-06, CONV-01, CONV-02, CONV-03, REV-05, REV-06, REV-07, KPI-01
+### Phase 13: Site public (Horaires, Annonces, Capacité)
+**Goal**: Le propriétaire règle tout ce qui change l'affichage du site public depuis une seule section claire
+**Depends on**: Phase 12
+**Requirements**: SITE-01, SITE-02
 **Success Criteria** (what must be TRUE):
-
-  1. Le bloc de preuve sociale (note Google 4,7, Travellers' Choice, avis réels avec prénom et pays, lien « Laisser un avis ») s'affiche au-dessus de la réservation
-  2. Les sections « Qui sommes-nous » et « Comment venir » (carte intégrée, bouton d'itinéraire) sont visibles
-  3. La page mobile atteint PageSpeed ≥ 85 avec LCP < 2,5 s en 4G
-  4. Les modes de paiement et frais carte sont visibles sur la carte et la réservation ; un bouton LINE est présent
-  5. Les réservations portent un champ source, les événements « réservation envoyée » et « clic WhatsApp » sont mesurés, les clics `/review` sont comptés par source, et « Un souci ? » envoie un email au propriétaire
-
-**Plans**: 13/13 livrés (workstream `conversion`, 6 vagues ; détail dans `.planning/workstreams/conversion/ROADMAP.md`)
-
-Statut des exigences : MENU-03, CONV-01, CONV-03, REV-05 faites et vérifiées ; RESA-05, RESA-06, REV-06, REV-07, KPI-01 livrées en code mais non vérifiées en production (LINE sans URL, migrations 015/016, compte Plausible, email « Un souci ? ») ; SEO-08 et CONV-02 ouvertes.
-Preuves : `05-PHASE-REPORT.md` (gate 604 tests, test navigateur 390 px), `05-13-SUMMARY.md` (Lighthouse preview 79 / LCP 4,4 s).
+  1. La section « Site public » permet de modifier horaires, horaires exceptionnels, annonces et capacité / durée d'occupation d'un créneau
+  2. Chaque enregistrement affiche un toast de succès, et un échec affiche un message d'erreur lisible sans perdre la saisie
+  3. Les modifications se reflètent sur le site public comme avant (horaires, bannière d'annonce, disponibilité)
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 6: Plan de pages SEO, allemand/suédois et présence externe
-
-**Goal**: Le site couvre les requêtes secondaires en FR/EN/DE et la présence hors site (Google, TripAdvisor, blogs, hôtels) est cohérente
-**Mode:** mvp
-**Depends on**: Phase 3
-**Requirements**: PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, PAGE-08, I18N-01, I18N-02, OPS-02, OPS-03, OPS-04, OPS-05, OPS-06, OPS-07
+### Phase 14: Carte
+**Goal**: La cheffe met à jour prix et disponibilité des plats depuis son téléphone, sur un seul écran
+**Depends on**: Phase 13
+**Requirements**: MENU-01, MENU-02
 **Success Criteria** (what must be TRUE):
-
-  1. Les pages romantic-dinner, where-to-eat-krabi-town, getting-here-from-ao-nang et wine-belgian-beer existent avec title, meta, H1, lien de réservation, navigation et liens croisés
-  2. Les pages d'accueil, french-restaurant, romantic-dinner, where-to-eat et `/menu` existent en FR avec un contenu écrit pour la langue
-  3. `/de` couvre ces pages et les pages d'avis, publié seulement après relecture humaine, avec ajout de `de` aux hreflang et au sitemap à la publication ; `/sv` suit de la même façon
-  4. TripAdvisor est à jour avec le lien du site vers `.com`, et nom, adresse, téléphone sont identiques sur toutes les plateformes
-  5. Posts Google, modèles de réponse aux avis, liste de blogs et dossier concierge sont prêts, rien n'est envoyé sans accord du propriétaire
-
-**Plans**: 14/15 livrés (workstream `seo-pages` ; détail dans `.planning/workstreams/seo-pages/ROADMAP.md`)
-
-Statut des exigences : PAGE-03 à PAGE-08, I18N-01, I18N-02 (DE et SV publiés après validation écrite du propriétaire, sans relecteur natif identifié), OPS-03, OPS-06, OPS-07 faites ; OPS-02 préparée (semaine 3 et soirée à compléter) ; OPS-04 et OPS-05 bloquées (plan 06-10, corrections externes sans accord).
-Preuves : `06-REPORT.md` (gate 583 tests), `OWNER-CHECKLIST.md`, commits 989dc50 (SV), e330bb6 (DE).
+  1. Sur un seul écran, on modifie le prix d'un plat, on le rend indisponible / disponible et on ajoute rapidement un plat
+  2. Une modification de carte apparaît sur `/menu` (cache invalidé par `revalidateTag` dans les routes API)
+  3. Les libellés figés par le test menu sont inchangés et la suite de tests passe
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 7: Newsletter
-
-**Goal**: Le restaurant construit une liste de contacts consentants et leur envoie des séquences pertinentes (envoi par l'application via Resend)
-**Mode:** mvp
-**Depends on**: Phase 1
-**Requirements**: NEWS-01, NEWS-02, NEWS-03, NEWS-04, NEWS-05, NEWS-06, NEWS-07
+### Phase 15: Réservations et Aujourd'hui
+**Goal**: La cheffe et les serveurs voient le service du jour d'un coup d'oeil et traitent chaque réservation en un tap, sans régression sur emails, cron d'avis et KPI
+**Depends on**: Phase 14
+**Requirements**: TDY-01, TDY-02, RSV-01, RSV-02, RSV-03, RSV-04, RSV-05, RSV-06
 **Success Criteria** (what must be TRUE):
-
-  1. Un visiteur s'inscrit via le formulaire de pied de page ou le pop-up de sortie (une fois, pas plein écran sur mobile), confirme par double opt-in et reçoit le Guide gourmand
-  2. Chaque contact a un consentement horodaté avec source et un lien de désinscription fonctionnel
-  3. Le QR de l'addition et le portail WiFi mènent à des inscriptions distinctes du lien d'avis
-  4. Les séquences bienvenue, J+1, J+3, retour octobre et saison verte partent, avec 1 email/mois maximum hors séquences
-  5. Les contacts sont segmentés par langue, pays, résident/touriste et dernière visite
-
-**Plans**: 8/11 livrés (workstream `newsletter` ; détail dans `.planning/workstreams/newsletter/ROADMAP.md`). Décision du 2026-10-29 : Resend remplace Brevo (contacts en miroir du registre, webhook Svix, séquences envoyées par `/api/cron/newsletter-sync`, migration renumérotée 017).
-
-Statut des exigences : NEWS-01, NEWS-02, NEWS-07 livrées en code, rien vérifié en production ; NEWS-03, NEWS-04, NEWS-05 attendent le contenu imprimé (07-02) ; NEWS-06 attend l'activation (07-11). 07-LAUNCH.md : réponse du propriétaire vide.
-Preuves : `07-REPORT.md` (gate 986 tests), `OWNER-CHECKLIST.md`, commits ad210b1, f9d8f51.
+  1. L'accueil « Aujourd'hui » montre les arrivées du jour par heure, les couverts réservés sur `max_covers` et les réservations à confirmer
+  2. Un indicateur par créneau (12h à 22h) affiche les couverts occupés sur 40, cohérent avec la disponibilité réelle du formulaire public
+  3. Depuis la liste dense (navigation par date, recherche), l'admin confirme, termine, annule ou marque no-show en un tap ; les boutons se désactivent pendant la requête et les heures s'affichent à l'heure de Krabi
+  4. Chaque réservation offre des liens `tel:` et WhatsApp, et le bouton « + Réservation » ouvre la saisie manuelle depuis n'importe quelle page
+  5. Sur preview, hors service (12h-22h), l'UAT confirme les emails de confirmation et d'annulation, le cron d'avis J+1 et les couverts KPI inchangés
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 8: Reporting KPI hebdomadaire
-
-**Goal**: Le propriétaire reçoit chaque lundi un rapport fiable avec lecture et actions recommandées
-**Mode:** mvp
-**Depends on**: Phase 5, Phase 7 (statut : non démarrée)
-**Requirements**: KPI-02, KPI-03, KPI-04, KPI-05, KPI-06, KPI-07, KPI-08
+### Phase 16: Réputation (Avis et KPI)
+**Goal**: Avis et rapport KPI vivent sous une même entrée « Réputation » dans le nouveau design, sans risque d'envoi involontaire
+**Depends on**: Phase 15
+**Requirements**: REP-01, REP-02, REP-03
 **Success Criteria** (what must be TRUE):
+  1. Une entrée « Réputation » regroupe avis et KPI avec les primitives du nouveau design, états chargement / vide / erreur compris
+  2. Les libellés TEST / live du rapport KPI sont inchangés ; aucun envoi live n'est possible avant le 2026-11-16 et sans accord du propriétaire
+  3. La saisie manuelle des totaux d'avis est retirée uniquement si l'audit confirme que la source KPI la remplace et que rien d'autre ne la lit ; sinon elle reste, redessinée
+**Plans**: TBD
+**UI hint**: yes
 
-  1. Chaque lundi 7h (Krabi), `gecko_weekly_kpis` reçoit réservations, no-show, Search Console, saisie manuelle des avis Google, rang TripAdvisor, clics `/review` et Resend (newsletter)
-  2. Le rapport arrive à 8h par email, avec comparaison à S-1, seuils d'alerte, 3 phrases de lecture et 3 actions en français
-  3. Un tableau de bord en ligne affiche l'historique des KPI
-  4. Un avis ≤ 3 étoiles ou un retour privé de `/review` déclenche une alerte immédiate
-  5. Le rapport a tourné 2 semaines en test avant d'être déclaré fiable
-
-**Plans**: 13 plans (6 vagues)
-
-Plans:
-- [ ] 08-01-PLAN.md — Contrats : migration 018 en fichier, types KPI, formatage « non disponible »
-- [ ] 08-02-PLAN.md — Module Search Console (compte de service, JWT RS256 sans dépendance)
-- [ ] 08-03-PLAN.md — Module rang TripAdvisor via Bright Data (1 appel plafonné)
-- [ ] 08-04-PLAN.md — Traçabilité (cron dans l'appli, email seul) + marche à suivre propriétaire
-- [ ] 08-05-PLAN.md — Cron collecte DB → `gecko_weekly_kpis` (semaine Krabi, route, vercel.json)
-- [ ] 08-06-PLAN.md — Comparaison S-1, seuils d'alerte, lecture Claude avec repli
-- [ ] 08-07-PLAN.md — Tableau de bord /admin/kpi (historique)
-- [ ] 08-08-PLAN.md — Email du lundi 8h en mode TEST, envoi idempotent
-- [ ] 08-09-PLAN.md — Saisie manuelle des avis + alerte immédiate ≤ 3 étoiles
-- [ ] 08-10-PLAN.md — Validation des seuils par le propriétaire (checkpoint)
-- [ ] 08-11-PLAN.md — Câblage sources externes + alertes + lecture dans le cron
-- [x] 08-12-PLAN.md — [BLOCKING] Application de 018 après accord, accès, contrôle à blanc (constaté en production le 2026-10-31, voir 08-POST-DEPLOY.md)
-- [ ] 08-13-PLAN.md — KPI-08 : 2 semaines de TEST puis passage en live (pas avant le 2026-11-16)
+### Phase 17: Accès, sécurité et QA finale
+**Goal**: Les accès orphelins sont fermés, l'ajout d'un admin et l'option « Complet ce soir » sont tranchés, et l'admin entier passe les contrôles d'accessibilité et de cohérence
+**Depends on**: Phase 16
+**Requirements**: ACC-01, ACC-02, ACC-03, QA-01, QA-02, QA-03, QA-04
+**Success Criteria** (what must be TRUE):
+  1. Après accord du propriétaire et vérification qu'aucune autre application du projet Supabase partagé ne les lit, une migration « revoke seulement » retire la lecture publique de `gecko_table*` ; sans accord, la dette est documentée
+  2. `/admin/signup` n'existe plus et un processus d'invitation d'un nouvel admin est défini et testé
+  3. « Complet ce soir » ferme la réservation en un tap, sur un modèle de données décidé, sans migration destructive
+  4. Sur téléphone et tablette, cibles tactiles d'au moins 44 px ; navigation clavier, focus visible, dialogues et contraste conformes sur toutes les pages ; aucun statut porté par la seule couleur
+  5. Aucun fichier de `src/app/admin` n'utilise les anciens tokens ; `npm run lint`, `tsc` et Vitest passent
+**Plans**: TBD
 **UI hint**: yes
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Réservation sûre et sans friction | 11/11 | Complete | 2026-10-16 |
-| 2. Fondations SEO techniques | 8/8 | Complete | 2026-10-17 |
-| 3. Carte HTML et pages clés | 8/8 | Complete | 2026-10-17 |
-| 4. Tunnel d'avis et fiche Google | 6/7 | In Progress (04-03 / OPS-01 reporté par le propriétaire) | - |
-| 5. Conversion et mesure | 13/13 | Code livré; SEO-08 et CONV-02 ouverts, vérifications de production en attente propriétaire | - |
-| 6. Pages SEO, DE/SV, présence externe | 14/15 | Blocked on owner (06-10 : OPS-04, OPS-05) | - |
-| 7. Newsletter | 8/11 | Code livré; 07-02, 07-10, 07-11 bloqués propriétaire | - |
-| 8. Reporting KPI hebdomadaire | 0/TBD | Not started | - |
+| 9. Audit et validation propriétaire | 0/TBD | Not started | - |
+| 10. Suppression de la gestion de salle | 0/TBD | Not started | - |
+| 11. Fondation du système de design | 0/TBD | Not started | - |
+| 12. Shell et navigation | 0/TBD | Not started | - |
+| 13. Site public | 0/TBD | Not started | - |
+| 14. Carte | 0/TBD | Not started | - |
+| 15. Réservations et Aujourd'hui | 0/TBD | Not started | - |
+| 16. Réputation (Avis et KPI) | 0/TBD | Not started | - |
+| 17. Accès, sécurité et QA finale | 0/TBD | Not started | - |
 
-*Dernière synchronisation : 2026-10-30, preuves = workstreams, rapports de phase et git log (HEAD c12faf4).*
+---
+*Roadmap v1.1 créé le 2026-10-31. Historique v1.0 : `.planning/milestones/v1.0-ROADMAP.md`.*

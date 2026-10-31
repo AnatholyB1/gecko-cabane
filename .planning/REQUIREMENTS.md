@@ -110,12 +110,55 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (rempli par la création de la feuille de route) | | |
+| AUDIT-01 | Phase 9 | Pending |
+| AUDIT-02 | Phase 9 | Pending |
+| AUDIT-03 | Phase 9 | Pending |
+| AUDIT-04 | Phase 9 | Pending |
+| TAB-01 | Phase 10 | Pending |
+| TAB-02 | Phase 10 | Pending |
+| TAB-03 | Phase 10 | Pending |
+| TAB-04 | Phase 10 | Pending |
+| TAB-05 | Phase 10 | Pending |
+| TAB-06 | Phase 10 | Pending |
+| DSN-01 | Phase 11 | Pending |
+| DSN-02 | Phase 11 | Pending |
+| DSN-03 | Phase 11 | Pending |
+| DSN-04 | Phase 11 | Pending |
+| DSN-05 | Phase 11 | Pending |
+| DSN-06 | Phase 11 | Pending |
+| DSN-07 | Phase 11 | Pending |
+| NAV-01 | Phase 12 | Pending |
+| NAV-02 | Phase 12 | Pending |
+| NAV-03 | Phase 12 | Pending |
+| NAV-04 | Phase 12 | Pending |
+| NAV-05 | Phase 12 | Pending |
+| SITE-01 | Phase 13 | Pending |
+| SITE-02 | Phase 13 | Pending |
+| MENU-01 | Phase 14 | Pending |
+| MENU-02 | Phase 14 | Pending |
+| TDY-01 | Phase 15 | Pending |
+| TDY-02 | Phase 15 | Pending |
+| RSV-01 | Phase 15 | Pending |
+| RSV-02 | Phase 15 | Pending |
+| RSV-03 | Phase 15 | Pending |
+| RSV-04 | Phase 15 | Pending |
+| RSV-05 | Phase 15 | Pending |
+| RSV-06 | Phase 15 | Pending |
+| REP-01 | Phase 16 | Pending |
+| REP-02 | Phase 16 | Pending |
+| REP-03 | Phase 16 | Pending |
+| ACC-01 | Phase 17 | Pending |
+| ACC-02 | Phase 17 | Pending |
+| ACC-03 | Phase 17 | Pending |
+| QA-01 | Phase 17 | Pending |
+| QA-02 | Phase 17 | Pending |
+| QA-03 | Phase 17 | Pending |
+| QA-04 | Phase 17 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 44 total
-- Mapped to phases: 0
-- Unmapped: 44
+- Mapped to phases: 44
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-31*
