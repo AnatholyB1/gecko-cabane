@@ -6,9 +6,9 @@
 import { addDays } from '@/utils/review-invitations'
 import type { Reservation } from '@/types/database'
 
-/** Ton sémantique (jetons --adm-*). `className` (Tailwind) est conservé pour l'écran qui ne l'a pas encore migré. */
+/** Ton sémantique (jetons --adm-*). Seul consommateur : ReservationDetails (libellé et titre). */
 export type ReviewBadgeTone = 'neutral' | 'info' | 'warn' | 'ok'
-export type ReviewBadge = { label: string; tone: ReviewBadgeTone; className: string; title?: string }
+export type ReviewBadge = { label: string; tone: ReviewBadgeTone; title?: string }
 
 type BadgeInput = Pick<
   Reservation,
@@ -20,7 +20,6 @@ type BadgeInput = Pick<
   | 'review_clicked_at'
 >
 
-const BASE = 'px-2 py-1 rounded text-xs font-medium inline-flex items-center gap-1'
 const TZ = 'Asia/Bangkok'
 
 function shortDate(iso: string): string {
@@ -42,7 +41,7 @@ export function getReviewBadges(r: BadgeInput, todayKrabi: string): ReviewBadge[
   if (!isEligibleStatus(r.status)) return []
 
   if (!r.customer_email || r.customer_email.trim() === '') {
-    return [{ label: "Pas d'email : aucune invitation", tone: 'neutral', className: `${BASE} bg-gray-100 text-gray-600` }]
+    return [{ label: "Pas d'email : aucune invitation", tone: 'neutral' }]
   }
 
   const badges: ReviewBadge[] = []
@@ -51,7 +50,6 @@ export function getReviewBadges(r: BadgeInput, todayKrabi: string): ReviewBadge[
     badges.push({
       label: `Invitation envoyée le ${shortDate(r.review_email_sent_at)}`,
       tone: 'info',
-      className: `${BASE} bg-blue-100 text-blue-700`,
       title: fullTitle('Envoyée', r.review_email_sent_at),
     })
   } else if (r.reservation_date === todayKrabi || r.reservation_date === addDays(todayKrabi, -1)) {
@@ -61,7 +59,6 @@ export function getReviewBadges(r: BadgeInput, todayKrabi: string): ReviewBadge[
     badges.push({
       label: `Invitation prévue ${when} 11h (Krabi)`,
       tone: 'neutral',
-      className: `${BASE} bg-gray-100 text-gray-600`,
     })
   }
 
@@ -69,7 +66,6 @@ export function getReviewBadges(r: BadgeInput, todayKrabi: string): ReviewBadge[
     badges.push({
       label: `Rappel envoyé le ${shortDate(r.review_reminder_sent_at)}`,
       tone: 'warn',
-      className: `${BASE} bg-amber-100 text-amber-700`,
       title: fullTitle('Envoyé', r.review_reminder_sent_at),
     })
   }
@@ -78,7 +74,6 @@ export function getReviewBadges(r: BadgeInput, todayKrabi: string): ReviewBadge[
     badges.push({
       label: `Lien cliqué le ${shortDate(r.review_clicked_at)}`,
       tone: 'ok',
-      className: `${BASE} bg-green-100 text-green-700`,
       title: fullTitle('Cliqué', r.review_clicked_at),
     })
   }

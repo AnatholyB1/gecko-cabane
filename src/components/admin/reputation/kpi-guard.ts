@@ -51,13 +51,12 @@ export function formatWeek(row: Pick<WeeklyKpiRow, 'week_start' | 'week_end'>): 
 }
 
 /**
- * Mode affiché : celui du dernier rapport réellement envoyé ; TEST sinon (le
- * serveur est en TEST par défaut, tout ce qui n'est pas exactement « live » est TEST).
- * C'est un affichage : le mode se règle côté serveur (KPI_REPORT_MODE), jamais ici.
+ * Mode SERVEUR tel que renvoyé par GET /api/kpi (`mode`, lu de KPI_REPORT_MODE, lecture seule).
+ * `null` = inconnu (API en erreur, en chargement, ou réponse sans le champ) : l'écran n'affiche alors
+ * ni « TEST » ni « live verrouillé ». Le mode se règle côté serveur, jamais ici.
  */
-export function reportModeOf(weeks: ReadonlyArray<Pick<WeeklyKpiRow, 'report_mode' | 'report_sent_at'>>): KpiReportMode {
-  const last = weeks.find((w) => w.report_sent_at != null && w.report_mode != null)
-  return last?.report_mode === 'live' ? 'live' : 'test'
+export function serverModeOf(raw: unknown): KpiReportMode | null {
+  return raw === 'live' || raw === 'test' ? raw : null
 }
 
 /** Date du jour à Krabi, `YYYY-MM-DD`. */
@@ -83,8 +82,8 @@ export function liveConditions(testReportsSent: number | null, today: string): L
     },
     {
       id: 'date',
-      label: 'Date',
-      detail: `au plus tôt le ${LIVE_NOT_BEFORE}, ${dateDone ? 'rempli' : 'à remplir'}.`,
+      label: 'Date indicative',
+      detail: `repère du ${LIVE_NOT_BEFORE} (horloge de ce poste, non vérifié par le serveur : seul le réglage serveur décide), ${dateDone ? 'date passée' : 'pas encore atteinte'}.`,
       done: dateDone,
     },
     {

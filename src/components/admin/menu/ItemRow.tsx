@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { ArrowDown, ArrowUp, Check, CircleAlert, Flame, Leaf, LoaderCircle, Pencil } from 'lucide-react'
 import type { MenuItem } from '@/types/database'
 import { Button } from '../Button'
@@ -25,7 +25,7 @@ export function ItemRow({
   item: MenuItem
   data: MenuData
   /** Mode « Réorganiser » : flèches haut / bas. */
-  reorder?: { canUp: boolean; canDown: boolean }
+  reorder?: { canUp: boolean; canDown: boolean; busy?: boolean }
   onDetails: (item: MenuItem) => void
   onMove: (item: MenuItem, dir: -1 | 1) => void
 }) {
@@ -35,6 +35,8 @@ export function ItemRow({
   const [status, setStatus] = useState<RowStatus>({ kind: 'idle' })
   const [switchBusy, setSwitchBusy] = useState(false)
   const [formatError, setFormatError] = useState<string | null>(null)
+  const savedTimer = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(savedTimer.current), [])
 
   const saved = priceToInput(item.price)
   const shown = draft ?? saved
@@ -59,7 +61,8 @@ export function ItemRow({
     if (r.ok) {
       setDraft(null)
       setStatus({ kind: 'saved' })
-      window.setTimeout(() => setStatus((s) => (s.kind === 'saved' ? { kind: 'idle' } : s)), 3000)
+      window.clearTimeout(savedTimer.current)
+      savedTimer.current = window.setTimeout(() => setStatus((s) => (s.kind === 'saved' ? { kind: 'idle' } : s)), 3000)
     } else {
       setStatus({ kind: 'error', message: r.message, attempted: formatBaht(parsed.value) ?? 'ce prix' })
     }
@@ -112,7 +115,7 @@ export function ItemRow({
       </div>
 
       <div className="mn-i-avail">
-        <Switch checked={item.is_available} busy={switchBusy} onChange={toggle} label={`Disponibilité de ${item.name}`} onText="Disponible" offText="Indisponible" />
+        <Switch checked={item.is_available} busy={switchBusy} onChange={toggle} label={item.name} onText="Disponible" offText="Indisponible" />
       </div>
 
       <div className="mn-i-price">
@@ -183,10 +186,10 @@ export function ItemRow({
 
       {reorder ? (
         <div className="mn-i-move">
-          <Button variant="secondary" size="sm" iconOnly aria-label={`Monter ${item.name}`} disabled={!reorder.canUp} onClick={() => onMove(item, -1)}>
+          <Button variant="secondary" size="sm" iconOnly aria-label={`Monter ${item.name}`} disabled={!reorder.canUp} aria-disabled={reorder.busy || undefined} onClick={() => onMove(item, -1)}>
             <ArrowUp className="i" aria-hidden="true" focusable="false" />
           </Button>
-          <Button variant="secondary" size="sm" iconOnly aria-label={`Descendre ${item.name}`} disabled={!reorder.canDown} onClick={() => onMove(item, 1)}>
+          <Button variant="secondary" size="sm" iconOnly aria-label={`Descendre ${item.name}`} disabled={!reorder.canDown} aria-disabled={reorder.busy || undefined} onClick={() => onMove(item, 1)}>
             <ArrowDown className="i" aria-hidden="true" focusable="false" />
           </Button>
         </div>

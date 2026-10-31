@@ -36,15 +36,15 @@ const item = (extra: Partial<MenuItem> = {}): MenuItem => ({
   ...extra,
 })
 
-const row = (it: MenuItem, reorder?: { canUp: boolean; canDown: boolean }) =>
+const row = (it: MenuItem, reorder?: { canUp: boolean; canDown: boolean; busy?: boolean }) =>
   renderToStaticMarkup(h(ItemRow, { item: it, data: {} as MenuData, reorder, onDetails: () => {}, onMove: () => {} }))
 
 describe('Switch Disponible / Indisponible', () => {
   it('role=switch, état ET mot (jamais la couleur seule)', () => {
-    const on = renderToStaticMarkup(h(Switch, { checked: true, onChange: () => {}, label: 'Disponibilité de X', onText: 'Disponible', offText: 'Indisponible' }))
+    const on = renderToStaticMarkup(h(Switch, { checked: true, onChange: () => {}, label: 'X', onText: 'Disponible', offText: 'Indisponible' }))
     expect(on).toContain('role="switch"')
     expect(on).toContain('aria-checked="true"')
-    expect(on).toContain('aria-label="Disponibilité de X"')
+    expect(on).toContain('aria-label="Disponible, X"')
     expect(on).toContain('>Disponible<')
     const off = renderToStaticMarkup(h(Switch, { checked: false, onChange: () => {}, label: 'x', onText: 'Disponible', offText: 'Indisponible' }))
     expect(off).toContain('aria-checked="false"')
@@ -90,6 +90,12 @@ describe('ligne de plat', () => {
     expect(html).toContain('aria-label="Descendre Tom Kha Gai"')
     expect(html).toMatch(/aria-label="Monter Tom Kha Gai"[^>]*disabled|disabled[^>]*aria-label="Monter Tom Kha Gai"/)
     expect(row(item())).not.toContain('Monter Tom Kha Gai')
+  })
+  it('réordonnancement en cours : flèches aria-disabled (le focus reste), sinon aucune', () => {
+    const busy = row(item(), { canUp: true, canDown: true, busy: true })
+    expect(busy.match(/aria-disabled="true"/g)?.length).toBeGreaterThanOrEqual(2)
+    expect(busy).not.toMatch(/aria-label="Monter Tom Kha Gai"[^>]*[^-]disabled=""/)
+    expect(row(item(), { canUp: true, canDown: true })).not.toContain('aria-disabled')
   })
 })
 

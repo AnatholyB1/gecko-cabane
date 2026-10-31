@@ -13,7 +13,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { AdminProviders } from '../src/components/admin/AdminProviders'
-import { KpiPanel } from '../src/components/admin/reputation/KpiPanel'
+import { GuardBanner, KpiPanel, SendPanel } from '../src/components/admin/reputation/KpiPanel'
 import { ReviewsPanel } from '../src/components/admin/reputation/ReviewsPanel'
 import { ReputationView, parseVue } from '../src/components/admin/reputation/ReputationView'
 import {
@@ -22,7 +22,7 @@ import {
   criticalAlerts,
   deltaView,
   liveConditions,
-  reportModeOf,
+  serverModeOf,
   savedMessage,
   shouldConfirmAlert,
   submitManualEntry,
@@ -168,8 +168,10 @@ describe('REP-02 : libellés TEST / live conservés', () => {
     expect(html).toContain('Rapports TEST envoyés : — / 2')
     expect(html).toContain(`Passage en live : décision du propriétaire après 2 rapports TEST vérifiés (au plus tôt mi-novembre 2026).`)
     expect(html).toContain('Aucun envoi live avant le 2026-11-16 et sans accord du propriétaire.')
-    expect(html).toContain('>TEST<')
-    expect(html).toContain('live verrouillé')
+    // Mode serveur pas encore lu : état neutre, ni « TEST » ni « live verrouillé » ne sont affirmés.
+    expect(html).toContain('mode inconnu')
+    expect(html).not.toContain('>TEST<')
+    expect(html).not.toContain('live verrouillé')
     expect(html).toContain('Mode actuel')
     expect(html).toContain('Rien n&#x27;est envoyé en ouvrant cette page. Chaque envoi demande une action et une confirmation.')
     expect(html).toContain('Le mode live n&#x27;est jamais activable depuis cette page : il se règle côté serveur, après accord du propriétaire.')
@@ -184,22 +186,38 @@ describe('REP-02 : libellés TEST / live conservés', () => {
     expect(savedMessage(true)).toBe('Saisie enregistrée — alerte envoyée au propriétaire')
   })
 
-  it('mode : TEST par défaut, live seulement si le dernier rapport envoyé l\'était', () => {
-    expect(reportModeOf([])).toBe('test')
-    expect(reportModeOf([{ report_mode: 'test', report_sent_at: '2026-10-20T00:00:00Z' }])).toBe('test')
-    expect(reportModeOf([{ report_mode: 'live', report_sent_at: null }])).toBe('test')
-    expect(
-      reportModeOf([
-        { report_mode: 'live', report_sent_at: '2026-11-17T00:00:00Z' },
-        { report_mode: 'test', report_sent_at: '2026-11-10T00:00:00Z' },
-      ]),
-    ).toBe('live')
+  it('mode : celui du SERVEUR (champ `mode` de GET /api/kpi), inconnu sinon, jamais TEST par défaut', () => {
+    expect(serverModeOf('test')).toBe('test')
+    expect(serverModeOf('live')).toBe('live')
+    for (const bad of [undefined, null, '', 'TEST', 'Live', 0, {}]) expect(serverModeOf(bad), String(bad)).toBeNull()
+  })
+
+  it('pastille : TEST / live selon le serveur ; mode inconnu = neutre, sans « live verrouillé »', () => {
+    const render = (mode: 'test' | 'live' | null) =>
+      flat(renderToStaticMarkup(h(AdminProviders, null, h('div', null, h(GuardBanner, { mode, testReportsSent: 1 }), h(SendPanel, { mode, testReportsSent: 1 })))))
+    const test = render('test')
+    expect(test).toContain('>TEST<')
+    expect(test).toContain('live verrouillé')
+    expect(test).not.toContain('mode inconnu')
+    const live = render('live')
+    expect(live).toContain('>live<')
+    expect(live).not.toContain('>TEST<')
+    expect(live).not.toContain('live verrouillé')
+    const unknown = render(null)
+    expect(unknown).toContain('mode inconnu')
+    expect(unknown).not.toContain('>TEST<')
+    expect(unknown).not.toContain('live verrouillé')
+    expect(unknown).not.toContain('>live<')
+    expect(unknown).toContain('Rapports TEST envoyés : 1 / 2')
   })
 
   it('conditions du passage en live : date au plus tôt le 2026-11-16, accord jamais déduit', () => {
     const before = liveConditions(1, '2026-10-31')
     expect(before.map((c) => c.done)).toEqual([false, false, false])
     expect(before[0].detail).toBe('1 sur 2, à remplir.')
+    // La date est un repère : le libellé ne laisse pas croire qu'elle verrouille quoi que ce soit.
+    expect(before[1].label).toBe('Date indicative')
+    expect(before[1].detail).toMatch(/non vérifié par le serveur/)
     const after = liveConditions(2, '2026-11-16')
     expect(after.map((c) => c.done)).toEqual([true, true, false])
     expect(liveConditions(null, '2026-10-31')[0].detail).toBe('— sur 2, à remplir.')

@@ -12,6 +12,7 @@ import { CategorySheet } from './CategorySheet'
 import { PagesManager } from './PagesManager'
 import { ItemRow } from './ItemRow'
 import { useMenuData, type MenuData } from './useMenuData'
+import { useToastClearance } from './useToastClearance'
 import { categoryCountLabel, countItems, filterCategories, findItem, pluralIndisponibles, pluralPlats } from './menu-logic'
 import './menu.css'
 
@@ -33,6 +34,8 @@ export function MenuScreen({ initialPageId }: { initialPageId?: number }) {
       delete document.body.dataset.admToast
     }
   }, [])
+
+  useToastClearance()
 
   return (
     <div className="mn-root">
@@ -196,7 +199,7 @@ function MenuContent({ data, pages, initialPageId }: { data: MenuData; pages: Me
                       key={category.id}
                       category={category}
                       open={searching || !collapsed[category.id]}
-                      reorder={reorder ? { canUp: fullIndex > 0, canDown: fullIndex < categories.length - 1 } : undefined}
+                      reorder={reorder ? { canUp: fullIndex > 0, canDown: fullIndex < categories.length - 1, busy: data.reordering } : undefined}
                       data={data}
                       onToggle={() => setCollapsed((c) => ({ ...c, [category.id]: !c[category.id] }))}
                       onOptions={() => setSheet({ kind: 'category', categoryId: category.id })}
@@ -261,7 +264,7 @@ function CategoryBlock({
 }: {
   category: MenuCategory
   open: boolean
-  reorder?: { canUp: boolean; canDown: boolean }
+  reorder?: { canUp: boolean; canDown: boolean; busy?: boolean }
   data: MenuData
   onToggle: () => void
   onOptions: () => void
@@ -284,10 +287,10 @@ function CategoryBlock({
         </h2>
         {reorder ? (
           <div className="mn-cat__move">
-            <Button variant="secondary" size="sm" iconOnly aria-label={`Monter la catégorie ${category.name}`} disabled={!reorder.canUp} onClick={() => onMoveCategory(-1)}>
+            <Button variant="secondary" size="sm" iconOnly aria-label={`Monter la catégorie ${category.name}`} disabled={!reorder.canUp} aria-disabled={reorder.busy || undefined} onClick={() => onMoveCategory(-1)}>
               <ArrowUp className="i" aria-hidden="true" focusable="false" />
             </Button>
-            <Button variant="secondary" size="sm" iconOnly aria-label={`Descendre la catégorie ${category.name}`} disabled={!reorder.canDown} onClick={() => onMoveCategory(1)}>
+            <Button variant="secondary" size="sm" iconOnly aria-label={`Descendre la catégorie ${category.name}`} disabled={!reorder.canDown} aria-disabled={reorder.busy || undefined} onClick={() => onMoveCategory(1)}>
               <ArrowDown className="i" aria-hidden="true" focusable="false" />
             </Button>
           </div>
@@ -313,7 +316,7 @@ function CategoryBlock({
                 key={item.id}
                 item={item}
                 data={data}
-                reorder={reorder ? { canUp: i > 0, canDown: i < items.length - 1 } : undefined}
+                reorder={reorder ? { canUp: i > 0, canDown: i < items.length - 1, busy: reorder.busy } : undefined}
                 onDetails={onDetails}
                 onMove={onMoveItem}
               />

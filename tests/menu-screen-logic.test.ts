@@ -8,8 +8,10 @@ import type { MenuCategory, MenuItem, MenuPage } from '../src/types/database'
 import {
   addCategory,
   addItem,
+  applyItemOrder,
   categoryCountLabel,
   countItems,
+  createSubmitLock,
   filterCategories,
   formatBaht,
   isPriceDirty,
@@ -25,10 +27,12 @@ import {
   removeCategory,
   removeItem,
   reorderBody,
+  restoreOrder,
   runOptimistic,
   sameForm,
   setCategoryItems,
   slugify,
+  toastClearance,
   withOrder,
 } from '../src/components/admin/menu/menu-logic'
 
@@ -117,6 +121,14 @@ describe('lecture de la saisie du prix', () => {
       if (!r.ok) expect(r.error).toMatch(/\.$/)
     }
     expect(parsePriceInput('2000000').ok).toBe(false)
+  })
+  it("refuse 0 (l'API traite 0 comme « sans prix » à la création) : prix strictement positif ou vide", () => {
+    for (const zero of ['0', '0,00', '0.0', ' 0 ฿']) {
+      const r = parsePriceInput(zero)
+      expect(r.ok, zero).toBe(false)
+      if (!r.ok) expect(r.error).toMatch(/supérieur à 0/)
+    }
+    expect(parsePriceInput('0,5')).toEqual({ ok: true, value: 0.5 })
   })
   it('isPriceDirty compare à la valeur enregistrée', () => {
     expect(isPriceDirty(null, 350)).toBe(false)
@@ -320,5 +332,68 @@ describe('charges utiles des routes', () => {
   it('slugify : adresse d’une page', () => {
     expect(slugify('Carte du midi')).toBe('carte-du-midi')
     expect(slugify('Déjeuner & Dîner !')).toBe('dejeuner-diner')
+  })
+})
+
+describe('réordonnancement : course et retour arrière (F-M1)', () => {
+  it("restoreOrder remet l'ordre sans écraser le contenu des plats (bascule faite entre-temps)", () => {
+    const before = [item(1, 'Alpha', { display_order: 0 }), item(2, 'Beta', { display_order: 1 }), item(3, 'Gamma', { display_order: 2 })]
+    const current = [item(2, 'Beta', { display_order: 0, is_available: false }), item(1, 'Alpha', { display_order: 1 }), item(3, 'Gamma', { display_order: 2 }), item(9, 'Neuf', { display_order: 3 })]
+    const restored = restoreOrder(current, before)
+    expect(restored.map((i) => i.id)).toEqual([1, 2, 3, 9])
+    expect(restored.map((i) => i.display_order)).toEqual([0, 1, 2, 3])
+    expect(restored.find((i) => i.id === 2)!.is_available).toBe(false)
+  })
+
+  it('applyItemOrder : aller puis retour arrière gardent la bascule de disponibilité faite entre-temps', () => {
+    const before = [item(1, 'Alpha', { display_order: 0 }), item(2, 'Beta', { display_order: 1 })]
+    const afterOrder = withOrder(moveInList(before, 0, 1)!)
+    let pages = tree()
+    pages = applyItemOrder(pages, 1, afterOrder)
+    expect(pages[0].categories![0].items!.map((i) => i.id)).toEqual([2, 1])
+    pages = patchItem(pages, 1, { is_available: false }) // bascule faite pendant la requête
+    pages = applyItemOrder(pages, 1, before) // la requête échoue : retour arrière
+    expect(pages[0].categories![0].items!.map((i) => i.id)).toEqual([1, 2])
+    expect(pages[0].categories![0].items!.find((i) => i.id === 1)!.is_available).toBe(false)
+  })
+
+  it("createSubmitLock : un 2e appel pendant l'exécution est ignoré, même dans le même tick", async () => {
+    const lock = createSubmitLock()
+    let calls = 0
+    const task = async () => {
+      calls++
+      await new Promise((r) => setTimeout(r, 10))
+      return 'ok'
+    }
+    const [a, b, c] = await Promise.all([lock.run(task), lock.run(task), lock.run(task)])
+    expect([a, b, c]).toEqual(['ok', undefined, undefined])
+    expect(calls).toBe(1)
+    expect(lock.busy).toBe(false)
+    expect(await lock.run(task)).toBe('ok')
+    expect(calls).toBe(2)
+  })
+
+  it('createSubmitLock : le verrou est libéré après une erreur', async () => {
+    const lock = createSubmitLock()
+    await expect(lock.run(async () => { throw new Error('x') })).rejects.toThrow('x')
+    expect(await lock.run(async () => 1)).toBe(1)
+  })
+})
+
+describe("toast d'erreur et actions de l'en-tête (F-M7)", () => {
+  const toast = { top: 72, bottom: 170, left: 1036, right: 1416 }
+  const actions = { top: 125, bottom: 169, left: 1067, right: 1400 }
+  it('décale le contenu juste assez pour sortir de la colonne du toast', () => {
+    expect(toastClearance({ actions, toast, appliedPad: 0 })).toBe(53) // 170 + 8 - 125
+  })
+  it('stable une fois décalé : la mesure retranche le décalage déjà appliqué', () => {
+    const shifted = { ...actions, top: actions.top + 53, bottom: actions.bottom + 53 }
+    expect(toastClearance({ actions: shifted, toast, appliedPad: 53 })).toBe(53)
+  })
+  it('0 si pas de toast, actions masquées (mobile), hors de la colonne ou défilées hors de vue', () => {
+    expect(toastClearance({ actions, toast: null, appliedPad: 0 })).toBe(0)
+    expect(toastClearance({ actions: null, toast, appliedPad: 0 })).toBe(0)
+    expect(toastClearance({ actions: { ...actions, left: 300, right: 600 }, toast, appliedPad: 0 })).toBe(0)
+    expect(toastClearance({ actions: { ...actions, top: -200, bottom: -150 }, toast, appliedPad: 0 })).toBe(0)
   })
 })

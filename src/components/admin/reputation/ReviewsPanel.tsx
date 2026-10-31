@@ -87,8 +87,10 @@ export function ReviewsPanel() {
   const q = useAdminQuery<StatsBody>('/api/review/stats?months=12')
   const toast = useToast()
   const [saving, setSaving] = useState(false)
-  const [fieldError, setFieldError] = useState<string | null>(null)
-  const [draft, setDraft] = useState<{ month: string; google: string; tripadvisor: string } | null>(null)
+  // Erreur rattachée au champ en cause (null = erreur du serveur, affichée sous le formulaire).
+  const [fieldError, setFieldError] = useState<{ field: 'google' | 'tripadvisor' | null; message: string } | null>(null)
+  // Un brouillon par mois : changer de mois ne détruit pas une saisie non enregistrée.
+  const [drafts, setDrafts] = useState<Record<string, { google: string; tripadvisor: string }>>({})
 
   const clicks = q.data?.data?.clicks ?? []
   const totals = q.data?.data?.totals ?? []
@@ -100,12 +102,17 @@ export function ReviewsPanel() {
     const row = totals.find((t) => t.month.startsWith(`${month}-`) && t.platform === platform)
     return row ? String(row.total_reviews) : ''
   }
-  const googleValue = draft?.month === month ? draft.google : stored('google')
-  const tripValue = draft?.month === month ? draft.tripadvisor : stored('tripadvisor')
+  const googleValue = drafts[month]?.google ?? stored('google')
+  const tripValue = drafts[month]?.tripadvisor ?? stored('tripadvisor')
 
   function edit(field: 'google' | 'tripadvisor', value: string) {
     setFieldError(null)
-    setDraft({ month, google: googleValue, tripadvisor: tripValue, [field]: value })
+    setDrafts((d) => ({ ...d, [month]: { google: googleValue, tripadvisor: tripValue, [field]: value } }))
+  }
+
+  function changeMonth(next: string) {
+    setFieldError(null)
+    setMonth(next)
   }
 
   async function saveTotals(e: React.FormEvent) {
@@ -116,7 +123,7 @@ export function ReviewsPanel() {
       if (value === '') continue
       const n = Number(value)
       if (!isValidTotal(n)) {
-        setFieldError(INVALID_NUMBER)
+        setFieldError({ field: key, message: INVALID_NUMBER })
         return
       }
       payload[key] = n
@@ -125,10 +132,14 @@ export function ReviewsPanel() {
     try {
       await adminFetch('/api/review/stats', { method: 'PUT', json: payload })
       toast.success('Totaux enregistrés.')
-      setDraft(null)
+      setDrafts((d) => {
+        const rest = { ...d }
+        delete rest[month]
+        return rest
+      })
       q.refetch()
     } catch (err) {
-      setFieldError(err instanceof Error && err.message ? err.message : INVALID_NUMBER)
+      setFieldError({ field: null, message: err instanceof Error && err.message ? err.message : INVALID_NUMBER })
     } finally {
       setSaving(false)
     }
@@ -177,7 +188,7 @@ export function ReviewsPanel() {
           <div className="adm-rep-head">
             <div>
               <h2 className="adm-rep-h2" id="rep-synthese-t">
-                Note et totaux
+                Totaux d&apos;avis
               </h2>
               <p className="adm-rep-lead">Totaux d&apos;avis Google et TripAdvisor du mois sélectionné, tels que saisis à la main.</p>
             </div>
@@ -209,7 +220,7 @@ export function ReviewsPanel() {
             <h2 className="adm-rep-h2">Suivi mensuel</h2>
             <p className="adm-rep-lead">D&apos;où viennent les visiteurs de la page d&apos;avis.</p>
           </div>
-          <Select label="Mois" id="avis-month" value={month} onChange={(e) => setMonth(e.target.value)}>
+          <Select label="Mois" id="avis-month" value={month} onChange={(e) => changeMonth(e.target.value)}>
             {months.map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -242,7 +253,8 @@ export function ReviewsPanel() {
         <div id="totaux">
           <h2 className="adm-rep-h2" id="totaux-t">Totaux du mois (saisie manuelle)</h2>
           <p className="adm-rep-lead">
-            Les nombres d&apos;avis affichés sur Google et TripAdvisor, relevés à la main. TripAdvisor n&apos;est pas collecté automatiquement.
+            Les nombres d&apos;avis affichés sur Google et TripAdvisor, relevés à la main, mois par mois. Le rapport KPI du lundi collecte de son côté
+            le total d&apos;avis Google et le rang TripAdvisor ; le nombre d&apos;avis TripAdvisor n&apos;est pas collecté automatiquement.
             Laissez un champ vide pour le conserver tel quel.
           </p>
         </div>
@@ -257,7 +269,7 @@ export function ReviewsPanel() {
             step={1}
             value={googleValue}
             onChange={(e) => edit('google', e.target.value)}
-            error={fieldError ?? undefined}
+            error={fieldError?.field === 'google' ? fieldError.message : undefined}
           />
           <Input
             id="total-tripadvisor"
@@ -269,6 +281,7 @@ export function ReviewsPanel() {
             step={1}
             value={tripValue}
             onChange={(e) => edit('tripadvisor', e.target.value)}
+            error={fieldError?.field === 'tripadvisor' ? fieldError.message : undefined}
           />
           <div style={{ alignSelf: 'end' }}>
             <Button type="submit" variant="primary" loading={saving} loadingLabel="Enregistrement…">
@@ -276,6 +289,11 @@ export function ReviewsPanel() {
             </Button>
           </div>
         </form>
+        {fieldError?.field === null ? (
+          <p className="adm-rep-hint" role="alert">
+            {fieldError.message}
+          </p>
+        ) : null}
         {evolution.length > 0 ? (
           <DataTable caption="Évolution des totaux d'avis par mois" scrollLabel="Évolution des totaux, défilement horizontal possible" columns={evolutionColumns} rows={evolution} rowKey={(e) => e.month} />
         ) : null}
