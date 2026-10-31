@@ -28,7 +28,9 @@ body[data-adm-toast="top"] .adm-toast::after { top: auto; bottom: calc(-1 * (var
 
 /* --- Cibles tactiles : 44 px minimum partout sur cet écran (même avec un pointeur fin) ------------------- */
 .mn-root .adm-btn, .mn-sheet .adm-btn { min-height: var(--adm-target); }
-.mn-root .adm-btn--icon, .mn-sheet .adm-btn--icon { width: var(--adm-target); }
+.mn-root .adm-btn--icon, .mn-sheet .adm-btn--icon,
+.mn-root .adm-btn--icon.adm-btn--sm, .mn-sheet .adm-btn--icon.adm-btn--sm,
+.mn-pages .adm-btn--icon.adm-btn--sm { width: var(--adm-target); min-height: var(--adm-target); }
 .mn-root .adm-btn--sm, .mn-sheet .adm-btn--sm { font-size: var(--adm-text-sm); }
 .mn-root, .mn-sheet { font-variant-numeric: tabular-nums; }
 .mn-root > * { min-width: 0; }
@@ -95,7 +97,8 @@ body[data-adm-toast="top"] .adm-toast::after { top: auto; bottom: calc(-1 * (var
 
 .mn-price { display: flex; align-items: center; width: 140px; min-height: 48px; border: 1px solid var(--adm-field-border); border-radius: var(--adm-radius); background: var(--adm-surface); }
 .mn-price:focus-within { outline: 2px solid var(--adm-focus); outline-offset: 2px; }
-.mn-price input { flex: 1; min-width: 0; border: 0; background: none; text-align: right; font: 700 18px/1 var(--adm-font-sans); font-variant-numeric: tabular-nums; color: var(--adm-ink); padding: 0 4px 0 12px; height: 46px; outline: none; }
+.mn-root .mn-price input { flex: 1; min-width: 0; border: 0; background: none; text-align: right; font: 700 18px/1 var(--adm-font-sans); font-variant-numeric: tabular-nums; color: var(--adm-ink); padding: 0 4px 0 12px; height: 46px; outline: none; background-color: transparent; border-radius: 0; box-shadow: none; }
+.mn-root .mn-price input:focus-visible { outline: none; }
 .mn-price span { padding: 0 12px 0 4px; color: var(--adm-muted); font-weight: 600; }
 .mn-price--dirty { border: 2px solid var(--adm-brand); }
 .mn-price--invalid { border: 2px solid var(--adm-danger); }

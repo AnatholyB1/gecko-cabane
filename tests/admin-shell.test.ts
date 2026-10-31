@@ -28,7 +28,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: () => {}, replace: () => {}, prefetch: () => {} }),
 }))
 
-const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8')
+const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8').replace(/\r\n/g, '\n') // CRLF sous Windows (core.autocrlf)
 const h = (type: unknown, props: Record<string, unknown> | null = null) =>
   createElement(type as ComponentType<Record<string, unknown>>, props)
 
