@@ -89,8 +89,14 @@
 .rv-sw { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--adm-line); background: var(--adm-brand); }
 .rv-sw--almost { background: repeating-linear-gradient(45deg, var(--adm-warn) 0 3px, #fff 3px 5px); }
 .rv-sw--full { background: repeating-linear-gradient(-45deg, var(--adm-danger) 0 3px, #fff 3px 5px); }
-/* Emplacement réservé à « Complet ce soir » (ACC-03, phase 17) : aucun contrôle ici avant cette phase. */
-.rv-slot-acc03 { min-height: 0; }
+/* « Complet ce soir » (ACC-03) : bouton secondaire, ou bandeau d'état + « rouvrir ». Statut = icône + texte, jamais la couleur seule. */
+.rv-slot-acc03 { margin-top: var(--adm-space-3); }
+.rv-close { display: grid; gap: var(--adm-space-3); justify-items: start; }
+.rv-close .adm-btn { min-height: 44px; min-width: 44px; }
+.rv-close__banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--adm-radius); border: 1px solid var(--adm-danger-line); background: var(--adm-danger-bg); color: var(--adm-danger); width: 100%; }
+.rv-close__banner .i { flex: none; margin-top: 2px; }
+.rv-close__body { display: grid; gap: 2px; }
+.rv-close__body span { font-size: var(--adm-text-sm); font-weight: 400; }
 
 /* Arrivées par heure */
 .rv-hour { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px var(--adm-space-4) 8px; background: var(--adm-surface-2); border-top: 1px solid var(--adm-line); }
