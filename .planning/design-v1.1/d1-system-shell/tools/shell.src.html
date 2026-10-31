@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Shell admin D1 — Gecko Cabane</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kit.css">
+<style>
+  @media (min-width: 1024px) { .adm-nav .adm-wordmark__name { display: inline; } .adm-nav .adm-wordmark { align-items: center; } }
+  .adm-nav .adm-wordmark__tag { display: none; }
+  @media (min-width: 1024px) { .adm-nav .adm-wordmark__tag { display: block; margin: 2px 0 0; font-size: var(--adm-text-sm); color: var(--adm-muted); } }
+  .adm-newres { gap: 6px; padding: 0 14px; }
+  .skip { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--adm-brand); color: #fff; padding: 12px 16px; border-radius: var(--adm-radius); text-decoration: none; font-weight: 600; }
+  .skip:focus { top: 8px; }
+  .hrow { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "day chk" "times times"; gap: 4px 12px; align-items: center; padding: 12px 0 16px; border-bottom: 1px solid var(--adm-line); }
+  .hrow__day { grid-area: day; } .hrow__times { grid-area: times; } .hrow .chk { grid-area: chk; }
+  .hrow:last-of-type { border-bottom: 0; }
+  .hrow__day { font-weight: 600; }
+  .hrow__times { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .chk { display: inline-flex; align-items: center; gap: 12px; min-height: var(--adm-target); cursor: pointer; }
+  .chk input { width: 24px; height: 24px; accent-color: var(--adm-brand); margin: 0; }
+  @media (min-width: 768px) {
+    .hrow { grid-template-columns: 96px minmax(0, 1fr) auto; grid-template-areas: "day times chk"; align-items: center; padding: 16px 0; }
+    .hrow__times { grid-template-columns: minmax(0, 170px) minmax(0, 170px); }
+  }
+  .formfoot { display: flex; justify-content: flex-end; gap: 8px; padding-top: var(--adm-space-4); border-top: 1px solid var(--adm-line); margin-top: 4px; }
+  .formfoot .adm-btn { flex: 1; }
+  @media (min-width: 768px) { .formfoot .adm-btn { flex: none; } }
+  .ph { margin-top: var(--adm-space-5); }
+  .stack { display: grid; gap: var(--adm-space-4); }
+</style>
+</head>
+<body class="adm-root">
+<a class="skip" href="#main">Aller au contenu</a>
+<div class="adm-app">
+  <nav class="adm-nav" id="nav" aria-label="Navigation principale"></nav>
+  <div class="adm-col">
+    <header class="adm-header">
+      <a class="adm-wordmark adm-wordmark--header" href="#home" aria-label="Gecko Cabane, accueil de l'administration">
+        <span class="adm-wordmark__mark" aria-hidden="true">G</span><span class="adm-wordmark__name">Gecko Cabane</span>
+      </a>
+      <p class="adm-header__date adm-num" id="today-date">Samedi 31 octobre</p>
+      <div class="adm-header__right">
+        <button class="adm-btn adm-btn--primary adm-newres" id="newres" type="button">[[plus|sm]] Réservation</button>
+        <div class="adm-account">
+          <button class="adm-account__btn" id="acct" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu" aria-label="Compte : admin@geckocabane.example">AD</button>
+          <div class="adm-menu" id="acct-menu" role="menu" hidden>
+            <div class="adm-menu__who"><p class="adm-small adm-muted">Connecté</p><p class="adm-small" style="font-weight:600;overflow-wrap:anywhere">admin@geckocabane.example</p></div>
+            <a class="adm-menu__item" role="menuitem" href="#site">[[external-link|sm]] Voir le site public</a>
+            <form method="post" action="#logout"><button class="adm-menu__item" role="menuitem" type="submit">[[log-out]] Déconnexion</button></form>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="adm-main" id="main" tabindex="-1"></main>
+  </div>
+</div>
+<div class="adm-toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+/* nav.ts (maquette) : UNE source alimente barre du bas, rail, barre latérale, onglets et cartes d'accueil. */
+var ICON = {
+  'calendar-check': '[[calendar-check]]', 'clipboard-list': '[[clipboard-list]]', 'utensils': '[[utensils]]',
+  'globe': '[[globe]]', 'star': '[[star]]', 'arrow-right': '[[arrow-right]]', 'inbox': '[[inbox]]', 'wifi-off': '[[wifi-off]]',
+  'plus': '[[plus|sm]]', 'circle-check': '[[circle-check|status]]', 'x': '[[x|sm]]'
+};
+var NAV = [
+  { id: 'today', label: "Aujourd'hui", href: '#home', icon: 'calendar-check', desc: "Arrivées par heure, couverts sur 40, réservations à confirmer.", lead: true },
+  { id: 'resa',  label: 'Réservations', href: '#resa', icon: 'clipboard-list', desc: 'Liste du jour : confirmer, terminer ou annuler en un tap.', span: 's4' },
+  { id: 'menu',  label: 'Carte', href: '#menu', icon: 'utensils', desc: 'Prix et disponibilité des plats, ajout rapide.', span: 's2' },
+  { id: 'site',  label: 'Site public', href: '#site', icon: 'globe', desc: 'Ce que voient les visiteurs du site.', span: 's3',
+    children: [ { id: 'hours', label: 'Horaires', href: '#site' }, { id: 'ann', label: 'Annonces', href: '#annonces' }, { id: 'cap', label: 'Capacité', href: '#capacite' } ] },
+  { id: 'rep',   label: 'Réputation', href: '#rep', icon: 'star', desc: 'Avis des clients et indicateurs de suivi.', span: 's3',
+    children: [ { id: 'avis', label: 'Avis', href: '#avis' }, { id: 'kpi', label: 'KPI', href: '#kpi' } ] }
+];
+var q = new URLSearchParams(location.search);
+var v = q.get('v') || 'home';                       /* home | site | empty | loading | error */
+var current = { home: ['today'], site: ['site', 'hours'], empty: ['site', 'ann'], loading: ['site', 'ann'], error: ['site', 'cap'] }[v] || ['today'];
+
+function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+function renderNav() {
+  var nav = document.getElementById('nav');
+  var html = '<a class="adm-nav__brand adm-wordmark" href="#home" aria-label="Gecko Cabane, accueil"><span class="adm-wordmark__mark" aria-hidden="true">G</span><span><span class="adm-wordmark__name adm-wordmark__name--side">Gecko Cabane</span><p class="adm-wordmark__tag">Administration</p></span></a><ul class="adm-nav__list">';
+  NAV.forEach(function (n) {
+    var isSection = current[0] === n.id, isLeaf = isSection && !n.children;
+    var aria = isLeaf ? ' aria-current="page"' : (isSection ? ' aria-current="true"' : '');
+    html += '<li><a class="adm-nav-link" href="' + n.href + '"' + aria + '><span class="adm-nav-ico" aria-hidden="true">' + ICON[n.icon] + '</span><span class="adm-nav-label">' + esc(n.label) + '</span></a>';
+    if (n.children && isSection) {
+      html += '<ul class="adm-subnav">';
+      n.children.forEach(function (c) { html += '<li><a href="' + c.href + '"' + (current[1] === c.id ? ' aria-current="page"' : '') + '>' + c.label + '</a></li>'; });
+      html += '</ul>';
+    }
+    html += '</li>';
+  });
+  nav.innerHTML = html + '</ul>';
+}
+function tabs() {
+  var sec = NAV.filter(function (n) { return n.id === current[0]; })[0];
+  if (!sec || !sec.children) return '';
+  return '<nav class="adm-tabs" aria-label="Sections de ' + esc(sec.label) + '">' + sec.children.map(function (c) { return '<a href="' + c.href + '"' + (current[1] === c.id ? ' aria-current="page"' : '') + '>' + c.label + '</a>'; }).join('') + '</nav>';
+}
+function pageHeader(eyebrow, title, desc, actions) {
+  /* pas de surtitre : la navigation active + les onglets donnent déjà le contexte */
+  return '<div class="adm-pageheader">' +
+    '<h1 class="adm-display adm-pageheader__title">' + title + '</h1>' + (desc ? '<p class="adm-pageheader__desc">' + desc + '</p>' : '') +
+    (actions ? '<div class="adm-pageheader__actions">' + actions + '</div>' : '') + '</div>';
+}
+function home() {
+  var cards = NAV.map(function (n) {
+    var sub = n.children ? '<p class="adm-navcard__sub">' + n.children.map(function (c) { return c.label; }).join(' · ') + '</p>' : '';
+    return '<a class="adm-navcard ' + (n.lead ? 'lead ' : '') + (n.span || '') + '" href="' + n.href + '"><span class="adm-navcard__ico" aria-hidden="true">' + ICON[n.icon] + '</span><h2 class="adm-navcard__title">' + esc(n.label) + '</h2><span class="adm-navcard__go" aria-hidden="true">' + ICON['arrow-right'] + '</span><p class="adm-navcard__desc">' + n.desc + '</p>' + sub + '</a>';
+  }).join('');
+  return pageHeader('', 'Bonjour', 'Samedi 31 octobre. Où souhaitez-vous aller ?') + '<hr class="adm-rule adm-rule--brass" style="margin-bottom:24px"><div class="adm-home">' + cards + '</div>';
+}
+var DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+function siteContent() {
+  var rows = DAYS.map(function (d, i) {
+    return '<div class="hrow"><span class="hrow__day" id="d' + i + '">' + d + '</span><div class="hrow__times"><div class="adm-field"><label class="adm-label" for="o' + i + '">Ouverture</label><input class="adm-input adm-num" id="o' + i + '" type="time" value="12:00" aria-describedby="d' + i + '"></div><div class="adm-field"><label class="adm-label" for="c' + i + '">Fermeture</label><input class="adm-input adm-num" id="c' + i + '" type="time" value="22:00" aria-describedby="d' + i + '"></div></div><label class="chk"><input type="checkbox"> Fermé</label></div>';
+  }).join('');
+  return pageHeader('Site public', 'Horaires', 'Ce que voient les visiteurs sur le site. Heure de Krabi.', '') + tabs() +
+    '<section class="ph adm-card" aria-labelledby="hh"><div class="adm-card__head"><h2 class="adm-h2" id="hh">Horaires de la semaine</h2><span class="adm-badge adm-badge--ok">' + ICON['circle-check'].replace('i-status', '') + ' Visible sur le site</span></div>' + rows +
+    '<div class="formfoot"><button class="adm-btn" type="button">Annuler</button><button class="adm-btn adm-btn--primary" type="button" id="save">Enregistrer</button></div></section>';
+}
+function emptyContent() {
+  return pageHeader('Site public', 'Annonces', 'Bannière affichée en haut du site, avec dates de début et de fin.', '') + tabs() +
+    '<div class="ph adm-card adm-state"><div class="adm-state__icon" aria-hidden="true">' + ICON.inbox.replace('class="i"', 'class="i i-lg"') + '</div><h2>Aucune annonce programmée</h2><p>Créez une annonce pour informer les visiteurs : fermeture exceptionnelle, menu de saison.</p><button class="adm-btn adm-btn--primary" type="button">' + ICON.plus + ' Créer une annonce</button></div>';
+}
+function loadingContent() {
+  return pageHeader('Site public', 'Annonces', 'Bannière affichée en haut du site, avec dates de début et de fin.', '') + tabs() +
+    '<div class="ph adm-card" role="status" aria-busy="true" aria-label="Chargement des annonces"><div class="adm-skel" style="height:22px;width:40%"></div><div class="adm-skel" style="height:44px;margin-top:20px"></div><div class="adm-skel" style="height:44px;margin-top:12px"></div><div class="adm-skel" style="height:44px;margin-top:12px"></div><span class="sr-only">Chargement…</span></div>';
+}
+function errorContent() {
+  return pageHeader('Site public', 'Capacité', 'Couverts maximum et durée d\'occupation d\'un créneau.', '') + tabs() +
+    '<div class="ph adm-card adm-state adm-state--error" role="alert"><div class="adm-state__icon" aria-hidden="true">' + ICON['wifi-off'].replace('class="i"', 'class="i i-lg"') + '</div><h2>Impossible de charger les réglages</h2><p>Vérifiez la connexion, puis réessayez. Rien n\'a été modifié.</p><button class="adm-btn" type="button">Réessayer</button></div>';
+}
+renderNav();
+document.getElementById('main').innerHTML = { home: home, site: siteContent, empty: emptyContent, loading: loadingContent, error: errorContent }[v]();
+
+/* Menu compte */
+var acct = document.getElementById('acct'), menu = document.getElementById('acct-menu');
+function setMenu(open) { menu.hidden = !open; acct.setAttribute('aria-expanded', String(open)); if (open) menu.querySelector('a,button').focus(); }
+acct.addEventListener('click', function () { setMenu(menu.hidden); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); acct.focus(); } });
+document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('.adm-account')) setMenu(false); });
+if (q.get('menu') === '1') setMenu(true);
+
+/* Toast de succès sur « Enregistrer » (maquette) */
+function toast() {
+  var box = document.getElementById('toasts'), el = document.createElement('div');
+  el.className = 'adm-toast adm-toast--ok'; el.setAttribute('role', 'status');
+  el.innerHTML = ICON['circle-check'] + '<div><p class="adm-toast__title">Horaires enregistrés</p><p class="adm-toast__msg">Visibles sur le site public.</p></div><button class="adm-btn adm-btn--ghost adm-btn--icon adm-btn--sm" aria-label="Fermer la notification">' + ICON.x + '</button>';
+  el.querySelector('button').addEventListener('click', function () { el.remove(); });
+  box.appendChild(el); setTimeout(function () { el.remove(); }, 5000);
+}
+var save = document.getElementById('save'); if (save) save.addEventListener('click', toast);
+if (q.get('toast') === '1') toast();
+document.getElementById('newres').addEventListener('click', function () { /* ouvre la saisie manuelle (phase 15) */ });
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+/* ==========================================================================
+   Gecko Cabane — Admin v1.1 — jetons de design « --adm-* »  (slice D1)
+   Direction : luxe discret. Ivoire chaud, vert jungle, laiton en touche rare,
+   filets fins plutôt que des ombres. Admin en français fixe, une seule palette
+   claire (pas de mode sombre).
+
+   En production : ces déclarations vont sur :root de src/app/globals.css (ou
+   d'un admin-tokens.css importé par admin/layout.tsx) et sont exposées via
+   @theme inline sous --color-adm-* (voir D1-DESIGN-CONTRACT.md §2). Les
+   portails (Dialog, Toast, Select) sortent du wrapper : d'où :root.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Inter Variable";
+  src: url("fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter Variable";
+  src: url("fonts/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Cormorant Garamond Variable";
+  src: url("fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 300 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* --- Couleurs (imposées, ne pas renommer) ------------------------------ */
+  --adm-bg: #F7F4EC;
+  --adm-surface: #FFFFFF;
+  --adm-surface-2: #F1ECE0;
+  --adm-ink: #1B2A22;
+  --adm-muted: #5E6B62;
+  --adm-line: #E2DCCB;
+  --adm-brand: #1F3D2F;
+  --adm-brand-ink: #FFFFFF;
+  --adm-accent: #B08D3C;       /* décor seulement : filets, ornement. Jamais du texte. */
+  --adm-accent-text: #7A5C16;  /* laiton lisible (texte >= 14 px sur ivoire) */
+
+  /* Statuts : toujours icône + libellé, jamais la couleur seule */
+  --adm-ok: #2F6B45;
+  --adm-warn: #8A5A00;
+  --adm-danger: #A33A2B;
+  --adm-info: #2F5F7A;
+
+  /* --- Affinages (ajoutés, mêmes préfixes, aucun renommage) -------------- */
+  --adm-brand-hover: #173024;
+  --adm-brand-tint: #E6EDE8;          /* fond actif / survol doux */
+  --adm-line-strong: #CFC7B0;         /* bordure de champ (contraste 3:1 exigé sur ivoire/blanc) */
+  --adm-field-border: #7D867D;        /* bordure de champ / bouton secondaire : 3,4:1 sur ivoire, 3,8:1 sur blanc */
+  --adm-ok-bg: #E7F0EA;
+  --adm-warn-bg: #F7ECD3;
+  --adm-danger-bg: #F8E7E3;
+  --adm-info-bg: #E5EEF3;
+  --adm-neutral-bg: #ECE7DA;
+  --adm-scrim: rgb(27 42 34 / 0.45);
+  --adm-accent-on-brand: #DDC078;     /* laiton clair, lisible sur le vert (logotype, ornement sur fond brand) */
+  --adm-focus: #1F3D2F;               /* anneau de focus 2 px, décalé de 2 px */
+
+  /* --- Rayons ------------------------------------------------------------ */
+  --adm-radius: 8px;       /* boutons, champs, badges, lignes */
+  --adm-radius-lg: 12px;   /* cartes, dialogues, toasts */
+
+  /* --- Typographie ------------------------------------------------------- */
+  --adm-font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --adm-font-display: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, serif; /* titres de page UNIQUEMENT */
+  --adm-text-sm: 0.875rem;   /* 14 : plancher absolu (aide, méta, tableau dense) */
+  --adm-text-base: 1rem;     /* 16 : corps, champs (évite le zoom iOS) */
+  --adm-text-lg: 1.125rem;   /* 18 : titre de section / carte */
+  --adm-text-xl: 1.375rem;   /* 22 */
+  --adm-text-2xl: 1.75rem;   /* 28 : titre de page mobile (Cormorant) */
+  --adm-text-3xl: 2.125rem;  /* 34 : titre de page >= 768 (Cormorant) */
+  --adm-lh-tight: 1.2;
+  --adm-lh-base: 1.5;
+  --adm-tracking-eyebrow: 0.08em;
+
+  /* --- Espacement (base 4) ---------------------------------------------- */
+  --adm-space-1: 4px;  --adm-space-2: 8px;  --adm-space-3: 12px; --adm-space-4: 16px;
+  --adm-space-5: 24px; --adm-space-6: 32px; --adm-space-7: 48px; --adm-space-8: 64px;
+  --adm-gutter: 16px;                   /* marge latérale < 768 */
+  --adm-gutter-lg: 32px;                /* >= 768 */
+  --adm-content-max: 1120px;
+
+  /* --- Tailles ----------------------------------------------------------- */
+  --adm-target: 44px;                   /* cible tactile minimale */
+  --adm-target-sm: 36px;                /* UNIQUEMENT >= 1024 px ET pointer: fine */
+  --adm-header-h: 60px;
+  --adm-bottombar-h: 64px;
+  --adm-rail-w: 76px;
+  --adm-sidebar-w: 248px;
+
+  /* --- Élévation : filets d'abord, ombre seulement pour ce qui flotte ---- */
+  --adm-shadow-float: 0 1px 2px rgb(27 42 34 / 0.06), 0 12px 32px -8px rgb(27 42 34 / 0.18);
+
+  /* --- Mouvement --------------------------------------------------------- */
+  --adm-ease: cubic-bezier(0.25, 1, 0.5, 1);   /* ease-out-quart */
+  --adm-dur-1: 120ms;  /* survol, pression */
+  --adm-dur-2: 200ms;  /* ouverture dialogue / menu / toast */
+
+  color-scheme: light;
+}
+
+/* --------------------------------------------------------------------------
+   Neutralisation des styles globaux du site public (DSN-02)
+   Le site public met le corps en sombre/serif, force color-scheme: dark sur
+   select/date et dore la scrollbar + le focus des boutons. Dans l'admin,
+   .adm-root remet tout à plat. Posé sur le wrapper du shell ET sur les portails.
+   -------------------------------------------------------------------------- */
+.adm-root {
+  font-family: var(--adm-font-sans);
+  font-size: var(--adm-text-base);
+  line-height: var(--adm-lh-base);
+  color: var(--adm-ink);
+  background: var(--adm-bg);
+  color-scheme: light;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.adm-root select,
+.adm-root input,
+.adm-root textarea,
+.adm-root input[type="date"],
+.adm-root input[type="time"] { color-scheme: light; font-family: inherit; }
+.adm-root *::-webkit-scrollbar { width: auto; height: auto; }
+.adm-root *::-webkit-scrollbar-thumb { background: initial; }
+.adm-root button:focus-visible,
+.adm-root a:focus-visible,
+.adm-root input:focus-visible,
+.adm-root select:focus-visible,
+.adm-root textarea:focus-visible,
+.adm-root [tabindex]:focus-visible {
+  outline: 2px solid var(--adm-focus);
+  outline-offset: 2px;
+}
+.adm-root h1, .adm-root h2, .adm-root h3, .adm-root h4 { font-family: var(--adm-font-sans); margin: 0; }
+.adm-root .adm-display { font-family: var(--adm-font-display); font-weight: 600; letter-spacing: -0.005em; line-height: var(--adm-lh-tight); }
+
+@media (prefers-reduced-motion: reduce) {
+  .adm-root *, .adm-root *::before, .adm-root *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

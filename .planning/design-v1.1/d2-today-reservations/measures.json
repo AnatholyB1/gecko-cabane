@@ -1,0 +1,743 @@
+[
+ {
+  "page": "today.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 578,
+   "attnTop": 594,
+   "attnBtn": 838
+  }
+ },
+ {
+  "page": "today-loading.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 389,
+   "attnTop": 405,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-empty.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 491,
+   "attnTop": 507,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-error.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-confirm-full.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 578,
+   "attnTop": 594,
+   "attnBtn": 838
+  }
+ },
+ {
+  "page": "today-full.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 578,
+   "attnTop": 594,
+   "attnBtn": 838
+  }
+ },
+ {
+  "page": "reservations.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-success.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-busy.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-loading.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-empty.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-noresult.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-error.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-actionfail.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-cancel.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-invalid.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-busy.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-error.html",
+  "vp": "390",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 471,
+   "attnTop": 487,
+   "attnBtn": 675
+  }
+ },
+ {
+  "page": "today-loading.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 380,
+   "attnTop": 396,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-empty.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 421,
+   "attnTop": 437,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-error.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-confirm-full.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 471,
+   "attnTop": 487,
+   "attnBtn": 675
+  }
+ },
+ {
+  "page": "today-full.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 471,
+   "attnTop": 487,
+   "attnBtn": 675
+  }
+ },
+ {
+  "page": "reservations.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-success.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-busy.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-loading.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-empty.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-noresult.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-error.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-actionfail.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-cancel.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-invalid.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-busy.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-error.html",
+  "vp": "768",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 521,
+   "attnTop": 238,
+   "attnBtn": 407
+  }
+ },
+ {
+  "page": "today-loading.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 388,
+   "attnTop": 238,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-empty.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 450,
+   "attnTop": 238,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-error.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "today-confirm-full.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 521,
+   "attnTop": 238,
+   "attnBtn": 407
+  }
+ },
+ {
+  "page": "today-full.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": 521,
+   "attnTop": 238,
+   "attnBtn": 407
+  }
+ },
+ {
+  "page": "reservations.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-success.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-busy.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-loading.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-empty.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-noresult.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-error.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-actionfail.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "reservations-cancel.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-invalid.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-busy.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ },
+ {
+  "page": "manual-form-error.html",
+  "vp": "1440",
+  "overflowX": 0,
+  "smallText": [],
+  "smallTargets": [],
+  "lowContrast": [],
+  "fold": {
+   "gaugesBottom": null,
+   "attnTop": null,
+   "attnBtn": null
+  }
+ }
+]

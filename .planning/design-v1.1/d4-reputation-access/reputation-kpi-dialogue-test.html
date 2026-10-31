@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Réputation, Rapport KPI</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-userplus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol><symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-retry" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol><symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol><symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol><symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol><symbol id="i-flat" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol></svg>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<aside class="proto-note" aria-label="Note de maquette"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-info"/></svg><span>Maquette D4 (statique). Rapport KPI, état « dialogue de confirmation, envoi TEST ». Chiffres d'exemple. Aucun envoi réel : la maquette n'envoie rien. Coquille de navigation indicative : D1 fait foi.</span></aside>
+<div class="shell">
+  <aside class="side" aria-label="Navigation principale">
+    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">GC</span>Gecko Cabane</a>
+    <nav aria-label="Principale"><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-home"/></svg><span>Aujourd'hui</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-calendar"/></svg><span>Réservations</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-utensils"/></svg><span>Menu</span></a><a href="#" aria-current="page"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-star"/></svg><span>Réputation</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-users"/></svg><span>Accès</span></a></nav>
+  </aside>
+  <div class="main">
+    <header class="topbar"><a class="brand" href="#"><span class="brand-mark" aria-hidden="true">GC</span>Gecko Cabane</a></header>
+    <main id="contenu" class="page">
+
+<header class="head">
+  <div>
+    <p class="eyebrow">Gecko Cabane</p>
+    <h1 class="title">Réputation</h1>
+    <hr class="brass-rule">
+  </div>
+  <div class="head-row">
+    <nav class="seg" aria-label="Sections de Réputation">
+      <a href="reputation-avis.html" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-star"/></svg>Avis</a>
+      <a href="reputation-kpi.html" aria-current="page"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-chart"/></svg>Rapport KPI</a>
+    </nav>
+  </div>
+</header><div class="stack">
+<section class="guard" aria-labelledby="h-guard">
+  <div style="display:grid;gap:10px">
+    <p class="row"><span class="badge test"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>TEST</span><span class="eyebrow" style="color:var(--adm-warn)">Mode actuel</span></p>
+    <h2 id="h-guard">Rapports TEST envoyés : 1 / 2</h2>
+    <p class="muted" style="color:var(--adm-ink)">Passage en live : décision du propriétaire après 2 rapports TEST vérifiés (au plus tôt mi-novembre 2026).</p>
+    <p class="rule-text">Aucun envoi live avant le 2026-11-16 et sans accord du propriétaire.</p>
+  </div>
+</section>
+<section class="panel" aria-labelledby="h-envoi">
+  <div class="panel-head"><div><h2 class="sec" id="h-envoi">Envoi du rapport</h2><p>Rien n'est envoyé en ouvrant cette page. Chaque envoi demande une action et une confirmation.</p></div></div>
+  <div class="two-col" style="gap:24px">
+    <div class="lock">
+      <h3 class="sub">Envoyer un rapport TEST</h3>
+      <p class="muted">Envoie le rapport de la semaine sélectionnée au propriétaire uniquement, avec le préfixe [TEST].</p>
+      <div><button type="button" class="btn btn-secondary" data-open="dlg-test"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-send"/></svg>Envoyer un rapport TEST</button></div>
+      
+    </div>
+    <div class="lock">
+      <h3 class="sub row" style="gap:10px">Passage en live <span class="badge live"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-lock"/></svg>live verrouillé</span></h3>
+      <ul class="checks">
+        <li class="no"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-circle"/></svg><span><strong>2 rapports TEST vérifiés</strong> : 1 sur 2, à remplir.</span></li>
+        <li class="no"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-circle"/></svg><span><strong>Date</strong> : au plus tôt le 2026-11-16 (dans 16 jours), à remplir.</span></li>
+        <li class="no"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-circle"/></svg><span><strong>Accord du propriétaire</strong> : non donné, à remplir.</span></li>
+      </ul>
+      <p class="hint">Le mode live n'est jamais activable depuis cette page : il se règle côté serveur, après accord du propriétaire.</p>
+    </div>
+  </div>
+</section><section class="panel" aria-labelledby="h-hist"><div class="panel-head"><div><h2 class="sec" id="h-hist">KPI hebdomadaires</h2><p>Historique semaine par semaine (12 dernières semaines). Une valeur absente s'affiche « non disponible », jamais 0.</p></div><span class="example-chip">Chiffres d'exemple</span></div>
+<div class="only-wide">
+<div class="tscroll" tabindex="0" role="region" aria-label="Tableau 1, défilement horizontal possible"><table>
+  <caption class="sr">KPI par semaine (exemple)</caption>
+  <thead><tr><th scope="col">Semaine</th><th scope="col">Nouvelles réservations</th><th scope="col">Couverts</th><th scope="col">Taux de no-show</th><th scope="col">Clics Google</th><th scope="col">Position moyenne</th><th scope="col">Rang TripAdvisor</th><th scope="col">Avis Google (total)</th><th scope="col" style="text-align:left">Sources non disponibles</th></tr></thead>
+  <tbody>
+  <tr class="sel"><th scope="row"><button type="button" class="rowbtn" aria-pressed="true">2026-10-19 → 2026-10-25</button><span class="badge partial" style="margin-left:8px"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>partiel</span></th><td>38</td><td>112</td><td>2,6 %</td><td>214</td><td>8,4</td><td>n° 14</td><td>187</td><td style="text-align:left">—</td></tr><tr ><th scope="row"><button type="button" class="rowbtn" aria-pressed="false">2026-10-12 → 2026-10-18</button></th><td>31</td><td>94</td><td>6,5 %</td><td>188</td><td>9,1</td><td>n° 15</td><td>181</td><td style="text-align:left">—</td></tr><tr ><th scope="row"><button type="button" class="rowbtn" aria-pressed="false">2026-10-05 → 2026-10-11</button></th><td>29</td><td>81</td><td>0,0 %</td><td>171</td><td>9,3</td><td>n° 15</td><td>176</td><td style="text-align:left">—</td></tr><tr ><th scope="row"><button type="button" class="rowbtn" aria-pressed="false">2026-09-28 → 2026-10-04</button></th><td>33</td><td>97</td><td>3,0 %</td><td>165</td><td>9,8</td><td>non disponible</td><td>172</td><td style="text-align:left">Rang TripAdvisor</td></tr>
+  </tbody>
+</table></div>
+<p class="hint" style="margin-top:10px">Les 15 indicateurs figurent dans le détail de chaque semaine. Chiffres d'exemple.</p>
+</div>
+<div class="only-mobile weeks">
+  <article class="week" aria-current="true">
+    <button type="button" aria-pressed="true"><span>2026-10-19 → 2026-10-25<span class="badge partial" style="margin-left:8px"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>partiel</span></span><svg class="i " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
+    <dl><div><dt>Réservations</dt><dd class="num">38</dd></div><div><dt>Couverts</dt><dd class="num">112</dd></div><div><dt>Taux de no-show</dt><dd class="num">2,6 %</dd></div><div><dt>Clics Google</dt><dd class="num">214</dd></div><div><dt>Rang TripAdvisor</dt><dd class="num">n° 14</dd></div><div><dt>Avis Google (total)</dt><dd class="num">187</dd></div>
+    </dl><p class="miss" style="padding:0 16px 16px;margin-top:-4px">Sources non disponibles : —</p>
+  </article><article class="week" >
+    <button type="button" aria-pressed="false"><span>2026-10-12 → 2026-10-18</span><svg class="i " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
+    <dl><div><dt>Réservations</dt><dd class="num">31</dd></div><div><dt>Couverts</dt><dd class="num">94</dd></div><div><dt>Taux de no-show</dt><dd class="num">6,5 %</dd></div><div><dt>Clics Google</dt><dd class="num">188</dd></div><div><dt>Rang TripAdvisor</dt><dd class="num">n° 15</dd></div><div><dt>Avis Google (total)</dt><dd class="num">181</dd></div>
+    </dl><p class="miss" style="padding:0 16px 16px;margin-top:-4px">Sources non disponibles : —</p>
+  </article><article class="week" >
+    <button type="button" aria-pressed="false"><span>2026-10-05 → 2026-10-11</span><svg class="i " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
+    <dl><div><dt>Réservations</dt><dd class="num">29</dd></div><div><dt>Couverts</dt><dd class="num">81</dd></div><div><dt>Taux de no-show</dt><dd class="num">0,0 %</dd></div><div><dt>Clics Google</dt><dd class="num">171</dd></div><div><dt>Rang TripAdvisor</dt><dd class="num">n° 15</dd></div><div><dt>Avis Google (total)</dt><dd class="num">176</dd></div>
+    </dl><p class="miss" style="padding:0 16px 16px;margin-top:-4px">Sources non disponibles : —</p>
+  </article><article class="week" >
+    <button type="button" aria-pressed="false"><span>2026-09-28 → 2026-10-04</span><svg class="i " aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
+    <dl><div><dt>Réservations</dt><dd class="num">33</dd></div><div><dt>Couverts</dt><dd class="num">97</dd></div><div><dt>Taux de no-show</dt><dd class="num">3,0 %</dd></div><div><dt>Clics Google</dt><dd class="num">165</dd></div><div><dt>Rang TripAdvisor</dt><dd class="num">non disponible</dd></div><div><dt>Avis Google (total)</dt><dd class="num">172</dd></div>
+    </dl><p class="miss" style="padding:0 16px 16px;margin-top:-4px">Sources non disponibles : Rang TripAdvisor</p>
+  </article>
+</div></section>
+<section class="panel stack" aria-labelledby="h-detail">
+  <div class="panel-head" style="margin-bottom:0"><div><h2 class="sec" id="h-detail">Semaine du 2026-10-19 → 2026-10-25</h2><p>Exemple. Comparaison avec la semaine précédente (2026-10-12).</p></div></div>
+  <div>
+    <h3 class="sub" style="margin-bottom:8px">Comparaison à la semaine précédente (2026-10-12)</h3>
+    <ul class="cmp"><li><span>Nouvelles réservations</span><span class="num"><strong>38</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+23 %<span class="sr">, favorable</span></span></span></li><li><span>Couverts</span><span class="num"><strong>112</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+19 %<span class="sr">, favorable</span></span></span></li><li><span>No-show</span><span class="num"><strong>1</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-down"/></svg>−50 %<span class="sr">, favorable</span></span></span></li><li><span>Taux de no-show</span><span class="num"><strong>2,6 %</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-down"/></svg>−3,9 pts<span class="sr">, favorable</span></span></span></li><li><span>Inscriptions newsletter confirmées</span><span class="num"><strong>12</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+33 %<span class="sr">, favorable</span></span></span></li><li><span>Désinscriptions newsletter</span><span class="num"><strong>1</strong><span class="delta bad"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+1<span class="sr">, défavorable</span></span></span></li><li><span>Abonnés newsletter actifs</span><span class="num"><strong>342</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+3 %<span class="sr">, favorable</span></span></span></li><li><span>Clics Google (Search Console)</span><span class="num"><strong>214</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+14 %<span class="sr">, favorable</span></span></span></li><li><span>Impressions Google</span><span class="num"><strong>5 480</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+12 %<span class="sr">, favorable</span></span></span></li><li><span>CTR Google</span><span class="num"><strong>3,9 %</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+0,1 pts<span class="sr">, favorable</span></span></span></li><li><span>Position moyenne Google</span><span class="num"><strong>8,4</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-down"/></svg>−0,7<span class="sr">, favorable</span></span></span></li><li><span>Rang TripAdvisor</span><span class="num"><strong>n° 14</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+1 place<span class="sr">, favorable</span></span></span></li><li><span>Avis Google (total)</span><span class="num"><strong>187</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+3 %<span class="sr">, favorable</span></span></span></li><li><span>Nouveaux avis Google</span><span class="num"><strong>6</strong><span class="delta good"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-up"/></svg>+20 %<span class="sr">, favorable</span></span></span></li><li><span>Note la plus basse (Google)</span><span class="num"><strong>3</strong><span class="delta bad"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-down"/></svg>−25 %<span class="sr">, défavorable</span></span></span></li></ul>
+  </div>
+  <div>
+    <h3 class="sub" style="margin-bottom:8px">Alertes</h3>
+    <div class="alerts">
+      <div class="notice err" role="note"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-alert"/></svg><div><strong>Critique</strong><span class="body">Un avis de 3 étoiles ou moins a été reçu cette semaine.</span></div></div>
+      <div class="notice warn" role="note"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><div><strong>À surveiller</strong><span class="body">Search Console : données partielles (le dimanche est incomplet).</span></div></div>
+    </div>
+  </div>
+  <div>
+    <h3 class="sub" style="margin-bottom:8px">Lecture et actions</h3>
+    <p class="row" style="margin-bottom:12px"><span class="badge neutral"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-info"/></svg>texte de repli sans IA</span></p>
+    <div class="two-col">
+      <div><h4 class="sub" style="font-size:15px">Lecture</h4><ul style="list-style:disc;padding-left:20px;margin-top:6px"><li>Les réservations progressent de 23 % (exemple).</li><li>Un avis bas isolé, sans tendance (exemple).</li></ul></div>
+      <div><h4 class="sub" style="font-size:15px">Actions recommandées</h4><ul style="list-style:disc;padding-left:20px;margin-top:6px"><li>Répondre à l'avis de 3 étoiles (exemple).</li><li>Vérifier l'attente au bar le week-end (exemple).</li></ul></div>
+    </div>
+  </div>
+  <hr style="border:0;height:1px;background:var(--adm-line);margin:24px 0 0">
+  
+<form onsubmit="return false" aria-labelledby="h-saisie" class="stack">
+  <div><h3 class="sub" id="h-saisie" style="font-size:20px;font-family:var(--adm-font-display);color:var(--adm-brand)">Saisie manuelle de la semaine</h3>
+  <p class="muted" style="margin-top:4px;max-width:64ch">Avis Google (hors collecte automatique). Facultatif : le rapport part sans cette saisie.</p></div>
+  <div class="grid3">
+    <div class="field"><label for="k-total">Total d'avis Google</label><input id="k-total" class="input" type="number" inputmode="numeric" min="0" max="100000" value="187"></div>
+    <div class="field"><label for="k-new">Nouveaux avis de la semaine</label><input id="k-new" class="input" type="number" inputmode="numeric" min="0" max="1000" value="6"></div>
+    <div class="field"><label for="k-min">Note minimale reçue</label><select id="k-min" class="select" aria-describedby="k-min-hint"><option value="" >—</option><option value="1" >1</option><option value="2" >2</option><option value="3" selected>3</option><option value="4" >4</option><option value="5" >5</option></select></div>
+  </div>
+  <div class="notice warn" id="k-min-hint" role="note"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-send"/></svg><div><strong>Une note de 3 ou moins déclenche un email d'alerte immédiat au propriétaire.</strong><span class="body">Vous devrez le confirmer avant l'enregistrement.</span></div></div>
+  <div class="field"><label for="k-note">Note libre (500 caractères maximum)</label><textarea id="k-note" class="textarea" maxlength="500" rows="3">Un client a laissé 3 étoiles pour l'attente au bar (exemple).</textarea><span class="hint">Jamais incluse dans un rapport live.</span></div>
+  <div class="row"><button type="submit" class="btn btn-primary" data-open="dlg-alerte">Enregistrer la saisie</button></div>
+</form>
+</section></div>
+    </main>
+    <nav class="tabbar" aria-label="Principale (mobile)"><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-home"/></svg><span>Aujourd'hui</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-calendar"/></svg><span>Réservations</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-utensils"/></svg><span>Menu</span></a><a href="#" aria-current="page"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-star"/></svg><span>Réputation</span></a><a href="#" ><svg class="i " aria-hidden="true" focusable="false"><use href="#i-users"/></svg><span>Accès</span></a></nav>
+  </div>
+</div>
+
+<dialog id="dlg-test" aria-labelledby="dlg-test-t" aria-describedby="dlg-test-d">
+  <div class="dlg">
+    <h2 id="dlg-test-t">Envoyer un rapport TEST ?</h2>
+    <p id="dlg-test-d">Le rapport de la semaine du 2026-10-19 au 2026-10-25 sera envoyé une seule fois, au propriétaire uniquement. Aucun client ni destinataire live ne le reçoit.</p>
+    <dl class="facts">
+      <div><dt>Mode</dt><dd><span class="badge test"><svg class="i " aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>TEST</span></dd></div>
+      <div><dt>Destinataire</dt><dd>Adresse du propriétaire</dd></div>
+      <div><dt>Sujet</dt><dd>[TEST] Rapport KPI de la semaine</dd></div>
+    </dl>
+    <div class="dlg-actions">
+      <button type="button" class="btn btn-secondary" data-close autofocus>Annuler</button>
+      <button type="button" class="btn btn-primary" data-close><svg class="i " aria-hidden="true" focusable="false"><use href="#i-send"/></svg>Envoyer le rapport TEST</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="dlg-alerte" aria-labelledby="dlg-al-t" aria-describedby="dlg-al-d">
+  <div class="dlg">
+    <h2 id="dlg-al-t">Enregistrer et envoyer l'alerte ?</h2>
+    <p id="dlg-al-d">Une note minimale de 3 envoie immédiatement un email d'alerte au propriétaire. Vous pouvez aussi enregistrer en choisissant une note supérieure à 3.</p>
+    <dl class="facts">
+      <div><dt>Semaine</dt><dd>2026-10-19 → 2026-10-25</dd></div>
+      <div><dt>Note minimale</dt><dd>3</dd></div>
+      <div><dt>Destinataire</dt><dd>Adresse du propriétaire</dd></div>
+    </dl>
+    <div class="dlg-actions">
+      <button type="button" class="btn btn-secondary" data-close autofocus>Annuler</button>
+      <button type="button" class="btn btn-primary" data-close><svg class="i " aria-hidden="true" focusable="false"><use href="#i-send"/></svg>Enregistrer et envoyer l'alerte</button>
+    </div>
+  </div>
+</dialog>
+<script>
+document.querySelectorAll('[data-open]').forEach(function(b){b.addEventListener('click',function(){document.getElementById(b.dataset.open).showModal()})});
+document.querySelectorAll('dialog [data-close]').forEach(function(b){b.addEventListener('click',function(){b.closest('dialog').close()})});
+document.querySelectorAll('.toggle').forEach(function(b){b.addEventListener('click',function(){var i=document.getElementById(b.dataset.for);var s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'Masquer':'Afficher';b.setAttribute('aria-pressed',String(s))})});
+document.getElementById('dlg-test').showModal();
+</script>
+</body></html>

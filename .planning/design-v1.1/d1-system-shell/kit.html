@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kit admin D1 — Gecko Cabane</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kit.css">
+<style>
+  .kit { max-width: 1120px; margin: 0 auto; padding: 0 var(--adm-gutter) 96px; }
+  .k-top { padding: 24px 0 8px; display: grid; gap: 8px; }
+  .k-top h1 { font-size: var(--adm-text-2xl); }
+  @media (min-width: 768px) { .k-top h1 { font-size: var(--adm-text-3xl); } }
+  .k-vp { display: inline-flex; gap: 8px; align-items: center; font-size: var(--adm-text-sm); color: var(--adm-muted); }
+  .k-vp b { color: var(--adm-ink); }
+  .k-sec { padding: 40px 0 8px; }
+  .k-sec > h2 { font-size: var(--adm-text-xl); font-weight: 600; margin-bottom: 4px; }
+  .k-sec > .adm-muted { margin: 0 0 20px; max-width: 70ch; }
+  .k-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .k-grid { display: grid; gap: 24px; }
+  @media (min-width: 768px) { .k-grid.two { grid-template-columns: 1fr 1fr; } .k-grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .k-cap { font-size: var(--adm-text-sm); color: var(--adm-muted); margin: 0 0 8px; font-weight: 600; }
+  .k-sw { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 768px) { .k-sw { grid-template-columns: repeat(4, 1fr); } }
+  .k-chip { border: 1px solid var(--adm-line); border-radius: var(--adm-radius); overflow: hidden; background: var(--adm-surface); }
+  .k-chip i { display: block; height: 44px; border-bottom: 1px solid var(--adm-line); }
+  .k-chip div { padding: 8px 10px; font-size: var(--adm-text-sm); line-height: 1.35; }
+  .k-chip code { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+  .k-stage { background: var(--adm-surface-2); border: 1px dashed var(--adm-line-strong); border-radius: var(--adm-radius-lg); padding: 24px 16px; display: grid; place-items: center; gap: 12px; }
+  .k-stage .adm-dialog { border-radius: var(--adm-radius-lg); max-width: 420px; border: 1px solid var(--adm-line); }
+  .k-stage .adm-toast { width: 100%; max-width: 380px; }
+  .k-type p { margin: 0 0 6px; }
+  .k-ph { display: grid; place-items: center; min-height: 120px; border: 1px dashed var(--adm-line-strong); border-radius: var(--adm-radius); color: var(--adm-muted); font-size: var(--adm-text-sm); background: var(--adm-surface-2); }
+</style>
+</head>
+<body class="adm-root">
+<main class="kit" id="kit">
+
+<header class="k-top">
+  <p class="adm-eyebrow">Kit interne · D1 · maquette statique</p>
+  <h1 class="adm-display">Système de design de l'admin</h1>
+  <p class="adm-muted" style="margin:0;max-width:60ch">Primitives, états et jetons <code>--adm-*</code>. Les données de ce kit sont des exemples. Redimensionner pour relire à 360, 768, 1024 et 1440 px.</p>
+  <p class="k-vp">Largeur actuelle : <b class="adm-num" id="vp">—</b> px</p>
+</header>
+
+<!-- 1. Jetons -->
+<section class="k-sec" id="tokens" aria-labelledby="t-tokens">
+  <h2 id="t-tokens">Couleurs</h2>
+  <p class="adm-muted">Ivoire chaud, vert jungle, laiton en touche rare (filets et ornement, jamais du texte). Les statuts portent toujours une icône et un libellé.</p>
+  <div class="k-sw">
+    <div class="k-chip"><i style="background:var(--adm-bg)"></i><div><b>bg</b><br><code>#F7F4EC</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-surface)"></i><div><b>surface</b><br><code>#FFFFFF</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-surface-2)"></i><div><b>surface-2</b><br><code>#F1ECE0</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-line)"></i><div><b>line</b><br><code>#E2DCCB</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-ink)"></i><div><b>ink</b><br><code>#1B2A22</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-muted)"></i><div><b>muted</b><br><code>#5E6B62</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-brand)"></i><div><b>brand</b><br><code>#1F3D2F</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-accent)"></i><div><b>accent</b> (décor)<br><code>#B08D3C</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-accent-text)"></i><div><b>accent-text</b><br><code>#7A5C16</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-ok)"></i><div><b>ok</b><br><code>#2F6B45</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-warn)"></i><div><b>warn</b><br><code>#8A5A00</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-danger)"></i><div><b>danger</b><br><code>#A33A2B</code></div></div>
+    <div class="k-chip"><i style="background:var(--adm-info)"></i><div><b>info</b><br><code>#2F5F7A</code></div></div>
+  </div>
+  <hr class="adm-rule adm-rule--brass" style="margin:32px 0 24px">
+  <div class="k-grid two k-type">
+    <div>
+      <p class="k-cap">Titre de page : Cormorant Garamond 600 (titres de page uniquement)</p>
+      <p class="adm-display" style="font-size:var(--adm-text-3xl)">Réservations du jour</p>
+      <p class="k-cap" style="margin-top:16px">Section : Inter 600 / 18</p>
+      <p class="adm-h2">Arrivées par heure</p>
+    </div>
+    <div>
+      <p class="k-cap">Corps Inter 400 / 16, aide / tableau 14, chiffres tabulaires</p>
+      <p>Table de 4 couverts, terrasse, anniversaire.</p>
+      <p class="adm-small adm-muted">Créée le 31/10 à 11:42 · Heure de Krabi (UTC+7)</p>
+      <p class="adm-num" style="font-size:var(--adm-text-xl);font-weight:600;line-height:1.5">12:00 · 12:30 · 19:15 · 1 111 · 40 / 40</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Button -->
+<section class="k-sec" id="buttons" aria-labelledby="t-btn">
+  <h2 id="t-btn">Button</h2>
+  <p class="adm-muted">Hauteur 44 px par défaut. La taille <code>sm</code> (36 px) n'existe qu'à partir de 1024 px avec pointeur précis ; sinon elle reste à 44 px.</p>
+  <div class="k-grid two">
+    <div>
+      <p class="k-cap">Variantes</p>
+      <div class="k-row">
+        <button class="adm-btn adm-btn--primary"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg> Réservation</button>
+        <button class="adm-btn">Annuler</button>
+        <button class="adm-btn adm-btn--danger"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg> Supprimer</button>
+        <button class="adm-btn adm-btn--ghost">Voir le détail</button>
+        <button class="adm-btn adm-btn--icon" aria-label="Rechercher"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg></button>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Taille sm (dense, ordinateur)</p>
+      <div class="k-row">
+        <button class="adm-btn adm-btn--primary adm-btn--sm">Confirmer</button>
+        <button class="adm-btn adm-btn--sm">Terminer</button>
+        <button class="adm-btn adm-btn--sm adm-btn--ghost">Non présenté</button>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Chargement (aria-busy, non cliquable)</p>
+      <div class="k-row">
+        <button class="adm-btn adm-btn--primary" aria-busy="true" aria-disabled="true"><svg class="i i-sm adm-spin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg> Enregistrement…</button>
+        <button class="adm-btn" aria-busy="true" aria-disabled="true"><svg class="i i-sm adm-spin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg> Mise à jour…</button>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Désactivé</p>
+      <div class="k-row">
+        <button class="adm-btn adm-btn--primary" disabled>Enregistrer</button>
+        <button class="adm-btn" disabled>Annuler</button>
+        <button class="adm-btn adm-btn--danger" disabled>Supprimer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Fields -->
+<section class="k-sec" id="fields" aria-labelledby="t-field">
+  <h2 id="t-field">Field, Input, Select, Textarea</h2>
+  <p class="adm-muted">Libellé toujours visible au-dessus, texte de champ à 16 px (pas de zoom iOS), erreur avec icône et texte, reliée par <code>aria-describedby</code>.</p>
+  <div class="k-grid two">
+    <div class="adm-field">
+      <label class="adm-label" for="f1">Nom du client</label>
+      <input class="adm-input" id="f1" value="Martin L." aria-describedby="f1h">
+      <p class="adm-help" id="f1h">Tel qu'il apparaîtra sur la liste.</p>
+    </div>
+    <div class="adm-field">
+      <label class="adm-label" for="f2">Téléphone</label>
+      <input class="adm-input" id="f2" value="+66 81 000" aria-invalid="true" aria-describedby="f2e">
+      <p class="adm-error" id="f2e" role="alert"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Numéro incomplet. Exemple : +66 81 958 5945.</p>
+    </div>
+    <div class="adm-field">
+      <label class="adm-label" for="f3">Couverts</label>
+      <select class="adm-select" id="f3"><option>4</option><option>5</option></select>
+    </div>
+    <div class="adm-field">
+      <label class="adm-label" for="f4">Heure <span class="opt">(Krabi)</span></label>
+      <input class="adm-input adm-num" id="f4" type="time" value="19:15">
+    </div>
+    <div class="adm-field">
+      <label class="adm-label" for="f5">Capacité maximale</label>
+      <input class="adm-input" id="f5" value="40" disabled aria-describedby="f5h">
+      <p class="adm-help" id="f5h">Verrouillé pendant l'enregistrement.</p>
+    </div>
+    <div class="adm-field">
+      <label class="adm-label" for="f6">Note interne <span class="opt">(facultatif)</span></label>
+      <textarea class="adm-textarea" id="f6">Allergie arachides.</textarea>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Card + Badge -->
+<section class="k-sec" id="cards" aria-labelledby="t-card">
+  <h2 id="t-card">Card et Badge de statut</h2>
+  <p class="adm-muted">Une carte ne contient jamais une autre carte : à l'intérieur, filets et espacement. Les cinq statuts de réservation, avec leur icône.</p>
+  <div class="k-grid two">
+    <article class="adm-card">
+      <div class="adm-card__head"><h3 class="adm-h2">Horaires de la semaine</h3><a class="adm-btn adm-btn--ghost adm-btn--sm" href="#cards">Modifier</a></div>
+      <p class="adm-muted" style="margin:0">Ouvert tous les jours, de <span class="adm-num">12:00</span> à <span class="adm-num">22:00</span>. Capacité <span class="adm-num">40</span> couverts.</p>
+    </article>
+    <article class="adm-card">
+      <p class="k-cap">Statuts (machine à statuts inchangée)</p>
+      <div class="k-row">
+        <span class="adm-badge adm-badge--warn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg> En attente</span>
+        <span class="adm-badge adm-badge--ok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></svg> Confirmée</span>
+        <span class="adm-badge adm-badge--info"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 7 17l-5-5" /> <path d="m22 10-7.5 7.5L13 16" /></svg> Terminée</span>
+        <span class="adm-badge adm-badge--danger"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /></svg> Annulée</span>
+        <span class="adm-badge adm-badge--neutral"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="17" x2="22" y1="8" y2="13" /> <line x1="22" x2="17" y1="8" y2="13" /></svg> Non présenté</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 5. DataTable -->
+<section class="k-sec" id="table" aria-labelledby="t-table">
+  <h2 id="t-table">DataTable</h2>
+  <p class="adm-muted">Tableau dense à partir de 768 px, liste de cartes empilées en dessous (même balisage). Données d'exemple.</p>
+  <div class="adm-tablewrap">
+    <table class="adm-table">
+      <caption>Vendredi 31 octobre · 3 réservations · <span class="adm-num">11</span> couverts sur <span class="adm-num">40</span> (exemple)</caption>
+      <thead><tr><th scope="col">Heure</th><th scope="col">Client</th><th scope="col" class="t-num">Couverts</th><th scope="col">Statut</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+      <tbody>
+        <tr><td class="t-time adm-num">12:00</td><td class="t-name">Martin L.</td><td class="t-num adm-num" data-label="Couverts">4</td><td class="t-status"><span class="adm-badge adm-badge--warn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></svg> En attente</span></td>
+          <td class="t-actions"><button class="adm-btn adm-btn--primary adm-btn--sm">Confirmer</button><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="Appeler Martin L."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg></a><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="WhatsApp Martin L."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></a></td></tr>
+        <tr><td class="t-time adm-num">19:15</td><td class="t-name">Schmidt K.</td><td class="t-num adm-num" data-label="Couverts">5</td><td class="t-status"><span class="adm-badge adm-badge--ok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></svg> Confirmée</span></td>
+          <td class="t-actions"><button class="adm-btn adm-btn--sm">Terminer</button><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="Appeler Schmidt K."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg></a><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="WhatsApp Schmidt K."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></a></td></tr>
+        <tr><td class="t-time adm-num">20:00</td><td class="t-name">Andersson E.</td><td class="t-num adm-num" data-label="Couverts">2</td><td class="t-status"><span class="adm-badge adm-badge--neutral"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="17" x2="22" y1="8" y2="13" /> <line x1="22" x2="17" y1="8" y2="13" /></svg> Non présenté</span></td>
+          <td class="t-actions"><button class="adm-btn adm-btn--sm adm-btn--ghost">Rétablir</button><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="Appeler Andersson E."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg></a><a class="adm-btn adm-btn--sm adm-btn--icon" href="#table" aria-label="WhatsApp Andersson E."><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg></a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 6. PageHeader -->
+<section class="k-sec" id="pageheader" aria-labelledby="t-ph">
+  <h2 id="t-ph">PageHeader</h2>
+  <p class="adm-muted">Titre en Cormorant, description, actions à droite (empilées sous 768 px), filet laiton de 40 px. Pas de surtitre : la navigation active donne le contexte.</p>
+  <div class="adm-card" style="padding-top:0;padding-bottom:var(--adm-space-5)">
+    <div class="adm-pageheader">
+      <h3 class="adm-display adm-pageheader__title" style="margin:0">Horaires</h3>
+      <p class="adm-pageheader__desc">Ce que voient les visiteurs sur le site. Les changements sont visibles tout de suite.</p>
+      <div class="adm-pageheader__actions"><button class="adm-btn">Annuler</button><button class="adm-btn adm-btn--primary">Enregistrer</button></div>
+    </div>
+    <hr class="adm-rule adm-rule--brass">
+  </div>
+</section>
+
+<!-- 7. Dialog -->
+<section class="k-sec" id="dialog" aria-labelledby="t-dlg">
+  <h2 id="t-dlg">Dialogue de confirmation</h2>
+  <p class="adm-muted">Remplace chaque <code>confirm()</code>. Feuille ancrée en bas sous 768 px, centré au-dessus. Échap ferme, le focus est piégé puis rendu au bouton déclencheur. Le bouton destructeur n'a jamais le focus initial : c'est « Garder » ou « Annuler ».</p>
+  <div class="k-grid two">
+    <div class="k-stage">
+      <div class="adm-dialog" role="alertdialog" aria-labelledby="d1t" aria-describedby="d1d">
+        <h3 class="adm-dialog__title" id="d1t"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg> Supprimer ce plat ?</h3>
+        <p id="d1d">« Magret de canard, sauce tamarin » sera retiré de la carte publique. Cette action est définitive.</p>
+        <div class="adm-dialog__actions">
+          <button class="adm-btn">Garder le plat</button>
+          <button class="adm-btn adm-btn--danger">Supprimer</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Version réelle (élément &lt;dialog&gt; natif, repli du spike)</p>
+      <button class="adm-btn" id="open-dlg"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg> Essayer le dialogue</button>
+      <dialog class="adm-dialog" id="dlg" aria-labelledby="d2t" aria-describedby="d2d">
+        <h3 class="adm-dialog__title" id="d2t"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg> Annuler cette réservation ?</h3>
+        <p id="d2d">Martin L., 4 couverts à <span class="adm-num">12:00</span>. Le client recevra un e-mail d'annulation.</p>
+        <form method="dialog" class="adm-dialog__actions">
+          <button class="adm-btn" value="keep" autofocus>Garder</button>
+          <button class="adm-btn adm-btn--danger" value="cancel">Annuler la réservation</button>
+        </form>
+      </dialog>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Toast -->
+<section class="k-sec" id="toast" aria-labelledby="t-toast">
+  <h2 id="t-toast">Toast</h2>
+  <p class="adm-muted">Région <code>aria-live="polite"</code> (<code>assertive</code> pour l'erreur). Succès : disparaît après 5 s, en pause au survol et au focus. Erreur : reste jusqu'à fermeture, et la saisie n'est jamais perdue. Au-dessus de la barre du bas sur téléphone.</p>
+  <div class="k-grid two">
+    <div class="k-stage">
+      <div class="adm-toast adm-toast--ok" role="status"><svg class="i i-status" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></svg><div><p class="adm-toast__title">Horaires enregistrés</p><p class="adm-toast__msg">Visibles sur le site public.</p></div><button class="adm-btn adm-btn--ghost adm-btn--icon adm-btn--sm" aria-label="Fermer la notification"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></button></div>
+      <div class="adm-toast adm-toast--error" role="alert"><svg class="i i-status" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg><div><p class="adm-toast__title">Enregistrement impossible</p><p class="adm-toast__msg">Connexion perdue. Votre saisie est conservée, réessayez.</p></div><button class="adm-btn adm-btn--ghost adm-btn--icon adm-btn--sm" aria-label="Fermer la notification"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></button></div>
+    </div>
+    <div>
+      <p class="k-cap">Essai en direct</p>
+      <div class="k-row">
+        <button class="adm-btn" id="t-ok">Toast de succès</button>
+        <button class="adm-btn" id="t-err">Toast d'erreur</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. States -->
+<section class="k-sec" id="states" aria-labelledby="t-states">
+  <h2 id="t-states">Chargement, vide, erreur</h2>
+  <p class="adm-muted">Trois composants communs à toutes les pages. Le squelette garde la forme du contenu final (pas de saut de mise en page) et se fige sous <code>prefers-reduced-motion</code>.</p>
+  <div class="k-grid three">
+    <div>
+      <p class="k-cap">Chargement</p>
+      <div class="adm-card" aria-busy="true" aria-label="Chargement de la liste" role="status">
+        <div class="adm-skel" style="height:22px;width:45%"></div>
+        <div class="adm-skel" style="height:16px;width:90%;margin-top:14px"></div>
+        <div class="adm-skel" style="height:16px;width:80%;margin-top:10px"></div>
+        <div class="adm-skel" style="height:44px;width:100%;margin-top:18px"></div>
+        <span class="sr-only">Chargement…</span>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Vide</p>
+      <div class="adm-card adm-state">
+        <div class="adm-state__icon"><svg class="i i-lg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></div>
+        <h3>Aucune réservation ce jour</h3>
+        <p>Les nouvelles réservations du site apparaîtront ici.</p>
+        <button class="adm-btn adm-btn--primary"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg> Réservation</button>
+      </div>
+    </div>
+    <div>
+      <p class="k-cap">Erreur</p>
+      <div class="adm-card adm-state adm-state--error" role="alert">
+        <div class="adm-state__icon"><svg class="i i-lg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h.01" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /> <path d="M5 12.859a10 10 0 0 1 5.17-2.69" /> <path d="M19 12.859a10 10 0 0 0-2.007-1.523" /> <path d="M2 8.82a15 15 0 0 1 4.177-2.643" /> <path d="M22 8.82a15 15 0 0 0-11.288-3.764" /> <path d="m2 2 20 20" /></svg></div>
+        <h3>Impossible de charger la liste</h3>
+        <p>Vérifiez la connexion, puis réessayez. Rien n'a été modifié.</p>
+        <button class="adm-btn"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></svg> Réessayer</button>
+      </div>
+    </div>
+  </div>
+  <div class="k-grid" style="margin-top:24px">
+    <div><p class="k-cap">Emplacement d'image (placeholder honnête)</p><div class="k-ph">Aucune photo : emplacement réservé (non fournie)</div></div>
+  </div>
+</section>
+
+</main>
+
+<div class="adm-toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+  var vp = document.getElementById('vp');
+  function setVp() { vp.textContent = String(window.innerWidth); }
+  setVp(); addEventListener('resize', setVp);
+  var dlg = document.getElementById('dlg'), openBtn = document.getElementById('open-dlg');
+  openBtn.addEventListener('click', function () { dlg.showModal(); });
+  var box = document.getElementById('toasts');
+  var ICON_OK = '<svg class="i i-status" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></svg>', ICON_ERR = '<svg class="i i-status" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg>', ICON_X = '<svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg>';
+  function toast(kind) {
+    var el = document.createElement('div');
+    el.className = 'adm-toast adm-toast--' + kind;
+    el.setAttribute('role', kind === 'ok' ? 'status' : 'alert');
+    el.innerHTML = (kind === 'ok' ? ICON_OK : ICON_ERR) +
+      '<div><p class="adm-toast__title">' + (kind === 'ok' ? 'Enregistré' : 'Enregistrement impossible') + '</p><p class="adm-toast__msg">' + (kind === 'ok' ? 'Visible sur le site public.' : 'Connexion perdue. Votre saisie est conservée, réessayez.') + '</p></div>' +
+      '<button class="adm-btn adm-btn--ghost adm-btn--icon adm-btn--sm" aria-label="Fermer la notification">' + ICON_X + '</button>';
+    el.querySelector('button').addEventListener('click', function () { el.remove(); });
+    box.appendChild(el);
+    if (kind === 'ok') setTimeout(function () { el.remove(); }, 5000);
+  }
+  document.getElementById('t-ok').addEventListener('click', function () { toast('ok'); });
+  document.getElementById('t-err').addEventListener('click', function () { toast('error'); });
+})();
+</script>
+</body>
+</html>

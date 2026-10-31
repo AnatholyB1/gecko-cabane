@@ -1,0 +1,636 @@
+{
+ "report": [
+  {
+   "page": "kit",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 3,
+   "minContrast": 4.74,
+   "nTargets": 40,
+   "nText": 155,
+   "coarse": true
+  },
+  {
+   "page": "shell-home",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 13,
+   "nText": 22,
+   "coarse": true
+  },
+  {
+   "page": "shell-site",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 34,
+   "nText": 45,
+   "coarse": true
+  },
+  {
+   "page": "shell-empty",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 16,
+   "coarse": true
+  },
+  {
+   "page": "shell-loading",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 11,
+   "nText": 13,
+   "coarse": true
+  },
+  {
+   "page": "shell-error",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 16,
+   "coarse": true
+  },
+  {
+   "page": "shell-home&menu=1",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 15,
+   "nText": 26,
+   "coarse": true
+  },
+  {
+   "page": "shell-site&toast=1",
+   "w": 360,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 35,
+   "nText": 47,
+   "coarse": true
+  },
+  {
+   "page": "kit",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 3,
+   "minContrast": 4.74,
+   "nTargets": 40,
+   "nText": 155,
+   "coarse": true
+  },
+  {
+   "page": "shell-home",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 13,
+   "nText": 22,
+   "coarse": true
+  },
+  {
+   "page": "shell-site",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 34,
+   "nText": 45,
+   "coarse": true
+  },
+  {
+   "page": "shell-empty",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 16,
+   "coarse": true
+  },
+  {
+   "page": "shell-loading",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 11,
+   "nText": 13,
+   "coarse": true
+  },
+  {
+   "page": "shell-error",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 16,
+   "coarse": true
+  },
+  {
+   "page": "shell-home&menu=1",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 15,
+   "nText": 26,
+   "coarse": true
+  },
+  {
+   "page": "shell-site&toast=1",
+   "w": 390,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 35,
+   "nText": 47,
+   "coarse": true
+  },
+  {
+   "page": "kit",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 3,
+   "minContrast": 4.74,
+   "nTargets": 40,
+   "nText": 155,
+   "coarse": true
+  },
+  {
+   "page": "shell-home",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 13,
+   "nText": 23,
+   "coarse": true
+  },
+  {
+   "page": "shell-site",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 34,
+   "nText": 46,
+   "coarse": true
+  },
+  {
+   "page": "shell-empty",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 17,
+   "coarse": true
+  },
+  {
+   "page": "shell-loading",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 11,
+   "nText": 14,
+   "coarse": true
+  },
+  {
+   "page": "shell-error",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 17,
+   "coarse": true
+  },
+  {
+   "page": "shell-home&menu=1",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 15,
+   "nText": 27,
+   "coarse": true
+  },
+  {
+   "page": "shell-site&toast=1",
+   "w": 768,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": {
+    "n": 5,
+    "fs": 12
+   },
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 35,
+   "nText": 48,
+   "coarse": true
+  },
+  {
+   "page": "kit",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 3,
+   "minContrast": 4.74,
+   "nTargets": 40,
+   "nText": 155,
+   "coarse": true
+  },
+  {
+   "page": "shell-home",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 13,
+   "nText": 25,
+   "coarse": true
+  },
+  {
+   "page": "shell-site",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 34,
+   "nText": 48,
+   "coarse": true
+  },
+  {
+   "page": "shell-empty",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 19,
+   "coarse": true
+  },
+  {
+   "page": "shell-loading",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 11,
+   "nText": 16,
+   "coarse": true
+  },
+  {
+   "page": "shell-error",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 19,
+   "coarse": true
+  },
+  {
+   "page": "shell-home&menu=1",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 15,
+   "nText": 29,
+   "coarse": true
+  },
+  {
+   "page": "shell-site&toast=1",
+   "w": 1024,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 35,
+   "nText": 50,
+   "coarse": true
+  },
+  {
+   "page": "kit",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 3,
+   "minContrast": 4.74,
+   "nTargets": 40,
+   "nText": 155,
+   "coarse": false
+  },
+  {
+   "page": "shell-home",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 13,
+   "nText": 25,
+   "coarse": false
+  },
+  {
+   "page": "shell-site",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 34,
+   "nText": 48,
+   "coarse": false
+  },
+  {
+   "page": "shell-empty",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 19,
+   "coarse": false
+  },
+  {
+   "page": "shell-loading",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 11,
+   "nText": 16,
+   "coarse": false
+  },
+  {
+   "page": "shell-error",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 12,
+   "nText": 19,
+   "coarse": false
+  },
+  {
+   "page": "shell-home&menu=1",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 15,
+   "nText": 29,
+   "coarse": false
+  },
+  {
+   "page": "shell-site&toast=1",
+   "w": 1440,
+   "overflow": false,
+   "smallText": [],
+   "navLabels": null,
+   "targets": [],
+   "contrast": [],
+   "contrastDisabled": 0,
+   "minContrast": 5.09,
+   "nTargets": 35,
+   "nText": 50,
+   "coarse": false
+  }
+ ],
+ "behav": {
+  "dialogOpened": true,
+  "focusInsideDialog": true,
+  "escCloses": true,
+  "focusRestored": true,
+  "reducedMotionSkeletonAnimation": "none",
+  "accountMenuOpen": true,
+  "accountMenuEscFocusBack": true
+ }
+}
