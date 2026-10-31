@@ -53,11 +53,13 @@ describe('NAV-01 route group admin/(app)', () => {
       for (const e of readdirSync(dir)) {
         const p = join(dir, e)
         if (statSync(p).isDirectory()) walk(p)
-        else if (/page\.tsx$/.test(e) && /<main[\s>]/.test(readFileSync(p, 'utf8'))) offenders.push(p)
+        else if (/\.tsx$/.test(e) && /<main[\s>]/.test(readFileSync(p, 'utf8'))) offenders.push(p)
       }
     }
     walk(join(root, 'src/app/admin/(app)'))
-    expect(offenders).toEqual([])
+    walk(join(root, 'src/components/admin'))
+    // Le seul <main> légitime est celui du shell.
+    expect(offenders.filter((p) => !/shell[\\/]AdminShell\.tsx$/.test(p))).toEqual([])
   })
 
   it('les pages migrées ne portent plus d’en-tête plein écran ni de déconnexion en dur', () => {

@@ -112,6 +112,12 @@ body:has(.adm-root) { background: #F7F4EC; }
   background-color: var(--adm-surface);
   color: var(--adm-ink);
 }
+/* Fenêtre : la barre de défilement sombre/dorée du site public (globals.css) ne doit pas
+   fuiter dans l'admin (audit F-05). Ciblé par :has(.adm-root) : /fr n'est pas touché. */
+html:has(.adm-root) { color-scheme: light; scrollbar-color: auto; }
+html:has(.adm-root)::-webkit-scrollbar { width: auto; height: auto; }
+html:has(.adm-root)::-webkit-scrollbar-track { background: initial; }
+html:has(.adm-root)::-webkit-scrollbar-thumb { background: initial; opacity: 1; }
 .adm-root *::-webkit-scrollbar { width: auto; height: auto; }
 .adm-root *::-webkit-scrollbar-thumb { background: initial; opacity: 1; }
 .adm-root *::-webkit-scrollbar-track { background: initial; }
@@ -177,9 +183,11 @@ body:has(.adm-root) { background: #F7F4EC; }
   .adm-btn--icon.adm-btn--sm { width: var(--adm-target-sm); }
 }
 .adm-btn:disabled, .adm-btn[aria-disabled="true"]:not([aria-busy="true"]) {
-  --_bg: var(--adm-surface-2); --_fg: #6F776F; --_bd: var(--adm-line); cursor: not-allowed; transform: none;
+  --_bg: var(--adm-surface-2); --_fg: #5F665F; --_bd: var(--adm-line); cursor: not-allowed; transform: none;
 }
-.adm-btn--primary:disabled { --_bg: #8EA196; --_fg: #fff; --_bd: #8EA196; }
+/* Désactivé lisible sans tromper (audit F-10) : blanc sur #667A6D = 4,6:1 (l'ancien #8EA196 : 2,73:1),
+   texte désactivé #5F665F sur surface-2 = 5,0:1. Reste clairement distinct du primaire actif (#1F3D2F). */
+.adm-btn--primary:disabled { --_bg: #667A6D; --_fg: #fff; --_bd: #667A6D; }
 .adm-btn[aria-busy="true"] { cursor: progress; pointer-events: none; }
 .adm-spin { animation: adm-spin 0.9s linear infinite; }
 @keyframes adm-spin { to { transform: rotate(360deg); } }
@@ -201,7 +209,7 @@ body:has(.adm-root) { background: #F7F4EC; }
 .adm-input:hover, .adm-select:hover, .adm-textarea:hover { border-color: var(--adm-ink); }
 .adm-root .adm-input:focus-visible, .adm-root .adm-select:focus-visible, .adm-root .adm-textarea:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: 1px; border-color: var(--adm-brand); }
 .adm-input[aria-invalid="true"], .adm-select[aria-invalid="true"], .adm-textarea[aria-invalid="true"] { border-color: var(--adm-danger); box-shadow: inset 0 0 0 1px var(--adm-danger); }
-.adm-input:disabled, .adm-select:disabled, .adm-textarea:disabled { background-color: var(--adm-surface-2); color: #6F776F; border-color: var(--adm-line); cursor: not-allowed; }
+.adm-input:disabled, .adm-select:disabled, .adm-textarea:disabled { background-color: var(--adm-surface-2); color: #5F665F; border-color: var(--adm-line); cursor: not-allowed; }
 .adm-help { font-size: var(--adm-text-sm); color: var(--adm-muted); }
 .adm-error { display: flex; gap: 6px; align-items: flex-start; font-size: var(--adm-text-sm); color: var(--adm-danger); font-weight: 500; }
 .adm-error svg { margin-top: 2px; }
@@ -303,7 +311,7 @@ body:has(.adm-root) { background: #F7F4EC; }
 }
 .adm-toast[data-expanded] { transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y)); height: var(--toast-height); }
 .adm-toast[data-starting-style], .adm-toast[data-ending-style] { transform: translateY(150%); }
-.adm-toast[data-limited] { opacity: 0; }
+.adm-toast[data-limited] { opacity: 0; visibility: hidden; } /* visibility : le bouton Fermer des toasts surnuméraires sort de la tabulation (F-20) */
 .adm-toast[data-ending-style] { opacity: 0; }
 .adm-toast[data-ending-style][data-swipe-direction="up"] { transform: translateY(calc(var(--toast-swipe-movement-y) - 150%)); }
 .adm-toast[data-ending-style][data-swipe-direction="left"] { transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y)); }
@@ -353,6 +361,11 @@ body:has(.adm-root) { background: #F7F4EC; }
 
 .adm-app { min-height: 100dvh; }
 .adm-col { min-width: 0; }
+/* WCAG 2.4.11 (audit F-02) : le focus clavier ne doit jamais finir sous l'en-tête collant ni sous la barre du bas fixe. */
+html:has(.adm-root) { scroll-padding-top: calc(var(--adm-header-h, 60px) + 8px); }
+@media (max-width: 767.98px) {
+  html:has(.adm-root) { scroll-padding-bottom: calc(var(--adm-bottombar-h, 64px) + 16px + env(safe-area-inset-bottom, 0px)); }
+}
 .adm-header { position: sticky; top: 0; z-index: 30; height: var(--adm-header-h); display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 var(--adm-gutter); background: rgb(247 244 236 / 0.96); border-bottom: 1px solid var(--adm-line); }
 .adm-wordmark { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--adm-brand); min-height: var(--adm-target); min-width: var(--adm-target); }
 .adm-wordmark__name { display: none; font-family: var(--adm-font-display); font-weight: 700; font-size: 1.5rem; line-height: 1; letter-spacing: 0.005em; }
