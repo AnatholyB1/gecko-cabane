@@ -30,10 +30,10 @@ const NATIVE_CONFIRM = /(?<![\w.$])confirm\(\s*['"`]|\bwindow\.confirm\(/g
 
 /** Inventaire autorisé (relatif à la racine). À faire diminuer, jamais augmenter. */
 const BASELINE: Record<string, number> = {
-  'src/app/admin/hours/page.tsx': 1,
-  'src/app/admin/menu/page.tsx': 1,
-  'src/app/admin/menu/[pageId]/page.tsx': 2,
-  'src/app/admin/reservations/page.tsx': 1,
+  'src/app/admin/(app)/hours/page.tsx': 1,
+  'src/app/admin/(app)/menu/page.tsx': 1,
+  'src/app/admin/(app)/menu/[pageId]/page.tsx': 2,
+  'src/app/admin/(app)/reservations/page.tsx': 1,
 }
 
 function inventory(): Record<string, number> {
