@@ -6,8 +6,8 @@ import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js/min'
 import type { CountryCode } from 'libphonenumber-js'
 import { Link } from '@/i18n/navigation'
 import { phoneCountryForLocale, isEmailValid } from '@/utils/validation'
-import { bangkokNow, bookableSlots, MAX_PARTY_SIZE } from '@/utils/reservation-rules'
-import type { SettingsMap } from '@/utils/reservation-rules'
+import { availableSlotsForDate, bangkokNow, bookableSlots, MAX_PARTY_SIZE } from '@/utils/reservation-rules'
+import type { HoursRow, SettingsMap } from '@/utils/reservation-rules'
 import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
 import { track, EVENTS } from '@/utils/analytics'
 import { readAttribution } from '@/utils/attribution'
@@ -117,8 +117,13 @@ export default function ReservationForm() {
   const [errorKind, setErrorKind] = useState<ErrorKind | null>(null)
   const [emailTouched, setEmailTouched] = useState(false)
 
-  // Offered time slots follow the server's last-bookable rule (D-04)
-  const [slots, setSlots] = useState<string[]>(() => bookableSlots({}))
+  // Offered time slots follow the server's rules (D-04): last-bookable setting, then, once the
+  // day's hours are known, the same checkSlot the server applies (closed dinner, exceptions).
+  const [settings, setSettings] = useState<SettingsMap>({})
+  const [dayRules, setDayRules] = useState<{
+    regular: (HoursRow & { day_of_week: number })[]
+    special: (HoursRow & { date: string })[]
+  } | null>(null)
 
   // Anti-bot (D-09): honeypot + time the form was first shown
   const [companyUrl, setCompanyUrl] = useState('')
@@ -149,14 +154,32 @@ export default function ReservationForm() {
       .then((r) => (r.ok ? r.json() : null))
       .then((json) => {
         if (cancelled || !json || !Array.isArray(json.data)) return
-        const settings: SettingsMap = {}
+        const next: SettingsMap = {}
         for (const row of json.data as { key: string; value: string }[]) {
-          settings[row.key] = row.value
+          next[row.key] = row.value
         }
-        setSlots(bookableSlots(settings))
+        setSettings(next)
       })
       .catch(() => {
         // keep the default grid; the server stays the authority
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.all([
+      fetch('/api/hours').then((r) => (r.ok ? r.json() : null)),
+      fetch('/api/special-hours').then((r) => (r.ok ? r.json() : null)),
+    ])
+      .then(([hours, special]) => {
+        if (cancelled || !hours || !special || !Array.isArray(hours.data) || !Array.isArray(special.data)) return
+        setDayRules({ regular: hours.data, special: special.data })
+      })
+      .catch(() => {
+        // keep the full grid; the server refuses unavailable slots anyway
       })
     return () => {
       cancelled = true
@@ -211,6 +234,7 @@ export default function ReservationForm() {
         body: JSON.stringify({
           ...attribution,
           ...form,
+          reservation_time: selectedTime,
           customer_phone: fullPhone,
           phone_country: selectedCountryCode,
           locale,
@@ -249,8 +273,16 @@ export default function ReservationForm() {
     }
   }
 
+  const dateKnown = /^\d{4}-\d{2}-\d{2}$/.test(form.reservation_date)
+  const slots =
+    dayRules && dateKnown
+      ? availableSlotsForDate({ date: form.reservation_date, ...dayRules, settings })
+      : bookableSlots(settings)
+  const selectedTime = slots.includes(form.reservation_time) ? form.reservation_time : ''
   const lunchSlots = slots.filter((s) => s < '15:00')
   const dinnerSlots = slots.filter((s) => s >= '15:00')
+  // Day known and no dinner slot left (closed, or "Complet ce soir"): say so, reusing the existing wording.
+  const showTimeHint = !!dayRules && dateKnown && dinnerSlots.length === 0
 
   return (
     <div className="relative bg-gc-parchment border border-gc-aged p-8 sm:p-10 pb-24 sm:pb-10 shadow-sm">
@@ -420,8 +452,9 @@ export default function ReservationForm() {
                 <select
                   id="res-time"
                   required
-                  value={form.reservation_time}
+                  value={selectedTime}
                   onChange={(e) => setForm(f => ({ ...f, reservation_time: e.target.value }))}
+                  aria-describedby={showTimeHint ? 'res-time-hint' : undefined}
                   className={selectClass}
                 >
                   <option value="" className="bg-gc-ivory text-gc-text-dark">{t('selectTime')}</option>
@@ -440,6 +473,9 @@ export default function ReservationForm() {
                     </optgroup>
                   )}
                 </select>
+                {showTimeHint && (
+                  <p id="res-time-hint" role="status" className={hintClass}>{t('slotUnavailable')}</p>
+                )}
               </div>
 
               {/* Party Size */}
