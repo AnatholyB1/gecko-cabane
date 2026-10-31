@@ -10,5 +10,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/**/*.test.ts'],
+    // Les imports dynamiques à froid (pages admin, shell) dépassent 5 s quand la suite tourne en parallèle.
+    testTimeout: 30_000,
   },
 })
