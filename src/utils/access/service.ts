@@ -100,10 +100,10 @@ export interface AccessDeps {
 const newToken = (deps: AccessDeps) => (deps.newToken ?? generateToken)()
 
 export function inviteLink(baseUrl: string, token: string): string {
-  return `${baseUrl.replace(/\/+$/, '')}/admin/invitation?token=${token}`
+  return `${baseUrl.replace(/\/+$/, '')}/admin/invitation#token=${token}`
 }
 export function resetLink(baseUrl: string, token: string): string {
-  return `${baseUrl.replace(/\/+$/, '')}/admin/reinitialiser?token=${token}`
+  return `${baseUrl.replace(/\/+$/, '')}/admin/reinitialiser#token=${token}`
 }
 
 // ---------------------------------------------------------------------------

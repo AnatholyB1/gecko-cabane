@@ -3,6 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import { scrubEvent } from "@/utils/sentry-scrub";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 
@@ -42,6 +43,11 @@ Sentry.init({
   // Misc
   // ----------------------------------------------------------------
   sendDefaultPii: true,
+
+  // Les URL partent chez Sentry : masquer tout `token=` (invitation / réinitialisation).
+  beforeSend: (event) => scrubEvent(event),
+  beforeSendTransaction: (event) => scrubEvent(event),
+  beforeBreadcrumb: (breadcrumb) => scrubEvent(breadcrumb),
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
