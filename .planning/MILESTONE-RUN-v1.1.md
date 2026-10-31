@@ -23,7 +23,16 @@ orchestrateur 3100 · builders 3103-3108 (P10 = 3103, spike = 3104) · auditeurs
 | Spike Base UI (DSN-01) | spike/11-base-ui | c6d602e | idem | verdict ADOPTER `@base-ui/react` 1.9.0 |
 | Maquettes D1-D4 (sans PNG) | design/d1..d4 | 1eb2bd4 | n/a | PNG laissés dans les worktrees d'origine ; revue de cohérence + galerie en cours |
 
-## En cours (après la vague 0)
+| Correctif signup | fix/p9-signup-api | merge | 99 fichiers / 1378 tests ; build vert | `POST /api/auth/signup` supprimé (404) |
+| Revue maquettes + tokens réconciliés | design/review | merge | lint 0 erreur | tokens D1 = source unique |
+| P11 fondation du design | phase/11-design-foundation | 6ff044f | 107 fichiers / 1449 passés / 1 ignoré ; tsc, lint, build verts | Base UI, tokens `--adm-*`, primitives, `useAdminQuery`, `/admin/kit` ; non prouvé derrière la vraie garde admin |
+
+## Décisions du propriétaire (2026-10-31, galerie)
+Direction « luxe discret » validée · 5 entrées de nav à 12 px · mobile : ligne compacte + Détails, toast en haut, « + Réservation » en en-tête, flèches · « Complet ce soir » = dîner seul, par date, réversible · « sur 40 » = pic simultané · colonne `allergies` + no_show « Non présenté » / bouton « Absent » / « Rétablir » (à vérifier contre PUT) · prix en ฿, « Gérer les pages » replié, `price_label` gardé · note moyenne masquée sans collecte, live côté serveur seulement, dialogue avant alerte note ≤ 3 · invitation par lien 7 jours, droits admin complets, mot de passe oublié en phase 17.
+
+## En cours (vague 2)
+- P12 shell (`phase/12-shell-nav`, 3107) ; P15a logique réservations/Aujourd'hui (`phase/15a-logic`, 3108).
+## Ancien (vague 0)
 - P11 fondation (`phase/11-design-foundation`, port 3105) ; correctif `POST /api/auth/signup` (`fix/p9-signup-api`, 3106) ; revue de cohérence + galerie (`design/review`).
 
 ## Décisions du propriétaire
