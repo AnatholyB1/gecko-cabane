@@ -459,3 +459,20 @@ body:has(.adm-root) { background: #F7F4EC; }
 .adm-info__grid { display: grid; gap: var(--adm-space-4); margin: 0; }
 .adm-info__grid dd { margin: 0; font-weight: 500; }
 @media (min-width: 768px) { .adm-info__grid { grid-template-columns: repeat(2, 1fr); gap: var(--adm-space-5); } }
+
+/* Phase 13 (décision du propriétaire, 2026-10-31) : sur téléphone, les notifications s'affichent en HAUT
+   de l'écran pour ne pas cacher la ligne modifiée ni la barre d'enregistrement. Tablette et ordinateur
+   gardent le coin bas-droit. Même empilement que ci-dessus, axe vertical inversé. */
+@media (max-width: 767px) {
+  .adm-toast-viewport { top: calc(var(--adm-header-h, 60px) + 8px + env(safe-area-inset-top, 0px)); bottom: auto; }
+  .adm-toast {
+    --offset-y: calc(var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y));
+    top: 0; bottom: auto; transform-origin: top center;
+    transform: translateX(var(--toast-swipe-movement-x)) translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) + (var(--shrink) * var(--height)))) scale(var(--scale));
+  }
+  .adm-toast[data-expanded] { transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y)); }
+  .adm-toast[data-starting-style], .adm-toast[data-ending-style] { transform: translateY(-150%); }
+  .adm-toast[data-ending-style][data-swipe-direction="down"] { transform: translateY(calc(var(--toast-swipe-movement-y) + 150%)); }
+  .adm-toast[data-ending-style][data-swipe-direction="up"] { transform: translateY(calc(var(--toast-swipe-movement-y) - 150%)); }
+  .adm-toast::after { top: auto; bottom: 100%; }
+}

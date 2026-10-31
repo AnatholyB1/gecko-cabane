@@ -28,6 +28,8 @@ export type NavChild = {
   href: string
   /** Phrase de la carte de la page d'entrée de section. */
   description: string
+  /** Ancienne adresse conservée qui rend la même section : garde la sous-entrée active dans la navigation. */
+  legacy?: string
 }
 
 export type NavItem = {
@@ -38,6 +40,8 @@ export type NavItem = {
   /** Phrase de la carte d'accueil. */
   description: string
   children?: NavChild[]
+  /** La page de la section porte ses propres onglets : les onglets du layout (SectionTabs) sont omis. */
+  ownTabs?: boolean
 }
 
 export const NAV: NavItem[] = [
@@ -68,11 +72,14 @@ export const NAV: NavItem[] = [
     href: '/admin/site',
     icon: Globe,
     description: 'Ce que voient les visiteurs du site.',
+    // Phase 13 : les 4 sous-entrées sont les onglets de /admin/site (ancre = onglet). Les anciennes
+    // adresses /admin/hours, /admin/announcement et /admin/settings répondent toujours (même composant).
+    ownTabs: true,
     children: [
-      { id: 'hours', label: 'Horaires', href: '/admin/hours', description: "Heures d'ouverture de chaque jour de la semaine." },
-      { id: 'special-hours', label: 'Exceptions', href: '/admin/hours#exceptions', description: 'Jours fériés, événements, fermetures exceptionnelles.' },
-      { id: 'announcement', label: 'Annonces', href: '/admin/announcement', description: 'Bannière affichée en haut du site, avec dates de début et de fin.' },
-      { id: 'capacity', label: 'Capacité', href: '/admin/settings', description: "Couverts maximum et durée d'occupation d'un créneau." },
+      { id: 'hours', label: 'Horaires', href: '/admin/site#horaires', legacy: '/admin/hours', description: "Heures d'ouverture de chaque jour de la semaine." },
+      { id: 'special-hours', label: 'Exceptions', href: '/admin/site#exceptions', description: 'Jours fériés, événements, fermetures exceptionnelles.' },
+      { id: 'announcement', label: 'Annonces', href: '/admin/site#annonces', legacy: '/admin/announcement', description: 'Bannière affichée en haut du site, avec dates de début et de fin.' },
+      { id: 'capacity', label: 'Capacité', href: '/admin/site#capacite', legacy: '/admin/settings', description: "Couverts maximum et durée d'occupation d'un créneau." },
     ],
   },
   {
@@ -141,7 +148,12 @@ export function pathMatches(href: string, pathname: string): boolean {
 /** Le chemin courant appartient-il à l'entrée (sa page ou une de ses sous-pages) ? */
 export function isInSection(item: NavItem, pathname: string): boolean {
   if (pathMatches(item.href, pathname)) return true
-  return (item.children ?? []).some((c) => pathMatches(c.href, pathname))
+  return (item.children ?? []).some((c) => childMatches(c, pathname))
+}
+
+/** Le chemin courant est celui de la sous-entrée ou de son ancienne adresse conservée. */
+function childMatches(c: NavChild, pathname: string): boolean {
+  return pathMatches(c.href, pathname) || (c.legacy !== undefined && pathMatches(c.legacy, pathname))
 }
 
 /** `page` : la page courante est l'entrée elle-même ; `true` : section parente de la page courante. */
@@ -157,7 +169,7 @@ export function navCurrent(item: NavItem, pathname: string): 'page' | 'true' | u
  * première.
  */
 export function activeChildId(item: NavItem, pathname: string, hash: string): string | undefined {
-  const here = (item.children ?? []).filter((c) => pathMatches(c.href, pathname))
+  const here = (item.children ?? []).filter((c) => childMatches(c, pathname))
   if (here.length === 0) return undefined
   return (here.find((c) => hash !== '' && hashOf(c.href) === hash) ?? here.find((c) => hashOf(c.href) === '') ?? here[0]).id
 }
