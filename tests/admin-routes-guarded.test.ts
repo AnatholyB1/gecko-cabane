@@ -27,6 +27,7 @@ const GUARDED_ROUTE_FILES = [
   'src/app/api/reservations/manual/route.ts',
   'src/app/api/review/stats/route.ts',
   'src/app/api/kpi/route.ts',
+  'src/app/api/service-closure/route.ts',
 ]
 
 function read(file: string): string {

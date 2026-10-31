@@ -13,6 +13,7 @@ import { computeToday, parseMaxCovers, type SlotLevel } from '@/utils/today'
 import { formatHourFr, krabiClock, krabiTodayYmd, KRABI_TZ_LABEL, SERVICE_SPLIT_MINUTES } from '@/utils/krabi-time'
 import { toMinutes, type SettingsMap } from '@/utils/reservation-rules'
 import { plural } from '@/utils/reservation-list'
+import { CompletCeSoir } from './CompletCeSoir'
 import { NewReservationButton, useDayHint, useOnReservationCreated } from './NewReservation'
 import { ReservationRow } from './ReservationRow'
 import { dayUrl } from './requests'
@@ -178,8 +179,9 @@ export function TodayView({ initialNowIso }: { initialNowIso: string }) {
                 <li><span className="rv-sw rv-sw--full" /><Ban className="i i-sm" aria-hidden="true" focusable="false" />Complet ({maxCovers})</li>
               </ul>
               <p className="rv-total">Barre pleine = {maxCovers} couverts. Une réservation en attente ou confirmée occupe sa place 2 h, comme sur le site.</p>
-              {/* Emplacement réservé à « Complet ce soir » (ACC-03, phase 17) : volontairement vide, aucun contrôle factice. */}
-              <div className="rv-slot-acc03" data-slot="acc-03-complet-ce-soir" />
+              <div className="rv-slot-acc03" data-slot="acc-03-complet-ce-soir">
+                <CompletCeSoir key={today} date={today} />
+              </div>
             </section>
 
             <section className="rv-a-arr" aria-labelledby="rv-ar-t">

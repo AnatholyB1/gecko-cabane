@@ -151,3 +151,19 @@ export function checkSlot(input: {
 
   return { ok: true }
 }
+
+/**
+ * Slots offered for a date: exactly those checkSlot accepts for a party of 1 (same function, so the
+ * public form and the server cannot drift). Used by the booking form once the day's hours are known.
+ */
+export function availableSlotsForDate(input: {
+  date: string
+  regular: (HoursRow & { day_of_week: number })[]
+  special: (HoursRow & { date: string })[]
+  settings: SettingsMap
+  now?: Date
+}): string[] {
+  return TIME_SLOTS.filter(
+    (time) => checkSlot({ ...input, time, partySize: 1 }).ok,
+  )
+}

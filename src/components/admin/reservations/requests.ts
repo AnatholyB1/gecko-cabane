@@ -57,3 +57,10 @@ export function manualReservationBody(fd: FormData) {
   if (allergies.trim() !== '') body.allergies = allergies
   return body
 }
+
+export const SERVICE_CLOSURE_URL = '/api/service-closure'
+
+/** « Complet ce soir » (ACC-03) : GET/DELETE portent `?date=`, POST porte `{ date }` dans le corps. */
+export function serviceClosureUrl(date?: string): string {
+  return date ? `${SERVICE_CLOSURE_URL}?date=${encodeURIComponent(date)}` : SERVICE_CLOSURE_URL
+}
