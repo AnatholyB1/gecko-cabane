@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: milestone-closed-with-deferred-items
-stopped_at: "2026-10-31 : milestone v1.0 clos avec dette reportée (voir Deferred Items) ; prochain : /gsd-new-milestone"
-last_updated: "2026-10-31T00:00:00.000Z"
+milestone: v1.1
+milestone_name: Refonte de l'admin
+status: planning
+last_updated: "2026-10-31T00:33:16.913Z"
 last_activity: 2026-10-31
 progress:
-  total_phases: 8
-  completed_phases: 3
-  total_plans: 73
-  completed_plans: 68
-  percent: 93
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,21 +24,10 @@ See: .planning/PROJECT.md (updated 2026-10-16)
 
 ## Current Position
 
-Phases 1 à 3 : terminées. Phases 4 à 7 : code livré et fusionné dans master (HEAD c12faf4, déploiements du 2026-10-29 et 2026-10-30), restes bloqués sur le propriétaire. Phase 8 : en production, rapport en mode TEST (reste 08-13).
-Status: milestone v1.0 clos le 2026-10-31 (dette reportée, voir Deferred Items)
-
-| Phase | Plans | Etat |
-|-------|-------|------|
-| 1 Réservation | 11/11 | Terminée 2026-10-16 |
-| 2 SEO technique | 8/8 | Terminée 2026-10-17 |
-| 3 Carte et pages clés | 8/8 | Terminée 2026-10-17 |
-| 4 Tunnel d'avis | 6/7 | 04-03 (fiche Google, OPS-01) reportée par le propriétaire |
-| 5 Conversion (ws conversion) | 13/13 | SEO-08 (79 / LCP 4,4 s) et CONV-02 (photo) ouverts ; REV-07, migrations 015/016, LINE, Plausible à vérifier |
-| 6 Pages SEO, DE/SV (ws seo-pages) | 14/15 | 06-10 (OPS-04, OPS-05) bloqué sans accord ; DE et SV publiés |
-| 7 Newsletter (ws newsletter) | 8/11 | 07-02, 07-10, 07-11 bloqués ; Resend remplace Brevo |
-| 8 Reporting KPI | 12/13 | En production (master, ed048a5) ; 1er rapport TEST reçu 2026-10-30 ; TripAdvisor et avis Google automatiques corrigés/ajoutés (voir 08-POST-DEPLOY.md) ; reste 08-13 (2 semaines de TEST, >= 2026-11-16) |
-
-Progress: [█████████░] 93% des plans (68/73 pour les phases 1 à 7 ; la phase 8 n'a pas encore de plans)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-10-31 — Milestone v1.1 started
 
 ## Accumulated Context
 

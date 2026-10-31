@@ -32,7 +32,14 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - ✓ Newsletter sur Resend (double opt-in, journal de consentement, séquences et campagne codées, envois désactivés par défaut) — v1.0
 - ✓ Rapport KPI hebdomadaire en production (cron, Search Console, TripAdvisor via Bright Data, avis Google via Places API, rédaction Claude, email TEST, tableau de bord) — v1.0
 
-### Active (reporté à v1.1)
+### Active (v1.1 : refonte de l'admin)
+
+- [ ] **Audit d'utilité** de chaque page admin (garder, simplifier, fusionner, supprimer), validé avec le propriétaire avant implémentation
+- [ ] **Suppression de la gestion de salle** (`/admin/tables`, `/api/tables/*`, affectation réservation ↔ table) ; la réservation reste, sans placement
+- [ ] **Système de design admin** sobre et dense (tokens, composants partagés), responsive téléphone / tablette / ordinateur
+- [ ] **Refonte de chaque page admin conservée** avec états de chargement, vide et erreur, accessibilité
+
+### Deferred (dette v1.0, hors périmètre de v1.1)
 
 - [ ] **Performance mobile** (SEO-08) : PageSpeed 85 et LCP 2,5 s (mesuré 79 et 4,4 s)
 - [ ] **Histoire du couple** (CONV-02) : photo, année d'ouverture, histoire
@@ -48,6 +55,18 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - Avis payés ou incités, faux avis — interdit ; `aggregateRating` seulement si de vrais avis sont affichés sur la page
 - Traduction automatique brute des pages DE/SV — la spec exige une traduction relue
 - Publication ou envoi à des tiers (blogs, hôtels, Google, TripAdvisor) sans validation explicite du propriétaire
+
+## Current Milestone: v1.1 Refonte de l'admin
+
+**Goal:** Refaire le design UX/UI de toute l'admin (français fixe, sans i18n) et revoir chaque fonctionnalité pour son utilité, puis l'implémenter.
+
+**Target features:**
+- Audit d'utilité de chaque page admin, validé avec le propriétaire avant implémentation
+- Suppression de la gestion de salle ; les réservations restent, sans placement en salle (`max_covers` et durée de blocage conservés, car la disponibilité en dépend)
+- Système de design sobre et dense, responsive téléphone (cheffe), ordinateur (développeur) et tablette (serveurs)
+- Refonte de chaque page conservée, états de chargement / vide / erreur, accessibilité
+
+**Contraintes du milestone :** pas de régression sur ce qui est conservé, tests verts, tables SQL `gecko_tables*` laissées en base (aucune migration destructive sans accord), skills impeccable et UX utilisés. La dette v1.0 reste hors périmètre.
 
 ## Context
 
@@ -95,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-31 after v1.0 milestone*
+*Last updated: 2026-10-31 after starting milestone v1.1*
