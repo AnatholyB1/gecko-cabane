@@ -80,13 +80,6 @@ export default async function AdminPage() {
             <span className="text-sm text-amber-600 font-medium">Gérer →</span>
           </Link>
 
-          <Link prefetch={false} href="/admin/tables" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-(--moss) hover:shadow-xl transition-shadow">
-            <div className="text-4xl mb-4">🗺️</div>
-            <h3 className="text-lg font-bold text-(--primary-dark) mb-2">Plan de salle</h3>
-            <p className="text-(--warm-gray) text-sm mb-4">Gérer les tables et assigner les réservations</p>
-            <span className="text-sm text-(--moss) font-medium">Gérer →</span>
-          </Link>
-
           <Link prefetch={false} href="/admin/avis" className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-(--warm-gold) hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">⭐</div>
             <h3 className="text-lg font-bold text-(--primary-dark) mb-2">Avis</h3>
@@ -144,14 +137,6 @@ export default async function AdminPage() {
             >
               <span className="text-2xl">📢</span>
               <span className="text-(--primary-dark) font-medium">Annonce</span>
-            </Link>
-            <Link 
-              prefetch={false}
-              href="/admin/tables"
-              className="flex items-center gap-3 p-4 bg-(--accent-light) rounded-xl hover:bg-(--accent-light)/70 transition-colors text-left"
-            >
-              <span className="text-2xl">🗺️</span>
-              <span className="text-(--primary-dark) font-medium">Plan de salle</span>
             </Link>
             <Link
               prefetch={false}

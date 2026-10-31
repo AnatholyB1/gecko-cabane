@@ -23,11 +23,6 @@ const GUARDED_ROUTE_FILES = [
   'src/app/api/menu/pages/route.ts',
   'src/app/api/menu/reorder/route.ts',
   'src/app/api/menu/upload/route.ts',
-  'src/app/api/tables/route.ts',
-  'src/app/api/tables/[id]/route.ts',
-  'src/app/api/tables/assignments/route.ts',
-  'src/app/api/tables/configurations/route.ts',
-  'src/app/api/tables/configurations/[id]/route.ts',
   'src/app/api/reservations/route.ts',
   'src/app/api/reservations/manual/route.ts',
   'src/app/api/review/stats/route.ts',
@@ -58,15 +53,6 @@ describe('admin routes are guarded by requireAdmin()', () => {
       return count(src, 'requireAdmin()') < mutating
     })
     expect(offenders, `Mutating handlers without guard in: ${offenders.join(', ')}`).toHaveLength(0)
-  })
-
-  it('GET /api/tables/assignments is admin-only (returns reservation PII)', () => {
-    const src = read('src/app/api/tables/assignments/route.ts')
-    const start = src.indexOf('export async function GET')
-    const next = src.indexOf('export async function', start + 1)
-    const body = src.slice(start, next === -1 ? undefined : next)
-    expect(start).toBeGreaterThanOrEqual(0)
-    expect(body.includes('requireAdmin()'), 'GET in tables/assignments must call requireAdmin()').toBe(true)
   })
 
   it('reservations route: GET, PUT, DELETE call requireAdmin(); POST does not', () => {
