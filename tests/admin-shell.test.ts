@@ -28,9 +28,9 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: () => {}, replace: () => {}, prefetch: () => {} }),
 }))
 
-// Normalise les fins de ligne : un depot extrait en CRLF (Windows, autocrlf) ne doit pas casser les motifs avec saut de ligne.
+// Normalise les fins de ligne : un checkout Windows (autocrlf) donne du CRLF.
 const css = readFileSync(join(__dirname, '..', 'src/app/admin/admin.css'), 'utf8').replace(/\r\n/g, '\n')
-const h =(type: unknown, props: Record<string, unknown> | null = null) =>
+const h = (type: unknown, props: Record<string, unknown> | null = null) =>
   createElement(type as ComponentType<Record<string, unknown>>, props)
 
 async function load() {
@@ -107,17 +107,14 @@ describe('NAV-02 navigation principale', () => {
 })
 
 describe('NAV-02 onglets de section', () => {
-  it('rendus pour Réputation, absents ailleurs ; « Site public » porte ses propres onglets (phase 13)', async () => {
+  it('absents partout : « Site public » (onglets dans la page, phase 13) et Réputation (segments dans la page, phase 16)', async () => {
     const { SectionTabs } = await load()
-    // Site public : les 4 onglets sont dans la page (SitePublic), pas dans le layout.
-    for (const p of ['/admin/site', '/admin/hours', '/admin/announcement', '/admin/settings']) {
+    // Site public : les 4 onglets sont dans la page (SitePublic), pas dans le layout ; idem pour les anciennes adresses.
+    // Réputation : les segments Avis / Rapport KPI sont dans la page (inPageSegments).
+    for (const p of ['/admin/site', '/admin/hours', '/admin/announcement', '/admin/settings', '/admin/kpi', '/admin/avis', '/admin/reputation']) {
       mockPath = p
       expect(renderToStaticMarkup(h(SectionTabs)), p).toBe('')
     }
-    mockPath = '/admin/kpi'
-    const html = renderToStaticMarkup(h(SectionTabs))
-    expect(html).toContain('aria-label="Sections de Réputation"')
-    expect(tag(html, '/admin/kpi')).toContain('aria-current="page"')
     for (const p of ['/admin', '/admin/menu', '/admin/reservations']) {
       mockPath = p
       expect(renderToStaticMarkup(h(SectionTabs))).toBe('')

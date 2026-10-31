@@ -280,7 +280,7 @@ describe('SITE-01 navigation et styles', () => {
   it('« Site public » porte ses propres onglets : les 4 sous-entrées pointent vers les onglets de /admin/site', async () => {
     const { NAV } = await import('../src/app/admin/(app)/nav')
     const site = NAV.find((n) => n.id === 'site')!
-    expect(site.ownTabs).toBe(true)
+    expect(site.inPageSegments).toBe(true)
     expect(site.children!.map((c) => c.href)).toEqual(['/admin/site#horaires', '/admin/site#exceptions', '/admin/site#annonces', '/admin/site#capacite'])
     expect(site.children!.map((c) => c.legacy)).toEqual(['/admin/hours', undefined, '/admin/announcement', '/admin/settings'])
   })

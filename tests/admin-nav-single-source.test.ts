@@ -70,7 +70,7 @@ describe('NAV-03 une seule modification de nav.ts', () => {
     const out = await renderSurfaces((nav) =>
       nav.map((n) =>
         n.id === 'site'
-          ? { ...n, ownTabs: false, children: [...(n.children ?? []), { id: 'zz', label: 'Onglet de test', href: '/admin/zz-sub', description: 'Carte de test.' }] }
+          ? { ...n, inPageSegments: false, children: [...(n.children ?? []), { id: 'zz', label: 'Onglet de test', href: '/admin/zz-sub', description: 'Carte de test.' }] }
           : n,
       ),
     )
@@ -94,7 +94,7 @@ describe('NAV-03 une seule modification de nav.ts', () => {
   it('retirer une sous-entrée la retire de la sous-navigation et des onglets', async () => {
     mockPath = '/admin/hours'
     const out = await renderSurfaces((nav) =>
-      nav.map((n) => (n.id === 'site' ? { ...n, ownTabs: false, children: n.children!.filter((c) => c.id !== 'capacity') } : n)),
+      nav.map((n) => (n.id === 'site' ? { ...n, inPageSegments: false, children: n.children!.filter((c) => c.id !== 'capacity') } : n)),
     )
     expect(out.main).not.toContain('href="/admin/site#capacite"')
     expect(out.tabs).not.toContain('href="/admin/site#capacite"')

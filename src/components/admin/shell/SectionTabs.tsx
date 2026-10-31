@@ -14,7 +14,7 @@ export function SectionTabs() {
   const pathname = usePathname() ?? ''
   const hash = useLocationHash()
   const section = currentSection(NAV, pathname)
-  if (!section?.children || section.ownTabs) return null
+  if (!section?.children || section.inPageSegments) return null
   const activeId = activeChildId(section, pathname, hash)
 
   return (

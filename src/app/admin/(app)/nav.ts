@@ -40,8 +40,12 @@ export type NavItem = {
   /** Phrase de la carte d'accueil. */
   description: string
   children?: NavChild[]
-  /** La page de la section porte ses propres onglets : les onglets du layout (SectionTabs) sont omis. */
-  ownTabs?: boolean
+  /**
+   * Les sous-entrées sont aussi proposées en segments DANS la page (Réputation, phase 16) :
+   * les onglets de section du layout sont alors omis (pas de double rangée). La barre
+   * latérale (>= 1024) et les URL ne changent pas.
+   */
+  inPageSegments?: boolean
 }
 
 export const NAV: NavItem[] = [
@@ -74,7 +78,7 @@ export const NAV: NavItem[] = [
     description: 'Ce que voient les visiteurs du site.',
     // Phase 13 : les 4 sous-entrées sont les onglets de /admin/site (ancre = onglet). Les anciennes
     // adresses /admin/hours, /admin/announcement et /admin/settings répondent toujours (même composant).
-    ownTabs: true,
+    inPageSegments: true,
     children: [
       { id: 'hours', label: 'Horaires', href: '/admin/site#horaires', legacy: '/admin/hours', description: "Heures d'ouverture de chaque jour de la semaine." },
       { id: 'special-hours', label: 'Exceptions', href: '/admin/site#exceptions', description: 'Jours fériés, événements, fermetures exceptionnelles.' },
@@ -88,6 +92,7 @@ export const NAV: NavItem[] = [
     href: '/admin/reputation',
     icon: Star,
     description: 'Avis des clients et indicateurs de suivi.',
+    inPageSegments: true,
     children: [
       { id: 'reviews', label: 'Avis', href: '/admin/avis', description: 'Visites de la page avis, clics par source, totaux et modèle WhatsApp.' },
       { id: 'kpi', label: 'Rapport KPI', href: '/admin/kpi', description: "Historique hebdomadaire et rapport du lundi." },
