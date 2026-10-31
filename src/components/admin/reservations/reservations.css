@@ -1,0 +1,226 @@
+/* ==========================================================================
+   Phase 15 : « Aujourd'hui » et « Réservations » (port fidèle de d2.css, jetons --adm-* uniquement).
+   Préfixe `rv-`. Fichier ajouté par la phase 15 ; admin.css n'est pas modifié.
+   Ordre de lecture : toast (décision propriétaire), ligne de réservation, jauges,
+   capacité, contrôles de liste, feuille de saisie.
+   ========================================================================== */
+
+/* --- Toast en haut sous l'en-tête (décision propriétaire 2026-10-31) -----------------------
+   Ajoute une surcharge de position du Toast partagé : le contenu de la ligne modifiée reste
+   visible. Même empilement que admin.css, retourné (ancre en haut, décalage vers le bas). */
+.adm-portal { --adm-toast-offset: 0px; }
+@media (max-width: 767.98px) { .adm-portal { --adm-toast-offset: 0px; } }
+.adm-toast-viewport {
+  top: calc(var(--adm-header-h, 60px) + 8px + env(safe-area-inset-top, 0px));
+  bottom: auto;
+  left: 12px; right: 12px;
+}
+@media (min-width: 768px) { .adm-toast-viewport { left: auto; right: 24px; bottom: auto; top: calc(var(--adm-header-h, 60px) + 12px); } }
+.adm-toast {
+  top: 0; bottom: auto;
+  transform-origin: top center;
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(calc(var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) + (var(--shrink) * var(--height))))
+    scale(var(--scale));
+}
+.adm-toast[data-expanded] {
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(calc(var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y)));
+}
+.adm-toast[data-starting-style], .adm-toast[data-ending-style] { transform: translateY(-150%); }
+.adm-toast[data-ending-style][data-swipe-direction="up"] { transform: translateY(calc(var(--toast-swipe-movement-y) - 150%)); }
+.adm-toast[data-ending-style][data-swipe-direction="down"] { transform: translateY(calc(var(--toast-swipe-movement-y) + 150%)); }
+.adm-toast::after { top: auto; bottom: 100%; }
+
+/* --- Page --------------------------------------------------------------- */
+.rv-stack { display: grid; gap: var(--adm-space-4); margin-top: var(--adm-space-4); }
+.rv-stack--loose { gap: var(--adm-space-5); }
+.rv-title { font-size: var(--adm-text-sm); font-weight: 600; letter-spacing: var(--adm-tracking-eyebrow); text-transform: uppercase; color: var(--adm-muted); }
+.rv-sect { font-size: var(--adm-text-lg); font-weight: 600; }
+.rv-total { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-total a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-weight: 600; }
+.rv-total b { color: var(--adm-ink); font-size: var(--adm-text-base); }
+
+/* Aujourd'hui : une colonne, deux colonnes (principale + 360 px) dès 1024 */
+.rv-today { display: grid; gap: var(--adm-space-4); }
+@media (min-width: 1024px) {
+  .rv-today { grid-template-columns: minmax(0, 1fr) 360px; align-items: start;
+    grid-template-areas: "gauges side" "attn side" "arr side"; }
+  .rv-today > .rv-a-gauges { grid-area: gauges; }
+  .rv-today > .rv-a-attn { grid-area: attn; }
+  .rv-today > .rv-a-arr { grid-area: arr; }
+  .rv-today > .rv-a-side { grid-area: side; grid-row: 1 / span 3; position: sticky; top: calc(var(--adm-header-h, 60px) + 16px); }
+}
+.rv-card { background: var(--adm-surface); border: 1px solid var(--adm-line); border-radius: var(--adm-radius-lg); padding: var(--adm-space-4); display: grid; gap: var(--adm-space-3); }
+.rv-card--flush { padding: 0; overflow: hidden; gap: 0; container: rvc / inline-size; }
+
+/* Jauges (pic de couverts simultanés du service) */
+.rv-gauges { display: grid; gap: var(--adm-space-4); grid-template-columns: 1fr 1fr; }
+.rv-gauge { display: grid; gap: 6px; align-content: start; }
+.rv-gauge__label { font-size: var(--adm-text-sm); color: var(--adm-muted); font-weight: 600; }
+.rv-gauge__n { display: flex; align-items: baseline; gap: 6px; }
+.rv-gauge__n b { font-size: 40px; line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rv-gauge__n span { color: var(--adm-muted); font-size: var(--adm-text-base); }
+.rv-meter { height: 10px; border-radius: 999px; background: var(--adm-surface-2); overflow: hidden; border: 1px solid var(--adm-line); }
+.rv-meter > i { display: block; height: 100%; background: var(--adm-ok); }
+.rv-meter--almost > i { background: var(--adm-warn); }
+.rv-meter--full > i { background: var(--adm-danger); }
+.rv-gauge__foot { font-size: var(--adm-text-sm); color: var(--adm-muted); min-height: 28px; display: flex; align-items: center; }
+
+/* Carte « à confirmer » */
+.rv-attn__head { display: flex; align-items: center; gap: 10px; padding: 14px var(--adm-space-4); background: var(--adm-warn-bg); border-bottom: 1px solid var(--adm-warn-line); color: var(--adm-warn); }
+.rv-attn__head h2 { font-size: var(--adm-text-lg); font-weight: 600; }
+.rv-attn__none { display: flex; align-items: center; gap: 10px; color: var(--adm-ok); font-weight: 600; }
+
+/* Capacité par heure */
+.rv-cap { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; list-style: none; padding: 0; margin: 0; align-items: end; }
+.rv-cap li { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.rv-cap__flag { height: 20px; display: grid; place-items: center; color: var(--adm-warn); }
+.rv-cap__n { font-weight: 600; font-variant-numeric: tabular-nums; min-height: 24px; }
+.rv-cap__bar { position: relative; width: 100%; max-width: 28px; height: 96px; background: var(--adm-surface-2); border: 1px solid var(--adm-line); border-radius: 6px; overflow: hidden; display: flex; align-items: flex-end; }
+.rv-cap__bar > i { display: block; width: 100%; background: var(--adm-brand); }
+.rv-cap .is-almost .rv-cap__bar > i { background: repeating-linear-gradient(45deg, var(--adm-warn) 0 4px, #fff 4px 7px); }
+.rv-cap .is-full .rv-cap__bar > i { background: repeating-linear-gradient(-45deg, var(--adm-danger) 0 4px, #fff 4px 7px); }
+.rv-cap .is-almost .rv-cap__flag { color: var(--adm-warn); }
+.rv-cap .is-full .rv-cap__flag { color: var(--adm-danger); }
+.rv-cap__h { font-size: var(--adm-text-sm); color: var(--adm-muted); }
+.rv-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; padding: 0; margin: 0; font-size: var(--adm-text-sm); color: var(--adm-muted); }
+.rv-legend li { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; }
+.rv-sw { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--adm-line); background: var(--adm-brand); }
+.rv-sw--almost { background: repeating-linear-gradient(45deg, var(--adm-warn) 0 3px, #fff 3px 5px); }
+.rv-sw--full { background: repeating-linear-gradient(-45deg, var(--adm-danger) 0 3px, #fff 3px 5px); }
+/* Emplacement réservé à « Complet ce soir » (ACC-03, phase 17) : aucun contrôle ici avant cette phase. */
+.rv-slot-acc03 { min-height: 0; }
+
+/* Arrivées par heure */
+.rv-hour { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px var(--adm-space-4) 8px; background: var(--adm-surface-2); border-top: 1px solid var(--adm-line); }
+.rv-hour h3 { font-size: var(--adm-text-lg); font-weight: 600; }
+.rv-hour span { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-past > summary { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 var(--adm-space-4); cursor: pointer; font-weight: 600; list-style: none; border-top: 1px solid var(--adm-line); }
+.rv-past > summary::-webkit-details-marker { display: none; }
+.rv-past > summary svg { transition: transform var(--adm-dur-1) var(--adm-ease); }
+.rv-past[open] > summary svg { transform: rotate(90deg); }
+.rv-past > summary .muted { color: var(--adm-muted); font-weight: 400; font-size: var(--adm-text-sm); }
+
+/* --- Ligne de réservation ---------------------------------------------- */
+.rv-row { display: grid; gap: 4px 12px; padding: 12px var(--adm-space-4); border-top: 1px solid var(--adm-line); align-items: center;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "time id id" "sub sub contact" "notes notes notes" "actions actions actions" "detail detail detail"; }
+.rv-card--flush > .rv-row:first-child, .rv-list > .rv-row:first-child { border-top: 0; }
+.rv-row[aria-busy="true"] { background: var(--adm-surface-2); }
+.rv-row[data-status="cancelled"] .rv-row__time, .rv-row[data-status="cancelled"] .rv-row__name { text-decoration: line-through; color: var(--adm-muted); }
+.rv-row__time { grid-area: time; font-size: 20px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.rv-row__id { grid-area: id; min-width: 0; }
+.rv-row__sub { grid-area: sub; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.rv-row__name { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.rv-row__meta { display: none; margin: 0; color: var(--adm-muted); font-size: var(--adm-text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.rv-row__party { grid-area: party; display: inline-flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; margin-left: auto; }
+.rv-row__status { flex: none; }
+.rv-row__contact { grid-area: contact; display: flex; gap: 4px; justify-self: end; }
+.rv-row__notes { grid-area: notes; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: var(--adm-text-sm); }
+.rv-row__notes:empty { display: none; }
+.rv-row__actions { grid-area: actions; display: flex; flex-wrap: wrap; gap: 8px; }
+.rv-row__actions .adm-btn { flex: 1 1 auto; }
+.rv-row__actions:empty { display: none; }
+.rv-row__detail { grid-area: detail; }
+.rv-row__fail { grid-area: notes; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--adm-danger); font-size: var(--adm-text-sm); font-weight: 500; }
+.rv-row__fail > span { flex: 1 1 200px; display: inline-flex; gap: 6px; align-items: flex-start; }
+.rv-tag { display: inline-flex; align-items: flex-start; gap: 6px; padding: 3px 10px; border-radius: 8px; border: 1px solid var(--adm-line); background: var(--adm-surface-2); color: var(--adm-ink); line-height: 1.35; max-width: 100%; }
+.rv-tag svg { margin-top: 2px; }
+.rv-tag--allergy { background: var(--adm-danger-bg); border-color: var(--adm-danger-line); color: var(--adm-danger); font-weight: 600; }
+.rv-tag--note { background: var(--adm-warn-bg); border-color: var(--adm-warn-line); color: var(--adm-warn); }
+
+@container rvc (min-width: 600px) {
+  .rv-row { grid-template-columns: 64px minmax(0, 1fr) auto auto auto; column-gap: 16px;
+    grid-template-areas: "time id party status contact" ". notes notes actions actions" "detail detail detail detail detail"; }
+  .rv-row__sub { display: contents; }
+  .rv-row__meta { display: block; }
+  .rv-row__party { margin-left: 0; justify-self: end; }
+  .rv-row__status { grid-area: status; }
+  .rv-row__actions { justify-content: flex-end; flex-wrap: nowrap; }
+  .rv-row__actions .adm-btn { flex: 0 0 auto; }
+  .rv-row--noactions { grid-template-areas: "time id party status contact" ". notes notes notes notes" "detail detail detail detail detail"; }
+  .rv-row__fail { grid-column: 2 / -1; }
+}
+@container rvc (min-width: 980px) {
+  .rv-row { grid-template-columns: 64px minmax(0, 1fr) 56px 170px auto auto;
+    grid-template-areas: "time id party status contact actions" ". notes notes notes notes notes" "detail detail detail detail detail detail"; }
+  .rv-row--noactions { grid-template-areas: "time id party status contact actions" ". notes notes notes notes notes" "detail detail detail detail detail detail"; }
+  .rv-row__party { justify-self: start; }
+}
+.rv-colhead { display: none; }
+@container rvc (min-width: 980px) {
+  .rv-colhead { display: grid; grid-template-columns: 64px minmax(0, 1fr) 56px 170px auto auto; column-gap: 16px; padding: 8px var(--adm-space-4); color: var(--adm-muted); font-size: var(--adm-text-sm); font-weight: 600; border-bottom: 1px solid var(--adm-line); }
+}
+
+/* Détails repliés */
+.rv-detail { display: grid; gap: var(--adm-space-3); padding-top: var(--adm-space-3); border-top: 1px dashed var(--adm-line); margin-top: 6px; }
+.rv-detail dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 16px; margin: 0; }
+.rv-detail dt { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-detail dd { margin: 0; overflow-wrap: anywhere; }
+.rv-detail__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+.rv-detail__row > .adm-field { flex: 1 1 220px; }
+.rv-flag { display: inline-flex; align-items: center; gap: 6px; font-size: var(--adm-text-sm); }
+
+/* --- Contrôles de la liste ----------------------------------------------- */
+.rv-controls { display: grid; gap: var(--adm-space-3); }
+.rv-datebar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rv-datebar__title { flex: 1 1 200px; font-size: var(--adm-text-xl); font-weight: 600; line-height: 1.2; min-width: 0; }
+.rv-datebar__title small { display: block; font-size: var(--adm-text-sm); font-weight: 400; color: var(--adm-muted); }
+.rv-seg { display: inline-flex; border: 1px solid var(--adm-field-border); border-radius: var(--adm-radius); overflow: hidden; background: var(--adm-surface); }
+.rv-seg button { min-height: 44px; padding: 0 14px; background: transparent; border: 0; font: 600 var(--adm-text-sm)/1 var(--adm-font-sans); color: var(--adm-ink); cursor: pointer; }
+.rv-seg button + button { border-left: 1px solid var(--adm-field-border); }
+.rv-seg button[aria-current="true"] { background: var(--adm-brand); color: var(--adm-brand-ink); }
+.rv-date { max-width: 190px; }
+.rv-chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: thin; }
+@media (min-width: 768px) { .rv-chips { flex-wrap: wrap; overflow: visible; } }
+.rv-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--adm-field-border); background: var(--adm-surface); color: var(--adm-ink); font: 600 var(--adm-text-sm)/1 var(--adm-font-sans); cursor: pointer; }
+.rv-chip[aria-pressed="true"] { background: var(--adm-brand); border-color: var(--adm-brand); color: var(--adm-brand-ink); }
+.rv-chip b { font-variant-numeric: tabular-nums; }
+.rv-summary { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-service { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px var(--adm-space-4) 8px; background: var(--adm-surface-2); border-top: 1px solid var(--adm-line); }
+.rv-service h2 { font-size: var(--adm-text-lg); font-weight: 600; }
+.rv-service span { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-list { display: grid; }
+.rv-search { position: relative; }
+.rv-search svg { position: absolute; left: 12px; top: 12px; color: var(--adm-muted); pointer-events: none; }
+.rv-search input { padding-left: 40px; }
+
+/* --- Feuille de saisie (Dialog sheet) ------------------------------------ */
+.rv-sheet { position: fixed; z-index: 61; left: 0; right: 0; bottom: 0; max-height: 94dvh; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--adm-surface); color: var(--adm-ink); border-radius: var(--adm-radius-lg) var(--adm-radius-lg) 0 0; padding: var(--adm-space-4) var(--adm-space-4) calc(var(--adm-space-4) + env(safe-area-inset-bottom, 0px));
+  box-shadow: var(--adm-shadow-float); transition: opacity 260ms var(--adm-ease), transform 260ms var(--adm-ease); }
+.rv-sheet[data-starting-style], .rv-sheet[data-ending-style] { opacity: 0; transform: translateY(24px); }
+@media (min-width: 768px) {
+  .rv-sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: 560px; max-width: calc(100vw - 32px); max-height: 92dvh; border-radius: var(--adm-radius-lg); padding: var(--adm-space-5); transform: translate(-50%, -50%); }
+  .rv-sheet[data-starting-style], .rv-sheet[data-ending-style] { transform: translate(-50%, calc(-50% + 12px)); }
+}
+.rv-sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: var(--adm-space-3); }
+.rv-sheet__title { font-family: var(--adm-font-display); font-size: 28px; font-weight: 700; line-height: 1.15; color: var(--adm-brand); }
+.rv-form { display: grid; gap: var(--adm-space-4); }
+.rv-form__grid { display: grid; gap: var(--adm-space-4); }
+@media (min-width: 560px) { .rv-form__grid--2 { grid-template-columns: 1fr 1fr; } }
+.rv-fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 6px; min-width: 0; }
+.rv-fieldset legend { padding: 0; font-size: var(--adm-text-sm); font-weight: 600; margin-bottom: 6px; }
+.rv-radios { display: grid; gap: 8px; }
+@media (min-width: 560px) { .rv-radios { grid-template-columns: repeat(3, 1fr); } }
+.rv-radio { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px; border: 1px solid var(--adm-field-border); border-radius: var(--adm-radius); background: var(--adm-surface); cursor: pointer; font-weight: 600; }
+.rv-radio input { width: 20px; height: 20px; accent-color: var(--adm-brand); margin: 0; }
+.rv-radio:has(input:checked) { border-color: var(--adm-brand); background: var(--adm-brand-tint); }
+.rv-radio:has(input:focus-visible) { outline: 2px solid var(--adm-focus); outline-offset: 2px; }
+.rv-stepper { display: flex; gap: 8px; }
+.rv-stepper .adm-btn { flex: none; }
+.rv-stepper input { text-align: center; flex: 1 1 auto; min-width: 0; }
+.rv-banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--adm-radius); border: 1px solid var(--adm-danger-line); background: var(--adm-danger-bg); color: var(--adm-danger); font-weight: 500; }
+.rv-form__actions { display: flex; flex-direction: column-reverse; gap: 8px; }
+@media (min-width: 560px) { .rv-form__actions { flex-direction: row; justify-content: flex-end; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-sheet, .adm-toast, .rv-past > summary svg { transition: none; }
+}
+
+/* Les dialogues sortent de .adm-root (portail) : mêmes champs date/heure et même focus que dans la page. */
+.adm-portal input[type="date"], .adm-portal input[type="time"] { color-scheme: light; background-color: var(--adm-surface); color: var(--adm-ink); }
+.adm-portal input[type="date"]::-webkit-calendar-picker-indicator, .adm-portal input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: 1; }
+.adm-portal input:focus-visible, .adm-portal select:focus-visible, .adm-portal textarea:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: 1px; }
+.adm-portal input, .adm-portal textarea, .adm-portal select { font-family: inherit; color: var(--adm-ink); background-color: var(--adm-surface); }

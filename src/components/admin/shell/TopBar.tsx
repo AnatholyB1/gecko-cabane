@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { Plus } from 'lucide-react'
 import { ADMIN_HOME_HREF, BRAND_ARIA, BRAND_NAME, NEW_RESERVATION_ARIA, NEW_RESERVATION_HREF, NEW_RESERVATION_LABEL } from '@/app/admin/(app)/nav'
+import { NewReservationLink } from '../reservations/NewReservation'
 import { AccountMenu } from './AccountMenu'
 import { krabiDateLabel } from './krabi-date'
 
@@ -25,10 +25,7 @@ export function TopBar({
       </Link>
       <p className="adm-header__date adm-num">{krabiDateLabel(now)}</p>
       <div className="adm-header__right">
-        <Link className="adm-btn adm-btn--primary adm-newres" href={NEW_RESERVATION_HREF} prefetch={false} aria-label={NEW_RESERVATION_ARIA}>
-          <Plus className="i i-sm" aria-hidden="true" focusable="false" strokeWidth={1.75} />
-          {NEW_RESERVATION_LABEL}
-        </Link>
+        <NewReservationLink href={NEW_RESERVATION_HREF} label={NEW_RESERVATION_LABEL} ariaLabel={NEW_RESERVATION_ARIA} />
         <AccountMenu email={email} logoutAction={logoutAction} />
       </div>
     </header>

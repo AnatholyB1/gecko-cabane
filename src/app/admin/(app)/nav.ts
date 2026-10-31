@@ -105,7 +105,7 @@ export const ADMIN_HOME_HREF = '/admin'
 export const BRAND_NAME = 'Gecko Cabane'
 export const BRAND_ARIA = "Gecko Cabane, accueil de l'administration"
 
-/** Bouton « + Réservation » de l'en-tête. La phase 15 en fera un dialogue global. */
+/** Bouton « + Réservation » de l'en-tête : ouvre le dialogue global (phase 15) ; l'adresse reste valide et ouvre le même dialogue. */
 export const NEW_RESERVATION_HREF = '/admin/reservations?nouvelle=1'
 export const NEW_RESERVATION_LABEL = 'Réservation'
 export const NEW_RESERVATION_ARIA = 'Nouvelle réservation'
