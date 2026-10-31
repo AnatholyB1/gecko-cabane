@@ -102,7 +102,7 @@ describe('NAV-02 onglets de section', () => {
   it('rendus pour Site public (4 onglets), absents ailleurs (Réputation : segments dans la page)', async () => {
     const { SectionTabs } = await load()
     mockPath = '/admin/announcement'
-    let html = renderToStaticMarkup(h(SectionTabs))
+    const html = renderToStaticMarkup(h(SectionTabs))
     expect(html).toContain('aria-label="Sections de Site public"')
     expect(html.match(/<a /g)).toHaveLength(4)
     expect(tag(html, '/admin/announcement')).toContain('aria-current="page"')
