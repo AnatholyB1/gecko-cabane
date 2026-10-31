@@ -30,7 +30,14 @@ orchestrateur 3100 · builders 3103-3108 (P10 = 3103, spike = 3104) · auditeurs
 ## Décisions du propriétaire (2026-10-31, galerie)
 Direction « luxe discret » validée · 5 entrées de nav à 12 px · mobile : ligne compacte + Détails, toast en haut, « + Réservation » en en-tête, flèches · « Complet ce soir » = dîner seul, par date, réversible · « sur 40 » = pic simultané · colonne `allergies` + no_show « Non présenté » / bouton « Absent » / « Rétablir » (à vérifier contre PUT) · prix en ฿, « Gérer les pages » replié, `price_label` gardé · note moyenne masquée sans collecte, live côté serveur seulement, dialogue avant alerte note ≤ 3 · invitation par lien 7 jours, droits admin complets, mot de passe oublié en phase 17.
 
-## En cours (vague 2)
+| P12 shell et navigation | phase/12-shell-nav | 9264722 | 115 fichiers / 1644 tests | test du shell corrigé (CRLF) |
+| P15a logique réservations | phase/15a-logic | merge | 111 fichiers / 1580 tests | pas de bouton « Rétablir » (décision) |
+| P16 réputation | phase/16-reputation | merge | lint, build verts | pas de bouton d'envoi TEST (aucune route admin) |
+| P15 UI Aujourd'hui + Réservations | phase/15-ui | merge | idem | migration 019 (allergies) écrite, NON appliquée |
+| P14 carte | phase/14-carte | a399cdf (après correctif délai) | 121 fichiers / 1781 tests ; lint, tsc, build verts | |
+
+## Audits lancés (6 agents, ports 3110-3114) : P15 ×3, P11+P12, P14+P16
+## En cours (vague 2, ancien)
 - P12 shell (`phase/12-shell-nav`, 3107) ; P15a logique réservations/Aujourd'hui (`phase/15a-logic`, 3108).
 ## Ancien (vague 0)
 - P11 fondation (`phase/11-design-foundation`, port 3105) ; correctif `POST /api/auth/signup` (`fix/p9-signup-api`, 3106) ; revue de cohérence + galerie (`design/review`).
