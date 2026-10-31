@@ -1,0 +1,32 @@
+/* SPIKE DSN-01 - jetable. Les variables --adm-* sont scopees sur .adm-root. */
+.adm-root,
+.adm-portal {
+  --adm-bg: #f4f1ea;
+  --adm-surface: #ffffff;
+  --adm-ink: #1f2a24;
+  --adm-ink-soft: #55615a;
+  --adm-line: #d9d4c7;
+  --adm-accent: #0c3c2d;
+  --adm-accent-ink: #ffffff;
+  --adm-danger: #9b2c2c;
+  --adm-ok: #1f6f43;
+  --adm-focus: #c69b3c;
+  --adm-radius: 10px;
+  --adm-shadow: 0 8px 30px rgb(0 0 0 / 0.18);
+  color: var(--adm-ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.adm-root {
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--adm-bg);
+  color: var(--adm-ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.adm-root button:focus-visible,
+.adm-portal button:focus-visible,
+.adm-root select:focus-visible,
+.adm-root dialog button:focus-visible {
+  outline: 2px solid var(--adm-focus);
+  outline-offset: 2px;
+}
