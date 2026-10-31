@@ -298,3 +298,5 @@ dialog::backdrop { background: var(--adm-scrim); }
   .side .brand { color: var(--adm-brand); }
 }
 th, td { padding: 12px 10px; } thead th { font-weight: 600; }
+.dist li { grid-template-columns: 88px minmax(40px, 1fr) auto; } .dist .v { white-space: nowrap; }
+.dist li { grid-template-columns: 88px minmax(40px, 1fr) 112px; }
