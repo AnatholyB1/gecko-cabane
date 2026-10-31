@@ -13,7 +13,7 @@ const lines = (p: string) => read(p).split(/\r?\n/)
 
 describe('KPI traceability (D-01, D-03, D-04, D-09)', () => {
   it('KPI-02 is an in-app cron, without the old external orchestrator', () => {
-    const line = lines('.planning/REQUIREMENTS.md').find((l) => l.includes('**KPI-02**')) ?? ''
+    const line = lines('.planning/milestones/v1.0-REQUIREMENTS.md').find((l) => l.includes('**KPI-02**')) ?? ''
     expect(line).not.toBe('')
     expect(line.toLowerCase()).not.toContain('n8n')
     expect(line).toContain('cron')
@@ -22,18 +22,18 @@ describe('KPI traceability (D-01, D-03, D-04, D-09)', () => {
   })
 
   it('KPI-05 is email only', () => {
-    const line = lines('.planning/REQUIREMENTS.md').find((l) => l.includes('**KPI-05**')) ?? ''
+    const line = lines('.planning/milestones/v1.0-REQUIREMENTS.md').find((l) => l.includes('**KPI-05**')) ?? ''
     expect(line).not.toBe('')
     expect(line).not.toContain('et résumé WhatsApp')
   })
 
   it('KPI-08 states the TEST mode constraint', () => {
-    const line = lines('.planning/REQUIREMENTS.md').find((l) => l.includes('**KPI-08**')) ?? ''
+    const line = lines('.planning/milestones/v1.0-REQUIREMENTS.md').find((l) => l.includes('**KPI-08**')) ?? ''
     expect(line).toContain('mode TEST')
   })
 
   it('ROADMAP phase 8 success criteria carry no n8n nor Google Business Profile', () => {
-    const roadmap = read('.planning/ROADMAP.md')
+    const roadmap = read('.planning/milestones/v1.0-ROADMAP.md')
     const start = roadmap.indexOf('### Phase 8: Reporting KPI hebdomadaire')
     expect(start).toBeGreaterThan(-1)
     const section = roadmap.slice(start)
@@ -44,7 +44,7 @@ describe('KPI traceability (D-01, D-03, D-04, D-09)', () => {
     const block = section.slice(a, b)
     expect(block.toLowerCase()).not.toContain('n8n')
     expect(block).not.toContain('Google Business Profile')
-    const listLine = lines('.planning/ROADMAP.md').find((l) => l.startsWith('- [ ] **Phase 8:')) ?? ''
+    const listLine = lines('.planning/milestones/v1.0-ROADMAP.md').find((l) => l.startsWith('- [ ] **Phase 8:')) ?? ''
     expect(listLine).not.toBe('')
     expect(listLine.toLowerCase()).not.toContain('n8n')
   })
