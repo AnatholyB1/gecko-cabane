@@ -35,6 +35,7 @@
 }
 
 /* Champs de la section : 48 px, contour de champ >= 3:1 */
+.adm-site .adm-field { align-content: start; }
 .adm-site .adm-input, .adm-site .adm-select { min-height: 48px; }
 .adm-site .adm-textarea { min-height: 104px; }
 .adm-site input[readonly], .adm-site textarea[readonly] { cursor: default; }
@@ -141,6 +142,7 @@
 .adm-site .adm-site-pv__frame p { margin: 0; }
 .adm-site .adm-site-pv__note { margin: 12px 0 0; font-size: 14px; color: var(--adm-muted); }
 .adm-site .adm-site-pv__status { margin-top: 10px; }
+.adm-site .adm-site-pv__status .adm-badge { white-space: normal; max-width: 100%; }
 .adm-site .adm-site-pv__sub { display: block; font-weight: 400; color: var(--adm-muted); font-size: 14px; }
 .adm-site .adm-site-pvh { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--adm-line); font-size: 15px; }
 .adm-site .adm-site-pvh:first-child { border-top: 0; }
