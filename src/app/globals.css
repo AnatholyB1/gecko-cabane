@@ -1,4 +1,8 @@
-@import "tailwindcss";
+/* Tailwind v4 détecte les classes dans tout le dépôt par défaut, y compris les .md de .planning
+   (un plan contient une classe arbitraire invalide écrite en clair => CSS invalide => next dev répond 500).
+   On désactive la détection automatique et on ne scanne que src/. */
+@import "tailwindcss" source(none);
+@source "../";
 
 /* ── Tokens couleurs ───────────────────────────────────── */
 :root {

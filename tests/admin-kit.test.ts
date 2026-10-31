@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { AdminProviders } from '../src/components/admin/AdminProviders'
-import { KitClient } from '../src/app/admin/kit/KitClient'
+import { KitClient } from '../src/app/admin/(app)/kit/KitClient'
 
 const root = join(__dirname, '..')
 const html = renderToStaticMarkup(h(AdminProviders, null, h(KitClient)))
@@ -51,7 +51,7 @@ describe('DSN-07 page kit', () => {
     for (const dir of ['src/components', 'src/app']) {
       for (const f of walk(join(root, dir))) {
         const rel = relative(root, f).split('\\').join('/')
-        if (rel.startsWith('src/app/admin/kit/')) continue
+        if (rel.startsWith('src/app/admin/(app)/kit/')) continue
         if (/['"`]\/admin\/kit/.test(readFileSync(f, 'utf8'))) offenders.push(rel)
       }
     }

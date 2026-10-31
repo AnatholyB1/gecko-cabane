@@ -38,7 +38,7 @@ describe('is_gluten_free wiring', () => {
   })
 
   it('admin page has the checkbox and sends the flag', () => {
-    const src = read('src/app/admin/menu/[pageId]/page.tsx')
+    const src = read('src/app/admin/(app)/menu/[pageId]/page.tsx')
     expect(src).toContain('is_gluten_free: itemForm.is_gluten_free')
     expect(src).toContain('item.is_gluten_free ?? false')
     expect(src).toContain('Sans gluten (confirmé par la cheffe)')

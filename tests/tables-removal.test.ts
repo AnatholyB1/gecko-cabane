@@ -77,7 +77,7 @@ describe('TAB-06 the floor plan feature stays removed', () => {
   })
 
   it('capacity settings keep their keys and no longer say "table"', () => {
-    const src = read('src/app/admin/settings/page.tsx')
+    const src = read('src/app/admin/(app)/settings/page.tsx')
     expect(src).toContain('table_block_duration_minutes')
     expect(src).toContain('max_covers')
     expect(src).toContain("Durée d\\'occupation d\\'un créneau")

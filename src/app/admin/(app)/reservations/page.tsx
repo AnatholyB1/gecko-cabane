@@ -1,7 +1,7 @@
 'use client'
 
+import { PageHeader } from '@/components/admin/PageHeader'
 import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
 import type { Reservation, ReservationSource, ReservationStatus } from '@/types/database'
 import { RESERVATION_SOURCES, SOURCE_LABELS, formatOrigin } from '@/utils/reservation-source'
 import { krabiToday } from '@/utils/review-invitations'
@@ -178,27 +178,17 @@ export default function AdminReservationsPage() {
   const todayKrabi = krabiToday(new Date())
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      {/* Header */}
-      <header className="bg-(--primary) text-white py-6 px-6 shadow-lg">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div>
-            <Link href="/admin" className="text-(--accent-light) hover:text-white mb-2 inline-block">
-              ← Retour au tableau de bord
-            </Link>
-            <h1 className="text-3xl font-bold">📅 Réservations</h1>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowManualForm((v) => !v)}
-            className="px-4 py-2 rounded-lg bg-white text-(--primary) font-semibold hover:bg-(--accent-light)"
-          >
+    <div>
+      <PageHeader
+        title="Réservations"
+        actions={
+          <button type="button" onClick={() => setShowManualForm((v) => !v)} className="adm-btn">
             {showManualForm ? 'Fermer' : 'Ajouter une réservation'}
           </button>
-        </div>
-      </header>
+        }
+      />
 
-      <main className="max-w-7xl mx-auto py-8 px-6">
+      <div className="max-w-7xl mx-auto py-8">
         {/* Message */}
         {message && (
           <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
@@ -465,7 +455,7 @@ export default function AdminReservationsPage() {
             ))}
           </div>
         )}
-      </main>
+      </div>
 
       {/* Details modal */}
       {showModal && selectedReservation && (

@@ -1,5 +1,6 @@
 'use client'
 
+import { PageHeader } from '@/components/admin/PageHeader'
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
@@ -333,7 +334,7 @@ export default function MenuEditorPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-(--background) flex items-center justify-center">
+      <div className="min-h-[50vh] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl animate-bounce">🦎</div>
           <p className="mt-4 text-(--warm-gray)">Chargement...</p>
@@ -345,26 +346,14 @@ export default function MenuEditorPage() {
   if (!page) return null
 
   return (
-    <div className="min-h-screen bg-(--background)">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-(--jungle-dark) to-(--primary-dark) text-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl">🦎</span>
-            <div>
-              <h1 className="text-xl font-bold">{page.name}</h1>
-              <p className="text-sm opacity-80">Édition du menu</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/admin/menu" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
-              ← Retour
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div>
+      <PageHeader
+        title={page.name}
+        description="Édition du menu"
+        actions={<Link href="/admin/menu" prefetch={false} className="adm-btn">Toutes les pages de la carte</Link>}
+      />
 
-      <main className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto py-8">
         {/* Message */}
         {message && (
           <div className={`mb-6 p-4 rounded-xl ${
@@ -742,7 +731,7 @@ export default function MenuEditorPage() {
             ))}
           </div>
         )}
-      </main>
+      </div>
     </div>
   )
 }
