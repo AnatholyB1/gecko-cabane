@@ -6,8 +6,8 @@ import type { RestaurantSetting } from '@/types/database'
 
 const SETTING_META: Record<string, { label: string; description: string; unit: string; min: number; max: number }> = {
   table_block_duration_minutes: {
-    label: 'Durée de blocage d\'une table',
-    description: 'Temps pendant lequel une table reste réservée après l\'heure de réservation (comprend le temps du repas + marge de nettoyage).',
+    label: 'Durée d\'occupation d\'un créneau',
+    description: 'Temps pendant lequel une réservation occupe de la capacité après son heure de début (repas + marge).',
     unit: 'minutes',
     min: 30,
     max: 480,
@@ -98,10 +98,10 @@ export default function AdminSettingsPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Table/reservation settings */}
+            {/* Reservation capacity settings */}
             <div className="bg-white rounded-2xl shadow-md overflow-hidden">
               <div className="bg-(--accent-light) px-6 py-4 border-b border-amber-100">
-                <h2 className="text-lg font-bold text-(--primary-dark)">🗺️ Gestion des tables</h2>
+                <h2 className="text-lg font-bold text-(--primary-dark)">Capacité et créneaux</h2>
               </div>
               <div className="p-6 space-y-6">
                 {settings
@@ -152,10 +152,10 @@ export default function AdminSettingsPage() {
 
             {/* Info block */}
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
-              <strong>ℹ️ Note :</strong> La durée de blocage est calculée depuis l&apos;heure de début de la
-              réservation. Par exemple, une réservation à 19h00 avec 120 min de blocage bloque la table
-              jusqu&apos;à 21h00. Pendant ce créneau, aucune autre réservation ne peut être placée sur la
-              même table (ou sur une configuration qui partage cette table).
+              <strong>ℹ️ Note :</strong> La durée d&apos;occupation est calculée depuis l&apos;heure de début de la
+              réservation. Par exemple, une réservation à 19h00 avec 120 min d&apos;occupation compte dans la
+              capacité jusqu&apos;à 21h00. Les couverts des réservations qui se chevauchent sur ce créneau
+              sont additionnés et ne peuvent pas dépasser le nombre de couverts maximum.
             </div>
 
             <button

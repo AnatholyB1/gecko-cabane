@@ -3,7 +3,7 @@ import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/
 import * as Sentry from "@sentry/nextjs"
 import { z } from "zod"
 import { createClient, createAdminClient } from "@/utils/supabase/server"
-import { bangkokNow } from "@/utils/reservation-rules"
+import { bangkokNow, hasCapacity } from "@/utils/reservation-rules"
 
 /**
  * Gecko Cabane MCP Server
@@ -189,7 +189,7 @@ function buildMcpServer() {
         0
       )
       const remaining = MAX_COVERS - bookedCovers
-      const available = remaining >= party_size
+      const available = hasCapacity(bookedCovers, party_size, MAX_COVERS)
 
       return {
         content: [

@@ -12,6 +12,11 @@
 
 export const MAX_PARTY_SIZE = 40
 export const DEFAULT_BLOCK_MINUTES = 120
+/** Same rule as gecko_create_reservation (SQL): refuse when booked + party > max. */
+export function hasCapacity(booked: number, party: number, max: number): boolean {
+  return booked + party <= max
+}
+
 export const KITCHEN_CLOSE = '22:00'
 export const SAME_DAY_MIN_LEAD_MINUTES = 30
 const MAX_DAYS_AHEAD = 180
