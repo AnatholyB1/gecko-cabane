@@ -6,9 +6,11 @@
  * état de chargement, aucun module serveur importé, aucun lien public vers /admin/kpi.
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs'
 import { join } from 'path'
+// Import dynamique à froid de la page : dépasse 5 s quand la machine est chargée.
+vi.setConfig({ testTimeout: 30_000 })
 
 const root = join(__dirname, '..')
 const read = (p: string) => readFileSync(join(root, p), 'utf-8')
