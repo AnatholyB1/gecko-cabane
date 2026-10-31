@@ -228,7 +228,7 @@ describe('NAV-02 mise en page responsive (admin.css)', () => {
 
   it('téléphone : barre du bas fixe, 5 colonnes, étiquettes 12 px', () => {
     expect(css).toMatch(/\.adm-nav \{[^}]*position: fixed;[^}]*bottom: 0;/)
-    expect(css).toMatch(/\.adm-nav__list \{[^}]*repeat\(5, 1fr\)/)
+    expect(css).toMatch(/\.adm-nav__list \{[^}]*repeat\(5, minmax\(0, 1fr\)\)/)
     expect(css).toMatch(/\.adm-nav-link \{[^}]*font-size: 12px/)
     expect(css).toMatch(/\.adm-nav-link \{[^}]*min-height: var\(--adm-target\)/)
   })

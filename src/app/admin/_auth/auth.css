@@ -74,3 +74,8 @@
 .err-code { font-family: var(--adm-font-display); font-size: clamp(72px, 16vw, 128px); line-height: .9; font-weight: 600; color: var(--adm-brand); letter-spacing: -.01em; }
 .err-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .err-ref { font-size: var(--adm-text-sm); color: var(--adm-muted); }
+
+/* Reflow à 200 % de zoom : titres, textes et boutons s'enroulent plutôt que de déborder. */
+.auth-main :where(h1, p, a, li, label), .err-page :where(h1, p, a) { overflow-wrap: anywhere; }
+.auth-main .adm-btn, .err-actions .adm-btn { max-width: 100%; white-space: normal; text-align: center; }
+.err-page { min-width: 0; }

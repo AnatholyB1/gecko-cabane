@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import { AlertDialog } from '@base-ui/react/alert-dialog'
 import { TriangleAlert } from 'lucide-react'
 import { buttonClass } from './Button'
+import { trapTab } from './focus-loop'
 
 export type ConfirmOptions = {
   title: string
@@ -67,7 +68,7 @@ export function ConfirmDialog({
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Portal className={portalClass}>
         <AlertDialog.Backdrop className="adm-scrim" onClick={() => onOpenChange(false)} />
-        <AlertDialog.Popup className="adm-dialog" initialFocus={cancelRef}>
+        <AlertDialog.Popup className="adm-dialog" initialFocus={cancelRef} onKeyDown={(e) => trapTab(e, e.currentTarget)}>
           <AlertDialog.Title className={tone === 'danger' ? 'adm-dialog__title' : 'adm-dialog__title adm-dialog__title--default'}>
             <TriangleAlert className="i" aria-hidden="true" focusable="false" />
             {title}

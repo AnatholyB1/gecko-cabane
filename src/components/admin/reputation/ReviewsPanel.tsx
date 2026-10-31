@@ -4,14 +4,14 @@ import { useRef, useState } from 'react'
 import { ChevronDown, Copy, ExternalLink, Info, Clock } from 'lucide-react'
 import {
   buildMonthTable,
-  isValidTotal,
   lastMonths,
   totalsEvolution,
   type ClickRow,
   type TotalRow,
 } from '@/utils/review-report'
 import { REVIEW_WA_TEMPLATES, reviewWhatsAppShareUrl } from '@/utils/review-whatsapp'
-import type { ApiResponse } from '@/types/database'
+import { buildTotalsPayload, latestCollectedGoogle } from '@/utils/review-totals'
+import type { ApiResponse, WeeklyKpiRow } from '@/types/database'
 import { adminFetch } from '../admin-fetch'
 import { useAdminQuery } from '../use-admin-query'
 import { useToast } from '../Toast'
@@ -23,6 +23,7 @@ import { Input, Select } from '../Input'
 import { EmptyState, ErrorState, LoadingState } from '../states'
 
 type StatsBody = ApiResponse<{ clicks: ClickRow[]; totals: TotalRow[] }>
+type KpiWeeksBody = ApiResponse<{ weeks: WeeklyKpiRow[] }>
 
 const LOAD_ERROR = 'Impossible de charger les statistiques. Réessayez ou rechargez la page.'
 const INVALID_NUMBER = 'Valeur invalide : entrez un nombre entier.'
@@ -85,12 +86,15 @@ export function ReviewsPanel() {
   const months = lastMonths(12)
   const [month, setMonth] = useState(months[0])
   const q = useAdminQuery<StatsBody>('/api/review/stats?months=12')
+  // Lecture seule : le total Google vient de la collecte KPI hebdomadaire (REP-03).
+  const kpi = useAdminQuery<KpiWeeksBody>('/api/kpi?weeks=12')
+  const collectedGoogle = latestCollectedGoogle(kpi.data?.data?.weeks ?? [])
   const toast = useToast()
   const [saving, setSaving] = useState(false)
   // Erreur rattachée au champ en cause (null = erreur du serveur, affichée sous le formulaire).
-  const [fieldError, setFieldError] = useState<{ field: 'google' | 'tripadvisor' | null; message: string } | null>(null)
+  const [fieldError, setFieldError] = useState<{ field: 'tripadvisor' | null; message: string } | null>(null)
   // Un brouillon par mois : changer de mois ne détruit pas une saisie non enregistrée.
-  const [drafts, setDrafts] = useState<Record<string, { google: string; tripadvisor: string }>>({})
+  const [drafts, setDrafts] = useState<Record<string, string>>({})
 
   const clicks = q.data?.data?.clicks ?? []
   const totals = q.data?.data?.totals ?? []
@@ -102,12 +106,11 @@ export function ReviewsPanel() {
     const row = totals.find((t) => t.month.startsWith(`${month}-`) && t.platform === platform)
     return row ? String(row.total_reviews) : ''
   }
-  const googleValue = drafts[month]?.google ?? stored('google')
-  const tripValue = drafts[month]?.tripadvisor ?? stored('tripadvisor')
+  const tripValue = drafts[month] ?? stored('tripadvisor')
 
-  function edit(field: 'google' | 'tripadvisor', value: string) {
+  function edit(value: string) {
     setFieldError(null)
-    setDrafts((d) => ({ ...d, [month]: { google: googleValue, tripadvisor: tripValue, [field]: value } }))
+    setDrafts((d) => ({ ...d, [month]: value }))
   }
 
   function changeMonth(next: string) {
@@ -118,20 +121,16 @@ export function ReviewsPanel() {
   async function saveTotals(e: React.FormEvent) {
     e.preventDefault()
     setFieldError(null)
-    const payload: Record<string, unknown> = { month }
-    for (const [key, value] of [['google', googleValue], ['tripadvisor', tripValue]] as const) {
-      if (value === '') continue
-      const n = Number(value)
-      if (!isValidTotal(n)) {
-        setFieldError({ field: key, message: INVALID_NUMBER })
-        return
-      }
-      payload[key] = n
+    const built = buildTotalsPayload(month, tripValue)
+    if (!built.ok) {
+      setFieldError({ field: 'tripadvisor', message: built.reason === 'empty' ? 'Entrez le total TripAdvisor du mois.' : INVALID_NUMBER })
+      return
     }
+    const payload = built.payload
     setSaving(true)
     try {
       await adminFetch('/api/review/stats', { method: 'PUT', json: payload })
-      toast.success('Totaux enregistrés.')
+      toast.success('Total enregistré.')
       setDrafts((d) => {
         const rest = { ...d }
         delete rest[month]
@@ -174,10 +173,10 @@ export function ReviewsPanel() {
         <EmptyState
           icon={Info}
           title="Pas encore d'avis enregistrés"
-          description="Saisissez les totaux Google et TripAdvisor du mois pour suivre leur évolution."
+          description="Saisissez le total TripAdvisor du mois ; le total Google est collecté automatiquement chaque semaine."
           action={
             <a href="#totaux" className={buttonClass({ variant: 'primary' })}>
-              Saisir les totaux du mois
+              Saisir le total du mois
             </a>
           }
         />
@@ -190,7 +189,7 @@ export function ReviewsPanel() {
               <h2 className="adm-rep-h2" id="rep-synthese-t">
                 Totaux d&apos;avis
               </h2>
-              <p className="adm-rep-lead">Totaux d&apos;avis Google et TripAdvisor du mois sélectionné, tels que saisis à la main.</p>
+              <p className="adm-rep-lead">Totaux d&apos;avis du mois sélectionné : Google enregistré (collecte automatique, saisies passées comprises), TripAdvisor saisi à la main.</p>
             </div>
           </div>
           <dl className="adm-rep-band" style={{ '--cols': 4 } as React.CSSProperties}>
@@ -251,26 +250,24 @@ export function ReviewsPanel() {
 
       <Card className="adm-rep-stack">
         <div id="totaux">
-          <h2 className="adm-rep-h2" id="totaux-t">Totaux du mois (saisie manuelle)</h2>
+          <h2 className="adm-rep-h2" id="totaux-t">Total TripAdvisor du mois (saisie manuelle)</h2>
           <p className="adm-rep-lead">
-            Les nombres d&apos;avis affichés sur Google et TripAdvisor, relevés à la main, mois par mois. Le rapport KPI du lundi collecte de son côté
-            le total d&apos;avis Google et le rang TripAdvisor ; le nombre d&apos;avis TripAdvisor n&apos;est pas collecté automatiquement.
-            Laissez un champ vide pour le conserver tel quel.
+            Le nombre d&apos;avis affiché sur TripAdvisor, relevé à la main, mois par mois. Le total Google n&apos;est plus saisi ici : il est
+            collecté automatiquement par le rapport KPI hebdomadaire.
+          </p>
+        </div>
+        <div>
+          <p className="adm-label">Avis Google (collecte automatique, lecture seule)</p>
+          <p className="adm-num adm-rep-h2" data-testid="google-collected">
+            {collectedGoogle ? collectedGoogle.total : '—'}
+          </p>
+          <p className="adm-rep-hint">
+            {collectedGoogle
+              ? `Collecté le ${collectedGoogle.collectedOn} (semaine du ${collectedGoogle.weekStart}), par le rapport KPI du lundi.`
+              : 'Pas encore de total collecté : il arrive avec le prochain rapport KPI du lundi.'}
           </p>
         </div>
         <form onSubmit={saveTotals} noValidate aria-labelledby="totaux-t" className="adm-rep-grid3" style={{ alignItems: 'start' }}>
-          <Input
-            id="total-google"
-            label="Google"
-            type="number"
-            inputMode="numeric"
-            min={0}
-            max={100000}
-            step={1}
-            value={googleValue}
-            onChange={(e) => edit('google', e.target.value)}
-            error={fieldError?.field === 'google' ? fieldError.message : undefined}
-          />
           <Input
             id="total-tripadvisor"
             label="TripAdvisor"
@@ -280,12 +277,12 @@ export function ReviewsPanel() {
             max={100000}
             step={1}
             value={tripValue}
-            onChange={(e) => edit('tripadvisor', e.target.value)}
+            onChange={(e) => edit(e.target.value)}
             error={fieldError?.field === 'tripadvisor' ? fieldError.message : undefined}
           />
           <div style={{ alignSelf: 'end' }}>
             <Button type="submit" variant="primary" loading={saving} loadingLabel="Enregistrement…">
-              Enregistrer les totaux
+              Enregistrer le total
             </Button>
           </div>
         </form>

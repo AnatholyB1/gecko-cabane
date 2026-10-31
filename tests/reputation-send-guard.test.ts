@@ -274,11 +274,11 @@ describe('REP-03 : saisie manuelle des totaux gardée', () => {
     const src = read(`${REP_DIR}/ReviewsPanel.tsx`)
     for (const s of [
       'Suivi mensuel',
-      'Totaux du mois (saisie manuelle)',
-      'Enregistrer les totaux',
+      'Total TripAdvisor du mois (saisie manuelle)',
+      'Enregistrer le total',
       'Aucune donnée pour ce mois',
       'Impossible de charger les statistiques. Réessayez ou rechargez la page.',
-      'Totaux enregistrés.',
+      'Total enregistré.',
       'Valeur invalide : entrez un nombre entier.',
       'à relire',
       'Copier',
