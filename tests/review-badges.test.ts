@@ -26,7 +26,7 @@ describe('getReviewBadges', () => {
     const b = getReviewBadges({ ...base, customer_email: null }, TODAY)
     expect(b).toHaveLength(1)
     expect(b[0].label).toBe("Pas d'email : aucune invitation")
-    expect(b[0].className).toContain('bg-gray-100 text-gray-600')
+    expect(b[0].tone).toBe('neutral')
   })
 
   it('announces a planned invitation for today and yesterday only', () => {
@@ -42,7 +42,7 @@ describe('getReviewBadges', () => {
     expect(b).toHaveLength(1)
     expect(b[0].label).toContain('Invitation envoyée le')
     expect(b[0].label).toContain('18')
-    expect(b[0].className).toContain('bg-blue-100 text-blue-700')
+    expect(b[0].tone).toBe('info')
     expect(b[0].title).toContain('11:12')
   })
 
@@ -62,8 +62,7 @@ describe('getReviewBadges', () => {
       'Rappel envoyé',
       'Lien cliqué',
     ])
-    expect(b[1].className).toContain('bg-amber-100 text-amber-700')
-    expect(b[2].className).toContain('bg-green-100 text-green-700')
+    expect(b.map((x) => x.tone)).toEqual(['info', 'warn', 'ok'])
   })
 
   it('never leaks a token', () => {
