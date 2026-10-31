@@ -97,7 +97,8 @@ export async function middleware(request: NextRequest) {
   if (isAdminRoute && !isAuthPage && user) {
     const { data: isAdmin, error } = await supabase.rpc('gecko_is_admin')
     if (error || isAdmin !== true) {
-      await supabase.auth.signOut()
+      // scope local : le pool Auth est partagé, ne jamais révoquer les sessions du compte ailleurs.
+      await supabase.auth.signOut({ scope: 'local' })
       const loginUrl = new URL('/admin/login', request.url)
       // Un CODE, jamais un texte libre dans l'adresse (la page de connexion choisit la phrase).
       loginUrl.searchParams.set('e', 'noaccess')

@@ -74,7 +74,8 @@ describe('loginAction', () => {
     isGeckoAdmin.mockResolvedValue(false)
     const r = await loginAction(init, form({ email: 'portfolio@example.com', password: 'portfolio-pass-1' }))
     expect(r.error).toBe('noaccess')
-    expect(signOut).toHaveBeenCalled()
+    // portée locale : le pool Auth est partagé, on ne révoque pas les sessions du compte ailleurs
+    expect(signOut).toHaveBeenCalledWith({ scope: 'local' })
     expect(LOGIN_ERRORS.noaccess.title).toBe("Ce compte n'a pas accès à l'administration Gecko Cabane.")
     expect(redirectSpy).not.toHaveBeenCalled()
   })

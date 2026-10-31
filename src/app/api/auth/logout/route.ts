@@ -36,32 +36,16 @@ export async function POST(request: Request) {
       },
     }
   )
-  await supabase.auth.signOut()
+  // scope local : le pool Auth est partagé avec une autre application, une déconnexion ici ne
+  // doit pas révoquer les sessions du compte ailleurs.
+  await supabase.auth.signOut({ scope: 'local' })
   return buildLogoutResponse(request, pendingCookies)
 }
 
+/**
+ * Sans effet : une déconnexion ne doit pas pouvoir être provoquée par un simple lien ou une image
+ * inter-sites. Redirige vers la connexion ; seule la requête POST déconnecte.
+ */
 export async function GET(request: Request) {
-  const pendingCookies: { name: string; value: string; options: Record<string, unknown> }[] = []
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.headers
-            .get('cookie')
-            ?.split(';')
-            .map((c) => {
-              const [name, ...rest] = c.trim().split('=')
-              return { name: name.trim(), value: rest.join('=') }
-            }) ?? []
-        },
-        setAll(cookiesToSet) {
-          pendingCookies.push(...(cookiesToSet as typeof pendingCookies))
-        },
-      },
-    }
-  )
-  await supabase.auth.signOut()
-  return buildLogoutResponse(request, pendingCookies)
+  return NextResponse.redirect(new URL('/admin/login', request.url))
 }
