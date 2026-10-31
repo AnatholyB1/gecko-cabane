@@ -37,6 +37,9 @@ export function parsePriceInput(raw: string): PriceParse {
   if (!/^\d+(\.\d{1,2})?$/.test(cleaned)) return { ok: false, error: 'Entrez un prix en bahts, par exemple 350.' }
   const value = Number(cleaned)
   if (value > PRICE_MAX) return { ok: false, error: 'Ce prix est trop élevé.' }
+  // L'API enregistre un prix 0 comme « sans prix » à la création mais le conserve à la modification
+  // (bug préexistant, routes non modifiées) : l'écran n'accepte donc que des prix strictement positifs.
+  if (value <= 0) return { ok: false, error: 'Entrez un prix supérieur à 0, ou laissez vide pour ne pas afficher de prix.' }
   return { ok: true, value }
 }
 
@@ -172,6 +175,16 @@ export function setPageCategories(pages: Pages, pageId: number, categories: Menu
   return pages.map((p) => (p.id === pageId ? { ...p, categories } : p))
 }
 
+/** Applique l'ordre de `ref` aux plats d'une catégorie en gardant le contenu actuel des plats. */
+export function applyItemOrder(pages: Pages, categoryId: number, ref: MenuItem[]): Pages {
+  return mapCategories(pages, (c) => (c.id === categoryId ? { ...c, items: restoreOrder(c.items ?? [], ref) } : c))
+}
+
+/** Applique l'ordre de `ref` aux catégories d'une page en gardant le contenu actuel des catégories. */
+export function applyCategoryOrder(pages: Pages, pageId: number, ref: MenuCategory[]): Pages {
+  return pages.map((p) => (p.id === pageId ? { ...p, categories: restoreOrder(p.categories ?? [], ref) } : p))
+}
+
 export function addItem(pages: Pages, item: MenuItem): Pages {
   return mapCategories(pages, (c) => (c.id === item.category_id ? { ...c, items: [...(c.items ?? []), item] } : c))
 }
@@ -225,6 +238,62 @@ export async function runOptimistic<S>(opts: {
     opts.update(opts.backward)
     return { ok: false, error }
   }
+}
+
+/**
+ * Remet `current` dans l'ordre (et les `display_order`) de `before`, SANS toucher au contenu des éléments :
+ * une bascule de disponibilité faite entre-temps n'est pas écrasée. Les éléments absents de `before`
+ * (ajoutés entre-temps) restent à la fin.
+ */
+export function restoreOrder<T extends { id: number; display_order: number }>(current: T[], before: T[]): T[] {
+  const byId = new Map(current.map((x) => [x.id, x]))
+  const kept = before.filter((b) => byId.has(b.id)).map((b) => ({ ...byId.get(b.id)!, display_order: b.display_order }))
+  const keptIds = new Set(kept.map((x) => x.id))
+  return [...kept, ...current.filter((x) => !keptIds.has(x.id))]
+}
+
+/**
+ * Verrou d'envoi : une seule exécution à la fois. Un 2e appel pendant que le 1er est en cours est
+ * ignoré (renvoie `undefined`), même dans le même tick (double Entrée, répétition de touche).
+ */
+export function createSubmitLock() {
+  let busy = false
+  return {
+    get busy() {
+      return busy
+    },
+    async run<T>(task: () => Promise<T>): Promise<T | undefined> {
+      if (busy) return undefined
+      busy = true
+      try {
+        return await task()
+      } finally {
+        busy = false
+      }
+    },
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Toast d'erreur persistant et actions de l'en-tête (F-M7)
+// ---------------------------------------------------------------------------
+
+type Box = { top: number; bottom: number; left: number; right: number }
+
+/**
+ * Décalage (px) à donner au contenu pour que le toast d'erreur (persistant, fixé en haut à droite) ne
+ * recouvre pas les actions de l'en-tête. `actions` est mesuré SANS le décalage déjà appliqué (`appliedPad` le
+ * retranche). 0 si les actions sont hors de la colonne du toast (page défilée, mobile) : pas de saut inutile.
+ */
+export function toastClearance(opts: { actions: Box | null; toast: Box | null; appliedPad: number; margin?: number }): number {
+  const { actions, toast, appliedPad, margin = 8 } = opts
+  if (!actions || !toast) return 0
+  const top = actions.top - appliedPad
+  const bottom = actions.bottom - appliedPad
+  const horizontal = actions.left < toast.right && actions.right > toast.left
+  const vertical = top < toast.bottom && bottom > toast.top
+  if (!horizontal || !vertical) return 0
+  return Math.max(0, Math.ceil(toast.bottom + margin - top))
 }
 
 // ---------------------------------------------------------------------------

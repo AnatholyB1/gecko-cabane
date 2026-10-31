@@ -41,7 +41,7 @@ type IconOnlyProps = BaseProps & { iconOnly: true; 'aria-label': string; childre
 export type ButtonProps = LabelledProps | IconOnlyProps
 
 export function Button(props: ButtonProps) {
-  const { variant, size, block, loading, loadingLabel, iconOnly, className, onClick, children, type = 'button', ...rest } = props
+  const { variant, size, block, loading, loadingLabel, iconOnly, className, onClick, children, type = 'button', 'aria-disabled': ariaDisabled, ...rest } = props
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (loading) {
       e.preventDefault()
@@ -55,7 +55,7 @@ export function Button(props: ButtonProps) {
       type={type}
       className={[buttonClass({ variant, size, iconOnly, block }), className].filter(Boolean).join(' ')}
       aria-busy={loading ? true : undefined}
-      aria-disabled={loading ? true : undefined}
+      aria-disabled={loading ? true : ariaDisabled}
       onClick={handleClick}
     >
       {loading ? (

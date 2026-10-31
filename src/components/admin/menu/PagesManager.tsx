@@ -172,12 +172,12 @@ export function PagesManager({ pages, data, onSelect }: { pages: MenuPage[]; dat
                   )}
                 </div>
                 <div className="mn-pagerow__acts">
-                  <Switch checked={page.is_active} busy={busy === page.id} onChange={() => toggle(page)} label={`Affichage de la page ${page.name}`} onText="Affichée" offText="Masquée" />
+                  <Switch checked={page.is_active} busy={busy === page.id} onChange={() => toggle(page)} label={`la page ${page.name}`} onText="Affichée" offText="Masquée" />
                   <div className="mn-pagerow__btns">
-                    <Button variant="ghost" size="sm" iconOnly aria-label={`Monter la page ${page.name}`} disabled={i === 0} onClick={() => data.movePage(i, -1)}>
+                    <Button variant="ghost" size="sm" iconOnly aria-label={`Monter la page ${page.name}`} disabled={i === 0} aria-disabled={data.reordering || undefined} onClick={() => data.movePage(i, -1)}>
                       <ArrowUp className="i" aria-hidden="true" focusable="false" />
                     </Button>
-                    <Button variant="ghost" size="sm" iconOnly aria-label={`Descendre la page ${page.name}`} disabled={i === pages.length - 1} onClick={() => data.movePage(i, 1)}>
+                    <Button variant="ghost" size="sm" iconOnly aria-label={`Descendre la page ${page.name}`} disabled={i === pages.length - 1} aria-disabled={data.reordering || undefined} onClick={() => data.movePage(i, 1)}>
                       <ArrowDown className="i" aria-hidden="true" focusable="false" />
                     </Button>
                     <Button variant="secondary" size="sm" onClick={() => setSheet({ page })}>

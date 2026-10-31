@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { adminFetch } from '../admin-fetch'
 import { useAdminQuery } from '../use-admin-query'
 import { useToast } from '../Toast'
@@ -8,6 +8,8 @@ import type { MenuCategory, MenuItem, MenuPage } from '@/types/database'
 import {
   addCategory,
   addItem,
+  applyCategoryOrder,
+  applyItemOrder,
   formatBaht,
   itemCreateBody,
   itemUpdateBody,
@@ -20,9 +22,8 @@ import {
   removeItem,
   removePage,
   reorderBody,
+  restoreOrder,
   runOptimistic,
-  setCategoryItems,
-  setPageCategories,
   withOrder,
   type ItemForm,
 } from './menu-logic'
@@ -40,11 +41,19 @@ type One<T> = { data: T }
 export function useMenuData() {
   const query = useAdminQuery<{ data: MenuPage[] }>('/api/menu/pages')
   const toast = useToast()
-  const [local, setLocal] = useState<MenuPage[] | null>(null)
-  const pages = local ?? query.data?.data ?? null
+  // Copie locale des écritures, rattachée à la réponse serveur qui lui a servi de base : dès qu'un
+  // rechargement apporte une nouvelle réponse, la copie périmée est abandonnée (l'état serveur gagne).
+  const [local, setLocal] = useState<{ base: unknown; pages: MenuPage[] } | null>(null)
+  const pages = local && local.base === query.data ? local.pages : (query.data?.data ?? null)
+  const reorderLock = useRef(false)
+  const [reordering, setReordering] = useState(false)
 
   const update = useCallback(
-    (fn: (s: MenuPage[]) => MenuPage[]) => setLocal((prev) => fn(prev ?? query.data?.data ?? [])),
+    (fn: (s: MenuPage[]) => MenuPage[]) =>
+      setLocal((prev) => {
+        const current = prev && prev.base === query.data ? prev.pages : (query.data?.data ?? [])
+        return { base: query.data, pages: fn(current) }
+      }),
     [query.data],
   )
 
@@ -133,19 +142,45 @@ export function useMenuData() {
 
   // --- Réordonnancement (flèches) ----------------------------------------
 
+  /**
+   * Un seul réordonnancement à la fois (F-M1) : tant qu'une requête est en vol, les autres clics sont ignorés
+   * (les flèches s'affichent en `aria-disabled`, le focus reste en place). À l'échec, l'ordre local est
+   * remis comme avant SANS écraser le contenu des plats, puis l'état serveur est rechargé : l'écran
+   * ne peut pas rester différent de la base.
+   */
+  async function reorderOnce(opts: {
+    forward: (s: MenuPage[]) => MenuPage[]
+    backward: (s: MenuPage[]) => MenuPage[]
+    request: () => Promise<unknown>
+    failureTitle: string
+  }): Promise<void> {
+    if (reorderLock.current) return
+    reorderLock.current = true
+    setReordering(true)
+    try {
+      const r = await runOptimistic<MenuPage[]>({ update, forward: opts.forward, backward: opts.backward, request: opts.request })
+      if (!r.ok) {
+        toast.error(opts.failureTitle, `${readableError(r.error)} L’ordre affiché est rechargé depuis la carte enregistrée.`)
+        query.refetch()
+      }
+    } finally {
+      reorderLock.current = false
+      setReordering(false)
+    }
+  }
+
   async function moveItem(page: MenuPage, categoryId: number, index: number, dir: -1 | 1): Promise<void> {
     const category = page.categories?.find((c) => c.id === categoryId)
     const moved = category?.items ? moveInList(category.items, index, dir) : null
     if (!category || !category.items || !moved) return
     const before = category.items
     const after = withOrder(moved)
-    const r = await runOptimistic<MenuPage[]>({
-      update,
-      forward: (s) => setCategoryItems(s, categoryId, after),
-      backward: (s) => setCategoryItems(s, categoryId, before),
+    await reorderOnce({
+      forward: (s) => applyItemOrder(s, categoryId, after),
+      backward: (s) => applyItemOrder(s, categoryId, before),
       request: () => adminFetch('/api/menu/reorder', { method: 'POST', json: reorderBody('items', after) }),
+      failureTitle: 'L’ordre des plats n’a pas été enregistré.',
     })
-    if (!r.ok) toast.error('L’ordre des plats n’a pas été enregistré.', `${readableError(r.error)} L’ordre précédent est rétabli.`)
   }
 
   async function moveCategory(page: MenuPage, index: number, dir: -1 | 1): Promise<void> {
@@ -153,13 +188,12 @@ export function useMenuData() {
     if (!page.categories || !moved) return
     const before = page.categories
     const after = withOrder(moved)
-    const r = await runOptimistic<MenuPage[]>({
-      update,
-      forward: (s) => setPageCategories(s, page.id, after),
-      backward: (s) => setPageCategories(s, page.id, before),
+    await reorderOnce({
+      forward: (s) => applyCategoryOrder(s, page.id, after),
+      backward: (s) => applyCategoryOrder(s, page.id, before),
       request: () => adminFetch('/api/menu/reorder', { method: 'POST', json: reorderBody('categories', after) }),
+      failureTitle: 'L’ordre des catégories n’a pas été enregistré.',
     })
-    if (!r.ok) toast.error('L’ordre des catégories n’a pas été enregistré.', `${readableError(r.error)} L’ordre précédent est rétabli.`)
   }
 
   async function movePage(index: number, dir: -1 | 1): Promise<void> {
@@ -168,16 +202,12 @@ export function useMenuData() {
     if (!current || !moved) return
     const after = withOrder(moved)
     const byId = new Map(after.map((p) => [p.id, p.display_order]))
-    const r = await runOptimistic<MenuPage[]>({
-      update,
+    await reorderOnce({
       forward: (s) => s.map((p) => ({ ...p, display_order: byId.get(p.id) ?? p.display_order })).sort((a, b) => a.display_order - b.display_order),
-      backward: (s) => {
-        const prev = new Map(current.map((p) => [p.id, p.display_order]))
-        return s.map((p) => ({ ...p, display_order: prev.get(p.id) ?? p.display_order })).sort((a, b) => a.display_order - b.display_order)
-      },
+      backward: (s) => restoreOrder(s, current),
       request: () => adminFetch('/api/menu/reorder', { method: 'POST', json: reorderBody('pages', after) }),
+      failureTitle: 'L’ordre des pages n’a pas été enregistré.',
     })
-    if (!r.ok) toast.error('L’ordre des pages n’a pas été enregistré.', `${readableError(r.error)} L’ordre précédent est rétabli.`)
   }
 
   // --- Catégories --------------------------------------------------------
@@ -288,6 +318,7 @@ export function useMenuData() {
     error: query.error,
     refetch: query.refetch,
     pages,
+    reordering,
     savePrice,
     setAvailability,
     createItem,

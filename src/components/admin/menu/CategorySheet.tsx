@@ -8,7 +8,7 @@ import { Input } from '../Input'
 import { useConfirm } from '../ConfirmDialog'
 import { Sheet } from './Sheet'
 import type { MenuData } from './useMenuData'
-import { pluralPlats } from './menu-logic'
+import { createSubmitLock, pluralPlats } from './menu-logic'
 
 /** Créer une catégorie, ou « Options de la catégorie » : renommer, supprimer. */
 export function CategorySheet({
@@ -29,6 +29,7 @@ export function CategorySheet({
   const [nameError, setNameError] = useState<string | null>(null)
   const [failure, setFailure] = useState<{ title: string; message: string } | null>(null)
   const [saving, setSaving] = useState(false)
+  const [lock] = useState(createSubmitLock)
   const [deleting, setDeleting] = useState(false)
   const busy = saving || deleting
 
@@ -47,6 +48,10 @@ export function CategorySheet({
   }
 
   async function save() {
+    await lock.run(saveOnce)
+  }
+
+  async function saveOnce() {
     setFailure(null)
     if (name.trim() === '') {
       setNameError('Entrez le nom de la catégorie.')

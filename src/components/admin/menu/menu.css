@@ -34,6 +34,8 @@ body[data-adm-toast="top"] .adm-toast::after { top: auto; bottom: calc(-1 * (var
 .mn-root .adm-btn--sm, .mn-sheet .adm-btn--sm { font-size: var(--adm-text-sm); }
 .mn-root, .mn-sheet { font-variant-numeric: tabular-nums; }
 .mn-root > * { min-width: 0; }
+/* Un toast d'erreur persistant ne recouvre pas les actions de l'en-tête : le contenu descend (useToastClearance). */
+.mn-root { padding-top: var(--mn-toast-clear, 0px); }
 
 /* --- En-tête et commandes ---------------------------------------------------------------------------------- */
 .mn-head-actions { display: none; gap: 10px; flex-wrap: wrap; }

@@ -15,7 +15,7 @@ export function Switch({
 }: {
   checked: boolean
   onChange: (next: boolean) => void
-  /** Nom accessible complet (« Disponibilité de Tom Kha Gai »). */
+  /** Sujet de l'interrupteur (« Tom Kha Gai »). Le nom accessible commence par le texte visible (WCAG 2.5.3) : « Disponible, Tom Kha Gai ». */
   label: string
   onText: string
   offText: string
@@ -26,7 +26,7 @@ export function Switch({
       type="button"
       role="switch"
       aria-checked={checked}
-      aria-label={label}
+      aria-label={`${checked ? onText : offText}, ${label}`}
       aria-busy={busy ? true : undefined}
       className="mn-sw"
       onClick={() => {

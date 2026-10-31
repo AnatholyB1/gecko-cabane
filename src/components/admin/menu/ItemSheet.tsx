@@ -9,7 +9,7 @@ import { useConfirm } from '../ConfirmDialog'
 import { Sheet } from './Sheet'
 import { Switch } from './Switch'
 import type { MenuData } from './useMenuData'
-import { itemToForm, parsePriceInput, sameForm, type ItemForm } from './menu-logic'
+import { createSubmitLock, itemToForm, parsePriceInput, sameForm, type ItemForm } from './menu-logic'
 
 /** Alerte en ligne d'échec : ce qui a échoué, ce qui est conservé, quoi faire (D3 §3). */
 function FailureAlert({ title, message }: { title: string; message: string }) {
@@ -67,11 +67,17 @@ export function AddItemSheet({
   const [priceError, setPriceError] = useState<string | null>(null)
   const [failure, setFailure] = useState<{ title: string; message: string } | null>(null)
   const [saving, setSaving] = useState<'one' | 'more' | null>(null)
+  // Verrou synchrone : la touche Entrée (et sa répétition) ne peut pas envoyer deux fois le même plat.
+  const [lock] = useState(createSubmitLock)
 
   const dirty = name.trim() !== '' || price.trim() !== ''
   const requestClose = useGuardedClose(dirty, onClose, 'Fermer sans ajouter ?', 'Le plat que vous avez commencé à saisir ne sera pas ajouté à la carte.')
 
   async function submit(another: boolean) {
+    await lock.run(() => submitOnce(another))
+  }
+
+  async function submitOnce(another: boolean) {
     setFailure(null)
     const trimmed = name.trim()
     const parsed = parsePriceInput(price)
@@ -155,7 +161,7 @@ export function AddItemSheet({
       />
       <div className="mn-field-switch">
         <span className="adm-label">Visible sur le site</span>
-        <Switch checked={available} onChange={setAvailable} label="Disponibilité du nouveau plat" onText="Disponible" offText="Indisponible" />
+        <Switch checked={available} onChange={setAvailable} label="le nouveau plat" onText="Disponible" offText="Indisponible" />
       </div>
     </Sheet>
   )
@@ -182,6 +188,7 @@ export function EditItemSheet({ item, data, onClose }: { item: MenuItem; data: M
   const [nameError, setNameError] = useState<string | null>(null)
   const [failure, setFailure] = useState<{ title: string; message: string } | null>(null)
   const [saving, setSaving] = useState(false)
+  const [lock] = useState(createSubmitLock)
   const [deleting, setDeleting] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
@@ -192,6 +199,10 @@ export function EditItemSheet({ item, data, onClose }: { item: MenuItem; data: M
   const busy = saving || deleting
 
   async function save() {
+    await lock.run(saveOnce)
+  }
+
+  async function saveOnce() {
     setFailure(null)
     const parsed = parsePriceInput(itemForm.price)
     const nErr = itemForm.name.trim() === '' ? 'Entrez le nom du plat.' : null
