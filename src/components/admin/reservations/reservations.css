@@ -38,6 +38,7 @@
 .rv-title { font-size: var(--adm-text-sm); font-weight: 600; letter-spacing: var(--adm-tracking-eyebrow); text-transform: uppercase; color: var(--adm-muted); }
 .rv-sect { font-size: var(--adm-text-lg); font-weight: 600; }
 .rv-total { color: var(--adm-muted); font-size: var(--adm-text-sm); }
+.rv-total a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-weight: 600; }
 .rv-total b { color: var(--adm-ink); font-size: var(--adm-text-base); }
 
 /* Aujourd'hui : une colonne, deux colonnes (principale + 360 px) dès 1024 */
@@ -51,7 +52,7 @@
   .rv-today > .rv-a-side { grid-area: side; grid-row: 1 / span 3; position: sticky; top: calc(var(--adm-header-h, 60px) + 16px); }
 }
 .rv-card { background: var(--adm-surface); border: 1px solid var(--adm-line); border-radius: var(--adm-radius-lg); padding: var(--adm-space-4); display: grid; gap: var(--adm-space-3); }
-.rv-card--flush { padding: 0; overflow: hidden; gap: 0; }
+.rv-card--flush { padding: 0; overflow: hidden; gap: 0; container: rvc / inline-size; }
 
 /* Jauges (pic de couverts simultanés du service) */
 .rv-gauges { display: grid; gap: var(--adm-space-4); grid-template-columns: 1fr 1fr; }
@@ -104,16 +105,17 @@
 /* --- Ligne de réservation ---------------------------------------------- */
 .rv-row { display: grid; gap: 4px 12px; padding: 12px var(--adm-space-4); border-top: 1px solid var(--adm-line); align-items: center;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-areas: "time id party" "status meta contact" "notes notes notes" "actions actions actions" "detail detail detail"; }
+  grid-template-areas: "time id id" "sub sub contact" "notes notes notes" "actions actions actions" "detail detail detail"; }
 .rv-card--flush > .rv-row:first-child, .rv-list > .rv-row:first-child { border-top: 0; }
 .rv-row[aria-busy="true"] { background: var(--adm-surface-2); }
 .rv-row[data-status="cancelled"] .rv-row__time, .rv-row[data-status="cancelled"] .rv-row__name { text-decoration: line-through; color: var(--adm-muted); }
 .rv-row__time { grid-area: time; font-size: 20px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
-.rv-row__id { display: contents; }
-.rv-row__name { grid-area: id; font-size: 17px; font-weight: 600; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.rv-row__meta { grid-area: meta; color: var(--adm-muted); font-size: var(--adm-text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.rv-row__party { grid-area: party; display: inline-flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; justify-self: end; }
-.rv-row__status { grid-area: status; justify-self: start; }
+.rv-row__id { grid-area: id; min-width: 0; }
+.rv-row__sub { grid-area: sub; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.rv-row__name { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.rv-row__meta { display: none; margin: 0; color: var(--adm-muted); font-size: var(--adm-text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.rv-row__party { grid-area: party; display: inline-flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; margin-left: auto; }
+.rv-row__status { flex: none; }
 .rv-row__contact { grid-area: contact; display: flex; gap: 4px; justify-self: end; }
 .rv-row__notes { grid-area: notes; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: var(--adm-text-sm); }
 .rv-row__notes:empty { display: none; }
@@ -128,23 +130,26 @@
 .rv-tag--allergy { background: var(--adm-danger-bg); border-color: var(--adm-danger-line); color: var(--adm-danger); font-weight: 600; }
 .rv-tag--note { background: var(--adm-warn-bg); border-color: var(--adm-warn-line); color: var(--adm-warn); }
 
-@media (min-width: 768px) {
+@container rvc (min-width: 600px) {
   .rv-row { grid-template-columns: 64px minmax(0, 1fr) auto auto auto; column-gap: 16px;
     grid-template-areas: "time id party status contact" ". notes notes actions actions" "detail detail detail detail detail"; }
-  .rv-row__id { display: block; grid-area: id; min-width: 0; }
-  .rv-row__name, .rv-row__meta { display: block; grid-area: auto; }
+  .rv-row__sub { display: contents; }
+  .rv-row__meta { display: block; }
+  .rv-row__party { margin-left: 0; justify-self: end; }
+  .rv-row__status { grid-area: status; }
   .rv-row__actions { justify-content: flex-end; flex-wrap: nowrap; }
   .rv-row__actions .adm-btn { flex: 0 0 auto; }
   .rv-row--noactions { grid-template-areas: "time id party status contact" ". notes notes notes notes" "detail detail detail detail detail"; }
   .rv-row__fail { grid-column: 2 / -1; }
 }
-@media (min-width: 1280px) {
+@container rvc (min-width: 980px) {
   .rv-row { grid-template-columns: 64px minmax(0, 1fr) 56px 170px auto auto;
     grid-template-areas: "time id party status contact actions" ". notes notes notes notes notes" "detail detail detail detail detail detail"; }
+  .rv-row--noactions { grid-template-areas: "time id party status contact actions" ". notes notes notes notes notes" "detail detail detail detail detail detail"; }
   .rv-row__party { justify-self: start; }
 }
 .rv-colhead { display: none; }
-@media (min-width: 1280px) {
+@container rvc (min-width: 980px) {
   .rv-colhead { display: grid; grid-template-columns: 64px minmax(0, 1fr) 56px 170px auto auto; column-gap: 16px; padding: 8px var(--adm-space-4); color: var(--adm-muted); font-size: var(--adm-text-sm); font-weight: 600; border-bottom: 1px solid var(--adm-line); }
 }
 
@@ -163,7 +168,7 @@
 .rv-datebar__title { flex: 1 1 200px; font-size: var(--adm-text-xl); font-weight: 600; line-height: 1.2; min-width: 0; }
 .rv-datebar__title small { display: block; font-size: var(--adm-text-sm); font-weight: 400; color: var(--adm-muted); }
 .rv-seg { display: inline-flex; border: 1px solid var(--adm-field-border); border-radius: var(--adm-radius); overflow: hidden; background: var(--adm-surface); }
-.rv-seg button { min-height: 42px; padding: 0 14px; background: transparent; border: 0; font: 600 var(--adm-text-sm)/1 var(--adm-font-sans); color: var(--adm-ink); cursor: pointer; }
+.rv-seg button { min-height: 44px; padding: 0 14px; background: transparent; border: 0; font: 600 var(--adm-text-sm)/1 var(--adm-font-sans); color: var(--adm-ink); cursor: pointer; }
 .rv-seg button + button { border-left: 1px solid var(--adm-field-border); }
 .rv-seg button[aria-current="true"] { background: var(--adm-brand); color: var(--adm-brand-ink); }
 .rv-date { max-width: 190px; }
@@ -204,6 +209,7 @@
 .rv-radio:has(input:checked) { border-color: var(--adm-brand); background: var(--adm-brand-tint); }
 .rv-radio:has(input:focus-visible) { outline: 2px solid var(--adm-focus); outline-offset: 2px; }
 .rv-stepper { display: flex; gap: 8px; }
+.rv-stepper .adm-btn { flex: none; }
 .rv-stepper input { text-align: center; flex: 1 1 auto; min-width: 0; }
 .rv-banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--adm-radius); border: 1px solid var(--adm-danger-line); background: var(--adm-danger-bg); color: var(--adm-danger); font-weight: 500; }
 .rv-form__actions { display: flex; flex-direction: column-reverse; gap: 8px; }
@@ -212,3 +218,9 @@
 @media (prefers-reduced-motion: reduce) {
   .rv-sheet, .adm-toast, .rv-past > summary svg { transition: none; }
 }
+
+/* Les dialogues sortent de .adm-root (portail) : mêmes champs date/heure et même focus que dans la page. */
+.adm-portal input[type="date"], .adm-portal input[type="time"] { color-scheme: light; background-color: var(--adm-surface); color: var(--adm-ink); }
+.adm-portal input[type="date"]::-webkit-calendar-picker-indicator, .adm-portal input[type="time"]::-webkit-calendar-picker-indicator { filter: none; opacity: 1; }
+.adm-portal input:focus-visible, .adm-portal select:focus-visible, .adm-portal textarea:focus-visible { outline: 2px solid var(--adm-focus); outline-offset: 1px; }
+.adm-portal input, .adm-portal textarea, .adm-portal select { font-family: inherit; color: var(--adm-ink); background-color: var(--adm-surface); }

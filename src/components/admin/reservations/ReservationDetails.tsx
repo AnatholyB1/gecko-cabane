@@ -100,12 +100,16 @@ export function ReservationDetails({
           <dd>{r.customer_phone || 'Non renseigné'}</dd>
         </div>
         <div>
+          <dt>Origine du client</dt>
+          <dd>{SOURCE_LABELS[r.source ?? 'site']} · {r.locale?.toUpperCase()}</dd>
+        </div>
+        <div>
           <dt>Email</dt>
           <dd>{r.customer_email ? <a href={`mailto:${r.customer_email}`}>{r.customer_email}</a> : 'Non renseigné'}</dd>
         </div>
         {origin ? (
           <div>
-            <dt>Origine</dt>
+            <dt>Campagne</dt>
             <dd>{origin}</dd>
           </div>
         ) : null}

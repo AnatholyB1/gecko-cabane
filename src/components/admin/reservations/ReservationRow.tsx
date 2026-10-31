@@ -61,15 +61,17 @@ export function ReservationRow({
         <h3 className="rv-row__name">{r.customer_name}</h3>
         <p className="rv-row__meta" title={meta}>{meta}</p>
       </div>
-      <div className="rv-row__party" aria-label={`${r.party_size} couvert${r.party_size > 1 ? 's' : ''}`}>
-        <Users className="i i-sm" aria-hidden="true" focusable="false" />
-        {r.party_size}
+      <div className="rv-row__sub">
+        {hideStatus ? null : (
+          <span className="rv-row__status">
+            <StatusBadge status={r.status} />
+          </span>
+        )}
+        <div className="rv-row__party" role="img" aria-label={`${r.party_size} couvert${r.party_size > 1 ? 's' : ''}`}>
+                <Users className="i i-sm" aria-hidden="true" focusable="false" />
+                {r.party_size}
+              </div>
       </div>
-      {hideStatus ? null : (
-        <div className="rv-row__status">
-          <StatusBadge status={r.status} />
-        </div>
-      )}
       <div className="rv-row__contact">
         {links.tel ? (
           <a className={buttonClass({ variant: 'secondary', iconOnly: true })} href={links.tel} aria-label={labels.tel}>
