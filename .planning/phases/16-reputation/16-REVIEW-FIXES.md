@@ -1,7 +1,7 @@
 # Corrections des findings d'audit P14 (Carte) et P16 (Réputation)
 
 Date : 2026-10-31. Branche `fix/p14-p16-audit` (depuis `milestone/v1.1`, `b685cc4`). Source : `16-AUDIT.md`.
-Commits : `1288fb1` (réputation), `cddcdc2` (carte), `e49f5ed` (stabilité du gate). Fusion de `milestone/v1.1` : `0799ba0`.
+Commits : `1288fb1` (réputation), `cddcdc2` (carte), `e49f5ed` (stabilité du gate, remplacé à la fusion). Fusions de `milestone/v1.1` : `0799ba0`, puis la dernière (conflits `Button.tsx` et `admin-nav-single-source.test.ts` résolus avec la version du milestone, identique en substance pour `Button`). Le test des fichiers gelés de la P15 (`p15-audit-fixes.test.ts`) autorise désormais, et seulement, le champ `mode` dans `src/app/api/kpi/route.ts`.
 
 ## Dispositions
 
@@ -14,7 +14,7 @@ Commits : `1288fb1` (réputation), `cddcdc2` (carte), `e49f5ed` (stabilité du g
 | F-M3 prix 0 | Corrigé côté écran : seuls les prix strictement positifs sont acceptés, message « Entrez un prix supérieur à 0, ou laissez vide pour ne pas afficher de prix. ». Bugs d'API documentés plus bas (routes non modifiées) | `cddcdc2` |
 | F-M2 date du 2026-11-16 | Corrigé (libellé). « Date indicative : repère du 2026-11-16 (horloge de ce poste, non vérifié par le serveur : seul le réglage serveur décide) ». La phrase de garde du propriétaire (`GUARD_PHRASE`) est inchangée | `1288fb1` |
 | F-M4 textes périmés | Corrigés (voir « Source des totaux »). Les saisies manuelles ne sont PAS retirées | `1288fb1` |
-| F-M5 stabilité du gate | Timeout global 30 s déjà en place (vérifié). Mais il restait un vrai aléa, sans rapport avec le délai : `admin-nav-single-source` lisait parfois le vrai NAV (1 à 2 échecs sur environ 3 passes complètes sur 8, y compris dans `npm run build`). Cause : mock par `vi.doMock` + `resetModules` + imports dynamiques. Remplacé par un mock hoisted à getter. 10 passes complètes sur 10, puis `npm run build` complet 3 fois sur 3 | `e49f5ed` |
+| F-M5 stabilité du gate | Timeout global 30 s déjà en place (vérifié). Il restait un vrai aléa sans rapport avec le délai : `admin-nav-single-source` lisait parfois le vrai NAV (1 à 2 échecs sur environ 3 passes complètes sur 8, dont un `npm run build` en échec). J'ai corrigé (`e49f5ed`, mock hoisted à getter, 10 passes sur 10) ; `milestone/v1.1` avait entre-temps corrigé le même test autrement (NAV modifié en place) : à la fusion j'ai gardé la version du milestone. Après fusion : 5 passes complètes sur 5, puis `npm run build` complet 3 fois sur 3 | `e49f5ed` (remplacé par le milestone) |
 | Basse 1 nom accessible du Switch | Corrigé : « Disponible, Tom Kha Gai » (commence par le texte visible, WCAG 2.5.3). `Button` laisse maintenant passer `aria-disabled` | `cddcdc2` |
 | Basse 2 `setTimeout` non nettoyé | Corrigé (ItemRow) | `cddcdc2` |
 | Basse 3 refetch ignoré | Corrigé avec F-M1 | `cddcdc2` |
@@ -55,7 +55,7 @@ Serveur arrêté par le PID qui écoutait sur 3116. Zéro envoi réel.
 
 ## Gate
 
-`npx vitest run` 1861 verts, 1 sauté (10 passes complètes sur 10 après correction) ; `npx tsc --noEmit` 0 erreur ; `npm run lint` 0 erreur, 2 avertissements préexistants ; `npm run build` complet (vitest + `next build`, variables publiques factices) 3 fois sur 3, Turbopack et polices Google OK dans ce worktree.
+`npx vitest run` 1981 verts, 1 sauté (5 passes complètes sur 5 après la dernière fusion) ; `npx tsc --noEmit` 0 erreur ; `npm run lint` 0 erreur, 2 avertissements préexistants ; `npm run build` complet (vitest + `next build`, variables publiques factices) 3 fois sur 3, Turbopack et polices Google OK dans ce worktree.
 
 ## Non prouvé
 

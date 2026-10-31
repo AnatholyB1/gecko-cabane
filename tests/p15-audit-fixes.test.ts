@@ -26,6 +26,29 @@ const FROZEN_PATHS = [
 ]
 const FROZEN_PREFIXES = ['src/utils/kpi-']
 
+/**
+ * Seule exception décidée par le propriétaire (audit P14/P16, F-H1) : GET /api/kpi expose en lecture seule
+ * le champ `mode` ('test' | 'live', lu de KPI_REPORT_MODE), sans autre effet. Le contenu attendu est la base
+ * c6bc779 plus exactement ces trois remplacements.
+ */
+const OWNER_ALLOWED: Record<string, (base: string) => string> = {
+  'src/app/api/kpi/route.ts': (base) =>
+    base
+      .replace("import { weekEndOf } from '@/utils/kpi-week'", "import { weekEndOf } from '@/utils/kpi-week'\nimport { resolveReportMode } from '@/utils/kpi-mode'")
+      .replace("import type { ApiResponse, WeeklyKpiRow } from '@/types/database'", "import type { ApiResponse, KpiReportMode, WeeklyKpiRow } from '@/types/database'")
+      .replace(
+        `    return NextResponse.json<ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number }>>({
+      data: { weeks: rows, testReportsSent },
+    })`,
+        `    // Lecture seule du reglage serveur (KPI_REPORT_MODE), pour l'affichage de l'admin : aucun autre effet.
+    const mode: KpiReportMode = resolveReportMode(process.env.KPI_REPORT_MODE)
+
+    return NextResponse.json<ApiResponse<{ weeks: WeeklyKpiRow[]; testReportsSent: number; mode: KpiReportMode }>>({
+      data: { weeks: rows, testReportsSent, mode },
+    })`,
+      ),
+}
+
 function git(...args: string[]): string {
   return execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] })
 }
@@ -62,7 +85,8 @@ describe.skipIf(!baseAvailable())(`fichiers gelés identiques à ${BASE} (compar
 
   it.each(baseFiles)('%s : contenu inchangé', (file) => {
     expect(existsSync(join(root, file)), `${file} supprimé`).toBe(true)
-    expect(norm(read(file))).toBe(norm(git('show', `${BASE}:${file}`)))
+    const base = norm(git('show', `${BASE}:${file}`))
+    expect(norm(read(file))).toBe(file in OWNER_ALLOWED ? OWNER_ALLOWED[file](base) : base)
   })
 
   it('aucun fichier ajouté dans les dossiers gelés', () => {
