@@ -72,10 +72,14 @@ function walk(dir: string): string[] {
 const norm = (s: string) => s.replace(/\r\n/g, '\n')
 
 describe.skipIf(!baseAvailable())(`fichiers gelés identiques à ${BASE} (comparaison de contenu)`, () => {
-  const baseFiles = git('ls-tree', '-r', '--name-only', BASE, '--', ...FROZEN_PATHS, 'src/utils')
-    .split('\n')
-    .filter(Boolean)
-    .filter((f) => FROZEN_PATHS.some((p) => f === p || f.startsWith(`${p}/`)) || FROZEN_PREFIXES.some((p) => f.startsWith(p)))
+  // Vitest exécute le corps d'un describe même quand skipIf est vrai : ne pas appeler git sans le commit
+  // de référence (clone superficiel de Vercel, où `git ls-tree` échoue et ferait échouer tout le build).
+  const baseFiles = baseAvailable()
+    ? git('ls-tree', '-r', '--name-only', BASE, '--', ...FROZEN_PATHS, 'src/utils')
+        .split('\n')
+        .filter(Boolean)
+        .filter((f) => FROZEN_PATHS.some((p) => f === p || f.startsWith(`${p}/`)) || FROZEN_PREFIXES.some((p) => f.startsWith(p)))
+    : []
 
   it('la liste de référence couvre l’API de réservation, les crons, les KPI et les emails', () => {
     for (const must of ['src/app/api/reservations/route.ts', 'src/app/api/reservations/manual/route.ts', 'src/app/api/cron/review-invitations/route.ts', 'src/app/api/kpi/route.ts', 'src/utils/resend.ts']) {
