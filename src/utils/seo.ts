@@ -317,23 +317,57 @@ export type OpeningHoursRow = {
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
+export type SpecialHoursRow = {
+  date: string
+  is_open: boolean | null
+  open_time: string | null
+  close_time: string | null
+}
+
 type OpeningHoursSpec = {
   '@type': 'OpeningHoursSpecification'
   dayOfWeek: string[]
   opens: string
   closes: string
+  validFrom?: string
+  validThrough?: string
 }
 
-/** Closed days are omitted; days sharing the same range are grouped. */
-export function mapOpeningHours(rows: OpeningHoursRow[]): OpeningHoursSpec[] {
+/** schema.org/Google convention for a closed day or period: opens and closes at midnight. */
+export const CLOSED_TIME = '00:00'
+
+/** True for a spec that stands for a closed day ("00:00" - "00:00"). */
+export function isClosedSpec(spec: Pick<OpeningHoursSpec, 'opens' | 'closes'>): boolean {
+  return spec.opens === CLOSED_TIME && spec.closes === CLOSED_TIME
+}
+
+/**
+ * Weekly specs: days sharing the same range are grouped, in first-seen order. A closed day
+ * (is_open === false) is emitted as 00:00-00:00 (pass `includeClosed: false` for visible text).
+ * A row with an unknown state (null) or an open row without times is skipped.
+ */
+export function mapOpeningHours(
+  rows: OpeningHoursRow[],
+  options: { includeClosed?: boolean } = {}
+): OpeningHoursSpec[] {
+  const { includeClosed = true } = options
   const groups = new Map<string, OpeningHoursSpec>()
   const sorted = [...rows].sort((a, b) => a.day_of_week - b.day_of_week)
   for (const row of sorted) {
-    if (!row.is_open || !row.open_time || !row.close_time) continue
     const day = DAYS[row.day_of_week]
     if (!day) continue
-    const opens = row.open_time.slice(0, 5)
-    const closes = row.close_time.slice(0, 5)
+    let opens: string
+    let closes: string
+    if (row.is_open === false) {
+      if (!includeClosed) continue
+      opens = CLOSED_TIME
+      closes = CLOSED_TIME
+    } else if (row.is_open && row.open_time && row.close_time) {
+      opens = row.open_time.slice(0, 5)
+      closes = row.close_time.slice(0, 5)
+    } else {
+      continue
+    }
     const key = `${opens}|${closes}`
     const existing = groups.get(key)
     if (existing) existing.dayOfWeek.push(day)
@@ -349,15 +383,91 @@ export function mapOpeningHours(rows: OpeningHoursRow[]): OpeningHoursSpec[] {
   return [...groups.values()]
 }
 
+/** Horizon of dated exceptions published in the schema. */
+export const SPECIAL_HOURS_HORIZON_DAYS = 60
+
+const YMD = /^(\d{4})-(\d{2})-(\d{2})$/
+
+function ymdToUtc(date: string): number | null {
+  const m = YMD.exec(date)
+  if (!m) return null
+  const t = Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+  const d = new Date(t)
+  // Rejects 2026-02-31 and the like.
+  return d.toISOString().slice(0, 10) === date ? t : null
+}
+
+/** Adds days to a YYYY-MM-DD date (calendar arithmetic, no timezone involved). */
+export function addDaysToYmd(date: string, days: number): string {
+  const t = ymdToUtc(date)
+  if (t === null) throw new Error(`Invalid date: ${date}`)
+  return new Date(t + days * 86_400_000).toISOString().slice(0, 10)
+}
+
+/**
+ * Dated exceptions (gecko_special_hours, which also carries the "Complet ce soir" closures as a
+ * lunch-only or closed day) as OpeningHoursSpecification with validFrom/validThrough, for the
+ * dates from `today` (included) to `today + horizonDays` (included), sorted by date.
+ * Pure: the caller supplies `today` (YYYY-MM-DD, Krabi). Invalid or incomplete rows are skipped.
+ */
+export function mapSpecialHours(
+  rows: SpecialHoursRow[],
+  today: string,
+  horizonDays: number = SPECIAL_HOURS_HORIZON_DAYS
+): OpeningHoursSpec[] {
+  if (ymdToUtc(today) === null) return []
+  const last = addDaysToYmd(today, horizonDays)
+  const out: OpeningHoursSpec[] = []
+  const sorted = [...rows].sort((a, b) => a.date.localeCompare(b.date))
+  for (const row of sorted) {
+    const t = ymdToUtc(row.date)
+    if (t === null || row.date < today || row.date > last) continue
+    let opens: string
+    let closes: string
+    if (row.is_open === false) {
+      opens = CLOSED_TIME
+      closes = CLOSED_TIME
+    } else if (row.is_open && row.open_time && row.close_time) {
+      opens = row.open_time.slice(0, 5)
+      closes = row.close_time.slice(0, 5)
+    } else {
+      continue
+    }
+    out.push({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [DAYS[new Date(t).getUTCDay()]],
+      opens,
+      closes,
+      validFrom: row.date,
+      validThrough: row.date,
+    })
+  }
+  return out
+}
+
 export function buildRestaurantJsonLd(args: {
   locale: SeoLocale
   description: string
   hoursRows: OpeningHoursRow[]
+  /** Dated exceptions (gecko_special_hours) and Krabi today, to publish the next 60 days. */
+  specialRows?: SpecialHoursRow[]
+  today?: string
   sameAs?: readonly string[]
   aggregateRating?: ReturnType<typeof aggregateRatingFor>
 }): Record<string, unknown> {
-  const { locale, description, hoursRows, sameAs = SAME_AS, aggregateRating = aggregateRatingFor() } = args
-  const hours = mapOpeningHours(hoursRows)
+  const {
+    locale,
+    description,
+    hoursRows,
+    specialRows = [],
+    today,
+    sameAs = SAME_AS,
+    aggregateRating = aggregateRatingFor(),
+  } = args
+  const hours = [
+    ...mapOpeningHours(hoursRows),
+    ...(today ? mapSpecialHours(specialRows, today) : []),
+  ]
 
   // aggregateRating (phase 5 D-14): from social-proof.ts, the same constants as the visible badge. hasMenu = URL of the localized /menu
   // page (phase 3, D-10); the deprecated `menu` property stays absent.

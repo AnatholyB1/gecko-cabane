@@ -36,22 +36,35 @@ function week(overrides: Partial<Record<number, Partial<OpeningHoursRow>>> = {})
 // ---------------------------------------------------------------------------
 
 describe('mapOpeningHours', () => {
-  it('groups identical ranges and omits closed days', () => {
+  it('groups identical ranges and emits closed days as 00:00-00:00', () => {
     const specs = mapOpeningHours(week())
-    expect(specs).toHaveLength(1)
+    expect(specs).toHaveLength(2)
     expect(specs[0]).toEqual({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Sunday', 'Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       opens: '12:00',
       closes: '22:00',
     })
+    expect(specs[1]).toEqual({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Tuesday'],
+      opens: '00:00',
+      closes: '00:00',
+    })
+  })
+
+  it('can leave closed days out for visible text', () => {
+    const specs = mapOpeningHours(week(), { includeClosed: false })
+    expect(specs).toHaveLength(1)
+    expect(specs[0].dayOfWeek).not.toContain('Tuesday')
   })
 
   it('emits one spec per distinct range, in first-seen order', () => {
     const specs = mapOpeningHours(week({ 6: { close_time: '23:00:00' } }))
-    expect(specs).toHaveLength(2)
+    expect(specs).toHaveLength(3)
     expect(specs[0].dayOfWeek).toEqual(['Sunday', 'Monday', 'Wednesday', 'Thursday', 'Friday'])
-    expect(specs[1]).toMatchObject({ dayOfWeek: ['Saturday'], opens: '12:00', closes: '23:00' })
+    expect(specs[1]).toMatchObject({ dayOfWeek: ['Tuesday'], opens: '00:00', closes: '00:00' })
+    expect(specs[2]).toMatchObject({ dayOfWeek: ['Saturday'], opens: '12:00', closes: '23:00' })
   })
 
   it('skips open rows with missing times', () => {
@@ -135,7 +148,7 @@ describe('buildRestaurantJsonLd options', () => {
 
   it('includes openingHoursSpecification when rows exist', () => {
     const ld = buildRestaurantJsonLd({ locale: 'fr', description: 'x', hoursRows: week() })
-    expect(ld.openingHoursSpecification).toHaveLength(1)
+    expect(ld.openingHoursSpecification).toHaveLength(2)
   })
 
   it('emits sameAs only when provided', () => {

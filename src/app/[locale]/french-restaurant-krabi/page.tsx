@@ -57,7 +57,7 @@ export default async function FrenchRestaurantPage({ params }: Props) {
   const belgianHref = menu.some((p) => p.slug === 'vins-bieres-belges')
     ? '/menu#vins-bieres-belges'
     : '/menu'
-  const hours = mapOpeningHours(hoursRows)
+  const hours = mapOpeningHours(hoursRows, { includeClosed: false })
 
   return (
     <div className="min-h-screen bg-gc-ivory font-cormorant">

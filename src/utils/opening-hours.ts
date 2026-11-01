@@ -1,6 +1,9 @@
 import { unstable_cache } from 'next/cache'
 import { createClient } from '@supabase/supabase-js'
-import type { OpeningHoursRow } from '@/utils/seo'
+import * as Sentry from '@sentry/nextjs'
+import { summarizeUniformHours, type UniformHours } from '@/utils/hours-text'
+import { addDaysToYmd, SPECIAL_HOURS_HORIZON_DAYS, type OpeningHoursRow, type SeoLocale, type SpecialHoursRow } from '@/utils/seo'
+import { krabiTodayYmd } from '@/utils/krabi-time'
 
 export const OPENING_HOURS_TAG = 'opening-hours'
 
@@ -27,3 +30,43 @@ export const getOpeningHours = unstable_cache(
   ['gecko-opening-hours'],
   { tags: [OPENING_HOURS_TAG], revalidate: 3600 },
 )
+
+/**
+ * Dated exceptions of the next SPECIAL_HOURS_HORIZON_DAYS days (gecko_special_hours, which also holds
+ * the "Complet ce soir" closures), same cache tag as the weekly hours: routes that write either
+ * table revalidate OPENING_HOURS_TAG. Anon key + public-read RLS (migration 007); throws on error.
+ */
+export const getSpecialHours = unstable_cache(
+  async (): Promise<SpecialHoursRow[]> => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { auth: { persistSession: false, autoRefreshToken: false } },
+    )
+    const today = krabiTodayYmd()
+    const { data, error } = await supabase
+      .from('gecko_special_hours')
+      .select('date, is_open, open_time, close_time')
+      .gte('date', today)
+      .lte('date', addDaysToYmd(today, SPECIAL_HOURS_HORIZON_DAYS))
+      .order('date', { ascending: true })
+    if (error) throw error
+    return (data ?? []) as SpecialHoursRow[]
+  },
+  ['gecko-special-hours'],
+  { tags: [OPENING_HOURS_TAG], revalidate: 3600 },
+)
+
+/**
+ * Hours for visible text (footer, kitchen close, guides), localized. null when the hours are not
+ * identical on the 7 days or cannot be read (error reported to Sentry): the page then shows a text
+ * without any hour instead of a stale or invented one.
+ */
+export async function getHoursSummary(locale: SeoLocale): Promise<UniformHours | null> {
+  try {
+    return summarizeUniformHours(await getOpeningHours(), locale)
+  } catch (error) {
+    Sentry.captureException(error)
+    return null
+  }
+}
