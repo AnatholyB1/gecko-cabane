@@ -31,7 +31,7 @@ Instructions pour le relecteur :
 | `footer.location` | Au cœur de la jungle de Krabi | Im Herzen des Dschungels von Krabi |  |
 | `footer.hoursTitle` | Horaires | Öffnungszeiten |  |
 | `footer.openHours` | Ouvert tous les jours de {open} à {close} | Täglich geöffnet von {open} bis {close} Uhr |  |
-| `footer.lastOrder` | Dernière commande : {close} | Letzte Bestellung: {close} Uhr |  |
+| `footer.lastOrder` | Dernière commande : {kitchen} | Letzte Bestellung: {kitchen} Uhr |  |
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alle Rechte vorbehalten. |  |
 | `footer.createdBy` | Créé par | Erstellt von |  |

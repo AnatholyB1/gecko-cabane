@@ -22,3 +22,6 @@ commits: [b2f427c, f4cfa78, 8a122a6]
 
 ## Verification
 Voir le rapport final : vitest (7 fichiers en echec avant et apres, paquet `@base-ui/react` absent), eslint 0 erreur, tsc sans nouvelle erreur, `npm run build` bloque par le meme paquet manquant.
+
+## Correction (coordinateur) : cuisine vs salle
+Derniere commande = min(`KITCHEN_CLOSE`, `close_time`) (`kitchenCloseFor` dans `src/utils/hours-text.ts`, constante reutilisee depuis `reservation-rules`, module pur importable cote client). `footer.lastOrder`, `about.kitchenClose`, ligne lastOrder de HoursDisplay et phrase des guides utilisent `{kitchen}` ; « ouvert de {open} a {close} » reste la salle (base). Nouvelle phrase `hoursText.dailyRoomAndKitchen` quand salle et cuisine different. JSON-LD inchange. Verification : vitest 137/137, eslint 0 erreur, tsc sans erreur hors `.next/types`.

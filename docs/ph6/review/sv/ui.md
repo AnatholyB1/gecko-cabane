@@ -31,7 +31,7 @@ Instructions pour le relecteur :
 | `footer.location` | Au cœur de la jungle de Krabi | Mitt i Krabis djungel |  |
 | `footer.hoursTitle` | Horaires | Öppettider |  |
 | `footer.openHours` | Ouvert tous les jours de {open} à {close} | Öppet varje dag kl. {open}–{close} |  |
-| `footer.lastOrder` | Dernière commande : {close} | Sista beställning: kl. {close} |  |
+| `footer.lastOrder` | Dernière commande : {kitchen} | Sista beställning: kl. {kitchen} |  |
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alla rättigheter förbehållna. |  |
 | `footer.createdBy` | Créé par | Skapad av |  |

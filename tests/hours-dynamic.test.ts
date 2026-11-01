@@ -18,7 +18,8 @@ import {
   type OpeningHoursRow,
   type SpecialHoursRow,
 } from '../src/utils/seo'
-import { formatClock, summarizeUniformHours } from '../src/utils/hours-text'
+import { formatClock, kitchenCloseFor, summarizeUniformHours } from '../src/utils/hours-text'
+import { KITCHEN_CLOSE } from '../src/utils/reservation-rules'
 
 const root = process.cwd()
 const read = (rel: string) => readFileSync(join(root, rel), 'utf-8')
@@ -120,10 +121,30 @@ describe('hours text from the database values', () => {
     expect(formatClock('22:30', 'sv')).toBe('22.30')
   })
 
-  it('follows the database: a change of closing time changes the text', () => {
-    expect(summarizeUniformHours(uniformWeek(), 'en')).toEqual({ open: '12pm', close: '10pm' })
-    expect(summarizeUniformHours(uniformWeek('11:00:00', '23:00:00'), 'en')).toEqual({ open: '11am', close: '11pm' })
-    expect(summarizeUniformHours(uniformWeek(), 'fr')).toEqual({ open: '12h', close: '22h' })
+  it('room closes at 23:00: text 12 to 11pm, last order stays at KITCHEN_CLOSE (22h)', () => {
+    expect(KITCHEN_CLOSE).toBe('22:00')
+    expect(summarizeUniformHours(uniformWeek('12:00:00', '23:00:00'), 'fr')).toEqual({
+      open: '12h',
+      close: '23h',
+      kitchen: '22h',
+      kitchenIsClose: false,
+    })
+    expect(summarizeUniformHours(uniformWeek('12:00:00', '23:00:00'), 'en')).toMatchObject({ close: '11pm', kitchen: '10pm' })
+  })
+
+  it('room closes at 21:00: last order is the earlier close_time (min)', () => {
+    expect(kitchenCloseFor('21:00:00')).toBe('21:00')
+    expect(kitchenCloseFor('23:00:00')).toBe(KITCHEN_CLOSE)
+    expect(summarizeUniformHours(uniformWeek('12:00:00', '21:00:00'), 'fr')).toEqual({
+      open: '12h',
+      close: '21h',
+      kitchen: '21h',
+      kitchenIsClose: true,
+    })
+  })
+
+  it('room and kitchen close together at 22:00', () => {
+    expect(summarizeUniformHours(uniformWeek(), 'en')).toEqual({ open: '12pm', close: '10pm', kitchen: '10pm', kitchenIsClose: true })
   })
 
   it('returns null (text without hours) when the week is not uniform or incomplete', () => {
@@ -173,16 +194,23 @@ describe('no hard-coded opening hour', () => {
       const m = JSON.parse(read(`messages/${locale}.json`))
       expect(m.footer.openHours, locale).toContain('{open}')
       expect(m.footer.openHours, locale).toContain('{close}')
-      expect(m.footer.lastOrder, locale).toContain('{close}')
-      expect(m.about.kitchenClose, locale).toContain('{close}')
-      expect(m.hoursText.dailyKitchenUntil, locale).toContain('{close}')
+      expect(m.footer.openHours, locale).not.toContain('{kitchen}')
+      expect(m.footer.lastOrder, locale).toContain('{kitchen}')
+      expect(m.footer.lastOrder, locale).not.toContain('{close}')
+      expect(m.about.kitchenClose, locale).toContain('{kitchen}')
+      expect(m.about.kitchenClose, locale).not.toContain('{close}')
+      expect(m.hoursText.dailyKitchenUntil, locale).toContain('{kitchen}')
+      expect(m.hoursText.dailyRoomAndKitchen, locale).toContain('{close}')
+      expect(m.hoursText.dailyRoomAndKitchen, locale).toContain('{kitchen}')
       expect(m.romanticDinner.sections.ambiance.p2, locale).toContain('{hoursSentence}')
       expect(m.whereToEat.sections.dinner.p2, locale).toContain('{hoursSentence}')
     }
   })
 
-  it('HoursDisplay has no literal hour', () => {
-    expect(read('src/components/HoursDisplay.tsx')).not.toMatch(/22h|22:00|12:00/)
+  it('HoursDisplay has no literal hour and derives the last order from the kitchen rule', () => {
+    const src = read('src/components/HoursDisplay.tsx')
+    expect(src).not.toMatch(/22h|22:00|12:00/)
+    expect(src).toContain('kitchenCloseFor')
   })
 })
 

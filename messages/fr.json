@@ -32,7 +32,7 @@
     "description1": "Niché au cœur de Krabi, notre restaurant de type gastronomique Franco-Thaï avec une salle à taille humaine où la <chef>cheffe Jariya</chef> et son équipe vous reçoivent avec chaleur et passion.",
     "description2": "Avec seulement <seats>40 places maximum</seats>, nous privilégions une expérience intime et personnalisée. Pour les groupes de plus de 10 personnes, la réservation est préconisée par téléphone ou contact direct sur place.",
     "important": "Important",
-    "kitchenClose": "La cuisine cesse d'enregistrer des commandes à partir de {close}",
+    "kitchenClose": "La cuisine cesse d'enregistrer des commandes à partir de {kitchen}",
     "chefName": "Chef Jariya",
     "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire.",
     "eyebrow": "Notre Histoire",
@@ -174,7 +174,7 @@
     "location": "Au cœur de la jungle de Krabi",
     "hoursTitle": "Horaires",
     "openHours": "Ouvert tous les jours de {open} à {close}",
-    "lastOrder": "Dernière commande : {close}",
+    "lastOrder": "Dernière commande : {kitchen}",
     "contactTitle": "Contact",
     "rights": "Tous droits réservés.",
     "createdBy": "Créé par",
@@ -188,7 +188,8 @@
     "navigateTitle": "Navigation"
   },
   "hoursText": {
-    "dailyKitchenUntil": "Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à {close}.",
+    "dailyKitchenUntil": "Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à {kitchen}.",
+    "dailyRoomAndKitchen": "Nous sommes ouverts tous les jours jusqu'à {close}, et la cuisine prend les commandes jusqu'à {kitchen}.",
     "varies": "Les horaires dépendent du jour : consultez les horaires à jour sur la page d'accueil."
   },
   "hours": {

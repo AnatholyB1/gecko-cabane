@@ -32,7 +32,7 @@
     "description1": "Mitt i Krabi ligger vår lilla fransk-thailändska restaurang, där <chef>kocken Jariya</chef> och hennes team tar emot dig med värme och passion.",
     "description2": "Vi har bara <seats>40 platser</seats> och vill att kvällen ska kännas lugn och personlig. För sällskap på fler än 10 personer rekommenderar vi att du bokar per telefon eller direkt på plats.",
     "important": "Viktigt",
-    "kitchenClose": "Köket tar emot beställningar till klockan {close}",
+    "kitchenClose": "Köket tar emot beställningar till klockan {kitchen}",
     "chefName": "Kocken Jariya",
     "chefQuote": "Med kärlek och kreativitet blandar jag franska och thailändska smaker till rätter som berättar en historia.",
     "eyebrow": "Vår historia",
@@ -174,7 +174,7 @@
     "location": "Mitt i Krabis djungel",
     "hoursTitle": "Öppettider",
     "openHours": "Öppet varje dag kl. {open}–{close}",
-    "lastOrder": "Sista beställning: kl. {close}",
+    "lastOrder": "Sista beställning: kl. {kitchen}",
     "contactTitle": "Kontakt",
     "rights": "Alla rättigheter förbehållna.",
     "createdBy": "Skapad av",
@@ -188,7 +188,8 @@
     "navigateTitle": "Navigera"
   },
   "hoursText": {
-    "dailyKitchenUntil": "Vi har öppet varje dag, och köket tar emot beställningar till klockan {close}.",
+    "dailyKitchenUntil": "Vi har öppet varje dag, och köket tar emot beställningar till klockan {kitchen}.",
+    "dailyRoomAndKitchen": "Vi har öppet varje dag till klockan {close}, och köket tar emot beställningar till klockan {kitchen}.",
     "varies": "Öppettiderna beror på dagen: se aktuella tider på vår startsida."
   },
   "hours": {

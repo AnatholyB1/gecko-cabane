@@ -32,7 +32,7 @@
     "description1": "Mitten in Krabi liegt unser kleines französisch-thailändisches Restaurant, in dem <chef>Chefköchin Jariya</chef> und ihr Team Sie mit Herzlichkeit und Leidenschaft empfangen.",
     "description2": "Wir haben nur <seats>40 Plätze</seats> und legen Wert auf einen ruhigen, persönlichen Abend. Für Gruppen ab mehr als 10 Personen empfehlen wir die Reservierung per Telefon oder direkt vor Ort.",
     "important": "Wichtig",
-    "kitchenClose": "Die Küche nimmt Bestellungen bis {close} Uhr entgegen",
+    "kitchenClose": "Die Küche nimmt Bestellungen bis {kitchen} Uhr entgegen",
     "chefName": "Chefköchin Jariya",
     "chefQuote": "Mit Liebe und Kreativität verbinde ich französische und thailändische Aromen zu Gerichten, die eine Geschichte erzählen.",
     "eyebrow": "Unsere Geschichte",
@@ -174,7 +174,7 @@
     "location": "Im Herzen des Dschungels von Krabi",
     "hoursTitle": "Öffnungszeiten",
     "openHours": "Täglich geöffnet von {open} bis {close} Uhr",
-    "lastOrder": "Letzte Bestellung: {close} Uhr",
+    "lastOrder": "Letzte Bestellung: {kitchen} Uhr",
     "contactTitle": "Kontakt",
     "rights": "Alle Rechte vorbehalten.",
     "createdBy": "Erstellt von",
@@ -188,7 +188,8 @@
     "navigateTitle": "Navigation"
   },
   "hoursText": {
-    "dailyKitchenUntil": "Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis {close} Uhr entgegen.",
+    "dailyKitchenUntil": "Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis {kitchen} Uhr entgegen.",
+    "dailyRoomAndKitchen": "Wir haben jeden Tag bis {close} Uhr geöffnet, und die Küche nimmt Bestellungen bis {kitchen} Uhr entgegen.",
     "varies": "Die Öffnungszeiten hängen vom Tag ab: Die aktuellen Zeiten finden Sie auf unserer Startseite."
   },
   "hours": {

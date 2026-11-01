@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import type { OpeningHours, SpecialHours } from '@/types/database'
+import { kitchenCloseFor } from '@/utils/hours-text'
 
 export default function HoursDisplay() {
   const t = useTranslations('hours')
@@ -85,9 +86,9 @@ export default function HoursDisplay() {
   // No hard-coded fallback: the hours come from the database or are not shown at all
   const displayHours = hours
 
-  // Last order = closing time of the day; shown only when it is the same on every open day
+  // Last order = min(KITCHEN_CLOSE, closing time of the day); shown only when it is the same on every open day
   const closes = new Set(
-    displayHours.filter((h) => h.is_open && h.close_time).map((h) => formatTime(h.close_time))
+    displayHours.filter((h) => h.is_open && h.close_time).map((h) => kitchenCloseFor(h.close_time as string))
   )
   const lastOrder = closes.size === 1 ? [...closes][0] : null
 

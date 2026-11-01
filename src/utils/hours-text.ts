@@ -4,9 +4,20 @@
  * ({open}, {close}) and never contain a hard-coded hour.
  */
 
+import { KITCHEN_CLOSE, toMinutes } from './reservation-rules'
 import type { OpeningHoursRow, SeoLocale } from './seo'
 
-export type UniformHours = { open: string; close: string }
+/**
+ * open/close: the room hours (database). kitchen: last order = min(KITCHEN_CLOSE, close_time),
+ * owner decision; kitchenIsClose is true when the kitchen and the room close together.
+ */
+export type UniformHours = { open: string; close: string; kitchen: string; kitchenIsClose: boolean }
+
+/** Last-order time of a day: the kitchen closes at KITCHEN_CLOSE, or earlier if the room does. */
+export function kitchenCloseFor(closeTime: string): string {
+  const close = closeTime.slice(0, 5)
+  return toMinutes(close) < toMinutes(KITCHEN_CLOSE) ? close : KITCHEN_CLOSE
+}
 
 const TIME = /^(\d{1,2}):(\d{2})/
 
@@ -46,5 +57,11 @@ export function summarizeUniformHours(rows: OpeningHoursRow[], locale: SeoLocale
   }
   if (days.size !== 7 || ranges.size !== 1) return null
   const [open, close] = [...ranges][0].split('|')
-  return { open: formatClock(open, locale), close: formatClock(close, locale) }
+  const kitchen = kitchenCloseFor(close)
+  return {
+    open: formatClock(open, locale),
+    close: formatClock(close, locale),
+    kitchen: formatClock(kitchen, locale),
+    kitchenIsClose: kitchen === close,
+  }
 }

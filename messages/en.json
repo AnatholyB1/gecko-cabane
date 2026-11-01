@@ -32,7 +32,7 @@
     "description1": "Nestled in the heart of Krabi, our gastronomic Franco-Thai restaurant with an intimate dining room where <chef>Chef Jariya</chef> and her team welcome you with warmth and passion.",
     "description2": "With only <seats>40 seats maximum</seats>, we prioritize an intimate and personalized experience. For groups of more than 10 people, reservation by phone or direct contact on site is recommended.",
     "important": "Important",
-    "kitchenClose": "The kitchen stops taking orders at {close}",
+    "kitchenClose": "The kitchen stops taking orders at {kitchen}",
     "chefName": "Chef Jariya",
     "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
     "eyebrow": "Our Story",
@@ -174,7 +174,7 @@
     "location": "In the heart of Krabi's jungle",
     "hoursTitle": "Hours",
     "openHours": "Open every day, {open} to {close}",
-    "lastOrder": "Last order: {close}",
+    "lastOrder": "Last order: {kitchen}",
     "contactTitle": "Contact",
     "rights": "All rights reserved.",
     "createdBy": "Created by",
@@ -188,7 +188,8 @@
     "navigateTitle": "Navigate"
   },
   "hoursText": {
-    "dailyKitchenUntil": "We are open every day, and the kitchen takes orders until {close}.",
+    "dailyKitchenUntil": "We are open every day, and the kitchen takes orders until {kitchen}.",
+    "dailyRoomAndKitchen": "We are open every day until {close}, and the kitchen takes orders until {kitchen}.",
     "varies": "Opening hours depend on the day: please check the current hours on our home page."
   },
   "hours": {

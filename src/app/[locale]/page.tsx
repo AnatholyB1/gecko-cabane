@@ -254,7 +254,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                   </svg>
                   <p className="font-cormorant text-[16px] text-gc-text-dark leading-relaxed">
-                    <strong>{t('about.important')} :</strong> {hoursSummary ? t('about.kitchenClose', { close: hoursSummary.close }) : t('hoursText.varies')}
+                    <strong>{t('about.important')} :</strong> {hoursSummary ? t('about.kitchenClose', { kitchen: hoursSummary.kitchen }) : t('hoursText.varies')}
                   </p>
                 </div>
               </div>
@@ -769,7 +769,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 {hoursSummary ? (
                   <>
                     {t('footer.openHours', { open: hoursSummary.open, close: hoursSummary.close })}<br />
-                    {t('footer.lastOrder', { close: hoursSummary.close })}
+                    {t('footer.lastOrder', { kitchen: hoursSummary.kitchen })}
                   </>
                 ) : (
                   t('hoursText.varies')

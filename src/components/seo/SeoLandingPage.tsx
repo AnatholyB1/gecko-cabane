@@ -27,7 +27,11 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
 
   // Hours sentence shared by the guides ({hoursSentence} in the messages), from gecko_opening_hours
   const hoursSummary = await getHoursSummary(locale)
-  const hoursSentence = hoursSummary ? th('dailyKitchenUntil', { close: hoursSummary.close }) : th('varies')
+  const hoursSentence = !hoursSummary
+    ? th('varies')
+    : hoursSummary.kitchenIsClose
+      ? th('dailyKitchenUntil', { kitchen: hoursSummary.kitchen })
+      : th('dailyRoomAndKitchen', { close: hoursSummary.close, kitchen: hoursSummary.kitchen })
 
   // D-13: the priced list stays on /menu; deep-link only while that menu page is populated.
   const belgianHref = config.sections.some((s) => s.link === 'belgian')
