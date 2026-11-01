@@ -16,7 +16,9 @@ function patchHistory() {
     const original = window.history[key]
     window.history[key] = function (this: History, ...args: Parameters<History['pushState']>) {
       const result = original.apply(this, args)
-      window.dispatchEvent(new Event(CHANGE))
+      // Différé : le routeur de Next appelle history.replaceState dans un useInsertionEffect, où React
+      // interdit de planifier une mise à jour (« useInsertionEffect must not schedule updates »).
+      queueMicrotask(() => window.dispatchEvent(new Event(CHANGE)))
       return result
     }
   }
