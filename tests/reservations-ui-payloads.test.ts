@@ -9,7 +9,6 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { adminFetch } from '../src/components/admin/admin-fetch'
 import {
-  deleteUrl,
   dayUrl,
   manualReservationBody,
   notesUpdateBody,
@@ -27,7 +26,6 @@ const OLD_STATUS_BODY = (id: number, newStatus: ReservationStatus) => JSON.strin
 const OLD_SOURCE_BODY = (id: number, source: ReservationSource) => JSON.stringify({ id, source })
 const OLD_NOTES_BODY = (selected: { id: number }, adminNotes: string) =>
   JSON.stringify({ id: selected.id, admin_notes: adminNotes })
-const OLD_DELETE_URL = (id: number) => `/api/reservations?id=${id}`
 const OLD_DAY_URL = (filterDate: string) => {
   let url = '/api/reservations?'
   url += `date=${filterDate}`
@@ -68,8 +66,7 @@ describe('PUT /api/reservations : corps identiques à l’ancienne page', () => 
     expect(JSON.stringify(notesUpdateBody(7, 'Table calme'))).toBe(OLD_NOTES_BODY({ id: 7 }, 'Table calme'))
     expect(JSON.stringify(notesUpdateBody(7, ''))).toBe(OLD_NOTES_BODY({ id: 7 }, ''))
   })
-  it('DELETE et GET du jour : mêmes URL', () => {
-    expect(deleteUrl(9)).toBe(OLD_DELETE_URL(9))
+  it('GET du jour : même URL', () => {
     expect(dayUrl('2026-11-01')).toBe(OLD_DAY_URL('2026-11-01'))
     expect(RESERVATIONS_URL).toBe('/api/reservations')
   })
@@ -194,7 +191,8 @@ describe('aucun composant ne fabrique un corps à la main', () => {
     const details = readFileSync(join(dir, 'ReservationDetails.tsx'), 'utf8')
     expect(details).toContain('sourceUpdateBody(r.id, source)')
     expect(details).toContain('notesUpdateBody(r.id, notes)')
-    expect(details).toContain('deleteUrl(r.id)')
+    // Décision du propriétaire (2026-11-01, « Annuler suffit ») : plus de suppression définitive dans l'interface.
+    expect(details).not.toMatch(/deleteUrl|method: 'DELETE'|Supprimer définitivement/)
     const form = readFileSync(join(dir, 'ManualReservationForm.tsx'), 'utf8')
     expect(form).toContain('manualReservationBody(fd)')
   })

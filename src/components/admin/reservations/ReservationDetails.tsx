@@ -1,18 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { Trash2 } from 'lucide-react'
 import type { Reservation, ReservationSource } from '@/types/database'
 import { adminFetch, AdminFetchError } from '../admin-fetch'
 import { Button } from '../Button'
-import { useConfirm } from '../ConfirmDialog'
 import { Select, Textarea } from '../Input'
 import { useToast } from '../Toast'
 import { mailtoLink } from '@/utils/phone-links'
 import { krabiToday } from '@/utils/review-invitations'
 import { getReviewBadges, showNoShowDeadline } from '@/utils/review-badges'
 import { formatOrigin, RESERVATION_SOURCES, SOURCE_LABELS } from '@/utils/reservation-source'
-import { deleteUrl, notesUpdateBody, RESERVATIONS_URL, sourceUpdateBody } from './requests'
+import { notesUpdateBody, RESERVATIONS_URL, sourceUpdateBody } from './requests'
 
 /** Date et heure d'un horodatage, en heure de Krabi (UTC+7), quel que soit le fuseau du navigateur. */
 function krabiStamp(iso: string): string {
@@ -25,7 +23,8 @@ function reason(e: unknown): string {
 
 /**
  * Ce qui était dans l'ancien modal et les lignes : email, source (PUT { id, source }), origine,
- * suivi des avis, notes admin (PUT { id, admin_notes }), suppression (DELETE avec useConfirm).
+ * suivi des avis, notes admin (PUT { id, admin_notes }). La suppression définitive n'est plus proposée
+ * (décision du propriétaire, 2026-11-01 : « Annuler suffit ») ; la route DELETE de l'API reste inchangée.
  * Un échec ne vide jamais la saisie.
  */
 export function ReservationDetails({
@@ -38,9 +37,8 @@ export function ReservationDetails({
   onChanged: () => void
 }) {
   const toast = useToast()
-  const confirm = useConfirm()
   const [notes, setNotes] = useState(r.admin_notes ?? '')
-  const [saving, setSaving] = useState<'notes' | 'source' | 'delete' | null>(null)
+  const [saving, setSaving] = useState<'notes' | 'source' | null>(null)
   const todayKrabi = krabiToday(new Date())
   const badges = getReviewBadges(r, todayKrabi)
   const origin = formatOrigin(r)
@@ -66,26 +64,6 @@ export function ReservationDetails({
       onChanged()
     } catch (e) {
       toast.error("Impossible d'enregistrer les notes.", `${reason(e)} Votre saisie est conservée.`)
-    } finally {
-      setSaving(null)
-    }
-  }
-
-  async function remove() {
-    const ok = await confirm({
-      title: 'Supprimer cette réservation ?',
-      description: `${r.customer_name} sera supprimée définitivement, sans email. Pour prévenir le client, annulez la réservation à la place.`,
-      confirmLabel: 'Supprimer définitivement',
-      cancelLabel: 'Garder la réservation',
-    })
-    if (!ok) return
-    setSaving('delete')
-    try {
-      await adminFetch(deleteUrl(r.id), { method: 'DELETE' })
-      toast.success('Réservation supprimée.')
-      onChanged()
-    } catch (e) {
-      toast.error('Impossible de supprimer la réservation.', reason(e))
     } finally {
       setSaving(null)
     }
@@ -154,10 +132,6 @@ export function ReservationDetails({
       <div className="rv-detail__row">
         <Button variant="primary" disabled={locked || notes === (r.admin_notes ?? '')} loading={saving === 'notes'} loadingLabel="Enregistrement…" onClick={saveNotes}>
           Enregistrer les notes
-        </Button>
-        <Button variant="danger-outline" disabled={locked} loading={saving === 'delete'} loadingLabel="Suppression…" onClick={remove}>
-          <Trash2 className="i i-sm" aria-hidden="true" focusable="false" />
-          Supprimer
         </Button>
       </div>
     </div>

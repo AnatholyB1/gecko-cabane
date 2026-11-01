@@ -83,9 +83,9 @@
 | Cheffe (Bloc A) | | |
 | Serveur 1 (Bloc B) | | |
 | Serveur 2 (Bloc B) | | |
-| Propriétaire (Bloc C) | | |
+| Propriétaire (Bloc C) | 2026-11-01 | C1 : la saisie des totaux est faite par la cheffe ou un serveur (pas par le propriétaire) ; C2 : le rang TripAdvisor suffit (mais la saisie est faite par la cheffe/un serveur : saisie TripAdvisor conservée tant qu'ils n'ont pas confirmé qu'elle ne sert à rien) ; C3 : personne à ajouter pour l'instant ; C4 : suppression du plan de salle confirmée ; C5 : « Annuler suffit », suppression définitive retirée de l'interface |
 | Développeur (Bloc C, Q1 et Q3) | | |
 
-**État de la saisie manuelle des totaux d'avis :** (à compléter) · **État du flux d'invitation d'admin :** (à compléter)
+**État de la saisie manuelle des totaux d'avis :** Google retiré (collecte hebdomadaire), TripAdvisor conservé, saisi par la cheffe ou un serveur · **État du flux d'invitation d'admin :** aucun admin à ajouter pour l'instant ; flux par lien livré, migration 021 à appliquer avant usage. Réponses des blocs A (cheffe) et B (serveurs) : non reçues.
 
 *Critère de clôture AUDIT-04 : au moins la cheffe, un serveur et le propriétaire ont répondu, et les deux lignes ci-dessus sont renseignées. Sans réponse, la phase 9 peut avancer avec les verdicts par défaut du document d'audit, en le notant dans `09-OWNER-VALIDATION.md`.*

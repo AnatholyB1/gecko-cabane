@@ -27,11 +27,6 @@ export function notesUpdateBody(id: number, adminNotes: string) {
   return { id, admin_notes: adminNotes }
 }
 
-/** DELETE /api/reservations?id= : même URL que l'ancienne `deleteReservation`. */
-export function deleteUrl(id: number): string {
-  return `${RESERVATIONS_URL}?id=${id}`
-}
-
 /** GET d'une journée : même paramètre `date` que l'ancienne page (le filtre de statut est fait côté client). */
 export function dayUrl(date: string): string {
   return `${RESERVATIONS_URL}?date=${date}`

@@ -244,7 +244,8 @@ describe('câblage', () => {
     for (const f of ['ReservationRow.tsx', 'ReservationDetails.tsx', 'ReservationsView.tsx', 'TodayView.tsx', 'NewReservation.tsx', 'use-reservation-actions.ts']) {
       expect(read(`src/components/admin/reservations/${f}`)).not.toMatch(/(?<![\w.$])confirm\(\s*['"`]|window\.confirm\(/)
     }
-    expect(read('src/components/admin/reservations/ReservationDetails.tsx')).toContain('useConfirm')
+    // La suppression définitive n'existe plus (« Annuler suffit », 2026-11-01) : plus de confirmation dans ce composant.
+    expect(read('src/components/admin/reservations/ReservationDetails.tsx')).not.toContain('useConfirm')
   })
   it('« + Réservation » est global : lien de l’en-tête, fournisseur sous AdminProviders, ?nouvelle=1', () => {
     expect(read('src/components/admin/shell/TopBar.tsx')).toContain('<NewReservationLink')
