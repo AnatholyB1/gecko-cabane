@@ -13,7 +13,9 @@ Actions humaines ou soumises à accord, notées au fil du milestone. Rien n'est 
 | 7 | ACC-03 : décider le modèle de données de « Complet ce soir » | P17 | propriétaire | ouvert |
 | 8 | Aucun envoi KPI live avant le 2026-11-16 et sans accord (`KPI_REPORT_MODE`) | hors v1.1 | propriétaire | verrouillé |
 | 9 | Déploiement en production : uniquement sur demande explicite | fin | propriétaire | ouvert |
-| 10 | Migration 019 (colonne `allergies`, fichier `supabase/migrations/019_reservation_allergies.sql`) : appliquer AVANT de déployer le code de P15 ; rollback en commentaire du fichier | avant déploiement | propriétaire | ouvert |
+| 10 | Migration 019 (colonne `allergies`) | avant déploiement | propriétaire | FAIT le 2026-11-01 (appliquée sur `portfolio`, hors service, colonne nullable, 14 réservations intactes, 0 allergie) |
 | 11 | Supabase > Auth > Providers > Email : vérifier que « Allow new users to sign up » est désactivé (la route `/api/auth/signup` est supprimée, mais l'API publique de Supabase reste appelable avec la clé anon) | avant déploiement | propriétaire | ouvert |
 | 12 | Dette de l'API (non corrigée, hors périmètre) : `POST /api/menu/items` prix 0 -> null ; `PUT /api/announcement` sans validation ; `PUT /api/hours` sans transaction ; `DELETE /api/special-hours` renvoie 500 si l'identifiant n'est pas numérique ; `PUT /api/reservations` n'accepte pas `allergies` ; `GET /api/auth/logout` par GET | après v1.1 | propriétaire | noté |
 | 13 | Le mode TEST/live de l'écran KPI lit `KPI_REPORT_MODE` côté serveur : vérifier sa valeur réelle en production | avant déploiement | propriétaire | ouvert |
+| 14 | Migrations 021 (table `gecko_access_tokens` + fonction `gecko_revoke_admin`) et 022 (durcissement : `search_path = public, pg_temp`, refus `forbidden` si l'appelant n'est pas admin) | avant déploiement | propriétaire | FAIT le 2026-11-01 (RLS activée sans politique, aucun droit pour anon/authenticated, exécution réservée à service_role ; 2 admins intacts) |
+| 15 | Migrations 019 à 022 : toutes appliquées. Déployer maintenant le code de `milestone/v1.1` (jamais avant ses migrations) | prochaine étape | propriétaire | ouvert |
