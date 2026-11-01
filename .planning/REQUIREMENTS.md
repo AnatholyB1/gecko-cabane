@@ -72,7 +72,7 @@
 
 ### Sécurité et accès (ACC)
 
-- [ ] **ACC-01**: Une migration « revoke seulement » retire la lecture publique de `gecko_table*`, sur accord du propriétaire et après vérification qu'aucune autre application du projet Supabase partagé ne les lit
+- [x] **ACC-01**: Une migration « revoke seulement » retire la lecture publique de `gecko_table*`, sur accord du propriétaire et après vérification qu'aucune autre application du projet Supabase partagé ne les lit
 - [x] **ACC-02**: `/admin/signup` est supprimé après définition d'un processus d'invitation d'un nouvel admin
 - [x] **ACC-03**: L'option « Complet ce soir » (fermer le service à la réservation en un tap) est décidée sur son modèle de données puis implémentée sans migration destructive
 
@@ -147,7 +147,7 @@
 | REP-01 | Phase 16 | Complete |
 | REP-02 | Phase 16 | Complete |
 | REP-03 | Phase 16 | Complete (17c : saisie Google retirée, TripAdvisor gardée, tests/review-totals.test.ts) |
-| ACC-01 | Phase 17 | Pending (HUMAN) : migration 020 écrite, non appliquée ; exige accord écrit et vérification de l’autre application |
+| ACC-01 | Phase 17 | Complete : migration 020 appliquée le 2026-11-01 sur accord du propriétaire (vérifié : aucune autre lecture ; 4 politiques publiques retirées, droits anon retirés, données intactes) |
 | ACC-02 | Phase 17 | Complete |
 | ACC-03 | Phase 17 | Complete |
 | QA-01 | Phase 17 | Complete |
