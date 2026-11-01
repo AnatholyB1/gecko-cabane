@@ -30,8 +30,8 @@ Instructions pour le relecteur :
 | `footer.subtitle` | Restaurant Franco-Thaï gastronomique | Französisch-thailändisches Restaurant |  |
 | `footer.location` | Au cœur de la jungle de Krabi | Im Herzen des Dschungels von Krabi |  |
 | `footer.hoursTitle` | Horaires | Öffnungszeiten |  |
-| `footer.openHours` | Ouvert tous les jours de 12h à 22h | Täglich geöffnet von 12 bis 22 Uhr |  |
-| `footer.lastOrder` | Dernière commande : 22h | Letzte Bestellung: 22 Uhr |  |
+| `footer.openHours` | Ouvert tous les jours de {open} à {close} | Täglich geöffnet von {open} bis {close} Uhr |  |
+| `footer.lastOrder` | Dernière commande : {close} | Letzte Bestellung: {close} Uhr |  |
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alle Rechte vorbehalten. |  |
 | `footer.createdBy` | Créé par | Erstellt von |  |
@@ -57,6 +57,7 @@ Instructions pour le relecteur :
 | `hours.specialHours` | Horaires spéciaux à venir | Kommende Sonderöffnungszeiten |  |
 | `hours.lastOrder` | Dernière commande en cuisine | Letzte Bestellung in der Küche |  |
 | `hours.loading` | Chargement... | Wird geladen ... |  |
+| `hours.unavailable` | Horaires momentanément indisponibles. Merci de nous contacter. | Die Öffnungszeiten sind vorübergehend nicht verfügbar. Bitte kontaktieren Sie uns. |  |
 | `language.fr` | Français | Français |  |
 | `language.en` | English | English |  |
 | `language.de` | Deutsch | Deutsch |  |

@@ -19,6 +19,7 @@ import RestaurantJsonLd from '@/components/RestaurantJsonLd'
 import MapEmbed from '@/components/MapEmbed'
 import { COUPLE_PHOTO } from '@/utils/about-content'
 import { localizedPageMetadata } from '@/utils/page-metadata'
+import { getHoursSummary } from '@/utils/opening-hours'
 import { isPublished, slugFor, toSeoLocale, guidesFor, googleDirectionsUrl, googleMapsEmbedUrl, googleMapsPlaceUrl, type SeoLocale } from '@/utils/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -38,6 +39,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const t = await getTranslations()
   const guideItems = await getGuideItems(locale)
   const footerGuides = guidesFor(toSeoLocale(locale))
+  // Hours text comes from gecko_opening_hours (same source as the schema); null = not uniform or unreadable
+  const hoursSummary = await getHoursSummary(toSeoLocale(locale))
 
   return (
     <div className="min-h-screen bg-gc-void font-cormorant">
@@ -251,7 +254,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                   </svg>
                   <p className="font-cormorant text-[16px] text-gc-text-dark leading-relaxed">
-                    <strong>{t('about.important')} :</strong> {t('about.kitchenClose')}
+                    <strong>{t('about.important')} :</strong> {hoursSummary ? t('about.kitchenClose', { close: hoursSummary.close }) : t('hoursText.varies')}
                   </p>
                 </div>
               </div>
@@ -763,8 +766,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 {t('footer.hoursTitle')}
               </h4>
               <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85]">
-                {t('footer.openHours')}<br />
-                {t('footer.lastOrder')}
+                {hoursSummary ? (
+                  <>
+                    {t('footer.openHours', { open: hoursSummary.open, close: hoursSummary.close })}<br />
+                    {t('footer.lastOrder', { close: hoursSummary.close })}
+                  </>
+                ) : (
+                  t('hoursText.varies')
+                )}
               </p>
               <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">
                 {t('common.menu')}

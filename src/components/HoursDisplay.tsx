@@ -82,19 +82,20 @@ export default function HoursDisplay() {
     )
   }
 
-  // Fallback to static hours if database is empty
-  const displayHours = hours.length > 0 ? hours : [
-    { day_of_week: 1, day_name: DAY_NAMES[0], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 2, day_name: DAY_NAMES[1], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 3, day_name: DAY_NAMES[2], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 4, day_name: DAY_NAMES[3], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 5, day_name: DAY_NAMES[4], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 6, day_name: DAY_NAMES[5], is_open: true, open_time: '12:00', close_time: '22:00' },
-    { day_of_week: 0, day_name: DAY_NAMES[6], is_open: true, open_time: '12:00', close_time: '22:00' },
-  ] as OpeningHours[]
+  // No hard-coded fallback: the hours come from the database or are not shown at all
+  const displayHours = hours
+
+  // Last order = closing time of the day; shown only when it is the same on every open day
+  const closes = new Set(
+    displayHours.filter((h) => h.is_open && h.close_time).map((h) => formatTime(h.close_time))
+  )
+  const lastOrder = closes.size === 1 ? [...closes][0] : null
 
   return (
     <div>
+      {displayHours.length === 0 && (
+        <p className="font-cormorant italic text-[16px] text-gc-text-mid">{t('unavailable')}</p>
+      )}
       <div className="divide-y divide-gc-aged/50">
         {displayHours.map((item, i) => (
           <div
@@ -160,11 +161,13 @@ export default function HoursDisplay() {
         </div>
       )}
 
-      <div className="mt-8 pt-5 border-t border-gc-aged text-center">
-        <p className="font-cormorant italic text-[16px] text-gc-text-mid">
-          {t('lastOrder')} : <span className="font-cinzel not-italic text-gc-text-dark">22h00</span>
-        </p>
-      </div>
+      {lastOrder && (
+        <div className="mt-8 pt-5 border-t border-gc-aged text-center">
+          <p className="font-cormorant italic text-[16px] text-gc-text-mid">
+            {t('lastOrder')} : <span className="font-cinzel not-italic text-gc-text-dark">{lastOrder}</span>
+          </p>
+        </div>
+      )}
     </div>
   )
 }

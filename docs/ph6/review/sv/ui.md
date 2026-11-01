@@ -30,8 +30,8 @@ Instructions pour le relecteur :
 | `footer.subtitle` | Restaurant Franco-Thaï gastronomique | Fransk-thailändsk restaurang |  |
 | `footer.location` | Au cœur de la jungle de Krabi | Mitt i Krabis djungel |  |
 | `footer.hoursTitle` | Horaires | Öppettider |  |
-| `footer.openHours` | Ouvert tous les jours de 12h à 22h | Öppet varje dag kl. 12–22 |  |
-| `footer.lastOrder` | Dernière commande : 22h | Sista beställning: kl. 22 |  |
+| `footer.openHours` | Ouvert tous les jours de {open} à {close} | Öppet varje dag kl. {open}–{close} |  |
+| `footer.lastOrder` | Dernière commande : {close} | Sista beställning: kl. {close} |  |
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alla rättigheter förbehållna. |  |
 | `footer.createdBy` | Créé par | Skapad av |  |
@@ -57,6 +57,7 @@ Instructions pour le relecteur :
 | `hours.specialHours` | Horaires spéciaux à venir | Kommande särskilda öppettider |  |
 | `hours.lastOrder` | Dernière commande en cuisine | Sista beställning i köket |  |
 | `hours.loading` | Chargement... | Laddar ... |  |
+| `hours.unavailable` | Horaires momentanément indisponibles. Merci de nous contacter. | Öppettiderna är tillfälligt inte tillgängliga. Kontakta oss gärna. |  |
 | `language.fr` | Français | Français |  |
 | `language.en` | English | English |  |
 | `language.de` | Deutsch | Deutsch |  |

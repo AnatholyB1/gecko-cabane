@@ -32,7 +32,7 @@
     "description1": "Mitten in Krabi liegt unser kleines französisch-thailändisches Restaurant, in dem <chef>Chefköchin Jariya</chef> und ihr Team Sie mit Herzlichkeit und Leidenschaft empfangen.",
     "description2": "Wir haben nur <seats>40 Plätze</seats> und legen Wert auf einen ruhigen, persönlichen Abend. Für Gruppen ab mehr als 10 Personen empfehlen wir die Reservierung per Telefon oder direkt vor Ort.",
     "important": "Wichtig",
-    "kitchenClose": "Die Küche nimmt Bestellungen bis 22:00 Uhr entgegen",
+    "kitchenClose": "Die Küche nimmt Bestellungen bis {close} Uhr entgegen",
     "chefName": "Chefköchin Jariya",
     "chefQuote": "Mit Liebe und Kreativität verbinde ich französische und thailändische Aromen zu Gerichten, die eine Geschichte erzählen.",
     "eyebrow": "Unsere Geschichte",
@@ -173,8 +173,8 @@
     "subtitle": "Französisch-thailändisches Restaurant",
     "location": "Im Herzen des Dschungels von Krabi",
     "hoursTitle": "Öffnungszeiten",
-    "openHours": "Täglich geöffnet von 12 bis 22 Uhr",
-    "lastOrder": "Letzte Bestellung: 22 Uhr",
+    "openHours": "Täglich geöffnet von {open} bis {close} Uhr",
+    "lastOrder": "Letzte Bestellung: {close} Uhr",
     "contactTitle": "Kontakt",
     "rights": "Alle Rechte vorbehalten.",
     "createdBy": "Erstellt von",
@@ -186,6 +186,10 @@
     "legalNotice": "Gecko Cabane ist ein in Thailand nach dem Business Registration Act eingetragener gastronomischer Betrieb. Verkauf und Konsum von Alkohol unterliegen dem thailändischen Verbrauchsteuerrecht (Excise Act B.E. 2560). Personenbezogene Daten, die über diese Website erhoben werden, werden gemäß dem thailändischen Datenschutzgesetz (PDPA B.E. 2562) verarbeitet. Gemäß dem thailändischen Verbraucherschutzgesetz (B.E. 2522) verstehen sich alle Preise inklusive aller anfallenden Steuern. Bei Fragen: geckocabanerestaurant@gmail.com.",
     "guidesTitle": "Guides",
     "navigateTitle": "Navigation"
+  },
+  "hoursText": {
+    "dailyKitchenUntil": "Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis {close} Uhr entgegen.",
+    "varies": "Die Öffnungszeiten hängen vom Tag ab: Die aktuellen Zeiten finden Sie auf unserer Startseite."
   },
   "hours": {
     "monday": "Montag",
@@ -201,7 +205,8 @@
     "closedNow": "Geschlossen",
     "specialHours": "Kommende Sonderöffnungszeiten",
     "lastOrder": "Letzte Bestellung in der Küche",
-    "loading": "Wird geladen ..."
+    "loading": "Wird geladen ...",
+    "unavailable": "Die Öffnungszeiten sind vorübergehend nicht verfügbar. Bitte kontaktieren Sie uns."
   },
   "social": {
     "title": "Das sagen unsere Gäste",
@@ -548,7 +553,7 @@
       "ambiance": {
         "title": "Ein ruhiger Raum für zwei",
         "p1": "Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von einem französisch-thailändischen Paar, das Sie persönlich willkommen heißt.",
-        "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen."
+        "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. {hoursSentence}"
       },
       "table": {
         "title": "Was Sie essen werden",
@@ -608,7 +613,7 @@
         "title": "Wenn Sie sich zum Abendessen hinsetzen möchten",
         "alt": "Ein Massaman-Curry, serviert im Gecko Cabane",
         "p1": "Nach dem Markt braucht mancher Abend einen Tisch, eine Speisekarte und einen ruhigen Raum. Das Gecko Cabane ist ein Restaurant mit 40 Plätzen an der Maharat Road, das französische und thailändische Gerichte serviert, gekocht von Chefköchin Jariya.",
-        "p2": "Wir haben jeden Tag geöffnet, und die Küche nimmt Bestellungen bis 22 Uhr entgegen. Sie können online in unter einer Minute einen Tisch reservieren.",
+        "p2": "{hoursSentence} Sie können online in unter einer Minute einen Tisch reservieren.",
         "link": "Tisch zum Abendessen reservieren"
       }
     },

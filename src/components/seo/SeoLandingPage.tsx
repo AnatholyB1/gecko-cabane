@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { getMenu } from '@/utils/menu'
+import { getHoursSummary } from '@/utils/opening-hours'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import GcDivider from '@/components/ui/GcDivider'
@@ -22,6 +23,11 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
   const t = await getTranslations({ locale, namespace: ns })
   const ts = await getTranslations({ locale, namespace: 'seoLanding' })
   const tc = await getTranslations({ locale, namespace: 'common' })
+  const th = await getTranslations({ locale, namespace: 'hoursText' })
+
+  // Hours sentence shared by the guides ({hoursSentence} in the messages), from gecko_opening_hours
+  const hoursSummary = await getHoursSummary(locale)
+  const hoursSentence = hoursSummary ? th('dailyKitchenUntil', { close: hoursSummary.close }) : th('varies')
 
   // D-13: the priced list stays on /menu; deep-link only while that menu page is populated.
   const belgianHref = config.sections.some((s) => s.link === 'belgian')
@@ -153,7 +159,7 @@ export default async function SeoLandingPage({ pageKey, locale }: Props) {
               <GcDivider className="my-4" />
               {paras.map((p, i) => (
                 <p key={p} className={i === 0 ? PROSE : `${PROSE} mt-4`}>
-                  {t(`sections.${section.id}.${p}`)}
+                  {t(`sections.${section.id}.${p}`, { hoursSentence })}
                 </p>
               ))}
               {renderFacts(section)}

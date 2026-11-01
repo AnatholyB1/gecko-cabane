@@ -32,7 +32,7 @@
     "description1": "Niché au cœur de Krabi, notre restaurant de type gastronomique Franco-Thaï avec une salle à taille humaine où la <chef>cheffe Jariya</chef> et son équipe vous reçoivent avec chaleur et passion.",
     "description2": "Avec seulement <seats>40 places maximum</seats>, nous privilégions une expérience intime et personnalisée. Pour les groupes de plus de 10 personnes, la réservation est préconisée par téléphone ou contact direct sur place.",
     "important": "Important",
-    "kitchenClose": "La cuisine cesse d'enregistrer des commandes à partir de 22h00",
+    "kitchenClose": "La cuisine cesse d'enregistrer des commandes à partir de {close}",
     "chefName": "Chef Jariya",
     "chefQuote": "Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire.",
     "eyebrow": "Notre Histoire",
@@ -173,8 +173,8 @@
     "subtitle": "Restaurant Franco-Thaï gastronomique",
     "location": "Au cœur de la jungle de Krabi",
     "hoursTitle": "Horaires",
-    "openHours": "Ouvert tous les jours de 12h à 22h",
-    "lastOrder": "Dernière commande : 22h",
+    "openHours": "Ouvert tous les jours de {open} à {close}",
+    "lastOrder": "Dernière commande : {close}",
     "contactTitle": "Contact",
     "rights": "Tous droits réservés.",
     "createdBy": "Créé par",
@@ -186,6 +186,10 @@
     "legalNotice": "Gecko Cabane est un établissement de restauration enregistré en Thaïlande conformément au Business Registration Act. La vente et la consommation d'alcool sont soumises à la loi thaïlandaise sur l'excise (Excise Act B.E. 2560). Les données personnelles collectées via ce site sont traitées conformément au Thailand Personal Data Protection Act (PDPA B.E. 2562). Conformément à la loi thaïlandaise sur la protection des consommateurs (Consumer Protection Act B.E. 2522), nos prix comprennent toutes les taxes applicables. Pour toute réclamation : geckocabanerestaurant@gmail.com.",
     "guidesTitle": "Guides",
     "navigateTitle": "Navigation"
+  },
+  "hoursText": {
+    "dailyKitchenUntil": "Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à {close}.",
+    "varies": "Les horaires dépendent du jour : consultez les horaires à jour sur la page d'accueil."
   },
   "hours": {
     "monday": "Lundi",
@@ -201,7 +205,8 @@
     "closedNow": "Fermé",
     "specialHours": "Horaires spéciaux à venir",
     "lastOrder": "Dernière commande en cuisine",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "unavailable": "Horaires momentanément indisponibles. Merci de nous contacter."
   },
   "social": {
     "title": "Ils nous adorent",
@@ -544,7 +549,7 @@
       "ambiance": {
         "title": "Une salle calme, pour deux",
         "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
-        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h."
+        "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. {hoursSentence}"
       },
       "table": {
         "title": "Ce que vous mangerez",
@@ -604,7 +609,7 @@
         "title": "Quand on veut dîner à table",
         "alt": "Un massaman servi au Gecko Cabane",
         "p1": "Après le marché, certains soirs on a envie d'une vraie table, d'une carte et d'une salle tranquille. Le Gecko Cabane, sur Maharat Road, propose 40 couverts et une cuisine française et thaïe signée de la cheffe Jariya.",
-        "p2": "Nous sommes ouverts tous les jours et la cuisine prend les commandes jusqu'à 22 h. Vous pouvez réserver en ligne en moins d'une minute.",
+        "p2": "{hoursSentence} Vous pouvez réserver en ligne en moins d'une minute.",
         "link": "Réserver une table pour le dîner"
       }
     },

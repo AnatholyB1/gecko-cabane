@@ -32,7 +32,7 @@
     "description1": "Nestled in the heart of Krabi, our gastronomic Franco-Thai restaurant with an intimate dining room where <chef>Chef Jariya</chef> and her team welcome you with warmth and passion.",
     "description2": "With only <seats>40 seats maximum</seats>, we prioritize an intimate and personalized experience. For groups of more than 10 people, reservation by phone or direct contact on site is recommended.",
     "important": "Important",
-    "kitchenClose": "The kitchen stops taking orders at 10:00 PM",
+    "kitchenClose": "The kitchen stops taking orders at {close}",
     "chefName": "Chef Jariya",
     "chefQuote": "With love and creativity, I blend French and Thai flavors to create unique dishes that tell a story.",
     "eyebrow": "Our Story",
@@ -173,8 +173,8 @@
     "subtitle": "Gastronomic Franco-Thai Restaurant",
     "location": "In the heart of Krabi's jungle",
     "hoursTitle": "Hours",
-    "openHours": "Open every day, 12pm to 10pm",
-    "lastOrder": "Last order: 10pm",
+    "openHours": "Open every day, {open} to {close}",
+    "lastOrder": "Last order: {close}",
     "contactTitle": "Contact",
     "rights": "All rights reserved.",
     "createdBy": "Created by",
@@ -186,6 +186,10 @@
     "legalNotice": "Gecko Cabane is a food service establishment registered in Thailand under the Business Registration Act. The sale and consumption of alcohol are subject to Thai excise law (Excise Act B.E. 2560). Personal data collected through this website is processed in accordance with the Thailand Personal Data Protection Act (PDPA B.E. 2562). In accordance with the Thai Consumer Protection Act (B.E. 2522), all prices include applicable taxes. For any enquiries: geckocabanerestaurant@gmail.com.",
     "guidesTitle": "Guides",
     "navigateTitle": "Navigate"
+  },
+  "hoursText": {
+    "dailyKitchenUntil": "We are open every day, and the kitchen takes orders until {close}.",
+    "varies": "Opening hours depend on the day: please check the current hours on our home page."
   },
   "hours": {
     "monday": "Monday",
@@ -201,7 +205,8 @@
     "closedNow": "Closed",
     "specialHours": "Upcoming Special Hours",
     "lastOrder": "Last kitchen order",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "unavailable": "Opening hours are temporarily unavailable. Please contact us."
   },
   "social": {
     "title": "They Love Us",
@@ -548,7 +553,7 @@
       "ambiance": {
         "title": "A quiet room for two",
         "p1": "Gecko Cabane seats 40 guests at most, so the dining room stays calm and conversation comes easily. It is run by a French-Thai couple who welcome you themselves.",
-        "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. We are open every day, and the kitchen takes orders until 10 pm."
+        "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. {hoursSentence}"
       },
       "table": {
         "title": "What you will eat",
@@ -608,7 +613,7 @@
         "title": "When you want to sit down for dinner",
         "alt": "A massaman curry served at Gecko Cabane",
         "p1": "After the market, some evenings call for a table, a menu and a quiet room. Gecko Cabane is a 40-seat restaurant on Maharat Road serving French and Thai dishes, cooked by Chef Jariya.",
-        "p2": "We are open every day and the kitchen takes orders until 10 pm. You can book a table online in under a minute.",
+        "p2": "{hoursSentence} You can book a table online in under a minute.",
         "link": "Book a table for dinner"
       }
     },

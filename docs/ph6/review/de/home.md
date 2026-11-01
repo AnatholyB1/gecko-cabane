@@ -26,7 +26,7 @@ Instructions pour le relecteur :
 | `about.description1` | Niché au cœur de Krabi, notre restaurant de type gastronomique Franco-Thaï avec une salle à taille humaine où la <chef>cheffe Jariya</chef> et son équipe vous reçoivent avec chaleur et passion. | Mitten in Krabi liegt unser kleines französisch-thailändisches Restaurant, in dem <chef>Chefköchin Jariya</chef> und ihr Team Sie mit Herzlichkeit und Leidenschaft empfangen. |  |
 | `about.description2` | Avec seulement <seats>40 places maximum</seats>, nous privilégions une expérience intime et personnalisée. Pour les groupes de plus de 10 personnes, la réservation est préconisée par téléphone ou contact direct sur place. | Wir haben nur <seats>40 Plätze</seats> und legen Wert auf einen ruhigen, persönlichen Abend. Für Gruppen ab mehr als 10 Personen empfehlen wir die Reservierung per Telefon oder direkt vor Ort. |  |
 | `about.important` | Important | Wichtig |  |
-| `about.kitchenClose` | La cuisine cesse d'enregistrer des commandes à partir de 22h00 | Die Küche nimmt Bestellungen bis 22:00 Uhr entgegen |  |
+| `about.kitchenClose` | La cuisine cesse d'enregistrer des commandes à partir de {close} | Die Küche nimmt Bestellungen bis {close} Uhr entgegen |  |
 | `about.chefName` | Chef Jariya | Chefköchin Jariya |  |
 | `about.chefQuote` | Avec amour et créativité, je fusionne les saveurs françaises et thaïlandaises pour créer des plats uniques qui racontent une histoire. | Mit Liebe und Kreativität verbinde ich französische und thailändische Aromen zu Gerichten, die eine Geschichte erzählen. |  |
 | `about.eyebrow` | Notre Histoire | Unsere Geschichte |  |
