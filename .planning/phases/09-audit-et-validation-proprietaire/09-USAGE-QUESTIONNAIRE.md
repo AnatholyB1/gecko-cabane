@@ -80,12 +80,11 @@
 
 | Qui | Date | Réponse résumée |
 |-----|------|-----------------|
-| Cheffe (Bloc A) | | |
-| Serveur 1 (Bloc B) | | |
-| Serveur 2 (Bloc B) | | |
+| Cheffe (Bloc A) | 2026-11-01 (réponses données par le propriétaire à sa place) | A1 : voir qui vient ce soir, confirmer des réservations ; A2 : chaque semaine ; A3 : rien de particulier ; A4 : n'utilise jamais le plan de salle ; A5 : rien de compliqué, ne réorganise pas l'ordre des plats ; A6 : rien ne manque ; A7 : n'utilise pas les modèles WhatsApp d'avis |
+| Serveurs (Bloc B) | 2026-11-01 (réponses données par le propriétaire à leur place) | B1 : confirmer/annuler, marquer « Absent » ; B2 : rien de particulier ; B4 : placement à l'oral ou sur papier (le plan de salle ne sert pas) ; B5 : ajout d'une réservation par téléphone en moins d'une minute ; B6 : aucune erreur de toucher sur la tablette. B3 non posée. |
 | Propriétaire (Bloc C) | 2026-11-01 | C1 : la saisie des totaux est faite par la cheffe ou un serveur (pas par le propriétaire) ; C2 : le rang TripAdvisor suffit (mais la saisie est faite par la cheffe/un serveur : saisie TripAdvisor conservée tant qu'ils n'ont pas confirmé qu'elle ne sert à rien) ; C3 : personne à ajouter pour l'instant ; C4 : suppression du plan de salle confirmée ; C5 : « Annuler suffit », suppression définitive retirée de l'interface |
 | Développeur (Bloc C, Q1 et Q3) | | |
 
-**État de la saisie manuelle des totaux d'avis :** Google retiré (collecte hebdomadaire), TripAdvisor conservé, saisi par la cheffe ou un serveur · **État du flux d'invitation d'admin :** aucun admin à ajouter pour l'instant ; flux par lien livré, migration 021 à appliquer avant usage. Réponses des blocs A (cheffe) et B (serveurs) : non reçues.
+**État de la saisie manuelle des totaux d'avis :** Google retiré (collecte hebdomadaire), TripAdvisor conservé, saisi par la cheffe ou un serveur · **État du flux d'invitation d'admin :** aucun admin à ajouter pour l'instant ; flux par lien livré, migration 021 à appliquer avant usage. Réponses des blocs A et B : données le 2026-11-01 par le propriétaire à la place de la cheffe et des serveurs (ce ne sont pas des réponses directes des intéressés).
 
 *Critère de clôture AUDIT-04 : au moins la cheffe, un serveur et le propriétaire ont répondu, et les deux lignes ci-dessus sont renseignées. Sans réponse, la phase 9 peut avancer avec les verdicts par défaut du document d'audit, en le notant dans `09-OWNER-VALIDATION.md`.*
