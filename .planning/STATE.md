@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Refonte de l'admin
-status: audited_pending_owner
-last_updated: "2026-10-31T01:00:00.000Z"
-last_activity: 2026-10-31
+status: milestone_complete
+last_updated: "2026-11-02T03:00:00.000Z"
+last_activity: 2026-11-02
 progress:
   total_phases: 9
-  completed_phases: 5
+  completed_phases: 9
   total_plans: 0
   completed_plans: 0
-  percent: 84
+  percent: 100
 ---
 
 # Project State
@@ -20,7 +20,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-31)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Milestone v1.1 « Refonte de l'admin » : code livré et audité (37 exigences sur 44 vérifiées) ; reste ce qui dépend du propriétaire
+**Current focus:** Milestone v1.1 clos (2026-11-02) ; prochain milestone à définir (`/gsd-new-milestone`)
 
 ## Current Position
 
