@@ -66,6 +66,9 @@ vi.mock('@/utils/resend', async (importOriginal) => {
   return { ...actual, getResendClient: () => null }
 })
 vi.mock('@sentry/nextjs', () => ({ captureException: vi.fn(), captureMessage: vi.fn() }))
+// Closing / reopening a dinner refreshes the schema cache (OPENING_HOURS_TAG); no Next runtime in tests
+const revalidateTag = vi.fn()
+vi.mock('next/cache', () => ({ revalidateTag: (...a: unknown[]) => revalidateTag(...a), unstable_cache: (fn: unknown) => fn }))
 vi.mock('@/utils/rate-limit', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/utils/rate-limit')>()
   return { ...actual, checkReservationRateLimits: async () => ({ limited: false }) }
@@ -149,6 +152,7 @@ beforeEach(() => {
   vi.useFakeTimers()
   vi.setSystemTime(new Date('2026-11-02T05:00:00Z'))
   reset()
+  revalidateTag.mockReset()
   requireAdmin.mockReset()
   requireAdmin.mockResolvedValue({ ok: true, supabase: fakeClient, user: { id: 'u' } })
   fakeClient.rpc.mockReset()
@@ -191,6 +195,16 @@ describe('public availability and direct creation', () => {
   it('closed: every slot the form offers is accepted by the server (same checkSlot)', async () => {
     await close()
     for (const time of slotsFor(DATE)) expect((await book(DATE, time)).status, time).toBe(201)
+  })
+})
+
+describe('schema cache', () => {
+  it('closing and reopening a dinner revalidate the opening-hours tag', async () => {
+    await close()
+    expect(revalidateTag).toHaveBeenCalledWith('opening-hours', 'max')
+    revalidateTag.mockClear()
+    expect((await reopen()).status).toBe(200)
+    expect(revalidateTag).toHaveBeenCalledWith('opening-hours', 'max')
   })
 })
 

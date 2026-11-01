@@ -1,4 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
+import { revalidateTag } from 'next/cache'
+import { OPENING_HOURS_TAG } from '@/utils/opening-hours'
 import { requireAdmin } from '@/utils/auth'
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
@@ -54,7 +56,10 @@ export async function POST(request: Request) {
       Sentry.captureException(error)
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
-    
+
+    // Dated exceptions are published in the schema (D-05): refresh it within one request cycle
+    revalidateTag(OPENING_HOURS_TAG, 'max')
+
     return NextResponse.json({ data })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -84,6 +89,8 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
     
+    revalidateTag(OPENING_HOURS_TAG, 'max')
+
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

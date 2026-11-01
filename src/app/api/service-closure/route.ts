@@ -1,7 +1,9 @@
 import * as Sentry from '@sentry/nextjs'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { requireAdmin } from '@/utils/auth'
 import { isSameOrigin, readJsonObject } from '@/utils/access/http'
+import { OPENING_HOURS_TAG } from '@/utils/opening-hours'
 import {
   checkClosureDate,
   hasClosureTitle,
@@ -139,6 +141,9 @@ export async function POST(request: Request) {
       return serverError()
     }
 
+    // The closure is a dated exception published in the schema: refresh it (same tag as /api/hours)
+    revalidateTag(OPENING_HOURS_TAG, 'max')
+
     return NextResponse.json({ data: { date, closed: true } })
   } catch {
     return serverError()
@@ -192,6 +197,8 @@ export async function DELETE(request: Request) {
     // Une exception créée à la main (même titre, pas de clé mémoire) n'est ni modifiée ni supprimée.
     const cleaned = await supabase.from('gecko_restaurant_settings').delete().eq('key', key)
     if (cleaned.error) Sentry.captureException(cleaned.error)
+
+    revalidateTag(OPENING_HOURS_TAG, 'max')
 
     return NextResponse.json({ data: { date, closed: false } })
   } catch {
