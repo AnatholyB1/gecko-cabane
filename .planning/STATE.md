@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-10-31)
 Phase: 17 of 17 (code livré) ; phases 10 à 14 complètes, phases 9, 15, 16 et 17 avec des restes qui dépendent du propriétaire
 Plan: — (milestone orchestré par branches, audits et corrections sans plans GSD)
 Status: Audité (`.planning/v1.1-MILESTONE-AUDIT.md`), corrections finales faites (`.planning/phases/17-acces-securite-qa/FINAL-REVIEW-FIXES.md`)
-Last activity: 2026-10-31 — audit de fin de milestone et revue finale
+Last activity: 2026-11-01 - Completed quick task 261101-scj: Horaires dynamiques
 
 Progress: [████████░░] 84% (37 exigences sur 44 vérifiées)
 
@@ -72,6 +72,12 @@ None yet.
 - Chemins `src/app/admin/**` codés en dur (tests, scripts, Sentry) : grep avant le `git mv` du route group (phase 12)
 - Aucun envoi KPI live avant le 2026-11-16 et sans accord du propriétaire
 - Texte DE/SV : relecture par un natif toujours recommandée (dette v1.0)
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 261101-scj | Horaires dynamiques : une source de vérité pour le texte visible et le schema JSON-LD | 2026-11-01 | 8a122a6 | [261101-scj-horaires-dynamiques-une-source-de-verite](./quick/261101-scj-horaires-dynamiques-une-source-de-verite/) |
 
 ## Session Continuity
 
