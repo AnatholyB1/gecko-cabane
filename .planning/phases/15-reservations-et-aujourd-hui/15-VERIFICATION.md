@@ -26,3 +26,24 @@ Une route temporaire `/gcm-p15/*` (préfixe `gcm`, hors matcher du middleware) m
 
 ## UAT propriétaire (RSV-06)
 À renseigner après exécution de `15-UAT.md` (hors service 12h-22h Krabi).
+
+## UAT propriétaire (RSV-06), passée le 2026-11-02 à 01h40-01h55 heure de Krabi (hors service)
+
+Environnement : serveur local (`next dev`, branche `milestone/v1.1`) branché sur la VRAIE base (projet `portfolio`), session admin du propriétaire dans Chrome, emails réels envoyés par Resend à `anatholyb@gmail.com`. Migrations 019-022 appliquées avant. Lignes de test `TEST UAT 1..5` supprimées par SQL à la fin (14 réservations avant et après).
+
+| Étape | Résultat | Preuve |
+|---|---|---|
+| A1 « + Réservation » WhatsApp, sans email | OK | ligne créée (3 nov 19:30, 2 couverts, `allergies` null), aucun email envoyé |
+| A2 réservation depuis le site public, avec email | OK | statut `pending`, email « Votre demande de réservation — Gecko Cabane » reçu (en attente de confirmation) |
+| A3 Confirmer (1 tap) | OK | 1 seul PUT + 1 GET de rechargement ; 1 seul email « Réservation confirmée — Gecko Cabane » |
+| A4 Annuler avec email | OK | dialogue : « Un email d'annulation sera envoyé à … » ; 1 seul email « Réservation annulée — Gecko Cabane » |
+| A4 Annuler sans email | OK | dialogue : « Aucun email ne sera envoyé : aucune adresse n'est renseignée » ; aucun email |
+| A5 Terminer, Absent | OK | aucun email ; dialogue d'Absent : « Il ne recevra pas l'invitation à laisser un avis le lendemain » |
+| C1/C2 recomptage | OK | en-tête de liste : 5 réservations/10 couverts, puis 4/8, 3/6 après chaque annulation ; conforme à la base |
+| B cron d'avis J+1 | NON PASSÉ (volontairement) | le lancer à la main aurait envoyé de vraies invitations à tous les clients éligibles d'hier ; à observer au cron normal de 11h Krabi |
+| C3 capacité refusée à 33+8 | NON PASSÉ | nécessite de remplir 33 couverts ; la règle est couverte par `tests/today.test.ts` (parité 20 000 cas avec le SQL de 008) |
+| C4 KPI du lundi | NON PASSÉ | aucun cron KPI lancé |
+| D ergonomie téléphone | NON PASSÉ | écran de bureau seulement (pas de vrai téléphone) |
+| 17a « Complet ce soir » de bout en bout | NON PASSÉ | le bouton agit sur la date du jour et le site public réel : à tester à un moment choisi |
+
+Constats : (1) après « Confirmer », les boutons Terminer/Absent/Annuler apparaissent à l'endroit où se trouvait « Confirmer » (le curseur se retrouve sur « Absent ») : un double tap rapide ouvrirait le dialogue d'Absent, qui demande confirmation ; pas d'erreur possible sans second geste. (2) Une réservation ancienne a une date aberrante `70902-02-01` (non liée à l'UAT, non modifiée). (3) Aucune erreur dans la console du navigateur.
