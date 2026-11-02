@@ -103,7 +103,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <LanguageSwitcher />
             <a
               href="#reservation"
-              className="font-cinzel text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-2 min-[360px]:px-2.5 min-[400px]:px-3.5 sm:px-5 py-2.5 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+              className="font-cinzel text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase bg-gc-gold text-gc-void border border-gc-gold px-2 min-[360px]:px-2.5 min-[400px]:px-3.5 sm:px-5 py-2.5 hover:bg-gc-ivory hover:border-gc-ivory transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
               aria-label={t('common.bookTable')}
             >
               {t('common.book')}
@@ -170,6 +170,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               {t('hero.location')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="#reservation"
+                className="font-cinzel text-[13px] tracking-[0.15em] uppercase bg-gc-gold text-gc-void border border-gc-gold px-8 py-4 hover:bg-gc-ivory hover:border-gc-ivory transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+              >
+                {t("common.bookTable")}
+              </a>
               <a
                 href="#menu"
                 className="font-cinzel text-[13px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-8 py-4 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"

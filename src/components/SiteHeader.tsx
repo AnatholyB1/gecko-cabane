@@ -34,7 +34,7 @@ export default async function SiteHeader({ locale }: Props) {
           <LanguageSwitcher />
           <Link
             href="/#reservation"
-            className="inline-flex items-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-4 sm:px-5 hover:bg-gc-gold hover:text-gc-void transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold"
+            className="inline-flex items-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase bg-gc-gold text-gc-void border border-gc-gold px-4 sm:px-5 hover:bg-gc-ivory hover:border-gc-ivory transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold"
           >
             <span className="hidden min-[480px]:inline">{t('bookTable')}</span>
             <span className="min-[480px]:hidden">{t('reserveShort')}</span>
