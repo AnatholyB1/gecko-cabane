@@ -17,18 +17,35 @@ const en = JSON.parse(read('messages/en.json'))
 
 describe('meta namespace', () => {
   it('has the exact home titles', () => {
-    expect(en.meta.homeTitle).toBe('Gecko Cabane – French-Thai Restaurant in Krabi Town')
-    expect(fr.meta.homeTitle).toBe('Gecko Cabane – Restaurant franco-thaï à Krabi Town')
+    expect(en.meta.homeTitle).toBe('Gecko Cabane – French-Thai Restaurant in Krabi, Open Daily')
+    expect(fr.meta.homeTitle).toBe('Gecko Cabane – Restaurant franco-thaï à Krabi, ouvert 7j/7')
   })
 
-  it('has home descriptions of 120-165 chars mentioning Jariya, 40 and Maharat', () => {
-    for (const m of [fr, en]) {
-      const d: string = m.meta.homeDescription
-      expect(d.length).toBeGreaterThanOrEqual(120)
-      expect(d.length).toBeLessThanOrEqual(165)
-      expect(d).toContain('Jariya')
-      expect(d).toContain('40')
-      expect(d).toContain('Maharat')
+  it('has SEO titles and descriptions of the right size in all 4 locales (home + french-restaurant)', () => {
+    const all = { fr, en, de: JSON.parse(read('messages/de.json')), sv: JSON.parse(read('messages/sv.json')) }
+    const seen = new Set<string>()
+    for (const [loc, m] of Object.entries(all)) {
+      for (const k of ['homeTitle', 'frenchRestaurantTitle']) {
+        const t: string = m.meta[k]
+        expect(t.length, `${loc}.${k}`).toBeLessThanOrEqual(64)
+        expect(t, `${loc}.${k}`).toContain('Gecko Cabane')
+      }
+      for (const k of ['homeDescription', 'frenchRestaurantDescription']) {
+        const d: string = m.meta[k]
+        expect(d.length, `${loc}.${k}`).toBeGreaterThanOrEqual(150)
+        expect(d.length, `${loc}.${k}`).toBeLessThanOrEqual(160)
+        expect(d, `${loc}.${k}`).toContain('Jariya')
+        expect(d, `${loc}.${k}`).toContain('Krabi')
+      }
+      for (const k of ['homeTitle', 'homeDescription', 'frenchRestaurantTitle', 'frenchRestaurantDescription']) {
+        const v: string = m.meta[k]
+        // unique per page and locale
+        expect(seen.has(v), `${loc}.${k} duplicated`).toBe(false)
+        seen.add(v)
+        // no hard-coded hours, ratings or unverifiable superlatives
+        expect(v, `${loc}.${k}`).not.toMatch(/\d\s?[h:]\s?\d|\d\s?(am|pm|Uhr)\b|\b\d[.,]\d\b|\bavis\b|reviews?\b|Bewertung|recension/i)
+        expect(v, `${loc}.${k}`).not.toMatch(/\b(best|meilleur|beste[rn]?|bäst|bästa)\b/i)
+      }
     }
   })
 
@@ -89,5 +106,18 @@ describe('generateMetadata wiring', () => {
   it('admin layout is noindex', () => {
     expect(existsSync(join(root, 'src/app/admin/layout.tsx'))).toBe(true)
     expect(read('src/app/admin/layout.tsx')).toContain('index: false')
+  })
+})
+
+describe('reservation CTA above the fold', () => {
+  it('home hero and both headers link to the reservation section with a filled button', () => {
+    const home = read('src/app/[locale]/page.tsx')
+    const hero = home.slice(home.indexOf('HERO'), home.indexOf('SIGNATURE'))
+    expect(hero).toContain('href="#reservation"')
+    expect(hero).toContain("t(\"common.bookTable\")")
+    const nav = home.slice(home.indexOf('NAVIGATION'), home.indexOf('Announcement Banner'))
+    expect(nav).toMatch(/href="#reservation"[^>]*bg-gc-gold/s)
+    const header = read('src/components/SiteHeader.tsx')
+    expect(header).toMatch(/href="\/#reservation"[^>]*bg-gc-gold/s)
   })
 })
