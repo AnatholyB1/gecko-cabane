@@ -2,7 +2,7 @@
  * GET /api/kpi (plan 08-07, KPI-06, D-05): admin-only weekly KPI history.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { NextResponse } from 'next/server'
 
 const requireAdmin = vi.fn()
@@ -43,6 +43,12 @@ function fakeSupabase(result: { data: unknown; error: unknown }) {
 beforeEach(() => {
   requireAdmin.mockReset()
   captureException.mockReset()
+  // The report mode comes from the environment (live on Vercel production): start from the unset default.
+  vi.stubEnv('KPI_REPORT_MODE', undefined)
+})
+
+afterEach(() => {
+  vi.unstubAllEnvs()
 })
 
 describe('GET /api/kpi', () => {
