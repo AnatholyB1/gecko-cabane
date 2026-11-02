@@ -14,7 +14,7 @@ Instructions pour le relecteur :
 | Clé | FR | SV | Corrections du relecteur |
 | --- | --- | --- | --- |
 | `meta.frenchRestaurantTitle` | Restaurant français à Krabi Town, ouvert 7j/7 – Gecko Cabane | Fransk restaurang i Krabi Town, öppet varje dag – Gecko Cabane |  |
-| `meta.frenchRestaurantDescription` | Envie d'un vrai repas français à Krabi Town ? La cheffe Jariya cuisine franco-thaï, avec des vins et des bières belges. Réservez en ligne en moins d'une minute. | Sugen på en riktig fransk måltid i Krabi Town? Kocken Jariya lagar fransk-thailändsk mat, med belgiska viner och ölsorter. Boka online på under en minut. |  |
+| `meta.frenchRestaurantDescription` | Envie d'un vrai repas français à Krabi Town ? La cheffe Jariya cuisine franco-thaï, avec du vin et des bières belges. Réservez en ligne en moins d'une minute. | Sugen på en riktig fransk måltid i Krabi Town? Kocken Jariya lagar fransk-thailändsk mat, med vin och belgisk öl att välja på. Boka online på under en minut. |  |
 | `frenchRestaurant.eyebrow` | Maharat Road, Krabi Town | Maharat Road, Krabi Town |  |
 | `frenchRestaurant.h1` | Restaurant français à Krabi Town | Fransk restaurang i Krabi Town |  |
 | `frenchRestaurant.subtitle` | Une table française à Krabi Town, tenue par un couple franco-thaï, sur Maharat Road. | Äkta fransk matlagning av ett fransk-thailändskt par, på Maharat Road. |  |
