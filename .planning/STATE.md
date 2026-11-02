@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-10-31)
 Phase: 17 of 17 (code livré) ; phases 10 à 14 complètes, phases 9, 15, 16 et 17 avec des restes qui dépendent du propriétaire
 Plan: — (milestone orchestré par branches, audits et corrections sans plans GSD)
 Status: Audité (`.planning/v1.1-MILESTONE-AUDIT.md`), corrections finales faites (`.planning/phases/17-acces-securite-qa/FINAL-REVIEW-FIXES.md`)
-Last activity: 2026-11-01 - Completed quick task 261101-scj: Horaires dynamiques
+Last activity: 2026-11-02 - Completed quick task 261102-or1: Bouton Reserver + titres/descriptions SEO
 
 Progress: [████████░░] 84% (37 exigences sur 44 vérifiées)
 
@@ -78,6 +78,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 261101-scj | Horaires dynamiques : une source de vérité pour le texte visible et le schema JSON-LD | 2026-11-01 | 8a122a6 | [261101-scj-horaires-dynamiques-une-source-de-verite](./quick/261101-scj-horaires-dynamiques-une-source-de-verite/) |
+| 261102-or1 | Bouton Reserver visible en haut des pages vues + titres/descriptions SEO (accueil, french-restaurant-krabi) | 2026-11-02 | 458785f | [261102-or1-bouton-de-reservation-en-haut-des-pages-](./quick/261102-or1-bouton-de-reservation-en-haut-des-pages-/) |
 
 ## Session Continuity
 
