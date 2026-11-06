@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
     // Resend contact strictly after confirmed_at is set. A failure leaves contact_synced_at null for the cron retry.
     const profile = buildSubscriberProfile(confirmedRow, { phone })
-    const synced = await upsertResendContact(profile)
+    const synced = await upsertResendContact(profile, { freshOptIn: true })
     if (synced.ok) {
       const { error: syncError } = await admin
         .from('gecko_marketing_consents')

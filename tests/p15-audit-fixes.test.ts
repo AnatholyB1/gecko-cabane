@@ -21,7 +21,7 @@ const FROZEN_PATHS = [
   'src/app/api/cron',
   'src/app/api/kpi',
   'src/utils/resend.ts',
-  'src/utils/resend-contacts.ts',
+  // resend-contacts.ts degele par le correctif Sentry GECKO-CABANE-R (quick 261106-op0), couvert par tests/resend-contacts.test.ts
   'src/utils/review-invitations.ts',
 ]
 const FROZEN_PREFIXES = ['src/utils/kpi-']

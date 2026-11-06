@@ -45,26 +45,71 @@ function segmentIds(): { id: string }[] {
   return id ? [{ id }] : []
 }
 
-/** Create the contact, or update its properties when it already exists. A fresh double opt-in re-subscribes. */
-export async function upsertResendContact(profile: SubscriberProfile): Promise<ContactResult> {
+function contactEmail(email: string): string {
+  return email.trim().toLowerCase()
+}
+
+/** Case-insensitive removal of the address from a provider message (no PII in Sentry). */
+function redactEmail(text: string, email: string): string {
+  return text.toLowerCase().split(email).join('[email]')
+}
+
+function sleep(ms: number): Promise<void> {
+  return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve()
+}
+
+/**
+ * Create the contact; when creation is refused, look it up and update its properties only
+ * if it exists. A missing contact means the create error is the real cause: it is reported
+ * as such (Sentry GECKO-CABANE-R) and update is never attempted. `unsubscribed: false` is
+ * sent only with `freshOptIn` (confirm route, explicit double opt-in): a cron retry never
+ * re-subscribes someone who unsubscribed inside Resend (PDPA/GDPR).
+ */
+export async function upsertResendContact(
+  profile: SubscriberProfile,
+  options: { freshOptIn?: boolean; pauseMs?: number } = {}
+): Promise<ContactResult> {
   const resend = getResendClient()
   if (!resend) return SKIPPED
   const properties = buildContactProperties(profile)
+  const email = contactEmail(profile.email)
+  const pauseMs = options.pauseMs ?? 600
   try {
     const created = await resend.contacts.create({
-      email: profile.email,
+      email,
       unsubscribed: false,
       properties,
       segments: segmentIds(),
     })
     if (!created.error) return { ok: true }
+
+    await sleep(pauseMs)
+    const found = await resend.contacts.get({ email })
+    if (found.error) {
+      if (found.error.name === 'not_found') {
+        const detail = redactEmail(created.error.message, email)
+        Sentry.captureMessage(`Resend contact create failed: ${created.error.name}`, {
+          level: 'warning',
+          extra: { statusCode: created.error.statusCode, detail },
+        })
+      } else {
+        Sentry.captureMessage(`Resend contact lookup failed: ${found.error.name}`, 'warning')
+      }
+      return { ok: false }
+    }
+
+    const alreadyUnsubscribed = found.data?.unsubscribed === true
+    if (alreadyUnsubscribed && options.freshOptIn !== true) {
+      Sentry.captureMessage('Resend contact unsubscribed but ledger active: left unsubscribed', 'info')
+    }
+    await sleep(pauseMs)
     const updated = await resend.contacts.update({
-      email: profile.email,
-      unsubscribed: false,
+      email,
       properties,
+      ...(options.freshOptIn === true ? { unsubscribed: false } : {}),
     })
     if (!updated.error) return { ok: true }
-    Sentry.captureMessage(`Resend contact upsert failed: ${updated.error.name}`, 'warning')
+    Sentry.captureMessage(`Resend contact update failed: ${updated.error.name}`, 'warning')
     return { ok: false }
   } catch {
     Sentry.captureMessage('Resend contact upsert failed (network or timeout)', 'warning')
@@ -80,7 +125,7 @@ export async function updateResendContactProperties(
   if (!resend) return SKIPPED
   try {
     const { error } = await resend.contacts.update({
-      email: profile.email,
+      email: contactEmail(profile.email),
       properties: buildContactProperties(profile),
     })
     if (error) {
@@ -99,7 +144,7 @@ export async function unsubscribeResendContact(email: string): Promise<ContactRe
   const resend = getResendClient()
   if (!resend) return SKIPPED
   try {
-    const { error } = await resend.contacts.update({ email, unsubscribed: true })
+    const { error } = await resend.contacts.update({ email: contactEmail(email), unsubscribed: true })
     if (error) {
       Sentry.captureMessage(`Resend contact unsubscribe failed: ${error.name}`, 'warning')
       return { ok: false }
