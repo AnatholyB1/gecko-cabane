@@ -52,6 +52,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   )
 }
 
+// Unknown values such as "apple-touch-icon-precomposed.png" (iOS icon probe; the matcher skips .png so the
+// middleware never sees it) must 404 before layout and page render in parallel (Sentry GECKO-CABANE-S).
+export const dynamicParams = false
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }

@@ -567,7 +567,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </section>
 
         {/* ═══ SOCIAL PROOF ═══ */}
-        <SocialProof locale={locale as SeoLocale} />
+        <SocialProof locale={toSeoLocale(locale)} />
 
         {/* ═══ RESERVATION ═══ */}
         <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
