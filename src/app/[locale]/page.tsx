@@ -155,7 +155,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {/* Gecko décoratif au-dessus du titre */}
             <div className="flex justify-center mb-2" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/gecko-mark.png" alt="" className="gc-botanical" style={{ height: '72px', opacity: 0.75 }} />
+              <img src="/gecko-mark.png" alt="" width={503} height={800} className="gc-botanical" style={{ height: '72px', width: 'auto', opacity: 0.75 }} />
             </div>
             <GcDivider />
             <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
@@ -574,7 +574,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
           <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
           <div className="absolute bottom-0 left-0 w-48 h-72 opacity-[0.05] pointer-events-none" aria-hidden="true">
-            <img src="/botanical-lotus.svg" alt="" className="w-full h-full object-contain" />
+            <img src="/botanical-lotus.svg" alt="" width={300} height={320} className="w-full h-full object-contain" />
           </div>
           <div className="max-w-[600px] mx-auto relative z-10">
             <div className="text-center mb-10">
@@ -757,7 +757,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div>
               <div className="flex items-center gap-3 mb-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/gecko-mark.png" alt="" aria-hidden="true" style={{ height: '36px', opacity: 0.7 }} />
+                <img src="/gecko-mark.png" alt="" aria-hidden="true" width={503} height={800} loading="lazy" style={{ height: '36px', width: 'auto', opacity: 0.7 }} />
                 <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em]">
                   GECKO CABANE
                 </p>
