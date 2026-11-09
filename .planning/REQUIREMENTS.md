@@ -61,9 +61,34 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (rempli par le roadmapper) | | |
+| PERF-01 | Phase 18 | Pending |
+| PERF-02 | Phase 18 | Pending |
+| PERF-03 | Phase 18 | Pending |
+| PERF-04 | Phase 18 | Pending |
+| PERF-05 | Phase 18 | Pending |
+| PERF-06 | Phase 18 | Pending |
+| PERF-07 | Phase 20 | Pending |
+| ONP-01 | Phase 19 | Pending |
+| ONP-02 | Phase 19 | Pending |
+| ONP-03 | Phase 19 | Pending |
+| ONP-04 | Phase 19 | Pending |
+| ONP-05 | Phase 19 | Pending |
+| ONP-06 | Phase 19 | Pending |
+| ONP-07 | Phase 19 | Pending |
+| ONP-08 | Phase 19 | Pending |
+| ONP-09 | Phase 19 | Pending |
+| ONP-10 | Phase 19 | Pending |
+| ONP-11 | Phase 19 | Pending |
+| SEC-01 | Phase 20 | Pending |
+| SEC-02 | Phase 20 | Pending |
+| SEC-03 | Phase 20 | Pending |
+| SEC-04 | Phase 20 | Pending |
+| SEC-05 | Phase 20 | Pending |
+| A11Y-01 | Phase 20 | Pending |
+| A11Y-02 | Phase 20 | Pending |
+| A11Y-03 | Phase 20 | Pending |
 
-**Coverage:** 26 requirements v1 (PERF 7, ONP 11, SEC 5, A11Y 3)
+**Coverage:** 26/26 requirements v1 mappés (PERF 7, ONP 11, SEC 5, A11Y 3)
 
 ---
 *Requirements defined: 2026-11-09*

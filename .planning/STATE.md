@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Vitesse mobile, SEO on-page et sécurité
-status: planning
-last_updated: "2026-11-09T14:42:15.427Z"
+status: ready_to_plan
+last_updated: "2026-11-09T15:00:00.000Z"
 last_activity: 2026-11-09
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,20 +20,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-31)
 
 **Core value:** geckocabanerestaurant.com doit devenir la première source de réservations des touristes européens de Krabi : être trouvé (SEO FR/EN/DE) et réserver en moins de 60 secondes.
-**Current focus:** Milestone v1.1 clos (2026-11-02) ; prochain milestone à définir (`/gsd-new-milestone`)
+**Current focus:** Milestone v1.2, Phase 18 Vitesse mobile (prochaine étape : `/gsd-plan-phase 18`)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 18 (Vitesse mobile) — pas commencée
 Plan: —
-Status: Defining requirements
-Last activity: 2026-11-09 — Milestone v1.2 started
+Status: Roadmap v1.2 créée (phases 18-20), prête pour la planification
+Last activity: 2026-11-09 — Roadmap v1.2 créée
+
+Progress: [..........] 0% (0/3 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed (v1.1): 0
+- Total plans completed (v1.2): 0
 - Average duration: —
 - Total execution time: —
 
@@ -47,6 +49,10 @@ Last activity: 2026-11-09 — Milestone v1.2 started
 
 ### Decisions
 
+- v1.2 : phases 18-20 (numérotation continue) ; 18 Vitesse mobile, 19 SEO on-page, 20 Sécurité + a11y + mesure finale
+- v1.2 : PERF-07 (Lighthouse >= 90) rattaché à la phase 20 pour être mesuré après CSP et correctifs a11y
+- v1.2 : la CSP (SEC-05) vient après la phase 18 car elle dépend du chargement final des scripts (next/font, script analytics)
+- v1.2 : A11Y-01 sans changement d'identité visuelle ; pas de changement de design ni de textes hors liste
 - v1.1 : les phases continuent la numérotation de v1.0 (9 à 17) ; les dossiers `.planning/phases/01-08` et les workstreams ne sont pas touchés
 - v1.1 : API de réservation, `PUT /api/reservations` et machine à statuts figés (emails, cron J+1, KPI en dépendent)
 - v1.1 : Base UI retenu après spike en phase 11 ; repli `<dialog>` natif + `sonner`
@@ -70,7 +76,8 @@ None yet.
 - Tests qui lisent le source (`admin-routes-guarded`, `kpi-admin-wiring`, `menu-admin-wiring`, `review-badges`) : liste d'impact en phase 9 avant toute suppression
 - Chemins `src/app/admin/**` codés en dur (tests, scripts, Sentry) : grep avant le `git mv` du route group (phase 12)
 - Aucun envoi KPI live avant le 2026-11-16 et sans accord du propriétaire
-- Texte DE/SV : relecture par un natif toujours recommandée (dette v1.0)
+- Texte DE/SV : relecture par un natif toujours recommandée (dette v1.0) ; obligatoire pour les nouvelles pages de la phase 19 (ONP-11)
+- Phase 20 : la CSP doit être vérifiée dans le navigateur (réservation, admin, Maps, GTM, Sentry, Supabase) avant mise en production
 
 ### Quick Tasks Completed
 
@@ -81,8 +88,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-31
-Stopped at: revue finale du milestone v1.1 ; prochaine étape : décisions du propriétaire, puis déploiement dans l'ordre de `v1.1-MILESTONE-AUDIT.md` §7
+Last session: 2026-11-09
+Stopped at: roadmap v1.2 créée ; prochaine étape : `/gsd-plan-phase 18`
 Resume file: None
 
 ## Deferred Items
