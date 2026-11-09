@@ -367,12 +367,12 @@
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
     "h1": "Französisches Restaurant in Krabi Town",
-    "subtitle": "Echte französische Küche eines französisch-thailändischen Paares, an der Maharat Road.",
+    "subtitle": "Echte französische Küche von Chefköchin Jariya, an der Maharat Road.",
     "ctaBook": "Tisch reservieren",
     "ctaMenu": "Speisekarte ansehen",
     "heroAlt": "Der Eingang des Restaurants Gecko Cabane an der Maharat Road in Krabi Town",
     "introTitle": "Französische Küche, mit Sorgfalt in Krabi gekocht",
-    "intro1": "Das Gecko Cabane ist ein kleines französisches Restaurant in Krabi Town, geführt von einem französisch-thailändischen Paar. Chefköchin Jariya kocht die Klassiker der französischen Hausmannskost so, wie sie schmecken sollen: langsam und großzügig.",
+    "intro1": "Das Gecko Cabane ist ein kleines französisches Restaurant in Krabi Town, geführt von Chefköchin Jariya. Sie kocht die Klassiker der französischen Hausmannskost so, wie sie schmecken sollen: langsam und großzügig.",
     "intro2": "Mit nur 40 Plätzen bleibt der Gastraum überschaubar. Auf der Tafel stehen französische Gerichte, ein paar thailändische Lieblingsgerichte aus der Küche der Chefin und eine kurze Auswahl an Weinen und Bieren dazu.",
     "dishesTitle": "Unsere Spezialitäten",
     "bourguignon": {
@@ -398,7 +398,7 @@
     "winesTitle": "Wein und belgisches Bier",
     "winesText": "Zum Essen schenken wir französische Weine und eine Auswahl belgischer Biere aus.",
     "winesLink": "Unsere Weine und Biere auf der Speisekarte ansehen",
-    "storyTitle": "Das Restaurant eines französisch-thailändischen Paares",
+    "storyTitle": "Das Restaurant von Chefköchin Jariya",
     "story1": "Das Gecko Cabane wurde von Chefköchin Jariya und ihrem französischen Ehemann eröffnet. Sie sorgt für die Küche, er für den französischen Tisch, und gemeinsam empfangen sie jeden Abend ihre Gäste.",
     "story2": "Die Idee ist einfach: die Gerichte kochen, die sie lieben, mit Sorgfalt, und sie mit Reisenden und Einheimischen in Krabi Town teilen.",
     "chefAlt": "Chefköchin Jariya vom Gecko Cabane, Krabi Town",
@@ -535,7 +535,7 @@
   },
   "nav": {
     "frenchRestaurant": "Französisches Restaurant",
-    "frenchRestaurantHint": "Französische Hausmannskost eines französisch-thailändischen Paares, mit ein paar thailändischen Lieblingsgerichten.",
+    "frenchRestaurantHint": "Französische Hausmannskost von Chefköchin Jariya, mit ein paar thailändischen Lieblingsgerichten.",
     "romanticDinner": "Romantisches Abendessen",
     "romanticDinnerHint": "Ein kleiner, ruhiger Gastraum mit französisch-thailändischer Küche, gemacht für einen Abend zu zweit.",
     "whereToEat": "Wo essen in Krabi Town",
@@ -553,7 +553,7 @@
     "sections": {
       "ambiance": {
         "title": "Ein ruhiger Raum für zwei",
-        "p1": "Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von einem französisch-thailändischen Paar, das Sie persönlich willkommen heißt.",
+        "p1": "Das Gecko Cabane bietet höchstens 40 Gästen Platz, deshalb bleibt es ruhig und das Gespräch fließt von selbst. Geführt wird es von Chefköchin Jariya, die Sie persönlich willkommen heißt.",
         "p2": "Es gibt keine Show und keine Hektik. Sie kommen wegen des Essens, eines Glases Wein oder eines belgischen Biers und der Zeit zum Reden. {hoursSentence}"
       },
       "table": {
@@ -676,7 +676,7 @@
       },
       "belgian": {
         "title": "Warum belgisches Bier",
-        "p1": "Unsere Küche wird von einem französisch-thailändischen Paar geführt, und belgisches Bier ist ein natürlicher Begleiter zur französischen Hausmannskost. Abteibiere, helle Ales und Weizenbiere passen gut zu geschmorten und cremigen Gerichten.",
+        "p1": "Unsere Küche wird von Chefköchin Jariya geführt, und belgisches Bier ist ein natürlicher Begleiter zur französischen Hausmannskost. Abteibiere, helle Ales und Weizenbiere passen gut zu geschmorten und cremigen Gerichten.",
         "p2": "Wenn Sie lieber Bier als Wein trinken, fragen Sie uns, welcher Stil zu Ihrem Gericht passt. Wir erklären Ihnen die Unterschiede gern."
       },
       "pairings": {

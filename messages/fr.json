@@ -363,12 +363,12 @@
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
     "h1": "Restaurant français à Krabi Town",
-    "subtitle": "Une table française à Krabi Town, tenue par un couple franco-thaï, sur Maharat Road.",
+    "subtitle": "Une table française à Krabi Town, tenue par la cheffe Jariya, sur Maharat Road.",
     "ctaBook": "Réserver une table",
     "ctaMenu": "Voir la carte",
     "heroAlt": "L'entrée du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
     "introTitle": "Un coin de France à Krabi, cuisiné avec soin",
-    "intro1": "Après quelques jours de curry et de riz sauté, l'envie d'un vrai repas français, ça arrive. Gecko Cabane est un petit restaurant français à Krabi Town, tenu par un couple franco-thaï : la cheffe Jariya y cuisine les plats de la maison que vous reconnaîtrez, mijotés lentement et sans chichis.",
+    "intro1": "Après quelques jours de curry et de riz sauté, l'envie d'un vrai repas français, ça arrive. Gecko Cabane est un petit restaurant français à Krabi Town, tenu par la cheffe Jariya : elle y cuisine les plats de la maison que vous reconnaîtrez, mijotés lentement et sans chichis.",
     "intro2": "Avec 40 couverts seulement, la salle reste à taille humaine. Au menu : des plats français à l'ardoise, quelques classiques thaïs de la cheffe, et une courte carte de vins et de bières belges pour les accompagner.",
     "dishesTitle": "Plats signature",
     "bourguignon": {
@@ -394,7 +394,7 @@
     "winesTitle": "Vins et bières belges",
     "winesText": "Pour accompagner le repas, nous servons des vins français et une sélection de bières belges.",
     "winesLink": "Voir nos vins et bières sur la carte",
-    "storyTitle": "Le restaurant d'un couple franco-thaï",
+    "storyTitle": "Le restaurant de la cheffe Jariya",
     "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français, Frédéric. Elle tient la cuisine, lui la table à la française, et ils accueillent ensemble leurs hôtes chaque soir.",
     "story2": "Leur idée est simple : cuisiner avec soin les plats qu'ils aiment et les partager avec les voyageurs de passage comme avec les habitants de Krabi Town.",
     "chefAlt": "La cheffe Jariya du Gecko Cabane, Krabi Town",
@@ -531,7 +531,7 @@
   },
   "nav": {
     "frenchRestaurant": "Restaurant français",
-    "frenchRestaurantHint": "Cuisine française de la maison par un couple franco-thaï, avec quelques plats thaïs.",
+    "frenchRestaurantHint": "Cuisine française de la maison par la cheffe Jariya, avec quelques plats thaïs.",
     "romanticDinner": "Dîner romantique",
     "romanticDinnerHint": "Une petite salle calme et une cuisine franco-thaïe, pour une soirée à deux.",
     "whereToEat": "Où manger à Krabi Town",
@@ -549,7 +549,7 @@
     "sections": {
       "ambiance": {
         "title": "Une salle calme, pour deux",
-        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
+        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. La cheffe Jariya, qui tient la maison, vous reçoit elle-même.",
         "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. {hoursSentence}"
       },
       "table": {
