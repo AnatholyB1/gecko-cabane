@@ -5,7 +5,7 @@ import NewsletterUnsubscribeButton from '@/components/NewsletterUnsubscribeButto
 import { createAdminClient } from '@/utils/supabase/server'
 import { parseLinkParams, verifyNewsletterLink } from '@/utils/newsletter-links'
 import { maskEmail } from '@/utils/newsletter-withdrawal'
-import { LOCALES, type SeoLocale } from '@/utils/seo'
+import { LOCALES, buildShareMetadata, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metaTitle'),
     robots: { index: false, follow: false },
+    ...buildShareMetadata({ locale: resolveLocale(raw), title: t('metaTitle') }),
   }
 }
 

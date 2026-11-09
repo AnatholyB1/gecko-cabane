@@ -16,3 +16,6 @@ Plan approuvé ; middleware sans Supabase sur le public ; CSP appliquée + véri
 ## Fusions
 | Étape | Branche | Commit | Gate | Remarques |
 |---|---|---|---|---|
+| B20a en-têtes SEC-01..04 | phase/20a-headers | c40fd64 | 140 fichiers / 2242 tests ; tsc, lint (0 erreur), build verts | CSP non faite (vague 2) ; règle wifi ne couvre pas de/sv (no-store par rendu dynamique seulement : à revoir après B18) |
+| Audit de base | audit/v1.2-baseline | merge | docs seulement | Lighthouse local /fr 98, /en 96 (LCP ~1,2 s) : PERF-07 déjà atteint en local, l'écart avec 72 vient du réseau/TTFB en ligne ; a11y : 9 groupes contraste, 13 cibles < 48 px, 3 aria-label |
+| B19a pages SEO ONP-04..09 | phase/19a-pages | merge | 144 fichiers / 2411 tests ; tsc, lint (0 erreur), build verts | de/sv noindex, hors sitemap/hreflang tant que non relus ; accord propriétaire à refaire pour la page FR vin/bière et les 12 phrases DE/SV modifiées ; « son mari Frédéric » (about.story1 etc.) non touché : décision propriétaire |

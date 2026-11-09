@@ -358,17 +358,21 @@
     "romanticDinnerTitle": "Dîner romantique à Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "Une table calme pour deux sur Maharat Road, à Krabi Town : cuisine française et plats thaïs dans une salle de 40 couverts. Réservez en ligne.",
     "whereToEatTitle": "Où manger à Krabi Town – Gecko Cabane",
-    "whereToEatDescription": "Notre guide pour bien manger à Krabi Town : marché de nuit, Walking Street et bord de rivière, quoi goûter et quand y aller, puis dîner au Gecko Cabane."
+    "whereToEatDescription": "Notre guide pour bien manger à Krabi Town : marché de nuit, Walking Street et bord de rivière, quoi goûter et quand y aller, puis dîner au Gecko Cabane.",
+    "gettingHereTitle": "Venir à Krabi Town depuis Ao Nang – Gecko Cabane",
+    "gettingHereDescription": "Comment rejoindre Gecko Cabane à Krabi Town depuis Ao Nang en taxi, songthaew, transfert privé ou scooter, avec l'itinéraire Google Maps vers Maharat Road.",
+    "wineBeerTitle": "Vins et bières belges à Krabi Town – Gecko Cabane",
+    "wineBeerDescription": "Quels vins et quelles bières belges avec les plats français et thaïs du Gecko Cabane à Krabi Town : un petit guide d'accords, carte complète sur la page menu."
   },
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
     "h1": "Restaurant français à Krabi Town",
-    "subtitle": "Une table française à Krabi Town, tenue par un couple franco-thaï, sur Maharat Road.",
+    "subtitle": "Une table française à Krabi Town, tenue par la cheffe Jariya, sur Maharat Road.",
     "ctaBook": "Réserver une table",
     "ctaMenu": "Voir la carte",
     "heroAlt": "L'entrée du restaurant Gecko Cabane sur Maharat Road à Krabi Town",
     "introTitle": "Un coin de France à Krabi, cuisiné avec soin",
-    "intro1": "Après quelques jours de curry et de riz sauté, l'envie d'un vrai repas français, ça arrive. Gecko Cabane est un petit restaurant français à Krabi Town, tenu par un couple franco-thaï : la cheffe Jariya y cuisine les plats de la maison que vous reconnaîtrez, mijotés lentement et sans chichis.",
+    "intro1": "Après quelques jours de curry et de riz sauté, l'envie d'un vrai repas français, ça arrive. Gecko Cabane est un petit restaurant français à Krabi Town, tenu par la cheffe Jariya : elle y cuisine les plats de la maison que vous reconnaîtrez, mijotés lentement et sans chichis.",
     "intro2": "Avec 40 couverts seulement, la salle reste à taille humaine. Au menu : des plats français à l'ardoise, quelques classiques thaïs de la cheffe, et une courte carte de vins et de bières belges pour les accompagner.",
     "dishesTitle": "Plats signature",
     "bourguignon": {
@@ -394,7 +398,7 @@
     "winesTitle": "Vins et bières belges",
     "winesText": "Pour accompagner le repas, nous servons des vins français et une sélection de bières belges.",
     "winesLink": "Voir nos vins et bières sur la carte",
-    "storyTitle": "Le restaurant d'un couple franco-thaï",
+    "storyTitle": "Le restaurant de la cheffe Jariya",
     "story1": "Gecko Cabane a été ouvert par la cheffe Jariya et son mari français, Frédéric. Elle tient la cuisine, lui la table à la française, et ils accueillent ensemble leurs hôtes chaque soir.",
     "story2": "Leur idée est simple : cuisiner avec soin les plats qu'ils aiment et les partager avec les voyageurs de passage comme avec les habitants de Krabi Town.",
     "chefAlt": "La cheffe Jariya du Gecko Cabane, Krabi Town",
@@ -531,7 +535,7 @@
   },
   "nav": {
     "frenchRestaurant": "Restaurant français",
-    "frenchRestaurantHint": "Cuisine française de la maison par un couple franco-thaï, avec quelques plats thaïs.",
+    "frenchRestaurantHint": "Cuisine française de la maison par la cheffe Jariya, avec quelques plats thaïs.",
     "romanticDinner": "Dîner romantique",
     "romanticDinnerHint": "Une petite salle calme et une cuisine franco-thaïe, pour une soirée à deux.",
     "whereToEat": "Où manger à Krabi Town",
@@ -549,7 +553,7 @@
     "sections": {
       "ambiance": {
         "title": "Une salle calme, pour deux",
-        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. Le couple franco-thaï qui tient la maison vous reçoit lui-même.",
+        "p1": "Gecko Cabane accueille 40 couverts au maximum : la salle reste tranquille et on s'y entend sans élever la voix. La cheffe Jariya, qui tient la maison, vous reçoit elle-même.",
         "p2": "Ici, pas de mise en scène ni de précipitation. On vient pour la cuisine, un verre de vin ou une bière belge, et le temps de se parler. {hoursSentence}"
       },
       "table": {
@@ -615,6 +619,95 @@
       }
     },
     "closingTitle": "Préparez votre soirée à Krabi Town"
+  },
+  "gettingHere": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "De Ao Nang à Krabi Town",
+    "subtitle": "Vous logez à Ao Nang et l'idée d'un dîner à Krabi Town vous tente ? Voici comment venir jusqu'à nous et comment trouver la porte.",
+    "heroAlt": "L'entrée du Gecko Cabane sur Maharat Road à Krabi Town",
+    "sections": {
+      "overview": {
+        "title": "De la plage à la ville pour dîner",
+        "p1": "Ao Nang et Krabi Town sont deux endroits distincts, et le trajet de l'un à l'autre demande un peu d'organisation. Beaucoup de nos hôtes font le déplacement pour une soirée, et c'est facile une fois qu'on connaît les options.",
+        "p2": "Nous n'avons pas de navette : cette page décrit les façons habituelles de se déplacer. Les tarifs et les durées varient selon la circulation, la saison et le chauffeur, alors convenez toujours du prix avant de partir."
+      },
+      "options": {
+        "title": "Comment venir",
+        "p1": "Le taxi, au compteur ou réservé avec une application de transport, est le choix le plus direct. Les songthaews, ces camionnettes partagées qui suivent des itinéraires fixes, coûtent moins cher, mais ils sont plus lents et s'arrêtent en général tôt le soir.",
+        "p2": "Un transfert privé organisé par votre hôtel vous garantit un prix fixe et un chauffeur qui attend ou revient à l'heure de votre choix. Si vous êtes à l'aise sur deux roues, un scooter de location fait aussi l'affaire, même si la route est chargée à la nuit tombée.",
+        "p3": "Notre conseil est simple : réservez une course avec l'application Grab et saisissez comme destination « Gecko Cabane Restaurant », que vous trouverez sur Google Maps. L'application affiche le prix et l'heure d'arrivée estimée avant que vous confirmiez, et le trajet jusqu'à Krabi Town est court et sans complication."
+      },
+      "arrive": {
+        "title": "Nous trouver sur Maharat Road",
+        "alt": "L'enseigne du Gecko Cabane sur Maharat Road à Krabi Town",
+        "p1": "Gecko Cabane se trouve sur Maharat Road, au centre de Krabi Town. Montrez au chauffeur le nom de la rue ou ouvrez notre position dans votre application de cartes.",
+        "p2": "Repérez l'enseigne en bois et l'entrée avec ses plantes. Si vous ne nous trouvez pas, appelez le restaurant : nous vous guiderons.",
+        "link": "Ouvrir l'itinéraire dans Google Maps"
+      },
+      "back": {
+        "title": "Rentrer après le dîner",
+        "p1": "Pensez à organiser votre retour avant la fin de la soirée. Demandez-nous conseil pour le retour au moment de réserver, et nous vous dirons ce que nous pouvons vous suggérer à ce moment-là.",
+        "link": "Réserver une table"
+      }
+    },
+    "facts": {
+      "modes": {
+        "taxi": "Taxi ou application de transport",
+        "songthaew": "Songthaew",
+        "transfer": "Transfert privé",
+        "scooter": "Scooter"
+      },
+      "duration": "{min}-{max} min",
+      "price": "{min}-{max} THB",
+      "approx": "Les chiffres sont approximatifs, à confirmer sur place."
+    },
+    "closingTitle": "Venez dîner à Krabi Town"
+  },
+  "wineBeer": {
+    "eyebrow": "Maharat Road, Krabi Town",
+    "h1": "Vins et bières belges à Krabi Town",
+    "subtitle": "Un petit guide des vins et des bières belges qui accompagnent un dîner franco-thaï.",
+    "heroAlt": "Un bœuf bourguignon servi au Gecko Cabane à Krabi Town",
+    "sections": {
+      "intro": {
+        "title": "Une courte carte, choisie pour la cuisine",
+        "p1": "Une cuisine française et un verre de vin vont ensemble : Gecko Cabane propose donc une courte sélection de vins rouges, blancs et rosés choisis pour aller avec les plats de la carte.",
+        "p2": "La carte est volontairement petite. Elle est plus simple pour choisir, et chaque bouteille y a sa raison d'être."
+      },
+      "belgian": {
+        "title": "Pourquoi des bières belges",
+        "p1": "Notre cuisine est tenue par la cheffe Jariya, et la bière belge est une compagne naturelle de la cuisine française de la maison. Les bières d'abbaye, les blondes et les bières de blé se marient bien avec les plats mijotés et les sauces crémeuses.",
+        "p2": "Si vous préférez la bière au vin, demandez-nous quel style convient à votre plat. Nous expliquons volontiers les différences."
+      },
+      "pairings": {
+        "title": "Ce qui va avec quoi",
+        "p1": "Ce sont des suggestions, pas des règles. Choisissez ce qui vous plaît.",
+        "cards": {
+          "c1": {
+            "title": "Bœuf bourguignon",
+            "text": "Mijoté longuement au vin rouge, il s'accorde avec un vin rouge ou une bière d'abbaye qui a de la profondeur."
+          },
+          "c2": {
+            "title": "Poulet à la crème",
+            "text": "Une sauce riche et crémeuse va bien avec un vin blanc sec ou une blonde légère."
+          },
+          "c3": {
+            "title": "Curry massaman",
+            "text": "Les épices douces et le côté sucré d'un curry doux s'associent à un rosé ou à une bière de blé."
+          },
+          "c4": {
+            "title": "Velouté",
+            "text": "Un velouté en entrée s'accorde avec un vin blanc vif ou une blonde."
+          }
+        }
+      },
+      "list": {
+        "title": "Voir la carte complète",
+        "p1": "La liste complète des vins et des bières, avec les prix du moment, se trouve sur notre page menu.",
+        "link": "Voir les vins et les bières sur la carte"
+      }
+    },
+    "closingTitle": "Venez dîner à Krabi Town"
   },
   "guides": {
     "toggle": "Guides",

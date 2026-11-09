@@ -7,6 +7,9 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import MenuAnchorNav from '@/components/MenuAnchorNav'
 import MenuSections from '@/components/MenuSections'
+import MenuJsonLd from '@/components/MenuJsonLd'
+import RestaurantJsonLd from '@/components/RestaurantJsonLd'
+import { toSeoLocale } from '@/utils/seo'
 import GcDivider from '@/components/ui/GcDivider'
 
 type Props = {
@@ -41,6 +44,8 @@ export default async function MenuPage({ params }: Props) {
       >
         {tc('skipToContent')}
       </a>
+      <RestaurantJsonLd locale={toSeoLocale(locale)} />
+      <MenuJsonLd locale={toSeoLocale(locale)} menu={menu} />
       <SiteHeader locale={locale} />
       <main id="main-content" className="bg-gc-ivory">
         <div id="top" />
