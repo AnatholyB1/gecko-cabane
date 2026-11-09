@@ -17,7 +17,6 @@ Instructions pour le relecteur :
 | `home.reviewsLink` | Lire les avis sur Google | Läs recensionerna på Google |  |
 | `home.directionsLink` | Itinéraire Google Maps | Hitta hit med Google Maps |  |
 | `hero.subtitle` | Restaurant Franco-Thaï | Fransk-thailändsk restaurang |  |
-| `hero.tagline` | Une fusion culinaire au cœur de la jungle de Krabi | En kulinarisk förening mitt i Krabis djungel |  |
 | `hero.discoverButton` | Découvrir notre cuisine | Upptäck vårt kök |  |
 | `hero.discoverAriaLabel` | Découvrir notre carte et nos spécialités | Upptäck vår meny och våra specialiteter |  |
 | `hero.findUsButton` | Nous trouver | Hitta hit |  |

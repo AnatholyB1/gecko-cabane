@@ -28,7 +28,10 @@ export async function middleware(request: NextRequest) {
     if (unknownLocale) {
       const url = request.nextUrl.clone()
       url.pathname = `/${unknownLocale}/not-found-fallback`
-      return NextResponse.rewrite(url, { status: 404 })
+      const res = NextResponse.rewrite(url, { status: 404 })
+      // Short public cache: a scan of unknown URLs must not cost one server render each (the page is dynamic).
+      res.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300')
+      return res
     }
     return intlMiddleware(request)
   }
