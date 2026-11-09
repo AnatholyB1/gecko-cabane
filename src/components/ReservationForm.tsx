@@ -10,14 +10,12 @@ import type { HoursRow, SettingsMap } from '@/utils/reservation-rules'
 import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
 import { track, EVENTS } from '@/utils/analytics'
 import { readAttribution } from '@/utils/attribution'
+import { memoizeUntilRejected } from '@/utils/memo-promise'
 
 // libphonenumber (~120 KB) is only needed once a number is typed: fetched on first input, not at page load.
 type PhoneLib = typeof import('libphonenumber-js/min')
-let phoneLibPromise: Promise<PhoneLib> | null = null
-function loadPhoneLib(): Promise<PhoneLib> {
-  phoneLibPromise ??= import('libphonenumber-js/min')
-  return phoneLibPromise
-}
+// A rejected import is forgotten so the next input can retry (no permanent failure until reload).
+const loadPhoneLib: () => Promise<PhoneLib> = memoizeUntilRejected(() => import('libphonenumber-js/min'))
 
 interface Country {
   code: CountryCode

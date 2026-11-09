@@ -1,9 +1,9 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { usePathname } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { switcherTargets } from '@/utils/seo'
+import { useCanonicalPathname } from '@/i18n/navigation'
+import { switcherTargetsForKey, toSeoLocale } from '@/utils/seo'
 
 const BASE =
   'inline-flex items-center min-h-12 px-[5px] sm:px-3.5 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
@@ -13,9 +13,10 @@ const BASE =
  * published, each link going to that locale's own slug. Hidden below 2 targets.
  */
 export default function LanguageSwitcher() {
-  const pathname = usePathname()
+  const pathname = useCanonicalPathname()
+  const locale = toSeoLocale(useLocale())
   const t = useTranslations('language')
-  const targets = switcherTargets(pathname)
+  const targets = switcherTargetsForKey(pathname, locale)
 
   if (targets.length < 2) return null
 

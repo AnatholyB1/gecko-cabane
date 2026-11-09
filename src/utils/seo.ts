@@ -180,6 +180,20 @@ export function switcherTargets(
   const rest = pathname.slice(current.length + 1).replace(/\/+$/, '')
   const page = PAGES.find((p) => slugFor(p.key, current) === rest)
   if (!page) return []
+  return switcherTargetsForKey(page.key, current)
+}
+
+/**
+ * Same targets from the canonical page key (what next-intl's usePathname returns, identical on server
+ * and client). An unknown key yields [].
+ */
+export function switcherTargetsForKey(
+  canonicalPath: string,
+  current: SeoLocale
+): { locale: SeoLocale; href: string; current: boolean }[] {
+  const key = canonicalPath === '/' ? '' : canonicalPath.replace(/\/+$/, '')
+  const page = PAGES.find((p) => p.key === key)
+  if (!page) return []
   return LOCALES.filter((l) => l === current || isPublished(page.key, l)).map((l) => ({
     locale: l,
     href: localePath(l, page.key),
