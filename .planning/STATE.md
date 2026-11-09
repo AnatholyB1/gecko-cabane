@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Refonte de l'admin
-status: milestone_complete
-last_updated: "2026-11-02T03:00:00.000Z"
-last_activity: 2026-11-02
+milestone: v1.2
+milestone_name: Vitesse mobile, SEO on-page et sécurité
+status: planning
+last_updated: "2026-11-09T14:42:15.427Z"
+last_activity: 2026-11-09
 progress:
-  total_phases: 9
-  completed_phases: 9
+  total_phases: 0
+  completed_phases: 0
   total_plans: 0
   completed_plans: 0
-  percent: 100
+  percent: 0
 ---
 
 # Project State
@@ -24,16 +24,15 @@ See: .planning/PROJECT.md (updated 2026-10-31)
 
 ## Current Position
 
-Phase: 17 of 17 (code livré) ; phases 10 à 14 complètes, phases 9, 15, 16 et 17 avec des restes qui dépendent du propriétaire
-Plan: — (milestone orchestré par branches, audits et corrections sans plans GSD)
-Status: Audité (`.planning/v1.1-MILESTONE-AUDIT.md`), corrections finales faites (`.planning/phases/17-acces-securite-qa/FINAL-REVIEW-FIXES.md`)
-Last activity: 2026-11-02 - Completed quick task 261102-or1: Bouton Reserver + titres/descriptions SEO
-
-Progress: [████████░░] 84% (37 exigences sur 44 vérifiées)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-11-09 — Milestone v1.2 started
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed (v1.1): 0
 - Average duration: —
 - Total execution time: —

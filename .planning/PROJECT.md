@@ -39,9 +39,14 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - [x] **Système de design admin** sobre et dense (tokens, composants partagés), responsive téléphone / tablette / ordinateur : vérifié (DSN-01 à DSN-07, NAV-01 à NAV-05)
 - [ ] **Refonte de chaque page admin conservée** avec états de chargement, vide et erreur, accessibilité : pages refaites et vérifiées (Aujourd'hui, Réservations, Site public, Carte, Réputation, Accès, « Complet ce soir ») ; restent l'UAT de preview (RSV-06), le retrait de la saisie Google (REP-03) et le passage clavier / lecteur d'écran (QA-02)
 
-### Deferred (dette v1.0, hors périmètre de v1.1)
+### Active (v1.2 : vitesse mobile, SEO on-page, sécurité)
 
-- [ ] **Performance mobile** (SEO-08) : PageSpeed 85 et LCP 2,5 s (mesuré 79 et 4,4 s)
+- [ ] Vitesse mobile (SEO-08 repris) : rendu statique/ISR, polices, JS, images
+- [ ] SEO on-page : H1, titres/descriptions, pages FR/DE/SV, JSON-LD Menu, og/Twitter
+- [ ] En-têtes de sécurité et CSP ; accessibilité mobile
+
+### Deferred (dette v1.0, hors périmètre de v1.2)
+
 - [ ] **Histoire du couple** (CONV-02) : photo, année d'ouverture, histoire
 - [ ] **KPI-08** : 2 semaines de rapports TEST puis `KPI_REPORT_MODE=live` (pas avant le 2026-11-16)
 - [ ] **Actions hors code** (accord du propriétaire requis) : Google Business Profile (OPS-01), TripAdvisor et cohérence NAP (OPS-04, OPS-05), citations, partenariats hôtels
@@ -56,17 +61,19 @@ Site web du restaurant **Gecko Cabane** (cuisine Franco-Thaï, 40 couverts, Maha
 - Traduction automatique brute des pages DE/SV — la spec exige une traduction relue
 - Publication ou envoi à des tiers (blogs, hôtels, Google, TripAdvisor) sans validation explicite du propriétaire
 
-## Current Milestone: v1.1 Refonte de l'admin
+## Current Milestone: v1.2 Vitesse mobile, SEO on-page et sécurité
 
-**Goal:** Refaire le design UX/UI de toute l'admin (français fixe, sans i18n) et revoir chaque fonctionnalité pour son utilité, puis l'implémenter.
+**Goal:** Rendre le site rapide sur mobile (Lighthouse ≥ 90 sur /fr et /en, HTML en cache public), renforcer le SEO on-page (H1, titres, pages FR/DE/SV, JSON-LD Menu, og/Twitter) et ajouter les en-têtes de sécurité et l'accessibilité mobile, sans changer le design.
 
 **Target features:**
-- Audit d'utilité de chaque page admin, validé avec le propriétaire avant implémentation
-- Suppression de la gestion de salle ; les réservations restent, sans placement en salle (`max_covers` et durée de blocage conservés, car la disponibilité en dépend)
-- Système de design sobre et dense, responsive téléphone (cheffe), ordinateur (développeur) et tablette (serveurs)
-- Refonte de chaque page conservée, états de chargement / vide / erreur, accessibilité
+- Vitesse : rendu statique/ISR de `app/[locale]` (cause du `private, no-store` à trouver), polices `next/font`, moins de JavaScript (server components, lazy sous la ligne de flottaison), cache long ou `lazyOnload` pour `/gcm/js/script.js`, width/height sur les images
+- SEO : logo non-H1 + H1 descriptif par langue, title/description de l'accueil EN et de `/en/french-restaurant-krabi`, versions fr/de/sv de `getting-here-from-ao-nang` et `wine-belgian-beer-krabi` (slugs traduits, hreflang, sitemap), JSON-LD Menu depuis la carte, og:image + Twitter sur les pages internes, plus aucune mention de « couple franco-thaï »
+- Sécurité : X-Content-Type-Options, Referrer-Policy, X-Frame-Options, Permissions-Policy, CSP compatible GTM/analytics et Google Maps
+- Accessibilité : contrastes, zones cliquables ≥ 48 px, aria-label alignés sur le texte visible
 
-**Contraintes du milestone :** pas de régression sur ce qui est conservé, tests verts, tables SQL `gecko_tables*` laissées en base (aucune migration destructive sans accord), skills impeccable et UX utilisés. La dette v1.0 reste hors périmètre.
+**Critères d'acceptation :** build OK ; Lighthouse mobile ≥ 90 sur /fr et /en ; `x-vercel-cache: HIT` après le premier appel ; un seul H1 par page ; JSON-LD Restaurant et Menu valides (Rich Results Test) ; sitemap à jour avec hreflang réciproques.
+
+**Contraintes du milestone :** ne pas modifier le design ni les textes hors de la liste ; textes DE/SV relus par un humain ; tout ce qui est publié ou envoyé à un tiers exige l'accord du propriétaire. Reprend SEO-08 (dette v1.0).
 
 ## Context
 
@@ -114,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-31 after the v1.1 end-of-milestone audit and final review fixes*
+*Last updated: 2026-11-09 after starting milestone v1.2*
