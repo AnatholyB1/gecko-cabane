@@ -15,7 +15,8 @@
  * - Plausible: first-party proxy /gcm (script + events), covered by 'self'.
  * - Sentry browser SDK: tunnelRoute /monitoring, covered by connect-src 'self' (no direct ingest origin).
  * - Fonts: next/font/google self-hosts at build, font-src 'self'.
- * - Images: next/image local only; data:/blob: for inline placeholders.
+ * - Images: next/image local only; data: for inline placeholders; the Supabase origin (storage photos);
+ *   on /admin only, any https: image (hand-typed photo URLs previewed in ItemSheet). No blob:.
  * - Google Maps: click-to-load iframe https://www.google.com/maps ... output=embed => frame-src only.
  */
 
@@ -24,9 +25,32 @@ export type CspOptions = {
   dev?: boolean
   /** Adds upgrade-insecure-requests (skipped on plain-http local runs where it breaks assets). */
   upgradeInsecureRequests?: boolean
+  /** Supabase project URL (NEXT_PUBLIC_SUPABASE_URL): its origin is allowed in img-src (storage photos). */
+  supabaseUrl?: string
+  /**
+   * Admin routes only: any https image (item photos can be a hand-typed URL, previewed in ItemSheet).
+   * Never set for public pages.
+   */
+  admin?: boolean
+}
+
+/** Origin of a URL, or null when empty/invalid/not http(s). */
+export function originOf(url: string | undefined): string | null {
+  if (!url) return null
+  try {
+    const u = new URL(url)
+    return u.protocol === 'https:' || u.protocol === 'http:' ? u.origin : null
+  } catch {
+    return null
+  }
 }
 
 export function buildCsp(options: CspOptions = {}): string {
+  const imgSrc = ["'self'", 'data:']
+  const supabaseOrigin = originOf(options.supabaseUrl)
+  if (supabaseOrigin) imgSrc.push(supabaseOrigin)
+  if (options.admin) imgSrc.push('https:')
+
   const scriptSrc = ["'self'", "'unsafe-inline'"]
   if (options.dev) scriptSrc.push("'unsafe-eval'")
 
@@ -34,8 +58,8 @@ export function buildCsp(options: CspOptions = {}): string {
     ['default-src', ["'self'"]],
     ['script-src', scriptSrc],
     ['style-src', ["'self'", "'unsafe-inline'"]],
-    ['img-src', ["'self'", 'data:', 'blob:']],
-    ['font-src', ["'self'", 'data:']],
+    ['img-src', imgSrc],
+    ['font-src', ["'self'"]],
     ['connect-src', ["'self'"]],
     ['frame-src', ['https://www.google.com']],
     ['manifest-src', ["'self'"]],

@@ -57,7 +57,7 @@ describe('guidesFor / TRIPADVISOR_URL', () => {
 describe('components', () => {
   it('LanguageSwitcher is slug-aware', () => {
     const s = read('src/components/LanguageSwitcher.tsx')
-    expect(s).toContain('switcherTargets(')
+    expect(s).toContain('switcherTargetsForKey(')
     expect(s).toContain('hrefLang')
     expect(s).not.toContain('(fr|en)')
     expect(s).not.toContain('availableLocales')

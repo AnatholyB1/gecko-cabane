@@ -33,6 +33,16 @@ describe('CSP module (SEC-05)', () => {
     expect(prod).not.toContain('*')
   })
 
+  it('img-src: strict on public (no https:, no blob:), supabase origin allowed, https: only for admin', () => {
+    const sb = 'https://abc.supabase.co'
+    expect(directive(prod, 'img-src')).toEqual(["'self'", 'data:'])
+    expect(directive(buildCsp({ supabaseUrl: `${sb}/rest/v1` }), 'img-src')).toEqual(["'self'", 'data:', sb])
+    expect(directive(buildCsp({ supabaseUrl: 'not a url' }), 'img-src')).toEqual(["'self'", 'data:'])
+    expect(directive(buildCsp({ supabaseUrl: sb, admin: true }), 'img-src')).toEqual(["'self'", 'data:', sb, 'https:'])
+    expect(buildCsp({ supabaseUrl: sb })).not.toContain('blob:')
+    expect(directive(prod, 'font-src')).toEqual(["'self'"])
+  })
+
   it('upgrade-insecure-requests only when asked', () => {
     expect(prod).not.toContain('upgrade-insecure-requests')
     expect(buildCsp({ upgradeInsecureRequests: true })).toContain('upgrade-insecure-requests')
@@ -40,13 +50,16 @@ describe('CSP module (SEC-05)', () => {
 })
 
 describe('next.config exposes the CSP and the 4-language wifi rule', () => {
-  it('sets Content-Security-Policy on every route', async () => {
-    const csp = (await rules())
-      .filter((r) => r.source === '/:path*')
-      .flatMap((r) => r.headers)
-      .find((h) => h.key === 'Content-Security-Policy')
-    expect(csp).toBeDefined()
-    expect(csp!.value).toContain("frame-ancestors 'self'")
+  it('sets Content-Security-Policy on every route, with https: images on /admin only', async () => {
+    const cspRules = (await rules()).filter((r) => r.headers.some((h) => h.key === 'Content-Security-Policy'))
+    expect(cspRules).toHaveLength(2)
+    const value = (r: Rule) => r.headers.find((h) => h.key === 'Content-Security-Policy')!.value
+    const pub = cspRules.find((r) => !r.source.startsWith('/admin'))!
+    const admin = cspRules.find((r) => r.source.startsWith('/admin'))!
+    expect(value(pub)).toContain("frame-ancestors 'self'")
+    expect(value(admin)).toContain("frame-ancestors 'self'")
+    expect(directive(value(pub), 'img-src')).not.toContain('https:')
+    expect(directive(value(admin), 'img-src')).toContain('https:')
   })
 
   it('wifi no-store covers fr, en, de and sv', async () => {

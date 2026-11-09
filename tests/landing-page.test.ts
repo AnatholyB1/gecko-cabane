@@ -95,7 +95,9 @@ describe('landing copy', () => {
     expect(t.length).toBeGreaterThanOrEqual(40)
     expect(t.length).toBeLessThanOrEqual(60)
     expect(d.length).toBeGreaterThanOrEqual(120)
-    expect(d.length).toBeLessThanOrEqual(165)
+    expect(d.length).toBeLessThanOrEqual(160)
+    // ONP-03: the owner targets the query "best restaurant krabi"
+    expect(d).toMatch(/best restaurant in Krabi Town|best restaurant Krabi/i)
     const ft: string = fr.meta.frenchRestaurantTitle
     const fd: string = fr.meta.frenchRestaurantDescription
     expect(ft.toLowerCase()).toContain('restaurant français')
