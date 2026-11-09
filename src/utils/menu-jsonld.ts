@@ -80,7 +80,6 @@ export function buildMenuJsonLd(args: { locale: SeoLocale; menu: MenuPageWithCon
     '@id': `${url}#menu`,
     name: 'Gecko Cabane',
     url,
-    inLanguage: locale,
     mainEntityOfPage: url,
     provider: { '@id': `${SITE_URL}/#restaurant` },
     hasMenuSection: sections,

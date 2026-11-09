@@ -39,7 +39,8 @@ describe('one h1 per public page (ONP-10)', () => {
     for (const name of readdirSync(join(root, d))) {
       const rel = `${d}/${name}`
       if (statSync(join(root, rel)).isDirectory()) walk(rel)
-      else if (name === 'page.tsx') dirs.push(rel)
+      // not-found-fallback is the 404 body (noindex, h1 lives in [locale]/not-found.tsx), not a public page
+      else if (name === 'page.tsx' && !rel.includes('/not-found-fallback/')) dirs.push(rel)
     }
   }
   walk('src/app/[locale]')
