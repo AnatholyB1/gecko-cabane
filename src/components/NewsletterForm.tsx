@@ -127,7 +127,7 @@ export default function NewsletterForm({
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={fieldErrors.email ? true : undefined}
           aria-describedby={fieldErrors.email ? `${emailId}-error` : undefined}
-          className={`mt-1 w-full min-h-11 px-3 font-cormorant text-[17px] border ${
+          className={`mt-1 w-full min-h-12 px-3 font-cormorant text-[17px] border ${
             fieldErrors.email ? errorBorder : inputBorder
           } ${dark ? 'bg-transparent text-gc-ivory' : 'bg-transparent text-gc-text-dark'}`}
         />
@@ -141,7 +141,7 @@ export default function NewsletterForm({
       <div>
         <label
           htmlFor={consentId}
-          className={`flex items-start gap-2 min-h-11 font-cormorant text-[14px] leading-normal cursor-pointer ${textClass}`}
+          className={`flex items-start gap-2 min-h-12 font-cormorant text-[14px] leading-normal cursor-pointer ${textClass}`}
         >
           <input
             id={consentId}
@@ -180,7 +180,7 @@ export default function NewsletterForm({
       {showResident && (
         <label
           htmlFor={`${idPrefix}-resident`}
-          className={`flex items-center gap-2 min-h-11 font-cormorant text-[14px] cursor-pointer ${textClass}`}
+          className={`flex items-center gap-2 min-h-12 font-cormorant text-[14px] cursor-pointer ${textClass}`}
         >
           <input
             id={`${idPrefix}-resident`}

@@ -29,7 +29,7 @@ export default function WifiCopyButton({ value }: { value: string }) {
 
   return (
     <div>
-      <button type="button" onClick={copy} className={`${secondaryLightClass} min-h-11`}>
+      <button type="button" onClick={copy} className={`${secondaryLightClass} min-h-12`}>
         {t('copy')}
       </button>
       <span aria-live="polite" className="block font-cormorant text-[14px] leading-[1.5] text-gc-text-mid mt-2 min-h-[21px]">

@@ -23,7 +23,7 @@
     "subtitle": "Französisch-thailändisches Restaurant",
     "tagline": "Eine kulinarische Verbindung im Herzen des Dschungels von Krabi",
     "discoverButton": "Unsere Küche entdecken",
-    "discoverAriaLabel": "Unsere Speisekarte und Spezialitäten entdecken",
+    "discoverAriaLabel": "Unsere Küche entdecken: Speisekarte und Spezialitäten",
     "findUsButton": "So finden Sie uns",
     "location": "Krabi Town · Thailand"
   },
@@ -153,7 +153,7 @@
     "chefTeam": "Chefköchin Jariya und ihr Team",
     "cuisineType": "Französisch-thailändische Küche",
     "viewOnMap": "In Google Maps ansehen",
-    "viewMapAriaLabel": "Unseren Standort in Google Maps ansehen (öffnet in neuem Tab)",
+    "viewMapAriaLabel": "In Google Maps ansehen (öffnet in neuem Tab)",
     "eyebrow": "So finden Sie uns",
     "signAlt": "Das beleuchtete Schild des Gecko Cabane bei Nacht, Krabi",
     "gettingHereTitle": "So kommen Sie zu uns",

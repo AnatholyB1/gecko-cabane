@@ -207,7 +207,7 @@ export default function NewsletterPopup() {
       type="button"
       onClick={dismiss}
       aria-label={t('close')}
-      className="absolute top-0 right-0 flex h-11 w-11 items-center justify-center text-gc-ivory/80 hover:text-gc-gold"
+      className="absolute top-0 right-0 flex h-12 w-12 items-center justify-center text-gc-ivory/80 hover:text-gc-gold"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M3 3l10 10M13 3L3 13" />

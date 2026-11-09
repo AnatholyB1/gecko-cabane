@@ -11,6 +11,7 @@
   --gc-moss:        #1A4A35;
   --gc-gold:        #C69B3C;
   --gc-brass:       #B8860B;
+  --gc-brass-ink:   #8A6408; /* texte laiton sur fond clair, 4.64:1 sur parchment (A11Y-01) */
   --gc-copper:      #8C5A3C;
   --gc-ivory:       #FAF0E6;
   --gc-parchment:   #F5EEDA;
@@ -51,6 +52,7 @@
   --color-gc-moss:        var(--gc-moss);
   --color-gc-gold:        var(--gc-gold);
   --color-gc-brass:       var(--gc-brass);
+  --color-gc-brass-ink:   var(--gc-brass-ink);
   --color-gc-copper:      var(--gc-copper);
   --color-gc-ivory:       var(--gc-ivory);
   --color-gc-parchment:   var(--gc-parchment);

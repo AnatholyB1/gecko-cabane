@@ -92,7 +92,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
           <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-8">{t('note')}</p>
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"
+            className="inline-flex min-h-12 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"
           >
             {t('back')}
           </Link>

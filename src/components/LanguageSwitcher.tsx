@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { switcherTargets } from '@/utils/seo'
 
 const BASE =
-  'inline-flex items-center min-h-11 px-1 sm:px-1.5 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
+  'inline-flex items-center min-h-12 px-2 sm:px-3 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
 
 /**
  * Slug-aware switcher (D-05): only offers locales in which the current page is
@@ -22,7 +22,8 @@ export default function LanguageSwitcher() {
   return (
     <nav aria-label={t('changeLanguage')} className="flex items-center gap-0 sm:gap-1">
       {targets.map((target) => {
-        const label = t('switchTo', { language: t(target.locale) })
+        // WCAG 2.5.3: the accessible name starts with the visible text (e.g. "EN")
+        const label = `${target.locale.toUpperCase()} - ${t('switchTo', { language: t(target.locale) })}`
         return target.current ? (
           <span
             key={target.locale}
@@ -40,7 +41,7 @@ export default function LanguageSwitcher() {
             hrefLang={target.locale}
             lang={target.locale}
             aria-label={label}
-            className={`${BASE} border-transparent text-gc-ivory/45 hover:text-gc-gold transition-colors`}
+            className={`${BASE} border-transparent text-gc-ivory/65 hover:text-gc-gold transition-colors`}
           >
             {target.locale.toUpperCase()}
           </Link>

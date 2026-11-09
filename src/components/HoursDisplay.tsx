@@ -120,7 +120,7 @@ export default function HoursDisplay() {
       {/* Special Hours Section */}
       {specialHours.length > 0 && (
         <div className="mt-8 space-y-3">
-          <h4 className="font-cinzel font-normal text-[13px] tracking-[0.2em] uppercase text-gc-brass mb-4">
+          <h4 className="font-cinzel font-normal text-[13px] tracking-[0.2em] uppercase text-gc-brass-ink mb-4">
             {t('specialHours')}
           </h4>
           {specialHours.map((sh) => (
@@ -139,7 +139,7 @@ export default function HoursDisplay() {
                     })}
                   </p>
                   {sh.title && (
-                    <p className="font-cormorant italic text-[15px] text-gc-brass mt-1">
+                    <p className="font-cormorant italic text-[15px] text-gc-brass-ink mt-1">
                       {sh.title}
                     </p>
                   )}

@@ -75,7 +75,7 @@ export default async function MenuPage({ params }: Props) {
               </p>
               <Link
                 href="/#reservation"
-                className="inline-flex items-center min-h-11 mt-6 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-jungle border border-gc-jungle px-8 hover:bg-gc-jungle hover:text-gc-ivory transition-colors"
+                className="inline-flex items-center min-h-12 mt-6 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-jungle border border-gc-jungle px-8 hover:bg-gc-jungle hover:text-gc-ivory transition-colors"
               >
                 {tc('bookTable')}
               </Link>
@@ -90,7 +90,7 @@ export default async function MenuPage({ params }: Props) {
 
           <a
             href="#top"
-            className="inline-flex items-center min-h-11 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
+            className="inline-flex items-center min-h-12 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
           >
             {t('backToTop')}
           </a>

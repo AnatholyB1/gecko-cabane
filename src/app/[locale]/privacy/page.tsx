@@ -94,7 +94,7 @@ export default async function PrivacyPage({ params }: Props) {
 
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center font-cormorant text-[17px] text-gc-jungle underline hover:text-gc-void"
+            className="inline-flex min-h-12 items-center font-cormorant text-[17px] text-gc-jungle underline hover:text-gc-void"
           >
             {t('back')}
           </Link>

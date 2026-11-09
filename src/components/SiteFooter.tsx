@@ -9,7 +9,7 @@ type Props = {
 }
 
 const ROW =
-  'inline-flex items-center min-h-11 font-cormorant text-[14px] text-gc-ivory/60 hover:text-gc-gold transition-colors'
+  'inline-flex items-center min-h-12 font-cormorant text-[14px] text-gc-ivory/60 hover:text-gc-gold transition-colors'
 const TITLE = 'font-cinzel text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-2'
 
 export default async function SiteFooter({ locale }: Props) {
@@ -53,7 +53,7 @@ export default async function SiteFooter({ locale }: Props) {
         <p className="font-cormorant text-[13px] text-gc-ivory/60">
           © 2026 Gecko Cabane Restaurant. {t('rights')}
         </p>
-        <p className="font-cormorant text-[12px] text-gc-ivory/50 text-center md:text-right">
+        <p className="font-cormorant text-[12px] text-gc-ivory/60 text-center md:text-right">
           {t('createdBy')}{' '}
           <a href="https://selenium-studio.com" target="_blank" rel="noopener noreferrer"
              className="hover:text-gc-gold underline transition-colors">selenium-studio.com</a>
