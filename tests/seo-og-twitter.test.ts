@@ -14,7 +14,8 @@ function pageFiles(dir: string, out: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
     const full = join(dir, name)
     if (statSync(full).isDirectory()) pageFiles(full, out)
-    else if (name === 'page.tsx') out.push(full)
+    // not-found-fallback is the noindex 404 body (middleware rewrite target), not an internal page to share
+    else if (name === 'page.tsx' && !full.includes('not-found-fallback')) out.push(full)
   }
   return out
 }

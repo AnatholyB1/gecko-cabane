@@ -90,7 +90,8 @@ describe('buildMenuJsonLd', () => {
     expect(data['@context']).toBe('https://schema.org')
     expect(data['@type']).toBe('Menu')
     expect(data.url).toBe('https://geckocabanerestaurant.com/fr/menu')
-    expect(data.inLanguage).toBe('fr')
+    // Dish/section names come from one (French) DB column: never claim a language.
+    expect(data).not.toHaveProperty('inLanguage')
     expect(data.provider).toEqual({ '@id': 'https://geckocabanerestaurant.com/#restaurant' })
   })
 

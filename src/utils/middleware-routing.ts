@@ -6,6 +6,8 @@
  * The Supabase session is only refreshed for /admin, /api and /auth.
  */
 
+import { PAGES } from './seo'
+
 export type RouteKind =
   | 'monitoring' // Sentry tunnel: untouched
   | 'alias' // /review /avis /bewertung /newsletter /wifi: resolved by the alias route handler, no session
@@ -21,4 +23,36 @@ export function classifyPath(pathname: string): RouteKind {
     return 'session'
   }
   return 'public'
+}
+
+// Unknown path under a valid locale (/en/nope): translated 404 inside the locale layout.
+// Next renders every SSR 404 through app/not-found.tsx (no root layout here), which cannot know the
+// locale without turning dynamic with a nested <html>. So the middleware rewrites unknown locale paths
+// to [locale]/not-found-fallback with status 404; that page renders the translated 404 in the layout.
+// tests/not-found-routing.test.ts keeps EXTRA_LOCALE_PATHS in sync with src/app/[locale].
+
+const LOCALE_PATH = /^\/(fr|en|de|sv)(\/.*)?$/
+
+/** Paths (after the locale) served by src/app/[locale]/**, besides the PAGES registry. */
+export const EXTRA_LOCALE_PATHS = [
+  '/wifi',
+  '/review',
+  '/newsletter',
+  '/newsletter/confirm',
+  '/newsletter/unsubscribe',
+  '/opengraph-image',
+] as const
+
+const KNOWN_LOCALE_PATHS: ReadonlySet<string> = new Set([
+  '',
+  ...EXTRA_LOCALE_PATHS,
+  ...PAGES.flatMap((p) => [p.key, ...Object.values(p.slugs)]),
+])
+
+/** Locale of a locale-prefixed pathname that matches no page, or null (known page, or no valid locale prefix). */
+export function unknownLocalePathLocale(pathname: string): string | null {
+  const m = LOCALE_PATH.exec(pathname)
+  if (!m) return null
+  const rest = (m[2] ?? '').replace(/\/+$/, '')
+  return KNOWN_LOCALE_PATHS.has(rest) ? null : m[1]
 }
