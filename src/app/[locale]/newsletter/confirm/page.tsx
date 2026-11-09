@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation'
 import UtilityCard from '@/components/ui/UtilityCard'
 import NewsletterConfirmButton from '@/components/NewsletterConfirmButton'
 import { primaryLightClass } from '@/components/ui/buttonClasses'
-import { LOCALES, type SeoLocale } from '@/utils/seo'
+import { LOCALES, buildShareMetadata, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metaTitle'),
     robots: { index: false, follow: false },
+    ...buildShareMetadata({ locale: resolveLocale(raw), title: t('metaTitle') }),
   }
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import NewsletterForm from '@/components/NewsletterForm'
 import UtilityCard from '@/components/ui/UtilityCard'
-import { LOCALES, type SeoLocale } from '@/utils/seo'
+import { LOCALES, buildShareMetadata, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metaTitle'),
     robots: { index: false, follow: false },
+    ...buildShareMetadata({ locale: resolveLocale(raw), title: t('metaTitle') }),
   }
 }
 
