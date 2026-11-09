@@ -2,15 +2,20 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js/min'
 import type { CountryCode } from 'libphonenumber-js'
 import { Link } from '@/i18n/navigation'
-import { phoneCountryForLocale, isEmailValid } from '@/utils/validation'
+import { phoneCountryForLocale, isEmailValid } from '@/utils/form-basics'
 import { availableSlotsForDate, bangkokNow, bookableSlots, MAX_PARTY_SIZE } from '@/utils/reservation-rules'
 import type { HoursRow, SettingsMap } from '@/utils/reservation-rules'
 import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
 import { track, EVENTS } from '@/utils/analytics'
 import { readAttribution } from '@/utils/attribution'
+import { memoizeUntilRejected } from '@/utils/memo-promise'
+
+// libphonenumber (~120 KB) is only needed once a number is typed: fetched on first input, not at page load.
+type PhoneLib = typeof import('libphonenumber-js/min')
+// A rejected import is forgotten so the next input can retry (no permanent failure until reload).
+const loadPhoneLib: () => Promise<PhoneLib> = memoizeUntilRejected(() => import('libphonenumber-js/min'))
 
 interface Country {
   code: CountryCode
@@ -54,10 +59,10 @@ const COUNTRIES: Country[] = [
 
 // Shared input style: dark, high-contrast text on the neutral card background.
 const inputClass =
-  'w-full min-h-11 bg-transparent border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
+  'w-full min-h-12 bg-transparent border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
 
 const selectClass =
-  'gc-select-light w-full min-h-11 border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[17px] text-gc-text-dark py-2 px-1 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
+  'gc-select-light w-full min-h-12 border-0 border-b-2 border-gc-text-mid/35 outline-none font-cormorant text-[17px] text-gc-text-dark py-2 px-1 transition-colors focus:border-gc-jungle focus:ring-2 focus:ring-gc-jungle/25 disabled:opacity-50'
 
 const labelClass =
   'font-raleway font-medium text-[11px] tracking-[0.2em] uppercase text-gc-text-dark block'
@@ -139,6 +144,7 @@ export default function ReservationForm() {
   const defaultCountry = phoneCountryForLocale(locale)
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(defaultCountry)
   const [localPhone, setLocalPhone] = useState('')
+  const [phoneLib, setPhoneLib] = useState<PhoneLib | null>(null)
 
   const [form, setForm] = useState(EMPTY_FORM)
 
@@ -197,27 +203,43 @@ export default function ReservationForm() {
   const selectedCountry = COUNTRIES.find(c => c.code === selectedCountryCode) ?? COUNTRIES[0]
 
   // Build E.164 from local input + country
-  const fullPhone = useMemo<string>(() => {
-    if (!localPhone.trim()) return ''
-    try {
-      return parsePhoneNumber(localPhone, selectedCountryCode).number
-    } catch {
-      const digits = localPhone.replace(/\D/g, '').replace(/^0+/, '')
-      return selectedCountry.dialCode + digits
+  useEffect(() => {
+    if (!localPhone.trim() || phoneLib) return
+    let cancelled = false
+    loadPhoneLib()
+      .then((lib) => {
+        if (!cancelled) setPhoneLib(lib)
+      })
+      .catch(() => {
+        // offline or chunk failure: the digits fallback below applies and the server stays the authority
+      })
+    return () => {
+      cancelled = true
     }
-  }, [localPhone, selectedCountryCode, selectedCountry.dialCode])
+  }, [localPhone, phoneLib])
 
-  // Is the local number valid for the selected country?
-  const phoneIsValid = useMemo<boolean>(() => {
-    if (!localPhone.trim()) return false
+  function toE164(lib: PhoneLib | null, phone: string): string {
+    if (!phone.trim()) return ''
     try {
-      return isValidPhoneNumber(localPhone, selectedCountryCode)
+      if (lib) return lib.parsePhoneNumber(phone, selectedCountryCode).number
+    } catch {
+      // fall through to the digits fallback
+    }
+    const digits = phone.replace(/\D/g, '').replace(/^0+/, '')
+    return selectedCountry.dialCode + digits
+  }
+
+  // Is the local number valid for the selected country? Unknown (no error shown) until the library is loaded.
+  const phoneIsValid = useMemo<boolean>(() => {
+    if (!localPhone.trim() || !phoneLib) return false
+    try {
+      return phoneLib.isValidPhoneNumber(localPhone, selectedCountryCode)
     } catch {
       return false
     }
-  }, [localPhone, selectedCountryCode])
+  }, [localPhone, selectedCountryCode, phoneLib])
 
-  const phoneShowError = localPhone.trim() !== '' && !phoneIsValid
+  const phoneShowError = phoneLib !== null && localPhone.trim() !== '' && !phoneIsValid
   const emailShowError = emailTouched && form.customer_email.trim() !== '' && !isEmailValid(form.customer_email.trim())
 
   async function handleSubmit(e: React.FormEvent) {
@@ -227,6 +249,8 @@ export default function ReservationForm() {
     setLoading(true)
 
     try {
+      // The E.164 number must be built with the real parser, never the fallback.
+      const lib = await loadPhoneLib().catch(() => null)
       const attribution = readAttribution()
       const response = await fetch('/api/reservations', {
         method: 'POST',
@@ -235,7 +259,7 @@ export default function ReservationForm() {
           ...attribution,
           ...form,
           reservation_time: selectedTime,
-          customer_phone: fullPhone,
+          customer_phone: toE164(lib, localPhone),
           phone_country: selectedCountryCode,
           locale,
           marketing_consent: marketingConsent,
@@ -309,7 +333,7 @@ export default function ReservationForm() {
             </p>
             <button
               onClick={() => setSuccess(false)}
-              className={`px-6 py-3 min-h-11 ${primaryButtonClass}`}
+              className={`px-6 py-3 min-h-12 ${primaryButtonClass}`}
             >
               {t('newReservation')}
             </button>
@@ -328,7 +352,7 @@ export default function ReservationForm() {
                     href={buildWhatsAppUrl(getWhatsAppNumber(), tw('prefill'))}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center text-gc-jungle underline font-cormorant text-[17px]"
+                    className="inline-flex min-h-12 items-center text-gc-jungle underline font-cormorant text-[17px]"
                   >
                     {t('rateLimitedWhatsapp')}
                   </a>
@@ -393,7 +417,7 @@ export default function ReservationForm() {
                     aria-describedby={phoneShowError ? 'res-phone-hint' : undefined}
                     placeholder="812345678"
                     className={[
-                      'flex-1 min-w-0 min-h-11 bg-transparent border-0 border-b-2 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 pl-2 transition-colors focus:ring-2 focus:ring-gc-jungle/25',
+                      'flex-1 min-w-0 min-h-12 bg-transparent border-0 border-b-2 outline-none font-cormorant text-[17px] text-gc-text-dark placeholder:text-gc-text-mid/45 py-2 pl-2 transition-colors focus:ring-2 focus:ring-gc-jungle/25',
                       phoneShowError ? 'border-gc-copper' : phoneIsValid ? 'border-gc-jungle' : 'border-gc-text-mid/35 focus:border-gc-jungle',
                     ].join(' ')}
                   />
@@ -488,7 +512,7 @@ export default function ReservationForm() {
                     type="button"
                     onClick={() => setForm(f => ({ ...f, party_size: Math.max(1, f.party_size - 1) }))}
                     aria-label={t('partySizeDecrease')}
-                    className="font-cinzel text-[20px] text-gc-text-dark border-2 border-gc-text-mid/40 w-11 h-11 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
+                    className="font-cinzel text-[20px] text-gc-text-dark border-2 border-gc-text-mid/40 w-12 h-12 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
                   >
                     −
                   </button>
@@ -499,7 +523,7 @@ export default function ReservationForm() {
                     type="button"
                     onClick={() => setForm(f => ({ ...f, party_size: Math.min(MAX_PARTY_SIZE, f.party_size + 1) }))}
                     aria-label={t('partySizeIncrease')}
-                    className="font-cinzel text-[20px] text-gc-text-dark border-2 border-gc-text-mid/40 w-11 h-11 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
+                    className="font-cinzel text-[20px] text-gc-text-dark border-2 border-gc-text-mid/40 w-12 h-12 flex items-center justify-center hover:bg-gc-jungle hover:text-gc-ivory hover:border-gc-jungle transition-all focus:outline-none focus:ring-2 focus:ring-gc-jungle"
                   >
                     +
                   </button>
@@ -537,7 +561,7 @@ export default function ReservationForm() {
 
             {/* Marketing consent (D-11/D-12): optional, unticked by default */}
             <div>
-              <label htmlFor="res-consent" className="min-h-11 flex items-start gap-2 py-2 font-cormorant text-[14px] text-gc-text-dark cursor-pointer">
+              <label htmlFor="res-consent" className="min-h-12 flex items-start gap-2 py-2 font-cormorant text-[14px] text-gc-text-dark cursor-pointer">
                 <input
                   id="res-consent"
                   type="checkbox"

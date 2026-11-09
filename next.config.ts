@@ -1,13 +1,19 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
+import { buildCsp } from './src/utils/csp';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
+const cspBase = {
+  dev: process.env.NODE_ENV !== 'production',
+  upgradeInsecureRequests: process.env.VERCEL === '1',
+  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+};
+
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
-  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
+  reactCompiler: true,  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [60, 75],
@@ -21,9 +27,39 @@ const nextConfig: NextConfig = {
   // WiFi credentials are rendered per request: never cache (T-07-05-03).
   async headers() {
     return [
+      // SEC-01..04: baseline security headers on every route (CSP is the next rule: SEC-05).
       {
-        source: '/:locale(fr|en)/wifi',
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), payment=(), usb=(), bluetooth=(), serial=(), hid=(), magnetometer=(), gyroscope=(), accelerometer=()',
+          },
+        ],
+      },
+      // SEC-05: Content-Security-Policy, applied (not Report-Only). See src/utils/csp.ts for the trade-offs.
+      // Public and API routes: strict img-src. /admin has its own rule (any https image for the photo preview);
+      // the two sources are disjoint so the header is never emitted twice.
+      {
+        source: '/:path((?!admin(?:/|$)).*)',
+        headers: [{ key: 'Content-Security-Policy', value: buildCsp(cspBase) }],
+      },
+      {
+        source: '/admin/:path*',
+        headers: [{ key: 'Content-Security-Policy', value: buildCsp({ ...cspBase, admin: true }) }],
+      },
+      {
+        source: '/:locale(fr|en|de|sv)/wifi',
         headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
+      },
+      // Plausible script proxied from plausible.io (rewrite below): without this it is served with a
+      // short TTL (PERF-04). Long cache + revalidation window; the script is not versioned in its URL.
+      {
+        source: '/gcm/js/script.js',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
       },
     ];
   },

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { setRequestLocale } from 'next-intl/server'
 import { localizedPageMetadata } from '@/utils/page-metadata'
 import { PAGES, toSeoLocale, type SeoLocale } from '@/utils/seo'
 import SeoLandingPage from '@/components/seo/SeoLandingPage'
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function WhereToEatPage({ params }: Props) {
   const { locale: rawLocale } = await params
   const locale = toSeoLocale(rawLocale)
+  setRequestLocale(locale)
   if (!hasContent(locale)) notFound()
   return <SeoLandingPage pageKey={KEY} locale={locale} />
 }

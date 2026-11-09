@@ -1,7 +1,7 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuTeaser from '@/components/MenuTeaser'
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations()
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale })
   const guideItems = await getGuideItems(locale)
   const footerGuides = guidesFor(toSeoLocale(locale))
   // Hours text comes from gecko_opening_hours (same source as the schema); null = not uniform or unreadable
@@ -62,7 +63,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="max-w-[1200px] mx-auto px-2 min-[360px]:px-3 min-[400px]:px-4 sm:px-6 h-[72px] flex justify-between items-center gap-1.5 min-[360px]:gap-2">
           <a
             href="#"
-            className="font-cinzel-decorative font-bold text-gc-gold whitespace-nowrap text-[13px] min-[360px]:text-[14px] min-[400px]:text-[17px] sm:text-xl tracking-[0.05em] min-[400px]:tracking-[0.08em] sm:tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
+            className="inline-flex items-center min-h-12 font-cinzel-decorative font-bold text-gc-gold whitespace-nowrap text-[13px] min-[360px]:text-[14px] min-[400px]:text-[17px] sm:text-xl tracking-[0.05em] min-[400px]:tracking-[0.08em] sm:tracking-[0.1em] focus:outline-none focus:ring-1 focus:ring-gc-gold"
             aria-label={t('common.homeAriaLabel')}
           >
             GECKO CABANE
@@ -103,7 +104,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <LanguageSwitcher />
             <a
               href="#reservation"
-              className="font-cinzel text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase bg-gc-gold text-gc-void border border-gc-gold px-2 min-[360px]:px-2.5 min-[400px]:px-3.5 sm:px-5 py-2.5 hover:bg-gc-ivory hover:border-gc-ivory transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+              className="font-cinzel text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase bg-gc-gold text-gc-void border border-gc-gold px-2 min-[360px]:px-2.5 min-[400px]:px-3.5 sm:px-5 py-2.5 hover:bg-gc-ivory hover:border-gc-ivory transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold relative after:absolute after:inset-x-0 after:-inset-y-[6px] after:content-['']"
               aria-label={t('common.bookTable')}
             >
               {t('common.book')}
@@ -154,18 +155,18 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {/* Gecko décoratif au-dessus du titre */}
             <div className="flex justify-center mb-2" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/gecko-mark.png" alt="" className="gc-botanical" style={{ height: '72px', opacity: 0.75 }} />
+              <img src="/gecko-mark-sm.png" alt="" width={136} height={216} className="gc-botanical" style={{ height: '72px', width: 'auto', opacity: 0.75 }} />
             </div>
             <GcDivider />
-            <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
+            <p className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
                 style={{ fontSize: 'clamp(40px, 8vw, 96px)' }}>
               GECKO CABANE
-            </h1>
-            <GcDivider />
-            <p className="font-cormorant italic font-light text-gc-ivory/90 mt-7 mb-2 tracking-wide"
-               style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}>
-              {t('hero.subtitle')}
             </p>
+            <GcDivider />
+            <h1 className="font-cormorant italic font-light text-gc-ivory/90 mt-7 mb-2 tracking-wide"
+               style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}>
+              {t('hero.h1')}
+            </h1>
             <p className="font-raleway font-light text-[13px] tracking-[0.3em] uppercase text-gc-gold/55 mb-10">
               {t('hero.location')}
             </p>
@@ -219,7 +220,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="max-w-[1200px] mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
-                <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+                <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink mb-4">
                   {t('about.eyebrow')}
                 </p>
                 <h2
@@ -249,7 +250,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <p className="mb-8">
                     <Link
                       href={slugFor('/french-restaurant-krabi', toSeoLocale(locale))}
-                      className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
+                      className="inline-flex items-center min-h-12 -my-[5px] font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
                     >
                       {t('about.frenchRestaurantLink')}
                     </Link>
@@ -402,7 +403,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     {t(`cuisine.${item.titleKey}` as Parameters<typeof t>[0])}
                   </h3>
                   <div className="w-8 h-px bg-gc-gold/35 mx-auto mb-3" />
-                  <p className="font-cormorant italic text-[15px] text-gc-ivory/55">
+                  <p className="font-cormorant italic text-[15px] text-gc-ivory/60">
                     {t(`cuisine.${item.descKey}` as Parameters<typeof t>[0])}
                   </p>
                 </div>
@@ -415,7 +416,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <section id="menu" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
           <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-12">
-              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink mb-4">
                 {t('menuSection.eyebrow')}
               </p>
               <h2
@@ -489,7 +490,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             <div className="text-center mt-10">
-              <p className="font-cormorant italic text-gc-ivory/50 text-[15px]">
+              <p className="font-cormorant italic text-gc-ivory/60 text-[15px]">
                 {t('gallery.tagline')}
               </p>
             </div>
@@ -551,7 +552,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <section id="hours" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
           <div className="max-w-[720px] mx-auto">
             <div className="text-center mb-12">
-              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink mb-4">
                 {t('hoursSection.eyebrow')}
               </p>
               <h2
@@ -573,7 +574,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <section id="reservation" className="py-24 px-6 bg-gc-jungle relative overflow-hidden">
           <div className="absolute inset-0 gc-noise pointer-events-none" aria-hidden="true" />
           <div className="absolute bottom-0 left-0 w-48 h-72 opacity-[0.05] pointer-events-none" aria-hidden="true">
-            <img src="/botanical-lotus.svg" alt="" className="w-full h-full object-contain" />
+            <img src="/botanical-lotus.svg" alt="" width={300} height={320} className="w-full h-full object-contain" />
           </div>
           <div className="max-w-[600px] mx-auto relative z-10">
             <div className="text-center mb-10">
@@ -601,7 +602,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <section id="contact" className="py-24 px-6 bg-gc-parchment relative overflow-hidden">
           <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-12">
-              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+              <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink mb-4">
                 {t('contactSection.eyebrow')}
               </p>
               <h2
@@ -640,7 +641,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   href={googleDirectionsUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-text-dark px-6 py-3 min-h-11 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-all mb-8 focus:outline-none focus:ring-1 focus:ring-gc-gold"
+                  className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-text-dark px-6 py-3 min-h-12 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-all mb-8 focus:outline-none focus:ring-1 focus:ring-gc-gold"
                 >
                   {t('home.directionsLink')} →
                 </a>
@@ -674,7 +675,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   </h4>
                   <a
                     href="tel:+66819585945"
-                    className="font-cormorant text-[22px] text-gc-brass hover:text-gc-text-dark transition-colors block mb-3"
+                    className="font-cormorant text-[22px] text-gc-brass-ink hover:text-gc-text-dark transition-colors flex items-center min-h-12 -mt-[7.5px] mb-[4.5px]"
                   >
                     +66 81 958 5945
                   </a>
@@ -722,7 +723,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     ))}
                     <div className="flex items-center gap-3">
                       <div className="w-px h-4 bg-gc-gold/50 shrink-0" />
-                      <a href="tel:+66819585945" className="font-cormorant text-[15px] text-gc-ivory hover:text-gc-gold transition-colors">
+                      <a href="tel:+66819585945" className="inline-flex items-center min-h-12 -my-3 font-cormorant text-[15px] text-gc-ivory hover:text-gc-gold transition-colors">
                         +66 81 958 5945
                       </a>
                     </div>
@@ -731,7 +732,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     href={googleMapsPlaceUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all inline-block focus:outline-none focus:ring-1 focus:ring-gc-gold"
+                    className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-gold border border-gc-gold px-6 py-3 min-h-12 hover:bg-gc-gold hover:text-gc-void transition-all inline-flex items-center focus:outline-none focus:ring-1 focus:ring-gc-gold"
                     aria-label={t('contactSection.viewMapAriaLabel')}
                   >
                     {t('contactSection.viewOnMap')} →
@@ -756,13 +757,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div>
               <div className="flex items-center gap-3 mb-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/gecko-mark.png" alt="" aria-hidden="true" style={{ height: '36px', opacity: 0.7 }} />
+                <img src="/gecko-mark-sm.png" alt="" aria-hidden="true" width={136} height={216} loading="lazy" style={{ height: '36px', width: 'auto', opacity: 0.7 }} />
                 <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em]">
                   GECKO CABANE
                 </p>
               </div>
               <GcDivider className="!text-left !mx-0 mb-4 text-[10px]" />
-              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-relaxed">
+              <p className="font-cormorant text-[14px] text-gc-ivory/60 leading-relaxed">
                 {t('footer.subtitle')}<br />
                 {t('footer.location')}
               </p>
@@ -771,7 +772,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
                 {t('footer.hoursTitle')}
               </h4>
-              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85]">
+              <p className="font-cormorant text-[14px] text-gc-ivory/60 leading-[1.85]">
                 {hoursSummary ? (
                   <>
                     {t('footer.openHours', { open: hoursSummary.open, close: hoursSummary.close })}<br />
@@ -781,7 +782,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   t('hoursText.varies')
                 )}
               </p>
-              <Link href="/menu" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors inline-block mt-2">
+              <Link href="/menu" className="inline-flex items-center min-h-12 min-w-12 -mt-1.5 -mb-3.5 font-cormorant text-[14px] text-gc-ivory/60 hover:text-gc-gold transition-colors">
                 {t('common.menu')}
               </Link>
               {footerGuides.length > 0 && (
@@ -794,7 +795,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                       <li key={g.href}>
                         <NextLink
                           href={g.href}
-                          className="inline-flex items-center min-h-11 md:min-h-0 font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors"
+                          className="inline-flex items-center min-h-12 md:min-h-0 font-cormorant text-[14px] text-gc-ivory/60 hover:text-gc-gold transition-colors"
                         >
                           {t(`nav.${g.namespace}` as Parameters<typeof t>[0])}
                         </NextLink>
@@ -808,12 +809,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
                 {t('footer.contactTitle')}
               </h4>
-              <p className="font-cormorant text-[14px] text-gc-ivory/45 leading-[1.85] mb-2">
+              <p className="font-cormorant text-[14px] text-gc-ivory/60 leading-[1.85] mb-2">
                 1/36-37 Soi Ruamjit<br />
                 Maharat Road, Krabi Town 81000<br />
                 {t('contactSection.thailand')}
               </p>
-              <a href="tel:+66819585945" className="font-cormorant text-[14px] text-gc-ivory/55 hover:text-gc-gold transition-colors">
+              <a href="tel:+66819585945" className="inline-flex items-center min-h-12 -my-3.5 font-cormorant text-[14px] text-gc-ivory/60 hover:text-gc-gold transition-colors">
                 +66 81 958 5945
               </a>
             </div>
@@ -821,7 +822,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <h4 className="font-cinzel font-normal text-[12px] tracking-[0.2em] uppercase text-gc-ivory/75 mb-4">
                 {t('footer.legalTitle')}
               </h4>
-              <ul className="font-cormorant text-[13px] text-gc-ivory/35 space-y-1.5 leading-relaxed">
+              <ul className="font-cormorant text-[13px] text-gc-ivory/60 space-y-1.5 leading-relaxed">
                 <li>{t('footer.legalBusiness')}</li>
                 <li>{t('footer.legalVat')}</li>
                 <li>{t('footer.legalAlcohol')}</li>
@@ -831,16 +832,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
           <NewsletterFooterSection locale={locale} idPrefix="home-footer-nl" />
           <div className="border-t border-gc-gold/10 pt-5 mb-4">
-            <p className="font-cormorant text-[12px] text-gc-ivory/25 leading-relaxed">
+            <p className="font-cormorant text-[12px] text-gc-ivory/60 leading-relaxed">
               {t('footer.legalNotice')}
             </p>
           </div>
           <div className="border-t border-gc-gold/10 pt-5 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="font-cormorant text-[13px] text-gc-ivory/35">
+            <p className="font-cormorant text-[13px] text-gc-ivory/60">
               © 2026 Gecko Cabane Restaurant
             </p>
             <GcDivider className="hidden md:block" />
-            <p className="font-cormorant text-[12px] text-gc-ivory/25 text-center md:text-right">
+            <p className="font-cormorant text-[12px] text-gc-ivory/60 text-center md:text-right">
               {t('footer.createdBy')}{' '}
               <a href="https://selenium-studio.com" target="_blank" rel="noopener noreferrer"
                  className="hover:text-gc-gold/60 underline transition-colors">selenium-studio.com</a>

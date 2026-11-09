@@ -28,23 +28,8 @@ export function isE164Phone(phone: string): boolean {
   return phone.startsWith('+') && parsePhone(phone) === phone
 }
 
-/** Default phone country for a UI locale (fr -> FR, en -> GB, fallback TH). */
-export function phoneCountryForLocale(locale: string): CountryCode {
-  if (locale === 'fr') return 'FR'
-  if (locale === 'en') return 'GB'
-  if (locale === 'de') return 'DE'
-  if (locale === 'sv') return 'SE'
-  return 'TH'
-}
-
-// ---------------------------------------------------------------------------
-// Email
-// ---------------------------------------------------------------------------
-
-/** Simple email format check (max 254 chars). */
-export function isEmailValid(email: string): boolean {
-  return email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
-}
+// Defined in form-basics.ts (no libphonenumber) so Client Components can import them cheaply.
+export { phoneCountryForLocale, isEmailValid } from './form-basics'
 
 // ---------------------------------------------------------------------------
 // Reservation fields

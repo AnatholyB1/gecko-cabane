@@ -61,7 +61,7 @@ export default function GuidesMenu({ items, toggleLabel, navLabel }: Props) {
         aria-expanded={open}
         aria-controls="guides-menu"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-1 min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory/65 hover:text-gc-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold"
+        className="inline-flex items-center gap-1 min-h-12 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory/65 hover:text-gc-gold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold"
       >
         {toggleLabel}
         <ChevronDown
@@ -82,7 +82,7 @@ export default function GuidesMenu({ items, toggleLabel, navLabel }: Props) {
                 <Link
                   href={item.href}
                   aria-current={current ? 'page' : undefined}
-                  className={`block min-h-11 py-1 border-b-2 hover:border-gc-gold focus-visible:border-gc-gold focus-visible:outline-none ${current ? 'border-gc-gold' : 'border-transparent'}`}
+                  className={`block min-h-12 py-1 border-b-2 hover:border-gc-gold focus-visible:border-gc-gold focus-visible:outline-none ${current ? 'border-gc-gold' : 'border-transparent'}`}
                 >
                   <span className="block font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-jungle">
                     {item.label}

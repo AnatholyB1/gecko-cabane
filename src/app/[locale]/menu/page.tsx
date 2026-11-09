@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedPageMetadata } from '@/utils/page-metadata'
 import { getMenu } from '@/utils/menu'
@@ -7,6 +7,9 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import MenuAnchorNav from '@/components/MenuAnchorNav'
 import MenuSections from '@/components/MenuSections'
+import MenuJsonLd from '@/components/MenuJsonLd'
+import RestaurantJsonLd from '@/components/RestaurantJsonLd'
+import { toSeoLocale } from '@/utils/seo'
 import GcDivider from '@/components/ui/GcDivider'
 
 type Props = {
@@ -26,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MenuPage({ params }: Props) {
   const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'menuPage' })
   const tc = await getTranslations({ locale, namespace: 'common' })
   const tPayment = await getTranslations({ locale, namespace: 'payment' })
@@ -40,6 +44,8 @@ export default async function MenuPage({ params }: Props) {
       >
         {tc('skipToContent')}
       </a>
+      <RestaurantJsonLd locale={toSeoLocale(locale)} />
+      <MenuJsonLd locale={toSeoLocale(locale)} menu={menu} />
       <SiteHeader locale={locale} />
       <main id="main-content" className="bg-gc-ivory">
         <div id="top" />
@@ -69,7 +75,7 @@ export default async function MenuPage({ params }: Props) {
               </p>
               <Link
                 href="/#reservation"
-                className="inline-flex items-center min-h-11 mt-6 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-jungle border border-gc-jungle px-8 hover:bg-gc-jungle hover:text-gc-ivory transition-colors"
+                className="inline-flex items-center min-h-12 mt-6 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-jungle border border-gc-jungle px-8 hover:bg-gc-jungle hover:text-gc-ivory transition-colors"
               >
                 {tc('bookTable')}
               </Link>
@@ -84,7 +90,7 @@ export default async function MenuPage({ params }: Props) {
 
           <a
             href="#top"
-            className="inline-flex items-center min-h-11 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
+            className="inline-flex items-center min-h-12 font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-jungle underline hover:text-gc-text-dark"
           >
             {t('backToTop')}
           </a>

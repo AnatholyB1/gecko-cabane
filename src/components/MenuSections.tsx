@@ -38,7 +38,7 @@ export default async function MenuSections({ locale, menu }: Props) {
           </li>
           {showGlutenFree && (
             <li className="inline-flex items-center gap-1">
-              <WheatOff size={16} strokeWidth={1.75} className="text-gc-brass" aria-hidden="true" />
+              <WheatOff size={16} strokeWidth={1.75} className="text-gc-brass-ink" aria-hidden="true" />
               {tSection('glutenFree')}
             </li>
           )}
@@ -82,7 +82,7 @@ export default async function MenuSections({ locale, menu }: Props) {
                         <span className="inline-flex items-center gap-2 self-center shrink-0">
                           {item.is_vegetarian && picto(Leaf, tSection('vegetarian'), 'text-gc-celadon')}
                           {item.is_spicy && picto(Flame, tSection('spicy'), 'text-gc-copper')}
-                          {item.is_gluten_free === true && picto(WheatOff, tSection('glutenFree'), 'text-gc-brass')}
+                          {item.is_gluten_free === true && picto(WheatOff, tSection('glutenFree'), 'text-gc-brass-ink')}
                         </span>
                         {price && (
                           <>

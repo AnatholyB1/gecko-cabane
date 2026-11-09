@@ -20,7 +20,7 @@ describe('switcherTargets', () => {
     ])
   })
   it('omits unpublished locales', () => {
-    expect(switcherTargets('/en/getting-here-from-ao-nang')).toHaveLength(1)
+    expect(switcherTargets('/en/getting-here-from-ao-nang').map((t) => t.locale)).toEqual(['fr', 'en'])
   })
   it('handles home and menu', () => {
     const home = switcherTargets('/fr')
@@ -41,11 +41,13 @@ describe('guidesFor / TRIPADVISOR_URL', () => {
       '/fr/restaurant-francais-krabi',
       '/fr/diner-romantique-krabi',
       '/fr/ou-manger-krabi-town',
+      '/fr/venir-depuis-ao-nang',
+      '/fr/vins-bieres-belges-krabi',
     ])
     const en = guidesFor('en').map((g) => g.href)
     expect(en).toContain('/en/getting-here-from-ao-nang')
     expect(en[en.length - 1]).toBe('/en/wine-belgian-beer-krabi')
-    expect(guidesFor('fr').map((g) => g.href)).not.toContain('/fr/wine-belgian-beer-krabi')
+    expect(guidesFor('de').map((g) => g.href)).not.toContain('/de/wein-belgisches-bier-krabi')
   })
   it('points to tripadvisor.com', () => {
     expect(TRIPADVISOR_URL.startsWith('https://www.tripadvisor.com/')).toBe(true)
@@ -55,7 +57,7 @@ describe('guidesFor / TRIPADVISOR_URL', () => {
 describe('components', () => {
   it('LanguageSwitcher is slug-aware', () => {
     const s = read('src/components/LanguageSwitcher.tsx')
-    expect(s).toContain('switcherTargets(')
+    expect(s).toContain('switcherTargetsForKey(')
     expect(s).toContain('hrefLang')
     expect(s).not.toContain('(fr|en)')
     expect(s).not.toContain('availableLocales')

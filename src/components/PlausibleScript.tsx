@@ -10,8 +10,8 @@ export default function PlausibleScript() {
   if (!id) return null
   return (
     <>
-      <Script src="/gcm/js/script.js" strategy="afterInteractive" />
-      <Script id="plausible-init" strategy="afterInteractive">
+      <Script src="/gcm/js/script.js" strategy="lazyOnload" />
+      <Script id="plausible-init" strategy="lazyOnload">
         {INIT}
       </Script>
     </>

@@ -27,7 +27,7 @@ export default async function RelatedGuides({ pageKey, locale }: Props) {
               <li key={k}>
                 <Link
                   href={slugFor(k, locale)}
-                  className="group block h-full min-h-11 bg-gc-ivory border border-gc-aged p-6 hover:border-gc-jungle transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-jungle"
+                  className="group block h-full min-h-12 bg-gc-ivory border border-gc-aged p-6 hover:border-gc-jungle transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-jungle"
                 >
                   <p className="font-raleway text-[12px] uppercase tracking-[0.15em] text-gc-copper">
                     {t('guideEyebrow')}

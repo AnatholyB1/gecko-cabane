@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { buildPageMetadata, publishedLocales, resolvePageSeo, toSeoLocale, type PageKey } from '@/utils/seo'
+import { buildPageMetadata, buildShareMetadata, publishedLocales, resolvePageSeo, toSeoLocale, type PageKey } from '@/utils/seo'
 
 /**
  * Metadata for a localized page with the noindex gate (D-05): a (page, locale)
@@ -25,6 +25,7 @@ export async function localizedPageMetadata(args: {
       title: absoluteTitle ? { absolute: title } : title,
       description,
       robots: { index: false, follow: true },
+      ...buildShareMetadata({ locale, title, description }),
     }
   }
 

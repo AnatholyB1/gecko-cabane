@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedPageMetadata } from '@/utils/page-metadata'
 
@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PrivacyPage({ params }: Props) {
   const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'privacy' })
 
   return (
@@ -93,7 +94,7 @@ export default async function PrivacyPage({ params }: Props) {
 
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center font-cormorant text-[17px] text-gc-jungle underline hover:text-gc-void"
+            className="inline-flex min-h-12 items-center font-cormorant text-[17px] text-gc-jungle underline hover:text-gc-void"
           >
             {t('back')}
           </Link>

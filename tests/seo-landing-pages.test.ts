@@ -211,9 +211,10 @@ describe('EN-only pages (D-07, D-10, D-13)', () => {
   })
 
   it('publication state', () => {
-    expect(PAGES.find((p) => p.key === WINE)!.contentLocales).toEqual(['en'])
-    expect(PUBLISHED_PAGES.find((p) => p.path === WINE)?.locales).toEqual(['en'])
-    expect(PUBLISHED_PAGES.find((p) => p.path === HERE)?.locales).toEqual(['en'])
+    // ONP-04/05: content in four locales, published fr+en; de/sv wait for the human review (ONP-11)
+    expect(PAGES.find((p) => p.key === WINE)!.contentLocales).toEqual(['fr', 'en', 'de', 'sv'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === WINE)?.locales).toEqual(['fr', 'en'])
+    expect(PUBLISHED_PAGES.find((p) => p.path === HERE)?.locales).toEqual(['fr', 'en'])
   })
 
   it('owner review sheet exists with sign-off line', () => {

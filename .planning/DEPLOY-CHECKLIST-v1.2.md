@@ -1,0 +1,18 @@
+# Checklist de déploiement v1.2 (actions humaines ou après accord du propriétaire)
+- [ ] Relecture humaine DE/SV : H1, metas et pages getting-here / wine-belgian-beer (ONP-11) avant mise en production
+- [ ] Déploiement : uniquement sur demande explicite du propriétaire ; rien n'est poussé
+- [ ] Après déploiement : `x-vercel-cache: HIT` au 2e appel sur /fr /en /de /sv (PERF-02) ; Lighthouse mobile en ligne ≥ 90 (PERF-07)
+- [ ] Après déploiement : Rich Results Test sur Restaurant et Menu (ONP-07) ; Search Console : soumettre le sitemap mis à jour
+- [ ] Après déploiement : vérifier qu'aucune violation CSP n'apparaît (console) sur réservation, Maps, Plausible, admin
+- [ ] Variables d'environnement : comparer les `process.env.X` du code aux variables Vercel avant mise en ligne
+- [ ] Accord propriétaire : page FR vin/bière belge (l'accord du 2026-10-18 porte sur l'EN) ; feuilles de validation DE/SV à refaire pour les 12 phrases modifiées (ONP-09) ; les pages de/sv getting-here et wine-belgian-beer sont noindex et hors sitemap tant qu'elles ne sont pas relues
+- [ ] Décision propriétaire : les phrases « son mari français, Frédéric » (about.story1, frenchRestaurant.story1, romanticDinner chef p1, about.couplePhotoAlt) contredisent-elles la présentation par la cheffe Jariya ?
+- [ ] Étendre la règle no-store du wifi à de/sv (risque de cache public après B18)
+- [ ] **PERF-07 en ligne** : mesurer PageSpeed Insights mobile sur /fr et /en après déploiement ; en local la médiane est 73-75 et dépend de la machine (le score monte à 90+ quand les scripts arrivent après l'instant LCP, comme sur un vrai réseau, non revendiqué)
+- [ ] Décision propriétaire : différer Sentry côté client (gain potentiel ~+7 points Lighthouse, au prix de la mesure du chargement et des erreurs précoces)
+- [ ] Décision propriétaire : pages `/de/privacy` et `/sv/privacy` en repli EN avec cache d'un an (noindex) : 404 comme les pages guides, ou texte à faire relire
+- [ ] Décision propriétaire : H1 de `/menu` (« Our menu »), `/wifi`, `/review` peu descriptifs (hors liste, non modifiés)
+- [ ] Ticket à part : débordement horizontal du `SiteHeader` sur les sous-pages à 390 px (préexistant, jusqu'à 469 px pour /de/menu) ; sélecteur de langue 25-27 px de large
+- [ ] `GET /api%2Fhours` répond 500 (bruit Sentry, aucun accès ouvert) ; `revalidateTag(..., 'max')` sert l'ancienne page au premier visiteur après une modification admin
+- [ ] Après déploiement : vérifier Google Maps réel sous la CSP (`frame-src https://www.google.com` ; une redirection vers `maps.google.com` serait bloquée), Plausible (variable `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_ID` + redéploiement : les rewrites sont figés au build), Sentry via `/monitoring`
+- [ ] Le build lit la vraie base Supabase en lecture seule (clé anon) comme tout build du dépôt

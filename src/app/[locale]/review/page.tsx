@@ -11,7 +11,7 @@ import { recordReviewHitThrottled } from '@/utils/review-stats'
 import { getClientIp } from '@/utils/rate-limit'
 import ReviewFeedbackForm from '@/components/ReviewFeedbackForm'
 import { FEEDBACK_MESSAGE_MAX } from '@/utils/review-feedback'
-import { LOCALES, type SeoLocale } from '@/utils/seo'
+import { LOCALES, buildShareMetadata, type SeoLocale } from '@/utils/seo'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metaTitle'),
     robots: { index: false, follow: false },
+    ...buildShareMetadata({ locale: resolveLocale(raw), title: t('metaTitle') }),
   }
 }
 
@@ -91,7 +92,7 @@ export default async function ReviewPage({ params, searchParams }: Props) {
           <p className="font-cormorant italic text-[14px] leading-[1.5] text-gc-text-mid mt-8">{t('note')}</p>
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"
+            className="inline-flex min-h-12 items-center mt-4 font-cormorant text-[14px] text-gc-jungle underline decoration-gc-jungle hover:text-gc-void"
           >
             {t('back')}
           </Link>

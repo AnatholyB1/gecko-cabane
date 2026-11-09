@@ -30,9 +30,11 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '/french-restaurant-krabi', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/where-to-eat-krabi-town', locales: ['fr', 'en', 'de', 'sv'] },
-  { path: '/getting-here-from-ao-nang', locales: ['en'] },
+  // ONP-04: fr published; de/sv content exists but stays unlisted until the human review (ONP-11)
+  { path: '/getting-here-from-ao-nang', locales: ['fr', 'en'] },
   // Owner alcohol-advertising sign-off: publish, 2026-10-18 (plan 12)
-  { path: '/wine-belgian-beer-krabi', locales: ['en'] },
+  // ONP-05: the alcohol sign-off covers the EN text; the FR text needs the same owner OK
+  { path: '/wine-belgian-beer-krabi', locales: ['fr', 'en'] },
 ]
 
 /** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */
@@ -90,16 +92,16 @@ export const PAGES: readonly PageDef[] = [
   {
     key: '/getting-here-from-ao-nang',
     namespace: 'gettingHere',
-    slugs: {},
-    contentLocales: ['en'],
+    slugs: { fr: '/venir-depuis-ao-nang', de: '/anreise-von-ao-nang', sv: '/resa-fran-ao-nang' },
+    contentLocales: ['fr', 'en', 'de', 'sv'],
     related: ['/where-to-eat-krabi-town', '/french-restaurant-krabi'],
   },
   {
     // Owner alcohol gate cleared 2026-10-18 (plan 12): EN only
     key: '/wine-belgian-beer-krabi',
     namespace: 'wineBeer',
-    slugs: {},
-    contentLocales: ['en'],
+    slugs: { fr: '/vins-bieres-belges-krabi', de: '/wein-belgisches-bier-krabi', sv: '/vin-belgisk-ol-krabi' },
+    contentLocales: ['fr', 'en', 'de', 'sv'],
     related: ['/french-restaurant-krabi', '/romantic-dinner-krabi'],
   },
 ]
@@ -178,6 +180,20 @@ export function switcherTargets(
   const rest = pathname.slice(current.length + 1).replace(/\/+$/, '')
   const page = PAGES.find((p) => slugFor(p.key, current) === rest)
   if (!page) return []
+  return switcherTargetsForKey(page.key, current)
+}
+
+/**
+ * Same targets from the canonical page key (what next-intl's usePathname returns, identical on server
+ * and client). An unknown key yields [].
+ */
+export function switcherTargetsForKey(
+  canonicalPath: string,
+  current: SeoLocale
+): { locale: SeoLocale; href: string; current: boolean }[] {
+  const key = canonicalPath === '/' ? '' : canonicalPath.replace(/\/+$/, '')
+  const page = PAGES.find((p) => p.key === key)
+  if (!page) return []
   return LOCALES.filter((l) => l === current || isPublished(page.key, l)).map((l) => ({
     locale: l,
     href: localePath(l, page.key),
@@ -215,6 +231,49 @@ export function buildPathnames(): Record<string, Partial<Record<SeoLocale, strin
 // ---------------------------------------------------------------------------
 
 /**
+ * Share image (ONP-08): the existing `[locale]/opengraph-image.tsx` route, 1200x630. Next drops the
+ * file-convention image as soon as a page returns its own openGraph, so every page repeats it here.
+ * The URL carries no cache-busting hash: the route serves the same PNG without it.
+ */
+export function ogImage(locale: SeoLocale): { url: string; width: number; height: number; alt: string } {
+  return {
+    url: `${SITE_URL}/${locale}/opengraph-image`,
+    width: 1200,
+    height: 630,
+    alt: 'Gecko Cabane Restaurant - Franco-Thai Cuisine in Krabi',
+  }
+}
+
+/**
+ * og:/twitter: share tags with no URL, alternates or description, for noindex pages (utility pages,
+ * unpublished locales) that people can still share (ONP-08).
+ */
+export function buildShareMetadata(args: {
+  locale: SeoLocale
+  title: string
+  description?: string
+}): Pick<Metadata, 'openGraph' | 'twitter'> {
+  const { locale, title, description } = args
+  const image = ogImage(locale)
+  return {
+    openGraph: {
+      title,
+      ...(description ? { description } : {}),
+      type: 'website',
+      siteName: 'Gecko Cabane',
+      locale: OG_LOCALE[locale],
+      images: [image],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      ...(description ? { description } : {}),
+      images: [image.url],
+    },
+  }
+}
+
+/**
  * Builds the complete Metadata for a localized page.
  * Next metadata merging is shallow: every page must return the full object
  * and layouts must not set `alternates`.
@@ -246,11 +305,13 @@ export function buildPageMetadata(args: {
       url,
       locale: OG_LOCALE[locale],
       ...(others.length > 0 ? { alternateLocale: others.map((l) => OG_LOCALE[l]) } : {}),
+      images: [ogImage(locale)],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [ogImage(locale).url],
     },
   }
 }

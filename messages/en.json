@@ -20,10 +20,9 @@
     "reserveShort": "Book"
   },
   "hero": {
-    "subtitle": "Franco-Thai Restaurant",
-    "tagline": "A culinary fusion in the heart of Krabi's jungle",
+    "h1": "French-Thai Restaurant in Krabi Town",
     "discoverButton": "Discover our cuisine",
-    "discoverAriaLabel": "Discover our menu and specialties",
+    "discoverAriaLabel": "Discover our cuisine: our menu and specialties",
     "findUsButton": "Find us",
     "location": "Krabi Town · Thailand"
   },
@@ -164,7 +163,7 @@
     "chefTeam": "Chef Jariya & her team",
     "cuisineType": "Franco-Thai Cuisine",
     "viewOnMap": "View on Google Maps",
-    "viewMapAriaLabel": "View our location on Google Maps (opens in new tab)",
+    "viewMapAriaLabel": "View on Google Maps (opens in new tab)",
     "eyebrow": "Find Us",
     "signAlt": "Gecko Cabane's illuminated sign at night, Krabi"
   },
@@ -348,13 +347,13 @@
     "tagline": "Fine French-Thai cuisine · Chef Jariya · Krabi, Thailand"
   },
   "meta": {
-    "homeTitle": "Gecko Cabane – French-Thai Restaurant in Krabi, Open Daily",
-    "homeDescription": "Chef Jariya's French-Thai cooking in Krabi Town, Thailand, with wine and Belgian beers on the list. Open every day: book your table online in under a minute.",
+    "homeTitle": "Gecko Cabane – Best French-Thai Restaurant in Krabi Town",
+    "homeDescription": "A restaurant in Krabi Town where Chef Jariya cooks French-Thai food. Rated 4.7★ on Google by guests, open every day. Book your table online in under a minute.",
     "schemaDescription": "Fine French-Thai restaurant in Krabi Town, Thailand: French and Thai fusion cuisine by Chef Jariya, 40 seats.",
     "menuTitle": "Menu – Gecko Cabane, French-Thai Restaurant in Krabi",
     "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked.",
-    "frenchRestaurantTitle": "French Restaurant in Krabi Town, Open Daily – Gecko Cabane",
-    "frenchRestaurantDescription": "Craving a proper French meal in Krabi Town? Chef Jariya cooks French-Thai food, with wine and Belgian beers to go with it. Book online in under a minute.",
+    "frenchRestaurantTitle": "Krabi Town Restaurant, 4.7★ French Cooking – Gecko Cabane",
+    "frenchRestaurantDescription": "Best restaurant in Krabi Town? 4.7★ on Google: Chef Jariya's beef bourguignon, chicken in cream sauce, massaman curry. Open 7 days, book your table online.",
     "romanticDinnerTitle": "Romantic Dinner in Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion.",
     "whereToEatTitle": "Where to Eat in Krabi Town – Gecko Cabane",
@@ -367,12 +366,12 @@
   "frenchRestaurant": {
     "eyebrow": "Maharat Road, Krabi Town",
     "h1": "French restaurant in Krabi Town",
-    "subtitle": "Authentic French cooking by a French-Thai couple, on Maharat Road.",
+    "subtitle": "Authentic French cooking by Chef Jariya, on Maharat Road.",
     "ctaBook": "Book a table",
     "ctaMenu": "See the menu",
     "heroAlt": "The entrance of Gecko Cabane restaurant on Maharat Road in Krabi Town",
     "introTitle": "French cooking, cooked with care in Krabi",
-    "intro1": "Gecko Cabane is a small French restaurant in Krabi Town, run by a French-Thai couple. Chef Jariya cooks the classics of French home cooking the way they should taste, slowly and generously.",
+    "intro1": "Gecko Cabane is a small French restaurant in Krabi Town, run by Chef Jariya. She cooks the classics of French home cooking the way they should taste, slowly and generously.",
     "intro2": "With only 40 seats, the dining room stays intimate. You will find French dishes on the slate, a few Thai favourites from the chef's own kitchen, and a short list of wines and beers to go with them.",
     "dishesTitle": "Signature dishes",
     "bourguignon": {
@@ -398,7 +397,7 @@
     "winesTitle": "Wines and Belgian beers",
     "winesText": "To go with the food, we pour French wines and a selection of Belgian beers.",
     "winesLink": "See our wines and beers on the menu",
-    "storyTitle": "A French-Thai couple's restaurant",
+    "storyTitle": "Chef Jariya's restaurant",
     "story1": "Gecko Cabane was opened by Chef Jariya and her French husband, Frederic. She brings the cooking, he brings the French table, and together they welcome guests every evening.",
     "story2": "The idea is simple: cook the dishes they love, with care, and share them with travellers and locals in Krabi Town.",
     "chefAlt": "Chef Jariya of Gecko Cabane, Krabi Town",
@@ -535,7 +534,7 @@
   },
   "nav": {
     "frenchRestaurant": "French restaurant",
-    "frenchRestaurantHint": "French home cooking by a French-Thai couple, with a few Thai favourites.",
+    "frenchRestaurantHint": "French home cooking by Chef Jariya, with a few Thai favourites.",
     "romanticDinner": "Romantic dinner",
     "romanticDinnerHint": "A small, quiet dining room with a French-Thai kitchen, made for an evening for two.",
     "whereToEat": "Where to eat in Krabi Town",
@@ -553,7 +552,7 @@
     "sections": {
       "ambiance": {
         "title": "A quiet room for two",
-        "p1": "Gecko Cabane seats 40 guests at most, so the dining room stays calm and conversation comes easily. It is run by a French-Thai couple who welcome you themselves.",
+        "p1": "Gecko Cabane seats 40 guests at most, so the dining room stays calm and conversation comes easily. It is run by Chef Jariya, who welcomes you herself.",
         "p2": "There is no show and no rush. You come for the food, a glass of wine or a Belgian beer, and time to talk. {hoursSentence}"
       },
       "table": {
@@ -676,7 +675,7 @@
       },
       "belgian": {
         "title": "Why Belgian beer",
-        "p1": "Our kitchen is run by a French-Thai couple, and Belgian beer is a natural companion to French home cooking. Abbey-style ales, blonde ales and wheat beers share the table well with braised and creamy dishes.",
+        "p1": "Our kitchen is run by Chef Jariya, and Belgian beer is a natural companion to French home cooking. Abbey-style ales, blonde ales and wheat beers share the table well with braised and creamy dishes.",
         "p2": "If you prefer beer to wine, ask us which style suits your dish. We are happy to explain the differences."
       },
       "pairings": {
