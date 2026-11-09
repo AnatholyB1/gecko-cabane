@@ -155,7 +155,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {/* Gecko décoratif au-dessus du titre */}
             <div className="flex justify-center mb-2" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/gecko-mark.png" alt="" width={503} height={800} className="gc-botanical" style={{ height: '72px', width: 'auto', opacity: 0.75 }} />
+              <img src="/gecko-mark-sm.png" alt="" width={136} height={216} className="gc-botanical" style={{ height: '72px', width: 'auto', opacity: 0.75 }} />
             </div>
             <GcDivider />
             <p className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
@@ -757,7 +757,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div>
               <div className="flex items-center gap-3 mb-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/gecko-mark.png" alt="" aria-hidden="true" width={503} height={800} loading="lazy" style={{ height: '36px', width: 'auto', opacity: 0.7 }} />
+                <img src="/gecko-mark-sm.png" alt="" aria-hidden="true" width={136} height={216} loading="lazy" style={{ height: '36px', width: 'auto', opacity: 0.7 }} />
                 <p className="font-cinzel-decorative font-bold text-gc-gold text-lg tracking-[0.1em]">
                   GECKO CABANE
                 </p>
