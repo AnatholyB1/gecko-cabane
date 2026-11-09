@@ -20,7 +20,7 @@
     "reserveShort": "Book"
   },
   "hero": {
-    "subtitle": "Franco-Thai Restaurant",
+    "h1": "French-Thai Restaurant in Krabi Town",
     "tagline": "A culinary fusion in the heart of Krabi's jungle",
     "discoverButton": "Discover our cuisine",
     "discoverAriaLabel": "Discover our menu and specialties",
@@ -348,13 +348,13 @@
     "tagline": "Fine French-Thai cuisine · Chef Jariya · Krabi, Thailand"
   },
   "meta": {
-    "homeTitle": "Gecko Cabane – French-Thai Restaurant in Krabi, Open Daily",
-    "homeDescription": "Chef Jariya's French-Thai cooking in Krabi Town, Thailand, with wine and Belgian beers on the list. Open every day: book your table online in under a minute.",
+    "homeTitle": "Gecko Cabane – Best French-Thai Restaurant in Krabi Town",
+    "homeDescription": "A restaurant in Krabi Town where Chef Jariya cooks French-Thai food. Rated 4.7★ on Google by guests, open every day. Book your table online in under a minute.",
     "schemaDescription": "Fine French-Thai restaurant in Krabi Town, Thailand: French and Thai fusion cuisine by Chef Jariya, 40 seats.",
     "menuTitle": "Menu – Gecko Cabane, French-Thai Restaurant in Krabi",
     "menuDescription": "Browse the Gecko Cabane menu in Krabi Town: French and Thai dishes by Chef Jariya, prices in Thai baht, vegetarian and spicy dishes clearly marked.",
-    "frenchRestaurantTitle": "French Restaurant in Krabi Town, Open Daily – Gecko Cabane",
-    "frenchRestaurantDescription": "Craving a proper French meal in Krabi Town? Chef Jariya cooks French-Thai food, with wine and Belgian beers to go with it. Book online in under a minute.",
+    "frenchRestaurantTitle": "Krabi Town Restaurant, 4.7★ French Cooking – Gecko Cabane",
+    "frenchRestaurantDescription": "Looking for the best restaurant in Krabi? Rated 4.7★ on Google: beef bourguignon, chicken in cream sauce, massaman curry. Open 7 days a week, book online.",
     "romanticDinnerTitle": "Romantic Dinner in Krabi Town – Gecko Cabane",
     "romanticDinnerDescription": "A quiet table for two on Maharat Road, Krabi Town: French cooking with Thai favourites in a 40-seat room. Book online and note your occasion.",
     "whereToEatTitle": "Where to Eat in Krabi Town – Gecko Cabane",

@@ -158,15 +158,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <img src="/gecko-mark.png" alt="" width={503} height={800} className="gc-botanical" style={{ height: '72px', width: 'auto', opacity: 0.75 }} />
             </div>
             <GcDivider />
-            <h1 className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
+            <p className="font-cinzel-decorative font-bold text-gc-gold tracking-[0.05em] leading-tight mt-5 mb-5"
                 style={{ fontSize: 'clamp(40px, 8vw, 96px)' }}>
               GECKO CABANE
-            </h1>
-            <GcDivider />
-            <p className="font-cormorant italic font-light text-gc-ivory/90 mt-7 mb-2 tracking-wide"
-               style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}>
-              {t('hero.subtitle')}
             </p>
+            <GcDivider />
+            <h1 className="font-cormorant italic font-light text-gc-ivory/90 mt-7 mb-2 tracking-wide"
+               style={{ fontSize: 'clamp(18px, 2.5vw, 24px)' }}>
+              {t('hero.h1')}
+            </h1>
             <p className="font-raleway font-light text-[13px] tracking-[0.3em] uppercase text-gc-gold/55 mb-10">
               {t('hero.location')}
             </p>
