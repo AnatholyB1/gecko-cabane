@@ -8,6 +8,7 @@ import PlausibleScript from '@/components/PlausibleScript'
 import AttributionCapture from '@/components/AttributionCapture'
 import NewsletterPopup from '@/components/NewsletterPopupLazy'
 import { LOCALES, OG_LOCALE, type SeoLocale } from '@/utils/seo'
+import { CLIENT_NAMESPACES, pickMessages } from '@/utils/client-messages'
 import { BODY_CLASS, ROOT_METADATA } from '../fonts'
 import '../globals.css'
 
@@ -45,7 +46,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale)
 
   // Get messages for the locale
-  const messages = await getMessages({ locale })
+  // Only the namespaces read by Client Components travel to the browser (PERF-04).
+  const messages = pickMessages(await getMessages({ locale }), CLIENT_NAMESPACES)
 
   // Root layout of the public site (no app/layout.tsx): <html lang> is known at build time.
   return (
