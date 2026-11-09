@@ -23,7 +23,7 @@
     "subtitle": "Fransk-thailändsk restaurang",
     "tagline": "En kulinarisk förening mitt i Krabis djungel",
     "discoverButton": "Upptäck vårt kök",
-    "discoverAriaLabel": "Upptäck vår meny och våra specialiteter",
+    "discoverAriaLabel": "Upptäck vårt kök: meny och specialiteter",
     "findUsButton": "Hitta hit",
     "location": "Krabi Town · Thailand"
   },
@@ -153,7 +153,7 @@
     "chefTeam": "Kocken Jariya och hennes team",
     "cuisineType": "Fransk-thailändskt kök",
     "viewOnMap": "Visa i Google Maps",
-    "viewMapAriaLabel": "Visa vår plats i Google Maps (öppnas i ny flik)",
+    "viewMapAriaLabel": "Visa i Google Maps (öppnas i ny flik)",
     "eyebrow": "Hitta hit",
     "signAlt": "Gecko Cabanes upplysta skylt på kvällen, Krabi",
     "gettingHereTitle": "Så tar du dig hit",

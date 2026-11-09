@@ -128,7 +128,7 @@ export default function ReviewFeedbackForm({ src, rid, maxLength }: Props) {
             onChange={(e) => setEmail(e.target.value)}
             aria-invalid={errorKind === 'email' || undefined}
             aria-describedby={errorKind === 'email' ? 'rf-email-error' : 'rf-email-help'}
-            className={`${fieldClass} min-h-11`}
+            className={`${fieldClass} min-h-12`}
           />
           <p id="rf-email-help" className="font-cormorant italic text-[14px] text-gc-text-mid mt-1">
             {t('emailHelp')}
@@ -174,7 +174,7 @@ export default function ReviewFeedbackForm({ src, rid, maxLength }: Props) {
         <button
           type="submit"
           disabled={pending}
-          className="w-full bg-gc-jungle text-gc-ivory hover:bg-gc-void disabled:opacity-60 font-cinzel text-[12px] uppercase tracking-[0.15em] px-8 py-3 min-h-11 transition-colors duration-200"
+          className="w-full bg-gc-jungle text-gc-ivory hover:bg-gc-void disabled:opacity-60 font-cinzel text-[12px] uppercase tracking-[0.15em] px-8 py-3 min-h-12 transition-colors duration-200"
         >
           {pending ? t('pending') : t('submit')}
         </button>

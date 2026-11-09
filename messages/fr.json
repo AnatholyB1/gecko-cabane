@@ -23,7 +23,7 @@
     "subtitle": "Restaurant Franco-Thaï",
     "tagline": "Une fusion culinaire au cœur de la jungle de Krabi",
     "discoverButton": "Découvrir notre cuisine",
-    "discoverAriaLabel": "Découvrir notre carte et nos spécialités",
+    "discoverAriaLabel": "Découvrir notre cuisine : la carte et nos spécialités",
     "findUsButton": "Nous trouver",
     "location": "Krabi Town · Thaïlande"
   },
@@ -164,7 +164,7 @@
     "chefTeam": "Chef Jariya & son équipe",
     "cuisineType": "Cuisine Franco-Thaï",
     "viewOnMap": "Voir sur Google Maps",
-    "viewMapAriaLabel": "Voir notre emplacement sur Google Maps (ouvre dans un nouvel onglet)",
+    "viewMapAriaLabel": "Voir sur Google Maps (ouvre dans un nouvel onglet)",
     "eyebrow": "Nous trouver",
     "signAlt": "Enseigne du restaurant Gecko Cabane de nuit, Krabi"
   },

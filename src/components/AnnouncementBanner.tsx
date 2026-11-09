@@ -95,7 +95,7 @@ export default function AnnouncementBanner() {
       </div>
       <button
         onClick={() => setVisible(false)}
-        className="absolute top-1/2 -translate-y-1/2 right-4 transition-opacity hover:opacity-60"
+        className="absolute top-1/2 -translate-y-1/2 right-0 w-12 h-12 flex items-center justify-center transition-opacity hover:opacity-60"
         aria-label={t('close')}
         style={{ fontFamily: 'var(--font-cinzel)', fontSize: '14px', color: 'var(--gc-gold)' }}
       >

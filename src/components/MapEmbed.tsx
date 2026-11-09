@@ -46,7 +46,7 @@ export default function MapEmbed({ src }: { src: string }) {
             <button
               type="button"
               onClick={() => setLoaded(true)}
-              className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory border border-gc-gold px-6 py-3 min-h-11 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+              className="font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-ivory border border-gc-gold px-6 py-3 min-h-12 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
             >
               {t('showMap')}
             </button>

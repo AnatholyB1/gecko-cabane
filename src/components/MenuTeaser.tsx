@@ -22,7 +22,7 @@ export default async function MenuTeaser({ locale }: Props) {
                 <div className="flex justify-between items-baseline gap-4">
                   <h3 className="font-cinzel text-[20px] font-semibold text-gc-text-dark">{item.name}</h3>
                   {price && (
-                    <span className="font-cinzel text-[18px] text-gc-brass whitespace-nowrap">{price}</span>
+                    <span className="font-cinzel text-[18px] text-gc-brass-ink whitespace-nowrap">{price}</span>
                   )}
                 </div>
                 {item.description && (
@@ -38,7 +38,7 @@ export default async function MenuTeaser({ locale }: Props) {
       <div className="text-center">
         <Link
           href="/menu"
-          className="inline-flex items-center justify-center min-h-11 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
+          className="inline-flex items-center justify-center min-h-12 font-cinzel text-[12px] tracking-[0.15em] uppercase text-gc-text-dark border border-gc-gold px-6 py-3 hover:bg-gc-gold hover:text-gc-void transition-all focus:outline-none focus:ring-1 focus:ring-gc-gold"
         >
           {t('seeFullMenu')} →
         </Link>

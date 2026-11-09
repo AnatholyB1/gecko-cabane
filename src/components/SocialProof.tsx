@@ -19,7 +19,7 @@ function Stars({ count }: { count: number }) {
 }
 
 const LINK_CLASS =
-  'inline-flex items-center min-h-11 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-brass underline hover:text-gc-text-dark transition-colors'
+  'inline-flex items-center min-h-12 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-brass-ink underline hover:text-gc-text-dark transition-colors'
 
 export default async function SocialProof({ locale }: { locale: SeoLocale }) {
   const t = await getTranslations({ locale, namespace: 'socialProof' })
@@ -50,7 +50,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
     >
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="text-center mb-10">
-          <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass mb-4">
+          <p className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink mb-4">
             {t('eyebrow')}
           </p>
           <h2
@@ -71,7 +71,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
               className="flex flex-col items-center gap-2"
               aria-label={`${s.name}: ${t('ratingAria', { rating: s.rating, count: s.count })}`}
             >
-              <span className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass">
+              <span className="font-raleway font-light text-[11px] tracking-[0.3em] uppercase text-gc-brass-ink">
                 {s.name}
               </span>
               <span className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
@@ -82,7 +82,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
                 </span>
               </span>
               {s.key === 'tripadvisor' && travellersChoice.awarded && (
-                <span className="inline-flex items-center border border-gc-gold px-4 py-2 min-h-11 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-text-dark">
+                <span className="inline-flex items-center border border-gc-gold px-4 py-2 min-h-12 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-text-dark">
                   {travellersChoice.year
                     ? t('travellersChoiceYear', { year: travellersChoice.year })
                     : t('travellersChoice')}
@@ -137,7 +137,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={t('viewSource', { name: review.name, source: review.source })}
-                    className="inline-flex items-center min-h-11 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-gold underline"
+                    className="inline-flex items-center min-h-12 font-raleway text-[12px] tracking-[0.15em] uppercase text-gc-gold underline"
                   >
                     {review.source === 'google' ? 'Google' : 'TripAdvisor'}
                   </a>
@@ -151,7 +151,7 @@ export default async function SocialProof({ locale }: { locale: SeoLocale }) {
           <Link
             href={{ pathname: '/review', query: { src: 'site' } }}
             prefetch={false}
-            className="font-cinzel text-[12px] tracking-[0.15em] uppercase border border-gc-text-dark text-gc-text-dark px-6 py-3 min-h-11 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-colors"
+            className="font-cinzel text-[12px] tracking-[0.15em] uppercase border border-gc-text-dark text-gc-text-dark px-6 py-3 min-h-12 inline-flex items-center hover:bg-gc-text-dark hover:text-gc-parchment transition-colors"
           >
             {t('leaveReview')}
           </Link>
