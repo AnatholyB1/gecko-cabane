@@ -7,8 +7,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
-  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
+  reactCompiler: true,  // Local images only (no remotePatterns); qualities allowlist limits optimizer abuse.
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [60, 75],
