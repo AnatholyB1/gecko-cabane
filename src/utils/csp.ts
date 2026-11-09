@@ -6,7 +6,7 @@
  * (self.__next_f.push(...) flight data, different on every page and build), so a static hash list is not
  * feasible either. Compromise: script-src 'self' 'unsafe-inline'. Mitigations that remain: no unsafe-eval in
  * production, object-src 'none', base-uri 'self', frame-ancestors 'self', form-action 'self', connect-src and
- * frame-src pinned to the origins the site really uses. JSON-LD blocks (type application/ld+json) are data,
+ * frame-src pinned to the origins the site really uses. Structured-data (JSON-LD) blocks are data,
  * not executed, so CSP does not constrain them.
  *
  * style-src 'unsafe-inline': React style={{}} attributes and next/font inline @font-face rules.

@@ -56,7 +56,7 @@ describe('static public HTML contract', () => {
   })
   it('keeps /[locale]/wifi private and no-store, and caches the Plausible script', () => {
     const cfg = read('next.config.ts')
-    expect(cfg).toContain("'/:locale(fr|en)/wifi'")
+    expect(cfg).toContain("'/:locale(fr|en|de|sv)/wifi'")
     expect(cfg).toContain("'private, no-store'")
     expect(cfg).toMatch(/source: '\/gcm\/js\/script\.js'[\s\S]*max-age=\d{6,}/)
     expect(read('src/app/[locale]/wifi/page.tsx')).toContain("dynamic = 'force-dynamic'")
