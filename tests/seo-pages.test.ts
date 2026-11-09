@@ -95,8 +95,8 @@ describe('generateMetadata wiring', () => {
     expect(src).not.toContain('canonical')
   })
 
-  it('root layout keeps only shared values', () => {
-    const src = read('src/app/layout.tsx')
+  it('shared root metadata (src/app/fonts.ts) keeps only shared values', () => {
+    const src = read('src/app/fonts.ts')
     for (const banned of ['alternates', 'openGraph', 'twitter', 'keywords', 'application/ld+json', 'aggregateRating']) {
       expect(src).not.toContain(banned)
     }

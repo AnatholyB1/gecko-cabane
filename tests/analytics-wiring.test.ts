@@ -27,7 +27,7 @@ describe('PlausibleScript', () => {
     expect(src).toContain('return null')
     expect(src).toContain('/gcm/js/script.js')
     expect(src).toContain('/gcm/api/event')
-    expect(src).toContain('strategy="afterInteractive"')
+    expect(src).toContain('strategy="lazyOnload"')
   })
 })
 
