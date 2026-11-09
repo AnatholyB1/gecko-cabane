@@ -1,6 +1,7 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
+import { buildCsp } from './src/utils/csp';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
@@ -21,7 +22,7 @@ const nextConfig: NextConfig = {
   // WiFi credentials are rendered per request: never cache (T-07-05-03).
   async headers() {
     return [
-      // SEC-01..04: baseline security headers on every route (no CSP here: SEC-05).
+      // SEC-01..04: baseline security headers on every route (CSP is the next rule: SEC-05).
       {
         source: '/:path*',
         headers: [
@@ -34,8 +35,21 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // SEC-05: Content-Security-Policy, applied (not Report-Only). See src/utils/csp.ts for the trade-offs.
       {
-        source: '/:locale(fr|en)/wifi',
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: buildCsp({
+              dev: process.env.NODE_ENV !== 'production',
+              upgradeInsecureRequests: process.env.VERCEL === '1',
+            }),
+          },
+        ],
+      },
+      {
+        source: '/:locale(fr|en|de|sv)/wifi',
         headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
       },
       // Plausible script proxied from plausible.io (rewrite below): without this it is served with a
