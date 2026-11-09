@@ -25,6 +25,12 @@ const nextConfig: NextConfig = {
         source: '/:locale(fr|en)/wifi',
         headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
       },
+      // Plausible script proxied from plausible.io (rewrite below): without this it is served with a
+      // short TTL (PERF-04). Long cache + revalidation window; the script is not versioned in its URL.
+      {
+        source: '/gcm/js/script.js',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
+      },
     ];
   },
   // Plausible first-party proxy (D-02). Keyed on the same env var as PlausibleScript.

@@ -2,11 +2,10 @@ import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
 import { routing } from '@/i18n/routing'
+import { classifyPath } from '@/utils/middleware-routing'
 
 const intlMiddleware = createIntlMiddleware(routing)
 
-const REVIEW_ALIASES = new Set(['/review', '/avis', '/bewertung'])
-const NEWSLETTER_ALIASES = new Set(['/newsletter', '/wifi'])
 
 const PUBLIC_ADMIN_PAGES = new Set(['/admin/login', '/admin/mot-de-passe-oublie', '/admin/invitation', '/admin/reinitialiser'])
 const BOUNCE_WHEN_SIGNED_IN = new Set(['/admin/login', '/admin/mot-de-passe-oublie'])
@@ -14,21 +13,18 @@ const BOUNCE_WHEN_SIGNED_IN = new Set(['/admin/login', '/admin/mot-de-passe-oubl
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip Sentry tunnel and dev tools entirely — no auth, no i18n
-  if (pathname.startsWith('/monitoring')) {
+  // Skip Sentry tunnel and dev tools entirely (no auth, no i18n). Review / newsletter / wifi short
+  // URLs: next-intl (localePrefix 'always') would otherwise redirect /review to /fr/review before the
+  // alias handler can resolve the locale; no session needed there either.
+  const kind = classifyPath(pathname)
+  if (kind === 'monitoring' || kind === 'alias') {
     return NextResponse.next()
   }
 
-  // Review short URLs: next-intl (localePrefix 'always') would otherwise redirect
-  // /review to /fr/review before the alias handler can resolve the locale.
-  // No auth or session is needed on these paths.
-  if (REVIEW_ALIASES.has(pathname)) {
-    return NextResponse.next()
-  }
-
-  // Bill QR and WiFi card short URLs: same reason, locale resolved by the alias route.
-  if (NEWSLETTER_ALIASES.has(pathname)) {
-    return NextResponse.next()
+  // Public pages: locale routing only, never Supabase (D-01). The session is not refreshed here, so
+  // the HTML stays cacheable; it is refreshed on /admin, /api and /auth below.
+  if (kind === 'public') {
+    return intlMiddleware(request)
   }
 
   // Collect cookies Supabase wants to write during session refresh.
@@ -113,14 +109,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // ── Pass-through for admin / API / auth-callback ──────────────────────────
-  if (isAdminRoute || pathname.startsWith('/api') || pathname.startsWith('/auth')) {
-    return withCookies(NextResponse.next({ request }))
-  }
-
-  // ── Public pages: next-intl locale routing ────────────────────────────────
-  // Let next-intl build its response (redirect / rewrite for locale prefix),
-  // then stamp any refreshed session cookies onto it.
-  return withCookies(intlMiddleware(request))
+  return withCookies(NextResponse.next({ request }))
 }
 
 export const config = {

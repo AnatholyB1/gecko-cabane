@@ -10,6 +10,7 @@ import { join } from 'node:path'
 
 const root = join(__dirname, '..')
 const middlewareSrc = readFileSync(join(root, 'src/middleware.ts'), 'utf8')
+const routingSrc = readFileSync(join(root, 'src/utils/middleware-routing.ts'), 'utf8')
 const nextConfigSrc = readFileSync(join(root, 'next.config.ts'), 'utf8')
 
 function matcherRegex(): RegExp {
@@ -75,21 +76,21 @@ describe('root redirect', () => {
 
 describe('review alias pass-through', () => {
   it('lists the three aliases before the Supabase client is created', () => {
-    const passIdx = middlewareSrc.indexOf('REVIEW_ALIASES.has(pathname)')
+    const passIdx = middlewareSrc.indexOf("kind === 'alias'")
     expect(passIdx).toBeGreaterThan(-1)
-    expect(middlewareSrc).toContain("'/review'")
-    expect(middlewareSrc).toContain("'/avis'")
-    expect(middlewareSrc).toContain("'/bewertung'")
+    expect(routingSrc).toContain("'/review'")
+    expect(routingSrc).toContain("'/avis'")
+    expect(routingSrc).toContain("'/bewertung'")
     expect(passIdx).toBeLessThan(middlewareSrc.indexOf('createServerClient('))
   })
 })
 
 describe('newsletter alias pass-through and pdf exclusion', () => {
   it('lists /newsletter and /wifi before the Supabase client is created', () => {
-    const passIdx = middlewareSrc.indexOf('NEWSLETTER_ALIASES.has(pathname)')
+    const passIdx = middlewareSrc.indexOf("kind === 'alias'")
     expect(passIdx).toBeGreaterThan(-1)
-    expect(middlewareSrc).toContain("'/newsletter'")
-    expect(middlewareSrc).toContain("'/wifi'")
+    expect(routingSrc).toContain("'/newsletter'")
+    expect(routingSrc).toContain("'/wifi'")
     expect(passIdx).toBeLessThan(middlewareSrc.indexOf('createServerClient('))
   })
 

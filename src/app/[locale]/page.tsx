@@ -1,7 +1,7 @@
 // src/app/[locale]/page.tsx
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import HoursDisplay from '@/components/HoursDisplay'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import MenuTeaser from '@/components/MenuTeaser'
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations()
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale })
   const guideItems = await getGuideItems(locale)
   const footerGuides = guidesFor(toSeoLocale(locale))
   // Hours text comes from gecko_opening_hours (same source as the schema); null = not uniform or unreadable

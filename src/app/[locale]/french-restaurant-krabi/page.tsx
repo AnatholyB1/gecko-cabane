@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedPageMetadata } from '@/utils/page-metadata'
 import { googleMapsPlaceUrl, mapOpeningHours, PAGES, toSeoLocale, type SeoLocale } from '@/utils/seo'
@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function FrenchRestaurantPage({ params }: Props) {
   const { locale: rawLocale } = await params
   const locale = toSeoLocale(rawLocale)
+  setRequestLocale(locale)
   if (!hasContent(locale)) notFound()
 
   const t = await getTranslations({ locale, namespace: 'frenchRestaurant' })
