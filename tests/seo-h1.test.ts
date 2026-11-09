@@ -33,6 +33,38 @@ describe('home H1 (ONP-01)', () => {
   })
 })
 
+// Owner decision 2026-11-09: descriptive H1 on /menu, /review and /wifi (4 locales).
+const UTILITY_H1: Record<string, Record<string, string>> = {
+  menuPage: {
+    fr: 'Menu franco-thaï à Krabi Town',
+    en: 'French-Thai Menu in Krabi Town',
+    de: 'Französisch-thailändische Speisekarte in Krabi Town',
+    sv: 'Fransk-thailändsk meny i Krabi Town',
+  },
+  review: {
+    fr: 'Votre avis sur Gecko Cabane',
+    en: 'Your review of Gecko Cabane',
+    de: 'Ihre Bewertung von Gecko Cabane',
+    sv: 'Din recension av Gecko Cabane',
+  },
+  wifi: {
+    fr: 'Wi-Fi du restaurant Gecko Cabane',
+    en: 'Gecko Cabane Restaurant Wi-Fi',
+    de: 'WLAN im Restaurant Gecko Cabane',
+    sv: 'Wifi på restaurang Gecko Cabane',
+  },
+}
+
+describe('descriptive H1 of /menu, /review, /wifi', () => {
+  it('has the decided H1 text in each locale', () => {
+    for (const [ns, byLoc] of Object.entries(UTILITY_H1)) {
+      for (const [loc, text] of Object.entries(byLoc)) {
+        expect(JSON.parse(read(`messages/${loc}.json`))[ns].title, `${ns} ${loc}`).toBe(text)
+      }
+    }
+  })
+})
+
 describe('one h1 per public page (ONP-10)', () => {
   const dirs: string[] = []
   const walk = (d: string) => {

@@ -253,7 +253,7 @@
   },
   "review": {
     "metaTitle": "Lämna en recension",
-    "title": "Din åsikt betyder mycket för oss",
+    "title": "Din recension av Gecko Cabane",
     "intro": "Tack för att du åt hos oss. Har du en minut över hjälper en recension oss väldigt mycket.",
     "google": "Recension på Google",
     "tripadvisor": "Recension på TripAdvisor",
@@ -411,7 +411,7 @@
   },
   "menuPage": {
     "eyebrow": "Gecko Cabane · Krabi Town",
-    "title": "Vår meny",
+    "title": "Fransk-thailändsk meny i Krabi Town",
     "intro": "Franskt och thailändskt kök av kocken Jariya. Priser i thailändska baht. Rätterna är beskrivna på franska.",
     "legendTitle": "Teckenförklaring",
     "allergyNote": "Allergier: fråga vår personal om råd. Glutenfria rätter finns på begäran.",
@@ -481,7 +481,7 @@
   },
   "wifi": {
     "metaTitle": "Wifi",
-    "title": "Wifi på restaurangen",
+    "title": "Wifi på restaurang Gecko Cabane",
     "network": "Nätverk",
     "password": "Lösenord",
     "copy": "Kopiera lösenordet",
