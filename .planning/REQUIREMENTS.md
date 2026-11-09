@@ -8,41 +8,41 @@
 
 ### Vitesse mobile (PERF)
 
-- [ ] **PERF-01**: La cause du rendu dynamique (`cache-control: private, no-cache, no-store`) dans `app/[locale]` est identifiée et supprimée (cookies(), headers(), searchParams, fetch sans cache…)
-- [ ] **PERF-02**: Les pages publiques /fr /en /de /sv sont servies en statique ou ISR (`generateStaticParams`, `revalidate` si besoin) avec un cache public : `x-vercel-cache: HIT` après le premier appel
-- [ ] **PERF-03**: Les polices (dont Cinzel Decorative du H1, élément LCP) se chargent via `next/font` (subset latin, display swap, preload), sans chargement externe ni bloquant
-- [ ] **PERF-04**: Le JavaScript inutile est réduit (≈ 60 Ko inutilisés, 14 Ko de polyfills) : composants serveur par défaut, sections sous la ligne de flottaison chargées en différé
-- [ ] **PERF-05**: `/gcm/js/script.js` a un cache long (immutable) ou est chargé via `next/script` `lazyOnload`
-- [ ] **PERF-06**: Toutes les images ont width/height (ou équivalent) : pas de décalage de mise en page
-- [ ] **PERF-07**: Lighthouse mobile ≥ 90 sur /fr et /en, mesuré (base : 72, LCP 3,8 s, TBT 680 ms)
+- [x] **PERF-01**: La cause du rendu dynamique (`cache-control: private, no-cache, no-store`) dans `app/[locale]` est identifiée et supprimée (cookies(), headers(), searchParams, fetch sans cache…)
+- [ ] **PERF-02**: Les pages publiques /fr /en /de /sv sont servies en statique ou ISR (`generateStaticParams`, `revalidate` si besoin) avec un cache public : `x-vercel-cache: HIT` après le premier appel *(local : Cache-Control public, SSG 1 h, sans set-cookie ; `x-vercel-cache: HIT` à contrôler en ligne)*
+- [x] **PERF-03**: Les polices (dont Cinzel Decorative du H1, élément LCP) se chargent via `next/font` (subset latin, display swap, preload), sans chargement externe ni bloquant
+- [ ] **PERF-04**: Le JavaScript inutile est réduit (≈ 60 Ko inutilisés, 14 Ko de polyfills) : composants serveur par défaut, sections sous la ligne de flottaison chargées en différé *(partiel : -11,6 % gzip sur /fr ; Sentry client ~74 Ko non touché, décision propriétaire ; polyfills 13 Ko restent)*
+- [ ] **PERF-05**: `/gcm/js/script.js` a un cache long (immutable) ou est chargé via `next/script` `lazyOnload` *(partiel : lazyOnload + cache 7 j dans la source ; rewrite Plausible non exercé en local)*
+- [x] **PERF-06**: Toutes les images ont width/height (ou équivalent) : pas de décalage de mise en page
+- [ ] **PERF-07**: Lighthouse mobile ≥ 90 sur /fr et /en, mesuré (base : 72, LCP 3,8 s, TBT 680 ms) *(NON atteint en local : médiane 73-75, mesure dépendante de la machine ; à mesurer en ligne après déploiement)*
 
 ### SEO on-page (ONP)
 
-- [ ] **ONP-01**: Sur chaque accueil, le logo « GECKO CABANE » reste visuel mais n'est plus un H1 ; un vrai H1 par langue (EN « French-Thai Restaurant in Krabi Town », FR « Restaurant franco-thaï à Krabi Town », DE et SV équivalents)
-- [ ] **ONP-02**: Accueil EN : title « Gecko Cabane – Best French-Thai Restaurant in Krabi Town » et meta description avec « restaurant in Krabi », la cheffe Jariya, la note 4,7★ et la réservation en ligne
-- [ ] **ONP-03**: `/en/french-restaurant-krabi` : title et description réécrits pour « krabi town restaurant » et « best restaurant krabi » (note, plats phares, ouvert 7j/7)
-- [ ] **ONP-04**: Versions fr/de/sv de `/en/getting-here-from-ao-nang`, slugs traduits, hreflang
-- [ ] **ONP-05**: Versions fr/de/sv de `/en/wine-belgian-beer-krabi`, slugs traduits, hreflang
-- [ ] **ONP-06**: Le sitemap contient les nouvelles pages ; les hreflang sont réciproques entre toutes les versions
-- [ ] **ONP-07**: La page menu a un JSON-LD schema.org Menu (MenuSection, MenuItem avec name, description, offers.price en THB) généré depuis les données de la carte, valide au Rich Results Test, en plus du JSON-LD Restaurant
-- [ ] **ONP-08**: Toutes les pages internes ont og:image et balises Twitter (aujourd'hui seulement les accueils)
-- [ ] **ONP-09**: Plus aucun texte ni meta ne parle d'un « couple franco-thaï » ; la présentation officielle est la cheffe Jariya
-- [ ] **ONP-10**: Un seul H1 descriptif par page publique
-- [ ] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production
+- [x] **ONP-01**: Sur chaque accueil, le logo « GECKO CABANE » reste visuel mais n'est plus un H1 ; un vrai H1 par langue (EN « French-Thai Restaurant in Krabi Town », FR « Restaurant franco-thaï à Krabi Town », DE et SV équivalents)
+- [x] **ONP-02**: Accueil EN : title « Gecko Cabane – Best French-Thai Restaurant in Krabi Town » et meta description avec « restaurant in Krabi », la cheffe Jariya, la note 4,7★ et la réservation en ligne
+- [x] **ONP-03**: `/en/french-restaurant-krabi` : title et description réécrits pour « krabi town restaurant » et « best restaurant krabi » (note, plats phares, ouvert 7j/7)
+- [ ] **ONP-04**: Versions fr/de/sv de `/en/getting-here-from-ao-nang`, slugs traduits, hreflang *(partiel : de/sv noindex, hors sitemap et hreflang jusqu'à relecture humaine)*
+- [ ] **ONP-05**: Versions fr/de/sv de `/en/wine-belgian-beer-krabi`, slugs traduits, hreflang *(partiel : de/sv noindex, hors sitemap et hreflang jusqu'à relecture humaine)*
+- [x] **ONP-06**: Le sitemap contient les nouvelles pages ; les hreflang sont réciproques entre toutes les versions
+- [x] **ONP-07**: La page menu a un JSON-LD schema.org Menu (MenuSection, MenuItem avec name, description, offers.price en THB) généré depuis les données de la carte, valide au Rich Results Test, en plus du JSON-LD Restaurant
+- [x] **ONP-08**: Toutes les pages internes ont og:image et balises Twitter (aujourd'hui seulement les accueils)
+- [ ] **ONP-09**: Plus aucun texte ni meta ne parle d'un « couple franco-thaï » ; la présentation officielle est la cheffe Jariya *(partiel : « couple franco-thaï » retiré ; « son mari français Frédéric » reste, décision propriétaire)*
+- [x] **ONP-10**: Un seul H1 descriptif par page publique
+- [ ] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production *(verrou humain : relecture DE/SV à faire)*
 
 ### Sécurité (SEC)
 
-- [ ] **SEC-01**: `next.config` envoie `X-Content-Type-Options: nosniff`
-- [ ] **SEC-02**: `next.config` envoie `Referrer-Policy: strict-origin-when-cross-origin`
-- [ ] **SEC-03**: `next.config` envoie `X-Frame-Options: SAMEORIGIN`
-- [ ] **SEC-04**: `next.config` envoie une `Permissions-Policy` minimale
-- [ ] **SEC-05**: Une `Content-Security-Policy` compatible avec les scripts existants (GTM/analytics, Google Maps, Sentry, Supabase) ne casse ni la réservation ni l'admin ; vérifiée dans le navigateur sans violation bloquante
+- [x] **SEC-01**: `next.config` envoie `X-Content-Type-Options: nosniff`
+- [x] **SEC-02**: `next.config` envoie `Referrer-Policy: strict-origin-when-cross-origin`
+- [x] **SEC-03**: `next.config` envoie `X-Frame-Options: SAMEORIGIN`
+- [x] **SEC-04**: `next.config` envoie une `Permissions-Policy` minimale
+- [x] **SEC-05**: Une `Content-Security-Policy` compatible avec les scripts existants (GTM/analytics, Google Maps, Sentry, Supabase) ne casse ni la réservation ni l'admin ; vérifiée dans le navigateur sans violation bloquante
 
 ### Accessibilité mobile (A11Y)
 
-- [ ] **A11Y-01**: Les contrastes insuffisants signalés par Lighthouse sont corrigés sans changer l'identité visuelle
-- [ ] **A11Y-02**: Les zones cliquables trop petites sur mobile font au moins 48 px
-- [ ] **A11Y-03**: Les `aria-label` sont alignés avec le texte visible
+- [x] **A11Y-01**: Les contrastes insuffisants signalés par Lighthouse sont corrigés sans changer l'identité visuelle
+- [ ] **A11Y-02**: Les zones cliquables trop petites sur mobile font au moins 48 px *(partiel : 48 px sauf sélecteur de langue 25-27 px de large et lien Réserver de l'accueil 39 px avec zone étendue)*
+- [x] **A11Y-03**: Les `aria-label` sont alignés avec le texte visible
 
 ## Future Requirements (reportées)
 

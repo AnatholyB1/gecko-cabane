@@ -32,9 +32,9 @@ Détail complet des phases, critères de succès et preuves : `.planning/milesto
 
 **Milestone v1.2 : Vitesse mobile, SEO on-page et sécurité** (Phases 18-20, numérotation continue depuis v1.1)
 
-- [ ] **Phase 18: Vitesse mobile** - Pages publiques statiques/ISR avec cache public, polices via next/font, moins de JS, images dimensionnées, script analytics en cache long
-- [ ] **Phase 19: SEO on-page** - H1 par langue, metas EN réécrites, pages fr/de/sv de getting-here et wine-belgian-beer, JSON-LD Menu, og:image partout, retrait du « couple »
-- [ ] **Phase 20: Sécurité, accessibilité et mesure finale** - En-têtes de sécurité et CSP, contrastes/zones cliquables/aria-label, puis Lighthouse mobile >= 90 mesuré sur le site final
+- [~] **Phase 18: Vitesse mobile** - Pages publiques statiques/ISR avec cache public, polices via next/font, moins de JS, images dimensionnées, script analytics en cache long
+- [~] **Phase 19: SEO on-page** - H1 par langue, metas EN réécrites, pages fr/de/sv de getting-here et wine-belgian-beer, JSON-LD Menu, og:image partout, retrait du « couple »
+- [~] **Phase 20: Sécurité, accessibilité et mesure finale** - En-têtes de sécurité et CSP, contrastes/zones cliquables/aria-label, puis Lighthouse mobile >= 90 mesuré sur le site final
 
 ## Phase Details
 
@@ -80,9 +80,9 @@ Détail complet des phases, critères de succès et preuves : `.planning/milesto
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 18. Vitesse mobile | 0/? | Not started | - |
-| 19. SEO on-page | 0/? | Not started | - |
-| 20. Sécurité, accessibilité et mesure finale | 0/? | Not started | - |
+| 18. Vitesse mobile | build orchestré (sans plans GSD) | Code livré, PERF-02/04/05 partiels | 2026-11-09 |
+| 19. SEO on-page | build orchestré (sans plans GSD) | Code livré ; ONP-04/05/09 partiels, ONP-11 relecture humaine | 2026-11-09 |
+| 20. Sécurité, accessibilité et mesure finale | build orchestré (sans plans GSD) | SEC et A11Y livrés (A11Y-02 partiel) ; PERF-07 non atteint en local | 2026-11-09 |
 
 ---
 *Roadmap v1.2 créée le 2026-11-09. Historique : `.planning/milestones/`.*
