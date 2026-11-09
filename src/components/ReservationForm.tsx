@@ -2,15 +2,22 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js/min'
 import type { CountryCode } from 'libphonenumber-js'
 import { Link } from '@/i18n/navigation'
-import { phoneCountryForLocale, isEmailValid } from '@/utils/validation'
+import { phoneCountryForLocale, isEmailValid } from '@/utils/form-basics'
 import { availableSlotsForDate, bangkokNow, bookableSlots, MAX_PARTY_SIZE } from '@/utils/reservation-rules'
 import type { HoursRow, SettingsMap } from '@/utils/reservation-rules'
 import { buildWhatsAppUrl, getWhatsAppNumber } from '@/utils/whatsapp'
 import { track, EVENTS } from '@/utils/analytics'
 import { readAttribution } from '@/utils/attribution'
+
+// libphonenumber (~120 KB) is only needed once a number is typed: fetched on first input, not at page load.
+type PhoneLib = typeof import('libphonenumber-js/min')
+let phoneLibPromise: Promise<PhoneLib> | null = null
+function loadPhoneLib(): Promise<PhoneLib> {
+  phoneLibPromise ??= import('libphonenumber-js/min')
+  return phoneLibPromise
+}
 
 interface Country {
   code: CountryCode
@@ -139,6 +146,7 @@ export default function ReservationForm() {
   const defaultCountry = phoneCountryForLocale(locale)
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(defaultCountry)
   const [localPhone, setLocalPhone] = useState('')
+  const [phoneLib, setPhoneLib] = useState<PhoneLib | null>(null)
 
   const [form, setForm] = useState(EMPTY_FORM)
 
@@ -197,27 +205,43 @@ export default function ReservationForm() {
   const selectedCountry = COUNTRIES.find(c => c.code === selectedCountryCode) ?? COUNTRIES[0]
 
   // Build E.164 from local input + country
-  const fullPhone = useMemo<string>(() => {
-    if (!localPhone.trim()) return ''
-    try {
-      return parsePhoneNumber(localPhone, selectedCountryCode).number
-    } catch {
-      const digits = localPhone.replace(/\D/g, '').replace(/^0+/, '')
-      return selectedCountry.dialCode + digits
+  useEffect(() => {
+    if (!localPhone.trim() || phoneLib) return
+    let cancelled = false
+    loadPhoneLib()
+      .then((lib) => {
+        if (!cancelled) setPhoneLib(lib)
+      })
+      .catch(() => {
+        // offline or chunk failure: the digits fallback below applies and the server stays the authority
+      })
+    return () => {
+      cancelled = true
     }
-  }, [localPhone, selectedCountryCode, selectedCountry.dialCode])
+  }, [localPhone, phoneLib])
 
-  // Is the local number valid for the selected country?
-  const phoneIsValid = useMemo<boolean>(() => {
-    if (!localPhone.trim()) return false
+  function toE164(lib: PhoneLib | null, phone: string): string {
+    if (!phone.trim()) return ''
     try {
-      return isValidPhoneNumber(localPhone, selectedCountryCode)
+      if (lib) return lib.parsePhoneNumber(phone, selectedCountryCode).number
+    } catch {
+      // fall through to the digits fallback
+    }
+    const digits = phone.replace(/\D/g, '').replace(/^0+/, '')
+    return selectedCountry.dialCode + digits
+  }
+
+  // Is the local number valid for the selected country? Unknown (no error shown) until the library is loaded.
+  const phoneIsValid = useMemo<boolean>(() => {
+    if (!localPhone.trim() || !phoneLib) return false
+    try {
+      return phoneLib.isValidPhoneNumber(localPhone, selectedCountryCode)
     } catch {
       return false
     }
-  }, [localPhone, selectedCountryCode])
+  }, [localPhone, selectedCountryCode, phoneLib])
 
-  const phoneShowError = localPhone.trim() !== '' && !phoneIsValid
+  const phoneShowError = phoneLib !== null && localPhone.trim() !== '' && !phoneIsValid
   const emailShowError = emailTouched && form.customer_email.trim() !== '' && !isEmailValid(form.customer_email.trim())
 
   async function handleSubmit(e: React.FormEvent) {
@@ -227,6 +251,8 @@ export default function ReservationForm() {
     setLoading(true)
 
     try {
+      // The E.164 number must be built with the real parser, never the fallback.
+      const lib = await loadPhoneLib().catch(() => null)
       const attribution = readAttribution()
       const response = await fetch('/api/reservations', {
         method: 'POST',
@@ -235,7 +261,7 @@ export default function ReservationForm() {
           ...attribution,
           ...form,
           reservation_time: selectedTime,
-          customer_phone: fullPhone,
+          customer_phone: toE164(lib, localPhone),
           phone_country: selectedCountryCode,
           locale,
           marketing_consent: marketingConsent,
