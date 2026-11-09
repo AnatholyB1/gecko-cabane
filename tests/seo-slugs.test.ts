@@ -116,7 +116,8 @@ describe('buildPathnames / routing', () => {
 
 describe('resolvePageSeo', () => {
   it('noindexes unpublished pairs', () => {
-    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'fr').index).toBe(false)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'de').index).toBe(false)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'fr').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'en').index).toBe(true)
   })
 

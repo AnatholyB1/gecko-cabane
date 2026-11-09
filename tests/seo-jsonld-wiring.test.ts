@@ -60,11 +60,12 @@ describe('RestaurantJsonLd component', () => {
   it('is rendered by the home page', () => {
     expect(read('src/app/[locale]/page.tsx')).toContain('<RestaurantJsonLd')
   })
-  it('is the only JSON-LD emitter under src', () => {
+  it('is, with MenuJsonLd (ONP-07), the only JSON-LD emitter under src', () => {
     const hits = walk(join(root, 'src')).filter((f) =>
       readFileSync(f, 'utf8').includes('application/ld+json'),
     )
-    expect(hits.map((f) => f.replace(/\\/g, '/').split('/src/')[1])).toEqual([
+    expect(hits.map((f) => f.replace(/\\/g, '/').split('/src/')[1]).sort()).toEqual([
+      'components/MenuJsonLd.tsx',
       'components/RestaurantJsonLd.tsx',
     ])
   })
