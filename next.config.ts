@@ -21,6 +21,19 @@ const nextConfig: NextConfig = {
   // WiFi credentials are rendered per request: never cache (T-07-05-03).
   async headers() {
     return [
+      // SEC-01..04: baseline security headers on every route (no CSP here: SEC-05).
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), payment=(), usb=(), bluetooth=(), serial=(), hid=(), magnetometer=(), gyroscope=(), accelerometer=()',
+          },
+        ],
+      },
       {
         source: '/:locale(fr|en)/wifi',
         headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
