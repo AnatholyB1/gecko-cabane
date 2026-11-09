@@ -253,7 +253,7 @@
   },
   "review": {
     "metaTitle": "Leave a review",
-    "title": "Your opinion matters to us",
+    "title": "Your review of Gecko Cabane",
     "intro": "Thank you for sharing a meal at our table. If you have a minute, a review helps us a great deal.",
     "google": "Review on Google",
     "tripadvisor": "Review on TripAdvisor",
@@ -411,7 +411,7 @@
   },
   "menuPage": {
     "eyebrow": "Gecko Cabane · Krabi Town",
-    "title": "Our menu",
+    "title": "French-Thai Menu in Krabi Town",
     "intro": "French and Thai cooking by Chef Jariya. Prices in Thai baht.",
     "legendTitle": "Key",
     "allergyNote": "Allergies: please ask our team for advice. Gluten-free dishes are available on request.",
@@ -481,7 +481,7 @@
   },
   "wifi": {
     "metaTitle": "WiFi",
-    "title": "Restaurant WiFi",
+    "title": "Gecko Cabane Restaurant Wi-Fi",
     "network": "Network",
     "password": "Password",
     "copy": "Copy password",
