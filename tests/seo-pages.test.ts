@@ -17,7 +17,7 @@ const en = JSON.parse(read('messages/en.json'))
 
 describe('meta namespace', () => {
   it('has the exact home titles', () => {
-    expect(en.meta.homeTitle).toBe('Gecko Cabane – French-Thai Restaurant in Krabi, Open Daily')
+    expect(en.meta.homeTitle).toBe('Gecko Cabane – Best French-Thai Restaurant in Krabi Town')
     expect(fr.meta.homeTitle).toBe('Gecko Cabane – Restaurant franco-thaï à Krabi, ouvert 7j/7')
   })
 
@@ -43,8 +43,13 @@ describe('meta namespace', () => {
         expect(seen.has(v), `${loc}.${k} duplicated`).toBe(false)
         seen.add(v)
         // no hard-coded hours, ratings or unverifiable superlatives
-        expect(v, `${loc}.${k}`).not.toMatch(/\d\s?[h:]\s?\d|\d\s?(am|pm|Uhr)\b|\b\d[.,]\d\b|\bavis\b|reviews?\b|Bewertung|recension/i)
-        expect(v, `${loc}.${k}`).not.toMatch(/\b(best|meilleur|beste[rn]?|bäst|bästa)\b/i)
+        expect(v, `${loc}.${k}`).not.toMatch(/\d\s?[h:]\s?\d|\d\s?(am|pm|Uhr)\b/i)
+        // ONP-02/03 (owner request): the EN home and french-restaurant meta carry the
+        // Google rating (4.7) and the requested "Best" wording; other locales stay strict.
+        if (loc !== 'en') {
+          expect(v, `${loc}.${k}`).not.toMatch(/\b\d[.,]\d\b|\bavis\b|reviews?\b|Bewertung|recension/i)
+          expect(v, `${loc}.${k}`).not.toMatch(/\b(best|meilleur|beste[rn]?|bäst|bästa)\b/i)
+        }
       }
     }
   })

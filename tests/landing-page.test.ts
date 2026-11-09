@@ -89,7 +89,8 @@ describe('landing copy', () => {
   it('has landing meta within limits', () => {
     const t: string = en.meta.frenchRestaurantTitle
     const d: string = en.meta.frenchRestaurantDescription
-    expect(t.toLowerCase()).toContain('french restaurant')
+    // ONP-03 (owner request): the EN title now targets "krabi town restaurant" instead of "french restaurant"
+    expect(t.toLowerCase()).toContain('krabi town restaurant')
     expect(t).toContain('Krabi')
     expect(t.length).toBeGreaterThanOrEqual(40)
     expect(t.length).toBeLessThanOrEqual(60)
