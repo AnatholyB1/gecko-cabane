@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { switcherTargets } from '@/utils/seo'
 
 const BASE =
-  'inline-flex items-center min-h-12 px-2 sm:px-3 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
+  'inline-flex items-center min-h-12 px-[5px] sm:px-3.5 font-raleway text-[11px] sm:text-[12px] tracking-[0.08em] sm:tracking-[0.15em] uppercase border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gc-gold'
 
 /**
  * Slug-aware switcher (D-05): only offers locales in which the current page is
