@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
 import { routing } from '@/i18n/routing'
-import { classifyPath } from '@/utils/middleware-routing'
+import { classifyPath, unknownLocalePathLocale } from '@/utils/middleware-routing'
 
 const intlMiddleware = createIntlMiddleware(routing)
 
@@ -24,6 +24,12 @@ export async function middleware(request: NextRequest) {
   // Public pages: locale routing only, never Supabase (D-01). The session is not refreshed here, so
   // the HTML stays cacheable; it is refreshed on /admin, /api and /auth below.
   if (kind === 'public') {
+    const unknownLocale = unknownLocalePathLocale(pathname)
+    if (unknownLocale) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${unknownLocale}/not-found-fallback`
+      return NextResponse.rewrite(url, { status: 404 })
+    }
     return intlMiddleware(request)
   }
 

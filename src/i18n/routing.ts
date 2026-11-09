@@ -7,6 +7,8 @@ export const routing = defineRouting({
   defaultLocale,
   localePrefix: 'always',
   localeDetection: false,
+  // No NEXT_LOCALE cookie: the locale is always in the URL, and a Set-Cookie would bypass CDN s-maxage caching.
+  localeCookie: false,
   // No Link hreflang header: HTML hreflang (x-default -> /fr) is the only signal
   alternateLinks: false,
   // Translated slugs come from the single registry (D-01); EN keeps the key as-is.
