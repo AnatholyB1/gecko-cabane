@@ -30,11 +30,11 @@ export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLoca
   { path: '/french-restaurant-krabi', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/where-to-eat-krabi-town', locales: ['fr', 'en', 'de', 'sv'] },
-  // ONP-04: fr published; de/sv content exists but stays unlisted until the human review (ONP-11)
-  { path: '/getting-here-from-ao-nang', locales: ['fr', 'en'] },
+  // ONP-04: fr/en published; de/sv published after the owner validated the DE/SV review file (2026-11-10, ONP-11)
+  { path: '/getting-here-from-ao-nang', locales: ['fr', 'en', 'de', 'sv'] },
   // Owner alcohol-advertising sign-off: publish, 2026-10-18 (plan 12)
-  // ONP-05: the alcohol sign-off covers the EN text; the FR text needs the same owner OK
-  { path: '/wine-belgian-beer-krabi', locales: ['fr', 'en'] },
+  // ONP-05: de/sv published after the owner validation of 2026-11-10 (signed review sheets, folder ph6 per locale)
+  { path: '/wine-belgian-beer-krabi', locales: ['fr', 'en', 'de', 'sv'] },
 ]
 
 /** Bilingual published paths (D-14), derived from PUBLISHED_PAGES. */

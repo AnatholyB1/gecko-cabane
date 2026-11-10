@@ -76,6 +76,17 @@ describe('sitemap hreflang reciprocity', () => {
 })
 
 describe('pages with content but not yet published in a locale', () => {
+  // Since the 2026-11-10 validation no page has unpublished content locales left in PAGES;
+  // the privacy policy de/sv is the remaining unpublished pair and must stay out everywhere.
+  for (const locale of ['de', 'sv'] as const) {
+    it(`"/privacy" [${locale}] is noindex, absent from the sitemap and from every hreflang`, () => {
+      expect(publishedLocales('/privacy')).toEqual(['fr', 'en'])
+      expect(resolvePageSeo('/privacy', locale).index).toBe(false)
+      const own = localeUrl(locale, '/privacy')
+      expect(urls.has(own)).toBe(false)
+      for (const e of entries) expect(Object.values(langsOf(e))).not.toContain(own)
+    })
+  }
   for (const page of PAGES) {
     for (const locale of page.contentLocales) {
       if (publishedLocales(page.key).includes(locale)) continue
@@ -104,9 +115,20 @@ describe('ONP-04 / ONP-05 translated pages', () => {
     it(`${key} has translated slugs in all four locales`, () => {
       for (const l of ['fr', 'en', 'de', 'sv'] as const) expect(localeUrl(l, key)).toBe(`https://geckocabanerestaurant.com${paths[l]}`)
     })
-    it(`${key} is listed in fr and en, hreflang covers exactly those`, () => {
-      expect(publishedLocales(key)).toEqual(['fr', 'en'])
-      expect(Object.keys(pageLanguages(key, publishedLocales(key))).sort()).toEqual(['en', 'fr', 'x-default'])
+    it(`${key} is published in the four locales, hreflang covers exactly those plus x-default`, () => {
+      expect(publishedLocales(key)).toEqual(['fr', 'en', 'de', 'sv'])
+      const langs = pageLanguages(key, publishedLocales(key))
+      expect(Object.keys(langs).sort()).toEqual(['de', 'en', 'fr', 'sv', 'x-default'])
+      for (const l of ['fr', 'en', 'de', 'sv'] as const) expect(langs[l]).toBe(localeUrl(l, key))
+      expect(langs['x-default']).toBe(localeUrl('fr', key))
+    })
+    it(`${key} is indexable in the four locales, in the sitemap with reciprocal alternates`, () => {
+      for (const l of ['fr', 'en', 'de', 'sv'] as const) {
+        expect(resolvePageSeo(key, l).index).toBe(true)
+        const e = entries.find((x) => x.url === localeUrl(l, key))
+        expect(e, `${l} ${key} missing from the sitemap`).toBeDefined()
+        expect(langsOf(e!)).toEqual(pageLanguages(key, ['fr', 'en', 'de', 'sv']))
+      }
     })
   }
 })

@@ -68,10 +68,18 @@ describe('de/sv publication gate', () => {
     })
   }
 
-  it('sv publication scope is exactly the signed set (home, menu and the three guides)', () => {
+  it('sv publication scope is exactly the signed set (home, menu and the five guides)', () => {
     const svPaths = PUBLISHED_PAGES.filter((p) => (p.locales as readonly string[]).includes('sv')).map((p) => p.path)
     expect(svPaths.sort()).toEqual(
-      ['', '/menu', '/french-restaurant-krabi', '/romantic-dinner-krabi', '/where-to-eat-krabi-town'].sort()
+      [
+        '',
+        '/menu',
+        '/french-restaurant-krabi',
+        '/romantic-dinner-krabi',
+        '/where-to-eat-krabi-town',
+        '/getting-here-from-ao-nang',
+        '/wine-belgian-beer-krabi',
+      ].sort()
     )
   })
 

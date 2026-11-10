@@ -116,7 +116,8 @@ describe('buildPathnames / routing', () => {
 
 describe('resolvePageSeo', () => {
   it('noindexes unpublished pairs', () => {
-    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'de').index).toBe(false)
+    expect(resolvePageSeo('/privacy', 'de').index).toBe(false)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'de').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'fr').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'en').index).toBe(true)
   })
@@ -194,8 +195,8 @@ describe('de/sv locales (D-05)', () => {
     expect(resolvePageSeo('', 'sv').index).toBe(true)
     expect(resolvePageSeo('/menu', 'sv').index).toBe(true)
     expect(resolvePageSeo('/privacy', 'sv').index).toBe(false)
-    expect(resolvePageSeo('/getting-here-from-ao-nang', 'sv').index).toBe(false)
-    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'sv').index).toBe(false)
+    expect(resolvePageSeo('/getting-here-from-ao-nang', 'sv').index).toBe(true)
+    expect(resolvePageSeo('/wine-belgian-beer-krabi', 'sv').index).toBe(true)
   })
 
   it('lists de/sv URLs of validated pages and no sv URL for unpublished pages', async () => {
@@ -224,16 +225,15 @@ describe('de/sv locales (D-05)', () => {
     expect(t.find((x) => x.current)?.locale).toBe('de')
   })
 
-  it('guidesFor de lists the three validated guides (no EN-only pages)', () => {
-    expect(guidesFor('de').map((g) => g.key)).toEqual([
+  it('guidesFor de/sv lists the five validated guides', () => {
+    const five = [
       '/french-restaurant-krabi',
       '/romantic-dinner-krabi',
       '/where-to-eat-krabi-town',
-    ])
-    expect(guidesFor('sv').map((g) => g.key)).toEqual([
-      '/french-restaurant-krabi',
-      '/romantic-dinner-krabi',
-      '/where-to-eat-krabi-town',
-    ])
+      '/getting-here-from-ao-nang',
+      '/wine-belgian-beer-krabi',
+    ]
+    expect(guidesFor('de').map((g) => g.key)).toEqual(five)
+    expect(guidesFor('sv').map((g) => g.key)).toEqual(five)
   })
 })

@@ -6,6 +6,8 @@
     "french-restaurant-krabi": { "pageKey": "/french-restaurant-krabi", "prefixes": ["frenchRestaurant", "meta.frenchRestaurantTitle", "meta.frenchRestaurantDescription"] },
     "romantic-dinner-krabi": { "pageKey": "/romantic-dinner-krabi", "prefixes": ["romanticDinner", "meta.romanticDinnerTitle", "meta.romanticDinnerDescription"] },
     "where-to-eat-krabi-town": { "pageKey": "/where-to-eat-krabi-town", "prefixes": ["whereToEat", "meta.whereToEatTitle", "meta.whereToEatDescription"] },
+    "getting-here-from-ao-nang": { "pageKey": "/getting-here-from-ao-nang", "prefixes": ["gettingHere", "meta.gettingHereTitle", "meta.gettingHereDescription"] },
+    "wine-belgian-beer-krabi": { "pageKey": "/wine-belgian-beer-krabi", "prefixes": ["wineBeer", "meta.wineBeerTitle", "meta.wineBeerDescription"] },
     "review": { "pageKey": null, "prefixes": ["review", "reviewFeedback"] }
   }
 }
