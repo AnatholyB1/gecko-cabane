@@ -33,4 +33,9 @@
 - [x] PERF-02 : `x-vercel-cache: HIT` au 2e appel sur /fr /en /de /sv /fr/menu, aucun `set-cookie`
 - [x] PERF-07 : Lighthouse mobile en ligne (3 passes) : /fr 96-97, /en 95-98 ; accessibilité, SEO, bonnes pratiques 100 ; LCP 1,2-1,6 s, TBT 160-250 ms, CLS 0 (base : 72)
 - [x] CSP, Permissions-Policy, Referrer-Policy et HSTS reçus en production ; pages de/sv (getting-here, wine-belgian-beer, privacy) en 200 ; /de/nope en 404 ; sitemap à 32 URLs
-- [ ] Restent à contrôler à la main : Google Maps réel sous la CSP (clic sur la carte, console), Plausible (variable + redéploiement), Sentry via /monitoring, Rich Results Test (Restaurant, Menu), soumission du sitemap à Search Console
+- [x] Google Maps sous la CSP : vérifié par le propriétaire (2026-11-10)
+- [x] Plausible en production (2026-11-10) : `/gcm/js/script.js` 200 (cache 7 j) et `POST /gcm/api/event` 202 sous la CSP
+- [x] Search Console (2026-11-10) : sitemap re-soumis (précédente soumission 2026-11-01, 24 URLs, 0 erreur ; le sitemap en compte maintenant 32)
+- [x] Rich Results Test sur /en/menu (2026-11-10) : 3 éléments valides (Local businesses, Organisation, Review snippets) ; Schema.org validator : Menu 0 erreur, 0 avertissement
+- [ ] Sentry via /monitoring : non vérifié (nécessite une erreur de test côté client)
+- [ ] À regarder : Review snippets détecté = un `aggregateRating` est dans le JSON-LD Restaurant ; la règle du projet ne l'autorise que si de vrais avis sont affichés sur la page
