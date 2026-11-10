@@ -119,14 +119,12 @@ describe.each(['fr', 'en'] as const)('buildRestaurantJsonLd(%s)', (locale) => {
 
   // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts
   it('aggregateRating mirrors social-proof constants and can be passed explicitly', () => {
+    // opt-in: absent by default (every page except the home page)
+    expect(ld).not.toHaveProperty('aggregateRating')
     const rating = aggregateRatingFor()
-    if (rating) {
-      expect(ld.aggregateRating).toEqual(rating)
-      expect(rating.ratingValue).toBe(SOCIAL_PROOF.rating)
-      expect(rating.reviewCount).toBe(SOCIAL_PROOF.reviewCount)
-    } else {
-      expect(ld).not.toHaveProperty('aggregateRating')
-    }
+    expect(rating).toMatchObject({ ratingValue: SOCIAL_PROOF.rating, reviewCount: SOCIAL_PROOF.reviewCount })
+    expect(buildRestaurantJsonLd({ locale, description: 'd', hoursRows: [], aggregateRating: rating }).aggregateRating).toEqual(rating)
+    expect(buildRestaurantJsonLd({ locale, description: 'd', hoursRows: [], aggregateRating: null })).not.toHaveProperty('aggregateRating')
     const forced = { '@type': 'AggregateRating' as const, ratingValue: 4.7, reviewCount: 1065, bestRating: 5, worstRating: 1 }
     const withRating = buildRestaurantJsonLd({ locale: 'fr', description: 'd', hoursRows: [], aggregateRating: forced })
     expect(withRating.aggregateRating).toEqual(forced)

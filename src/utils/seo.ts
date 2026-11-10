@@ -515,6 +515,7 @@ export function buildRestaurantJsonLd(args: {
   specialRows?: SpecialHoursRow[]
   today?: string
   sameAs?: readonly string[]
+  /** Opt-in (decision 2026-11-10): only the home page, which displays the real reviews, passes it. */
   aggregateRating?: ReturnType<typeof aggregateRatingFor>
 }): Record<string, unknown> {
   const {
@@ -524,14 +525,14 @@ export function buildRestaurantJsonLd(args: {
     specialRows = [],
     today,
     sameAs = SAME_AS,
-    aggregateRating = aggregateRatingFor(),
+    aggregateRating = null,
   } = args
   const hours = [
     ...mapOpeningHours(hoursRows),
     ...(today ? mapSpecialHours(specialRows, today) : []),
   ]
 
-  // aggregateRating (phase 5 D-14): from social-proof.ts, the same constants as the visible badge. hasMenu = URL of the localized /menu
+  // aggregateRating (phase 5 D-14): opt-in, passed by the home page only (same constants as the visible badge). hasMenu = URL of the localized /menu
   // page (phase 3, D-10); the deprecated `menu` property stays absent.
   return {
     '@context': 'https://schema.org',

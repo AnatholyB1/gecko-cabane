@@ -38,4 +38,4 @@
 - [x] Search Console (2026-11-10) : sitemap re-soumis (précédente soumission 2026-11-01, 24 URLs, 0 erreur ; le sitemap en compte maintenant 32)
 - [x] Rich Results Test sur /en/menu (2026-11-10) : 3 éléments valides (Local businesses, Organisation, Review snippets) ; Schema.org validator : Menu 0 erreur, 0 avertissement
 - [ ] Sentry via /monitoring : non vérifié (nécessite une erreur de test côté client)
-- [ ] À regarder : Review snippets détecté = un `aggregateRating` est dans le JSON-LD Restaurant ; la règle du projet ne l'autorise que si de vrais avis sont affichés sur la page
+- [x] Review snippets (traité 2026-11-10, quick 261110-rating-home-only) : décision du propriétaire, le `aggregateRating` n'est émis que sur les 4 accueils (/fr /en /de /sv) où la note et les avis sont visibles, et plus sur les autres pages (menu, french-restaurant-krabi…). À revérifier au Rich Results Test après déploiement : /en/menu ne doit plus montrer « Review snippets », l'accueil oui

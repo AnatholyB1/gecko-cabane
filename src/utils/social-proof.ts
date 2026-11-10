@@ -7,7 +7,8 @@
  * D-14: aggregateRating in the Restaurant JSON-LD mirrors these constants. Google's review-snippet
  *       policy discourages self-controlled LocalBusiness ratings and aggregated third-party ratings
  *       (stars are usually not shown), so SHOW_AGGREGATE_RATING is the single off-switch
- *       (see OWNER-CHECKLIST).
+ *       (see OWNER-CHECKLIST). Owner decision 2026-11-10: the rating is emitted on the home
+ *       page only (/fr /en /de /sv), where the rating and the reviews are visible; no other page.
  *
  * Owner gate: `reviews` ships empty. It is filled by plan 05-13 after the owner's choice in 05-12.
  * To add a review: append an object to `reviews` below and commit. At most MAX_REVIEWS are shown.
