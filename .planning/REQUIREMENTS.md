@@ -21,14 +21,14 @@
 - [x] **ONP-01**: Sur chaque accueil, le logo « GECKO CABANE » reste visuel mais n'est plus un H1 ; un vrai H1 par langue (EN « French-Thai Restaurant in Krabi Town », FR « Restaurant franco-thaï à Krabi Town », DE et SV équivalents)
 - [x] **ONP-02**: Accueil EN : title « Gecko Cabane – Best French-Thai Restaurant in Krabi Town » et meta description avec « restaurant in Krabi », la cheffe Jariya, la note 4,7★ et la réservation en ligne
 - [x] **ONP-03**: `/en/french-restaurant-krabi` : title et description réécrits pour « krabi town restaurant » et « best restaurant krabi » (note, plats phares, ouvert 7j/7)
-- [ ] **ONP-04**: Versions fr/de/sv de `/en/getting-here-from-ao-nang`, slugs traduits, hreflang *(partiel : de/sv noindex, hors sitemap et hreflang jusqu'à relecture humaine)*
-- [ ] **ONP-05**: Versions fr/de/sv de `/en/wine-belgian-beer-krabi`, slugs traduits, hreflang *(partiel : de/sv noindex, hors sitemap et hreflang jusqu'à relecture humaine)*
+- [x] **ONP-04**: Versions fr/de/sv de `/en/getting-here-from-ao-nang`, slugs traduits, hreflang *(de/sv publiés après validation du propriétaire 2026-11-10)*
+- [x] **ONP-05**: Versions fr/de/sv de `/en/wine-belgian-beer-krabi`, slugs traduits, hreflang *(de/sv publiés après validation du propriétaire 2026-11-10)*
 - [x] **ONP-06**: Le sitemap contient les nouvelles pages ; les hreflang sont réciproques entre toutes les versions
 - [x] **ONP-07**: La page menu a un JSON-LD schema.org Menu (MenuSection, MenuItem avec name, description, offers.price en THB) généré depuis les données de la carte, valide au Rich Results Test, en plus du JSON-LD Restaurant
 - [x] **ONP-08**: Toutes les pages internes ont og:image et balises Twitter (aujourd'hui seulement les accueils)
 - [ ] **ONP-09**: Plus aucun texte ni meta ne parle d'un « couple franco-thaï » ; la présentation officielle est la cheffe Jariya *(partiel : « couple franco-thaï » retiré ; « son mari français Frédéric » reste, décision propriétaire)*
 - [x] **ONP-10**: Un seul H1 descriptif par page publique
-- [ ] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production *(verrou humain : relecture DE/SV à faire)*
+- [x] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production *(de/sv publiés après validation du propriétaire 2026-11-10 : relecture déclarée validée, aucune correction fournie ; privacy DE/SV non couverte)*
 
 ### Sécurité (SEC)
 
@@ -71,14 +71,14 @@
 | ONP-01 | Phase 19 | Pending |
 | ONP-02 | Phase 19 | Pending |
 | ONP-03 | Phase 19 | Pending |
-| ONP-04 | Phase 19 | Pending |
-| ONP-05 | Phase 19 | Pending |
+| ONP-04 | Phase 19 | Complete |
+| ONP-05 | Phase 19 | Complete |
 | ONP-06 | Phase 19 | Pending |
 | ONP-07 | Phase 19 | Pending |
 | ONP-08 | Phase 19 | Pending |
 | ONP-09 | Phase 19 | Pending |
 | ONP-10 | Phase 19 | Pending |
-| ONP-11 | Phase 19 | Pending |
+| ONP-11 | Phase 19 | Complete |
 | SEC-01 | Phase 20 | Pending |
 | SEC-02 | Phase 20 | Pending |
 | SEC-03 | Phase 20 | Pending |

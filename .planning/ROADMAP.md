@@ -81,7 +81,7 @@ Détail complet des phases, critères de succès et preuves : `.planning/milesto
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 18. Vitesse mobile | build orchestré (sans plans GSD) | Code livré, PERF-02/04/05 partiels | 2026-11-09 |
-| 19. SEO on-page | build orchestré (sans plans GSD) | Code livré ; ONP-04/05/09 partiels, ONP-11 relecture humaine | 2026-11-09 |
+| 19. SEO on-page | build orchestré (sans plans GSD) | Code livré ; ONP-04/05/11 complets (de/sv publiés après validation du propriétaire 2026-11-10) ; ONP-09 partiel (« Frédéric » gardé, décision propriétaire) | 2026-11-10 |
 | 20. Sécurité, accessibilité et mesure finale | build orchestré (sans plans GSD) | SEC et A11Y livrés (A11Y-02 partiel) ; PERF-07 non atteint en local | 2026-11-09 |
 
 ---
