@@ -15,8 +15,8 @@ import {
  * Restaurant JSON-LD (Server Component, D-04). Weekly hours and the next 60 days of exceptions
  * come from the cached DB reads (tag opening-hours); if one fails the schema is rendered without
  * it (never hard-coded) and the error goes to Sentry.
- * `includeRating` (default false): the aggregateRating is emitted only by the home page, where the
- * real reviews and the rating are visible (owner decision 2026-11-10).
+ * `includeRating` (default false) only opts the home page in; aggregateRatingFor() returns null while
+ * SHOW_AGGREGATE_RATING is false (owner decision 2026-11-10: no aggregateRating anywhere).
  */
 export default async function RestaurantJsonLd({
   locale,

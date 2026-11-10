@@ -103,8 +103,9 @@ describe('home reviews and directions', () => {
     expect(((page + proof).match(/noopener noreferrer/g) ?? []).length).toBeGreaterThanOrEqual(2)
   })
   // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts
-  it('keeps aggregateRating out of the page, derived in seo.ts, and keeps sections', () => {
+  it('keeps aggregateRating out of the page, gated by the single switch, and keeps sections and the visible badge', () => {
     expect(page).not.toContain('aggregateRating')
+    expect(read('src/components/SocialProof.tsx')).toContain('SOCIAL_PROOF')
     expect(read('src/components/RestaurantJsonLd.tsx')).toContain('aggregateRatingFor(')
     for (const id of ['about', 'hours', 'contact']) expect(page).toContain(`id="${id}"`)
   })

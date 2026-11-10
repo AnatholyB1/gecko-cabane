@@ -7,8 +7,11 @@
  * D-14: aggregateRating in the Restaurant JSON-LD mirrors these constants. Google's review-snippet
  *       policy discourages self-controlled LocalBusiness ratings and aggregated third-party ratings
  *       (stars are usually not shown), so SHOW_AGGREGATE_RATING is the single off-switch
- *       (see OWNER-CHECKLIST). Owner decision 2026-11-10: the rating is emitted on the home
- *       page only (/fr /en /de /sv), where the rating and the reviews are visible; no other page.
+ *       (see OWNER-CHECKLIST). Owner decision 2026-11-10: REMOVED EVERYWHERE (no aggregateRating
+ *       on any page, home included), to avoid any Google penalty (self-serving rating, and a
+ *       third-party aggregate: the rating comes from Google, the displayed reviews from TripAdvisor).
+ *       To re-enable: set SHOW_AGGREGATE_RATING to true after an owner decision. The visible badge,
+ *       figures and reviews are unaffected.
  *
  * Owner gate: `reviews` ships empty. It is filled by plan 05-13 after the owner's choice in 05-12.
  * To add a review: append an object to `reviews` below and commit. At most MAX_REVIEWS are shown.
@@ -81,9 +84,9 @@ export type SocialProofConfig = typeof SOCIAL_PROOF
 // aggregateRating that a business marks up about ITSELF on its own LocalBusiness/Restaurant page
 // ("self-serving reviews"), and ratings aggregated from third-party sites. Stars are therefore
 // unlikely to appear in search results and the markup carries a small risk. The figures are real
-// and visibly displayed on the page (SocialProof), so the markup is not a hidden claim; flip this
-// to false to remove it without touching the visible badge.
-export const SHOW_AGGREGATE_RATING = true
+// and visibly displayed on the page (SocialProof), so the markup is not a hidden claim; it is now false
+// (owner decision 2026-11-10); the visible badge is untouched.
+export const SHOW_AGGREGATE_RATING = false
 
 const ALLOWED_HOSTS = ['www.google.com', 'google.com', 'g.page', 'maps.app.goo.gl']
 

@@ -1,9 +1,10 @@
-# Quick 261110 : aggregateRating sur l'accueil uniquement
+# Quick 261110 : aggregateRating retiré partout
 
-Décision du propriétaire (2026-11-10) : la note (4,7 / 1 065 avis Google) n'est visible que sur l'accueil, donc le `aggregateRating` du JSON-LD Restaurant n'y est émis que là.
+Décision du propriétaire (2026-11-10, révisée) : la décision « accueil seulement » est remplacée par « le retirer partout ». Plus aucun `aggregateRating` dans le JSON-LD d'aucune page, accueils compris, pour supprimer tout risque de sanction Google (note auto-balisée « self-serving » et agrégat d'un tiers : la note vient de Google, les avis affichés de TripAdvisor).
 
-- `buildRestaurantJsonLd` : `aggregateRating` devient opt-in (défaut `null`).
-- `RestaurantJsonLd` : prop `includeRating` (défaut `false`), passée uniquement par `src/app/[locale]/page.tsx`.
-- Inchangés : badge visible, chiffres, `SHOW_AGGREGATE_RATING` (true).
-- Tests : accueil (via builder + câblage) a la note, menu et french-restaurant-krabi n'ont pas `includeRating`.
-- Commentaire D-14 de `social-proof.ts` et `DEPLOY-CHECKLIST-v1.2.md` mis à jour.
+- `SHOW_AGGREGATE_RATING = false` dans `src/utils/social-proof.ts` : commutateur unique (D-14). `aggregateRatingFor()` renvoie `null` quand il est false, donc aucune page n'émet la note.
+- `RestaurantJsonLd` : la prop `includeRating` (introduite par 3426008) reste, inoffensive : sans effet tant que le commutateur est false. API inchangée.
+- Inchangés : badge visible, chiffres (4,7 / 1 065), avis visibles.
+- Tests (`seo-jsonld`, `seo-jsonld-wiring`, `home-page`, `social-proof`) : affirment l'absence de note par défaut et le badge visible.
+- Pour réactiver : passer `SHOW_AGGREGATE_RATING` à true après décision du propriétaire.
+- `DEPLOY-CHECKLIST-v1.2.md` : décision consignée ; après déploiement le Rich Results Test ne doit plus montrer « Review snippets ».

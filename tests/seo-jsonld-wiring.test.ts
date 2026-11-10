@@ -60,9 +60,10 @@ describe('RestaurantJsonLd component', () => {
   it('is rendered by the home page', () => {
     expect(read('src/app/[locale]/page.tsx')).toContain('<RestaurantJsonLd')
   })
-  it('emits the rating only for the home page (owner decision 2026-11-10)', () => {
+  it('emits no rating anywhere: switch off (owner decision 2026-11-10)', () => {
     expect(read('src/app/[locale]/page.tsx')).toContain('<RestaurantJsonLd locale={locale as SeoLocale} includeRating />')
     expect(src).toContain('includeRating = false')
+    expect(read('src/utils/social-proof.ts')).toContain('export const SHOW_AGGREGATE_RATING = false')
     for (const f of ['menu', 'french-restaurant-krabi']) {
       expect(read(`src/app/[locale]/${f}/page.tsx`)).not.toContain('includeRating')
     }
