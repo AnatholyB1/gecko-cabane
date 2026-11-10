@@ -60,6 +60,14 @@ describe('RestaurantJsonLd component', () => {
   it('is rendered by the home page', () => {
     expect(read('src/app/[locale]/page.tsx')).toContain('<RestaurantJsonLd')
   })
+  it('emits no rating anywhere: switch off (owner decision 2026-11-10)', () => {
+    expect(read('src/app/[locale]/page.tsx')).toContain('<RestaurantJsonLd locale={locale as SeoLocale} includeRating />')
+    expect(src).toContain('includeRating = false')
+    expect(read('src/utils/social-proof.ts')).toContain('export const SHOW_AGGREGATE_RATING = false')
+    for (const f of ['menu', 'french-restaurant-krabi']) {
+      expect(read(`src/app/[locale]/${f}/page.tsx`)).not.toContain('includeRating')
+    }
+  })
   it('is, with MenuJsonLd (ONP-07), the only JSON-LD emitter under src', () => {
     const hits = walk(join(root, 'src')).filter((f) =>
       readFileSync(f, 'utf8').includes('application/ld+json'),
@@ -99,7 +107,7 @@ describe('SAME_AS (D-09)', () => {
   // Phase 5 D-14: aggregateRating reintroduced from social-proof.ts (no hard-coded numbers)
   it('derives aggregateRating from social-proof; hasMenu points to /menu', () => {
     const src = read('src/utils/seo.ts')
-    expect(src).toContain('aggregateRatingFor(')
+    expect(read('src/components/RestaurantJsonLd.tsx')).toContain('aggregateRatingFor(')
     expect(src).not.toMatch(/ratingValue:\s*[0-9]/)
     expect(src).toContain("isPublished('/menu', locale)")
   })

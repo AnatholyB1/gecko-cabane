@@ -109,7 +109,10 @@ describe('owner-selected reviews (05-12/05-13)', () => {
       expect(block).toContain(r.url)
       expect(block).toContain(`Pays : ${r.country}`)
     }
-    expect(aggregateRatingFor()).toEqual({
+    // owner decision 2026-11-10: default is off, nothing emitted
+    expect(SHOW_AGGREGATE_RATING).toBe(false)
+    expect(aggregateRatingFor()).toBeNull()
+    expect(aggregateRatingFor(SOCIAL_PROOF, true)).toEqual({
       '@type': 'AggregateRating',
       ratingValue: 4.7,
       reviewCount: 1065,

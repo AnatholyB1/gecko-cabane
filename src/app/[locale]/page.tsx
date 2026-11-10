@@ -45,7 +45,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <div className="min-h-screen bg-gc-void font-cormorant">
-      <RestaurantJsonLd locale={locale as SeoLocale} />
+      <RestaurantJsonLd locale={locale as SeoLocale} includeRating />
       {/* Skip to main content */}
       <a
         href="#main-content"
