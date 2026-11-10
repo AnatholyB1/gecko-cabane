@@ -115,8 +115,9 @@ describe('buildPathnames / routing', () => {
 })
 
 describe('resolvePageSeo', () => {
-  it('noindexes unpublished pairs', () => {
-    expect(resolvePageSeo('/privacy', 'de').index).toBe(false)
+  it('indexes every published pair, privacy included in de/sv', () => {
+    expect(resolvePageSeo('/privacy', 'de').index).toBe(true)
+    expect(resolvePageSeo('/privacy', 'sv').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'de').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'fr').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'en').index).toBe(true)
@@ -189,17 +190,17 @@ describe('de/sv locales (D-05)', () => {
     expect(slugFor('', 'sv')).toBe('')
   })
 
-  it('indexes validated de pages and noindexes unpublished de/sv pages', () => {
+  it('indexes validated de/sv pages (privacy policy published 2026-11-10)', () => {
     expect(resolvePageSeo('', 'de').index).toBe(true)
-    expect(resolvePageSeo('/privacy', 'de').index).toBe(false)
+    expect(resolvePageSeo('/privacy', 'de').index).toBe(true)
     expect(resolvePageSeo('', 'sv').index).toBe(true)
     expect(resolvePageSeo('/menu', 'sv').index).toBe(true)
-    expect(resolvePageSeo('/privacy', 'sv').index).toBe(false)
+    expect(resolvePageSeo('/privacy', 'sv').index).toBe(true)
     expect(resolvePageSeo('/getting-here-from-ao-nang', 'sv').index).toBe(true)
     expect(resolvePageSeo('/wine-belgian-beer-krabi', 'sv').index).toBe(true)
   })
 
-  it('lists de/sv URLs of validated pages and no sv URL for unpublished pages', async () => {
+  it('lists de/sv URLs of validated pages (privacy included)', async () => {
     const sitemap = (await import('../src/app/sitemap')).default
     const urls = sitemap().map((e) => e.url)
     const svAllowed = new Set(
@@ -207,10 +208,10 @@ describe('de/sv locales (D-05)', () => {
     )
     for (const u of urls.filter((x) => /\/sv(\/|$)/.test(x))) expect(svAllowed.has(u), u).toBe(true)
     for (const p of svAllowed) expect(urls).toContain(p)
-    expect(urls.some((u) => u.includes('/sv/privacy'))).toBe(false)
+    expect(urls).toContain(localeUrl('sv', '/privacy'))
     expect(urls).toContain(localeUrl('de', '/menu'))
     expect(urls).toContain(localeUrl('de'))
-    expect(urls.some((u) => u.includes('/de/privacy'))).toBe(false)
+    expect(urls).toContain(localeUrl('de', '/privacy'))
   })
 
   it('switcherTargets on /sv/menu returns sv current plus published fr/en/de', () => {

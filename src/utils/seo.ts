@@ -25,7 +25,8 @@ export const OG_LOCALE = { fr: 'fr_FR', en: 'en_US', de: 'de_DE', sv: 'sv_SE' } 
  */
 export const PUBLISHED_PAGES: readonly { path: string; locales: readonly SeoLocale[] }[] = [
   { path: '', locales: ['fr', 'en', 'de', 'sv'] },
-  { path: '/privacy', locales: ['fr', 'en'] },
+  // Privacy policy: de/sv published after the owner validation of 2026-11-10 (signed review sheets)
+  { path: '/privacy', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/menu', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/french-restaurant-krabi', locales: ['fr', 'en', 'de', 'sv'] },
   { path: '/romantic-dinner-krabi', locales: ['fr', 'en', 'de', 'sv'] },
@@ -66,7 +67,7 @@ export type PageDef = {
  */
 export const PAGES: readonly PageDef[] = [
   { key: '', namespace: 'home', slugs: {}, contentLocales: ['fr', 'en', 'de', 'sv'], related: [] },
-  { key: '/privacy', namespace: 'privacy', slugs: {}, contentLocales: ['fr', 'en'], related: [] },
+  { key: '/privacy', namespace: 'privacy', slugs: {}, contentLocales: ['fr', 'en', 'de', 'sv'], related: [] },
   { key: '/menu', namespace: 'menuPage', slugs: {}, contentLocales: ['fr', 'en', 'de', 'sv'], related: [] },
   {
     key: '/french-restaurant-krabi',
