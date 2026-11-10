@@ -33,8 +33,8 @@ describe('switcherTargets', () => {
       '/sv/vin-belgisk-ol-krabi',
     ])
   })
-  it('omits unpublished locales (privacy stays fr/en)', () => {
-    expect(switcherTargets('/en/privacy').map((t) => t.locale)).toEqual(['fr', 'en'])
+  it('offers the four locales on the privacy policy (published 2026-11-10)', () => {
+    expect(switcherTargets('/en/privacy').map((t) => t.locale)).toEqual(['fr', 'en', 'de', 'sv'])
   })
   it('handles home and menu', () => {
     const home = switcherTargets('/fr')

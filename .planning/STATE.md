@@ -85,6 +85,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 261101-scj | Horaires dynamiques : une source de vérité pour le texte visible et le schema JSON-LD | 2026-11-01 | 8a122a6 | [261101-scj-horaires-dynamiques-une-source-de-verite](./quick/261101-scj-horaires-dynamiques-une-source-de-verite/) |
 | 261110-publish-de-sv | Publication de/sv de getting-here-from-ao-nang et wine-belgian-beer-krabi après validation du propriétaire (2026-11-10) | 2026-11-10 | 47a3094 | [261110-publish-de-sv](./quick/261110-publish-de-sv/) |
+| 261110-publish-privacy-de-sv | Publication de/sv de la politique de confidentialité après validation du propriétaire (2026-11-10) | 2026-11-10 | (commit de la branche) | [261110-publish-privacy-de-sv](./quick/261110-publish-privacy-de-sv/) |
 | 261102-or1 | Bouton Reserver visible en haut des pages vues + titres/descriptions SEO (accueil, french-restaurant-krabi) | 2026-11-02 | 458785f | [261102-or1-bouton-de-reservation-en-haut-des-pages-](./quick/261102-or1-bouton-de-reservation-en-haut-des-pages-/) |
 
 ## Session Continuity

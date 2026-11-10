@@ -76,17 +76,15 @@ describe('sitemap hreflang reciprocity', () => {
 })
 
 describe('pages with content but not yet published in a locale', () => {
-  // Since the 2026-11-10 validation no page has unpublished content locales left in PAGES;
-  // the privacy policy de/sv is the remaining unpublished pair and must stay out everywhere.
-  for (const locale of ['de', 'sv'] as const) {
-    it(`"/privacy" [${locale}] is noindex, absent from the sitemap and from every hreflang`, () => {
-      expect(publishedLocales('/privacy')).toEqual(['fr', 'en'])
-      expect(resolvePageSeo('/privacy', locale).index).toBe(false)
-      const own = localeUrl(locale, '/privacy')
-      expect(urls.has(own)).toBe(false)
-      for (const e of entries) expect(Object.values(langsOf(e))).not.toContain(own)
-    })
-  }
+  // Since the 2026-11-10 validations every page is published in all its content locales
+  // (privacy policy de/sv included); this guard keeps any future unpublished pair out everywhere.
+  it('"/privacy" is published in the four locales', () => {
+    expect(publishedLocales('/privacy')).toEqual(['fr', 'en', 'de', 'sv'])
+    for (const l of ['fr', 'en', 'de', 'sv'] as const) {
+      expect(resolvePageSeo('/privacy', l).index).toBe(true)
+      expect(urls.has(localeUrl(l, '/privacy'))).toBe(true)
+    }
+  })
   for (const page of PAGES) {
     for (const locale of page.contentLocales) {
       if (publishedLocales(page.key).includes(locale)) continue

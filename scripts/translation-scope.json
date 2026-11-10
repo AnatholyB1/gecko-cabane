@@ -8,6 +8,7 @@
     "where-to-eat-krabi-town": { "pageKey": "/where-to-eat-krabi-town", "prefixes": ["whereToEat", "meta.whereToEatTitle", "meta.whereToEatDescription"] },
     "getting-here-from-ao-nang": { "pageKey": "/getting-here-from-ao-nang", "prefixes": ["gettingHere", "meta.gettingHereTitle", "meta.gettingHereDescription"] },
     "wine-belgian-beer-krabi": { "pageKey": "/wine-belgian-beer-krabi", "prefixes": ["wineBeer", "meta.wineBeerTitle", "meta.wineBeerDescription"] },
+    "privacy": { "pageKey": "/privacy", "prefixes": ["privacy"] },
     "review": { "pageKey": null, "prefixes": ["review", "reviewFeedback"] }
   }
 }

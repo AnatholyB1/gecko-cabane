@@ -28,7 +28,7 @@
 - [x] **ONP-08**: Toutes les pages internes ont og:image et balises Twitter (aujourd'hui seulement les accueils)
 - [ ] **ONP-09**: Plus aucun texte ni meta ne parle d'un « couple franco-thaï » ; la présentation officielle est la cheffe Jariya *(partiel : « couple franco-thaï » retiré ; « son mari français Frédéric » reste, décision propriétaire)*
 - [x] **ONP-10**: Un seul H1 descriptif par page publique
-- [x] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production *(de/sv publiés après validation du propriétaire 2026-11-10 : relecture déclarée validée, aucune correction fournie ; privacy DE/SV non couverte)*
+- [x] **ONP-11**: Les textes DE et SV des nouvelles pages sont relus par un humain avant mise en production *(de/sv publiés après validation du propriétaire 2026-11-10 : relecture déclarée validée, aucune correction fournie ; privacy DE/SV validée et publiée séparément le 2026-11-10)*
 
 ### Sécurité (SEC)
 
