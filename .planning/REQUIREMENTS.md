@@ -9,12 +9,12 @@
 ### Vitesse mobile (PERF)
 
 - [x] **PERF-01**: La cause du rendu dynamique (`cache-control: private, no-cache, no-store`) dans `app/[locale]` est identifiée et supprimée (cookies(), headers(), searchParams, fetch sans cache…)
-- [ ] **PERF-02**: Les pages publiques /fr /en /de /sv sont servies en statique ou ISR (`generateStaticParams`, `revalidate` si besoin) avec un cache public : `x-vercel-cache: HIT` après le premier appel *(local : Cache-Control public, SSG 1 h, sans set-cookie ; `x-vercel-cache: HIT` à contrôler en ligne)*
+- [x] **PERF-02**: Les pages publiques /fr /en /de /sv sont servies en statique ou ISR (`generateStaticParams`, `revalidate` si besoin) avec un cache public : `x-vercel-cache: HIT` après le premier appel *(vérifié en ligne le 2026-11-10 : `x-vercel-cache: HIT` au 2e appel sur /fr /en /de /sv /fr/menu, sans set-cookie)*
 - [x] **PERF-03**: Les polices (dont Cinzel Decorative du H1, élément LCP) se chargent via `next/font` (subset latin, display swap, preload), sans chargement externe ni bloquant
 - [ ] **PERF-04**: Le JavaScript inutile est réduit (≈ 60 Ko inutilisés, 14 Ko de polyfills) : composants serveur par défaut, sections sous la ligne de flottaison chargées en différé *(partiel : -11,6 % gzip sur /fr ; Sentry client ~74 Ko non touché, décision propriétaire ; polyfills 13 Ko restent)*
 - [ ] **PERF-05**: `/gcm/js/script.js` a un cache long (immutable) ou est chargé via `next/script` `lazyOnload` *(partiel : lazyOnload + cache 7 j dans la source ; rewrite Plausible non exercé en local)*
 - [x] **PERF-06**: Toutes les images ont width/height (ou équivalent) : pas de décalage de mise en page
-- [ ] **PERF-07**: Lighthouse mobile ≥ 90 sur /fr et /en, mesuré (base : 72, LCP 3,8 s, TBT 680 ms) *(NON atteint en local : médiane 73-75, mesure dépendante de la machine ; à mesurer en ligne après déploiement)*
+- [x] **PERF-07**: Lighthouse mobile ≥ 90 sur /fr et /en, mesuré (base : 72, LCP 3,8 s, TBT 680 ms) *(vérifié en ligne le 2026-11-10 : Lighthouse mobile /fr 96-97, /en 95-98, accessibilité, SEO et bonnes pratiques à 100 ; local simulé 73-75 non représentatif)*
 
 ### SEO on-page (ONP)
 

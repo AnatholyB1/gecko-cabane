@@ -28,3 +28,9 @@
 - [ ] `GET /api%2Fhours` répond 500 (bruit Sentry, aucun accès ouvert) ; `revalidateTag(..., 'max')` sert l'ancienne page au premier visiteur après une modification admin
 - [ ] Après déploiement : vérifier Google Maps réel sous la CSP (`frame-src https://www.google.com` ; une redirection vers `maps.google.com` serait bloquée), Plausible (variable `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_ID` + redéploiement : les rewrites sont figés au build), Sentry via `/monitoring`
 - [ ] Le build lit la vraie base Supabase en lecture seule (clé anon) comme tout build du dépôt
+
+## Poussé et vérifié en ligne (2026-11-10, master 614dfbb)
+- [x] PERF-02 : `x-vercel-cache: HIT` au 2e appel sur /fr /en /de /sv /fr/menu, aucun `set-cookie`
+- [x] PERF-07 : Lighthouse mobile en ligne (3 passes) : /fr 96-97, /en 95-98 ; accessibilité, SEO, bonnes pratiques 100 ; LCP 1,2-1,6 s, TBT 160-250 ms, CLS 0 (base : 72)
+- [x] CSP, Permissions-Policy, Referrer-Policy et HSTS reçus en production ; pages de/sv (getting-here, wine-belgian-beer, privacy) en 200 ; /de/nope en 404 ; sitemap à 32 URLs
+- [ ] Restent à contrôler à la main : Google Maps réel sous la CSP (clic sur la carte, console), Plausible (variable + redéploiement), Sentry via /monitoring, Rich Results Test (Restaurant, Menu), soumission du sitemap à Search Console
