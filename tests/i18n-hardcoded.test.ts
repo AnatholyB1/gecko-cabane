@@ -31,7 +31,7 @@ const BANNED_PHRASES = [
 ]
 
 // Words legitimately kept in English messages (dish names, brand).
-const ALLOWED_EN_WORDS = ['velouté', 'Gecko Cabane']
+const ALLOWED_EN_WORDS = ['velouté', 'Gecko Cabane', 'Sèvalys']
 
 const ACCENTED = /[àâäçéèêëîïôöùûüœÀÂÉÈÊËÎÏÔÙÛÜÇŒ]/
 
