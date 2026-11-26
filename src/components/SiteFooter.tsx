@@ -60,6 +60,8 @@ export default async function SiteFooter({ locale }: Props) {
           {' & '}
           <a href="https://anatholy-bricon.com" target="_blank" rel="noopener noreferrer"
              className="hover:text-gc-gold underline transition-colors">anatholy-bricon.com</a>
+          <br />
+          <a href="https://sevalys.com/" className="hover:text-gc-gold underline transition-colors">{t('creditSevalys')}</a>
         </p>
       </div>
     </footer>

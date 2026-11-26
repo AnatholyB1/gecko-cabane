@@ -35,6 +35,7 @@ Instructions pour le relecteur :
 | `footer.contactTitle` | Contact | Kontakt |  |
 | `footer.rights` | Tous droits réservés. | Alle Rechte vorbehalten. |  |
 | `footer.createdBy` | Créé par | Erstellt von |  |
+| `footer.creditSevalys` | Sèvalys, agence web à Tours | Sèvalys, Webagentur in Tours |  |
 | `footer.legalTitle` | Mentions légales | Rechtliche Hinweise |  |
 | `footer.legalBusiness` | Enregistrement : DBD Thaïlande | Eintragung: DBD Thailand |  |
 | `footer.legalVat` | N° TVA : Exonéré (PP.30) | USt-IdNr.: befreit (PP.30) |  |
