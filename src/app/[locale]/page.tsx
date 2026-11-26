@@ -848,6 +848,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               {' & '}
               <a href="https://anatholy-bricon.com" target="_blank" rel="noopener noreferrer"
                  className="hover:text-gc-gold/60 underline transition-colors">anatholy-bricon.com</a>
+              <br />
+              <a href="https://sevalys.com/" className="hover:text-gc-gold/60 underline transition-colors">{t('footer.creditSevalys')}</a>
             </p>
           </div>
         </div>
